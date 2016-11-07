@@ -271,15 +271,16 @@ public class ScenarioController : MonoBehaviour
 		microgame.asyncOperation.allowSceneActivation = true;
 	}
 
+	public void resetVictory()
+	{
+		victoryDetermined = false;
+		setMicrogameVictory(MicrogameController.instance.defaultVictory, false);
+	}
+
 	public void invokeNextCycle()
 	{
 		animationStartTime += beatLength * (12f + (float)MicrogameController.instance.beatDuration);
-
-		setMicrogameVictory(MicrogameController.instance.defaultVictory, false);
-		victoryDetermined = false;
-
 		MicrogameTimer.instance.invokeTick();
-
 		invokeAnimations();
 	}
 

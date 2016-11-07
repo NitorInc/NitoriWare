@@ -74,12 +74,13 @@ public class MicrogameController : MonoBehaviour
 			ScenarioController.instance.scenarioCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
 			SceneManager.SetActiveScene(gameObject.scene);
-			setVictory(defaultVictory, false);
 
 			MicrogameTimer.instance.beatsLeft = ScenarioController.instance.getBeatsRemaining();
 			MicrogameTimer.instance.gameObject.SetActive(true);
 
 			ScenarioController.instance.microgameMusicSource.clip = musicClip;
+
+			ScenarioController.instance.resetVictory();
 			ScenarioController.instance.invokeNextCycle();
 		}
 
