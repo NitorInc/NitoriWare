@@ -85,7 +85,10 @@ public class MicrogameInfoParser : MonoBehaviour
 	string getNextLine()
 	{
 		string line = text[lineIndex++];
-		return line.Remove(line.Length - 1);
+		if (line.Length > 0 && (int)line.ToCharArray()[line.Length - 1] == 13)
+			return line.Remove(line.Length - 1);
+		else
+			return line;
 	}
 
 	string getInfoFromLine(string line)
