@@ -55,42 +55,42 @@ public class AnimationEventHelper : MonoBehaviour
 
 	public void setShakeSpeed(float shakeSpeed)
 	{
-		CameraController.instance.setShakeSpeed(shakeSpeed);
+		CameraShake.instance.setShakeSpeed(shakeSpeed);
 	}
 
 	public void setScreenShake(float shake)
 	{
-		CameraController.instance.setScreenShake(shake);
+		CameraShake.instance.setScreenShake(shake);
 	}
 
 	public void setXshake(float shake)
 	{
-		CameraController.instance.setXShake(shake);
+		CameraShake.instance.setXShake(shake);
 	}
 
 	public void setYShake(float shake)
 	{
-		CameraController.instance.setYShake(shake);
+		CameraShake.instance.setYShake(shake);
 	}
 
 	public void addScreenShake(float shake)
 	{
-		CameraController.instance.addScreenShake(shake);
+		CameraShake.instance.addScreenShake(shake);
 	}
 
 	public void addXshake(float shake)
 	{
-		CameraController.instance.addXShake(shake);
+		CameraShake.instance.addXShake(shake);
 	}
 
 	public void addYShake(float shake)
 	{
-		CameraController.instance.addYShake(shake);
+		CameraShake.instance.addYShake(shake);
 	}
 
 	public void setShakeCoolRate(float coolRate)
 	{
-		CameraController.instance.setShakeCoolRate(coolRate);
+		CameraShake.instance.setShakeCoolRate(coolRate);
 	}
 
 	public void setFloat(AnimationEvent values)
