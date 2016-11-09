@@ -83,7 +83,6 @@ public class ScenarioController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		CameraController.instance = scenarioCamera.GetComponent<CameraController>();
 	}
 
 	public void loadNextMicrogame()
@@ -292,7 +291,6 @@ public class ScenarioController : MonoBehaviour
 		SceneManager.SetActiveScene(gameObject.scene);
 
 		scenarioCamera.tag = "MainCamera";
-		CameraController.instance = Camera.main.GetComponent<CameraController>();
 		MicrogameController.instance = null;
 		
 		microgameMusicSource.Stop();

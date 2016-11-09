@@ -231,7 +231,7 @@ public class SlingshotAmmo : MonoBehaviour
 			audio.pitch = Time.timeScale;
 			audio.PlayOneShot(hitClip);
 
-			CameraController.instance.setScreenShake(hitShake);
+			CameraShake.instance.setScreenShake(hitShake);
 
 			MicrogameController.instance.setVictory(true, true);
 		}

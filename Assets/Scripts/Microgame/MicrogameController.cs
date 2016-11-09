@@ -84,8 +84,6 @@ public class MicrogameController : MonoBehaviour
 			ScenarioController.instance.invokeNextCycle();
 		}
 
-		CameraController.instance = Camera.main.GetComponent<CameraController>();
-
 	}
 
 

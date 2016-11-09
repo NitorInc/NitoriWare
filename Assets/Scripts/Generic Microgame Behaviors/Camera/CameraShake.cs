@@ -1,27 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour
+public class CameraShake : MonoBehaviour
 {
 
-	public static CameraController instance;
+	public static CameraShake instance;
 
 	public float shakeCoolRate;
 
-	private Camera _camera;
 	private float xShake, yShake, shakeSpeed;
 	private Vector3 initialPosition;
 	private Vector3 goalPosition;
 
 	void Awake()
 	{
-		//instance = this;
+		instance = this;
+
 		initialPosition = transform.localPosition;
 		goalPosition = initialPosition;
-
-		_camera = GetComponent<Camera>();
-
-		_camera.aspect = 4f / 3f;
 	}
 	
 	void Update ()
