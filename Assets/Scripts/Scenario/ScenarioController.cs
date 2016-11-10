@@ -347,7 +347,8 @@ public class ScenarioController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		Cursor.visible = MicrogameController.instance.controlScheme == MicrogameController.ControlScheme.Mouse;
+		Cursor.visible = (MicrogameController.instance.controlScheme == MicrogameController.ControlScheme.Mouse
+			&& !MicrogameController.instance.hideCursor);
 	}
 
 	/// <summary>

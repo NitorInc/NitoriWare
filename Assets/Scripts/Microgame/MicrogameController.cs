@@ -11,7 +11,7 @@ public class MicrogameController : MonoBehaviour
 	public ControlScheme controlScheme;
 	public int beatDuration;
 	public string command;
-	public bool defaultVictory, canEndEarly;
+	public bool defaultVictory, canEndEarly, hideCursor;
 	public AudioClip musicClip;
 
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick;
