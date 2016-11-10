@@ -74,11 +74,10 @@ public class MicrogameController : MonoBehaviour
 			//Gives info about game to Scenario, then objects get deactivated in Start() until the game is ready to be loaded proper
 			ScenarioController.instance.updateMicrogameInfo();
 
-			//TODO add OnAwake event
-			//For when a microgame needs to change its command via code
-
 		}
 
+		//TODO add OnAwake event
+		//For when a microgame needs to change its command via code
 	}
 
 	void Start()
@@ -110,12 +109,35 @@ public class MicrogameController : MonoBehaviour
 
 	public void setMicrogameActive(bool active)
 	{
-		//TODO FIX THIS
-		GameObject[] gameObjects = gameObject.scene.GetRootGameObjects();
-		for (int i = 0; i < gameObjects.Length; i++)
+		Scene originalActiveScene = SceneManager.GetActiveScene();
+		SceneManager.SetActiveScene(gameObject.scene);
+
+		if (!active)
 		{
-			gameObjects[i].SetActive(active);
+			Transform empty = new GameObject().transform;
+			empty.name = "Inactive Microgame";
+
+			GameObject[] gameObjects = gameObject.scene.GetRootGameObjects();
+			for (int i = 0; i < gameObjects.Length; i++)
+			{
+				gameObjects[i].transform.parent = empty;
+			}
+			empty.gameObject.SetActive(false);
 		}
+		else
+		{
+			Transform empty = gameObject.scene.GetRootGameObjects()[0].transform;
+
+			for (int i = empty.childCount - 1; i >= 0; i--)
+			{
+				empty.GetChild(i).transform.parent = null;
+			}
+
+			Destroy(empty.gameObject);
+		}
+
+		SceneManager.SetActiveScene(originalActiveScene);
+
 	}
 
 
