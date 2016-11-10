@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections;
-//using UnityEngine.SceneManagement;
 
 public class MicrogameController : MonoBehaviour
 {
@@ -17,6 +17,8 @@ public class MicrogameController : MonoBehaviour
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick;
 	[Range(1, ScenarioController.MAX_SPEED)]
 	public int debugSpeed;
+	public UnityEvent OnAwake, OnStart;
+
 	public GameObject debugObjects;
 
 	private bool victory, victoryDetermined;
@@ -30,6 +32,7 @@ public class MicrogameController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		OnAwake.Invoke();
 
 		if (ScenarioController.instance == null)
 		{
@@ -71,22 +74,24 @@ public class MicrogameController : MonoBehaviour
 		else
 		{
 			//Normal Awaken
-			//Gives info about game to Scenario, then objects get deactivated in Start() until the game is ready to be loaded proper
+			//Gives info about game to Scenario, then objects get deactivated in Start() until the game is ready to be started proper
 			ScenarioController.instance.updateMicrogameInfo();
 
 		}
 
-		//TODO add OnAwake event
-		//For when a microgame needs to change its command via code
 	}
 
 	void Start()
 	{
 		if (ScenarioController.instance != null)
 		{
-			//Awaken after we
+			//Reactivate microgame and start it proper
 			ScenarioController.instance.updateMicrogameInfo();
 			setMicrogameActive(false);	
+		}
+		else
+		{
+			OnStart.Invoke();
 		}
 	}
 
@@ -95,9 +100,9 @@ public class MicrogameController : MonoBehaviour
 		//Begin the microgame proper
 		setMicrogameActive(true);
 
-		ScenarioController.instance.scenarioCamera.tag = "Camera";
 		SceneManager.SetActiveScene(gameObject.scene);
 
+		ScenarioController.instance.scenarioCamera.tag = "Camera";
 		Camera.main.GetComponent<AudioListener>().enabled = false;
 
 		MicrogameTimer.instance.beatsLeft = ScenarioController.instance.getBeatsRemaining();
@@ -105,11 +110,13 @@ public class MicrogameController : MonoBehaviour
 
 		ScenarioController.instance.resetVictory();
 		ScenarioController.instance.invokeNextCycle();
+
+		OnStart.Invoke();
 	}
 
 	public void setMicrogameActive(bool active)
 	{
-		Scene originalActiveScene = SceneManager.GetActiveScene();
+		Scene holdActiveScene = SceneManager.GetActiveScene();
 		SceneManager.SetActiveScene(gameObject.scene);
 
 		if (!active)
@@ -136,8 +143,7 @@ public class MicrogameController : MonoBehaviour
 			Destroy(empty.gameObject);
 		}
 
-		SceneManager.SetActiveScene(originalActiveScene);
-
+		SceneManager.SetActiveScene(holdActiveScene);
 	}
 
 
