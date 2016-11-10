@@ -70,20 +70,52 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 		{
-			//Normal Start
-			ScenarioController.instance.scenarioCamera.tag = "Camera";
-			Camera.main.GetComponent<AudioListener>().enabled = false;
-			SceneManager.SetActiveScene(gameObject.scene);
+			//Normal Awaken
+			//Gives info about game to Scenario, then objects get deactivated in Start() until the game is ready to be loaded proper
+			ScenarioController.instance.updateMicrogameInfo();
 
-			MicrogameTimer.instance.beatsLeft = ScenarioController.instance.getBeatsRemaining();
-			MicrogameTimer.instance.gameObject.SetActive(true);
+			//TODO add OnAwake event
+			//For when a microgame needs to change its command via code
 
-			ScenarioController.instance.microgameMusicSource.clip = musicClip;
-
-			ScenarioController.instance.resetVictory();
-			ScenarioController.instance.invokeNextCycle();
 		}
 
+	}
+
+	void Start()
+	{
+		if (ScenarioController.instance != null)
+		{
+			//Awaken after we
+			ScenarioController.instance.updateMicrogameInfo();
+			setMicrogameActive(false);	
+		}
+	}
+
+	public void startMicrogame()
+	{
+		//Begin the microgame proper
+		setMicrogameActive(true);
+
+		ScenarioController.instance.scenarioCamera.tag = "Camera";
+		SceneManager.SetActiveScene(gameObject.scene);
+
+		Camera.main.GetComponent<AudioListener>().enabled = false;
+
+		MicrogameTimer.instance.beatsLeft = ScenarioController.instance.getBeatsRemaining();
+		MicrogameTimer.instance.gameObject.SetActive(true);
+
+		ScenarioController.instance.resetVictory();
+		ScenarioController.instance.invokeNextCycle();
+	}
+
+	public void setMicrogameActive(bool active)
+	{
+		//TODO FIX THIS
+		GameObject[] gameObjects = gameObject.scene.GetRootGameObjects();
+		for (int i = 0; i < gameObjects.Length; i++)
+		{
+			gameObjects[i].SetActive(active);
+		}
 	}
 
 

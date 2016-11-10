@@ -22,7 +22,6 @@ public class ScenarioController : MonoBehaviour
 
 	public AnimationPart animationPart;
 
-	public MicrogameInfoParser infoParser;
 	public Camera scenarioCamera;
 	public Animator[] lifeIndicators;
 	public AudioSource introSource, outroSource, microgameMusicSource;
@@ -225,9 +224,13 @@ public class ScenarioController : MonoBehaviour
 		Time.timeScale = getSpeedMult();
 		setAnimationPart(AnimationPart.Outro);
 
-		getMicrogameInfo();
+		awakenMicrogame();
+	}
 
-
+	void awakenMicrogame()
+	{
+		Microgame microgame = microgamePool[getMicrogameIndex()];
+		microgame.asyncOperation.allowSceneActivation = true;
 	}
 
 	void updateToIdle()
@@ -249,13 +252,11 @@ public class ScenarioController : MonoBehaviour
 		return microgameIndex;
 	}
 
-	void getMicrogameInfo()
+	public void updateMicrogameInfo()
 	{
-		int i = getMicrogameIndex();
-
-		MicrogameInfoParser.MicrogameInfo info = infoParser.getMicrogameInfo(microgamePool[i].name);
-		command.text = info.commands[getMicrogameDifficulty(i) - 1];
-		controlDisplay.sprite = controlSchemeSprites[(int)info.controlSchemes[getMicrogameDifficulty(i) - 1]];
+		command.text = MicrogameController.instance.command;
+		controlDisplay.sprite = controlSchemeSprites[(int)MicrogameController.instance.controlScheme];
+		microgameMusicSource.clip = MicrogameController.instance.musicClip;
 	}
 
 	public float getBeatsRemaining()
@@ -265,9 +266,7 @@ public class ScenarioController : MonoBehaviour
 
 	void startMicrogame()
 	{
-
-		Microgame microgame = microgamePool[getMicrogameIndex()];
-		microgame.asyncOperation.allowSceneActivation = true;
+		MicrogameController.instance.startMicrogame();
 	}
 
 	public void resetVictory()
@@ -348,8 +347,7 @@ public class ScenarioController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		MicrogameInfoParser.MicrogameInfo info = infoParser.getMicrogameInfo(microgamePool[getMicrogameIndex()].name);
-		Cursor.visible = info.controlSchemes[getMicrogameDifficulty(getMicrogameIndex()) - 1] == MicrogameController.ControlScheme.Mouse;
+		Cursor.visible = MicrogameController.instance.controlScheme == MicrogameController.ControlScheme.Mouse;
 	}
 
 	/// <summary>
