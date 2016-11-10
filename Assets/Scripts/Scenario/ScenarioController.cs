@@ -266,6 +266,8 @@ public class ScenarioController : MonoBehaviour
 
 	void startMicrogame()
 	{
+		if (Cursor.visible)
+			Cursor.visible = !MicrogameController.instance.hideCursor;
 		MicrogameController.instance.startMicrogame();
 	}
 
@@ -347,8 +349,7 @@ public class ScenarioController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		Cursor.visible = (MicrogameController.instance.controlScheme == MicrogameController.ControlScheme.Mouse
-			&& !MicrogameController.instance.hideCursor);
+		Cursor.visible = (MicrogameController.instance.controlScheme == MicrogameController.ControlScheme.Mouse);
 	}
 
 	/// <summary>
