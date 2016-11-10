@@ -75,15 +75,6 @@ public class PotionPot : MonoBehaviour
 		}
 
 
-		for (int i = 0; i < ingredients.Length; i++)
-		{
-			for (int j = i + 1; j < ingredients.Length; j++)
-			{
-				if (ingredients[i].theCollider.gameObject.activeSelf && ingredients[j].theCollider.gameObject.activeSelf)
-					Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
-			}
-		}
-
 		availableIngredients = new List<PotionIngredient>(allIngredients);
 		ingredientsNeeded = new PotionIngredient[ingredientSlots.Length];
 		for (int i = 0; i < ingredientSlots.Length; i++ )
@@ -97,6 +88,18 @@ public class PotionPot : MonoBehaviour
 		}
 
 		orderIngredients();
+	}
+
+	public void disableIngredientCollisions()
+	{
+		for (int i = 0; i < ingredients.Length; i++)
+		{
+			for (int j = i + 1; j < ingredients.Length; j++)
+			{
+				if (ingredients[i].theCollider.gameObject.activeSelf && ingredients[j].theCollider.gameObject.activeSelf)
+					Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
+			}
+		}
 	}
 
 	public void moveToFront(PotionIngredient ingredient)
