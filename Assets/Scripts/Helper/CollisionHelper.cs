@@ -4,7 +4,7 @@ using System.Collections;
 public class CollisionHelper
 {
 	/// <summary>
-	/// Ignores collision for every single GameObject with a particular tag
+	/// Ignores collision for every single GameObject with a particular tag. If you want to do this when a microgame starts, call it in the OnStart event in MicrogameController or it will be undone!
 	/// </summary>
 	/// <param name="object1"></param>
 	/// <param name="tag"></param>
