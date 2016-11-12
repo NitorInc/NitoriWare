@@ -4,12 +4,14 @@ using System.Collections;
 public class TraceShapeCursor : MonoBehaviour
 {
 	public int inBoundsNeeded, outOfBoundsLeft;
+	public Collider2D[] essentialColliders;
 
 	private ParticleSystem traceParticles;
 
 	void Start ()
 	{
 		traceParticles = GetComponent<ParticleSystem>();
+		Cursor.visible = false;
 	}
 	
 	void Update ()
@@ -32,36 +34,21 @@ public class TraceShapeCursor : MonoBehaviour
 		transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
 	}
 
-	void victory()
-	{
-		MicrogameController.instance.setVictory(true, true);
-
-		//TODO Victory
-		Debug.Log("You win!");
-	}
-
-	void failure()
-	{
-		MicrogameController.instance.setVictory(false, true);
-
-		//TODO Failure
-		Debug.Log("You lose!");
-		enabled = false;
-	}
-
 	void collide(Collider2D other)
 	{
+		//Player must be holding down the mouse button to hit drawing colliders
 		if (!Input.GetMouseButton(0))
 			return;
 
-		other.enabled = false;
+		other.gameObject.SetActive(false);
 
+		//Decrement victory/loss values depending on whether the collison is in or out of bounds
 		if (other.transform.parent.name == "In Bounds")
 		{
 			inBoundsNeeded--;
 			if (inBoundsNeeded <= 0)
 			{
-				victory();
+				checkForVictory();
 			}
 		}
 		else if (other.transform.parent.name == "Out Bounds")
@@ -72,7 +59,44 @@ public class TraceShapeCursor : MonoBehaviour
 				failure();
 			}
 		}
+	}
 
+	void checkForVictory()
+	{
+		//The player still doesn't win unless all the "essential" colliders have been hit
+		for (int i = 0; i < essentialColliders.Length; i++)
+		{
+			//If one is still there, no victory yet
+			if (essentialColliders[i].gameObject.activeInHierarchy)
+				return;
+		}
+
+		victory();
+	}
+
+	void victory()
+	{
+		MicrogameController.instance.setVictory(true, true);
+
+		//TODO Victory
+		Debug.Log("You win!");
+		enabled = false;
+		disableSprite();
+	}
+
+	void failure()
+	{
+		MicrogameController.instance.setVictory(false, true);
+
+		//TODO Failure
+		Debug.Log("You lose!");
+		enabled = false;
+		disableSprite();
+	}
+
+	void disableSprite()
+	{
+		transform.FindChild("Sprite").gameObject.SetActive(false);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
