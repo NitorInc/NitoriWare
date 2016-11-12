@@ -21,7 +21,7 @@ public class VictoryColor : MonoBehaviour
 	{
 		if (MicrogameController.instance.getVictoryDetermined())
 		{
-			if (MicrogameController.instance.getVictoryDetermined())
+			if (MicrogameController.instance.getVictory())
 				setColor(victoryColor);
 			else
 				setColor(failureColor);
