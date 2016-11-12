@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TraceShapeCursor : MonoBehaviour
 {
+	public int inBoundsNeeded, outOfBoundsLeft;
 
 	private ParticleSystem traceParticles;
 
@@ -29,6 +30,59 @@ public class TraceShapeCursor : MonoBehaviour
 		//Snap to cursor
 		Vector3 cursorPosition = CameraHelper.getCursorPosition();
 		transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
+	}
+
+	void victory()
+	{
+		MicrogameController.instance.setVictory(true, true);
+
+		//TODO Victory
+		Debug.Log("You win!");
+	}
+
+	void failure()
+	{
+		MicrogameController.instance.setVictory(false, true);
+
+		//TODO Failure
+		Debug.Log("You lose!");
+		enabled = false;
+	}
+
+	void collide(Collider2D other)
+	{
+		if (!Input.GetMouseButton(0))
+			return;
+
+		other.enabled = false;
+
+		if (other.transform.parent.name == "In Bounds")
+		{
+			inBoundsNeeded--;
+			if (inBoundsNeeded <= 0)
+			{
+				victory();
+			}
+		}
+		else if (other.transform.parent.name == "Out Bounds")
+		{
+			outOfBoundsLeft--;
+			if (outOfBoundsLeft <= 0)
+			{
+				failure();
+			}
+		}
+
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		collide(other);
+	}
+
+	void OnTriggerStay2D(Collider2D other)
+	{
+		collide(other);
 	}
 
 }
