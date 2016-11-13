@@ -13,7 +13,7 @@ I'll probably make a wiki page for this later on, but for now I'll just use this
 ## Basics
 The rundown of how to get started making your game:
 * I recommend getting approval for what microgame you want before starting it, otherwise there's no guarantee we'll accept it.
-* You can pick anything from [this list of ideas](https://docs.google.com/spreadsheets./d/1vkHnZLs6rY1f5YMF1qd97nF23XA4wCfg_2mmj1yf7lk/edit?usp=drive_web) or you can add your own to the list with this [form](https://docs.google.com/forms/d/e/1FAIpQLScuBuUwSzit4u06Q7u2HGn51B7J0M6uvg7m_voEUdSTZvb6OQ/viewform).
+* You can pick anything from [this list of ideas](https://docs.google.com/spreadsheets/d/1vkHnZLs6rY1f5YMF1qd97nF23XA4wCfg_2mmj1yf7lk/edit?usp=sharing) or you can add your own to the list with this [form](https://docs.google.com/forms/d/e/1FAIpQLScuBuUwSzit4u06Q7u2HGn51B7J0M6uvg7m_voEUdSTZvb6OQ/viewform).
 * Every microgame needs an ID, basically a name for the microgame that doesn't change (as opposed to the actual in-game name that can be changed). It should be one word separated by caps (i.e. BroomRace, KogasaScare).
 * When you decide the ID, create a new branch and begin working on your game! I'd recommend putting the microgame ID in the branch name.
 * You should submit a pull request once you have a basically functional game and you debug it using the methods in [Debugging](#debugging)
