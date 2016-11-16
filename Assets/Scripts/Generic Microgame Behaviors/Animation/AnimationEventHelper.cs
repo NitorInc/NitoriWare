@@ -8,6 +8,7 @@ public class AnimationEventHelper : MonoBehaviour
 
 	private Animator animator;
 
+	public Animator[] animators;
 	public ParticleSystem[] particleSystems;
 	public Vibrate[] vibrates;
 
@@ -19,6 +20,16 @@ public class AnimationEventHelper : MonoBehaviour
 	void Update ()
 	{
 	
+	}
+
+	public void enableAnimator(int index)
+	{
+		animators[index].enabled = true;
+	}
+
+	public void disableAnimator(int index)
+	{
+		animators[index].enabled = false;
 	}
 
 	public void enableVibrate(int index)
