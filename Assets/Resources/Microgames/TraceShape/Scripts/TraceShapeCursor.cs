@@ -5,6 +5,7 @@ public class TraceShapeCursor : MonoBehaviour
 {
 	public int inBoundsNeeded, outOfBoundsLeft;
 	public Collider2D[] essentialColliders;
+	public Animator victoryAnimator;
 
 	private ParticleSystem traceParticles;
 
@@ -78,10 +79,8 @@ public class TraceShapeCursor : MonoBehaviour
 	{
 		MicrogameController.instance.setVictory(true, true);
 
-		//TODO Victory
-		Debug.Log("You win!");
-		enabled = false;
-		disableSprite();
+		victoryAnimator.enabled = true;
+		gameObject.SetActive(false);
 	}
 
 	void failure()
