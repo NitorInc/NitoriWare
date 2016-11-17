@@ -20,13 +20,8 @@ public class FreezeFrogsTarget : MonoBehaviour
 		progress = 0;
 		animator.SetFloat("FrozenProgress", 0f);
 		updateProgress();
-
-		for (int i = 0; i < particleSystems.Length; i++)
-		{
-			particleSystems[i].Stop();
-			particleSystems[i].SetParticles(new ParticleSystem.Particle[0], 0);
-
-		}
+		for (int i = 0; i < particleSystems.Length;particleSystems[i].Stop(),particleSystems[i++].SetParticles(new ParticleSystem.Particle[0], 0));
+		
 
 		//transform.parent.GetComponent<Animator>().animation["bluh"].normalizedTime = 0f;
 
@@ -41,12 +36,11 @@ public class FreezeFrogsTarget : MonoBehaviour
 
 	void updateProgress()
 	{
-		if (progress > 1f)
-			progress = 1f;
-
+		
+		progress = Mathf.Min(1f, progress);
 		Color color = white.color;
 		color.a = progress;
-		white.color = color;
+		white.color = color; //why do we need these three lines
 
 		animator.SetFloat("FrozenProgress", progress);
 	}
@@ -55,11 +49,7 @@ public class FreezeFrogsTarget : MonoBehaviour
 	{
 		progress = 1f;
 		updateProgress();
-		for (int i = 0; i < particleSystems.Length; i++)
-		{
-			particleSystems[i].Play();
-		}
-
+		for (int i = 0; i < particleSystems.Length; particleSystems[i++].Play());
 		audio.pitch = 1.35f * Time.timeScale;
 		audio.Play();
 	}
