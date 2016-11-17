@@ -52,11 +52,11 @@ public class PotionPot : MonoBehaviour
 	void resetIngredients()
 	{
 		ingredients = new PotionIngredient[ingredientCount];
-
+		int inglen = ingredients.Length; //always make a variable for your length, because finding the length takes O(n) time, but if you use this, it only takes O(1) time
 		List<PotionIngredient> availableIngredients = new List<PotionIngredient>(allIngredients);
 		int index;
 
-		for (int i = 0; i < ingredients.Length; ingredients[i].pot = this, ingredients[i].name = "Ingredient " + i.ToString(), ingredients[i].state = PotionIngredient.State.Idle,  i++)
+		for (int i = 0; i < inglen; ingredients[i].pot = this, ingredients[i].name = "Ingredient " + i.ToString(), ingredients[i].state = PotionIngredient.State.Idle,  i++)
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredients[i] = availableIngredients[index];
@@ -68,20 +68,26 @@ public class PotionPot : MonoBehaviour
 			Vector3 position = spawn.position + new Vector3(Random.Range(-.5f * spawn.localScale.x, .5f * spawn.localScale.z), 0f, 0f);
 			ingredients[i].transform.position = new Vector3(position.x, position.y, ingredients[i].transform.position.z);
 		}
+		
+		int[] skiparray = new int[inglen];
+		int skip = 0;
+		for(int i = inglen - 1; i >= 0; i--){ //this takes O(n) time
+		skip = ingredients[i].theCollider.gameObject.activeSelf ? 0 : skip+1; //we are building a skip array in order to skip over any objects that are not active
+		skiparray[i] = skip;
+		}
 
-
-		for (int i = 0; i < ingredients.Length-1; i++){
+		for (int i = 0; i < inglen-1; i += skiparray[i+1]){ //the for loop above will make this O(n^2) for loop run much faster via memoization and dynamic programming
 		if (ingredients[i].theCollider.gameObject.activeSelf){
-			for (int j = i + 1; j < ingredients.Length; j++){
+			for (int j = i + 1; j < inglen; j += skiparray[j+1]){
 				 if (ingredients[j].theCollider.gameObject.activeSelf)
 					Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
 			}
 		}
 		}
-
+		int ingSlot = ingredientSlots.Length;
 		availableIngredients = new List<PotionIngredient>(allIngredients);
-		ingredientsNeeded = new PotionIngredient[ingredientSlots.Length];
-		for (int i = 0; i < ingredientSlots.Length; ingredientSlots[i].color = Color.white, availableIngredients.RemoveAt(index),  i++ )
+		ingredientsNeeded = new PotionIngredient[ingSlot];
+		for (int i = 0; i < ingSlot; ingredientSlots[i].color = Color.white, availableIngredients.RemoveAt(index),  i++ )
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredientsNeeded[i] = availableIngredients[index];
