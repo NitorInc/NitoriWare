@@ -71,9 +71,8 @@ public class PotionPot : MonoBehaviour
 		
 		int[] skiparray = new int[inglen];
 		int skip = 0;
-		for(int i = inglen - 1; i >= 0; i--){ //this takes O(n) time
+		for(int i = inglen - 1; i >= 0;skiparray[i] = skip;, i--){ //this takes O(n) time
 		skip = ingredients[i].theCollider.gameObject.activeSelf ? 0 : skip+1; //we are building a skip array in order to skip over any objects that are not active
-		skiparray[i] = skip;
 		}
 
 		for (int i = skiparray[0]; i < inglen-1; i += skiparray[i+1]){ //the for loop above will make this O(n^2) for loop run much faster via memoization and dynamic programming
@@ -117,19 +116,18 @@ public class PotionPot : MonoBehaviour
 
 	void orderIngredients()
 	{
-		for (int i = 0; i < ingredients.Length; i++)
-		{
-			ingredients[i].spriteRenderer.sortingOrder = 60 - i;
-			ingredients[i].transform.position = new Vector3(ingredients[i].transform.position.x, ingredients[i].transform.position.y,
-				-2f + (.01f * (float)i));
-		}
+		for (int i = 0; i < ingredients.Length;ingredients[i].spriteRenderer.sortingOrder = 60 - i, ingredients[i].transform.position = 
+		new Vector3(ingredients[i].transform.position.x, ingredients[i].transform.position.y, -2f + (.01f * (float)i)), i++);
 	}
 
 	public void reset()
 	{
 		ingredientPool.poolAllObjects();
 		potVibrate.vibrateOn = false;
-		playPotParticles();
+		foreach (ParticleSystem particles in potParticles)
+		{
+			particles.Play();
+		}
 		resetIngredients();
 
 		setState(State.Default);
@@ -137,13 +135,6 @@ public class PotionPot : MonoBehaviour
 	}
 
 
-	void playPotParticles()
-	{
-		foreach (ParticleSystem particles in potParticles)
-		{
-			particles.Play();
-		}
-	}
 
 	void stopPotParticles()
 	{
@@ -202,10 +193,7 @@ public class PotionPot : MonoBehaviour
 		victoryPotion.SetActive(true);
 	}
 
-	void Update()
-	{
-
-	}
+	
 
 	public void addIngredient(PotionIngredient ingredient)
 	{
