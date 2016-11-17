@@ -76,7 +76,7 @@ public class PotionPot : MonoBehaviour
 		skiparray[i] = skip;
 		}
 
-		for (int i = 0; i < inglen-1; i += skiparray[i+1]){ //the for loop above will make this O(n^2) for loop run much faster via memoization and dynamic programming
+		for (int i = skiparray[0]; i < inglen-1; i += skiparray[i+1]){ //the for loop above will make this O(n^2) for loop run much faster via memoization and dynamic programming
 		if (ingredients[i].theCollider.gameObject.activeSelf){
 			for (int j = i + 1; j < inglen; j += skiparray[j+1]){
 				 if (ingredients[j].theCollider.gameObject.activeSelf)
