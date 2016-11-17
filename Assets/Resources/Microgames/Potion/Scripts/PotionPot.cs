@@ -38,11 +38,9 @@ public class PotionPot : MonoBehaviour
 		if (ingredientPool.addToPool(ingredientSprites.Length, true))
 		{
 			allIngredients = new PotionIngredient[ingredientSprites.Length];
-			for (int i = 0; i < allIngredients.Length; i++)
-			{
-				allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>();
-				allIngredients[i].spriteRenderer.sprite = ingredientSprites[i];
-			}
+			for (int i = 0; i < allIngredients.Length; allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>(),  
+			allIngredients[i].spriteRenderer.sprite = ingredientSprites[i], i++);
+			
 
 		}
 
@@ -58,7 +56,7 @@ public class PotionPot : MonoBehaviour
 		List<PotionIngredient> availableIngredients = new List<PotionIngredient>(allIngredients);
 		int index;
 
-		for (int i = 0; i < ingredients.Length; i++)
+		for (int i = 0; i < ingredients.Length; ingredients[i].pot = this, ingredients[i].name = "Ingredient " + i.ToString(), ingredients[i].state = PotionIngredient.State.Idle,  i++)
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredients[i] = availableIngredients[index];
@@ -69,31 +67,25 @@ public class PotionPot : MonoBehaviour
 			Transform spawn = ingredientSpawn.GetChild(i % ingredientSpawn.childCount);
 			Vector3 position = spawn.position + new Vector3(Random.Range(-.5f * spawn.localScale.x, .5f * spawn.localScale.z), 0f, 0f);
 			ingredients[i].transform.position = new Vector3(position.x, position.y, ingredients[i].transform.position.z);
-			ingredients[i].pot = this;
-			ingredients[i].name = "Ingredient " + i.ToString();
-			ingredients[i].state = PotionIngredient.State.Idle;
 		}
 
 
-		for (int i = 0; i < ingredients.Length; i++)
-		{
-			for (int j = i + 1; j < ingredients.Length; j++)
-			{
-				if (ingredients[i].theCollider.gameObject.activeSelf && ingredients[j].theCollider.gameObject.activeSelf)
+		for (int i = 0; i < ingredients.Length-1; i++){
+		if (ingredients[i].theCollider.gameObject.activeSelf){
+			for (int j = i + 1; j < ingredients.Length; j++){
+				 if (ingredients[j].theCollider.gameObject.activeSelf)
 					Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
 			}
+		}
 		}
 
 		availableIngredients = new List<PotionIngredient>(allIngredients);
 		ingredientsNeeded = new PotionIngredient[ingredientSlots.Length];
-		for (int i = 0; i < ingredientSlots.Length; i++ )
+		for (int i = 0; i < ingredientSlots.Length; ingredientSlots[i].color = Color.white, availableIngredients.RemoveAt(index),  i++ )
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredientsNeeded[i] = availableIngredients[index];
 			ingredientSlots[i].sprite = ingredientsNeeded[i].spriteRenderer.sprite;
-			ingredientSlots[i].color = Color.white;
-
-			availableIngredients.RemoveAt(index);
 		}
 
 		orderIngredients();
@@ -112,10 +104,7 @@ public class PotionPot : MonoBehaviour
 			}
 		}
 
-		for (int i = index - 1; i >= 0; i--)
-		{
-			ingredients[i + 1] = ingredients[i];
-		}
+		for (int i = index - 1; i >= 0; ingredients[i + 1] = ingredients[i], i--);
 		ingredients[0] = hold;
 		orderIngredients();
 	}
