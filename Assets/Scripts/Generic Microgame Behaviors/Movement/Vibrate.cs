@@ -40,7 +40,6 @@ public class Vibrate : MonoBehaviour
 			transform.localPosition += (Vector3)MathHelper.resizeVector2D((vibrateGoal - (Vector2)transform.localPosition), vibrateSpeed * Time.deltaTime);
 
 				//(Vector3)MathHelper.getVectorFromAngle2D(MathHelper.getVectorAngle2D(vibrateGoal - (Vector2)transform.localPosition), vibrateSpeed * Time.deltaTime);
-
 		}
 
 	}
