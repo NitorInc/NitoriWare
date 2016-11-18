@@ -78,13 +78,12 @@ public class PotionPot : MonoBehaviour
 		}
 		}
 
-		for (int i = 0; i < skip; i ++){
+		for (int i = 0; i < skip-1; i ++){
 		int j = skip-1;
 		while(j > i){
 		Physics2D.IgnoreCollision(ingredients[skiparray[i]].theCollider, ingredients[skiparray[j]].theCollider, true);
 		j--;
 		}
-		
 		}
 		int ingSlot = ingredientSlots.Length;
 		availableIngredients = new List<PotionIngredient>(allIngredients);
