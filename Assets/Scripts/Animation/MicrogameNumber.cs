@@ -21,7 +21,7 @@ public class MicrogameNumber : MonoBehaviour
 	{
 		if (text.text == "999")
 			return;
-		short number = short.Parse(text.text) + 1;
+		int number = int.Parse(text.text) + 1;
 		text.text = number < 10 ? "00" + number.ToString() : number < 100 ? "0" + number.ToString() : number.ToString();
 	}
 }

@@ -103,8 +103,11 @@ public class RippleEffect : MonoBehaviour
 		gradTexture = new Texture2D(2048, 1, TextureFormat.Alpha8, false);
 		gradTexture.wrapMode = TextureWrapMode.Clamp;
 		gradTexture.filterMode = FilterMode.Bilinear;
-		for (var i = 0; i < gradTexture.width;var x = 1.0f / gradTexture.width * i,var a = waveform.Evaluate(x),
-		gradTexture.SetPixel(i, 0, new Color(a, a, a, a)), i++);
+        for (var i = 0; i < gradTexture.width; i++) {
+            var x = 1.0f / gradTexture.width * i;
+            var a = waveform.Evaluate(x);
+            gradTexture.SetPixel(i, 0, new Color(a, a, a, a));
+        }
 		gradTexture.Apply();
 
 		material = new Material(shader);
