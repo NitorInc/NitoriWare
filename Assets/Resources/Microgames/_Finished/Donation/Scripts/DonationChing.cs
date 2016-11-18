@@ -44,11 +44,8 @@ public class DonationChing : MonoBehaviour
 		if (scale < maxScale)
 		{
 			scale += growSpeed * Time.deltaTime;
-			if (scale > maxScale)
-			{
-				scale = maxScale;
-			}
 		}
+		scale = Mathf.min(scale, maxscale);
 
 		if (time >= fadeStartTime)
 		{
