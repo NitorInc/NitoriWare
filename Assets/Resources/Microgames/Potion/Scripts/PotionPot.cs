@@ -71,17 +71,20 @@ public class PotionPot : MonoBehaviour
 		
 		int[] skiparray = new int[inglen];
 		int skip = 0;
-		for(int i = inglen - 1; i >= 0;skiparray[i] = skip;, i--){ //this takes O(n) time
-		skip = ingredients[i].theCollider.gameObject.activeSelf ? 0 : skip+1; //we are building a skip array in order to skip over any objects that are not active
+		for(int i = 0; i < inglen; i++){ //this takes O(n) time
+		if (ingredients[i].theCollider.gameObject.activeSelf){
+		skiparray[skip] = i;
+		skip++;
+		}
 		}
 
-		for (int i = skiparray[0]; i < inglen-1; i += skiparray[i+1]){ //the for loop above will make this O(n^2) for loop run much faster via memoization and dynamic programming
-		//if (ingredients[i].theCollider.gameObject.activeSelf){
-			for (int j = i + 1 + skiparray[i+1]; j < inglen; j += skiparray[j+1]){
-				 //if (ingredients[j].theCollider.gameObject.activeSelf)
-					Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
-			}
-		//}
+		for (int i = 0; i < skip; i ++){
+		int j = skip-1;
+		while(j > i){
+		Physics2D.IgnoreCollision(ingredients[skiparray[i]].theCollider, ingredients[skiparray[j]].theCollider, true);
+		j--;
+		}
+		
 		}
 		int ingSlot = ingredientSlots.Length;
 		availableIngredients = new List<PotionIngredient>(allIngredients);
@@ -95,6 +98,8 @@ public class PotionPot : MonoBehaviour
 
 		orderIngredients();
 	}
+	
+	
 
 	public void moveToFront(PotionIngredient ingredient)
 	{
