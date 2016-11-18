@@ -22,32 +22,16 @@ public class FreezeFrogsHead : MonoBehaviour
 	public void reset()
 	{
 		angle = 0f;
-		updateRotation();
+		setAngle(angle);
 	}
 	
 	void Update ()
 	{
-		if (Input.GetKey(KeyCode.UpArrow))
-		{
-			angle += rotateSpeed * Time.deltaTime;
-			if (angle >= maxAngle)
-				angle = maxAngle;
-		}
-		if (Input.GetKey(KeyCode.DownArrow))
-		{
-			angle -= rotateSpeed * Time.deltaTime;
-			if (angle <= minAngle)
-				angle = minAngle;
-		}
-
-		updateRotation();
-
-	}
-
-	void updateRotation()
-	{
+		angle += Input.GetKey(KeyCode.UpArrow) && angle < maxAngle ? rotateSpeed * Time.deltaTime : Input.GetKey(KeyCode.DownArrow) && angle > minAngle ? -rotateSpeed * Time.deltaTime : 0f;
 		setAngle(angle);
 	}
+
+	
 
 
 	public void setAngle(float angle)
