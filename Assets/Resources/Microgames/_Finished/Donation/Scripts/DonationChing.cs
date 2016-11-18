@@ -45,7 +45,7 @@ public class DonationChing : MonoBehaviour
 		{
 			scale += growSpeed * Time.deltaTime;
 		}
-		scale = Mathf.min(scale, maxscale);
+		scale = Mathf.Min(scale, maxScale);
 
 		if (time >= fadeStartTime)
 		{

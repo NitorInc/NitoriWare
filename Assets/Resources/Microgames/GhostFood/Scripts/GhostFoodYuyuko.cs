@@ -72,7 +72,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			
 		}
 		setFacingRight(transform.position.x < 0f);
-		body.transform.rotation = Quaternion.Euler(0f, 0f, trandform.position.x < 0f ? -.5f * Mathf.Rad2Deg : .5f * Mathf.Rad2Deg);
+		body.transform.rotation = transform.position.x < 0f ? Quaternion.Euler(0f, 0f, -0.5f * Mathf.Rad2Deg) : Quaternion.Euler(0f, 0f, 0.5f * Mathf.Rad2Deg);
 		animator.SetTime(1f);
 		animator.enabled = false;
 
