@@ -12,14 +12,14 @@ public class AnimationEventHelper : MonoBehaviour
 	public ParticleSystem[] particleSystems;
 	public Vibrate[] vibrates;
 
-	void Awake ()
+	void Awake()
 	{
 		animator = GetComponent<Animator>();
 	}
-	
-	void Update ()
+
+	void Update()
 	{
-	
+
 	}
 
 	public void enableAnimator(int index)
@@ -66,7 +66,7 @@ public class AnimationEventHelper : MonoBehaviour
 
 	public void setShakeSpeed(float shakeSpeed)
 	{
-		CameraShake.instance.setShakeSpeed(shakeSpeed);
+		CameraShake.instance.shakeSpeed = shakeSpeed;
 	}
 
 	public void setScreenShake(float shake)
@@ -76,12 +76,12 @@ public class AnimationEventHelper : MonoBehaviour
 
 	public void setXshake(float shake)
 	{
-		CameraShake.instance.setXShake(shake);
+		CameraShake.instance.xShake = shake;
 	}
 
 	public void setYShake(float shake)
 	{
-		CameraShake.instance.setYShake(shake);
+		CameraShake.instance.yShake = shake;
 	}
 
 	public void addScreenShake(float shake)
@@ -91,17 +91,17 @@ public class AnimationEventHelper : MonoBehaviour
 
 	public void addXshake(float shake)
 	{
-		CameraShake.instance.addXShake(shake);
+		CameraShake.instance.xShake += shake;
 	}
 
 	public void addYShake(float shake)
 	{
-		CameraShake.instance.addYShake(shake);
+		CameraShake.instance.yShake += shake;
 	}
 
 	public void setShakeCoolRate(float coolRate)
 	{
-		CameraShake.instance.setShakeCoolRate(coolRate);
+		CameraShake.instance.shakeCoolRate = coolRate;
 	}
 
 	public void setFloat(AnimationEvent values)
