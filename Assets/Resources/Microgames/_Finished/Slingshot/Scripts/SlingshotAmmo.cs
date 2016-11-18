@@ -192,8 +192,7 @@ public class SlingshotAmmo : MonoBehaviour
 
 		diff /= 10f;
 
-		if (diff > .5f)
-			diff = .5f;
+		diff = Mathf.Min(.5f, diff);
 
 		return (1f + diff) * Time.timeScale;
 	}
