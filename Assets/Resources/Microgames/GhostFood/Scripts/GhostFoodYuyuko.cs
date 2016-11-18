@@ -62,28 +62,17 @@ public class GhostFoodYuyuko : MonoBehaviour
 		updateMovement();
 		state = State.Hungry;
 
-		for (int i = 0; i < foods.Length; i++)
+		for (int i = 0; i < foods.Length; foods[i++].gameObject.SetActive(true))
 		{
 			do 
 			{
 				foods[i].transform.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-4f, 4f), transform.position.z);
 			}
 			while (isInCenter(foods[i].transform.position) || (foods[i].transform.position - transform.position).magnitude < 4f);
-			foods[i].gameObject.SetActive(true);
+			
 		}
-
-		if (transform.position.x < 0f)
-		{
-			setFacingRight(true);
-			body.transform.rotation = Quaternion.Euler(0f, 0f, -.5f * Mathf.Rad2Deg);
-		}
-		else
-		{
-			setFacingRight(false);
-			body.transform.rotation = Quaternion.Euler(0f, 0f, .5f * Mathf.Rad2Deg);
-		}
-
-
+		setFacingRight(transform.position.x < 0f);
+		body.transform.rotation = Quaternion.Euler(0f, 0f, trandform.position.x < 0f ? -.5f * Mathf.Rad2Deg : .5f * Mathf.Rad2Deg);
 		animator.SetTime(1f);
 		animator.enabled = false;
 
@@ -118,11 +107,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			updateMovement();
 
 		updateFace();
-
-		if (state == State.Full)
-			audioSource.panStereo = 0f;
-		else
-			audioSource.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position) * .8f;
+		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(Camera.main, transform.position) * .8f ;
 	}
 
 	void checkForVictory()
@@ -200,15 +185,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 				{
 					float diff = victoryMoveSpeedMult * distanceToCenter * Time.deltaTime;
 					Vector2 toCenter = -1f * (Vector2)transform.position;
-					if (toCenter.magnitude <= diff)
-					{
-						transform.position = new Vector3(0f, 0f, transform.position.z);
-					}
-					else
-					{
-						transform.position += (Vector3)MathHelper.resizeVector2D(toCenter, diff);
-					}
-
+					transform.position = toCenter.magnitude <= diff ? new Vector3(0f, 0f, transform.position.z) : transform.position + (Vector3)MathHelper.resizeVector2D(toCenter, diff);
 					setScale(Mathf.Lerp(victoryScale, initialScale, toCenter.magnitude / distanceToCenter));
 					
 				}
@@ -302,10 +279,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			other.gameObject.SetActive(false);
 			particles.Play();
 			chewsLeft += chewsNeeded;
-
 			CancelInvoke();
-
-
 			animator.enabled = true;
 			animator.SetTime(1f);
 		}
