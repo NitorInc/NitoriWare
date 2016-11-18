@@ -28,11 +28,7 @@ public class DonationCoin : MonoBehaviour
 	{
 
 		Transform coins = transform.parent;
-		for (int i = 0; i < coins.childCount; i++)
-		{
-			coins.GetChild(i).GetComponent<DonationCoin>().resetBody();
-		}
-
+		for (int i = 0; i < coins.childCount;coins.GetChild(i).GetComponent<DonationCoin>().resetBody(), i++);
 		bounceSource.Stop();
 	}
 
@@ -66,9 +62,9 @@ public class DonationCoin : MonoBehaviour
 			startTime -= Time.deltaTime;
 			if (startTime <= 0f)
 			{
-				startTime = 0f;
 				body.isKinematic = false;
 				collider.enabled = true;
+				startTime = 0f;
 			}
 		}	
 		else if (transform.position.y <= slowHeight && transform.position.y > fallHeight)
@@ -78,7 +74,6 @@ public class DonationCoin : MonoBehaviour
 		}
 		else if (transform.position.y <= fallHeight)
 		{
-			
 			body.velocity = new Vector2(0f, speed * -3f);
 		}
 		else
@@ -105,8 +100,7 @@ public class DonationCoin : MonoBehaviour
 		//source.pitch = Random.Range(.7f, .75f);
 		bounceSource.pitch = Time.timeScale * .85f;
 
-		if (volume > 1f)
-			volume = 1f;
+		volume = Mathf.Min(1f, volume);
 		volume /= 2f;
 		bounceSource.volume = volume;
 
