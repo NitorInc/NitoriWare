@@ -112,7 +112,7 @@ public class Spider : MonoBehaviour
 		updateMouth();
 
 		bool flipped = cursorPosition.x > transform.position.x;
-		transform.localScale = flipped ? new Vector3(1f, -1f, 1f) : new Vector3(1f, 1f, 1f);
+		transform.localScale = new Vector3(1f, flipped ? -1f : 1f, 1f)
 		
 
 		if (distance <=  eatRadius)
@@ -136,7 +136,7 @@ public class Spider : MonoBehaviour
 
 	void updateMouth()
 	{
-		top.localRotation = Quaternion.Euler(0f, 0f, -1f * mouthAngle * Mathf.Rad2Deg);
+		top.localRotation = Quaternion.Euler(0f, 0f, -mouthAngle * Mathf.Rad2Deg);
 		bottom.localRotation = Quaternion.Euler(0f, 0f, mouthAngle * Mathf.Rad2Deg);
 	}
 }
