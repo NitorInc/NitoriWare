@@ -84,20 +84,14 @@ public class Spider : MonoBehaviour
 		if (mouthClosing)
 		{
 			mouthAngle -= Time.deltaTime * munchSpeed;
-			if (mouthAngle < 0f)
-			{
-				mouthAngle = 0f;
-				mouthClosing = false;
-			}
+			mouthClosing = mouthAngle >= 0f;
+			mouthAngle = Mathf.Max(0f, mouthAngle);
 		}
 		else
 		{
 			mouthAngle += Time.deltaTime * munchSpeed;
-			if (mouthAngle > maxMouthAngle / 3f)
-			{
-				mouthAngle = maxMouthAngle / 3f;
-				mouthClosing = true;
-			}
+			mouthClosing = mouthAngle > maxMouthAngle / 3f;
+			mouthAngle = Mathf.Min(maxMouthAngle / 3f, mouthAngle);
 		}
 		updateMouth();
 	}
@@ -118,12 +112,10 @@ public class Spider : MonoBehaviour
 		updateMouth();
 
 		bool flipped = cursorPosition.x > transform.position.x;
-		if (flipped)
-			transform.localScale = new Vector3(1f, -1f, 1f);
-		else
-			transform.localScale = new Vector3(1f, 1f, 1f);
+        transform.localScale = new Vector3(1f, flipped ? -1f : 1f, 1f);
+		
 
-		if (distance <=  eatRadius)
+		if (distance <= eatRadius)
 		{
 			food.eaten = true;
 			mouthClosing = true;
@@ -144,7 +136,7 @@ public class Spider : MonoBehaviour
 
 	void updateMouth()
 	{
-		top.localRotation = Quaternion.Euler(0f, 0f, -1f * mouthAngle * Mathf.Rad2Deg);
+		top.localRotation = Quaternion.Euler(0f, 0f, -mouthAngle * Mathf.Rad2Deg);
 		bottom.localRotation = Quaternion.Euler(0f, 0f, mouthAngle * Mathf.Rad2Deg);
 	}
 }

@@ -38,11 +38,9 @@ public class PotionPot : MonoBehaviour
 		if (ingredientPool.addToPool(ingredientSprites.Length, true))
 		{
 			allIngredients = new PotionIngredient[ingredientSprites.Length];
-			for (int i = 0; i < allIngredients.Length; i++)
-			{
-				allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>();
-				allIngredients[i].spriteRenderer.sprite = ingredientSprites[i];
-			}
+			for (int i = 0; i < allIngredients.Length; allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>(),  
+			allIngredients[i].spriteRenderer.sprite = ingredientSprites[i], i++);
+			
 
 		}
 
@@ -54,11 +52,11 @@ public class PotionPot : MonoBehaviour
 	void resetIngredients()
 	{
 		ingredients = new PotionIngredient[ingredientCount];
-
+		int inglen = ingredients.Length; //always make a variable for your length, because finding the length takes O(n) time, but if you use this, it only takes O(1) time
 		List<PotionIngredient> availableIngredients = new List<PotionIngredient>(allIngredients);
 		int index;
-
-		for (int i = 0; i < ingredients.Length; i++)
+                int[] skiparray = new int[inglen];
+		for (int i = 0; i < inglen; i++)
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredients[i] = availableIngredients[index];
@@ -72,32 +70,32 @@ public class PotionPot : MonoBehaviour
 			ingredients[i].pot = this;
 			ingredients[i].name = "Ingredient " + i.ToString();
 			ingredients[i].state = PotionIngredient.State.Idle;
-		}
-
-
-		for (int i = 0; i < ingredients.Length; i++)
-		{
-			for (int j = i + 1; j < ingredients.Length; j++)
-			{
-				if (ingredients[i].theCollider.gameObject.activeSelf && ingredients[j].theCollider.gameObject.activeSelf)
-					Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
+			if (i > 0 && ingredients[i].theCollider.gameObject.activeSelf){
+			for(int j = i-1; j >= 0; j--){
+			if (ingredients[j].theCollider.gameObject.activeSelf){
+			skiparray[j] = 0;
+			Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
+			} else {
+			skiparray[j]++;
 			}
+			}
+			}
+			
 		}
-
+		int ingSlot = ingredientSlots.Length;
 		availableIngredients = new List<PotionIngredient>(allIngredients);
-		ingredientsNeeded = new PotionIngredient[ingredientSlots.Length];
-		for (int i = 0; i < ingredientSlots.Length; i++ )
+		ingredientsNeeded = new PotionIngredient[ingSlot];
+		for (int i = 0; i < ingSlot; ingredientSlots[i].color = Color.white, availableIngredients.RemoveAt(index),  i++ )
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredientsNeeded[i] = availableIngredients[index];
 			ingredientSlots[i].sprite = ingredientsNeeded[i].spriteRenderer.sprite;
-			ingredientSlots[i].color = Color.white;
-
-			availableIngredients.RemoveAt(index);
 		}
 
 		orderIngredients();
 	}
+	
+	
 
 	public void moveToFront(PotionIngredient ingredient)
 	{
@@ -112,29 +110,25 @@ public class PotionPot : MonoBehaviour
 			}
 		}
 
-		for (int i = index - 1; i >= 0; i--)
-		{
-			ingredients[i + 1] = ingredients[i];
-		}
+		for (int i = index - 1; i >= 0; ingredients[i + 1] = ingredients[i], i--);
 		ingredients[0] = hold;
 		orderIngredients();
 	}
 
 	void orderIngredients()
 	{
-		for (int i = 0; i < ingredients.Length; i++)
-		{
-			ingredients[i].spriteRenderer.sortingOrder = 60 - i;
-			ingredients[i].transform.position = new Vector3(ingredients[i].transform.position.x, ingredients[i].transform.position.y,
-				-2f + (.01f * (float)i));
-		}
+		for (int i = 0; i < ingredients.Length;ingredients[i].spriteRenderer.sortingOrder = 60 - i, ingredients[i].transform.position = 
+		new Vector3(ingredients[i].transform.position.x, ingredients[i].transform.position.y, -2f + (.01f * (float)i)), i++);
 	}
 
 	public void reset()
 	{
 		ingredientPool.poolAllObjects();
 		potVibrate.vibrateOn = false;
-		playPotParticles();
+		foreach (ParticleSystem particles in potParticles)
+		{
+			particles.Play();
+		}
 		resetIngredients();
 
 		setState(State.Default);
@@ -142,13 +136,6 @@ public class PotionPot : MonoBehaviour
 	}
 
 
-	void playPotParticles()
-	{
-		foreach (ParticleSystem particles in potParticles)
-		{
-			particles.Play();
-		}
-	}
 
 	void stopPotParticles()
 	{
@@ -207,10 +194,7 @@ public class PotionPot : MonoBehaviour
 		victoryPotion.SetActive(true);
 	}
 
-	void Update()
-	{
-
-	}
+	
 
 	public void addIngredient(PotionIngredient ingredient)
 	{

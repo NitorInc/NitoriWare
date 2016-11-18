@@ -53,9 +53,7 @@ public class WrenchTighten : MonoBehaviour
 
 	float getCycleProgress()
 	{
-		float progress = getRotation() - minRotation;
-		progress /= maxRotation - minRotation;
-		return progress;
+		return (getRotation() - minRotation)/(maxRotation - minRotation);
 	}
 
 	void finish()
