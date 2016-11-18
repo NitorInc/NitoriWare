@@ -64,23 +64,14 @@ public class DonationReimu : MonoBehaviour
 
 	void updateMovement()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition)
+		if ((Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) || Input.GetKeyDown(KeyCode.RightArrow) && position < maxPosition)
 		{
-			position--;
+			position+= (Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) ? -1 : 1;
 			updatePosition();
 			//if (transform.position.x < minX)
 			//	transform.position = new Vector3(minX, transform.position.y, transform.position.z);
 			//setFacingRight(false);
 			//body.velocity = new Vector2(-1f * moveSpeed, 0f);
-		}
-		else if (Input.GetKeyDown(KeyCode.RightArrow) && position < maxPosition)
-		{
-			position++;
-			updatePosition();
-			//if (transform.position.x > maxX)
-			//	transform.position = new Vector3(maxX, transform.position.y, transform.position.z);
-			//setFacingRight(true);
-			//body.velocity = new Vector2(moveSpeed, 0f);
 		}
 		else
 		{
@@ -95,9 +86,6 @@ public class DonationReimu : MonoBehaviour
 
 	void setFacingRight(bool facingRight)
 	{
-		if (facingRight)
-			transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-		else
-			transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1f, transform.localScale.y, transform.localScale.z);
+			transform.localScale = new Vector3(facingRight ? Mathf.Abs(transform.localScale.x) : -Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 	}
 }
