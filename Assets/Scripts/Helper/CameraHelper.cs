@@ -70,22 +70,10 @@ public class CameraHelper
 		//if (isPointOffscreen(position))
 		//	return lastCursorPosition;
 
-		if (position.x > Camera.main.transform.position.x + (camSize * 4f / 3f))
-		{
-			position.x = Camera.main.transform.position.x + (camSize * 4f / 3f);
-		}
-		else if (position.x < Camera.main.transform.position.x - (camSize * 4f / 3f))
-		{
-			position.x = Camera.main.transform.position.x - (camSize * 4f / 3f);
-		}
-		if (position.y > Camera.main.transform.position.x + camSize)
-		{
-			position.y = Camera.main.transform.position.x + camSize;
-		}
-		else if (position.y < Camera.main.transform.position.x - camSize)
-		{
-			position.y = Camera.main.transform.position.x - camSize;
-		}
+		position.x = MathHelper.clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f),
+			Camera.main.transform.position.x + (camSize * 4f / 3f));
+		position.y = MathHelper.clamp(position.y, Camera.main.transform.position.x - camSize,
+			Camera.main.transform.position.x + camSize);
 
 		lastCursorPosition = position;
 		return position;

@@ -26,12 +26,7 @@ public class AudioHelper
 		x -= camera.transform.position.x;
 		x /= camera.orthographicSize * (4f / 3f);
 
-		if (x <= -1f)
-			x = -1f;
-		else if (x >= 1f)
-			x = 1f;
-
-		return x;
+		return MathHelper.clamp(x, -1f, 1f);
 	}
 
 }
