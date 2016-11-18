@@ -178,7 +178,10 @@ public class MathHelper
 		}
 	}
 
-
+	public static float clamp(float var, float min, float max)
+	{
+		return Mathf.Min(Mathf.Max(var, min), max);
+	}
 
 }
  

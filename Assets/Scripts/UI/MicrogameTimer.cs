@@ -21,7 +21,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	private Vector3 hold;
 
-	void Awake ()
+	void Awake()
 	{
 		instance = this;
 
@@ -54,12 +54,12 @@ public class MicrogameTimer : MonoBehaviour
 	{
 		beatsLeft -= Time.deltaTime / ScenarioController.beatLength;
 	}
-	
-	void LateUpdate ()
+
+	void LateUpdate()
 	{
 		if (!disableDisplay && beatsLeft < 9f && beatsLeft > 0.0f)
 		{
-		
+
 			int beat = (int)Mathf.Floor(beatsLeft);
 
 			gear.enabled = countdown.enabled = true;
@@ -114,43 +114,25 @@ public class MicrogameTimer : MonoBehaviour
 			gear.enabled = false;
 			countdown.enabled = false;
 		}
-	
+
 	}
 
 	private float getCountdownScale()
 	{
 		float t = 1 - (beatsLeft % 1);
 
-		
+
 		float delay = .25f, growDuration = .25f;
 
 		return Mathf.Lerp(0f, countdownScale, (t - delay) / growDuration);
 	}
 
+	private static float[] chainOffsets = {0f, .03f, -.12f, -.04f, 0f, -.15f, -.05f, 0f};
+
 	private float getChainOffset(int beat)
 	{
-
-		switch(beat)
-		{
-			case (0):
-			case (7):
-				return 0f;
-			case(6):
-				return -.05f;
-			case (5):
-				return -.15f;
-			case (4):
-				return 0f;
-			case (3):
-				return -.04f;
-			case (2):
-				return -.12f;
-			case (1):
-				return .03f;
-			default:
-				return .05f;
-		}
-
+		if (beat >= 0 && beat < 8) return chainOffsets[beat];
+		else return .05f;
 	}
 
 	private float getGearAngle(int beat)

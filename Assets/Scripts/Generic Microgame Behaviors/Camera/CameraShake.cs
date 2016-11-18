@@ -68,12 +68,9 @@ public class CameraShake : MonoBehaviour
 			resetGoal();
 			transform.localPosition = goalPosition;
 		}
-		else
+		else if (MathHelper.moveTowards2D(transform, (Vector2)goalPosition, shakeSpeed))
 		{
-			if (MathHelper.moveTowards2D(transform, (Vector2)goalPosition, shakeSpeed))
-			{
-				resetGoal();
-			}
+			resetGoal();
 		}
 
 
@@ -81,19 +78,13 @@ public class CameraShake : MonoBehaviour
 		if (xShake > 0f)
 		{
 			xShake -= shakeCoolRate * Time.deltaTime;
-			if (xShake <= 0f)
-			{
-				xShake = 0f;
-			}
+			xShake = Mathf.Max(xShake, 0f);
 		}
 
 		if (yShake > 0f)
 		{
 			yShake -= shakeCoolRate * Time.deltaTime;
-			if (yShake <= 0f)
-			{
-				yShake = 0f;
-			}
+			yShake = Mathf.Max(yShake, 0f);
 		}
 
 
