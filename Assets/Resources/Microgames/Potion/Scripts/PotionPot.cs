@@ -55,8 +55,8 @@ public class PotionPot : MonoBehaviour
 		int inglen = ingredients.Length; //always make a variable for your length, because finding the length takes O(n) time, but if you use this, it only takes O(1) time
 		List<PotionIngredient> availableIngredients = new List<PotionIngredient>(allIngredients);
 		int index;
-
-		for (int i = 0; i < inglen; ingredients[i].pot = this, ingredients[i].name = "Ingredient " + i.ToString(), ingredients[i].state = PotionIngredient.State.Idle,  i++)
+                int[] skiparray = new int[inglen];
+		for (int i = 0; i < inglen; i++)
 		{
 			index = Random.Range(0, availableIngredients.Count);
 			ingredients[i] = availableIngredients[index];
@@ -67,23 +67,20 @@ public class PotionPot : MonoBehaviour
 			Transform spawn = ingredientSpawn.GetChild(i % ingredientSpawn.childCount);
 			Vector3 position = spawn.position + new Vector3(Random.Range(-.5f * spawn.localScale.x, .5f * spawn.localScale.z), 0f, 0f);
 			ingredients[i].transform.position = new Vector3(position.x, position.y, ingredients[i].transform.position.z);
-		}
-		
-		int[] skiparray = new int[inglen];
-		int skip = 0;
-		for(int i = 0; i < inglen; i++){ //this takes O(n) time
-		if (ingredients[i].theCollider.gameObject.activeSelf){
-		skiparray[skip] = i;
-		skip++;
-		}
-		}
-
-		for (int i = 0; i < skip-1; i ++){
-		int j = skip-1;
-		while(j > i){
-		Physics2D.IgnoreCollision(ingredients[skiparray[i]].theCollider, ingredients[skiparray[j]].theCollider, true);
-		j--;
-		}
+			ingredients[i].pot = this;
+			ingredients[i].name = "Ingredient " + i.ToString();
+			ingredients[i].state = PotionIngredient.State.Idle;
+			if (i > 0 && ingredients[i].theCollider.gameObject.activeSelf){
+			for(int j = i-1; j >= 0; j--){
+			if (ingredients[j].theCollider.gameObject.activeSelf){
+			skiparray[j] = 0;
+			Physics2D.IgnoreCollision(ingredients[i].theCollider, ingredients[j].theCollider, true);
+			} else {
+			skiparray[j]++;
+			}
+			}
+			}
+			
 		}
 		int ingSlot = ingredientSlots.Length;
 		availableIngredients = new List<PotionIngredient>(allIngredients);
