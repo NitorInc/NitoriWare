@@ -85,7 +85,7 @@ public class Spider : MonoBehaviour
 		{
 			mouthAngle -= Time.deltaTime * munchSpeed;
 			mouthClosing = mouthAngle >= 0f;
-			mouthAngle = Math.Max(0f, mouthAngle);
+			mouthAngle = Mathf.Max(0f, mouthAngle);
 		}
 		else
 		{
@@ -112,10 +112,10 @@ public class Spider : MonoBehaviour
 		updateMouth();
 
 		bool flipped = cursorPosition.x > transform.position.x;
-		transform.localScale = new Vector3(1f, flipped ? -1f : 1f, 1f)
+        transform.localScale = new Vector3(1f, flipped ? -1f : 1f, 1f);
 		
 
-		if (distance <=  eatRadius)
+		if (distance <= eatRadius)
 		{
 			food.eaten = true;
 			mouthClosing = true;
