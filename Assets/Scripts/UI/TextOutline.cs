@@ -70,13 +70,10 @@ public class TextOutline : MonoBehaviour
 		}
 	}
 
-	private static Vector3[] offsets = {
-		new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0), new Vector3(1, -1, 0),
-		new Vector3(0, -1, 0), new Vector3(-1, -1, 0), new Vector3(-1, 0, 0), new Vector3(-1, 1, 0)
-	};
-
 	Vector3 GetOffset(int i)
 	{
-		return offsets[i % 8];
+		float x = (i & 3) == 0 ? 0 : (i & 7) < 4 ? 1 : -1;
+		float y = (i & 3) == 2 ? 0 : ((i + 2) & 7) < 4 ? 1 : -1;
+		return new Vector3(x, y, 0);
 	}
 }
