@@ -41,9 +41,7 @@ public class FreezeFrogsTarget : MonoBehaviour
 
 	void updateProgress()
 	{
-		if (progress > 1f)
-			progress = 1f;
-
+		progress = Mathf.Min(1f, progress);
 		Color color = white.color;
 		color.a = progress;
 		white.color = color;
@@ -55,11 +53,7 @@ public class FreezeFrogsTarget : MonoBehaviour
 	{
 		progress = 1f;
 		updateProgress();
-		for (int i = 0; i < particleSystems.Length; i++)
-		{
-			particleSystems[i].Play();
-		}
-
+		for (int i = 0; i < particleSystems.Length;particleSystems[i].Play(), i++);
 		audio.pitch = 1.35f * Time.timeScale;
 		audio.Play();
 	}
@@ -69,10 +63,10 @@ public class FreezeFrogsTarget : MonoBehaviour
 		if (progress < 1f && other.name == "Breath" && MicrogameTimer.instance.beatsLeft >= .5f)
 		{
 			progress += progressFromBreath;
-			if (progress >= 1f)
+		}
+		if (progress >= 1f)
 			{
 				freeze();
 			}
-		}
 	}
 }
