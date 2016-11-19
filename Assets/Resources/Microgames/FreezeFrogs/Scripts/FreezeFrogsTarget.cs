@@ -63,10 +63,11 @@ public class FreezeFrogsTarget : MonoBehaviour
 		if (progress < 1f && other.name == "Breath" && MicrogameTimer.instance.beatsLeft >= .5f)
 		{
 			progress += progressFromBreath;
-		}
-		if (progress >= 1f)
+			if (progress >= 1f)
 			{
 				freeze();
 			}
+		}
+		
 	}
 }
