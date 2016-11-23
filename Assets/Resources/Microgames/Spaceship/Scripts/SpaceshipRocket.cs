@@ -37,6 +37,9 @@ public class SpaceshipRocket : MonoBehaviour
 			spaceshipBodies[i].isKinematic = false;
 			spaceshipBodies[i].AddForce(MathHelper.getVectorFromAngle2D(Random.Range(30f, 150f), 600f));
 			spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 500f);
+
+			//TODO fix Vibrate.cs and remove this
+			spaceshipBodies[i].GetComponent<Vibrate>().enabled = false;
 		}
 
 		explosionParticles.Play();
