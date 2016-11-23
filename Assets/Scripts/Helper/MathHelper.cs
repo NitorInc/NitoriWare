@@ -178,6 +178,31 @@ public class MathHelper
 		}
 	}
 
+	/// <summary>
+	/// Moves an object (frame by frame) to a certain point locally, will return true if the point is reached that frame
+	/// </summary>
+	/// <param name="transform"></param>
+	/// <param name="goalPosition"></param>
+	/// <param name="speed"></param>
+	/// <returns></returns>
+	public static bool moveTowards2DLocal(Transform transform, Vector2 goalPosition, float speed)
+	{
+		float diff = speed * Time.deltaTime;
+
+		Vector2 relativePosition = goalPosition - (Vector2)transform.localPosition;
+
+		if (relativePosition.magnitude <= diff)
+		{
+			transform.localPosition = new Vector3(goalPosition.x, goalPosition.y, transform.localPosition.z);
+			return true;
+		}
+		else
+		{
+			transform.localPosition += (Vector3)resizeVector2D(relativePosition, diff);
+			return false;
+		}
+	}
+
 	public static float clamp(float var, float min, float max)
 	{
 		return Mathf.Min(Mathf.Max(var, min), max);
