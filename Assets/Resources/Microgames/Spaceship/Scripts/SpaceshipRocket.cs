@@ -5,6 +5,7 @@ public class SpaceshipRocket : MonoBehaviour
 {
 
 	public Rigidbody2D[] spaceshipBodies;
+	public Rigidbody2D leftBody, rightBody;
 	public ParticleSystem explosionParticles, liftoffParticles;
 	public SpaceshipBar bar;
 	public Animator shipAnimator;
@@ -59,12 +60,22 @@ public class SpaceshipRocket : MonoBehaviour
 		{
 			spaceshipBodies[i].isKinematic = false;
 			spaceshipBodies[i].AddForce(MathHelper.getVectorFromAngle2D(Random.Range(30f, 150f), 600f));
-			spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 500f);
+			spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 700f);
+			//spaceshipBodies[i].AddForce(MathHelper.getVectorFromAngle2D(Random.Range(3f, 150f), 600f));
+			//spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 500f);
 		}
 
 		explosionParticles.Play();
 
 		CameraShake.instance.setScreenShake(.3f);
 		CameraShake.instance.shakeSpeed = 15f;
+
+		float force = 200f, torque = 20f;
+
+		leftBody.AddForce((Vector3)MathHelper.getVectorFromAngle2D(120f, force));
+		leftBody.AddTorque(torque);
+
+		rightBody.AddForce((Vector3)MathHelper.getVectorFromAngle2D(30f, force));
+		rightBody.AddTorque(torque * -1f);
 	}
 }
