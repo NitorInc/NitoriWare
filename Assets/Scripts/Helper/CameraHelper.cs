@@ -58,11 +58,21 @@ public class CameraHelper
 		//	|| trans.position.y < (camSize  * -1f) - size);
 	}
 
+	
 	/// <summary>
 	/// Determines the position of the player's cursor in world coordinates, useful for making an object move with the mouse
 	/// </summary>
 	/// <returns></returns>
 	public static Vector3 getCursorPosition()
+	{
+		return getCursorPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition).z);
+	}
+
+	/// <summary>
+	/// Determines the position of the player's cursor in world coordinates with z value specified, useful for making an object move with the mouse
+	/// </summary>
+	/// <returns></returns>
+	public static Vector3 getCursorPosition(float z)
 	{
 		camSize = Camera.main.orthographicSize;
 
@@ -74,6 +84,7 @@ public class CameraHelper
 			Camera.main.transform.position.x + (camSize * 4f / 3f));
 		position.y = MathHelper.clamp(position.y, Camera.main.transform.position.x - camSize,
 			Camera.main.transform.position.x + camSize);
+		position.z = z;
 
 		lastCursorPosition = position;
 		return position;

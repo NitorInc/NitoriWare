@@ -6,7 +6,7 @@ public class CameraShake : MonoBehaviour
 
 	public static CameraShake instance;
 
-	public float xShake, yShake, shakeSpeed, shakeCoolRate;
+	public float xShake, yShake, shakeSpeed, shakeCoolRate = 1f;
 	private Vector3 initialPosition;
 	private Vector3 goalPosition;
 
