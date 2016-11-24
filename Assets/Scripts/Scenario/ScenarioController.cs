@@ -292,6 +292,7 @@ public class ScenarioController : MonoBehaviour
 
 		scenarioCamera.tag = "MainCamera";
 		MicrogameController.instance = null;
+		CameraController.instance = Camera.main.GetComponent<CameraController>();
 		
 		microgameMusicSource.Stop();
 		Cursor.visible = false;
