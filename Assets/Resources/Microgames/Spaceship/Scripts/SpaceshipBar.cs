@@ -3,7 +3,8 @@ using System.Collections;
 
 public class SpaceshipBar : MonoBehaviour
 {
-	public float speed, threshold, minY, maxY;
+	public float speed, threshold, maxScale, arrowMinY, arrowMaxY;
+	public Transform arrow;
 
 	private float progress;
 	private bool goingUp;
@@ -36,6 +37,7 @@ public class SpaceshipBar : MonoBehaviour
 
 	void updatePosition()
 	{
-		transform.localPosition = new Vector3(0f, Mathf.Lerp(minY, maxY, progress), 0f);
+		transform.localScale = new Vector3(1f, Mathf.Lerp(maxScale, 0f, progress), 1f);
+		arrow.localPosition = new Vector3(0f, Mathf.Lerp(arrowMinY, arrowMaxY, progress), 0f);
 	}
 }
