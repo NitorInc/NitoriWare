@@ -17,16 +17,7 @@ public class GameController : MonoBehaviour
 		DontDestroyOnLoad(transform.gameObject);
 		instance = this;
 
-
 		Cursor.visible = false;
-		Camera[] cameras = GameObject.FindObjectsOfType<Camera>();
-
-		foreach (Camera camera in cameras)
-		{
-			camera.aspect = 4f / 3f;
-		}
-
-
 	}
 
 	void Start ()
