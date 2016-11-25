@@ -1,4 +1,4 @@
-![logo](http://i.imgur.com/bXV5368.png)
+![logo](./Assets/Promotional/logo.png)
 
 
 [Twitter](http://twitter.com/nitorinc)<br>
