@@ -20,6 +20,7 @@ public class MicrogameController : MonoBehaviour
 	public GameObject debugObjects;
 
 	private bool victory, victoryDetermined;
+	private Transform commandTransform;
 
 	public enum ControlScheme
 	{
@@ -58,11 +59,12 @@ public class MicrogameController : MonoBehaviour
 			}
 
 			Transform UICam = debugObjects.transform.FindChild("UI Camera");
+			commandTransform = UICam.FindChild("Command");
 			UICam.gameObject.SetActive(true);
 			if (debugCommand)
 			{
-				UICam.FindChild("Command").gameObject.SetActive(true);
-				UICam.FindChild("Command").FindChild("Text").GetComponent<TextMesh>().text = command;
+				commandTransform.gameObject.SetActive(true);
+				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 			}
 
 			if (controlScheme == ControlScheme.Mouse)
@@ -79,6 +81,8 @@ public class MicrogameController : MonoBehaviour
 			MicrogameTimer.instance.gameObject.SetActive(true);
 
 			ScenarioController.instance.microgameMusicSource.clip = musicClip;
+
+			commandTransform = ScenarioController.instance.transform.FindChild("Command");
 
 			ScenarioController.instance.resetVictory();
 			ScenarioController.instance.invokeNextCycle();
@@ -135,6 +139,19 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 			return ScenarioController.instance.getVictoryDetermined();
+	}
+
+	/// <summary>
+	/// Redisplays the command text with the specified message
+	/// </summary>
+	/// <param name="command"></param>
+	public void displayCommand(string command)
+	{
+		if (!commandTransform.gameObject.activeInHierarchy)
+			commandTransform.gameObject.SetActive(true);
+
+		commandTransform.GetComponent<Animator>().Rebind();
+		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 	}
 
 	void Update ()
