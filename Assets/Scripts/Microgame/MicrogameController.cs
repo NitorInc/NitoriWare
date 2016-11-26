@@ -150,7 +150,9 @@ public class MicrogameController : MonoBehaviour
 		if (!commandTransform.gameObject.activeInHierarchy)
 			commandTransform.gameObject.SetActive(true);
 
-		commandTransform.GetComponent<Animator>().Rebind();
+		Animator _animator = commandTransform.GetComponent<Animator>();
+		_animator.Rebind();
+		_animator.Play("Command");
 		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 	}
 
