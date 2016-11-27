@@ -87,7 +87,7 @@ public class SpaceshipRocket : MonoBehaviour
 
 		sceneAnimator.SetInteger("state", (int)state);
 
-		_audioSource.pitch = Time.timeScale;
+		_audioSource.pitch = Time.timeScale * .75f;
 		_audioSource.PlayOneShot(explosionClip);
 	}
 }
