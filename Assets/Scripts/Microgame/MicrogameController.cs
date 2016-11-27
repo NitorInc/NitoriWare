@@ -14,7 +14,7 @@ public class MicrogameController : MonoBehaviour
 	public bool defaultVictory, canEndEarly;
 	public AudioClip musicClip;
 
-	public bool debugMusic, debugCommand, debugTimer, debugTimerTick;
+	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
 	[Range(1, ScenarioController.MAX_SPEED)]
 	public int debugSpeed;
 	public GameObject debugObjects;
@@ -41,7 +41,7 @@ public class MicrogameController : MonoBehaviour
 			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
 
 			MicrogameTimer.instance = debugObjects.transform.FindChild("UI Camera").FindChild("Timer").GetComponent<MicrogameTimer>();
-			MicrogameTimer.instance.beatsLeft = (float)beatDuration;
+			MicrogameTimer.instance.beatsLeft = (float)beatDuration + (debugSimulateDelay ? 1f : 0f);
 			if (!debugTimer)
 				MicrogameTimer.instance.disableDisplay = true;
 			if (debugTimerTick)
@@ -55,7 +55,10 @@ public class MicrogameController : MonoBehaviour
 				AudioSource source = debugObjects.transform.FindChild("Music").GetComponent<AudioSource>();
 				source.clip = musicClip;
 				source.pitch = ScenarioController.getSpeedMult(debugSpeed);
-				source.Play();
+				if (!debugSimulateDelay)
+					source.Play();
+				else
+					AudioHelper.playScheduled(source, ScenarioController.beatLength);
 			}
 
 			Transform UICam = debugObjects.transform.FindChild("UI Camera");
