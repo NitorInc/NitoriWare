@@ -14,18 +14,25 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     void Awake()
     {
         Assert.IsTrue(CommandPrefab.GetComponent<MasterSparkCodeCommand>() != null);
-        for (int i = 0; i < 2*(1+GameLevel); i++)
+        for (int i = 0; i < 2+GameLevel; i++)
         {
-            Vector3 newPosition = new Vector3(-4 + (1 * i), 4, 0);
+            Vector3 newPosition = new Vector3(-4 + (1.5f * i), 4, 0);
             GameObject newObject = Instantiate(CommandPrefab, newPosition, Quaternion.identity) as GameObject;
             MasterSparkCodeCommand newCommand = newObject.GetComponent<MasterSparkCodeCommand>();
+
+            if(i == 0)
+            {
+                newCommand.SetInput((MasterSparkCodeCommandType)Random.Range(0, 4));
+                newCommand.ScaleSelf();
+            }
+
             InputSequence.Enqueue(newCommand);
         }
     }
 
     public bool IsCorrectInput(MasterSparkCodeCommandType playerInput)
     {
-        return playerInput == InputSequence.Peek().GetComponent<MasterSparkCodeCommand>().Input;
+        return playerInput == InputSequence.Peek().Input;
     }
 
     public bool IsEmpty()
@@ -37,7 +44,9 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     {
         InputSequence.Dequeue().DestroySelf();
         foreach (var c in InputSequence.ToList())
-            c.MoveSelf(-1);
+            c.MoveSelf(-1.5f);
+        if(!IsEmpty())
+            InputSequence.Peek().ScaleSelf();
     }
      
 }
