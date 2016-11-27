@@ -14,7 +14,7 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     void Awake()
     {
         Assert.IsTrue(CommandPrefab.GetComponent<MasterSparkCodeCommand>() != null);
-        for (int i = 0; i < GameLevel * 2; i++)
+        for (int i = 0; i < 2*(1+GameLevel); i++)
         {
             Vector3 newPosition = new Vector3(-4 + (1 * i), 4, 0);
             GameObject newObject = Instantiate(CommandPrefab, newPosition, Quaternion.identity) as GameObject;
