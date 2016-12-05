@@ -14,12 +14,13 @@ public class MicrogameController : MonoBehaviour
 	public bool defaultVictory, canEndEarly;
 	public AudioClip musicClip;
 
-	public bool debugMusic, debugCommand, debugTimer, debugTimerTick;
+	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
 	[Range(1, ScenarioController.MAX_SPEED)]
 	public int debugSpeed;
 	public GameObject debugObjects;
 
 	private bool victory, victoryDetermined;
+	private Transform commandTransform;
 
 	public enum ControlScheme
 	{
@@ -40,7 +41,7 @@ public class MicrogameController : MonoBehaviour
 			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
 
 			MicrogameTimer.instance = debugObjects.transform.FindChild("UI Camera").FindChild("Timer").GetComponent<MicrogameTimer>();
-			MicrogameTimer.instance.beatsLeft = (float)beatDuration;
+			MicrogameTimer.instance.beatsLeft = (float)beatDuration + (debugSimulateDelay ? 1f : 0f);
 			if (!debugTimer)
 				MicrogameTimer.instance.disableDisplay = true;
 			if (debugTimerTick)
@@ -54,15 +55,19 @@ public class MicrogameController : MonoBehaviour
 				AudioSource source = debugObjects.transform.FindChild("Music").GetComponent<AudioSource>();
 				source.clip = musicClip;
 				source.pitch = ScenarioController.getSpeedMult(debugSpeed);
-				source.Play();
+				if (!debugSimulateDelay)
+					source.Play();
+				else
+					AudioHelper.playScheduled(source, ScenarioController.beatLength);
 			}
 
 			Transform UICam = debugObjects.transform.FindChild("UI Camera");
+			commandTransform = UICam.FindChild("Command");
 			UICam.gameObject.SetActive(true);
 			if (debugCommand)
 			{
-				UICam.FindChild("Command").gameObject.SetActive(true);
-				UICam.FindChild("Command").FindChild("Text").GetComponent<TextMesh>().text = command;
+				commandTransform.gameObject.SetActive(true);
+				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 			}
 
 			if (controlScheme == ControlScheme.Mouse)
@@ -79,6 +84,8 @@ public class MicrogameController : MonoBehaviour
 			MicrogameTimer.instance.gameObject.SetActive(true);
 
 			ScenarioController.instance.microgameMusicSource.clip = musicClip;
+
+			commandTransform = ScenarioController.instance.transform.FindChild("Command");
 
 			ScenarioController.instance.resetVictory();
 			ScenarioController.instance.invokeNextCycle();
@@ -135,6 +142,21 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 			return ScenarioController.instance.getVictoryDetermined();
+	}
+
+	/// <summary>
+	/// Redisplays the command text with the specified message
+	/// </summary>
+	/// <param name="command"></param>
+	public void displayCommand(string command)
+	{
+		if (!commandTransform.gameObject.activeInHierarchy)
+			commandTransform.gameObject.SetActive(true);
+
+		Animator _animator = commandTransform.GetComponent<Animator>();
+		_animator.Rebind();
+		_animator.Play("Command");
+		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 	}
 
 	void Update ()

@@ -8,14 +8,21 @@ public class SpaceshipRocket : MonoBehaviour
 	public Rigidbody2D leftBody, rightBody;
 	public ParticleSystem explosionParticles, liftoffParticles;
 	public SpaceshipBar bar;
-	public Animator shipAnimator;
+	public Animator shipAnimator, sceneAnimator;
+	public AudioClip liftoffClip, explosionClip;
 
+	private AudioSource _audioSource;
 	private State state = State.Default;
 	private enum State
 	{
 		Default,
 		Victory,
 		Failure
+	}
+
+	void Awake()
+	{
+		_audioSource = GetComponent<AudioSource>();
 	}
 
 	void Update()
@@ -43,6 +50,9 @@ public class SpaceshipRocket : MonoBehaviour
 		}
 		liftoffParticles.Play();
 		shipAnimator.SetInteger("state", (int)state);
+		sceneAnimator.SetInteger("state", (int)state);
+		_audioSource.pitch = Time.timeScale;
+		_audioSource.PlayOneShot(liftoffClip);
 
 
 		CameraShake.instance.xShake = .05f;
@@ -66,16 +76,18 @@ public class SpaceshipRocket : MonoBehaviour
 		}
 
 		explosionParticles.Play();
-
 		CameraShake.instance.setScreenShake(.3f);
 		CameraShake.instance.shakeSpeed = 15f;
 
 		float force = 200f, torque = 20f;
-
 		leftBody.AddForce((Vector3)MathHelper.getVectorFromAngle2D(120f, force));
 		leftBody.AddTorque(torque);
-
 		rightBody.AddForce((Vector3)MathHelper.getVectorFromAngle2D(30f, force));
 		rightBody.AddTorque(torque * -1f);
+
+		sceneAnimator.SetInteger("state", (int)state);
+
+		_audioSource.pitch = Time.timeScale * .75f;
+		_audioSource.PlayOneShot(explosionClip);
 	}
 }
