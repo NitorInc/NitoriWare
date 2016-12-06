@@ -31,11 +31,22 @@ public class CameraShake : MonoBehaviour
 	{
 		xShake = yShake = shake;
 	}
+	
+	public void setScreenShake(float shakeX, float shakeY){
+	xShake = shakeX;
+	yShake = shakeY;
+	}
 
 	/// <summary>
 	/// Adds to the screenshake amplitude instead of overriding it
 	/// </summary>
 	/// <param name="shake"></param>
+	
+	public void addScreenShake(float shakeX, float shakeY){
+	xShake += shakeX;
+	yShake += shakeY;
+	}
+	
 	public void addScreenShake(float shake)
 	{
 		xShake += shake;
