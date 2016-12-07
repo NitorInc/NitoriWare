@@ -8,7 +8,6 @@ public class PotionPot : MonoBehaviour
 	public int ingredientCount;
 	public SpriteRenderer[] ingredientSlots;
 
-	public Sprite[] ingredientSprites;
 	public ParticleSystem[] potParticles, conditionalParticles;
 	public ParticleSystem smokeParticles;
 	public Vibrate potVibrate;
@@ -35,14 +34,17 @@ public class PotionPot : MonoBehaviour
 
 	void Awake()
 	{
-		if (ingredientPool.addToPool(ingredientSprites.Length, true))
+		//if (ingredientPool.addToPool(ingredientSprites.Length, true))
+		//{
+
+		allIngredients = new PotionIngredient[ingredientCount];
+		for (int i = 0; i < allIngredients.Length; i++)
 		{
-			allIngredients = new PotionIngredient[ingredientSprites.Length];
-			for (int i = 0; i < allIngredients.Length; allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>(),  
-			allIngredients[i].spriteRenderer.sprite = ingredientSprites[i], i++);
+			allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>();
+		}
 			
 
-		}
+		//}
 
 		smokeParticles.playbackSpeed = 1.75f;
 
@@ -55,7 +57,7 @@ public class PotionPot : MonoBehaviour
 		int inglen = ingredients.Length; //always make a variable for your length, because finding the length takes O(n) time, but if you use this, it only takes O(1) time
 		List<PotionIngredient> availableIngredients = new List<PotionIngredient>(allIngredients);
 		int index;
-                int[] skiparray = new int[inglen];
+				int[] skiparray = new int[inglen];
 		for (int i = 0; i < inglen; i++)
 		{
 			index = Random.Range(0, availableIngredients.Count);
