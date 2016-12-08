@@ -14,6 +14,7 @@ public class PotionPot : MonoBehaviour
 	public ObjectPool ingredientPool;
 	public Transform ingredientSpawn;
 	public GameObject victoryPotion;
+	public float bubbleFadeSpeed;
 
 	public Animator potAnimator, marisaAnimator;
 
@@ -31,6 +32,14 @@ public class PotionPot : MonoBehaviour
 
 	private PotionIngredient[] ingredients, ingredientsNeeded;
 
+	[SerializeField]
+	private AudioSource _bubbleSource;
+	public AudioSource bubbleSource
+	{
+		get { return _bubbleSource; }
+		set { _bubbleSource = value; }
+	}
+
 
 	void Awake()
 	{
@@ -42,13 +51,30 @@ public class PotionPot : MonoBehaviour
 		{
 			allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>();
 		}
-			
+
 
 		//}
 
 		smokeParticles.playbackSpeed = 1.75f;
 
 		reset();
+	}
+
+	void Update()
+	{
+		if (state != State.Default)
+		{
+			if (bubbleSource.volume > 0f)
+			{
+				bubbleSource.volume -= bubbleFadeSpeed * Time.deltaTime;
+				bubbleSource.volume = Mathf.Max(bubbleSource.volume, 0f);
+			}
+		}
+		else if (!bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)
+		{
+			bubbleSource.pitch = Time.timeScale;
+			bubbleSource.Play();
+		}
 	}
 
 	void resetIngredients()
@@ -213,7 +239,9 @@ public class PotionPot : MonoBehaviour
 						done = false;
 				}
 				if (done)
+				{
 					setState(State.Victory);
+				}
 				return;
 			}
 		}
