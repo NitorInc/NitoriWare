@@ -54,6 +54,7 @@ public class SpaceshipRocket : MonoBehaviour
 		_audioSource.pitch = Time.timeScale;
 		_audioSource.PlayOneShot(liftoffClip);
 
+		leftBody.bodyType = rightBody.bodyType = RigidbodyType2D.Kinematic;
 
 		CameraShake.instance.xShake = .05f;
 		CameraShake.instance.yShake = .025f;
