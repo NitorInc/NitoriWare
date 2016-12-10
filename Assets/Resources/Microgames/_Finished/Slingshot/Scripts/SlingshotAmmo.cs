@@ -175,7 +175,7 @@ public class SlingshotAmmo : MonoBehaviour
 				break;
 			case(State.Flung):
 				updateAudioPan();
-				if (rigidThing.velocity.x > 0f)
+				if (!MicrogameController.instance.getVictory() && rigidThing.velocity.x > 0f)
 					transform.rotation = Quaternion.Euler(0f, 0f, MathHelper.getVectorAngle2D(rigidThing.velocity) * .5f);
 				break;
 			case(State.Broken):
