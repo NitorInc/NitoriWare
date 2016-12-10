@@ -18,6 +18,7 @@ The rundown of how to get started making your game:
 * **IMPORTANT:** Check [this list](https://docs.google.com/spreadsheets/d/1pAbRPJQfDOsKXkEJRFOXd7wY6Tizlwt5xRCTJZqj7SQ/edit?usp=sharing) out to make sure your ID hasn't already been taken.
 * When you decide the ID, create a new branch and begin working on your game! Branch name should ideally be "Microgame/\<YourMicrogameID\>/\<goal-of-this-branch\>".
 * You should submit a pull request once you have a basically functional game and you debug it using the methods in [Debugging](#debugging)
+* **IMPORTANT:** Don't leave any empty folders in your commit! Unity will auto-create .meta files but git will not copy the folder itself over, leading to a struggle between git and unity over the meta existing or not. Either put a placeholder file in empty folders or just delete them before sumbmitting.
 * After your first pull request, keep making a new branch and repeating the same process every time you want to implement a feature or change.
 
 ## Design
