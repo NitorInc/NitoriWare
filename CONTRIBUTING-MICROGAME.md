@@ -2,7 +2,7 @@ Please take some time to read through this before you begin working on microgame
 
 First of all, this game is made using the [Unity engine](https://unity3d.com/get-unity/download). This little tutorial operates under the assumption that you know the very basics of programming in Unity. If you don't, there are like ten hundred million tutorials online on how to get started. If you've never used Unity before, I'd also recommend at least recreating a small simple game like Pong before you try to tackle this project.
 
-I'll probably make a wiki page for this later on, but for now I'll just use this file.
+**SUPER IMPORTANT:** You'll need to use Github for creating and submitting your microgame. It's easy to set up and allows you to work in the actual game project itself. Before you start programming formally, please download and install Github, [fork the repo](http://github.com/nitorinc/nitoriware/fork), and clone it on to your computer. If you need help with any of this, ping me (@Gman8r) on the server or just contact us on social media and I'll run you by the whole thing.
 
 [Basics](#basics)  
 [Design](#design)  
