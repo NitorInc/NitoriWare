@@ -128,6 +128,8 @@ public class SlingshotAmmo : MonoBehaviour
 						audio.pitch -= .5f * Time.timeScale;
 						audio.volume = (getStretchPitch() / Time.timeScale) - .75f;
 						audio.PlayOneShot(launchClip);
+
+						head.GetComponent<Vibrate>().vibrateOn = false;
 					}
 					else
 					{
