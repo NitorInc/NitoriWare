@@ -5,6 +5,8 @@ using System.Collections;
 public class MasterSparkCodeCommand : MonoBehaviour {
 
     public MasterSparkCodeCommandType Input;
+    public bool IsPressed = false;
+    public Animator CommandAnimator;
     public Sprite VisualArrow;
     public Sprite VisualAction;
 
@@ -12,6 +14,12 @@ public class MasterSparkCodeCommand : MonoBehaviour {
 	void Awake () {
         SetInput((MasterSparkCodeCommandType)Random.Range(0, 5));
     }
+
+    private void Update()
+    {
+        if (IsPressed)
+            DestroySelf();
+    } 
 
     public void SetInput(MasterSparkCodeCommandType c)
     {
@@ -40,6 +48,11 @@ public class MasterSparkCodeCommand : MonoBehaviour {
             time += Time.deltaTime;
             this.gameObject.transform.position = Vector3.Lerp(oldPosition, oldPosition + new Vector3(direction,0,0), time);
         }
+    }
+
+    public void SetPressed()
+    {
+        CommandAnimator.SetTrigger("stateVictory");
     }
 
     public void DestroySelf()
