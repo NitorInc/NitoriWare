@@ -7,7 +7,7 @@ public class ChenBikePlayer : MonoBehaviour
 	public Animator chenAnimator;
 	public AudioSource honkSource;
     public static bool honking;
-    public static int ammo = 3;
+    public int ammo = 3;
     public ParticleSystem honkParticle;
     public GameObject count1, count2, count3;
 
