@@ -42,7 +42,7 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
 
     public void DequeueCommand()
     {
-        InputSequence.Dequeue().DestroySelf();
+        InputSequence.Dequeue().SetPressed();
         foreach (var c in InputSequence.ToList())
             c.MoveSelf(-1.5f);
         if(!IsEmpty())
