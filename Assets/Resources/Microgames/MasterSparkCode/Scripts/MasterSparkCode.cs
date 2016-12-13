@@ -6,8 +6,12 @@ public class MasterSparkCode : MonoBehaviour {
     // Game Controller's properties
     public MasterSparkCodeCommandSequence InputSequence;
     public GameObject MarisaObject;
-    public Sprite MarisaWin; // placeholders
-    public Sprite MarisaLose; // placeholders
+    public GameObject EnemyObject;
+    public Animator MarisaController;
+    public Animator CameraController;
+    public Animator EnemyController;
+    public GameObject MasterSparkSuccess;
+    public GameObject MasterSparkFailure;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +20,7 @@ public class MasterSparkCode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!(MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory()))
+        if (!(MicrogameController.instance.getVictoryDetermined()))
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
                 ProcessKey(MasterSparkCodeCommandType.Up);
@@ -31,24 +35,34 @@ public class MasterSparkCode : MonoBehaviour {
         }
 
     }
-    
+
     void ProcessKey(MasterSparkCodeCommandType c)
     {
-        if(InputSequence.IsCorrectInput(c))
+        if (InputSequence.IsCorrectInput(c))
         {
             InputSequence.DequeueCommand();
             if (InputSequence.IsEmpty())
-            {
-                MicrogameController.instance.setVictory(true, true);
-                MarisaObject.GetComponent<SpriteRenderer>().sprite = MarisaWin;
-            }
-
+                SetVictory();
         }
         else
-        {
-            MicrogameController.instance.setVictory(false, true);
-            MarisaObject.GetComponent<SpriteRenderer>().sprite = MarisaLose;
-        }
+            SetFailure();
 
+
+    }
+
+    void SetVictory()
+    {
+        MicrogameController.instance.setVictory(true, true);
+        CameraController.SetTrigger("stateVictory");
+        MarisaController.SetTrigger("stateVictory");
+        EnemyController.SetTrigger("stateVictory");
+        GameObject.Instantiate(MasterSparkSuccess);
+    }
+
+    void SetFailure()
+    {
+        MicrogameController.instance.setVictory(false, true);
+        MarisaController.SetTrigger("stateFailure");
+        GameObject.Instantiate(MasterSparkFailure);
     }
 }
