@@ -59,6 +59,7 @@ The "Microgame Controller" prefab in the scene has an attached script (Microgame
 * Can End Early: Only used for 16 beat microgames, this will allow the game to be cut off early if the player wins or loses permanently
 * Music Clip: The audio clip that will be played for music when the microgame starts (*Don't* play the music in the microgame manually. If you want to hear the music in the microgame scene, check off Debug Music in the Microgame Controller)
 * The rest are debug variables covered in [Debugging](#debugging).
+* **IMPORTANT:** Don't instantiate GameObjects at the beginning of the microgame using the Awake() function! Use Start()! Awake() will execute before the controller sets the active scene to the microgame one, meaning the objects will be created in the wrong scene.
 
 How to handle player victory/loss:
 * When the player has won or lost the game, call the SetVictory() function in MicrogameController. This can be called fro any script using MicrogameController.instance.setVictory() .
