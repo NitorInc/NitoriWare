@@ -6,7 +6,8 @@ public class RockBandNote : MonoBehaviour
 {
 
 	public float distancePerBeat, targetBeat;
-	public bool finalNote;
+	public KeyCode key;
+	public KeyCode[] possibleKeys;
 
 	public State state;
 	public enum State
@@ -18,6 +19,10 @@ public class RockBandNote : MonoBehaviour
 
 	void Start ()
 	{
+		int keyIndex = Random.Range(0, possibleKeys.Length);
+		key = possibleKeys[keyIndex];
+		transform.rotation = Quaternion.Euler(0f, 0f, 90f * keyIndex);
+
 		updatePosition();
 	}
 	

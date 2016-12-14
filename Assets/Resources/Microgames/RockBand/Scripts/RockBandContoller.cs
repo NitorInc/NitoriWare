@@ -50,16 +50,25 @@ public class RockBandContoller : MonoBehaviour
 
 	void checkForInput()
 	{
-		//TODO Correct arrow directions
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.RightArrow)
+			|| Input.GetKeyDown(KeyCode.UpArrow)
+			|| Input.GetKeyDown(KeyCode.LeftArrow)
+			|| Input.GetKeyDown(KeyCode.DownArrow))
 		{
 			for (int i = 0; i < notes.Length; i++)
 			{
 				if (notes[i].state == RockBandNote.State.InRange)
 				{
-					notes[i].playNote();
-					if (i == notes.Length - 1)
-						victory();
+					if (Input.GetKeyDown(notes[i].key))
+					{
+						notes[i].playNote();
+						if (i == notes.Length - 1)
+							victory();
+					}
+					else
+					{
+						failure();
+					}
 					return;
 				}
 			}
