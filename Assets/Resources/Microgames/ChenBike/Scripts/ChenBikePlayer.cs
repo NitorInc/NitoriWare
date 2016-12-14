@@ -10,8 +10,10 @@ public class ChenBikePlayer : MonoBehaviour
     public int ammo = 3;
     public ParticleSystem honkParticle;
     public GameObject count1, count2, count3;
+    public ChenBikePlayerFail ifdead;
+    public ChenBikePlayerFail ifdead2;
 
-	void Awake()
+    void Awake()
 	{
 		/* FEEDBACK: Do not use getComponent() every Update. It is slow.
 		 * getComponent() should generally be stored as a value in Awake()
@@ -29,7 +31,7 @@ public class ChenBikePlayer : MonoBehaviour
 	{
         //FEEDBACK: No need to nest two if statements here since you could just use an And (&&)
         //And Input.GetKeyDown("z") won't even be checked if the first part is false, meaning it's the same computation time
-        if (chenAnimator.GetCurrentAnimatorStateInfo(1).IsName("HonkLayer.Idle") && Input.GetKeyDown("z") && (ammo > 0) && (ChenBikePlayerFail.dead == false))
+        if (chenAnimator.GetCurrentAnimatorStateInfo(1).IsName("HonkLayer.Idle") && Input.GetKeyDown("z") && (ammo > 0) && (ifdead2.dead == false) &&(ifdead.dead == false))
         {
             chenAnimator.Play("ChenHonk");
             honkParticle.Play(true);

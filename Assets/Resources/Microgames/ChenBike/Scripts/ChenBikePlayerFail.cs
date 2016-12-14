@@ -4,7 +4,7 @@ using System.Collections;
 public class ChenBikePlayerFail : MonoBehaviour
 {
 	public Animator chenAnimator;
-    public static bool dead = false;
+    public bool dead = false;
     public ChenCameraController chenspeed;
     public SpriteRenderer camera_darken;
     public SpriteRenderer alt_light;
