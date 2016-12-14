@@ -13,6 +13,8 @@ public class ChenCharacterBehavior : MonoBehaviour {
     private Rigidbody2D rigidBody;
     public GameObject questionm;
     public Animator charAnimator;
+    public ChenBikePlayerFail ifdead;
+    public ChenBikePlayerFail ifdead2;
 
     // Use this for initialization
     void Start () {
@@ -55,8 +57,11 @@ public class ChenCharacterBehavior : MonoBehaviour {
 
         if (honkedat == false && other.name == "ChenBody")
         {
-            Destroy(gameObject);
-            MicrogameController.instance.setVictory(false, true);
+            honkedat = true; //placeholder
+            spriteRenderer.sprite = placeholderhonkedsprite; //placeholder
+            Destroy(questionm); //placeholder
+            ifdead.dead = true;
+            ifdead2.dead = true;
         }
     }
 }
