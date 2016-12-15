@@ -76,7 +76,7 @@ public class PotionPot : MonoBehaviour
 			Vector3 position = spawn.position + new Vector3(Random.Range(-.5f * spawn.localScale.x, .5f * spawn.localScale.z), 0f, 0f);
 			ingredients[i].transform.position = new Vector3(position.x, position.y, ingredients[i].transform.position.z);
 			ingredients[i].pot = this;
-			ingredients[i].name = "Ingredient " + i.ToString();
+			ingredients[i].transform.parent = potionPool.transform;
 			ingredients[i].state = PotionIngredient.State.Idle;
 			
 			if (i > 0 && ingredients[i].theCollider.gameObject.activeSelf)
