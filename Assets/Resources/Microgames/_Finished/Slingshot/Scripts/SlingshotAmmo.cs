@@ -108,12 +108,13 @@ public class SlingshotAmmo : MonoBehaviour
 				snapToMouse();
 				audio.pitch = getStretchPitch();
 				updateAudioPan();
+				Vector2 diff = (Vector2)initialPosition - (Vector2)transform.position;
+				transform.rotation = Quaternion.Euler(0f, 0f,
+					.5f * MathHelper.getVectorAngle2D(diff)
+					* Mathf.Lerp(0f, 1f, Mathf.Abs(diff.y))
+					* Mathf.Lerp(0f, 1f, diff.x));
 				if (!Input.GetMouseButton(0))
-				{
-
-					Vector2 diff = (Vector2)initialPosition - (Vector2)transform.position;
-
-					
+				{	
 					audio.Stop();
 					//audio.pitch = Time.timeScale;
 					if (diff.magnitude > 0f)
@@ -128,6 +129,8 @@ public class SlingshotAmmo : MonoBehaviour
 						audio.pitch -= .5f * Time.timeScale;
 						audio.volume = (getStretchPitch() / Time.timeScale) - .75f;
 						audio.PlayOneShot(launchClip);
+
+						head.GetComponent<Vibrate>().vibrateOn = false;
 					}
 					else
 					{
@@ -172,6 +175,8 @@ public class SlingshotAmmo : MonoBehaviour
 				break;
 			case(State.Flung):
 				updateAudioPan();
+				if (!MicrogameController.instance.getVictory() && rigidThing.velocity.x > 0f)
+					transform.rotation = Quaternion.Euler(0f, 0f, MathHelper.getVectorAngle2D(rigidThing.velocity) * .5f);
 				break;
 			case(State.Broken):
 				rigidThing.MoveRotation(rigidThing.rotation + (brokenRotateSpeed * 5f * Time.deltaTime));
