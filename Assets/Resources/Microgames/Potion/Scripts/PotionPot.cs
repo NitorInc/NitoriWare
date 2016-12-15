@@ -28,8 +28,6 @@ public class PotionPot : MonoBehaviour
 		Failure
 	}
 
-	//private static PotionIngredient[] allIngredients;
-
 	private PotionIngredient[] ingredients, ingredientsNeeded;
 
 	[SerializeField]
@@ -43,19 +41,7 @@ public class PotionPot : MonoBehaviour
 
 	void Awake()
 	{
-		//if (ingredientPool.addToPool(ingredientSprites.Length, true))
-		//{
-
 		ingredients = potionPool.createPool(ingredientCount);
-		Debug.Log(ingredients.Length);
-		//for (int i = 0; i < allIngredients.Length; i++)
-		//{
-		//	allIngredients[i] = ingredientPool.getObjectWithoutUnpooling(i).GetComponent<PotionIngredient>();
-		//}
-
-
-		//}
-
 		smokeParticles.playbackSpeed = 1.75f;
 
 		reset();
@@ -80,18 +66,11 @@ public class PotionPot : MonoBehaviour
 
 	void resetIngredients()
 	{
-		int inglen = ingredients.Length; //always make a variable for your length, because finding the length takes O(n) time, but if you use this, it only takes O(1) time
+		int inglen = ingredients.Length;
 		int index;
 		int[] skiparray = new int[inglen];
 		for (int i = 0; i < inglen; i++)
 		{
-			//index = Random.Range(0, availableIngredients.Count);
-			//ingredients[i] = availableIngredients[index];
-			//availableIngredients.RemoveAt(index);
-
-			//ingredientPool.getObjectFromPool(ingredients[i].gameObject);
-
-			//Transform spawn = ingredientSpawn.GetChild(Random.Range(0, ingredientSpawn.childCount));
 
 			Transform spawn = ingredientSpawn.GetChild(i % ingredientSpawn.childCount);
 			Vector3 position = spawn.position + new Vector3(Random.Range(-.5f * spawn.localScale.x, .5f * spawn.localScale.z), 0f, 0f);
@@ -100,7 +79,6 @@ public class PotionPot : MonoBehaviour
 			ingredients[i].name = "Ingredient " + i.ToString();
 			ingredients[i].state = PotionIngredient.State.Idle;
 			
-			//Obsolete?
 			if (i > 0 && ingredients[i].theCollider.gameObject.activeSelf)
 			{
 				for (int j = i - 1; j >= 0; j--)
@@ -186,15 +164,7 @@ public class PotionPot : MonoBehaviour
 		}
 	}
 
-	//void playContitionalParticles()
-	//{
-	//	foreach (ParticleSystem particles in conditionalParticles)
-	//	{
-	//		particles.Play();
-	//	}
-	//}
-
-	void killContitionalParticles()
+	void killConditionalParticles()
 	{
 		foreach (ParticleSystem particles in conditionalParticles)
 		{
@@ -213,8 +183,7 @@ public class PotionPot : MonoBehaviour
 		{
 			case (State.Default):
 				potVibrate.vibrateOn = false;
-				//CameraController.instance.reset();
-				killContitionalParticles();
+				killConditionalParticles();
 				break;
 			case(State.Victory):
 				stopPotParticles();
