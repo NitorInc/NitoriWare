@@ -206,7 +206,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1336011883}
+  - {fileID: 840235048}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6154,6 +6154,53 @@ ParticleSystem:
       minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       minMaxState: 0
+--- !u!1 &840235047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 840235048}
+  - component: {fileID: 840235049}
+  m_Layer: 0
+  m_Name: Ingredients
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &840235048
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 840235047}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 141577530}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &840235049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 840235047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c409366d2d26cd478ef9e958637e91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredients:
+  - {fileID: 1432221295099578, guid: 24c595e093c204144a0a0ea4d5e56626, type: 2}
+  - {fileID: 1324892513190186, guid: 28a84a7cd6a189f4aaface5b8b18e32a, type: 2}
+  - {fileID: 1896079519093100, guid: 86b5bb1e508ae314ea54c1e957f376b0, type: 2}
+  - {fileID: 1919628012588728, guid: fdc5fab5f780f8646b38aa625f779c9c, type: 2}
+  - {fileID: 1898585390215102, guid: 460c05da2f99d95409e5b50ef60fd2c6, type: 2}
+  - {fileID: 1798989975787416, guid: 048a74a7e0605454cb9de170eb4b5d66, type: 2}
 --- !u!1 &861520060
 GameObject:
   m_ObjectHideFlags: 0
@@ -11681,10 +11728,15 @@ Prefab:
         type: 2}
       propertyPath: musicClip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 7dec1b4fc11de824abb5c5c9f63a9609, type: 3}
     - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
         type: 2}
       propertyPath: debugMusic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugTimerTick
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -17382,49 +17434,6 @@ Transform:
   m_Father: {fileID: 1457429221}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1336011882
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1336011883}
-  - component: {fileID: 1336011884}
-  m_Layer: 0
-  m_Name: Ingredients
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1336011883
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1336011882}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 141577530}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1336011884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1336011882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0e3f3a5deb3c4f418afd55e5e6678ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  addChildrenToPool: 0
-  createObjectsOnAwake: 0
-  prefab: {fileID: 119808, guid: 6370964af5a985a448d7db5cf7e913f4, type: 2}
 --- !u!1 &1396423959
 GameObject:
   m_ObjectHideFlags: 0
@@ -22968,6 +22977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1488874562}
   - component: {fileID: 1488874563}
+  - component: {fileID: 1488874564}
   m_Layer: 0
   m_Name: Pot
   m_TagString: Untagged
@@ -23004,13 +23014,6 @@ MonoBehaviour:
   ingredientSlots:
   - {fileID: 2086511321}
   - {fileID: 244535687}
-  ingredientSprites:
-  - {fileID: 21300000, guid: b54642cb2e58c8645aa854de7df8737a, type: 3}
-  - {fileID: 21300000, guid: 9f8ae552ae55c994481732f5b838ed0e, type: 3}
-  - {fileID: 21300000, guid: fd8c173d3a32cd242a9107bffe899b99, type: 3}
-  - {fileID: 21300000, guid: ea5d491f1f668d94f9a5f3bb7ea2bdd3, type: 3}
-  - {fileID: 21300000, guid: 554234db09e041547b2dbbc21b558c99, type: 3}
-  - {fileID: 21300000, guid: 7e6e2ffaaadf6ce4fadaf434053ac23e, type: 3}
   potParticles:
   - {fileID: 2011879105}
   - {fileID: 1214175382}
@@ -23022,14 +23025,96 @@ MonoBehaviour:
   - {fileID: 884291472}
   - {fileID: 693353780}
   smokeParticles: {fileID: 884291472}
+  potionPool: {fileID: 840235049}
   potVibrate: {fileID: 170726716}
-  ingredientPool: {fileID: 1336011884}
   ingredientSpawn: {fileID: 984744820}
   victoryPotion: {fileID: 1792787701}
+  bubbleFadeSpeed: 5
   potAnimator: {fileID: 571719120}
   marisaAnimator: {fileID: 1097669062}
   texturesToLoad: []
   state: 0
+  _bubbleSource: {fileID: 1488874564}
+--- !u!82 &1488874564
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1488874561}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 049259a7d0fb85e47b8906066bb4059d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &1495825312
 GameObject:
   m_ObjectHideFlags: 0
