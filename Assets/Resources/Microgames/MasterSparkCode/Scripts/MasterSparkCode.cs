@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class MasterSparkCode : MonoBehaviour {
 
@@ -11,6 +11,12 @@ public class MasterSparkCode : MonoBehaviour {
     public Animator CameraController;
     public GameObject MasterSparkSuccess;
     public GameObject MasterSparkFailure;
+    public List<AudioSource> AudioSources;
+
+    void Start () {
+        foreach (var a in AudioSources)
+            a.pitch = Time.timeScale;
+    }
 	
 	// Update is called once per frame
 	void Update () {

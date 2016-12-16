@@ -29,6 +29,9 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
 
             InputSequence.Enqueue(newCommand);
         }
+
+        // For speedups
+        Audio.pitch = Time.timeScale;
     }
 
     public bool IsCorrectInput(MasterSparkCodeCommandType playerInput)
