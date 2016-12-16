@@ -11,7 +11,7 @@ public class MasterSparkCodeCommand : MonoBehaviour {
     public Sprite VisualAction;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
         SetInput((MasterSparkCodeCommandType)Random.Range(0, 5));
     }
 

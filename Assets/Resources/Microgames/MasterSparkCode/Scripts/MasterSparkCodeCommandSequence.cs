@@ -9,9 +9,10 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
 
     public Queue<MasterSparkCodeCommand> InputSequence = new Queue<MasterSparkCodeCommand>();
     public GameObject CommandPrefab;
+    public AudioSource Audio;
     public int GameLevel;
 
-    void Awake()
+    void Start()
     {
         Assert.IsTrue(CommandPrefab.GetComponent<MasterSparkCodeCommand>() != null);
         for (int i = 0; i < 2+GameLevel; i++)
@@ -43,6 +44,7 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     public void DequeueCommand()
     {
         InputSequence.Dequeue().SetPressed();
+        Audio.Play();
         foreach (var c in InputSequence.ToList())
             c.MoveSelf(-1.5f);
         if(!IsEmpty())
