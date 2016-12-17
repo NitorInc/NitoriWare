@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class MasterSparkCode : MonoBehaviour {
 
@@ -9,14 +9,14 @@ public class MasterSparkCode : MonoBehaviour {
     public GameObject EnemyObject;
     public Animator MarisaController;
     public Animator CameraController;
-    public Animator EnemyController;
     public GameObject MasterSparkSuccess;
     public GameObject MasterSparkFailure;
+    public List<AudioSource> AudioSources;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    void Start () {
+        foreach (var a in AudioSources)
+            a.pitch = Time.timeScale;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -55,14 +55,11 @@ public class MasterSparkCode : MonoBehaviour {
         MicrogameController.instance.setVictory(true, true);
         CameraController.SetTrigger("stateVictory");
         MarisaController.SetTrigger("stateVictory");
-        EnemyController.SetTrigger("stateVictory");
-        GameObject.Instantiate(MasterSparkSuccess);
     }
 
     void SetFailure()
     {
         MicrogameController.instance.setVictory(false, true);
         MarisaController.SetTrigger("stateFailure");
-        GameObject.Instantiate(MasterSparkFailure);
     }
 }
