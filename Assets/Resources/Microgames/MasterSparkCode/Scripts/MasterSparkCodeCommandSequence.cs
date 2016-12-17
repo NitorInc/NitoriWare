@@ -20,13 +20,8 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
             Vector3 newPosition = new Vector3(-4 + (1.5f * i), 4, 0);
             GameObject newObject = Instantiate(CommandPrefab, newPosition, Quaternion.identity) as GameObject;
             MasterSparkCodeCommand newCommand = newObject.GetComponent<MasterSparkCodeCommand>();
-
-            if(i == 0)
-            {
-                newCommand.SetInput((MasterSparkCodeCommandType)Random.Range(0, 4));
-                newCommand.ScaleSelf();
-            }
-
+            newCommand.SetInput((MasterSparkCodeCommandType)Random.Range(0,(i==0)?4:5));
+            newCommand.ScaleSelf();
             InputSequence.Enqueue(newCommand);
         }
 
