@@ -20,9 +20,9 @@ public class SpaceshipBar : MonoBehaviour
 	{
 		progress += speed * Time.deltaTime * (goingUp ? 1f : -1f);
 		
-		if (progress > 1f || progress < 0f)
+		if (progress != Mathf.Clamp01(progress))
 		{
-			progress = Mathf.Clamp(progress, 0f, 1f);
+			progress = Mathf.Clamp01(progress);
 			goingUp = !goingUp;
 		}
 
