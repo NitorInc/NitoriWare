@@ -19,12 +19,12 @@ public class ChenBikePlayerFail : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-        if (dead == true)
+        if (dead) //you can just do this with bools, you don't need == true
         {
             chenAnimator.Play("ChenRIP");
             MicrogameController.instance.setVictory(false, true);
             chenspeed.speed = 1;
-            if (check_for_light == true)
+            if (check_for_light)
             {
                 camera_darken.enabled = true;
                 alt_light.enabled = true;
