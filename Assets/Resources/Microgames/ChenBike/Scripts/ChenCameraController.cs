@@ -13,8 +13,7 @@ public class ChenCameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        newPosition.x += Time.deltaTime * speed;
-        newPosition.y -= Time.deltaTime * speed / divider;
+        newPosition += (Time.deltaTime * speed, -Time.deltaTime * speed/divider, 0f);
         transform.position = newPosition;
 	}
 }
