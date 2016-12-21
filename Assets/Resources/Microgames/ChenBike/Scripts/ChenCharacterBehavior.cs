@@ -25,10 +25,9 @@ public class ChenCharacterBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (honkedat == false)
+        if (!honkedat)
         {
-            newPosition.x += Time.deltaTime * speed;
-            newPosition.y -= Time.deltaTime * speed / divider;
+             newPosition += new Vector3(Time.deltaTime * speed, -Time.deltaTime * speed/divider, 0f);
             transform.position = newPosition;
         } else
         {
@@ -48,20 +47,17 @@ public class ChenCharacterBehavior : MonoBehaviour {
 
     void collide(Collider2D other)
     {
-        if (ChenBikePlayer.honking == true && other.name == "ChenHonk")
+        if ((ChenBikePlayer.honking && other.name.Contains("ChenHonk")) || (!honkedat && other.name.Contains("ChenBody"))) //this is something i do a lot w/ unity b/c sometimes the name isn't exact
         {
             honkedat = true;
             spriteRenderer.sprite = placeholderhonkedsprite; //placeholder
             Destroy(questionm);
-        }
-
-        if (honkedat == false && other.name == "ChenBody")
+	if (!honkedat && other.name.Contains("ChenBody"))
         {
-            honkedat = true; //placeholder
-            spriteRenderer.sprite = placeholderhonkedsprite; //placeholder
-            Destroy(questionm); //placeholder
+           
             ifdead.dead = true;
             ifdead2.dead = true;
+        }
         }
     }
 }
