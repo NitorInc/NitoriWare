@@ -7,14 +7,13 @@ public class ChenBikePlayer : MonoBehaviour
 	public Animator chenAnimator;
 	public AudioSource honkSource;
     public static bool honking;
-    public int ammo;
+    public int ammo = 3;
     public ParticleSystem honkParticle;
     public GameObject[] count; //look in the inspector, and set count's size to 3. then put your gameobjects in.
     public ChenBikePlayerFail ifdead, ifdead2;
 
     void Awake()
 	{
-	ammo = 3;
 		/* FEEDBACK: Do not use getComponent() every Update. It is slow.
 		 * getComponent() should generally be stored as a value in Awake()
 		 * 
@@ -47,9 +46,7 @@ public class ChenBikePlayer : MonoBehaviour
         // it's too easy if for the whole duration of the sound
         // and unfair if player can honk only when characters are in range
         // thanks to this the player can honk prematurely a bit and win
-        if (honkSource.isPlaying && honkSource.time < BikeHorn.length/2f)
-            honking = true;
-        else
-            honking = false;
+        
+            honking = honkSource.isPlaying && honkSource.time < BikeHorn.length/2f;
 	}
 }
