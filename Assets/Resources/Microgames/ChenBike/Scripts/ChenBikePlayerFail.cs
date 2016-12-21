@@ -4,7 +4,7 @@ using System.Collections;
 public class ChenBikePlayerFail : MonoBehaviour
 {
 	public Animator chenAnimator;
-    public bool dead;
+    public bool dead = false;
     public ChenCameraController chenspeed;
     public SpriteRenderer camera_darken;
     public SpriteRenderer alt_light;
@@ -13,7 +13,6 @@ public class ChenBikePlayerFail : MonoBehaviour
 
 	void Awake()
 	{
-	dead = false; //i think defining values outside of functions makes them const
 		chenAnimator = GetComponent<Animator>();
 	}
 
