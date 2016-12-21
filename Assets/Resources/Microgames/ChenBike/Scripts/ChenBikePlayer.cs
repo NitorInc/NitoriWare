@@ -7,14 +7,14 @@ public class ChenBikePlayer : MonoBehaviour
 	public Animator chenAnimator;
 	public AudioSource honkSource;
     public static bool honking;
-    public int ammo = 3;
+    public int ammo;
     public ParticleSystem honkParticle;
-    public GameObject count1, count2, count3;
-    public ChenBikePlayerFail ifdead;
-    public ChenBikePlayerFail ifdead2;
+    public GameObject[] count; //look in the inspector, and set count's size to 3. then put your gameobjects in.
+    public ChenBikePlayerFail ifdead, ifdead2;
 
     void Awake()
 	{
+	ammo = 3;
 		/* FEEDBACK: Do not use getComponent() every Update. It is slow.
 		 * getComponent() should generally be stored as a value in Awake()
 		 * 
@@ -31,20 +31,15 @@ public class ChenBikePlayer : MonoBehaviour
 	{
         //FEEDBACK: No need to nest two if statements here since you could just use an And (&&)
         //And Input.GetKeyDown("z") won't even be checked if the first part is false, meaning it's the same computation time
-        if (chenAnimator.GetCurrentAnimatorStateInfo(1).IsName("HonkLayer.Idle") && Input.GetKeyDown("z") && (ammo > 0) && (ifdead2.dead == false) &&(ifdead.dead == false))
+        if (chenAnimator.GetCurrentAnimatorStateInfo(1).IsName("HonkLayer.Idle") && Input.GetKeyDown("z") && ammo > 0 && (ifdead2.dead == false) &&(ifdead.dead == false))
         {
             chenAnimator.Play("ChenHonk");
             honkParticle.Play(true);
             //FEEDBACK: Use Time.timescale for pitch in audioSources, so the pitch is increased when the game is faster
             honkSource.pitch = Time.timeScale;
             honkSource.PlayOneShot(BikeHorn, 1F);
-            if (ammo == 3)
-                Destroy(count3);
-            if (ammo == 2)
-                Destroy(count2);
-            if (ammo == 1)
-                Destroy(count1);
-            ammo -= 1;
+	    ammo--;
+            Destroy(count[ammo]);
 
         }
 
