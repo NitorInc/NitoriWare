@@ -4,7 +4,7 @@ using System.Collections;
 public class ChenBikePlayerFail : MonoBehaviour
 {
 	public Animator chenAnimator;
-    public bool dead = false;
+    public bool dead;
     public ChenCameraController chenspeed;
     public SpriteRenderer camera_darken;
     public SpriteRenderer alt_light;
@@ -13,18 +13,19 @@ public class ChenBikePlayerFail : MonoBehaviour
 
 	void Awake()
 	{
+	dead = false; //i think defining values outside of functions makes them const
 		chenAnimator = GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-        if (dead == true)
+        if (dead) //you can just do this with bools, you don't need == true
         {
             chenAnimator.Play("ChenRIP");
             MicrogameController.instance.setVictory(false, true);
             chenspeed.speed = 1;
-            if (check_for_light == true)
+            if (check_for_light)
             {
                 camera_darken.enabled = true;
                 alt_light.enabled = true;
