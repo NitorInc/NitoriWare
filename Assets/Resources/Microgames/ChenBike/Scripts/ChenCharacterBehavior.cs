@@ -52,7 +52,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
             honkedat = true;
             spriteRenderer.sprite = placeholderhonkedsprite; //placeholder
             Destroy(questionm);
-	if (!honkedat && other.name.Contains("ChenBody"))
+	if (other.name.Contains("ChenBody"))
         {
            
             ifdead.dead = true;
