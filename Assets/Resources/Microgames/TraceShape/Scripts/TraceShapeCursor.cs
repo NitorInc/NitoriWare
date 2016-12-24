@@ -88,7 +88,7 @@ public class TraceShapeCursor : MonoBehaviour
 		MicrogameController.instance.setVictory(false, true);
 
 		//TODO Failure
-		Debug.Log("You lose!");
+		//Debug.Log("You lose!");
 		enabled = false;
 		disableSprite();
 	}
