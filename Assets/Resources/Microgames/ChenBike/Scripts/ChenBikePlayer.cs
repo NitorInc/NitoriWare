@@ -31,7 +31,7 @@ public class ChenBikePlayer : MonoBehaviour
 	{
         //FEEDBACK: No need to nest two if statements here since you could just use an And (&&)
         //And Input.GetKeyDown("z") won't even be checked if the first part is false, meaning it's the same computation time
-        if (chenAnimator.GetCurrentAnimatorStateInfo(1).IsName("HonkLayer.Idle") && Input.GetKeyDown("z") && (ammo > 0) && (ifdead2.dead == false) &&(ifdead.dead == false))
+        if (chenAnimator.GetCurrentAnimatorStateInfo(1).IsName("HonkLayer.Idle") && Input.GetKeyDown(KeyCode.Space) && (ammo > 0) && (ifdead2.dead == false) &&(ifdead.dead == false))
         {
             chenAnimator.Play("ChenHonk");
             honkParticle.Play(true);
