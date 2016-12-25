@@ -78,7 +78,6 @@ public class MicrogameController : MonoBehaviour
 			//Normal Start
 			ScenarioController.instance.scenarioCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
-			SceneManager.SetActiveScene(gameObject.scene);
 
 			MicrogameTimer.instance.beatsLeft = ScenarioController.instance.getBeatsRemaining();
 			MicrogameTimer.instance.gameObject.SetActive(true);
@@ -93,6 +92,10 @@ public class MicrogameController : MonoBehaviour
 
 	}
 
+	void Start()
+	{
+		SceneManager.SetActiveScene(gameObject.scene);
+	}
 
 	/// <summary>
 	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again

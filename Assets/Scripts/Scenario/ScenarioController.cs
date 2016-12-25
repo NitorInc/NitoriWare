@@ -196,7 +196,7 @@ public class ScenarioController : MonoBehaviour
 				else
 					speed = 1;
 			}
-			else if (index == 3 || index == 6)
+			else if (index == 4 || index == 8)
 				speed++;
 
 			if (speed > MAX_SPEED)
@@ -465,7 +465,7 @@ public class ScenarioController : MonoBehaviour
 
 	public static float getSpeedMult(int speed)
 	{
-		return 1f + ((float)(speed - 1) * .15f);
+		return 1f + ((float)(speed - 1) * .125f);
 	}
 
 	private void setAnimationBool(string name, bool state)

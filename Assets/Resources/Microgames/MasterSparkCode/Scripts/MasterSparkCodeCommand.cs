@@ -10,11 +10,6 @@ public class MasterSparkCodeCommand : MonoBehaviour {
     public Sprite VisualArrow;
     public Sprite VisualAction;
 
-	// Use this for initialization
-	void Awake () {
-        SetInput((MasterSparkCodeCommandType)Random.Range(0, 5));
-    }
-
     private void Update()
     {
         if (IsPressed)
