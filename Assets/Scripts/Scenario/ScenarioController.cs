@@ -12,7 +12,7 @@ public class ScenarioController : MonoBehaviour
 	public bool shuffleOn, speedIncreaseOn, difficultyIncreaseOn;
 	[Range(1, MAX_SPEED)]
 	public int speed;
-	public bool muteMusic;
+	public bool muteMusic, speedUpAnimation;
 	public Microgame[] microgamePool;
 
 	public int maxStockpiledScenes;
@@ -217,10 +217,10 @@ public class ScenarioController : MonoBehaviour
 		outroSource.pitch = getSpeedMult();
 		if (!muteMusic && life > 0)
 		{
-			if (interruption == Interruption.Nothing)
-				AudioHelper.playScheduled(outroSource, beatLength * 4f);
-			else
+			if (interruption == Interruption.SpeedUp && speedUpAnimation)
 				AudioHelper.playScheduled(outroSource, beatLength * 12f);
+			else
+				AudioHelper.playScheduled(outroSource, beatLength * 4f);
 		}
 
 	}
@@ -316,8 +316,11 @@ public class ScenarioController : MonoBehaviour
 			if (index == 4 || index == 8)
 			{
 				interruption = Interruption.SpeedUp;
-				invokeAtBeat("updateToSpeedUp", 4f);
-				animationStartTime += beatLength * 8f;
+				if (speedUpAnimation)
+				{
+					invokeAtBeat("updateToSpeedUp", 4f);
+					animationStartTime += beatLength * 8f;
+				}
 			}
 			else
 				interruption = Interruption.Nothing;
@@ -492,15 +495,15 @@ public class ScenarioController : MonoBehaviour
 		animationStartTime -= beatLength * beatsEarly;
 
 		//Redo invokes with new time
-		if (interruption == Interruption.Nothing)
-			invokeIntroAnimations();
-		else if (interruption == Interruption.SpeedUp)
+		if (interruption == Interruption.SpeedUp && speedUpAnimation)
 		{
 			animationStartTime -= beatLength * 8f;
 			invokeIntroAnimations();
 			invokeAtBeat("updateToSpeedUp", 4f);
 			animationStartTime += beatLength * 8f;
 		}
+		else
+			invokeIntroAnimations();
 
 		invokeOutroAnimations();
 	}
