@@ -8,6 +8,7 @@ public class RockBandContoller : MonoBehaviour
 
 	public RockBandNote[] notes;
 	public Animator kyoani, mystiaAnimator;
+	public RockBandLight[] lights;
 
 	private State state;
 	public enum State
@@ -27,6 +28,10 @@ public class RockBandContoller : MonoBehaviour
 	{
 		setState(State.Victory);
 		MicrogameController.instance.setVictory(true, true);
+		foreach (RockBandLight light in lights)
+		{
+			light.onVictory();
+		}
 	}
 
 	public void failure()
@@ -67,7 +72,13 @@ public class RockBandContoller : MonoBehaviour
 						if (i == notes.Length - 1)
 							victory();
 						else
+						{
 							setState(State.Hit);
+							foreach(RockBandLight light in lights)
+							{
+								light.onHit();
+							}
+						}
 					}
 					else
 					{
