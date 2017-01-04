@@ -41,7 +41,8 @@ public class RockBandNote : MonoBehaviour
 
 	void updatePosition()
 	{
-		transform.position = new Vector3(distancePerBeat * (MicrogameTimer.instance.beatsLeft - targetBeat), transform.position.y, transform.position.z);
+		transform.localPosition = new Vector3(distancePerBeat * (MicrogameTimer.instance.beatsLeft - targetBeat),
+			transform.localPosition.y, transform.localPosition.z);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
