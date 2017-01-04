@@ -7,7 +7,7 @@ public class RockBandContoller : MonoBehaviour
 	public static RockBandContoller instance;
 
 	public RockBandNote[] notes;
-	public Animator kyoani;
+	public Animator kyoani, mystiaAnimator;
 
 	private State state;
 	public enum State
@@ -47,6 +47,7 @@ public class RockBandContoller : MonoBehaviour
 
 		if (state == State.Default && MicrogameTimer.instance.beatsLeft < 7f)
 			checkForInput();
+
 	}
 
 	void checkForInput()
@@ -83,5 +84,7 @@ public class RockBandContoller : MonoBehaviour
 	{
 		this.state = state;
 		kyoani.SetInteger("state", (int)state);
+		mystiaAnimator.SetInteger("state", (int)state);
+
 	}
 }
