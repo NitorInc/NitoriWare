@@ -13,7 +13,7 @@ public class RockBandLight : MonoBehaviour
 	{
 		shuffleColor();
 		_light = GetComponent<Light>();
-		cycleSpeed = Random.Range(.2f, .5f) * (Random.Range(0, 1) == 0 ? 1f : -1f);
+		cycleSpeed = Random.Range(.2f, .3f) * (Random.Range(0, 1) == 0 ? 1f : -1f);
 		updateColor();
 	}
 
@@ -44,7 +44,7 @@ public class RockBandLight : MonoBehaviour
 	public void onVictory()
 	{
 		shuffleColor();
-		cycleSpeed *= 4f;
+		cycleSpeed *= 6f;
 	}
 
 	void shuffleColor()
