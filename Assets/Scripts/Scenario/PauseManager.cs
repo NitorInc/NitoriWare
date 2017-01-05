@@ -8,7 +8,8 @@ public class PauseManager : MonoBehaviour
 	private bool paused;
 	private float timeScale;
 
-	private AudioSource[] audioSources;
+	private List<AudioSource> pausedAudioSources;
+	private List<MonoBehaviour> disabledScripts;
 
 	void Start ()
 	{
@@ -29,10 +30,26 @@ public class PauseManager : MonoBehaviour
 		timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 
-		audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-		for (int i = 0; i < audioSources.Length; i++)
+		AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+		pausedAudioSources = new List<AudioSource>();
+		foreach (AudioSource source in audioSources)
 		{
-			audioSources[i].Pause();
+			if (source.isPlaying)
+			{
+				source.Pause();
+				pausedAudioSources.Add(source);
+			}
+		}
+
+		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
+		disabledScripts = new List<MonoBehaviour>();
+		foreach( MonoBehaviour script in scripts)
+		{
+			if (script.enabled && script != this)
+			{
+				script.enabled = false;
+				disabledScripts.Add(script);
+			}
 		}
 
 		paused = true;
@@ -42,9 +59,14 @@ public class PauseManager : MonoBehaviour
 	{
 		Time.timeScale = timeScale;
 
-		for (int i = 0; i < audioSources.Length; i++)
+		foreach (AudioSource source in pausedAudioSources)
 		{
-			audioSources[i].UnPause();
+			source.UnPause();
+		}
+
+		foreach (MonoBehaviour script in disabledScripts)
+		{
+			script.enabled = true;
 		}
 
 		paused = false;
