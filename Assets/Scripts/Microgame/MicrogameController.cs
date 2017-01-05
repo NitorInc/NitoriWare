@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using System.Collections;
-//using UnityEngine.SceneManagement;
 
 public class MicrogameController : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public class MicrogameController : MonoBehaviour
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
 	[Range(1, ScenarioController.MAX_SPEED)]
 	public int debugSpeed;
+	public UnityEvent onPause, onUnPause;
 	public GameObject debugObjects;
 
 	private bool victory, victoryDetermined;

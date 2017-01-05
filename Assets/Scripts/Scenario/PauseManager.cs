@@ -52,6 +52,9 @@ public class PauseManager : MonoBehaviour
 			}
 		}
 
+		if (MicrogameController.instance != null)
+			MicrogameController.instance.onPause.Invoke();
+
 		paused = true;
 	}
 
@@ -68,6 +71,9 @@ public class PauseManager : MonoBehaviour
 		{
 			script.enabled = true;
 		}
+
+		if (MicrogameController.instance != null)
+			MicrogameController.instance.onUnPause.Invoke();
 
 		paused = false;
 	}
