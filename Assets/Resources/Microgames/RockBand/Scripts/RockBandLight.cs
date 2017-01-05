@@ -25,8 +25,7 @@ public class RockBandLight : MonoBehaviour
 			return;
 		}
 
-		hsbColor.h += cycleSpeed * Time.deltaTime;// *(MicrogameController.instance.getVictory() ? 4f : 1f);
-		Debug.Log(hsbColor.h);
+		hsbColor.h += cycleSpeed * Time.deltaTime;
 		
 		if (hsbColor.h >= 1f)
 			hsbColor.h -= 1f;
