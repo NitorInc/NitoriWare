@@ -519,14 +519,6 @@ public class ScenarioController : MonoBehaviour
 	}
 
 
-	private void setAnimationInteger(string name, int state)
-	{
-		foreach (Animator animator in GetComponentsInChildren<Animator>())
-		{
-			animator.SetInteger(name, state);
-		}
-	}
-
 	public float getSpeedMult()
 	{
 		return getSpeedMult(speed);
@@ -537,9 +529,17 @@ public class ScenarioController : MonoBehaviour
 		return 1f + ((float)(speed - 1) * .125f);
 	}
 
+	private void setAnimationInteger(string name, int state)
+	{
+		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
+		{
+			animator.SetInteger(name, state);
+		}
+	}
+
 	private void setAnimationBool(string name, bool state)
 	{
-		foreach (Animator animator in GetComponentsInChildren<Animator>())
+		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
 		{
 			animator.SetBool(name, state);
 		}
