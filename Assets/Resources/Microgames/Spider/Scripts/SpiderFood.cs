@@ -40,11 +40,12 @@ public class SpiderFood : MonoBehaviour
 			}
 			else
 			{
-				transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
 				transform.localScale = Vector3.one * initialScale;
 
 				if (!Input.GetMouseButton(0))
 					grabbed = false;
+				else
+					transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
 			}
 		}
 		else
