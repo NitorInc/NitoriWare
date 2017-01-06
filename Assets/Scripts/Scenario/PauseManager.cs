@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PauseManager : MonoBehaviour
 {
+	public UnityEvent onPause, onUnPause;
+
 	//Whitelisted items won't be affected by pause
 	public AudioSource[] audioSourceWhitelist;
 	public MonoBehaviour[] scriptWhitelist;
@@ -57,6 +60,7 @@ public class PauseManager : MonoBehaviour
 			}
 		}
 
+		onPause.Invoke();
 		if (MicrogameController.instance != null)
 			MicrogameController.instance.onPause.Invoke();
 
@@ -77,6 +81,7 @@ public class PauseManager : MonoBehaviour
 			script.enabled = true;
 		}
 
+		onUnPause.Invoke();
 		if (MicrogameController.instance != null)
 			MicrogameController.instance.onUnPause.Invoke();
 
