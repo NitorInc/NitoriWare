@@ -61,12 +61,13 @@ public class PotionIngredient : MonoBehaviour
 				}
 				break;
 			case(State.Grabbed):
-				snapToMouse();
 				if (pot.state != PotionPot.State.Default || !Input.GetMouseButton(0))
 				{
 					rigidThing.isKinematic = false;
 					state = State.Idle;
 				}
+				else
+					snapToMouse();
 				break;
 			case (State.Used):
 				rigidThing.bodyType = RigidbodyType2D.Static;

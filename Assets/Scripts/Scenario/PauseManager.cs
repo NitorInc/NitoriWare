@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PauseManager : MonoBehaviour
 {
+	public UnityEvent onPause, onUnPause;
+
+	//Whitelisted items won't be affected by pause
+	public AudioSource[] audioSourceWhitelist;
+	public MonoBehaviour[] scriptWhitelist;
 
 	private bool paused;
 	private float timeScale;
@@ -32,9 +38,10 @@ public class PauseManager : MonoBehaviour
 
 		AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
 		pausedAudioSources = new List<AudioSource>();
+		List<AudioSource> whitelistedAudioSources = new List<AudioSource>(audioSourceWhitelist);
 		foreach (AudioSource source in audioSources)
 		{
-			if (source.isPlaying)
+			if (!whitelistedAudioSources.Remove(source) && source.isPlaying)
 			{
 				source.Pause();
 				pausedAudioSources.Add(source);
@@ -43,15 +50,17 @@ public class PauseManager : MonoBehaviour
 
 		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
 		disabledScripts = new List<MonoBehaviour>();
+		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach( MonoBehaviour script in scripts)
 		{
-			if (script.enabled && script != this)
+			if (!whitelistedScripts.Remove(script) && script.enabled && script != this)
 			{
 				script.enabled = false;
 				disabledScripts.Add(script);
 			}
 		}
 
+		onPause.Invoke();
 		if (MicrogameController.instance != null)
 			MicrogameController.instance.onPause.Invoke();
 
@@ -72,6 +81,7 @@ public class PauseManager : MonoBehaviour
 			script.enabled = true;
 		}
 
+		onUnPause.Invoke();
 		if (MicrogameController.instance != null)
 			MicrogameController.instance.onUnPause.Invoke();
 
