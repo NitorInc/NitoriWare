@@ -244,7 +244,8 @@ public class ScenarioController : MonoBehaviour
 
 		getMicrogameInfo();
 
-
+		if (!outroSource.isPlaying)
+			outroSource.Play();
 	}
 
 	void updateToIdle()
@@ -368,6 +369,19 @@ public class ScenarioController : MonoBehaviour
 
 	}
 
+	public void onPause()
+	{
+		if (animationPart == AnimationPart.Outro)
+			outroSource.Pause();
+		else if (outroSource.isPlaying)
+			outroSource.Stop();
+	}
+
+	public void onUnPause()
+	{
+		if (animationPart == AnimationPart.Outro)
+			outroSource.UnPause();
+	}
 	
 	void Update()
 	{
