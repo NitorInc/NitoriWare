@@ -2,12 +2,14 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class AnimationEventHelper : MonoBehaviour
 {
 
 	private Animator animator;
 
+	public UnityEvent[] unityEvents;
 	public Animator[] animators;
 	public ParticleSystem[] particleSystems;
 	public Vibrate[] vibrates;
@@ -17,9 +19,9 @@ public class AnimationEventHelper : MonoBehaviour
 		animator = GetComponent<Animator>();
 	}
 
-	void Update()
+	public void triggerEvent(int index)
 	{
-
+		unityEvents[index].Invoke();
 	}
 
 	public void enableAnimator(int index)
