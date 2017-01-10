@@ -2,44 +2,24 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class AnimationEventHelper : MonoBehaviour
 {
 
 	private Animator animator;
 
-	public Animator[] animators;
+	public UnityEvent[] unityEvents;
 	public ParticleSystem[] particleSystems;
-	public Vibrate[] vibrates;
 
 	void Awake()
 	{
 		animator = GetComponent<Animator>();
 	}
 
-	void Update()
+	public void triggerEvent(int index)
 	{
-
-	}
-
-	public void enableAnimator(int index)
-	{
-		animators[index].enabled = true;
-	}
-
-	public void disableAnimator(int index)
-	{
-		animators[index].enabled = false;
-	}
-
-	public void enableVibrate(int index)
-	{
-		vibrates[index].vibrateOn = true;
-	}
-
-	public void disableVibrate(int index)
-	{
-		vibrates[index].vibrateOn = false;
+		unityEvents[index].Invoke();
 	}
 
 	public void playParticles(int index)
@@ -59,10 +39,12 @@ public class AnimationEventHelper : MonoBehaviour
 		particleSystems[index].Stop();
 	}
 
-	public void setParticleSpeed(int index, float speed)
-	{
+	//public void setParticleSpeed(int index, float speed)
+	//{
 
-	}
+	//}
+
+	//All shake functions below require an instance of CameraController!
 
 	public void setShakeSpeed(float shakeSpeed)
 	{
@@ -104,16 +86,19 @@ public class AnimationEventHelper : MonoBehaviour
 		CameraShake.instance.shakeCoolRate = coolRate;
 	}
 
+	//Use string paramater for name and float paramater for value
 	public void setFloat(AnimationEvent values)
 	{
 		animator.SetFloat(values.stringParameter, values.floatParameter);
 	}
 
+	//Use string paramater for name and int paramater for value
 	public void setInteger(AnimationEvent values)
 	{
 		animator.SetInteger(values.stringParameter, values.intParameter);
 	}
 
+	//Use string paramater for name and int paramater for value (1 for true, 0 for false)
 	public void setBool(AnimationEvent values)
 	{
 		animator.SetBool(values.stringParameter, values.intParameter > 0);
