@@ -10,11 +10,6 @@ public class MasterSparkCodeCommand : MonoBehaviour {
     public Sprite VisualArrow;
     public Sprite VisualAction;
 
-	// Use this for initialization
-	void Awake () {
-        SetInput((MasterSparkCodeCommandType)Random.Range(0, 5));
-    }
-
     private void Update()
     {
         if (IsPressed)
@@ -29,25 +24,27 @@ public class MasterSparkCodeCommand : MonoBehaviour {
 
     public void ScaleSelf()
     {
-        float time = 0;
-        while (time < 1)
-        {
-            time += Time.deltaTime;
-            var scaleStep = Mathf.Lerp(1.0f, 1.5f, time);
-            this.gameObject.transform.localScale = new Vector3(scaleStep, scaleStep, 1.0f);
+        transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+        //float time = 0;
+        //while (time < 1)
+        //{
+        //	time += Time.deltaTime;
+        //	var scaleStep = Mathf.Lerp(1.0f, 1.5f, time);
+        //	this.gameObject.transform.localScale = new Vector3(scaleStep, scaleStep, 1.0f);
 
-        }
+        //}
     }
 
     public void MoveSelf(float direction)
     {
-        var oldPosition = this.gameObject.transform.position;
-        float time = 0;
-        while (time < 1)
-        {
-            time += Time.deltaTime;
-            this.gameObject.transform.position = Vector3.Lerp(oldPosition, oldPosition + new Vector3(direction,0,0), time);
-        }
+        transform.Translate(direction, 0f, 0f, Space.World);
+        //var oldposition = this.gameobject.transform.position;
+        //float time = 0;
+        //while (time < 1)
+        //{
+        //	time += time.deltatime;
+        //	this.gameobject.transform.position = vector3.lerp(oldposition, oldposition + new vector3(direction, 0, 0), time);
+        //}
     }
 
     public void SetPressed()

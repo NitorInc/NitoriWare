@@ -12,7 +12,7 @@ public class ScenarioController : MonoBehaviour
 	public bool shuffleOn, speedIncreaseOn, difficultyIncreaseOn;
 	[Range(1, MAX_SPEED)]
 	public int speed;
-	public bool muteMusic;
+	public bool muteMusic, speedUpAnimation;
 	public Microgame[] microgamePool;
 
 	public int maxStockpiledScenes;
@@ -25,7 +25,7 @@ public class ScenarioController : MonoBehaviour
 	public MicrogameInfoParser infoParser;
 	public Camera scenarioCamera;
 	public Animator[] lifeIndicators;
-	public AudioSource introSource, outroSource, microgameMusicSource;
+	public AudioSource introSource, outroSource, speedUpSource, microgameMusicSource;
 	public AudioClip victoryClip, failureClip;
 	public TextMesh command;
 	public GameObject scene;
@@ -54,7 +54,15 @@ public class ScenarioController : MonoBehaviour
 		Idle,		//0	Animation does nothing, camera is disabled
 		Intro,		//1	Part that changes depending on if you win/lose
 		Outro,		//2	Part after Outro, shows the control scheme and current score
-		LastBeat	//4	Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame
+		LastBeat,	//4	Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame
+		SpeedUp		//5 Between Intro and Outro when the game increases speed, speed is actually changed in Outro
+	}
+
+	public Interruption interruption;
+	public enum Interruption
+	{
+		Nothing,
+		SpeedUp
 	}
 
 	void Start()
@@ -65,7 +73,8 @@ public class ScenarioController : MonoBehaviour
 		beatLength = introSource.clip.length / 4f;
 		animationStartTime = Time.time + 1.25f;
 		setMicrogameVictory(true, false);
-		Invoke("invokeAnimations", .2f);
+		Invoke("invokeIntroAnimations", .2f);
+		Invoke("invokeOutroAnimations", .2f);
 
 		microgameCount = 0;
 		round = 0;
@@ -130,19 +139,20 @@ public class ScenarioController : MonoBehaviour
 		}
 	}
 
+
 	//Animation and music time is measured by "beats" here
 	//the zeroth beat of each cycle is when the Intro animation starts (right when the last microgame ends)
-	void invokeAnimations()
+	void invokeIntroAnimations()
 	{
 		invokeAtBeat("updateToLastBeat", -1f);
 
 		invokeAtBeat("updateToIntro", 0f);
 
 		invokeAtBeat("updateMicrogameLoading", 2f);
+	}
 
-		//TODO interruptions: speed up, boss stage, etc.
-		//Increase AnimationStartTime after interruptions
-
+	void invokeOutroAnimations()
+	{
 		invokeAtBeat("updateToOutro", 4f);
 
 		invokeAtBeat("updateCursorVisibility", 5f);
@@ -153,6 +163,7 @@ public class ScenarioController : MonoBehaviour
 
 		invokeAtBeat("updateToIdle", 13f);
 	}
+
 
 	void updateToLastBeat()
 	{
@@ -172,7 +183,6 @@ public class ScenarioController : MonoBehaviour
 		if (microgameCount > 0)
 		{
 			endMicrogame();
-			microgameIndex++;
 		}
 
 		microgameCount++;
@@ -184,28 +194,35 @@ public class ScenarioController : MonoBehaviour
 			loadedMicrogameCount = 0;
 			loadNextMicrogame();
 		}
-		
-		//Increase speed periodically
+
+		//Apply speed increase
 		if (speedIncreaseOn)
 		{
-			int index = getMicrogameIndex();
-			if (index == 0 && microgameCount > 0)
+			if (interruption == Interruption.SpeedUp)
+				speed++;
+			else if (getMicrogameIndex() == 0)
 			{
+
 				if (round > 3)
 					speed = round - 2;
 				else
 					speed = 1;
 			}
-			else if (index == 3 || index == 6)
-				speed++;
-
 			if (speed > MAX_SPEED)
 				speed = MAX_SPEED;
 		}
+		
+		
 
 		outroSource.pitch = getSpeedMult();
 		if (!muteMusic && life > 0)
-			AudioHelper.playScheduled(outroSource, beatLength * 4f);
+		{
+			if (interruption == Interruption.SpeedUp && speedUpAnimation)
+				AudioHelper.playScheduled(outroSource, beatLength * 12f);
+			else
+				AudioHelper.playScheduled(outroSource, beatLength * 4f);
+		}
+
 	}
 
 	void updateToOutro()
@@ -227,13 +244,21 @@ public class ScenarioController : MonoBehaviour
 
 		getMicrogameInfo();
 
-
+		if (!outroSource.isPlaying)
+			outroSource.Play();
 	}
 
 	void updateToIdle()
 	{
 		setAnimationPart(AnimationPart.Idle);
 		scene.SetActive(false);
+	}
+
+	void updateToSpeedUp()
+	{
+		setAnimationPart(AnimationPart.SpeedUp);
+		speedUpSource.pitch = getSpeedMult(speed - 1);
+		speedUpSource.Play();
 	}
 
 	void playMicrogameMusic()
@@ -276,11 +301,36 @@ public class ScenarioController : MonoBehaviour
 		setMicrogameVictory(MicrogameController.instance.defaultVictory, false);
 	}
 
-	public void invokeNextCycle()
+	//Called from MicrogameController on Awake()
+	public void invokeNextCycle ()
 	{
 		animationStartTime += beatLength * (12f + (float)MicrogameController.instance.beatDuration);
 		MicrogameTimer.instance.invokeTick();
-		invokeAnimations();
+		microgameIndex++;
+
+		invokeIntroAnimations();
+
+		//Increase speed periodically
+		if (speedIncreaseOn)
+		{
+			int index = getMicrogameIndex();
+			if (index == 4 || index == 8)
+			{
+				interruption = Interruption.SpeedUp;
+				if (speedUpAnimation)
+				{
+					invokeAtBeat("updateToSpeedUp", 4f);
+					animationStartTime += beatLength * 8f;
+				}
+			}
+			else
+				interruption = Interruption.Nothing;
+		}
+		else
+			interruption = Interruption.Nothing;
+
+		invokeOutroAnimations();
+
 	}
 
 	void endMicrogame()
@@ -319,6 +369,19 @@ public class ScenarioController : MonoBehaviour
 
 	}
 
+	public void onPause()
+	{
+		if (animationPart == AnimationPart.Outro)
+			outroSource.Pause();
+		else if (outroSource.isPlaying)
+			outroSource.Stop();
+	}
+
+	public void onUnPause()
+	{
+		if (animationPart == AnimationPart.Outro)
+			outroSource.UnPause();
+	}
 	
 	void Update()
 	{
@@ -384,6 +447,13 @@ public class ScenarioController : MonoBehaviour
 
 	void setFinalAnswer()
 	{
+		//Can't have this happening before the microgame actually starts
+		if (animationPart != AnimationPart.Idle && animationPart != AnimationPart.LastBeat)
+		{
+			Invoke("setFinalAnswer", beatLength);
+			return;
+		}
+
 		victoryDetermined = true;
 
 		if (MicrogameController.instance.canEndEarly)
@@ -432,11 +502,24 @@ public class ScenarioController : MonoBehaviour
 
 	public void endMicrogameEarly(float beatsEarly)
 	{
+
 		CancelInvoke();
 		MicrogameTimer.instance.CancelInvoke();
 
 		animationStartTime -= beatLength * beatsEarly;
-		invokeAnimations();
+
+		//Redo invokes with new time
+		if (interruption == Interruption.SpeedUp && speedUpAnimation)
+		{
+			animationStartTime -= beatLength * 8f;
+			invokeIntroAnimations();
+			invokeAtBeat("updateToSpeedUp", 4f);
+			animationStartTime += beatLength * 8f;
+		}
+		else
+			invokeIntroAnimations();
+
+		invokeOutroAnimations();
 	}
 
 	void invokeAtBeat(string function, float beatFromAnimationStart)
@@ -450,14 +533,6 @@ public class ScenarioController : MonoBehaviour
 	}
 
 
-	private void setAnimationInteger(string name, int state)
-	{
-		foreach (Animator animator in GetComponentsInChildren<Animator>())
-		{
-			animator.SetInteger(name, state);
-		}
-	}
-
 	public float getSpeedMult()
 	{
 		return getSpeedMult(speed);
@@ -465,12 +540,20 @@ public class ScenarioController : MonoBehaviour
 
 	public static float getSpeedMult(int speed)
 	{
-		return 1f + ((float)(speed - 1) * .15f);
+		return 1f + ((float)(speed - 1) * .125f);
+	}
+
+	private void setAnimationInteger(string name, int state)
+	{
+		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
+		{
+			animator.SetInteger(name, state);
+		}
 	}
 
 	private void setAnimationBool(string name, bool state)
 	{
-		foreach (Animator animator in GetComponentsInChildren<Animator>())
+		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
 		{
 			animator.SetBool(name, state);
 		}

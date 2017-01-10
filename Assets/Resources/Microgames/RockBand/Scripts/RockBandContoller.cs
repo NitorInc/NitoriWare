@@ -7,13 +7,16 @@ public class RockBandContoller : MonoBehaviour
 	public static RockBandContoller instance;
 
 	public RockBandNote[] notes;
+	public Animator kyoani, mystiaAnimator;
+	public RockBandLight[] lights;
 
-	public State state;
+	private State state;
 	public enum State
 	{
 		Default,
 		Victory,
-		Failure
+		Failure,
+		Hit
 	}
 
 	void Awake()
@@ -23,29 +26,33 @@ public class RockBandContoller : MonoBehaviour
 
 	public void victory()
 	{
-		state = State.Victory;
+		setState(State.Victory);
 		MicrogameController.instance.setVictory(true, true);
-
-		//TODO Victory animations for scene
+		foreach (RockBandLight light in lights)
+		{
+			light.onVictory();
+		}
 	}
 
 	public void failure()
 	{
-		state = State.Failure;
+		setState(State.Failure);
 		MicrogameController.instance.setVictory(false, true);
 
 		for (int i = 0; i < notes.Length; i++)
 		{
-			//TODO Failure animations for notes
 			notes[i].gameObject.SetActive(false);
 		}
-		//TODO Failure animations for scene
 	}
 	
 	void Update ()
 	{
+		if (state == State.Hit)
+			setState(State.Default);
+
 		if (state == State.Default && MicrogameTimer.instance.beatsLeft < 7f)
 			checkForInput();
+
 	}
 
 	void checkForInput()
@@ -64,6 +71,14 @@ public class RockBandContoller : MonoBehaviour
 						notes[i].playNote();
 						if (i == notes.Length - 1)
 							victory();
+						else
+						{
+							setState(State.Hit);
+							foreach(RockBandLight light in lights)
+							{
+								light.onHit();
+							}
+						}
 					}
 					else
 					{
@@ -74,5 +89,13 @@ public class RockBandContoller : MonoBehaviour
 			}
 			failure();
 		}
+	}
+
+	void setState(State state)
+	{
+		this.state = state;
+		kyoani.SetInteger("state", (int)state);
+		mystiaAnimator.SetInteger("state", (int)state);
+
 	}
 }

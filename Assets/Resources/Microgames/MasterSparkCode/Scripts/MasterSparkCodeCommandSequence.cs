@@ -9,9 +9,10 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
 
     public Queue<MasterSparkCodeCommand> InputSequence = new Queue<MasterSparkCodeCommand>();
     public GameObject CommandPrefab;
+    public AudioSource Audio;
     public int GameLevel;
 
-    void Awake()
+    void Start()
     {
         Assert.IsTrue(CommandPrefab.GetComponent<MasterSparkCodeCommand>() != null);
         for (int i = 0; i < 2+GameLevel; i++)
@@ -19,15 +20,13 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
             Vector3 newPosition = new Vector3(-4 + (1.5f * i), 4, 0);
             GameObject newObject = Instantiate(CommandPrefab, newPosition, Quaternion.identity) as GameObject;
             MasterSparkCodeCommand newCommand = newObject.GetComponent<MasterSparkCodeCommand>();
-
-            if(i == 0)
-            {
-                newCommand.SetInput((MasterSparkCodeCommandType)Random.Range(0, 4));
-                newCommand.ScaleSelf();
-            }
-
+            newCommand.SetInput((MasterSparkCodeCommandType)Random.Range(0,(i==0)?4:5));
+            newCommand.ScaleSelf();
             InputSequence.Enqueue(newCommand);
         }
+
+        // For speedups
+        Audio.pitch = Time.timeScale;
     }
 
     public bool IsCorrectInput(MasterSparkCodeCommandType playerInput)
@@ -43,6 +42,7 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     public void DequeueCommand()
     {
         InputSequence.Dequeue().SetPressed();
+        Audio.Play();
         foreach (var c in InputSequence.ToList())
             c.MoveSelf(-1.5f);
         if(!IsEmpty())

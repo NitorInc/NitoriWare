@@ -10,5 +10,5 @@
 NitorInc.: Touhou Microgames is a collaborative WarioWare-style Touhou fangame. Creators of all skillsets are welcome to help make microgames! If you want to contribute in any department, it would be best if you joined our Discord (link above), or you can contact us on social media or at nitorincmicrogames@gmail.com
 
 # Contributing
-
-We haven't properly opened non-code contributions yet because we're a bit backed up, so we could use some more hands on deck programming microgames. This project is made using the [Unity engine](https://unity3d.com/get-unity/download). If you're interested in helping us out, [this guide](./CONTRIBUTING-MICROGAME.md) should tell you what you need to know to start making microgames!
+* To participate in the Microgame Collab, sign up [right here](http://bit.do/nitorinccollab)!
+* Everything else you'd want to know about contributing can be found in [our Contribution Guidelines](https://github.com/NitorInc/NitoriWare/wiki/Contribution-Guidelines).

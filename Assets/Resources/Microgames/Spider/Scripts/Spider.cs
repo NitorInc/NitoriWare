@@ -74,8 +74,8 @@ public class Spider : MonoBehaviour
 
 		if (food.eaten)
 			munch();
-		else if (food.grabbed)
-			lookAtCursor();
+		else
+			lookAtFood();
 
 	}
 
@@ -96,13 +96,13 @@ public class Spider : MonoBehaviour
 		updateMouth();
 	}
 
-	void lookAtCursor()
+	void lookAtFood()
 	{
 
-		Vector3 cursorPosition = CameraHelper.getCursorPosition();
+		Vector3 foodPosition = food.transform.position;
 
-		float angle = MathHelper.getVectorAngle2D((Vector2)(transform.position - cursorPosition)) * Mathf.Deg2Rad,
-			distance = ((Vector2)(transform.position - cursorPosition)).magnitude;
+		float angle = MathHelper.getVectorAngle2D((Vector2)(transform.position - foodPosition)) * Mathf.Deg2Rad,
+			distance = ((Vector2)(transform.position - foodPosition)).magnitude;
 
 		transform.rotation = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg);
 
@@ -111,7 +111,7 @@ public class Spider : MonoBehaviour
 		mouthAngle = Mathf.Lerp(maxMouthAngle, 0f, distance / mouthStartDistance);
 		updateMouth();
 
-		bool flipped = cursorPosition.x > transform.position.x;
+		bool flipped = foodPosition.x > transform.position.x;
         transform.localScale = new Vector3(1f, flipped ? -1f : 1f, 1f);
 		
 
