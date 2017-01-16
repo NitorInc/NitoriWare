@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RemiCover_RemiBehaviour : MonoBehaviour {
 
     public float movementSpeed;                     // Speed of Remilia's movement (Walking)
@@ -12,7 +13,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     // Probabilities for choosing, randomly, different movements for Remilia (Walking, Standing and Running)
     public int walkProb;          
     public int standProb;         
-    // Running probabilty will be (100 - walkProb - standProb)
+    // Running probabilty will be 100 - walkProb - standProb)
 
     private const int NONE = -1;                    // None selection
     private const int WALK = 0;                     // Walk movement selection
@@ -22,16 +23,17 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     private int previousMovementSelection = NONE;   // Previous movement selected
     private bool isMoving = false;                  // Boolean to check if character is moving or not.
 
-    private int selectionCounter = 0;               // Counter to vary the duration of the movements
-    public int minSelectionCounter;                 // Minimum value of selectionCounter
-    public int maxSelectionCounter;                 // Maximum value of selectionCounter
+    private float selectionTimer = 0;
+    public float selectionTimerDefault;             
 
     private int movementDirection = 0;              // To specify where Remilia is moving (Left by default).
     private const int LEFT = 0;                     // Left direction
     private const int RIGHT = 1;                    // Right direction
   
-    private GameObject[] shadowObjs = null;         // List of Gameobjects that in-game represents a Shadow
+    private GameObject shadowObj = null;            // List of Gameobjects that in-game represents a Shadow
     private GameObject remiSprite = null;           // Sprite of Remi
+
+    private bool stopMovement = false;              // To stop movement
     
 
 	// Use this for initialization
@@ -39,33 +41,27 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
         Vector2 mousePosition = CameraHelper.getCursorPosition();
         this.transform.position = new Vector2(mousePosition.x, this.transform.position.y);
         this.remiSprite = transform.Find("RemiSprite").gameObject;
-        this.shadowObjs = GameObject.FindGameObjectsWithTag("Shadow");
+        this.shadowObj = GameObject.Find("Player/UmbrellaShadow");
 
-        // First character's movement will be standing
-        this.lastMovementSelection = NONE;
-        this.selectionCounter = 25; 
+        // At first, character will be standing.
+        this.lastMovementSelection = STAND;
+        this.selectionTimer = 1.0f;
     }
 	
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-    void FixedUpdate()
+    
+    void Update()
     {
-        moveCharacter();
-        bool isUnderShadow = checkIfUnderShadow();
+        if (!stopMovement) { 
+            moveCharacter();
+            bool isUnderShadow = checkIfUnderShadow();
 
-        if (isUnderShadow)
-        {
-            changeSpriteColor(Color.white);
-        }
-        else
-        {
-            // Game Over
-            changeSpriteColor(Color.red);
+            if (!isUnderShadow)
+            {
+                // Game Over
+                this.stopMovement = true;
+                changeSpriteColor(Color.red);
+            }
+;            
         }
     }
 
@@ -108,7 +104,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
             lastMovementSelection = RUN;
         }
 
-        selectionCounter = Random.Range(minSelectionCounter, maxSelectionCounter);  // How much will the character move?
+        selectionTimer = selectionTimerDefault;
     }
 
 
@@ -130,8 +126,8 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
                 break;
         }
 
-        selectionCounter -= 1;
-        if (selectionCounter == 0) {                        // Restart parameters 
+        selectionTimer = selectionTimer - Time.deltaTime;
+        if (selectionTimer <= 0) {                        // Restart parameters 
             previousMovementSelection = lastMovementSelection;
             lastMovementSelection = NONE;
             isMoving = false;
@@ -243,17 +239,14 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
         float left = remiBounds.center.x - remiBounds.extents.x;
         float right = remiBounds.center.x + remiBounds.extents.x;
 
-        bool isRemiInside = false;
-        foreach (GameObject shadow in this.shadowObjs)
-        {
-            Bounds shadowBounds = shadow.GetComponent<BoxCollider2D>().bounds;
-            if (shadowBounds.Contains(new Vector2(left, shadowBounds.center.y)) && shadowBounds.Contains(new Vector2(right, shadowBounds.center.y)))
-            {
-                isRemiInside = true;
-                break;
-            }
+        Bounds shadowBounds = shadowObj.GetComponent<BoxCollider2D>().bounds;
+
+        if (shadowBounds.Contains(new Vector2(left, shadowBounds.center.y)) && shadowBounds.Contains(new Vector2(right, shadowBounds.center.y)))
+        {   
+            return true;
         }
-        return isRemiInside;
+
+        return false;      
     }
 
 
