@@ -9,7 +9,7 @@ public class RockBandContoller : MonoBehaviour
 	public RockBandNote[] notes;
 	public Animator kyoani, mystiaAnimator;
 	public RockBandLight[] lights;
-	public AudioClip victoryClip, failureClip;
+	public AudioClip victoryClip, failureClip, noteHitClip;
 
 	private AudioSource _audioSource;
 	private State state;
@@ -25,6 +25,7 @@ public class RockBandContoller : MonoBehaviour
 	{
 		instance = this;
 		_audioSource = GetComponent<AudioSource>();
+		_audioSource.pitch = Time.timeScale;
 	}
 
 	public void victory()
@@ -57,6 +58,7 @@ public class RockBandContoller : MonoBehaviour
 		{
 			light.onHit();
 		}
+		_audioSource.PlayOneShot(noteHitClip);
 	}
 	
 	void Update ()
