@@ -59,6 +59,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
             {
                 // Game Over
                 this.stopMovement = true;
+                MicrogameController.instance.setVictory(false, true);
                 changeSpriteColor(Color.red);
             }
 ;            

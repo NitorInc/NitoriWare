@@ -133,7 +133,42 @@ Prefab:
     - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
         type: 2}
       propertyPath: beatDuration
-      value: 12
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugTimer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugTimerTick
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: defaultVictory
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: canEndEarly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSimulateDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: command
+      value: Cover!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
@@ -197,7 +232,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1692206247
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 123032191f3a11f468e45ca4f6323ee6, type: 3}
   m_Color: {r: 0.55983764, g: 0.5441177, b: 1, a: 1}
   m_FlipX: 0
@@ -308,8 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6faf7ebb3359ff94bb57981b5f680b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topLimit: 5
-  bottomLimit: 5
+  verticalPosition: 5
 --- !u!1 &1028227997
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +386,7 @@ GameObject:
   - component: {fileID: 1622711632}
   m_Layer: 0
   m_Name: UmbrellaShadow
-  m_TagString: Shadow
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -400,7 +434,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1076967019
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 123032191f3a11f468e45ca4f6323ee6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_FlipX: 0
@@ -504,7 +538,7 @@ GameObject:
   - component: {fileID: 1718812991}
   m_Layer: 0
   m_Name: Remilia
-  m_TagString: Remi
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -516,7 +550,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1718812986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.6, y: -2.47, z: 0}
+  m_LocalPosition: {x: -8.81, y: -2.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 795254528}
@@ -586,13 +620,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 9
-  fasterMovementSpeed: 14
+  fasterMovementSpeed: 13
   leftLimit: -12
   rightLimit: 12
-  walkProb: 50
-  standProb: 50
-  minSelectionCounter: 21
-  maxSelectionCounter: 31
+  walkProb: 60
+  standProb: 40
+  selectionTimerDefault: 0.25
 --- !u!1 &1937706219
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +737,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1360707127
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 123032191f3a11f468e45ca4f6323ee6, type: 3}
   m_Color: {r: 0.088026464, g: 0.08434256, b: 0.19117647, a: 1}
   m_FlipX: 0
