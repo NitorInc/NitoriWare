@@ -6,16 +6,19 @@ using UnityEngine;
 public class RemiCover_RemiBehaviour : MonoBehaviour {
 
     public float walkingSpeed;                      // Speed of Remilia's movement (Walking)
-    public float runningSpeed;                     // Speed of Remilia's movement (Running)
-    public float leftLimit;                         // Minimum value of Remilia's X position that she can take
-    public float rightLimit;                        // Maximum value of Remilia's X position that she can take
+    public float runningSpeed;                      // Speed of Remilia's movement (Running)
+    private float currentSpeed;                     // CurrentSpeed (Only useful for Running movement)
+    public float accelerationFactor;                // How much will CurrentSpeed increase until reaching runningSpeed?
+
+
+    public float leftLimit, rightLimit;             // Minimum and Maximum value of Remilia's X position that she can take
 
     // Probabilities for choosing, randomly, different movements for Remilia (Walking, Standing and Running)
     public int walkProbability;                     // Must be between 0 and 100.
     public int standProbability;                    // Must be between 0 and 100.
                                                     // Running probabilty will be the  remaining percentage
 
-    // Actions
+    // Movement actions
     private const int NONE = -1;                    // None selection
     private const int WALK = 0;                     // Walk movement selection
     private const int STAND = 1;                    // Standing movement selection 
@@ -23,10 +26,6 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     private int lastMovementSelection = NONE;       // Last movement selected
     private int previousMovementSelection = NONE;   // Previous movement selected
     private bool isMoving = false;                  // Boolean to check if character is moving or not.
-
-    public bool defaultMovementIsWalk;              // True --> Character will walk if standing movement is going to be selected twice.
-                                                    // False --> Character will run if standing movement is going to be selected twice.
-                                                    // This way, character won't be standing for all of the game.
 
     private float selectionTimer = 0;               // How long will the selected movement be performed? (Will be assigned Randomly).
     public float min_selectionTimer;                // Minimum value of selectionTimer (on Initialization)
@@ -41,40 +40,38 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
 
     private bool facingRight = true;
     private bool stopMovement = false;              // To stop movement
-    
 
-	// Use this for initialization
-	void Start () {
+
+
+    void Start () {
         Vector2 mousePosition = CameraHelper.getCursorPosition();
         this.transform.position = new Vector2(mousePosition.x, this.transform.position.y);
         this.remiSprite = transform.Find("RemiSprite").gameObject;
         this.shadowObj = GameObject.Find("Player/UmbrellaShadow");
-
-        // At first, character will be standing.
         this.lastMovementSelection = STAND;
         this.selectionTimer = 1.0f;
     }
 	
     
-    void Update()
-    {
-        if (!stopMovement) { 
+    void Update(){
+        if (!stopMovement){ 
             moveCharacter();
-            if (!checkIfUnderShadow()) { GameOver(); }
+            if (!checkIfUnderShadow()){
+                GameOver();
+            }
         }
     }
 
 
-    // The things that happen when Player loses
-    private void GameOver()
-    {
+    // The things that happens when Player loses.
+    private void GameOver(){
         this.stopMovement = true;
         MicrogameController.instance.setVictory(false, true);
-        changeSpriteColor(Color.red);
+        changeSpriteColor(Color.red);                                   // ONLY FOR DEBUGING
     }
 
 
-    // Move character
+    // Move character (Remilia)
     private void moveCharacter()
     {
         if (lastMovementSelection == NONE) {
@@ -90,42 +87,20 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     // Select one of the three options of movement (Walk, Stand or Run)
     private void chooseMovement()
     {
+
         int rnd_number = Random.Range(1, 101);                                  // Random, number between 1 and 100 (For probabilities)
 
-        if (walkHasBeenChosen(rnd_number))
+        if (hasWalkBeenSelected(rnd_number))
         {
             chooseMovementDirection();
             walkMovement();
             lastMovementSelection = WALK;
         }
 
-        else if (standHasBeenChosen(rnd_number))
+        else if (standHasBeenSelected(rnd_number))
         {
-
-            if(previousMovementSelection == STAND)
-            {
-                chooseMovementDirection();
-                switch (defaultMovementIsWalk)
-                {
-                    case true:
-                        walkMovement();
-                        lastMovementSelection = WALK;
-                        break;
-
-                    case false:
-                        runMovement();
-                        lastMovementSelection = RUN;
-                        break;
-
-                }
-            }
-
-            else
-            {
-                standing();
-                lastMovementSelection = STAND;
-            }
-
+            standing();
+            lastMovementSelection = STAND;
         }
 
         else
@@ -158,32 +133,54 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
         }
 
         selectionTimer = selectionTimer - Time.deltaTime;
-        if (selectionTimer <= 0) {                        // Restart parameters 
-            previousMovementSelection = lastMovementSelection;
-            lastMovementSelection = NONE;
-            isMoving = false;
-        }
+        if (selectionTimer <= 0) { resetMovementSelectionParameters(); }
     }
 
 
-    // Check if Walk movement has been chosen according to a number between 1 and 100.
-    private bool walkHasBeenChosen(int number)
+    public void resetMovementSelectionParameters()
     {
-        if((number >= 1 && number <= this.walkProbability))
+        this.previousMovementSelection = this.lastMovementSelection;
+        this.lastMovementSelection = NONE;
+        this.isMoving = false;
+    }
+
+
+    // Check if Walk movement has been selected according to a number between 1 and 100.
+    private bool hasWalkBeenSelected(int number)
+    {
+        int temp_walkProbability = 0;
+
+        if(previousMovementSelection == STAND)  // Standing move will not be selected twice in a row.
         {
+            temp_walkProbability = this.walkProbability * 100 / (100 - this.standProbability);
+        }
+
+        else
+        {
+            temp_walkProbability = this.walkProbability;
+        }
+
+        if (number >= 1 && number <= temp_walkProbability){
             return true;
         }
+        
         return false;
     }
 
-
-    // Check if Standing has ben chosen according to a number between 1 and 100
-    private bool standHasBeenChosen(int number)
+    // Check if Standing movement has been selected according to a number between 1 and 100
+    private bool standHasBeenSelected(int number)
     {
-        if(number > this.walkProbability && number <= standProbability + walkProbability)
+
+        if (previousMovementSelection == STAND) // Standing move will not be selected twice in a row.
+        {
+            return false;
+        }
+
+        if(number > this.walkProbability && number <= this.standProbability + this.walkProbability)
         {
             return true;
         }
+
         return false;
     }
 
@@ -195,8 +192,8 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
         Bounds remiBounds = this.GetComponent<BoxCollider2D>().bounds;
         this.transform.position = this.transform.position + (move * this.walkingSpeed * Time.deltaTime);
         this.isMoving = true;
+        this.currentSpeed = walkingSpeed;
         changeDirectionOnLimit();
-
     }
 
 
@@ -204,6 +201,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     private void standing()
     {
         this.isMoving = false;
+        this.currentSpeed = 0;
     }
     
 
@@ -212,7 +210,9 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     {
         var move = obtainMovementVector3();
         Bounds remiBounds = this.GetComponent<BoxCollider2D>().bounds;
-        this.transform.position = this.transform.position + (move * this.runningSpeed * Time.deltaTime);
+        if (this.currentSpeed == 0) this.currentSpeed = walkingSpeed;
+        this.transform.position = this.transform.position + (move * this.currentSpeed * Time.deltaTime);
+        if (this.currentSpeed < this.runningSpeed) this.currentSpeed += this.accelerationFactor;
         this.isMoving = true;
         changeDirectionOnLimit();
     }
