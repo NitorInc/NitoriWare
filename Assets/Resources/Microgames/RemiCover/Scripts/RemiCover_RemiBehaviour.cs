@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class RemiCover_RemiBehaviour : MonoBehaviour {
 
-    public float movementSpeed;                     // Speed of Remilia's movement (Walking)
-    public float fasterMovementSpeed;               // Speed of Remilia's movement (Running)
+    public float walkingSpeed;                      // Speed of Remilia's movement (Walking)
+    public float runningSpeed;                     // Speed of Remilia's movement (Running)
     public float leftLimit;                         // Minimum value of Remilia's X position that she can take
     public float rightLimit;                        // Maximum value of Remilia's X position that she can take
 
     // Probabilities for choosing, randomly, different movements for Remilia (Walking, Standing and Running)
-    public int walkProb;          
-    public int standProb;         
-    // Running probabilty will be 100 - walkProb - standProb)
+    public int walkProbability;                     // Must be between 0 and 100.
+    public int standProbability;                    // Must be between 0 and 100.
+                                                    // Running probabilty will be the  remaining percentage
 
+    // Actions
     private const int NONE = -1;                    // None selection
     private const int WALK = 0;                     // Walk movement selection
     private const int STAND = 1;                    // Standing movement selection 
@@ -23,8 +24,13 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     private int previousMovementSelection = NONE;   // Previous movement selected
     private bool isMoving = false;                  // Boolean to check if character is moving or not.
 
-    private float selectionTimer = 0;
-    public float selectionTimerDefault;             
+    public bool defaultMovementIsWalk;              // True --> Character will walk if standing movement is going to be selected twice.
+                                                    // False --> Character will run if standing movement is going to be selected twice.
+                                                    // This way, character won't be standing for all of the game.
+
+    private float selectionTimer = 0;               // How long will the selected movement be performed? (Will be assigned Randomly).
+    public float min_selectionTimer;                // Minimum value of selectionTimer (on Initialization)
+    public float max_SelectionTimer;                // Maximum value of selectionTimer
 
     private int movementDirection = 0;              // To specify where Remilia is moving (Left by default).
     private const int LEFT = 0;                     // Left direction
@@ -33,6 +39,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     private GameObject shadowObj = null;            // List of Gameobjects that in-game represents a Shadow
     private GameObject remiSprite = null;           // Sprite of Remi
 
+    private bool facingRight = true;
     private bool stopMovement = false;              // To stop movement
     
 
@@ -53,17 +60,17 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     {
         if (!stopMovement) { 
             moveCharacter();
-            bool isUnderShadow = checkIfUnderShadow();
-
-            if (!isUnderShadow)
-            {
-                // Game Over
-                this.stopMovement = true;
-                MicrogameController.instance.setVictory(false, true);
-                changeSpriteColor(Color.red);
-            }
-;            
+            if (!checkIfUnderShadow()) { GameOver(); }
         }
+    }
+
+
+    // The things that happen when Player loses
+    private void GameOver()
+    {
+        this.stopMovement = true;
+        MicrogameController.instance.setVictory(false, true);
+        changeSpriteColor(Color.red);
     }
 
 
@@ -94,8 +101,31 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
 
         else if (standHasBeenChosen(rnd_number))
         {
-            standing();
-            lastMovementSelection = STAND;
+
+            if(previousMovementSelection == STAND)
+            {
+                chooseMovementDirection();
+                switch (defaultMovementIsWalk)
+                {
+                    case true:
+                        walkMovement();
+                        lastMovementSelection = WALK;
+                        break;
+
+                    case false:
+                        runMovement();
+                        lastMovementSelection = RUN;
+                        break;
+
+                }
+            }
+
+            else
+            {
+                standing();
+                lastMovementSelection = STAND;
+            }
+
         }
 
         else
@@ -105,7 +135,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
             lastMovementSelection = RUN;
         }
 
-        selectionTimer = selectionTimerDefault;
+        selectionTimer = Random.Range(min_selectionTimer, max_SelectionTimer);
     }
 
 
@@ -136,10 +166,10 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     }
 
 
-    // Check if Walk movement has been chosen according to a number between 1 and 100
+    // Check if Walk movement has been chosen according to a number between 1 and 100.
     private bool walkHasBeenChosen(int number)
     {
-        if(number >= 1 && number <= this.walkProb)
+        if((number >= 1 && number <= this.walkProbability))
         {
             return true;
         }
@@ -150,7 +180,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     // Check if Standing has ben chosen according to a number between 1 and 100
     private bool standHasBeenChosen(int number)
     {
-        if(number > this.walkProb && number <= standProb + walkProb)
+        if(number > this.walkProbability && number <= standProbability + walkProbability)
         {
             return true;
         }
@@ -163,9 +193,9 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     {
         var move = obtainMovementVector3();
         Bounds remiBounds = this.GetComponent<BoxCollider2D>().bounds;
-        this.transform.position = this.transform.position + (move * this.movementSpeed * Time.deltaTime);
+        this.transform.position = this.transform.position + (move * this.walkingSpeed * Time.deltaTime);
         this.isMoving = true;
-        changeDirection();
+        changeDirectionOnLimit();
 
     }
 
@@ -182,9 +212,9 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     {
         var move = obtainMovementVector3();
         Bounds remiBounds = this.GetComponent<BoxCollider2D>().bounds;
-        this.transform.position = this.transform.position + (move * this.fasterMovementSpeed * Time.deltaTime);
+        this.transform.position = this.transform.position + (move * this.runningSpeed * Time.deltaTime);
         this.isMoving = true;
-        changeDirection();
+        changeDirectionOnLimit();
     }
 
 
@@ -195,16 +225,22 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
             if (!(previousMovementSelection == WALK || previousMovementSelection == RUN))
             {
                 this.movementDirection = Random.Range(0, 2);
+                if (this.movementDirection == RIGHT && facingRight == false){ flipHorizontally(); }
+                else if (this.movementDirection == LEFT && facingRight == true) { flipHorizontally(); }
             }
         }
     }
 
 
     // Change direction of movement if character reach left or right limit
-    private void changeDirection()
+    private void changeDirectionOnLimit()
     {
+
         if (this.transform.position.x <= leftLimit){ this.movementDirection = RIGHT; }
         else if(this.transform.position.x >= rightLimit){ this.movementDirection = LEFT; }
+
+        if (this.movementDirection == RIGHT && facingRight == false) { flipHorizontally(); }
+        else if (this.movementDirection == LEFT && facingRight == true) { flipHorizontally(); }
     }
 
 
@@ -225,6 +261,19 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
         return move;
     }
 
+    private void flipHorizontally()
+    {
+        if (facingRight)
+        {
+            facingRight = false;
+            remiSprite.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            facingRight = true;
+            remiSprite.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
 
     // Limit character movement to left and right limit
     private void limitMovement()

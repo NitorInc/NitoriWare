@@ -619,13 +619,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6917d08604044d54dab4dd89944b12db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 9
-  fasterMovementSpeed: 13
+  walkingSpeed: 9
+  runningSpeed: 14
   leftLimit: -12
   rightLimit: 12
-  walkProb: 60
-  standProb: 40
-  selectionTimerDefault: 0.25
+  walkProbability: 40
+  standProbability: 60
+  defaultMovementIsWalk: 1
+  min_selectionTimer: 0.25
+  max_SelectionTimer: 1
 --- !u!1 &1937706219
 GameObject:
   m_ObjectHideFlags: 0
