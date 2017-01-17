@@ -804,7 +804,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: c0c9c7e93fc4ad04dbe6a8dffc0b05b5, type: 3}
+  - {fileID: 2100000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1141,7 +1141,7 @@ TextMesh:
   m_FontSize: 500
   m_FontStyle: 1
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: c0c9c7e93fc4ad04dbe6a8dffc0b05b5, type: 3}
+  m_Font: {fileID: 12800000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -1180,7 +1180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123c00bb1dabe7749b7e9d48d75fab20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pixelSize: 5
+  pixelSize: 4
+  cloneCount: 32
   outlineColor: {r: 0, g: 0, b: 0, a: 1}
   resolutionDependant: 0
   doubleResolution: 1024
@@ -1902,6 +1903,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5f2630af68954438d104e8450c4e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onPause:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onUnPause:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  audioSourceWhitelist: []
+  scriptWhitelist: []
 --- !u!212 &212000010965276486
 SpriteRenderer:
   m_ObjectHideFlags: 1
