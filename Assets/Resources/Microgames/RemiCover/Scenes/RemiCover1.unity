@@ -295,7 +295,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 795254526}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.02, y: 0, z: 0}
   m_LocalScale: {x: 1.9495857, y: 1.9495857, z: 1.9495857}
   m_Children: []
   m_Father: {fileID: 1718812987}
@@ -597,9 +597,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1718812987}
   - component: {fileID: 1718812988}
-  - component: {fileID: 1718812989}
   - component: {fileID: 1718812990}
   - component: {fileID: 1718812991}
+  - component: {fileID: 1718812993}
+  - component: {fileID: 1718812992}
+  - component: {fileID: 1718812989}
   m_Layer: 0
   m_Name: Remilia
   m_TagString: Untagged
@@ -649,9 +651,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.14546013, y: 0.10010719}
+  m_Offset: {x: -0.1500001, y: 0.10010719}
   serializedVersion: 2
-  m_Size: {x: 0.69727385, y: 7.2466106}
+  m_Size: {x: 0.3, y: 7.2466106}
 --- !u!50 &1718812990
 Rigidbody2D:
   serializedVersion: 4
@@ -683,6 +685,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6917d08604044d54dab4dd89944b12db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 1
+  burnSpeed: 0.75
   walkingSpeed: 7
   runningSpeed: 18
   accelerationFactor: 0.2
@@ -692,6 +696,35 @@ MonoBehaviour:
   standProbability: 50
   min_selectionTimer: 0.25
   max_SelectionTimer: 0.5
+  collidersOutside: 3
+--- !u!61 &1718812992
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1718812986}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0.718856, y: 0.10010719}
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 7.2466106}
+--- !u!61 &1718812993
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1718812986}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -1.0188562, y: 0.10010719}
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 7.2466106}
 --- !u!1 &2039937018
 GameObject:
   m_ObjectHideFlags: 0

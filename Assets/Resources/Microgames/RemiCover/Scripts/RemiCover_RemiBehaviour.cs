@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class RemiCover_RemiBehaviour : MonoBehaviour {
 
+
+    [SerializeField]
+    private float HP = 1;                           // Remilia's Health Points.
+    public float burnSpeed;                         // How much will HP decrease when Remilia's collider is exposed to sunlight?
+
+
+
+
     public float walkingSpeed;                      // Speed of Remilia's movement (Walking)
     public float runningSpeed;                      // Speed of Remilia's movement (Running)
     private float currentSpeed;                     // CurrentSpeed (Only useful for Running movement)
@@ -16,7 +24,7 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     // Probabilities for choosing, randomly, different movements for Remilia (Walking, Standing and Running)
     public int walkProbability;                     // Must be between 0 and 100.
     public int standProbability;                    // Must be between 0 and 100.
-                                                    // Running probabilty will be the  remaining percentage
+                                                    // Running probabilty will be the remaining percentage
 
     // Movement actions
     private const int NONE = -1;                    // None selection
@@ -42,6 +50,8 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
     private bool stopMovement = false;              // To stop movement
 
 
+    [SerializeField]                                // Delete later
+    private int collidersOutside = 3;
 
     void Start () {
         Vector2 mousePosition = CameraHelper.getCursorPosition();
@@ -50,15 +60,39 @@ public class RemiCover_RemiBehaviour : MonoBehaviour {
         this.shadowObj = GameObject.Find("Player/UmbrellaShadow");
         this.lastMovementSelection = STAND;
         this.selectionTimer = 1.0f;
+
+        this.HP = 1;                                // Delete later
+        this.collidersOutside = 3;                  // Delete later
     }
 	
-    
+    // Update is called once per frame
     void Update(){
         if (!stopMovement){ 
             moveCharacter();
-            if (!checkIfUnderShadow()){
-                GameOver();
-            }
+            burnCharacter();
+            if ( HP <= 0 ) GameOver();
+        }
+    }
+
+    private void burnCharacter()
+    {
+        this.HP -= burnSpeed * Time.deltaTime * collidersOutside;
+    }
+
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.name == "UmbrellaShadow")
+        {
+            collidersOutside += 1;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.name == "UmbrellaShadow")
+        {
+            collidersOutside -= 1;
         }
     }
 
