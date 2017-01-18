@@ -17,7 +17,4 @@ public class RemiCover_UmbrellaBehaviour : MonoBehaviour {
         this.transform.position = new Vector2(mousePosition.x, verticalPosition);
     }
 
-    
-
-
 }
