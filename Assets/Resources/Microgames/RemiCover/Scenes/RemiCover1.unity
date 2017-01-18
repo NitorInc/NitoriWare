@@ -232,7 +232,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1692206247
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 123032191f3a11f468e45ca4f6323ee6, type: 3}
   m_Color: {r: 0.55983764, g: 0.5441177, b: 1, a: 1}
   m_FlipX: 0
@@ -324,7 +324,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 863661893}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4, y: 5.1, z: 0}
+  m_LocalPosition: {x: 3.4000006, y: 5.0999994, z: 0}
   m_LocalScale: {x: 2.2420237, y: 2.047065, z: 1.9495857}
   m_Children:
   - {fileID: 1682290619}
@@ -598,10 +598,11 @@ GameObject:
   - component: {fileID: 1718812987}
   - component: {fileID: 1718812988}
   - component: {fileID: 1718812990}
-  - component: {fileID: 1718812991}
   - component: {fileID: 1718812993}
   - component: {fileID: 1718812992}
   - component: {fileID: 1718812989}
+  - component: {fileID: 1718812994}
+  - component: {fileID: 1718812991}
   m_Layer: 0
   m_Name: Remilia
   m_TagString: Untagged
@@ -682,11 +683,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1718812986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6917d08604044d54dab4dd89944b12db, type: 3}
+  m_Script: {fileID: 11500000, guid: 05432345037fd884cb20bd0566578dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 1
-  burnSpeed: 0.75
   walkingSpeed: 7
   runningSpeed: 18
   accelerationFactor: 0.2
@@ -696,7 +695,6 @@ MonoBehaviour:
   standProbability: 50
   min_selectionTimer: 0.25
   max_SelectionTimer: 0.5
-  collidersOutside: 3
 --- !u!61 &1718812992
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -725,6 +723,22 @@ BoxCollider2D:
   m_Offset: {x: -1.0188562, y: 0.10010719}
   serializedVersion: 2
   m_Size: {x: 0.3, y: 7.2466106}
+--- !u!114 &1718812994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1718812986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8f1a33a44a5c24b94a17f00a6f2b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 1
+  burnSpeed: 0.75
+  collidersOutside: 0
+  smokeParticles: {fileID: 198909457331225016, guid: a6ef5268ba3b92041902c8df95ada31d,
+    type: 2}
 --- !u!1 &2039937018
 GameObject:
   m_ObjectHideFlags: 0
