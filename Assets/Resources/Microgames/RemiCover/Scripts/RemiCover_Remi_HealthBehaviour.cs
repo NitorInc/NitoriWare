@@ -16,6 +16,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     private GameObject remiliaSprite = null;
     public ParticleSystem smokeParticles;
     private ParticleSystem smokeInstance;
+	private SpriteRenderer remiSpriteRenderer;
 
     // Use this for initialization
     void Start() {
@@ -24,6 +25,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         smokeInstance = (ParticleSystem)Instantiate(smokeParticles, remiliaSprite.transform.position, smokeParticles.transform.rotation);
         var emission = smokeInstance.emission;
         collidersOutside = 0;
+		remiSpriteRenderer = remiliaSprite.GetComponent<SpriteRenderer>();
     }
 
 
@@ -36,18 +38,28 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         }
 
         manageEmission();
-
+		if (MicrogameController.instance.getVictory())
+			manageSpriteColor();
 
     }
+
+	private void manageSpriteColor()
+	{
+		//Color lerps from white to light red based on HP, then pure red like normal on failure
+		changeSpriteColor(new Color(1f, Mathf.Lerp(.5f, 1f, HP), Mathf.Lerp(.5f, 1f, HP)));
+	}
 
     private void manageEmission()
     {
         var emission = smokeInstance.emission;
        
-        smokeInstance.transform.position = remiliaSprite.transform.position;
-        smokeInstance.startSize = ((1 - HP) * 50) / 25;
+        smokeInstance.transform.position = remiliaSprite.transform.position + (Vector3.up * .5f);
+		smokeInstance.startSize = (((1 - HP) * 90) / 25)
+			* (MicrogameController.instance.getVictory() ? 1f : 1.25f);	//Particle size intensifies on death
 
-        emission.rateOverTime = ((1 - HP) * 1000) / 10;
+        emission.rateOverTime = (((1 - HP) * 2000) / 10)
+			* (MicrogameController.instance.getVictory() ? 1f : 1.5f);	//Particle rate intensifies on death
+
        
     }
 
@@ -90,7 +102,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
 
     private void changeSpriteColor(Color color)
     {
-        remiliaSprite.GetComponent<SpriteRenderer>().color = color;
+        remiSpriteRenderer.color = color;
     }
 
 
