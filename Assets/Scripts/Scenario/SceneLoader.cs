@@ -15,12 +15,12 @@ public class SceneLoader : MonoBehaviour
 
 	private class MicrogameLoadOperation
 	{
-		public ScenarioController.Microgame microgame;
+		public StageController.Microgame microgame;
 		public List<QueuedResource> resourceQueue;
 		public List<ResourceRequest> requests;
 		public bool finished;
 
-		public MicrogameLoadOperation(ScenarioController.Microgame microgame)
+		public MicrogameLoadOperation(StageController.Microgame microgame)
 		{
 			this.microgame = microgame;
 			resourceQueue = new List<QueuedResource>();
@@ -56,7 +56,7 @@ public class SceneLoader : MonoBehaviour
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
 	}
 
-	public void queueMicrogame(ScenarioController.Microgame microgame)
+	public void queueMicrogame(StageController.Microgame microgame)
 	{
 		MicrogameLoadOperation newOperation = new MicrogameLoadOperation(microgame);
 		operationQueue.Add(newOperation);
@@ -74,7 +74,7 @@ public class SceneLoader : MonoBehaviour
 
 	}
 
-	public void removeMicrogame(ScenarioController.Microgame microgame)
+	public void removeMicrogame(StageController.Microgame microgame)
 	{
 		for (int i = 0; i < operationQueue.Count; i++)
 		{

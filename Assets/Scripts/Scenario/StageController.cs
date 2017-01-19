@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ScenarioController : MonoBehaviour
+public class StageController : MonoBehaviour
 {
-	public static ScenarioController instance;
+	public static StageController instance;
 
 	public const int MAX_SPEED = 10;
 

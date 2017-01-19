@@ -15,7 +15,7 @@ public class MicrogameController : MonoBehaviour
 	public AudioClip musicClip;
 
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
-	[Range(1, ScenarioController.MAX_SPEED)]
+	[Range(1, StageController.MAX_SPEED)]
 	public int debugSpeed;
 	public UnityEvent onPause, onUnPause;
 	public GameObject debugObjects;
@@ -33,11 +33,11 @@ public class MicrogameController : MonoBehaviour
 	{
 		instance = this;
 
-		if (ScenarioController.instance == null)
+		if (StageController.instance == null)
 		{
 			//Debug Mode Start (scene open by itself)
-			ScenarioController.beatLength = 60f / 130f;
-			Time.timeScale = ScenarioController.getSpeedMult(debugSpeed);
+			StageController.beatLength = 60f / 130f;
+			Time.timeScale = StageController.getSpeedMult(debugSpeed);
 
 			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
 
@@ -55,11 +55,11 @@ public class MicrogameController : MonoBehaviour
 			{
 				AudioSource source = debugObjects.transform.FindChild("Music").GetComponent<AudioSource>();
 				source.clip = musicClip;
-				source.pitch = ScenarioController.getSpeedMult(debugSpeed);
+				source.pitch = StageController.getSpeedMult(debugSpeed);
 				if (!debugSimulateDelay)
 					source.Play();
 				else
-					AudioHelper.playScheduled(source, ScenarioController.beatLength);
+					AudioHelper.playScheduled(source, StageController.beatLength);
 			}
 
 			Transform UICam = debugObjects.transform.FindChild("UI Camera");
@@ -77,18 +77,18 @@ public class MicrogameController : MonoBehaviour
 		else
 		{
 			//Normal Start
-			ScenarioController.instance.scenarioCamera.tag = "Camera";
+			StageController.instance.scenarioCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
 
-			MicrogameTimer.instance.beatsLeft = ScenarioController.instance.getBeatsRemaining();
+			MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 			MicrogameTimer.instance.gameObject.SetActive(true);
 
-			ScenarioController.instance.microgameMusicSource.clip = musicClip;
+			StageController.instance.microgameMusicSource.clip = musicClip;
 
-			commandTransform = ScenarioController.instance.transform.FindChild("Command");
+			commandTransform = StageController.instance.transform.FindChild("Command");
 
-			ScenarioController.instance.resetVictory();
-			ScenarioController.instance.invokeNextCycle();
+			StageController.instance.resetVictory();
+			StageController.instance.invokeNextCycle();
 		}
 
 	}
@@ -105,7 +105,7 @@ public class MicrogameController : MonoBehaviour
 	/// <param name="final"></param>
 	public void setVictory(bool victory, bool final)
 	{
-		if (ScenarioController.instance == null)
+		if (StageController.instance == null)
 		{
 			if (victoryDetermined)
 			{
@@ -116,7 +116,7 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 		{
-			ScenarioController.instance.setMicrogameVictory(victory, final);
+			StageController.instance.setMicrogameVictory(victory, final);
 		}
 	}
 	
@@ -126,12 +126,12 @@ public class MicrogameController : MonoBehaviour
 	/// <returns></returns>
 	public bool getVictory()
 	{
-		if (ScenarioController.instance == null)
+		if (StageController.instance == null)
 		{
 			return victory;
 		}
 		else
-			return ScenarioController.instance.getMicrogameVictory();
+			return StageController.instance.getMicrogameVictory();
 	}
 
 	/// <summary>
@@ -140,12 +140,12 @@ public class MicrogameController : MonoBehaviour
 	/// <returns></returns>
 	public bool getVictoryDetermined()
 	{
-		if (ScenarioController.instance == null)
+		if (StageController.instance == null)
 		{
 			return victoryDetermined;
 		}
 		else
-			return ScenarioController.instance.getVictoryDetermined();
+			return StageController.instance.getVictoryDetermined();
 	}
 
 	/// <summary>
@@ -165,7 +165,7 @@ public class MicrogameController : MonoBehaviour
 
 	void Update ()
 	{
-		if (ScenarioController.instance == null && Input.GetKeyDown(KeyCode.R))
+		if (StageController.instance == null && Input.GetKeyDown(KeyCode.R))
 		{
 			SceneManager.LoadScene(gameObject.scene.buildIndex);
 		}
