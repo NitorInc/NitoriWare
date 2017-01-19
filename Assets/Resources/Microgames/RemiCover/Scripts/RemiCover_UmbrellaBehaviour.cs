@@ -13,6 +13,8 @@ public class RemiCover_UmbrellaBehaviour : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+		if (!MicrogameController.instance.getVictory())
+			return;
         Vector2 mousePosition = CameraHelper.getCursorPosition();
         this.transform.position = new Vector2(mousePosition.x, verticalPosition);
     }
