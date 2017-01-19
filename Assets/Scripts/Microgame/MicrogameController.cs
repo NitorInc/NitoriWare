@@ -77,7 +77,7 @@ public class MicrogameController : MonoBehaviour
 		else
 		{
 			//Normal Start
-			StageController.instance.scenarioCamera.tag = "Camera";
+			StageController.instance.stageCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
 
 			MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();

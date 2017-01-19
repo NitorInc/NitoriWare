@@ -23,7 +23,7 @@ public class StageController : MonoBehaviour
 	public AnimationPart animationPart;
 
 	public MicrogameInfoParser infoParser;
-	public Camera scenarioCamera;
+	public Camera stageCamera;
 	public Animator[] lifeIndicators;
 	public AudioSource outroSource, introSource, speedUpSource, microgameMusicSource;
 	public AudioClip victoryClip, failureClip;
@@ -342,7 +342,7 @@ public class StageController : MonoBehaviour
 		SceneManager.UnloadScene(MicrogameController.instance.gameObject.scene);
 		SceneManager.SetActiveScene(gameObject.scene);
 
-		scenarioCamera.tag = "MainCamera";
+		stageCamera.tag = "MainCamera";
 		MicrogameController.instance = null;
 		CameraController.instance = Camera.main.GetComponent<CameraController>();
 		
