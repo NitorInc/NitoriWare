@@ -25,7 +25,7 @@ public class ScenarioController : MonoBehaviour
 	public MicrogameInfoParser infoParser;
 	public Camera scenarioCamera;
 	public Animator[] lifeIndicators;
-	public AudioSource introSource, outroSource, speedUpSource, microgameMusicSource;
+	public AudioSource outroSource, introSource, speedUpSource, microgameMusicSource;
 	public AudioClip victoryClip, failureClip;
 	public TextMesh command;
 	public GameObject scene;
@@ -52,12 +52,14 @@ public class ScenarioController : MonoBehaviour
 	public enum AnimationPart
 	{
 		Idle,		//0	Animation does nothing, camera is disabled
-		Intro,		//1	Part that changes depending on if you win/lose
-		Outro,		//2	Part after Outro, shows the control scheme and current score
+		Outro,		//1	Part that changes depending on if you win/lose
+		Intro,		//2	Part that introduces the microgame
 		LastBeat,	//4	Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame
-		SpeedUp		//5 Between Intro and Outro when the game increases speed, speed is actually changed in Outro
+
+		SpeedUp		//5 Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro
 	}
 
+	//Interruptions happen between Outro and Intro, signaling animations such as speeding up and introducing a boss microgame
 	public Interruption interruption;
 	public enum Interruption
 	{
@@ -70,11 +72,11 @@ public class ScenarioController : MonoBehaviour
 
 		setAnimationPart(animationPart);
 
-		beatLength = introSource.clip.length / 4f;
+		beatLength = outroSource.clip.length / 4f;
 		animationStartTime = Time.time + 1.25f;
 		setMicrogameVictory(true, false);
-		Invoke("invokeIntroAnimations", .2f);
 		Invoke("invokeOutroAnimations", .2f);
+		Invoke("invokeIntroAnimations", .2f);
 
 		microgameCount = 0;
 		round = 0;
@@ -141,19 +143,19 @@ public class ScenarioController : MonoBehaviour
 
 
 	//Animation and music time is measured by "beats" here
-	//the zeroth beat of each cycle is when the Intro animation starts (right when the last microgame ends)
-	void invokeIntroAnimations()
+	//the zeroth beat of each cycle is when the Outro animation starts (right when the last microgame ends)
+	void invokeOutroAnimations()
 	{
 		invokeAtBeat("updateToLastBeat", -1f);
 
-		invokeAtBeat("updateToIntro", 0f);
+		invokeAtBeat("updateToOutro", 0f);
 
 		invokeAtBeat("updateMicrogameLoading", 2f);
 	}
 
-	void invokeOutroAnimations()
+	void invokeIntroAnimations()
 	{
-		invokeAtBeat("updateToOutro", 4f);
+		invokeAtBeat("updateToIntro", 4f);
 
 		invokeAtBeat("updateCursorVisibility", 5f);
 
@@ -171,12 +173,12 @@ public class ScenarioController : MonoBehaviour
 		setAnimationPart(AnimationPart.LastBeat);
 	}
 
-	void updateToIntro()
+	void updateToOutro()
 	{
-		introSource.pitch = getSpeedMult();
+		outroSource.pitch = getSpeedMult();
 		if (!muteMusic)
-			introSource.Play();
-		setAnimationPart(AnimationPart.Intro);
+			outroSource.Play();
+		setAnimationPart(AnimationPart.Outro);
 		if (!microgameVictory)
 			lowerLife();
 
@@ -214,18 +216,18 @@ public class ScenarioController : MonoBehaviour
 		
 		
 
-		outroSource.pitch = getSpeedMult();
+		introSource.pitch = getSpeedMult();
 		if (!muteMusic && life > 0)
 		{
 			if (interruption == Interruption.SpeedUp && speedUpAnimation)
-				AudioHelper.playScheduled(outroSource, beatLength * 12f);
+				AudioHelper.playScheduled(introSource, beatLength * 12f);
 			else
-				AudioHelper.playScheduled(outroSource, beatLength * 4f);
+				AudioHelper.playScheduled(introSource, beatLength * 4f);
 		}
 
 	}
 
-	void updateToOutro()
+	void updateToIntro()
 	{
 
 		//Placeholder "game over"
@@ -233,19 +235,19 @@ public class ScenarioController : MonoBehaviour
 		{
 			Time.timeScale = 1f;
 			CancelInvoke();
-			outroSource.Stop();
+			introSource.Stop();
 			placeholderResults.transform.parent.gameObject.SetActive(true);
 			placeholderResults.setScore(microgameCount);
 			return;
 		}
 
 		Time.timeScale = getSpeedMult();
-		setAnimationPart(AnimationPart.Outro);
+		setAnimationPart(AnimationPart.Intro);
 
 		getMicrogameInfo();
 
-		if (!outroSource.isPlaying)
-			outroSource.Play();
+		if (!introSource.isPlaying)
+			introSource.Play();
 	}
 
 	void updateToIdle()
@@ -308,7 +310,7 @@ public class ScenarioController : MonoBehaviour
 		MicrogameTimer.instance.invokeTick();
 		microgameIndex++;
 
-		invokeIntroAnimations();
+		invokeOutroAnimations();
 
 		//Increase speed periodically
 		if (speedIncreaseOn)
@@ -329,7 +331,7 @@ public class ScenarioController : MonoBehaviour
 		else
 			interruption = Interruption.Nothing;
 
-		invokeOutroAnimations();
+		invokeIntroAnimations();
 
 	}
 
@@ -371,16 +373,16 @@ public class ScenarioController : MonoBehaviour
 
 	public void onPause()
 	{
-		if (animationPart == AnimationPart.Outro)
-			outroSource.Pause();
-		else if (outroSource.isPlaying)
-			outroSource.Stop();
+		if (animationPart == AnimationPart.Intro)
+			introSource.Pause();
+		else if (introSource.isPlaying)
+			introSource.Stop();
 	}
 
 	public void onUnPause()
 	{
-		if (animationPart == AnimationPart.Outro)
-			outroSource.UnPause();
+		if (animationPart == AnimationPart.Intro)
+			introSource.UnPause();
 	}
 	
 	void Update()
@@ -428,13 +430,13 @@ public class ScenarioController : MonoBehaviour
 			return;
 		}
 
-		if (victory && introSource.clip != victoryClip)
+		if (victory && outroSource.clip != victoryClip)
 		{
-			introSource.clip = victoryClip;
+			outroSource.clip = victoryClip;
 		}
-		else if (!victory && introSource.clip != failureClip)
+		else if (!victory && outroSource.clip != failureClip)
 		{
-			introSource.clip = failureClip;
+			outroSource.clip = failureClip;
 		}
 		microgameVictory = victory;
 
@@ -512,14 +514,14 @@ public class ScenarioController : MonoBehaviour
 		if (interruption == Interruption.SpeedUp && speedUpAnimation)
 		{
 			animationStartTime -= beatLength * 8f;
-			invokeIntroAnimations();
+			invokeOutroAnimations();
 			invokeAtBeat("updateToSpeedUp", 4f);
 			animationStartTime += beatLength * 8f;
 		}
 		else
-			invokeIntroAnimations();
+			invokeOutroAnimations();
 
-		invokeOutroAnimations();
+		invokeIntroAnimations();
 	}
 
 	void invokeAtBeat(string function, float beatFromAnimationStart)
