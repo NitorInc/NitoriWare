@@ -67,7 +67,10 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
     private void updateHP()
     {
-        this.HP -= burnSpeed * Time.deltaTime * collidersOutside;
+		if (collidersOutside == 0)
+			this.HP = Mathf.Min(this.HP + (burnSpeed * Time.deltaTime * .65f), 1f);
+		else
+			this.HP -= burnSpeed * Time.deltaTime * collidersOutside;
     }
 
 
