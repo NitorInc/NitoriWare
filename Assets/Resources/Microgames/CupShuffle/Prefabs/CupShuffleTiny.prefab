@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4601278236400748}
   - component: {fileID: 114737621320535462}
+  - component: {fileID: 60415477586227668}
   m_Layer: 0
   m_Name: CupShuffleTiny
   m_TagString: Untagged
@@ -399,7 +400,7 @@ Transform:
   m_GameObject: {fileID: 1398381579895832}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children:
   - {fileID: 4425380722534942}
   m_Father: {fileID: 0}
@@ -489,6 +490,32 @@ Transform:
   m_Father: {fileID: 4425380722534942}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &60415477586227668
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1398381579895832}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -1.4563471, y: 3.941508}
+      - {x: -0.5085243, y: 4.204789}
+      - {x: 1.0881462, y: 4.1331735}
+      - {x: 2.228645, y: 2.838431}
+      - {x: 4.1295347, y: 1.4303037}
+      - {x: 4.7687936, y: -1.3299109}
+      - {x: 3.1854033, y: -2.254235}
+      - {x: 0.12502962, y: -2.5829148}
+      - {x: -2.9594088, y: -2.3900995}
+      - {x: -4.7060475, y: -1.1776477}
+      - {x: -4.1630793, y: 1.4150965}
+      - {x: -2.1850734, y: 2.796331}
 --- !u!95 &95518998306563268
 Animator:
   serializedVersion: 3
@@ -531,7 +558,7 @@ MonoBehaviour:
       tangentMode: 0
     - serializedVersion: 2
       time: 0.50022554
-      value: 1.75
+      value: 1.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -545,6 +572,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   animator: {fileID: 95518998306563268}
+  clickCollider: {fileID: 60415477586227668}
   _isCorrect: 1
   _state: 0
 --- !u!212 &212179539503034170

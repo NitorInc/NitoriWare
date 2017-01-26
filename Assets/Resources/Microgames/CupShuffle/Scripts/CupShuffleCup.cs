@@ -9,6 +9,7 @@ public class CupShuffleCup : MonoBehaviour
 	public float cupSeparation;
 	public AnimationCurve moveCurve;
 	public Animator animator;
+	public Collider2D clickCollider;
 
 	[SerializeField]
 	private bool _isCorrect;
@@ -59,6 +60,24 @@ public class CupShuffleCup : MonoBehaviour
 	{
 		if (currentAnimation.active)
 			updateAnimation();
+		else if (state == CupShuffleController.State.Choose)
+			checkForClick();
+	}
+
+	void checkForClick()
+	{
+		if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
+		{
+			//TODO Results
+			if (isCorrect)
+			{
+				Debug.Log("You win");
+			}
+			else
+			{
+				Debug.Log("You lose");
+			}
+		}
 	}
 
 	void updateAnimation()
