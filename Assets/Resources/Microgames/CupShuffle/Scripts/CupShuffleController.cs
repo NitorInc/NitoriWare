@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CupShuffleController : MonoBehaviour
 {
+	public static CupShuffleController instance;
+
 	public int cupCount, shuffleCount;
 	public float shuffleTime, shuffleStartDelay;
 	public GameObject cupPrefab;
@@ -28,7 +30,12 @@ public class CupShuffleController : MonoBehaviour
 		Loss
 	}
 
-	void Start ()
+	void Awake()
+	{
+		instance = this;
+	}
+
+	void Start()
 	{
 		int correctCup = Random.Range(0, cupCount);
 		cups = new CupShuffleCup[cupCount];
@@ -58,9 +65,14 @@ public class CupShuffleController : MonoBehaviour
 		state = State.Choose;
 	}
 
-	void setStatus()
+	public void victory()
 	{
+		//TODO
+	}
 
+	public void failure()
+	{
+		//TODO
 	}
 
 	void shuffle()

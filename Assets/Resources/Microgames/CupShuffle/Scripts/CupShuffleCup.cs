@@ -20,6 +20,14 @@ public class CupShuffleCup : MonoBehaviour
 	}
 
 	[SerializeField]
+	private bool _chosen;
+	public bool chosen
+	{
+		get { return _chosen; }
+		set { _chosen = value; animator.SetBool("chosen", value); }
+	}
+
+	[SerializeField]
 	private CupShuffleController.State _state;
 	public CupShuffleController.State state
 	{
@@ -68,14 +76,14 @@ public class CupShuffleCup : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
 		{
-			//TODO Results
+			chosen = true;
 			if (isCorrect)
 			{
-				Debug.Log("You win");
+				CupShuffleController.instance.victory();
 			}
 			else
 			{
-				Debug.Log("You lose");
+				CupShuffleController.instance.failure();
 			}
 		}
 	}
