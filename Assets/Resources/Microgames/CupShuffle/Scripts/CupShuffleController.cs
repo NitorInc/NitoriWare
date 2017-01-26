@@ -23,6 +23,7 @@ public class CupShuffleController : MonoBehaviour
 	{
 		Idle,
 		Shuffling,
+		Waiting,
 		Victory,
 		Loss
 	}
@@ -44,11 +45,15 @@ public class CupShuffleController : MonoBehaviour
 
 	private IEnumerator playAnimations()
 	{
+		yield return new WaitForSeconds(shuffleStartDelay);
+		state = State.Shuffling;
 		for (int i = 0; i < shuffleCount; i++)
 		{
 			shuffle();
 			yield return new WaitForSeconds(shuffleTime);
 		}
+		MicrogameController.instance.displayCommand("Choose!");
+		state = State.Waiting;
 	}
 
 	void setStatus()
