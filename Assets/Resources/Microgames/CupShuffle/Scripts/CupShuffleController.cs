@@ -5,25 +5,55 @@ using UnityEngine;
 public class CupShuffleController : MonoBehaviour
 {
 	public int cupCount, shuffleCount;
-	public float shuffleTime;
+	public float shuffleTime, shuffleStartDelay;
 	public GameObject cupPrefab;
 
 	private CupShuffleCup[] cups;
 
+	[SerializeField]
+	private State _state;
+	public State state
+	{
+		get { return _state; }
+		set { _state = value; for (int i = 0; i < cups.Length; cups[i++].state = state);}
+	}
+
+
+	public enum State
+	{
+		Idle,
+		Shuffling,
+		Victory,
+		Loss
+	}
 
 	void Start ()
 	{
+		int correctCup = Random.Range(0, cupCount);
 		cups = new CupShuffleCup[cupCount];
 		for (int i = 0; i < cupCount; i++)
 		{
 			cups[i] = GameObject.Instantiate(cupPrefab).GetComponent<CupShuffleCup>();
 			cups[i].position = i;
+			cups[i].isCorrect = i == correctCup;
 		}
 
+		StartCoroutine(playAnimations());
+	}
+
+
+	private IEnumerator playAnimations()
+	{
 		for (int i = 0; i < shuffleCount; i++)
 		{
-			Invoke("shuffle", i * shuffleTime);
+			shuffle();
+			yield return new WaitForSeconds(shuffleTime);
 		}
+	}
+
+	void setStatus()
+	{
+
 	}
 
 	void shuffle()

@@ -7,8 +7,24 @@ public class CupShuffleCup : MonoBehaviour
 	public int position;
 	public Vector3 leftmostPosition;
 	public float cupSeparation;
-	public bool isCorrect;
 	public AnimationCurve moveCurve;
+	public Animator animator;
+
+	[SerializeField]
+	private bool _isCorrect;
+	public bool isCorrect
+	{
+		get{return _isCorrect;}
+		set { _isCorrect = value; animator.SetBool("isCorrect", value);}
+	}
+
+	[SerializeField]
+	private CupShuffleController.State _state;
+	public CupShuffleController.State state
+	{
+		get { return _state; }
+		set { _state = value; animator.SetInteger("state", (int)value); }
+	}
 
 	private Animation currentAnimation;
 	private struct Animation

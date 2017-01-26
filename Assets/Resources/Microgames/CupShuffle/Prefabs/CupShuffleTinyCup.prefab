@@ -13,7 +13,7 @@ Prefab:
   m_IsPrefabParent: 1
 --- !u!1 &1046638306161214
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -74,7 +74,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1388173403048564
 GameObject:
   m_ObjectHideFlags: 1
@@ -99,7 +99,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4601278236400748}
-  - component: {fileID: 95245686209543020}
   - component: {fileID: 114737621320535462}
   m_Layer: 0
   m_Name: CupShuffleTinyCup
@@ -110,7 +109,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1413352134422318
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -187,7 +186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1597650403757430
 GameObject:
   m_ObjectHideFlags: 1
@@ -206,7 +205,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1636341864753620
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -345,8 +344,10 @@ Transform:
   m_Children:
   - {fileID: 4550331707155064}
   - {fileID: 4937809754677014}
-  m_Father: {fileID: 4780571002519004}
-  m_RootOrder: 2
+  - {fileID: 4780571002519004}
+  - {fileID: 4982645871199250}
+  m_Father: {fileID: 4601278236400748}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4452191927559960
 Transform:
@@ -400,8 +401,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
-  - {fileID: 4780571002519004}
-  - {fileID: 4982645871199250}
+  - {fileID: 4425380722534942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -424,15 +424,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1636341864753620}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.023529015, y: 1.0955144, z: 0}
+  m_LocalScale: {x: 1.1411611, y: 1.1411607, z: 1.1411608}
   m_Children:
   - {fileID: 4345732195998594}
   - {fileID: 4807284108948136}
-  - {fileID: 4425380722534942}
-  m_Father: {fileID: 4601278236400748}
-  m_RootOrder: 0
+  m_Father: {fileID: 4425380722534942}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4807284108948136
 Transform:
@@ -483,30 +482,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046638306161214}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.023529015, y: 1.0955144, z: 0}
+  m_LocalScale: {x: 1.1411611, y: 1.1411607, z: 1.1411608}
   m_Children: []
-  m_Father: {fileID: 4601278236400748}
-  m_RootOrder: 1
+  m_Father: {fileID: 4425380722534942}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95245686209543020
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1398381579895832}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a4847c77862e1cc42a7285b4f35cf1b0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95518998306563268
 Animator:
   serializedVersion: 3
@@ -538,7 +520,6 @@ MonoBehaviour:
   position: 0
   leftmostPosition: {x: -4.5, y: 0, z: 0}
   cupSeparation: 3
-  isCorrect: 1
   moveCurve:
     serializedVersion: 2
     m_Curve:
@@ -563,6 +544,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  animator: {fileID: 95518998306563268}
+  _isCorrect: 1
+  _state: 0
 --- !u!212 &212179539503034170
 SpriteRenderer:
   m_ObjectHideFlags: 1
