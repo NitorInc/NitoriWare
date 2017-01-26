@@ -34,6 +34,12 @@ public class CupShuffleCup : MonoBehaviour
 		public float startTime, duration;
 	}
 
+	void Awake()
+	{
+		isCorrect = isCorrect;
+		state = state;
+	}
+
 	void Start()
 	{
 		transform.position = leftmostPosition + (Vector3.right * (float)position * cupSeparation);
