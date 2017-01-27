@@ -69,14 +69,12 @@ public class CupShuffleController : MonoBehaviour
 	{
 		state = State.Victory;
 		MicrogameController.instance.setVictory(true, true);
-		//TODO
 	}
 
 	public void failure()
 	{
 		state = State.Loss;
 		MicrogameController.instance.setVictory(false, true);
-		//TODO
 	}
 
 	void shuffle()

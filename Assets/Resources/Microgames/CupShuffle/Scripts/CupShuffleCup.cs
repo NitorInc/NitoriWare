@@ -114,7 +114,7 @@ public class CupShuffleCup : MonoBehaviour
 	{
 		transform.position = leftmostPosition + new Vector3(((float)position * cupSeparation)
 			+ Mathf.Lerp(0f, (float)cupSeparation * currentAnimation.cupDistance, time),
-			moveCurve.Evaluate(time) * (currentAnimation.goingUp ? 1f : -1f), transform.position.z);
+			moveCurve.Evaluate(time) * (float)currentAnimation.cupDistance /* * (currentAnimation.goingUp ? 1f : -1f)*/, transform.position.z);
 	}
 
 }
