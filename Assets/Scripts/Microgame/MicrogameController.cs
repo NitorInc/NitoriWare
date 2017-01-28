@@ -85,7 +85,7 @@ public class MicrogameController : MonoBehaviour
 
 			StageController.instance.microgameMusicSource.clip = musicClip;
 
-			commandTransform = StageController.instance.transform.FindChild("Command");
+			commandTransform = StageController.instance.transform.root.FindChild("UI").FindChild("Command");
 
 			StageController.instance.resetVictory();
 			StageController.instance.invokeNextCycle();

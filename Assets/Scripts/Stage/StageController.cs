@@ -171,6 +171,8 @@ public class StageController : MonoBehaviour
 	{
 		scene.SetActive(true);
 		setAnimationPart(AnimationPart.LastBeat);
+		if (MicrogameController.instance != null)
+			MicrogameController.instance.displayCommand("");
 	}
 
 	void updateToOutro()
