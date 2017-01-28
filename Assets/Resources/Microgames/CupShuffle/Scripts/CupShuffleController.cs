@@ -9,7 +9,7 @@ public class CupShuffleController : MonoBehaviour
 	public int cupCount, shuffleCount;
 	public float shuffleTime, shuffleStartDelay;
 	public GameObject cupPrefab;
-	public AudioClip shuffleClip;
+	public AudioClip shuffleClip, correctClip, incorrectClip;
 
 	private CupShuffleCup[] cups;
 	private AudioSource _audioSource;
@@ -73,12 +73,14 @@ public class CupShuffleController : MonoBehaviour
 	{
 		state = State.Victory;
 		MicrogameController.instance.setVictory(true, true);
+		_audioSource.PlayOneShot(correctClip);
 	}
 
 	public void failure()
 	{
 		state = State.Loss;
 		MicrogameController.instance.setVictory(false, true);
+		_audioSource.PlayOneShot(incorrectClip);
 	}
 
 	void shuffle()
