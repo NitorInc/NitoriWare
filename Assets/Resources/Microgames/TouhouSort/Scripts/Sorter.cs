@@ -7,7 +7,7 @@ public class Sorter : MonoBehaviour {
 	// Handles objects and win/loss
 
 	// Spacing between starting sortables
-	static float GAP = 1.0f;
+	static float GAP = 2.0f;
 
 	// Max number of sortable touhous
 	public int slotCount;
@@ -18,14 +18,21 @@ public class Sorter : MonoBehaviour {
 	Sortable[] touhous;
 	Vector3[] slots;
 
+	bool sorted;
+
 	void Start() {
 		// Scoop up as many touhous as we can
 		touhous = touhouBucket.Scoop (slotCount);
 		slotCount = touhous.Length;
 
+		sorted = false;
+
 		// Fill starting slots with touhous
 		CreateSlots ();
 		FillSlots ();
+
+		// Check the sort at the start, just in case
+		CheckSort ();
 	}
 
 	void CreateSlots() {
@@ -67,17 +74,17 @@ public class Sorter : MonoBehaviour {
 		bool allSorted = true;
 
 		foreach (Sortable sortable in touhous) {
-			bool sorted = false;
+			bool thisSorted = false;
 
 			// Get the touhou's current zone, if any
 			DropZone currentZone = sortable.GetCurrentZone();
 			
 			if (currentZone) {
 				int zoneCategory = (int)currentZone.category;
-				sorted = currentZone.Belongs (sortable);
+				thisSorted = currentZone.Belongs (sortable);
 			}
 
-			if (sorted != true) {
+			if (thisSorted != true) {
 				allSorted = false;
 				break;
 			}
@@ -86,7 +93,16 @@ public class Sorter : MonoBehaviour {
 		if (allSorted) {
 			// Sorted
 			Debug.Log("Sorted");
-			MicrogameController.instance.setVictory(true, true);
+			sorted = true;
+
+			MicrogameController.instance.setVictory(true, false);
+		}
+		else if (sorted) {
+			// Unsorted
+			Debug.Log("Unsorted");
+			sorted = false;
+
+			MicrogameController.instance.setVictory(false, false);
 		}
 	}
 }
