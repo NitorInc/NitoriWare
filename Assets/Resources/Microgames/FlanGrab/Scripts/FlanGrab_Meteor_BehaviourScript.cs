@@ -82,6 +82,10 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         // If meteor lands on ground, set the defeat.
         MicrogameController.instance.setVictory(false, true);
         this.hasLanded = true;
+
+        // Shake camera
+        Camera.main.GetComponent<CameraShake>().enabled = true;
+
     }
 
     void OnMouseDown()
