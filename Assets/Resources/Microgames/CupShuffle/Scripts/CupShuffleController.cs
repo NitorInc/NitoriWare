@@ -9,8 +9,10 @@ public class CupShuffleController : MonoBehaviour
 	public int cupCount, shuffleCount;
 	public float shuffleTime, shuffleStartDelay;
 	public GameObject cupPrefab;
+	public AudioClip shuffleClip, correctClip, incorrectClip;
 
 	private CupShuffleCup[] cups;
+	private AudioSource _audioSource;
 
 	[SerializeField]
 	private State _state;
@@ -33,6 +35,8 @@ public class CupShuffleController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		_audioSource = GetComponent<AudioSource>();
+		_audioSource.pitch = Time.timeScale;
 	}
 
 	void Start()
@@ -69,12 +73,14 @@ public class CupShuffleController : MonoBehaviour
 	{
 		state = State.Victory;
 		MicrogameController.instance.setVictory(true, true);
+		_audioSource.PlayOneShot(correctClip);
 	}
 
 	public void failure()
 	{
 		state = State.Loss;
 		MicrogameController.instance.setVictory(false, true);
+		_audioSource.PlayOneShot(incorrectClip);
 	}
 
 	void shuffle()
@@ -88,6 +94,8 @@ public class CupShuffleController : MonoBehaviour
 		cupB.endAnimation();
 		cupA.startAnimation(cupB.position - cupA.position, shuffleTime, cupAUp);
 		cupB.startAnimation(cupA.position - cupB.position, shuffleTime, !cupAUp);
+
+		_audioSource.PlayOneShot(shuffleClip);
 	}
 
 	void Update ()
