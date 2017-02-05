@@ -27,27 +27,24 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (meteorCreationCounter < meteorQuantity )
+        if (MicrogameController.instance.getVictory())
         {
-            if (timeCounter > 0)
+            if (meteorCreationCounter < meteorQuantity)
             {
-                timeCounter -= Time.deltaTime;
-            }
+                if (timeCounter > 0)
+                {
+                    timeCounter -= Time.deltaTime;
+                }
 
-            else
-            {
-                generateMeteor(leftLimit, rightLimit);
-                meteorCreationCounter += 1;
-                timeCounter = timeBetweenCreation;
+                else
+                {
+                    generateMeteor(leftLimit, rightLimit);
+                    meteorCreationCounter += 1;
+                    timeCounter = timeBetweenCreation;
+                }
             }
         }
-        
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            generateMeteor(leftLimit, rightLimit);
-        }
-
+       
     }
 
     // Generate a meteor between the A and B horizontal position
@@ -60,7 +57,6 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         var waveAmplitude = meteorScript.amplitude;
         var meteorBounds = meteorInstance.GetComponent<CircleCollider2D>().bounds;
         var centerPoint = meteorBounds.center.x;
-
         var xPosition = -1f;                                        // Default value for initialization
         switch (waveMovementIsOn)
         {
@@ -77,4 +73,5 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         meteorInstance.SetActive(true);
     }
 
+    
 }
