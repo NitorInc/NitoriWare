@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropZone : MonoBehaviour {
+public class TouhouSortDropZone : MonoBehaviour {
 	// A zone that a sortable must be sorted into
 
 	// The category that this zone represents
-	public Sortable.Style category;
+	public TouhouSortSortable.Style category;
 	// Inverts the zone (e.g. no hats allowed)
 	public bool invert;
 
-	public Sorter sorter;
-	public SpriteRenderer spriteRenderer;
+	public TouhouSortSorter sorter;
 
-	public bool Belongs(Sortable sortable) {
+	public bool Belongs(TouhouSortSortable sortable) {
 		// Checks if a given sortable belongs in this zone
 		bool belongs = false;
 
 		int zoneTypeId = (int)category;
-		foreach (Sortable.Style style in sortable.styles) {
+		foreach (TouhouSortSortable.Style style in sortable.styles) {
 			int typeId = (int)style;
 
 			if (typeId == zoneTypeId) {
@@ -35,15 +34,15 @@ public class DropZone : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		Sortable sortable = other.GetComponentInParent<Sortable>();
-		sortable.EnterZone(gameObject.GetComponent<DropZone>());
+		TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
+		sortable.EnterZone(gameObject.GetComponent<TouhouSortDropZone>());
 
 		sorter.SendMessage ("CheckSort");
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
-		Sortable sortable = other.GetComponentInParent<Sortable>();
-		sortable.ExitZone(gameObject.GetComponent<DropZone>());
+		TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
+		sortable.ExitZone(gameObject.GetComponent<TouhouSortDropZone>());
 
 		sorter.SendMessage ("CheckSort");
 	}

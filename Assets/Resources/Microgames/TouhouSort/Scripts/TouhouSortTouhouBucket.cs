@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouhouBucket : MonoBehaviour {
+public class TouhouSortTouhouBucket : MonoBehaviour {
 	// Defines a bucket of touhous
 	// DO NOT add Kisume: results unpredictable
 
 	public Transform dump;
 
 	// List of sortable touhous
-	List<Sortable> touhous;
+	List<TouhouSortSortable> touhous;
 
 	void Start () {
-		touhous = new List<Sortable> ();
+		touhous = new List<TouhouSortSortable> ();
 
 		// Add any sortables childed to this transform
 		foreach (Transform child in transform)
-			touhous.Add (child.GetComponent<Sortable> ());
+			touhous.Add (child.GetComponent<TouhouSortSortable> ());
 	}
 
-	public Sortable[] Scoop(int amount) {
+	public TouhouSortSortable[] Scoop(int amount) {
 		// Scoop <amount> random touhous from the bucket
 		if (amount > touhous.Count) {
 			amount = touhous.Count;
 		}
 
-		Sortable[] randomTouhous = new Sortable[amount];
+		TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
 		for (int i = 0; i < amount; i++) {
-			Sortable touhou = touhous [Random.Range (0, touhous.Count)];
+			TouhouSortSortable touhou = touhous [Random.Range (0, touhous.Count)];
 			randomTouhous [i] = touhou;
 
 			touhous.Remove (touhou);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sortable : MonoBehaviour {
+public class TouhouSortSortable : MonoBehaviour {
 	// Defines an object (usually a touhou)
 	// that can be sorted into a category
 
@@ -20,22 +20,22 @@ public class Sortable : MonoBehaviour {
 	public Collider2D hitBox;
 
 	// Tracks the current zone that the object is in
-	DropZone currentZone;
+	TouhouSortDropZone currentZone;
 
 	void Start () {
 		Collider2D grabBox = GetComponent<Collider2D> ();
 		Physics2D.IgnoreCollision(grabBox, hitBox);
 	}
 
-	public DropZone GetCurrentZone() {
+	public TouhouSortDropZone GetCurrentZone() {
 		return currentZone;
 	}
 
-	public void EnterZone(DropZone zone) {
+	public void EnterZone(TouhouSortDropZone zone) {
 		currentZone = zone;
 	}
 
-	public void ExitZone(DropZone zone) {
+	public void ExitZone(TouhouSortDropZone zone) {
 		if (currentZone == zone) {
 			currentZone = null;
 		}

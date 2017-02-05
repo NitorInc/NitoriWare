@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sorter : MonoBehaviour {
+public class TouhouSortSorter : MonoBehaviour {
 	// Primary class for TouhouSort game handling
 	// Handles objects and win/loss
 
@@ -13,9 +13,9 @@ public class Sorter : MonoBehaviour {
 	public int slotCount;
 
 	public Transform stagingArea;
-	public TouhouBucket touhouBucket;
+	public TouhouSortTouhouBucket touhouBucket;
 
-	Sortable[] touhous;
+	TouhouSortSortable[] touhous;
 	Vector3[] slots;
 
 	bool sorted;
@@ -73,11 +73,11 @@ public class Sorter : MonoBehaviour {
 		// End the game if everything is sorted
 		bool allSorted = true;
 
-		foreach (Sortable sortable in touhous) {
+		foreach (TouhouSortSortable sortable in touhous) {
 			bool thisSorted = false;
 
 			// Get the touhou's current zone, if any
-			DropZone currentZone = sortable.GetCurrentZone();
+			TouhouSortDropZone currentZone = sortable.GetCurrentZone();
 			
 			if (currentZone) {
 				int zoneCategory = (int)currentZone.category;
