@@ -16,8 +16,9 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
     private float startPoint = 0;           // Sine wave center position
 
     private Transform theTransform;
-    private bool hasBeenDestroyed = false;
     private ParticleSystem particleTrail;
+    private FlanGrab_Microgame_Behaviour microgameBehaviour;
+    private bool hasBeenDestroyed = false;
     private bool hasLanded = false;
 
     // Use this for initialization
@@ -25,7 +26,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         this.theTransform = this.transform;
         this.startPoint = this.transform.position.x;
         this.particleTrail = GetComponentInChildren<ParticleSystem>();
-        phase = Random.Range(0, Mathf.PI /2);
+        this.phase = Random.Range(0, Mathf.PI /2);
+        this.microgameBehaviour = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
     }
 	
 	// Update is called once per frame
@@ -49,7 +51,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
             }
         }
 
-        // Destroy gameobject when smoke trail is no longer active
+        // Destroy meteor's gameobject when smoke trail is no longer active
         if (hasBeenDestroyed)
         {
            if (!this.particleTrail.IsAlive())
@@ -98,6 +100,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         this.GetComponent<Collider2D>().enabled = false;
         this.GetComponentInChildren<ParticleSystem>().loop = false;
         Destroy(this.GetComponentInChildren<SpriteRenderer>().gameObject);
+        this.microgameBehaviour.increaseDestructionCounter();
     }
 
 

@@ -73,5 +73,13 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         meteorInstance.SetActive(true);
     }
 
-    
+    public void increaseDestructionCounter()
+    {
+        meteorDestructionCounter += 1;
+        if (meteorDestructionCounter == meteorQuantity)
+        {
+            MicrogameController.instance.setVictory(true, true);
+        }
+    }
+
 }
