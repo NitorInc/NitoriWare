@@ -40,6 +40,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
                 fallingMovement();
                 if (waveMovementIsOn) { waveMovement(); }
             }
+ 
         }
 
         else
@@ -87,16 +88,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         Camera.main.GetComponent<CameraShake>().enabled = true;
     }
 
-    void OnMouseDown()
-    {
-        // Meteor can be destroyed by the player only if he hasn't been defeated yet.
-        if (MicrogameController.instance.getVictory())              
-        {
-            destroyMeteor();
-        }
-    }
 
-    void destroyMeteor()
+    public void destroyMeteor()
     {
         // Destroy Meteor's sprite but not the gameObject. When the ParticleSystem associated is no longer active, meteor's gameObject will be destroyed.
         this.hasBeenDestroyed = true;
