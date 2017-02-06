@@ -85,7 +85,6 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
         // Shake camera
         Camera.main.GetComponent<CameraShake>().enabled = true;
-
     }
 
     void OnMouseDown()
