@@ -9,10 +9,11 @@ public class YukariCakeController : MonoBehaviour {
     public List<AudioSource> AudioSources;
     public Animator YukariAnimator;
     public AudioSource YukariSource;
-    public GameObject Food;
+    public AudioClip YukariSoundSnatch, YukariCakeDimension, YukariSoundVictory, YukariSoundFail;
+    public GameObject YukariFailSprites;
 
-    // Temp
-    public AudioClip Fail;
+    // Game Variables
+    public bool IsVulnerable = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,40 +23,69 @@ public class YukariCakeController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        if(YukariAnimator.GetCurrentAnimatorStateInfo(0).IsName("YukariCakeYukariSnatch"))
+        {
+            if (Enemy.IsAlert && IsVulnerable)
+                SetGameFailure();
+        }
+
         if(!MicrogameController.instance.getVictoryDetermined())
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                YukariAnimator.SetTrigger("stateChange");
-                
-                if(Enemy.IsAlert)
-                {
-                    PlayFailureSound();
-                    YukariAnimator.Play("YukariCakeYukariFail");
-                    MicrogameController.instance.setVictory(false, true);
-                }
-                else
-                {
-                    PlayVictorySound();
-                    YukariAnimator.Play("YukariCakeYukariVictory");
-                    Destroy(Food);
-                    MicrogameController.instance.setVictory(true, true);
-                }
-                Enemy.Stop();
+                // Here comes the snatch sequence. Better not get caught.
+                YukariAnimator.Play("YukariCakeYukariSnatch");
             }
         }
 	}
 
+    public void SetGameVictory()
+    {
+        PlayVictoryAnimation();
+        MicrogameController.instance.setVictory(true, true);
+        Enemy.Stop();
+    }
+
+    public void SetGameFailure()
+    {
+        PlayFailureAnimation();
+        MicrogameController.instance.setVictory(false, true);
+        Enemy.Stop();
+    }
+
+    public void PlayVictoryAnimation()
+    {
+        YukariAnimator.Play("YukariCakeYukariVictory");
+    }
+
+    public void PlayFailureAnimation()
+    {
+        PlayFailureSound();
+        YukariAnimator.Stop();
+        YukariFailSprites.SetActive(true);
+        Enemy.PlayFailureAnimation();
+    }
+
+    public void PlayDimensionSound()
+    {
+        YukariSource.PlayOneShot(YukariCakeDimension);
+    }
+
+    public void PlaySnatchSound()
+    {
+        YukariSource.PlayOneShot(YukariSoundSnatch);
+    }
+
     public void PlayVictorySound()
     {
-        // Better way of dealing with sounds
+        YukariSource.PlayOneShot(YukariSoundVictory);
         Debug.Log("Woo!");
     }
 
     public void PlayFailureSound()
     {
-        // Yeah
-        YukariSource.PlayOneShot(Fail);
+        YukariSource.PlayOneShot(YukariSoundFail);
         Debug.Log(":(");
     }
 }
