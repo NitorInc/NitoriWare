@@ -7,8 +7,9 @@ public class MouseGrabbable : MonoBehaviour
 	public bool centerOnCursor;
 	public UnityEvent onGrab, onRelease;
 
-	private Collider2D _colldider2D;
+	private Collider2D _collider2D;
 	private Vector2 grabOffset;
+	private SpriteRenderer _spriteRenderer;
 	private bool _grabbed = false;
 
 	public bool grabbed
@@ -29,12 +30,13 @@ public class MouseGrabbable : MonoBehaviour
 
 	void Awake ()
 	{
-		_colldider2D = GetComponent<Collider2D>();
+		_collider2D = GetComponent<Collider2D>();
+		_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	void Update ()
 	{
-		if (_colldider2D == null)
+		if (_collider2D == null)
 			return;
 
 		updateStatus();
@@ -56,7 +58,7 @@ public class MouseGrabbable : MonoBehaviour
 	{
 		if (!grabbed)
 		{
-			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_colldider2D))
+			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D))
 				grabbed = true;
 		}
 		else
@@ -65,5 +67,10 @@ public class MouseGrabbable : MonoBehaviour
 				grabbed = false;
 		}
 		
+	}
+
+	public SpriteRenderer getSpriteRenderer()
+	{
+		return _spriteRenderer;
 	}
 }
