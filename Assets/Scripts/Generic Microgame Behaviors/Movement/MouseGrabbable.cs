@@ -9,12 +9,27 @@ public class MouseGrabbable : MonoBehaviour
 
 	private Collider2D _colldider2D;
 	private Vector2 grabOffset;
-	private bool grabbed;
+	private bool _grabbed = false;
+
+	public bool grabbed
+	{
+		get { return _grabbed; }
+		set
+		{
+			_grabbed = value;
+			if (_grabbed)
+			{
+				grabOffset = (Vector2)transform.position - (Vector2)CameraHelper.getCursorPosition();
+				onGrab.Invoke();
+			}
+			else
+				onRelease.Invoke();
+		}
+	}
 
 	void Awake ()
 	{
 		_colldider2D = GetComponent<Collider2D>();
-		grabbed = false;
 	}
 	
 	void Update ()
@@ -42,19 +57,12 @@ public class MouseGrabbable : MonoBehaviour
 		if (!grabbed)
 		{
 			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_colldider2D))
-			{
 				grabbed = true;
-				grabOffset = (Vector2)transform.position - (Vector2)CameraHelper.getCursorPosition();
-				onGrab.Invoke();
-			}
 		}
 		else
 		{
 			if (!Input.GetMouseButton(0))
-			{
 				grabbed = false;
-				onRelease.Invoke();
-			}
 		}
 		
 	}
