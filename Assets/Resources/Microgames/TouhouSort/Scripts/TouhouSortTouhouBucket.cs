@@ -25,14 +25,18 @@ public class TouhouSortTouhouBucket : MonoBehaviour {
 			amount = touhous.Count;
 		}
 
-		TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
+        MouseGrabbableGroup grabGroup = dump.GetComponent<MouseGrabbableGroup>();
+        TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
-		for (int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
 			TouhouSortSortable touhou = touhous [Random.Range (0, touhous.Count)];
+            MouseGrabbable grabbable = touhou.GetComponent<MouseGrabbable>();
 			randomTouhous [i] = touhou;
 
 			touhous.Remove (touhou);
 			touhou.transform.parent = dump;
+
+            grabGroup.addGrabbable(grabbable, true);
 		}
 
 		return randomTouhous;
