@@ -22,6 +22,7 @@ public class YukariCakeReimu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (Level >= 3) ApplyHardModeReimu();
         SetChangeSequence();
 	}
 	
@@ -44,6 +45,10 @@ public class YukariCakeReimu : MonoBehaviour {
 
     public void PlayWoosh(string woosh)
     {
+        // Don't play sounds if Yukari won
+        if (MicrogameController.instance.getVictory())
+            return;
+
         // Because Animation Events don't have a boolean :(
         if (woosh == "WooshBack")
             Source.PlayOneShot(WooshBack);
@@ -71,19 +76,9 @@ public class YukariCakeReimu : MonoBehaviour {
         isActive = false;
     }
 
-    public void SetStateChangeAt()
+    public void ApplyHardModeReimu()
     {
-        float beatsLeft = MicrogameTimer.instance.beatsLeft;
-        float duration = 0f;
-
-        if (IsAlert)
-            Debug.Log("<< ALERT -> NONALERT >>");
-        else
-            Debug.Log("<< NONALERT -> ALERT >>");
-
-        StateChangeAt = Mathf.Clamp(beatsLeft - duration, 0.0f, 8f);
-        //StateChangeAt = beatsLeft - duration;
-        Debug.Log(StateChangeAt);
+        Animator.SetBool("levelThree", true);
     }
 
     public void SetChangeSequence()
@@ -99,31 +94,42 @@ public class YukariCakeReimu : MonoBehaviour {
     public Queue<float> DifficultyEasyPattern()
     {
         // Easy is a set pattern.
-        return new Queue<float>(new[]{ 6f, 4.5f });
+        return new Queue<float>(new[]{ 7.6f, 4.4f });
     }
 
     public Queue<float> DifficultyMediumPattern()
     {
-        // Medium is intended to be a bit tougher.
-        return new Queue<float>(new[]{ 7f, Random.Range(5f, 6f), Random.Range(3.5f, 4f), 2f });
+        // Medium has Reimu flipping twice, but should give a good window of time
+        // if you strike right after she returns back.
+
+        var queue = new Queue<float>();
+        var beatsLeft = 8f;
+        for (int i = 0; i < 4; i++)
+        {
+            beatsLeft -= (i == 0) ? Random.Range(0.25f, 0.45f) :
+                         (i == 1) ? Random.Range(2f, 2.8f) :
+                         (i == 2) ? Random.Range(0.8f, 1.2f) :
+                         Random.Range(2f, 2.5f);
+            queue.Enqueue(beatsLeft);
+        }
+        return queue;
     }
 
     public Queue<float> DifficultyHardPattern()
     {
-        // Hard is supposed to be more sporadic.
+        // Hard should have tighter timing windows.
+        // Like, super tight. ;)
+
         var queue = new Queue<float>();
-        var beatsLeft = 8f - Random.Range(0.1f, 0.75f);
-        queue.Enqueue(beatsLeft);
-
-        var fromAlertToNonalert = true;
-        while(beatsLeft > 0)
+        var beatsLeft = 8f;
+        for (int i = 0; i < 4; i++)
         {
-            // Implies that Reimu is alert for shorter periods of time.
-            beatsLeft -= (fromAlertToNonalert) ? Random.Range(0.5f, 1.8f) : Random.Range(2f, 3.25f);
-            if (beatsLeft > 0)
-                queue.Enqueue(beatsLeft);
+            beatsLeft -= (i == 0) ? Random.Range(0.1f, 0.30f) :
+                         (i == 1) ? Random.Range(2f, 2.5f) :
+                         (i == 2) ? 0.5f :
+                         Random.Range(2f, 1.5f);
+            queue.Enqueue(beatsLeft);
         }
-
         return queue;
     }
 
