@@ -11,7 +11,7 @@ public class MicrogameController : MonoBehaviour
 	public ControlScheme controlScheme;
 	public int beatDuration;
 	public string command;
-	public bool defaultVictory, canEndEarly;
+	public bool defaultVictory, canEndEarly, hideCursor;
 	public AudioClip musicClip;
 
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
@@ -71,8 +71,7 @@ public class MicrogameController : MonoBehaviour
 				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 			}
 
-			if (controlScheme == ControlScheme.Mouse)
-				Cursor.visible = true;
+			Cursor.visible = controlScheme == ControlScheme.Mouse && !hideCursor;
 		}
 		else
 		{
@@ -84,6 +83,9 @@ public class MicrogameController : MonoBehaviour
 			MicrogameTimer.instance.gameObject.SetActive(true);
 
 			StageController.instance.microgameMusicSource.clip = musicClip;
+
+			if (hideCursor)
+				Cursor.visible = false;
 
 			commandTransform = StageController.instance.transform.root.FindChild("UI").FindChild("Command");
 
