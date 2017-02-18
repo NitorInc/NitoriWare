@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4791450352990046}
-  - component: {fileID: 58193364698413658}
+  - component: {fileID: 61514354166811276}
   - component: {fileID: 50787279274249460}
   m_Layer: 0
   m_Name: HitBox
@@ -68,7 +68,7 @@ Transform:
   m_GameObject: {fileID: 1689126893584686}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 9, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4791450352990046}
   m_Father: {fileID: 0}
@@ -94,20 +94,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &58193364698413658
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000765929058230}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!60 &60748274251389798
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -145,6 +131,20 @@ PolygonCollider2D:
       - {x: 0.64, y: -0.60499996}
       - {x: 0.77, y: -0.53499997}
       - {x: 0.81, y: -0.505}
+--- !u!61 &61514354166811276
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000765929058230}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 2}
 --- !u!114 &114828297960814064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   styles: 
-  hitBox: {fileID: 58193364698413658}
+  hitBox: {fileID: 0}
 --- !u!212 &212172991813461966
 SpriteRenderer:
   m_ObjectHideFlags: 1
