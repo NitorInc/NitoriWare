@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using System.Collections;
 
 public class WrenchTighten : MonoBehaviour 
@@ -8,7 +7,7 @@ public class WrenchTighten : MonoBehaviour
 	public float upSpeed, downSpeed, maxRotation, scaleSpeed, minScale, maxScale, boltRotation, progressMult;
 	public int cyclesNeeded;
 	public bool arrowIndicator, fastening, finished;
-	public UnityEvent onVictory;
+	public Animator sceneAnimator;
 
 	public Transform bolt, screw;
 	public Vibrate handVibrate;
@@ -64,7 +63,7 @@ public class WrenchTighten : MonoBehaviour
 		MicrogameController.instance.setVictory(true, true);
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 		finished = true;
-		onVictory.Invoke();
+		sceneAnimator.enabled = true;
 	}
 
 	void updateFasten()
