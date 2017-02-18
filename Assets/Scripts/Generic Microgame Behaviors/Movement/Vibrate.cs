@@ -27,10 +27,20 @@ public class Vibrate : MonoBehaviour
 	public bool relativeToStartPosition, resetOnStop, resetOnStart;
 
 
-	void Start()
+	void Awake()
+	{
+		resetOffset();
+		resetVibrateGoal();
+	}
+
+	void resetOffset()
 	{
 		offset = relativeToStartPosition ? (Vector2)transform.localPosition : Vector2.zero;
-		resetVibrateGoal();
+	}
+
+	void setOffset(Vector3 position)
+	{
+		offset = (Vector2)position;
 	}
 
 	void Update()
