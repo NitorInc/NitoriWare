@@ -15,6 +15,7 @@ public class DonationCoin : MonoBehaviour
 
 	public AudioSource bounceSource, grabSource;
 	public AudioClip bounceClip;
+	public AudioClip[] grabClips;
 	new public Collider2D collider;
 
 	void Awake()
@@ -118,7 +119,8 @@ public class DonationCoin : MonoBehaviour
 	{
 		if (other.name == "Reimu")
 		{
-			grabSource.pitch = .8f * Time.timeScale;
+			grabSource.clip = grabClips[Random.Range(0, grabClips.Length)];
+			grabSource.pitch = Time.timeScale;
 			grabSource.panStereo = getStereoPan();
 			grabSource.Play();
 			DonationReimu reimu = other.GetComponent<DonationReimu>();
