@@ -13,16 +13,26 @@ public class SineWave : MonoBehaviour
 	private Vector3 offset;
 	private float startTime;
 
-	void Start()
+	void Awake()
 	{
-		offset = relativeToStartPosition ? transform.localPosition : Vector3.zero;
-		reset();
+		resetStartPosition();
+		resetCycle();
 	}
 
-	public void reset()
+	public void resetCycle()
 	{
 		startTime = Time.time;
 		Update();
+	}
+
+	public void resetStartPosition()
+	{
+		offset = relativeToStartPosition ? transform.localPosition : Vector3.zero;
+	}
+
+	public void setStartPosition(Vector3 position)
+	{
+		offset = position;
 	}
 	
 	void Update ()
