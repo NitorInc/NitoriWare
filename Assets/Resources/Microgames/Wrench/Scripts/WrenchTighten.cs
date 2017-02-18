@@ -16,7 +16,7 @@ public class WrenchTighten : MonoBehaviour
 
 	private float minRotation;
 	private int cyclesLeft;
-	private bool goingUp;
+	private bool moving;
 
 	void Start ()
 	{
@@ -25,7 +25,7 @@ public class WrenchTighten : MonoBehaviour
 
 	public void reset()
 	{
-		goingUp = false;
+		moving = false;
 		minRotation = maxRotation - (Mathf.PI / 3f);
 		setRotation(maxRotation);
 		fastening = true;
@@ -69,42 +69,43 @@ public class WrenchTighten : MonoBehaviour
 
 	void updateFasten()
 	{
-		if (Input.GetKey(KeyCode.DownArrow) && (fastening || getRotation() >= maxRotation || Mathf.Approximately(getRotation(), maxRotation)))
+		if (fastening)
 		{
-			fastening = true;
-			float diff = downSpeed * Time.deltaTime;
-			if (getRotation() - diff <= minRotation)
+			if (Input.GetKeyDown(KeyCode.DownArrow))
+				moving = true;
+			if (moving)
 			{
-				goingUp = false;
-				setRotation(minRotation);
-				if (cyclesLeft == 1)
+				float diff = downSpeed * Time.deltaTime;
+				if (getRotation() - diff <= minRotation)
 				{
-					finish();
-					return;
+					cyclesLeft--;
+					moving = false;
+					fastening = false;
+					setRotation(minRotation);
+					if (cyclesLeft == 0)
+					{
+						finish();
+						return;
+					}
+					else if (arrowIndicator)
+							arrowBlink.enableBlink(true);
 				}
-				else if (arrowIndicator)
-					arrowBlink.enableBlink(true);
+				else
+					setRotation(getRotation() - diff);
 			}
-			else
-				setRotation(getRotation() - diff);
-
 			setBoltRotation(getRotation() + boltRotation);
-
 		}
 		else
 		{
-			if (Input.GetKey(KeyCode.UpArrow))
-				goingUp = true;
-			if (goingUp && (!fastening || getRotation() <= minRotation || Mathf.Approximately(getRotation(), minRotation)))
+			if (Input.GetKeyDown(KeyCode.UpArrow))
+				moving = true;
+			if (moving)
 			{
-				if (fastening)
-				{
-					cyclesLeft--;
-				}
-				fastening = false;
 				float diff = upSpeed * Time.deltaTime;
 				if (getRotation() + diff >= maxRotation)
 				{
+					moving = false;
+					fastening = true;
 					arrowBlink.disableBlink(false);
 					setRotation(maxRotation);
 				}
