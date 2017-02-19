@@ -15,8 +15,7 @@ public class TouhouSortSortable : MonoBehaviour {
 	// List of all categories which the
 	// Sortable belongs to
 	public Style[] styles;
-
-	public SpriteRenderer spriteRenderer;
+    
 	public Collider2D hitBox;
 
 	// Tracks the current zone that the object is in

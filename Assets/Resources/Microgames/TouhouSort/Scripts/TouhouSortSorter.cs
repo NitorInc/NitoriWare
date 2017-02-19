@@ -14,6 +14,7 @@ public class TouhouSortSorter : MonoBehaviour {
 
 	public Transform stagingArea;
 	public TouhouSortTouhouBucket touhouBucket;
+    public GameObject victoryDisplay;
 
 	TouhouSortSortable[] touhous;
 	Vector3[] slots;
@@ -95,6 +96,8 @@ public class TouhouSortSorter : MonoBehaviour {
 			Debug.Log("Sorted");
 			sorted = true;
 
+            victoryDisplay.SetActive(true);
+
 			MicrogameController.instance.setVictory(true, false);
 		}
 		else if (sorted) {
@@ -102,7 +105,9 @@ public class TouhouSortSorter : MonoBehaviour {
 			Debug.Log("Unsorted");
 			sorted = false;
 
-			MicrogameController.instance.setVictory(false, false);
+            victoryDisplay.SetActive(false);
+
+            MicrogameController.instance.setVictory(false, false);
 		}
 	}
 }
