@@ -37,6 +37,7 @@ public class PotionIngredient : MonoBehaviour
 	void Start()
 	{
 		//disableCollision();
+		_audioSource.pitch = Time.timeScale;
 	}
 
 	//void disableCollision()
