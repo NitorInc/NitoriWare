@@ -7,7 +7,7 @@ public class PotionIngredient : MonoBehaviour
 
 	public PotionPot pot;
 	public SpriteRenderer spriteRenderer;
-	public AudioClip carryClip;
+	public AudioClip carryClip, dropClip;
 	public float soundFrequency;
 
 	public Collider2D theCollider;
@@ -126,6 +126,8 @@ public class PotionIngredient : MonoBehaviour
 			state = State.Used;
 			rigidThing.isKinematic = true;
 			pot.addIngredient(this);
+			//_audioSource.panStereo = 0f;
+			_audioSource.PlayOneShot(dropClip);
 		}
 	}
 }
