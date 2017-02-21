@@ -38,6 +38,12 @@ public class PotionPot : MonoBehaviour
 		set { _bubbleSource = value; }
 	}
 
+	[SerializeField]
+	private AudioSource sfxSource;
+
+
+	[SerializeField]
+	private AudioClip victoryClip, lossClip;
 
 	void Awake()
 	{
@@ -45,6 +51,10 @@ public class PotionPot : MonoBehaviour
 		smokeParticles.playbackSpeed = 1.75f;
 
 		reset();
+	}
+	void Start()
+	{
+		sfxSource.pitch = Time.timeScale;
 	}
 
 	void Update()
@@ -188,10 +198,12 @@ public class PotionPot : MonoBehaviour
 			case(State.Victory):
 				stopPotParticles();
 				Invoke("awakenPotion", .4f);
+				sfxSource.PlayOneShot(victoryClip);
 				MicrogameController.instance.setVictory(true, true);
 				break;
 			case(State.Failure):
 				stopPotParticles();
+				sfxSource.PlayOneShot(lossClip);
 				MicrogameController.instance.setVictory(false, true);
 				break;
 			default:

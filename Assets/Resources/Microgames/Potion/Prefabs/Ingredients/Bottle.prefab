@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114744228799504694}
   - component: {fileID: 50377836457318458}
   - component: {fileID: 60435479371772708}
+  - component: {fileID: 82105692966350570}
   m_Layer: 0
   m_Name: Bottle
   m_TagString: Untagged
@@ -88,6 +89,86 @@ PolygonCollider2D:
       - {x: 0.323112, y: -0.49117506}
       - {x: 0.312572, y: 0.29412794}
       - {x: 0.10250902, y: 0.40079463}
+--- !u!82 &82105692966350570
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1896079519093100}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114744228799504694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,6 +183,9 @@ MonoBehaviour:
   speedToPot: 15
   pot: {fileID: 0}
   spriteRenderer: {fileID: 212051194538077760}
+  carryClip: {fileID: 8300000, guid: bf8fbff5916507d45aa8e69b2f941673, type: 3}
+  dropClip: {fileID: 8300000, guid: c55c4e50df673d840bb0ae8a0a449d5f, type: 3}
+  soundFrequency: 2
   theCollider: {fileID: 6092996, guid: 6370964af5a985a448d7db5cf7e913f4, type: 2}
   state: 0
 --- !u!212 &212051194538077760
