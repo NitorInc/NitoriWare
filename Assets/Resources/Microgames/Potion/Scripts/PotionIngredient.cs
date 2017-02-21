@@ -74,6 +74,7 @@ public class PotionIngredient : MonoBehaviour
 				if (pot.state != PotionPot.State.Default || !Input.GetMouseButton(0))
 				{
 					rigidThing.isKinematic = false;
+					rigidThing.velocity = Vector2.zero;
 					soundDistance = 0f;
 					state = State.Idle;
 				}
