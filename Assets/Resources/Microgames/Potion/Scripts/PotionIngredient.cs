@@ -7,11 +7,16 @@ public class PotionIngredient : MonoBehaviour
 
 	public PotionPot pot;
 	public SpriteRenderer spriteRenderer;
+	public AudioClip carryClip;
+	public float soundFrequency;
 
 	public Collider2D theCollider;
 
 	private Rigidbody2D rigidThing;
 	private Vector2 grabOffset;
+	private AudioSource _audioSource;
+	private float soundDistance;
+	private Vector2 lastPosition;
 
 	public State state;
 	public enum State
@@ -26,6 +31,7 @@ public class PotionIngredient : MonoBehaviour
 	{
 		theCollider = GetComponent<Collider2D>();
 		rigidThing = GetComponent<Rigidbody2D>();
+		_audioSource = GetComponent<AudioSource>();
 	}
 
 	void Start()
@@ -56,14 +62,19 @@ public class PotionIngredient : MonoBehaviour
 						grabOffset = (Vector2)(transform.position - CameraHelper.getCursorPosition());
 						snapToMouse();
 						pot.moveToFront(this);
+						_audioSource.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position);
+						_audioSource.PlayOneShot(carryClip);
+						lastPosition = (Vector2)CameraHelper.getCursorPosition();
 						state = State.Grabbed;
 					}
 				}
 				break;
-			case(State.Grabbed):
+			case (State.Grabbed):
+				updateSound();
 				if (pot.state != PotionPot.State.Default || !Input.GetMouseButton(0))
 				{
 					rigidThing.isKinematic = false;
+					soundDistance = 0f;
 					state = State.Idle;
 				}
 				else
@@ -76,6 +87,20 @@ public class PotionIngredient : MonoBehaviour
 			default:
 				break;
 		}
+
+	}
+
+	void updateSound()
+	{
+		_audioSource.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position);
+		soundDistance += Mathf.Pow(((Vector2)CameraHelper.getCursorPosition() - lastPosition).magnitude, 1f/3f);
+		if (soundDistance >= soundFrequency)
+		{
+			_audioSource.PlayOneShot(carryClip);
+			soundDistance -= soundFrequency;
+		}
+
+		lastPosition = (Vector2)CameraHelper.getCursorPosition();
 	}
 
 	void snapToMouse()
