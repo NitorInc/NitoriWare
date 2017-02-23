@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
-    public float movementSpeed;           
+    public float movementSpeed;
+    public float rotationSpeed;           
     public float leftLimit;
     public float rightLimit;
 
@@ -16,6 +17,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
     private float startPoint = 0;           // Sine wave center position
 
     private Transform theTransform;
+    private SpriteRenderer meteorSprite;
     private ParticleSystem particleTrail;
     private FlanGrab_Microgame_Behaviour microgameBehaviour;
     private bool hasBeenDestroyed = false;
@@ -26,8 +28,10 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         this.theTransform = this.transform;
         this.startPoint = this.transform.position.x;
         this.particleTrail = GetComponentInChildren<ParticleSystem>();
+        this.meteorSprite = GetComponentInChildren<SpriteRenderer>();
         this.phase = Random.Range(0, Mathf.PI /2);
         this.microgameBehaviour = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
+        meteorSprite.transform.Rotate(0, 0, Random.RandomRange(0, 360));
     }
 	
 	// Update is called once per frame
@@ -37,6 +41,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
             // Move downwards if has not been destroyed
             if (!hasBeenDestroyed)
             {
+                rotationMovement();
                 fallingMovement();
                 if (waveMovementIsOn) { waveMovement(); }
             }
@@ -61,6 +66,11 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
             }
         }
 
+    }
+
+    void rotationMovement()
+    {
+        meteorSprite.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
     }
 
     void fallingMovement()
