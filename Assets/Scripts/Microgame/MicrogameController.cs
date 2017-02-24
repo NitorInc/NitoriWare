@@ -12,9 +12,11 @@ public class MicrogameController : MonoBehaviour
 	public int beatDuration;
 	public string command;
 	public bool defaultVictory, canEndEarly, hideCursor;
+	public float victoryVoiceDelay, failureVoiceDelay;
 	public AudioClip musicClip;
 
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
+	public VoicePlayer.VoiceSet debugVoiceSet;
 	[Range(1, StageController.MAX_SPEED)]
 	public int debugSpeed;
 	public UnityEvent onPause, onUnPause;
@@ -22,6 +24,7 @@ public class MicrogameController : MonoBehaviour
 
 	private bool victory, victoryDetermined;
 	private Transform commandTransform;
+	private VoicePlayer debugVoicePlayer;
 
 	public enum ControlScheme
 	{
@@ -72,6 +75,9 @@ public class MicrogameController : MonoBehaviour
 			}
 
 			Cursor.visible = controlScheme == ControlScheme.Mouse && !hideCursor;
+
+			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
+			debugVoicePlayer.loadClips(debugVoiceSet);
 		}
 		else
 		{
@@ -115,6 +121,8 @@ public class MicrogameController : MonoBehaviour
 			}
 			this.victory = victory;
 			victoryDetermined = final;
+			if (final)
+				debugVoicePlayer.playClip(victory, victory ? victoryVoiceDelay : failureVoiceDelay);
 		}
 		else
 		{
