@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4729709097738884}
   - component: {fileID: 58362200188640494}
-  - component: {fileID: 114796547172193362}
   - component: {fileID: 50643813814366132}
+  - component: {fileID: 114796547172193362}
   m_Layer: 0
   m_Name: Meteor2
   m_TagString: Untagged
@@ -29,17 +29,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1020962616676820
+--- !u!1 &1127232297732622
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4590908992972264}
-  - component: {fileID: 212337290980077764}
+  - component: {fileID: 4929855352351800}
+  - component: {fileID: 212746339959921508}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Meteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,19 +62,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4590908992972264
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1020962616676820}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -2.75, z: 0.51}
-  m_LocalScale: {x: 1.8891774, y: 1.8891774, z: 1.8891774}
-  m_Children: []
-  m_Father: {fileID: 4729709097738884}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4729709097738884
 Transform:
   m_ObjectHideFlags: 1
@@ -82,11 +69,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015240342913748}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.580594, y: 1.8671619, z: 0}
+  m_LocalPosition: {x: 2.3171918, y: 2.088056, z: 0}
   m_LocalScale: {x: 0.81827515, y: 0.81827474, z: 0.81827474}
   m_Children:
   - {fileID: 4859475321390788}
-  - {fileID: 4590908992972264}
+  - {fileID: 4929855352351800}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,6 +90,19 @@ Transform:
   m_Father: {fileID: 4729709097738884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -88.844, y: -78.885, z: 78.243004}
+--- !u!4 &4929855352351800
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127232297732622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.06, y: -2.82, z: 0.51}
+  m_LocalScale: {x: 1.2407368, y: 1.2407368, z: 1.2407368}
+  m_Children: []
+  m_Father: {fileID: 4729709097738884}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50643813814366132
 Rigidbody2D:
   serializedVersion: 4
@@ -148,12 +148,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7113e3ccec685454996996c94f2f4c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  leftLimit: -6.65
-  rightLimit: 3
+  movementSpeed: 8
+  rotationSpeed: 250
+  xLeftLimit: -6.65
+  xRightLimit: 3
+  yLowerLimit: -2
+  diagonalMovementIsOn: 1
   waveMovementIsOn: 0
-  frequency: 7
-  amplitude: 1.5
+  frequency: 0
+  amplitude: 0
+  explosionEffect: {fileID: 198156666323536922, guid: 70df7af2a3b43164da0375355fda44ec,
+    type: 2}
 --- !u!198 &198818795819001490
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -2745,7 +2750,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -2763,12 +2768,12 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
---- !u!212 &212337290980077764
+--- !u!212 &212746339959921508
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1020962616676820}
+  m_GameObject: {fileID: 1127232297732622}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -2793,8 +2798,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5958bc54ebb24a9419cbdb3effe28e09, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 3d76799275533cd469108ab7619faa43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

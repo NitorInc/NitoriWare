@@ -11,9 +11,7 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     public int meteorQuantity;
     public float timeBetweenCreation;
     private float timeCounter = 0;
-    [SerializeField]                            // Delete Later
     private int meteorCreationCounter = 0;
-    [SerializeField]                            // Delete Later
     private int meteorDestructionCounter = 0;
     private bool rightCreationPosition;
 

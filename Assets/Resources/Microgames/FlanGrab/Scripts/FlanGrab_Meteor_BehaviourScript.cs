@@ -4,77 +4,126 @@ using UnityEngine;
 
 public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
-    public float movementSpeed;           
-    public float leftLimit;
-    public float rightLimit;
+    public float movementSpeed;
+    public float rotationSpeed;
+    public float xLeftLimit;
+    public float xRightLimit;
+    public float yLowerLimit;
 
-    // Only useful when waveMovementIsOn = True;
+    private Vector2 endingPosition;         
+
+    public bool diagonalMovementIsOn;       // If meteor will move diagonally or not.
+
     public bool waveMovementIsOn;           // If meteor will move following a Sine wave or not.
-    public float frequency;                 // Sine wave frequency
-    public float amplitude;                 // Sine wave amplitude
-    private float phase = 0;                // Sine wave phase
-    private float startPoint = 0;           // Sine wave center position
+    public float frequency;                 // Sine wave frequency (Only useful when waveMovementIsOn = True).
+    public float amplitude;                 // Sine wave amplitude  (Only useful when waveMovementIsOn = True).
+    private float phase = 0;                // Sine wave phase  (Only useful when waveMovementIsOn = True).
+    private Vector2 originalPosition;       // Meteor position if wave movement wasn't enabled.
 
-    private Transform theTransform;
+    private bool hasBeenDestroyed = false;  // If meteor has been destroyed or not.
+    private bool hasLanded = false;         // If meteor has landed or not.
+
+    // Components
+    private SpriteRenderer meteorSprite;
     private ParticleSystem particleTrail;
+    public ParticleSystem explosionEffect;
     private FlanGrab_Microgame_Behaviour microgameBehaviour;
-    private bool hasBeenDestroyed = false;
-    private bool hasLanded = false;
+
 
     // Use this for initialization
     void Start () {
-        this.theTransform = this.transform;
-        this.startPoint = this.transform.position.x;
+
         this.particleTrail = GetComponentInChildren<ParticleSystem>();
-        this.phase = Random.Range(0, Mathf.PI /2);
+        this.meteorSprite = GetComponentInChildren<SpriteRenderer>();
+        this.meteorSprite.transform.Rotate(0, 0, Random.RandomRange(0, 360));
         this.microgameBehaviour = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
+        selectEndingPoint();
+
     }
 	
 	// Update is called once per frame
 	void Update () {
         
-        if ( MicrogameController.instance.getVictory() ) { 
-            // Move downwards if has not been destroyed
-            if (!hasBeenDestroyed)
+        if ( !MicrogameController.instance.getVictoryDetermined() && !hasBeenDestroyed) {
+
+            // If game hasn't ended and if the meteor hasn't been destroyed, then it will move downwards
+            rotationMovement();         // Meteor will rotate while moving downwards.
+            downwardMovement();         // Meteor will move downwards.
+
+        }
+
+        else if (!hasLanded && !hasBeenDestroyed)
+        { 
+
+            // If game has ended, then destroy every meteor except the one that landed
+            destroyMeteor();
+            
+        }
+
+        if (hasBeenDestroyed && !this.particleTrail.IsAlive())
+        {
+            // Destroy meteor's gameobject when smoke trail is no longer active
+            Destroy(this.transform.gameObject);
+
+        }
+
+    }
+
+    // Calculate the position where the meteor is headed to
+    void selectEndingPoint()
+    {
+        var midPosition = (xLeftLimit + xRightLimit) / 2;
+
+        if (waveMovementIsOn)
+        {
+            this.originalPosition = this.transform.position;
+            this.phase = Random.Range(0, Mathf.PI / 2);
+            this.endingPosition = new Vector2(Random.RandomRange(xLeftLimit + amplitude, xRightLimit - amplitude), yLowerLimit);
+        }
+
+        else if (diagonalMovementIsOn)
+        {
+            if (this.transform.position.x < midPosition)
             {
-                fallingMovement();
-                if (waveMovementIsOn) { waveMovement(); }
+                this.endingPosition = new Vector2(Random.RandomRange(midPosition, xRightLimit), yLowerLimit);
+            }
+
+            else
+            {
+                this.endingPosition = new Vector2(Random.RandomRange(xLeftLimit, midPosition), yLowerLimit);
             }
         }
 
         else
         {
-            // If game has ended, then destroy every meteor except the one that landed
-            if (!hasLanded && !hasBeenDestroyed)
-            {
-                destroyMeteor();
-            }
+            this.endingPosition = new Vector2(this.transform.position.x, yLowerLimit);
         }
 
-        // Destroy meteor's gameobject when smoke trail is no longer active
-        if (hasBeenDestroyed)
+    }
+
+    // Rotate the meteor's sprite
+    void rotationMovement()
+    {
+        meteorSprite.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+    }
+
+    // Move the meteor downards
+    void downwardMovement()
+    {
+
+        if (waveMovementIsOn)
         {
-           if (!this.particleTrail.IsAlive())
-            {
-                Destroy(theTransform.gameObject);
-            }
+            originalPosition = Vector2.MoveTowards(originalPosition, endingPosition, movementSpeed * Time.deltaTime);
+            var omegaComponent = (Time.time * frequency + phase) % (2.0f * Mathf.PI);
+            var xPosition = amplitude * Mathf.Sin(omegaComponent) + originalPosition.x;
+            this.transform.position = new Vector2(xPosition, originalPosition.y);
         }
 
-    }
+        else
+        {
+            transform.position = Vector2.MoveTowards(transform.position, endingPosition, movementSpeed * Time.deltaTime);
+        }
 
-    void fallingMovement()
-    {
-        // Falling movement only affects the Y position component
-        var moveVector = new Vector3(0, -1, 0);
-        theTransform.position = theTransform.position + (moveVector * this.movementSpeed * Time.deltaTime);
-    }
-
-    void waveMovement()
-    {
-        // Wave movement follows a sine wave and only affects the X position component
-        var omegaComponent = (Time.time * frequency + phase) % (2.0f * Mathf.PI);
-        var xPosition = amplitude * Mathf.Sin( omegaComponent );
-        theTransform.position = new Vector3(startPoint + xPosition, theTransform.position.y , theTransform.position.z);
     }
 
     public void meteorHasLanded()
@@ -85,25 +134,17 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
         // Shake camera
         Camera.main.GetComponent<CameraShake>().enabled = true;
-
     }
 
-    void OnMouseDown()
-    {
-        // Meteor can be destroyed by the player only if he hasn't been defeated yet.
-        if (MicrogameController.instance.getVictory())              
-        {
-            destroyMeteor();
-        }
-    }
 
-    void destroyMeteor()
+    public void destroyMeteor()
     {
-        // Destroy Meteor's sprite but not the gameObject. When the ParticleSystem associated is no longer active, meteor's gameObject will be destroyed.
+        // Destroy Meteor's sprite but not the gameObject. When the ParticleSystem associated is no longer active, meteor's gameObject will be destroyed in Update().
         this.hasBeenDestroyed = true;
         this.GetComponent<Collider2D>().enabled = false;
         this.GetComponentInChildren<ParticleSystem>().loop = false;
-        Destroy(this.GetComponentInChildren<SpriteRenderer>().gameObject);
+        Instantiate(explosionEffect, meteorSprite.transform.position, Quaternion.identity);
+        Destroy(meteorSprite.gameObject);
         this.microgameBehaviour.increaseDestructionCounter();
     }
 
