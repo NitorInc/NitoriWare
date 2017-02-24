@@ -203,7 +203,7 @@ Prefab:
     - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
         type: 2}
       propertyPath: debugTimer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
         type: 2}
@@ -214,6 +214,11 @@ Prefab:
         type: 2}
       propertyPath: beatDuration
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSimulateDelay
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
@@ -462,7 +467,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 270416723}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.224775, y: 0.44974846, z: 0}
+  m_LocalPosition: {x: 9.224775, y: -0.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 958329628}
@@ -1035,9 +1040,8 @@ MonoBehaviour:
   leftLimit: -6.65
   rightLimit: 3
   meteorQuantity: 1
+  createTime: 0.75
   timeBetweenCreation: 0.5
-  meteorCreationCounter: 0
-  meteorDestructionCounter: 0
 --- !u!1001 &638471880
 Prefab:
   m_ObjectHideFlags: 0
@@ -1451,7 +1455,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4982572582197430, guid: 50a243a7791e33f489e8889635b7418f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.04
+      value: -4.03
       objectReference: {fileID: 0}
     - target: {fileID: 4982572582197430, guid: 50a243a7791e33f489e8889635b7418f, type: 2}
       propertyPath: m_LocalPosition.z

@@ -13,7 +13,13 @@ public class FlanGrab_ArmBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (MicrogameController.instance.getVictoryDetermined())
+		{
+			anim.SetTrigger("HandClutch");
+			enabled = false;
+			return;
+		}
+
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("HandClutch");
