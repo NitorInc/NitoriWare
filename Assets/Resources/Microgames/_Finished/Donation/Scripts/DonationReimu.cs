@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DonationReimu : MonoBehaviour
 {
+	public static int coinsInPlay;
 
 	public int position, minPosition, maxPosition;
 	public float minX, maxX, moveSpeed;
@@ -20,6 +21,8 @@ public class DonationReimu : MonoBehaviour
 		textPool.addToPool(6, true);
 
 		reset();
+		coinsInPlay = 0;
+
 	}
 
 	public void reset ()
@@ -37,19 +40,20 @@ public class DonationReimu : MonoBehaviour
 	
 	void Update ()
 	{
-
 		//if (MicrogameTimer.beatsLeft <= 9.5f)
 		//{
 		//	//Debug.Log(MicrogameTimer.beatsLeft);
 		//	ScenarioController.instance.setMicrogameVictory(true, true);
 		//}
-
+		if (!MicrogameController.instance.getVictoryDetermined() && coinsInPlay == 0)
+			MicrogameController.instance.setVictory(false, true);
 		updateMovement();
 	}
 
 	public void grabCoin(Transform coin)
 	{
 		progress++;
+		coinsInPlay--;
 		if (progress == 3)
 		{
 			MicrogameController.instance.setVictory(true, true);

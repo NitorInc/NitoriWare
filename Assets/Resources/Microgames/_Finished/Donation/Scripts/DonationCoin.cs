@@ -6,7 +6,7 @@ public class DonationCoin : MonoBehaviour
 
 	public float speed, minSpawnX, maxSpawnX, minStartTime, maxStartTime, slowHeight, fallHeight;
 
-	private float startTime;
+	private float startTime, outOfPlayY = -4.2f;
 
 	public Rigidbody2D body;
 	public bool isMainCoin;
@@ -18,12 +18,19 @@ public class DonationCoin : MonoBehaviour
 	public AudioClip[] grabClips;
 	new public Collider2D collider;
 
+	private bool outOfPlay;
+
 	void Awake()
 	{
 		if (isMainCoin)
 			reset();
 	}
 
+	void Start()
+	{
+		outOfPlay = false;
+		DonationReimu.coinsInPlay++;
+	}
 
 	public void reset ()
 	{
@@ -94,6 +101,12 @@ public class DonationCoin : MonoBehaviour
 		}
 
 		lastVelocity = body.velocity;
+
+		if (!outOfPlay && transform.position.y < outOfPlayY)
+		{
+			outOfPlay = true;
+			DonationReimu.coinsInPlay--;
+		}
 	}
 
 	void playBounceSound(float volume)
@@ -119,6 +132,7 @@ public class DonationCoin : MonoBehaviour
 	{
 		if (other.name == "Reimu")
 		{
+			outOfPlay = true;
 			grabSource.clip = grabClips[Random.Range(0, grabClips.Length)];
 			grabSource.pitch = Time.timeScale;
 			grabSource.panStereo = getStereoPan();
