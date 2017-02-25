@@ -6,17 +6,23 @@ public class TouhouSortDropZone : MonoBehaviour {
 	// A zone that a sortable must be sorted into
 
 	// The category that this zone represents
-	public TouhouSortSortable.Style category;
+	public TouhouSortSortable.Style style;
 	// Inverts the zone (e.g. no hats allowed)
 	public bool invert;
+    
+    public void SetCategory(TouhouSortSortable.Style style, bool invert, Sprite icon) {
 
-	public TouhouSortSorter sorter;
+        this.style = style;
+        this.invert = invert;
+
+        this.GetComponent<SpriteRenderer>().sprite = icon;
+    }
 
 	public bool Belongs(TouhouSortSortable sortable) {
 		// Checks if a given sortable belongs in this zone
 		bool belongs = false;
 
-		int zoneTypeId = (int)category;
+		int zoneTypeId = (int)style;
 		foreach (TouhouSortSortable.Style style in sortable.styles) {
 			int typeId = (int)style;
 
@@ -31,19 +37,5 @@ public class TouhouSortDropZone : MonoBehaviour {
 		}
 
 		return belongs;
-	}
-
-	void OnTriggerEnter2D(Collider2D other) {
-		TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
-		sortable.EnterZone(gameObject.GetComponent<TouhouSortDropZone>());
-
-		sorter.SendMessage ("CheckSort");
-	}
-
-	void OnTriggerExit2D(Collider2D other) {
-		TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
-		sortable.ExitZone(gameObject.GetComponent<TouhouSortDropZone>());
-
-		sorter.SendMessage ("CheckSort");
 	}
 }

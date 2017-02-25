@@ -81,7 +81,6 @@ public class TouhouSortSorter : MonoBehaviour {
 			TouhouSortDropZone currentZone = sortable.GetCurrentZone();
 			
 			if (currentZone) {
-				int zoneCategory = (int)currentZone.category;
 				thisSorted = currentZone.Belongs (sortable);
 			}
 
@@ -98,16 +97,16 @@ public class TouhouSortSorter : MonoBehaviour {
 
             victoryDisplay.SetActive(true);
 
-			MicrogameController.instance.setVictory(true, false);
+			MicrogameController.instance.setVictory(true, true);
 		}
 		else if (sorted) {
-			// Unsorted
+			// Unsorted (wont ever happen)
 			Debug.Log("Unsorted");
 			sorted = false;
 
             victoryDisplay.SetActive(false);
 
-            MicrogameController.instance.setVictory(false, false);
+            MicrogameController.instance.setVictory(false, true);
 		}
 	}
 }

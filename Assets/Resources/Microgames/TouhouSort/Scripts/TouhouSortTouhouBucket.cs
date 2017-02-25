@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TouhouSortTouhouBucket : MonoBehaviour {
-	// Defines a bucket of touhous
-	// DO NOT add Kisume: results unpredictable
+    // Defines a bucket of touhous
+    // DO NOT add Kisume: results unpredictable
 
+    public TouhouSortSorter sorter;
 	public Transform dump;
 
 	// List of sortable touhous
@@ -35,6 +36,8 @@ public class TouhouSortTouhouBucket : MonoBehaviour {
 
 			touhous.Remove (touhou);
 			touhou.transform.parent = dump;
+
+            grabbable.onRelease.AddListener(sorter.CheckSort);
 
             grabGroup.addGrabbable(grabbable, true);
 		}
