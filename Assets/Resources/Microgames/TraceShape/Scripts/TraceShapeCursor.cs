@@ -7,6 +7,10 @@ public class TraceShapeCursor : MonoBehaviour
 	public Collider2D[] essentialColliders;
 	public Animator victoryAnimator;
 	private AudioSource _audioSource;
+	[SerializeField]
+	private AudioSource resultSoundSource;
+	[SerializeField]
+	private AudioClip victoryClip;
 
 	private ParticleSystem traceParticles;
 
@@ -15,6 +19,7 @@ public class TraceShapeCursor : MonoBehaviour
 		_audioSource = GetComponent<AudioSource>();
 		traceParticles = GetComponent<ParticleSystem>();
 		Cursor.visible = false;
+		_audioSource.pitch = resultSoundSource.pitch = Time.timeScale;
 	}
 	
 	void Update ()
@@ -81,6 +86,7 @@ public class TraceShapeCursor : MonoBehaviour
 	void victory()
 	{
 		MicrogameController.instance.setVictory(true, true);
+		resultSoundSource.PlayOneShot(victoryClip);
 
 		victoryAnimator.enabled = true;
 		gameObject.SetActive(false);
