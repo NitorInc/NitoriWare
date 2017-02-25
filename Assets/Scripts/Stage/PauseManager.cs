@@ -7,6 +7,9 @@ public class PauseManager : MonoBehaviour
 {
 	public UnityEvent onPause, onUnPause;
 
+	[SerializeField]
+	private bool enableVigorousTesting;
+
 	//Whitelisted items won't be affected by pause
 	public AudioSource[] audioSourceWhitelist;
 	public MonoBehaviour[] scriptWhitelist;
@@ -17,6 +20,8 @@ public class PauseManager : MonoBehaviour
 	private List<AudioSource> pausedAudioSources;
 	private List<MonoBehaviour> disabledScripts;
 
+	private float pauseTimer = 0f;
+
 	void Start ()
 	{
 		paused = false;
@@ -24,11 +29,16 @@ public class PauseManager : MonoBehaviour
 	
 	void Update ()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (enableVigorousTesting && Input.GetKey(KeyCode.P))
+			pauseTimer -= Time.fixedDeltaTime;
+		if (Input.GetKeyDown(KeyCode.Escape) || pauseTimer < 0f)
+		{
 			if (!paused)
 				pause();
 			else
 				unPause();
+			pauseTimer = Random.Range(.1f, .2f);
+		}
 	}
 
 	void pause()
@@ -73,12 +83,14 @@ public class PauseManager : MonoBehaviour
 
 		foreach (AudioSource source in pausedAudioSources)
 		{
-			source.UnPause();
+			if (source != null)
+				source.UnPause();
 		}
 
 		foreach (MonoBehaviour script in disabledScripts)
 		{
-			script.enabled = true;
+			if (script != null)
+				script.enabled = true;
 		}
 
 		onUnPause.Invoke();
