@@ -6,13 +6,20 @@ public class TraceShapeCursor : MonoBehaviour
 	public int inBoundsNeeded, outOfBoundsLeft;
 	public Collider2D[] essentialColliders;
 	public Animator victoryAnimator;
+	private AudioSource _audioSource;
+	[SerializeField]
+	private AudioSource resultSoundSource;
+	[SerializeField]
+	private AudioClip victoryClip;
 
 	private ParticleSystem traceParticles;
 
 	void Start ()
 	{
+		_audioSource = GetComponent<AudioSource>();
 		traceParticles = GetComponent<ParticleSystem>();
 		Cursor.visible = false;
+		_audioSource.pitch = resultSoundSource.pitch = Time.timeScale;
 	}
 	
 	void Update ()
@@ -25,6 +32,7 @@ public class TraceShapeCursor : MonoBehaviour
 		//Enable emmissions if mouse is held down
 		ParticleSystem.EmissionModule emission = traceParticles.emission;
 		emission.enabled = Input.GetMouseButton(0);
+		_audioSource.volume = Input.GetMouseButton(0) ? 1f : 0f;
 
 		//When mouse is first pressed, create a particle (otherwise one won't be created before the player moves their cursor)
 		if (Input.GetMouseButtonDown(0))
@@ -78,6 +86,7 @@ public class TraceShapeCursor : MonoBehaviour
 	void victory()
 	{
 		MicrogameController.instance.setVictory(true, true);
+		resultSoundSource.PlayOneShot(victoryClip);
 
 		victoryAnimator.enabled = true;
 		gameObject.SetActive(false);
@@ -86,6 +95,9 @@ public class TraceShapeCursor : MonoBehaviour
 	void failure()
 	{
 		MicrogameController.instance.setVictory(false, true);
+		ParticleSystem.EmissionModule emission = traceParticles.emission;
+		emission.enabled = false;
+		_audioSource.volume = 0f;
 
 		//TODO Failure
 		//Debug.Log("You lose!");
