@@ -13,7 +13,7 @@ public class VoicePlayer : MonoBehaviour
 	public enum VoiceSet
 	{
 		None,
-		Debug
+		Nitori
 	}
 
 
