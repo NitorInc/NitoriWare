@@ -9,6 +9,7 @@ public class VoicePlayer : MonoBehaviour
 
 	private List<AudioClip> victoryClips, lossClips;
 	private bool soundQueued, victory;
+	private AudioClip lastClip;
 
 	public enum VoiceSet
 	{
@@ -97,8 +98,17 @@ public class VoicePlayer : MonoBehaviour
 			return;
 
 		voiceSource.pitch = Time.timeScale;
-		voiceSource.PlayOneShot(victory ? victoryClips[Random.Range(0, victoryClips.Count)]
-			: lossClips[Random.Range(0, lossClips.Count)]);
+		List<AudioClip> clipPool = victory ? victoryClips : lossClips;
+
+		AudioClip clipToPlay;
+		do
+		{
+			clipToPlay = clipPool[Random.Range(0, clipPool.Count)];
+		}
+		while (clipToPlay == lastClip || clipPool.Count < 2);
+
+		voiceSource.PlayOneShot(clipToPlay);
+		lastClip = clipToPlay;
 		soundQueued = false;
 	}
 }
