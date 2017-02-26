@@ -1255,6 +1255,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4863820854927290, guid: 44ad473659bfaea4fbbbce27da625c37,
     type: 2}
   m_PrefabInternal: {fileID: 158250198}
+--- !u!114 &158250200 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 158250198}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
 --- !u!4 &243355323 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4863820854927290, guid: 44ad473659bfaea4fbbbce27da625c37,
@@ -3469,6 +3475,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44ad473659bfaea4fbbbce27da625c37, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &465851196 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 465851195}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
 --- !u!1001 &555732537
 Prefab:
   m_ObjectHideFlags: 0
@@ -5381,6 +5393,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44ad473659bfaea4fbbbce27da625c37, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &666605847 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 666605846}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
 --- !u!1 &723516842
 GameObject:
   m_ObjectHideFlags: 0
@@ -5403,7 +5421,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 723516842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 270209171}
@@ -5411,49 +5429,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &749896093
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 749896094}
-  - component: {fileID: 749896095}
-  m_Layer: 0
-  m_Name: Touhous
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &749896094
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 749896093}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1915863616}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &749896095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 749896093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dc309b8f9287d5459e9fe9df377b376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grabbables: []
-  shuffleOnStart: 0
-  lowestOrderInLayer: 0
 --- !u!1 &792786194
 GameObject:
   m_ObjectHideFlags: 0
@@ -5566,6 +5541,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 900070394}
+  - component: {fileID: 900070395}
   m_Layer: 0
   m_Name: Staging Area
   m_TagString: Untagged
@@ -5586,6 +5562,20 @@ Transform:
   m_Father: {fileID: 1915863616}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900070395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 900070393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc309b8f9287d5459e9fe9df377b376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grabbables: []
+  shuffleOnStart: 0
+  lowestOrderInLayer: 0
 --- !u!4 &989889969 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4751015800870120, guid: 87b31785221b22f4da8230258ea80319,
@@ -7552,6 +7542,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4863820854927290, guid: 44ad473659bfaea4fbbbce27da625c37,
     type: 2}
   m_PrefabInternal: {fileID: 1047892221}
+--- !u!114 &1047892223 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 1047892221}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
 --- !u!1 &1328386758
 GameObject:
   m_ObjectHideFlags: 0
@@ -7560,9 +7556,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1328386759}
-  - component: {fileID: 1328386760}
   m_Layer: 0
-  m_Name: Touhou Bucket
+  m_Name: Touhou Reserve
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7588,19 +7583,6 @@ Transform:
   m_Father: {fileID: 1915863616}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1328386760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1328386758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77cdeb6bae67d394f842e9addef2a298, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sorter: {fileID: 1915863615}
-  dump: {fileID: 749896094}
 --- !u!1 &1678930938
 GameObject:
   m_ObjectHideFlags: 0
@@ -7659,7 +7641,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1678930938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.86, z: 2}
+  m_LocalPosition: {x: 0, y: -1.86, z: 4}
   m_LocalScale: {x: 1.3, y: 1.7842873, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10196,6 +10178,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4863820854927290, guid: 44ad473659bfaea4fbbbce27da625c37,
     type: 2}
   m_PrefabInternal: {fileID: 1839868990}
+--- !u!114 &1839868992 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 1839868990}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
 --- !u!1001 &1897738571
 Prefab:
   m_ObjectHideFlags: 0
@@ -11437,6 +11425,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4863820854927290, guid: 44ad473659bfaea4fbbbce27da625c37,
     type: 2}
   m_PrefabInternal: {fileID: 1897738571}
+--- !u!114 &1897738573 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 1897738571}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
 --- !u!1 &1915863614
 GameObject:
   m_ObjectHideFlags: 0
@@ -11466,8 +11460,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotCount: 4
   stagingArea: {fileID: 900070394}
-  touhouBucket: {fileID: 1328386760}
+  zoneManager: {fileID: 792786196}
   victoryDisplay: {fileID: 270209170}
+  categories:
+  - name: hat
+    leftIcon: {fileID: 21300000, guid: cde273732070fa8478802e3bb5e51e1c, type: 3}
+    rightIcon: {fileID: 21300000, guid: e43da4b26b862154e8612efc8885e464, type: 3}
+    leftPool:
+    - {fileID: 666605847}
+    - {fileID: 465851196}
+    - {fileID: 1897738573}
+    rightPool:
+    - {fileID: 2143988036}
+    - {fileID: 158250200}
+    - {fileID: 1047892223}
+  - name: wing
+    leftIcon: {fileID: 21300000, guid: 5e1c2d2e410784c45b66b26d8e6344e3, type: 3}
+    rightIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    leftPool:
+    - {fileID: 1839868992}
+    rightPool:
+    - {fileID: 666605847}
+    - {fileID: 1047892223}
+    - {fileID: 1897738573}
 --- !u!4 &1915863616
 Transform:
   m_ObjectHideFlags: 0
@@ -11481,7 +11496,6 @@ Transform:
   - {fileID: 1328386759}
   - {fileID: 900070394}
   - {fileID: 792786195}
-  - {fileID: 749896094}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13331,3 +13345,9 @@ Transform:
   m_PrefabParentObject: {fileID: 4863820854927290, guid: 44ad473659bfaea4fbbbce27da625c37,
     type: 2}
   m_PrefabInternal: {fileID: 2143988034}
+--- !u!114 &2143988036 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,
+    type: 2}
+  m_PrefabInternal: {fileID: 2143988034}
+  m_Script: {fileID: 11500000, guid: b7b5f5e2ba1034843a6f8ed707e305f5, type: 3}
