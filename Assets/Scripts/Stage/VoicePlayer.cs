@@ -97,7 +97,7 @@ public class VoicePlayer : MonoBehaviour
 		if ((victory && victoryClips.Count == 0) || (!victory && lossClips.Count == 0))
 			return;
 
-		voiceSource.pitch = Time.timeScale;
+		voiceSource.pitch = Mathf.Pow(Time.timeScale, .5f);
 		List<AudioClip> clipPool = victory ? victoryClips : lossClips;
 
 		AudioClip clipToPlay;
