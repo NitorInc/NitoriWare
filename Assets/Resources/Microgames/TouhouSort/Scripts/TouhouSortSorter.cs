@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class TouhouSortSorter : MonoBehaviour
@@ -14,6 +15,9 @@ public class TouhouSortSorter : MonoBehaviour
 
 	public Transform stagingArea;
     public TouhouSortZoneManager zoneManager;
+
+    public TouhouSortSortable touhouTemplate;
+
 	//public TouhouSortTouhouBucket touhouBucket;
     public GameObject victoryDisplay;
 
@@ -21,23 +25,22 @@ public class TouhouSortSorter : MonoBehaviour
 	Vector3[] slots;
 
 	bool sorted;
-
-    // enum of possible categories
-    public enum Style
-    {
-        Hat,
-        Bunny
-    }
-
+    
     [System.Serializable]
     public struct Category
     {
         public string name;
         public Sprite leftIcon, rightIcon;
-        public TouhouSortSortable[] leftPool, rightPool;
+        public Sprite[] leftPool, rightPool;
     }
     public Category[] categories;
     
+    public struct Style
+    {
+        public string name;
+        public Sprite sprite;
+    }
+
     void Start() {
         Category category = categories[Random.Range(0, categories.Length)];
 
@@ -46,6 +49,7 @@ public class TouhouSortSorter : MonoBehaviour
 
         // Scoop up as many touhous as we can
         touhous = LoadTouhous (category, slotCount);
+        
         slotCount = touhous.Length;
 
 		sorted = false;
@@ -60,39 +64,58 @@ public class TouhouSortSorter : MonoBehaviour
 
     TouhouSortSortable[] LoadTouhous(Category category, int amount)
     {
-        List<TouhouSortSortable> touhous = new List<TouhouSortSortable>();
+        List<Style> styles = new List<Style>();
 
-        foreach (TouhouSortSortable touhou in category.leftPool)
+        foreach (Sprite sprite in category.leftPool)
         {
-            touhou.SetStyle(category.name);
-            touhous.Add(touhou);
+            Style style = new Style();
+            style.name = category.name;
+            style.sprite = sprite;
+
+            styles.Add(style);
         }
-        foreach (TouhouSortSortable touhou in category.rightPool)
+        foreach (Sprite sprite in category.rightPool)
         {
-            touhous.Add(touhou);
+            Style style = new Style();
+            style.sprite = sprite;
+
+            styles.Add(style);
         }
         
         // Scoop <amount> random touhous from the category
-        if (amount > touhous.Count)
+        if (amount > styles.Count)
         {
-            amount = touhous.Count;
+            amount = styles.Count;
         }
 
         MouseGrabbableGroup grabGroup = stagingArea.GetComponent<MouseGrabbableGroup>();
         TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
+        UnityEvent dudEvent = new UnityEvent();
+        UnityEvent sortEvent = new UnityEvent();
+        sortEvent.AddListener(CheckSort);
+
         for (int i = 0; i < amount; i++)
         {
-            TouhouSortSortable touhou = touhous[Random.Range(0, touhous.Count)];
-            MouseGrabbable grabbable = touhou.GetComponent<MouseGrabbable>();
-            randomTouhous[i] = touhou;
+            Style style = styles[Random.Range(0, styles.Count)];
 
-            touhous.Remove(touhou);
+            // Build a new touhou instance
+            TouhouSortSortable touhou = Instantiate(touhouTemplate, transform.position, transform.rotation);
+            touhou.GetComponent<SpriteRenderer>().sprite = style.sprite;
+            touhou.gameObject.AddComponent<PolygonCollider2D>();
+
+            touhou.SetStyle(style.name);
+
+            MouseGrabbable grab = touhou.gameObject.AddComponent<MouseGrabbable>();
+            grab.onGrab = dudEvent;
+            grab.onRelease = sortEvent;
+            grab.disableOnVictory = true;
+
+            styles.Remove(style);
             touhou.transform.parent = stagingArea;
-
-            grabbable.onRelease.AddListener(CheckSort);
-
-            grabGroup.addGrabbable(grabbable, true);
+            
+            grabGroup.addGrabbable(grab, true);
+            randomTouhous[i] = touhou;
         }
 
         return randomTouhous;
