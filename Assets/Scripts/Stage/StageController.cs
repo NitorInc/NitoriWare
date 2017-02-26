@@ -526,7 +526,7 @@ public class StageController : MonoBehaviour
 		{
 			animationStartTime -= beatLength * 8f;
 			invokeOutroAnimations();
-			invokeAtBeat("updateToSpeedUp", 4f);
+			invokeAtBeat("updateToSpeedUp", 0f);
 			animationStartTime += beatLength * 8f;
 		}
 		else
