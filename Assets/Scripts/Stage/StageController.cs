@@ -14,6 +14,7 @@ public class StageController : MonoBehaviour
 	public int speed;
 	public bool muteMusic, speedUpAnimation;
 	public Microgame[] microgamePool;
+	public VoicePlayer.VoiceSet voiceSet;
 
 	public int maxStockpiledScenes;
 
@@ -22,6 +23,7 @@ public class StageController : MonoBehaviour
 
 	public AnimationPart animationPart;
 
+	public VoicePlayer voicePlayer;
 	public MicrogameInfoParser infoParser;
 	public Camera stageCamera;
 	public Animator[] lifeIndicators;
@@ -89,6 +91,8 @@ public class StageController : MonoBehaviour
 		resetLifeIndicators();
 
 		Time.timeScale = getSpeedMult();
+
+		voicePlayer.loadClips(voiceSet);
 	}
 
 	void Awake()
@@ -339,6 +343,10 @@ public class StageController : MonoBehaviour
 
 	void endMicrogame()
 	{
+		if (!getVictoryDetermined())
+			voicePlayer.playClip(microgameVictory,
+				getMicrogameVictory() ? MicrogameController.instance.victoryVoiceDelay : MicrogameController.instance.failureVoiceDelay);
+		voicePlayer.forcePlay();
 
 		MicrogameController.instance.gameObject.SetActive(false);
 		SceneManager.UnloadScene(MicrogameController.instance.gameObject.scene);
@@ -459,6 +467,8 @@ public class StageController : MonoBehaviour
 		}
 
 		victoryDetermined = true;
+		voicePlayer.playClip(microgameVictory,
+			getMicrogameVictory() ? MicrogameController.instance.victoryVoiceDelay : MicrogameController.instance.failureVoiceDelay);
 
 		if (MicrogameController.instance.canEndEarly)
 		{

@@ -327,7 +327,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2076840506
+  randomSeed: -2053990084
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3296,6 +3296,21 @@ Prefab:
       propertyPath: debugTimerTick
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugVoiceSet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: failureVoiceDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: victoryVoiceDelay
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -3555,6 +3570,8 @@ MonoBehaviour:
   brokenRotateSpeed: 200
   brokenGravity: 10
   hitShake: 0.15
+  lossY: -5.8
+  lossX: 7.5
   brokenVelocity: {x: -10, y: 5}
   head: {fileID: 2070875072}
   slingshotBase: {fileID: 127371969}
@@ -12045,6 +12062,7 @@ MonoBehaviour:
   vibrateSpeed: 2
   vibrateMaxX: 0.03
   vibrateMaxY: 0.03
+  relativeToStartPosition: 0
   resetOnStop: 0
   resetOnStart: 0
 --- !u!212 &2070875075

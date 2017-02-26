@@ -6,15 +6,17 @@ using System.Collections;
 public class MicrogameController : MonoBehaviour
 {
 	public static MicrogameController instance;
-
+	private static int preserveDebugSpeed = -1;
 
 	public ControlScheme controlScheme;
 	public int beatDuration;
 	public string command;
 	public bool defaultVictory, canEndEarly, hideCursor;
+	public float victoryVoiceDelay, failureVoiceDelay;
 	public AudioClip musicClip;
 
 	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
+	public VoicePlayer.VoiceSet debugVoiceSet;
 	[Range(1, StageController.MAX_SPEED)]
 	public int debugSpeed;
 	public UnityEvent onPause, onUnPause;
@@ -22,6 +24,7 @@ public class MicrogameController : MonoBehaviour
 
 	private bool victory, victoryDetermined;
 	private Transform commandTransform;
+	private VoicePlayer debugVoicePlayer;
 
 	public enum ControlScheme
 	{
@@ -36,6 +39,14 @@ public class MicrogameController : MonoBehaviour
 		if (StageController.instance == null)
 		{
 			//Debug Mode Start (scene open by itself)
+
+			if (preserveDebugSpeed > -1)
+			{
+				Debug.Log("Debugging at speed " + preserveDebugSpeed);
+				debugSpeed = preserveDebugSpeed;
+				preserveDebugSpeed = -1;
+			}
+
 			StageController.beatLength = 60f / 130f;
 			Time.timeScale = StageController.getSpeedMult(debugSpeed);
 
@@ -72,6 +83,9 @@ public class MicrogameController : MonoBehaviour
 			}
 
 			Cursor.visible = controlScheme == ControlScheme.Mouse && !hideCursor;
+
+			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
+			debugVoicePlayer.loadClips(debugVoiceSet);
 		}
 		else
 		{
@@ -115,6 +129,8 @@ public class MicrogameController : MonoBehaviour
 			}
 			this.victory = victory;
 			victoryDetermined = final;
+			if (final)
+				debugVoicePlayer.playClip(victory, victory ? victoryVoiceDelay : failureVoiceDelay);
 		}
 		else
 		{
@@ -167,9 +183,28 @@ public class MicrogameController : MonoBehaviour
 
 	void Update ()
 	{
-		if (StageController.instance == null && Input.GetKeyDown(KeyCode.R))
+		if (StageController.instance == null)
 		{
-			SceneManager.LoadScene(gameObject.scene.buildIndex);
+			if (Input.GetKeyDown(KeyCode.R))
+				SceneManager.LoadScene(gameObject.scene.buildIndex);
+			else if (Input.GetKey(KeyCode.F))
+			{
+				preserveDebugSpeed = Mathf.Min(debugSpeed + 1, StageController.MAX_SPEED);
+				SceneManager.LoadScene(gameObject.scene.buildIndex);
+			}
+			else if (Input.GetKey(KeyCode.N))
+			{
+				string sceneName = SceneManager.GetActiveScene().name;
+				char[] sceneChars = sceneName.ToCharArray();
+				if (sceneChars[sceneChars.Length - 1] != '3')
+				{
+					int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
+					sceneName = sceneName.Substring(0, sceneName.Length - 1);
+					SceneManager.LoadScene(sceneName + (stageNumber + 1).ToString());
+				}
+				else
+					SceneManager.LoadScene(gameObject.scene.buildIndex);
+			}
 		}
 	}
 }

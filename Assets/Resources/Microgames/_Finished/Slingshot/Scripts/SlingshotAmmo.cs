@@ -7,7 +7,7 @@ public class SlingshotAmmo : MonoBehaviour
 
 	public float flingSpeedMult, flingGravity;
 
-	public float brokenRotateSpeed, brokenGravity, hitShake;
+	public float brokenRotateSpeed, brokenGravity, hitShake, lossY, lossX;
 	public Vector2 brokenVelocity;
 
 
@@ -180,6 +180,13 @@ public class SlingshotAmmo : MonoBehaviour
 				updateAudioPan();
 				if (!MicrogameController.instance.getVictory() && rigidThing.velocity.x > 0f)
 					transform.rotation = Quaternion.Euler(0f, 0f, MathHelper.getVectorAngle2D(rigidThing.velocity) * .5f);
+
+				if (transform.position.x > lossX || (rigidThing.velocity.y < 0f && transform.position.y < lossY))
+				{
+					MicrogameController.instance.failureVoiceDelay = 0f;
+					MicrogameController.instance.setVictory(false, true);
+					enabled = false;
+				}
 				break;
 			case(State.Broken):
 				rigidThing.MoveRotation(rigidThing.rotation + (brokenRotateSpeed * 5f * Time.deltaTime));

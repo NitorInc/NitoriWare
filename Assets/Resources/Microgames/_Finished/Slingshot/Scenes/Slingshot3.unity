@@ -5744,6 +5744,7 @@ MonoBehaviour:
   vibrateSpeed: 2
   vibrateMaxX: 0.03
   vibrateMaxY: 0.03
+  relativeToStartPosition: 0
   resetOnStop: 0
   resetOnStart: 0
 --- !u!212 &861073605
@@ -5933,6 +5934,8 @@ MonoBehaviour:
   brokenRotateSpeed: 200
   brokenGravity: 10
   hitShake: 1
+  lossY: -5.8
+  lossX: 7.5
   brokenVelocity: {x: -10, y: 5}
   head: {fileID: 861073602}
   slingshotBase: {fileID: 627642366}
@@ -6046,6 +6049,21 @@ Prefab:
     - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
         type: 2}
       propertyPath: debugTimerTick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: victoryVoiceDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: failureVoiceDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugVoiceSet
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
