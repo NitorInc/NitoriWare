@@ -53,12 +53,12 @@ public class StageController : MonoBehaviour
 
 	public enum AnimationPart
 	{
-		Idle,		//0	Animation does nothing, camera is disabled
-		Outro,		//1	Part that changes depending on if you win/lose
-		Intro,		//2	Part that introduces the microgame
-		LastBeat,	//3	Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame
+		Idle,		//0	- Animation does nothing, camera is disabled | Until microgame ends
+		Intro,		//1	- Part that introduces the microgame, animation begins in this state | 8 beats
+		Outro,		//2	- Part that changes depending on if you win/lose | 4 beats
+		LastBeat,	//3	- Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame | 1 Beat
 
-		SpeedUp		//4 Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro
+		SpeedUp		//4 - Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro | 8 Beats
 	}
 
 	//Interruptions happen between Outro and Intro, signaling animations such as speeding up and introducing a boss microgame
