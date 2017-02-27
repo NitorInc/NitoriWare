@@ -93,9 +93,6 @@ public class MicrogameController : MonoBehaviour
 			StageController.instance.stageCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
 
-			MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
-			MicrogameTimer.instance.gameObject.SetActive(true);
-
 			StageController.instance.microgameMusicSource.clip = musicClip;
 
 			if (hideCursor)
@@ -104,7 +101,7 @@ public class MicrogameController : MonoBehaviour
 			commandTransform = StageController.instance.transform.root.FindChild("UI").FindChild("Command");
 
 			StageController.instance.resetVictory();
-			StageController.instance.invokeNextCycle();
+			StageController.instance.onMicrogameAwake();
 		}
 
 	}
