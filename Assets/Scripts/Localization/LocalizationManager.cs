@@ -13,10 +13,16 @@ public class LocalizationManager : MonoBehaviour
 	{
 		//Hourai Elixir
 		if (instance != null && instance != this)
-			Destroy(gameObject);
+		{
+			Destroy(gameObject);       
+			return;
+		}
 		else
 			instance = this;
 		DontDestroyOnLoad(gameObject);
+
+		//TODO delet this
+		loadLocalizedText("test.json");
 	}
 	
 	public void loadLocalizedText(string filename)
@@ -34,5 +40,10 @@ public class LocalizationManager : MonoBehaviour
 		}
 		else
 			Debug.LogError("Cannot find file " + filename + " in StreamingAssets");
+	}
+
+	public string getLocalizedValue(string key)
+	{
+		return localizedText.ContainsKey(key) ? localizedText[key] : "No localized text found for key " + key;
 	}
 }
