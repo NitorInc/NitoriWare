@@ -24,7 +24,6 @@ public class StageController : MonoBehaviour
 	public AnimationPart animationPart = AnimationPart.Intro;
 
 	public VoicePlayer voicePlayer;
-	public MicrogameInfoParser infoParser;
 	public Camera stageCamera;
 	public Animator[] lifeIndicators;
 	public AudioSource outroSource, introSource, speedUpSource, microgameMusicSource;
@@ -38,6 +37,7 @@ public class StageController : MonoBehaviour
 
 	public static float beatLength;
 
+	private MicrogameTraits microgameTraits;
 	private float animationStartTime;
 
 	[System.Serializable]
@@ -71,7 +71,6 @@ public class StageController : MonoBehaviour
 
 	void Start()
 	{
-
 		setAnimationPart(animationPart);
 		beatLength = outroSource.clip.length / 4f;
 
@@ -264,7 +263,9 @@ public class StageController : MonoBehaviour
 		Time.timeScale = getSpeedMult();
 		introSource.pitch = getSpeedMult();
 
-		getMicrogameInfo();
+		updateMicrogameTraits();
+		command.text = microgameTraits.command;
+		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
 
 		if (!introSource.isPlaying)
 			introSource.Play();
@@ -296,13 +297,11 @@ public class StageController : MonoBehaviour
 		return microgameIndex;
 	}
 
-	void getMicrogameInfo()
+	void updateMicrogameTraits()
 	{
 		int i = getMicrogameIndex();
 
-		MicrogameInfoParser.MicrogameInfoGroup info = infoParser.getMicrogameInfo(microgamePool[i].name);
-		command.text = info.commands[getMicrogameDifficulty(i) - 1];
-		controlDisplay.sprite = controlSchemeSprites[(int)info.controlSchemes[getMicrogameDifficulty(i) - 1]];
+		microgameTraits = MicrogameTraits.findMicrogameTraits(microgamePool[i].name, getMicrogameDifficulty(i));
 	}
 
 	public float getBeatsRemaining()
@@ -421,8 +420,7 @@ public class StageController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		MicrogameInfoParser.MicrogameInfoGroup info = infoParser.getMicrogameInfo(microgamePool[getMicrogameIndex()].name);
-		Cursor.visible = info.controlSchemes[getMicrogameDifficulty(getMicrogameIndex()) - 1] == MicrogameTraits.ControlScheme.Mouse;
+		Cursor.visible = microgameTraits.controlScheme == MicrogameTraits.ControlScheme.Mouse;
 	}
 
 	/// <summary>
