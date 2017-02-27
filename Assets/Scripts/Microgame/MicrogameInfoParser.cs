@@ -3,15 +3,15 @@ using System.Collections;
 
 public class MicrogameInfoParser : MonoBehaviour
 {
-	private MicrogameInfo[] info;
+	private MicrogameInfoGroup[] info;
 	private string[] text;
 	private int lineIndex;
 
-	public struct MicrogameInfo
+	public struct MicrogameInfoGroup
 	{
 		public string name;
 		public string[] commands;
-		public MicrogameController.ControlScheme[] controlSchemes;
+		public MicrogameTraits.ControlScheme[] controlSchemes;
 	}
 
 
@@ -27,11 +27,11 @@ public class MicrogameInfoParser : MonoBehaviour
 		lineIndex = 0;
 
 		int microgameCount = int.Parse(getInfoFromLine(getNextLine()));
-		info = new MicrogameInfo[microgameCount];
+		info = new MicrogameInfoGroup[microgameCount];
 
 		for (int i = 0; i < microgameCount; i++)
 		{
-			info[i].controlSchemes = new MicrogameController.ControlScheme[3];
+			info[i].controlSchemes = new MicrogameTraits.ControlScheme[3];
 			info[i].commands = new string[3];
 
 			string line = getNextLine();
@@ -57,7 +57,7 @@ public class MicrogameInfoParser : MonoBehaviour
 			}
 			else
 			{
-				MicrogameController.ControlScheme controlScheme = getControlSchemeFromLine(line);
+				MicrogameTraits.ControlScheme controlScheme = getControlSchemeFromLine(line);
 				string command = getInfoFromLine(getNextLine());
 				for (int j = 0; j < 3; j++)
 				{
@@ -69,7 +69,7 @@ public class MicrogameInfoParser : MonoBehaviour
 		}
 	}
 
-	public MicrogameInfo getMicrogameInfo(string name)
+	public MicrogameInfoGroup getMicrogameInfo(string name)
 	{
 		for (int i = 0; i < info.Length; i++)
 		{
@@ -106,17 +106,17 @@ public class MicrogameInfoParser : MonoBehaviour
 		return newLine;
 	}
 
-	MicrogameController.ControlScheme getControlSchemeFromLine(string line)
+	MicrogameTraits.ControlScheme getControlSchemeFromLine(string line)
 	{
 		line = getInfoFromLine(line);
 		switch(line.ToLower())
 		{
 			case("keys"):
-				return MicrogameController.ControlScheme.Touhou;
+				return MicrogameTraits.ControlScheme.Touhou;
 			case("mouse"):
-				return MicrogameController.ControlScheme.Mouse;
+				return MicrogameTraits.ControlScheme.Mouse;
 			default:
-				return (MicrogameController.ControlScheme)0;
+				return (MicrogameTraits.ControlScheme)0;
 		}
 	}
 }
