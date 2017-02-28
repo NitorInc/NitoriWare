@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class LocalizedText : MonoBehaviour
 {
 	[SerializeField]
-	private Category category;
+	private Prefix keyPrefix;
 	[SerializeField]
 	private string _key;
 	public string key
@@ -18,7 +18,7 @@ public class LocalizedText : MonoBehaviour
 	private Text textComponent;
 	private TextMesh textMesh;
 
-	private enum Category
+	private enum Prefix
 	{
 		None,
 		CurrentMicrogame
@@ -43,8 +43,12 @@ public class LocalizedText : MonoBehaviour
 
 	void setText()
 	{
-		string fullKey = getPrefixString() + key;
-		setText(TextHelper.getLocalizedText(fullKey, getText()));
+		string value;
+		if (keyPrefix == Prefix.CurrentMicrogame)
+			value = TextHelper.getLocalizedMicrogameText(key, getText());
+		else
+			value = TextHelper.getLocalizedText(getPrefixedKey(), getText());
+		setText(value);
 	}
 
 	private void setText(string text)
@@ -64,14 +68,15 @@ public class LocalizedText : MonoBehaviour
 		return "";
 	}
 
-	string getPrefixString()
+	string getPrefixedKey()
 	{
-		switch(category)
+		switch(keyPrefix)
 		{
-			case (Category.CurrentMicrogame):
-				return "microgame." + gameObject.scene.name.Substring(0, gameObject.scene.name.Length - 1) + ".";
+			//Handled seperately
+			//case (Prefix.CurrentMicrogame):
+			//	return "microgame." + gameObject.scene.name.Substring(0, gameObject.scene.name.Length - 1) + ".";
 			default:
-				return "";
+				return key;
 		}
 	}
 }

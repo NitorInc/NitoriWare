@@ -10,24 +10,25 @@ public class LocalizationManager : MonoBehaviour
 	public static LocalizationManager instance;
 
 	[SerializeField]
+	private string forceLanguage;
 	private string language;
 
 	private Dictionary<string, string> localizedText;
 
 	void Awake ()
 	{
-		//Hourai Elixir
 		if (instance != null && instance != this)
 		{
-			Destroy(gameObject);       
+			Destroy(gameObject);
 			return;
 		}
 		else
 			instance = this;
-		DontDestroyOnLoad(gameObject);
+		if (transform.parent == null)
+			DontDestroyOnLoad(gameObject);
 
-		if (!language.Equals(""))
-			loadLocalizedText("Languages/" + language + ".json");
+		language = (forceLanguage == "" ? Application.systemLanguage.ToString() : forceLanguage);
+		loadLocalizedText("Languages/" + language + ".json");
 	}
 
 	
@@ -49,12 +50,34 @@ public class LocalizationManager : MonoBehaviour
 
 	}
 
+	public string getLanguage()
+	{
+		return language;
+	}
+
+	public void setLanguage(string language)
+	{
+		//TODO make loading async and revisit this
+	}
+
 	public string getLocalizedValue(string key)
 	{
 		return (localizedText == null) ? "No language set" : getLocalizedValue(key, NotFoundString);
 	}
 
 	public string getLocalizedValue(string key, string defaultString)
+	{
+		if (localizedText == null) 
+			return defaultString;
+		if (!localizedText.ContainsKey(key))
+		{
+			Debug.LogWarning("Language " + getLanguage() + " does not have a value for key " + key);
+			return defaultString;
+		}
+		return localizedText[key];
+	}
+
+	public string getLocalizedValueNoWarnings(string key, string defaultString)
 	{
 		return (localizedText == null) ? defaultString : (localizedText.ContainsKey(key) ? localizedText[key] : defaultString);
 	}
