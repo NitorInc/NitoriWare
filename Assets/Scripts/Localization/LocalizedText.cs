@@ -43,13 +43,8 @@ public class LocalizedText : MonoBehaviour
 
 	void setText()
 	{
-		if (LocalizationManager.instance == null || !LocalizationManager.instance.isInitiated())
-			return;
-
-
 		string fullKey = getPrefixString() + key;
-		setText(LocalizationManager.instance.getLocalizedValue(fullKey, getText()));
-		
+		setText(TextHelper.getLocalizedText(fullKey, getText()));
 	}
 
 	private void setText(string text)

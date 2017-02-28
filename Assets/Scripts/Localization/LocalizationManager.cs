@@ -51,16 +51,11 @@ public class LocalizationManager : MonoBehaviour
 
 	public string getLocalizedValue(string key)
 	{
-		return getLocalizedValue(key, NotFoundString);
+		return (localizedText == null) ? "No language set" : getLocalizedValue(key, NotFoundString);
 	}
 
 	public string getLocalizedValue(string key, string defaultString)
 	{
-		return localizedText.ContainsKey(key) ? localizedText[key] : defaultString;
-	}
-
-	public bool isInitiated()
-	{
-		return (localizedText != null);
+		return (localizedText == null) ? defaultString : (localizedText.ContainsKey(key) ? localizedText[key] : defaultString);
 	}
 }
