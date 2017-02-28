@@ -26,4 +26,15 @@ public class TextHelper
 		Scene scene = MicrogameController.instance.gameObject.scene;
 		return getLocalizedText("microgame." + scene.name.Substring(0, scene.name.Length - 1) + "." + key, defaultValue);
 	}
+
+	/// <summary>
+	/// Returns the text without displaying warnings when a key isn't found, for debug purpose
+	/// </summary>
+	/// <param name="key"></param>
+	/// <param name="defaultValue"></param>
+	/// <returns></returns>
+	public static string getLocalizedTextNoWarnings(string key, string defaultValue)
+	{
+		return LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValueNoWarnings(key, defaultValue);
+	}
 }

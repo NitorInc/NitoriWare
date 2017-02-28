@@ -264,7 +264,10 @@ public class StageController : MonoBehaviour
 		introSource.pitch = getSpeedMult();
 
 		updateMicrogameTraits();
-		command.text = microgameTraits.command;
+
+		//TODO re-enable command warnings
+		command.text = TextHelper.getLocalizedTextNoWarnings("microgame." + microgamePool[getMicrogameIndex()].name + ".command", microgameTraits.command);
+
 		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
 
 		if (!introSource.isPlaying)
