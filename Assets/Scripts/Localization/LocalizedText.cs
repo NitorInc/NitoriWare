@@ -15,7 +15,7 @@ public class LocalizedText : MonoBehaviour
 		set { _key = value; setText(); }
 	}
 
-	private Text text;
+	private Text textComponent;
 	private TextMesh textMesh;
 
 	private enum Category
@@ -26,7 +26,7 @@ public class LocalizedText : MonoBehaviour
 
 	void Start ()
 	{
-		text = GetComponent<Text>();
+		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
 		setText();
 	}
@@ -43,21 +43,30 @@ public class LocalizedText : MonoBehaviour
 
 	void setText()
 	{
-		if (LocalizationManager.instance == null)
+		if (LocalizationManager.instance == null || !LocalizationManager.instance.isInitiated())
 			return;
 
-		string fullKey = getPrefixString() + key, value = LocalizationManager.instance.getLocalizedValue(fullKey);
-		if (value.Equals(LocalizationManager.NotFoundString))
-		{
 
-			Debug.LogWarning("No or empty localization value found for " + key + ", text not changed");
-			return;
-		}
+		string fullKey = getPrefixString() + key;
+		setText(LocalizationManager.instance.getLocalizedValue(fullKey, getText()));
+		
+	}
 
-		if (text != null)
-			text.text = value;
+	private void setText(string text)
+	{
+		if (textComponent != null)
+			textComponent.text = text;
 		else if (textMesh != null)
-			textMesh.text = value;
+			textMesh.text = text;
+	}
+
+	private string getText()
+	{
+		if (textComponent != null)
+			return textComponent.text;
+		if (textMesh != null)
+			return textMesh.text;
+		return "";
 	}
 
 	string getPrefixString()

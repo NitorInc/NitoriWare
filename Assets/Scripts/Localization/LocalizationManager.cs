@@ -5,12 +5,12 @@ using System.IO;
 
 public class LocalizationManager : MonoBehaviour
 {
-	public const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
+	private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
 
 	public static LocalizationManager instance;
 
 	[SerializeField]
-	private string _fileName;
+	private string language;
 
 	private Dictionary<string, string> localizedText;
 
@@ -26,8 +26,10 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		DontDestroyOnLoad(gameObject);
 
-		loadLocalizedText(_fileName);
+		if (!language.Equals(""))
+			loadLocalizedText("Languages/" + language + ".json");
 	}
+
 	
 	public void loadLocalizedText(string filename)
 	{
@@ -43,11 +45,22 @@ public class LocalizationManager : MonoBehaviour
 			}
 		}
 		else
-			Debug.LogError("Cannot find file " + filename + " in StreamingAssets");
+			Debug.LogError("Cannot find language" + filename + " in StreamingAssets/Languages/");
+
 	}
 
 	public string getLocalizedValue(string key)
 	{
-		return localizedText.ContainsKey(key) ? localizedText[key] : NotFoundString;
+		return getLocalizedValue(key, NotFoundString);
+	}
+
+	public string getLocalizedValue(string key, string defaultString)
+	{
+		return localizedText.ContainsKey(key) ? localizedText[key] : defaultString;
+	}
+
+	public bool isInitiated()
+	{
+		return (localizedText != null);
 	}
 }
