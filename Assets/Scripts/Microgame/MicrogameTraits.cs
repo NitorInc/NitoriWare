@@ -15,7 +15,7 @@ public class MicrogameTraits : MonoBehaviour
 
 	public enum ControlScheme
 	{
-		Touhou,
+		Key,
 		Mouse
 	}
 

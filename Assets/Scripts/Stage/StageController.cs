@@ -267,11 +267,25 @@ public class StageController : MonoBehaviour
 
 		//TODO re-enable command warnings
 		command.text = TextHelper.getLocalizedTextNoWarnings("microgame." + microgamePool[getMicrogameIndex()].name + ".command", microgameTraits.command);
-
 		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
+		controlDisplay.transform.FindChild("Text").GetComponent<TextMesh>().text =
+			TextHelper.getLocalizedTextNoWarnings("control." + microgameTraits.controlScheme.ToString().ToLower(), getDefaultControlString());
 
 		if (!introSource.isPlaying)
 			introSource.Play();
+	}
+
+	string getDefaultControlString()
+	{
+		switch (microgameTraits.controlScheme)
+		{
+			case(MicrogameTraits.ControlScheme.Key):
+				return "USE DA KEYZ";
+			case (MicrogameTraits.ControlScheme.Mouse):
+				return "USE DA MOUSE";
+			default:
+				return "USE SOMETHING";
+		}
 	}
 
 	void updateToIdle()
