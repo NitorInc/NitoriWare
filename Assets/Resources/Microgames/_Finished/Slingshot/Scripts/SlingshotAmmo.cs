@@ -183,7 +183,7 @@ public class SlingshotAmmo : MonoBehaviour
 
 				if (transform.position.x > lossX || (rigidThing.velocity.y < 0f && transform.position.y < lossY))
 				{
-					MicrogameController.instance.failureVoiceDelay = 0f;
+					MicrogameController.instance.getTraits().failureVoiceDelay = 0f;
 					MicrogameController.instance.setVictory(false, true);
 					enabled = false;
 				}

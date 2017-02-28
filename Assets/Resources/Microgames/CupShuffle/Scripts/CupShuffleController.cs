@@ -65,7 +65,7 @@ public class CupShuffleController : MonoBehaviour
 		}
 
 		yield return new WaitForSeconds(shuffleTime / 3f);
-		MicrogameController.instance.displayCommand("Choose!");
+		MicrogameController.instance.displayCommand(TextHelper.getLocalizedMicrogameText("command.b", "Choose!"));
 		state = State.Choose;
 	}
 

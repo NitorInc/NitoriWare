@@ -24,7 +24,6 @@ public class StageController : MonoBehaviour
 	public AnimationPart animationPart = AnimationPart.Intro;
 
 	public VoicePlayer voicePlayer;
-	public MicrogameInfoParser infoParser;
 	public Camera stageCamera;
 	public Animator[] lifeIndicators;
 	public AudioSource outroSource, introSource, speedUpSource, microgameMusicSource;
@@ -38,6 +37,7 @@ public class StageController : MonoBehaviour
 
 	public static float beatLength;
 
+	private MicrogameTraits microgameTraits;
 	private float animationStartTime;
 
 	[System.Serializable]
@@ -71,7 +71,6 @@ public class StageController : MonoBehaviour
 
 	void Start()
 	{
-
 		setAnimationPart(animationPart);
 		beatLength = outroSource.clip.length / 4f;
 
@@ -264,10 +263,29 @@ public class StageController : MonoBehaviour
 		Time.timeScale = getSpeedMult();
 		introSource.pitch = getSpeedMult();
 
-		getMicrogameInfo();
+		updateMicrogameTraits();
+
+		//TODO re-enable command warnings
+		command.text = TextHelper.getLocalizedTextNoWarnings("microgame." + microgamePool[getMicrogameIndex()].name + ".command", microgameTraits.command);
+		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
+		controlDisplay.transform.FindChild("Text").GetComponent<TextMesh>().text =
+			TextHelper.getLocalizedTextNoWarnings("control." + microgameTraits.controlScheme.ToString().ToLower(), getDefaultControlString());
 
 		if (!introSource.isPlaying)
 			introSource.Play();
+	}
+
+	string getDefaultControlString()
+	{
+		switch (microgameTraits.controlScheme)
+		{
+			case(MicrogameTraits.ControlScheme.Key):
+				return "USE DA KEYZ";
+			case (MicrogameTraits.ControlScheme.Mouse):
+				return "USE DA MOUSE";
+			default:
+				return "USE SOMETHING";
+		}
 	}
 
 	void updateToIdle()
@@ -296,13 +314,11 @@ public class StageController : MonoBehaviour
 		return microgameIndex;
 	}
 
-	void getMicrogameInfo()
+	void updateMicrogameTraits()
 	{
 		int i = getMicrogameIndex();
 
-		MicrogameInfoParser.MicrogameInfo info = infoParser.getMicrogameInfo(microgamePool[i].name);
-		command.text = info.commands[getMicrogameDifficulty(i) - 1];
-		controlDisplay.sprite = controlSchemeSprites[(int)info.controlSchemes[getMicrogameDifficulty(i) - 1]];
+		microgameTraits = MicrogameTraits.findMicrogameTraits(microgamePool[i].name, getMicrogameDifficulty(i));
 	}
 
 	public float getBeatsRemaining()
@@ -321,13 +337,13 @@ public class StageController : MonoBehaviour
 	public void resetVictory()
 	{
 		victoryDetermined = false;
-		setMicrogameVictory(MicrogameController.instance.defaultVictory, false);
+		setMicrogameVictory(MicrogameController.instance.getTraits().defaultVictory, false);
 	}
 
 	//Called from MicrogameController on Awake()
 	public void onMicrogameAwake()
 	{
-		animationStartTime += beatLength * (12f + (float)MicrogameController.instance.beatDuration);
+		animationStartTime += beatLength * (12f + (float)MicrogameController.instance.getTraits().getDurationInBeats());
 
 		MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
@@ -340,9 +356,10 @@ public class StageController : MonoBehaviour
 	void endMicrogame()
 	{
 		if (!getVictoryDetermined())
-			voicePlayer.playClip(microgameVictory,
-				getMicrogameVictory() ? MicrogameController.instance.victoryVoiceDelay : MicrogameController.instance.failureVoiceDelay);
-		voicePlayer.forcePlay();
+			voicePlayer.playClip(microgameVictory, 0f);
+				//getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
+		else
+			voicePlayer.forcePlay();
 
 		MicrogameController.instance.gameObject.SetActive(false);
 		SceneManager.UnloadScene(MicrogameController.instance.gameObject.scene);
@@ -420,8 +437,7 @@ public class StageController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		MicrogameInfoParser.MicrogameInfo info = infoParser.getMicrogameInfo(microgamePool[getMicrogameIndex()].name);
-		Cursor.visible = info.controlSchemes[getMicrogameDifficulty(getMicrogameIndex()) - 1] == MicrogameController.ControlScheme.Mouse;
+		Cursor.visible = microgameTraits.controlScheme == MicrogameTraits.ControlScheme.Mouse;
 	}
 
 	/// <summary>
@@ -464,9 +480,9 @@ public class StageController : MonoBehaviour
 
 		victoryDetermined = true;
 		voicePlayer.playClip(microgameVictory,
-			getMicrogameVictory() ? MicrogameController.instance.victoryVoiceDelay : MicrogameController.instance.failureVoiceDelay);
+			getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
 
-		if (MicrogameController.instance.canEndEarly)
+		if (MicrogameController.instance.getTraits().canEndEarly)
 		{
 			float beatOffset = MicrogameTimer.instance.beatsLeft - 2f;
 			beatOffset -= beatOffset % 4f;
