@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class LocalizedText : MonoBehaviour
 {
 	[SerializeField]
+	private Category category;
+	[SerializeField]
 	private string _key;
 	public string key
 	{
@@ -15,6 +17,12 @@ public class LocalizedText : MonoBehaviour
 
 	private Text text;
 	private TextMesh textMesh;
+
+	private enum Category
+	{
+		None,
+		CurrentMicrogame
+	}
 
 	void Start ()
 	{
@@ -38,9 +46,28 @@ public class LocalizedText : MonoBehaviour
 		if (LocalizationManager.instance == null)
 			return;
 
+		string fullKey = getPrefixString() + key, value = LocalizationManager.instance.getLocalizedValue(fullKey);
+		if (value.Equals(LocalizationManager.NotFoundString))
+		{
+
+			Debug.LogWarning("No or empty localization value found for " + key + ", text not changed");
+			return;
+		}
+
 		if (text != null)
-			text.text = LocalizationManager.instance.getLocalizedValue(_key);
+			text.text = value;
 		else if (textMesh != null)
-			textMesh.text = LocalizationManager.instance.getLocalizedValue(_key);
+			textMesh.text = value;
+	}
+
+	string getPrefixString()
+	{
+		switch(category)
+		{
+			case (Category.CurrentMicrogame):
+				return "microgame." + gameObject.scene.name.Substring(0, gameObject.scene.name.Length - 1) + ".";
+			default:
+				return "";
+		}
 	}
 }

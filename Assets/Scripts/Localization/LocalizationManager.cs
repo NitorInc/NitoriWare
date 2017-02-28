@@ -5,7 +5,12 @@ using System.IO;
 
 public class LocalizationManager : MonoBehaviour
 {
+	public const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
+
 	public static LocalizationManager instance;
+
+	[SerializeField]
+	private string _fileName;
 
 	private Dictionary<string, string> localizedText;
 
@@ -21,8 +26,7 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		DontDestroyOnLoad(gameObject);
 
-		//TODO delet this
-		loadLocalizedText("test.json");
+		loadLocalizedText(_fileName);
 	}
 	
 	public void loadLocalizedText(string filename)
@@ -44,6 +48,6 @@ public class LocalizationManager : MonoBehaviour
 
 	public string getLocalizedValue(string key)
 	{
-		return localizedText.ContainsKey(key) ? localizedText[key] : "No localized text found for key " + key;
+		return localizedText.ContainsKey(key) ? localizedText[key] : NotFoundString;
 	}
 }
