@@ -134,6 +134,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
         // Shake camera
         Camera.main.GetComponent<CameraShake>().enabled = true;
+
+		FlanGrab_Microgame_Behaviour.instance.flanimator.Play("Loss");
     }
 
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
 
+	public static FlanGrab_Microgame_Behaviour instance;
+
     public GameObject meteorPrefab;
     public float leftLimit;
     public float rightLimit;
@@ -11,6 +13,7 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     public int meteorQuantity;
 	public float createTime = 1f;
     public float timeBetweenCreation;
+	public Animator flanimator;
     private float timeCounter;
     private int meteorCreationCounter = 0;
     private int meteorDestructionCounter = 0;
@@ -20,7 +23,8 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
 	private int leftMeteor;
 
     // Use this for initialization
-    void Start () {     
+    void Start () {
+		instance = this;
         meteorDestructionCounter = 0;           // Delete Later
         meteorCreationCounter = 0;              // Delete Later
 		timeCounter = createTime;
@@ -73,7 +77,8 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         meteorDestructionCounter += 1;
         if (meteorDestructionCounter == meteorQuantity)
         {
-            MicrogameController.instance.setVictory(true, true);
+			MicrogameController.instance.setVictory(true, true);
+			FlanGrab_Microgame_Behaviour.instance.flanimator.Play("Victory");
         }
     }
 

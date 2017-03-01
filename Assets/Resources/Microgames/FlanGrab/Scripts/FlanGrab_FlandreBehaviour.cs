@@ -7,6 +7,9 @@ public class FlanGrab_FlandreBehaviour : MonoBehaviour {
     private GameObject rightArmObject;
     private float xRightLimit;
 
+	[SerializeField]
+	private float bodyRotationMult;
+
 
     // Use this for initialization
     void Start () {
@@ -33,6 +36,7 @@ public class FlanGrab_FlandreBehaviour : MonoBehaviour {
         if (-90 <= angle && angle <= 90)
         {
             rightArmObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * bodyRotationMult));
         }
     }
     
