@@ -81,6 +81,9 @@ public class TextHelper
 	/// <param name="value"></param>
 	public static void setVariable(string key, string value)
 	{
+		if (variables == null)
+			variables = new Dictionary<string, string>();
+			
 		if (!key.StartsWith("var."))
 			key = "var." + key;
 		if (variables.ContainsKey(key))
@@ -92,6 +95,9 @@ public class TextHelper
 	// Returns the text variable with the given key
 	private static string getVariable(string key, string defaultValue)
 	{
+		if (variables == null)
+			variables = new Dictionary<string, string>();
+
 		if (!key.StartsWith("var."))
 			key = "var." + key;
 		return fillInParameters(variables.ContainsKey(key) ? variables[key] : defaultValue);
