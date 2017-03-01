@@ -135,8 +135,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         // Shake camera
         Camera.main.GetComponent<CameraShake>().enabled = true;
 
-		//TODO make loss animation instead? (using sweat sprite??)
-		FlanGrab_Microgame_Behaviour.instance.flanimator.enabled = false;
+		FlanGrab_Microgame_Behaviour.instance.flanimator.Play("Loss");
     }
 
 
