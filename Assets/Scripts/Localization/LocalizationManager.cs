@@ -79,11 +79,11 @@ public class LocalizationManager : MonoBehaviour
 			Debug.LogWarning("Language " + getLanguage() + " does not have a value for key " + key);
 			return defaultString;
 		}
-		return localizedText[key];
+		return TextHelper.fillInParameters(localizedText[key]);
 	}
 
 	public string getLocalizedValueNoWarnings(string key, string defaultString)
 	{
-		return (localizedText == null) ? defaultString : (localizedText.ContainsKey(key) ? localizedText[key] : defaultString);
+		return (localizedText == null) ? defaultString : (localizedText.ContainsKey(key) ? TextHelper.fillInParameters(localizedText[key]) : defaultString);
 	}
 }
