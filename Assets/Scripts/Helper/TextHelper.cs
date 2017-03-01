@@ -9,14 +9,14 @@ public class TextHelper
 	private static Dictionary<string, string> variables;
 
 	/// <summary>
-	/// Gets localized text and checks for redundancies, use this for most purposes
+	/// Gets localized text and checks for redundancies, use this for most purposes, prefix key with "var." to access a variable
 	/// </summary>
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
 	public static string getLocalizedText(string key, string defaultValue)
 	{
 		if (key.StartsWith("var."))
-			return getVariable(key, defaultValue);
+			return getVariable("var." + key, defaultValue);
 		return LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValue(key, defaultValue);
 	}
 
@@ -33,7 +33,7 @@ public class TextHelper
 	}
 
 	/// <summary>
-	/// Returns the text without displaying warnings when a key isn't found, for debug purpose
+	/// Returns the text without displaying warnings when a key isn't found, for debug purposes
 	/// </summary>
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
@@ -44,7 +44,7 @@ public class TextHelper
 	}
 
 	/// <summary>
-	/// Replaces all instances of text formatted {key} with their appropriate values, works with variables
+	/// Replaces all instances of text formatted "{key}" with their appropriate values, works with variables
 	/// </summary>
 	/// <param name="text"></param>
 	/// <returns></returns>
@@ -62,7 +62,7 @@ public class TextHelper
 			{
 				match = match.Replace("{", "").Replace("}", "");
 				if (match.StartsWith("var."))
-					text = text.Replace("{" + match + "}", getVariable(match, "(TEXT NOT FOUND)"));
+					text = text.Replace("{" + match + "}", getVariable("var." + match, "(TEXT NOT FOUND)"));
 				else
 					text = text.Replace("{" + match + "}", getLocalizedText(match, "(TEXT NOT FOUND)"));
 			}
@@ -74,22 +74,26 @@ public class TextHelper
 		return text;
 	}
 
+	/// <summary>
+	/// Sets text variable for given key, value can contain key or variable parameters formatted "{key}"
+	/// </summary>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	public static void setVariable(string key, string value)
 	{
+		if (!key.StartsWith("var."))
+			key = "var." + key;
 		if (variables.ContainsKey(key))
 			variables[key] = value;
 		else
 			variables.Add(key, value);
 	}
 
-	/// <summary>
-	/// Returns the text variable with the given key, must be set beforehand or els the default value will be returned. Can contain key parameters formatted {key}
-	/// </summary>
-	/// <param name="key"></param>
-	/// <param name="defaultValue"></param>
-	/// <returns></returns>
-	public static string getVariable(string key, string defaultValue)
+	// Returns the text variable with the given key
+	private static string getVariable(string key, string defaultValue)
 	{
+		if (!key.StartsWith("var."))
+			key = "var." + key;
 		return fillInParameters(variables.ContainsKey(key) ? variables[key] : defaultValue);
 	}
 }
