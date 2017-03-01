@@ -62,7 +62,7 @@ public class TextHelper
 			{
 				match = match.Replace("{", "").Replace("}", "");
 				if (match.StartsWith("var."))
-					text = text.Replace("{" + match + "}", getVariable("var." + match, "(TEXT NOT FOUND)"));
+					text = text.Replace("{" + match + "}", getVariable(match, "(TEXT NOT FOUND)"));
 				else
 					text = text.Replace("{" + match + "}", getLocalizedText(match, "(TEXT NOT FOUND)"));
 			}
