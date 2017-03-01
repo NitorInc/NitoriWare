@@ -36,6 +36,11 @@ public class LocalizationManager : MonoBehaviour
 	{
 		localizedText = new Dictionary<string, string>();
 		string filePath = Path.Combine(Application.streamingAssetsPath, filename);
+		if (!File.Exists(filePath))
+		{
+			filePath = filePath.Replace(language, "English");
+			Debug.Log("Language " + language + " not found. Using English");
+		}
 		if (File.Exists(filePath))
 		{
 			string jsonString = File.ReadAllText(filePath);
@@ -46,7 +51,7 @@ public class LocalizationManager : MonoBehaviour
 			}
 		}
 		else
-			Debug.LogError("Cannot find language" + filename + " in StreamingAssets/Languages/");
+			Debug.LogError("No English json found!");
 
 	}
 
