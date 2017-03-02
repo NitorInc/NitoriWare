@@ -13,7 +13,7 @@ public class MicrogameController : MonoBehaviour
 	[System.Serializable]
 	struct DebugSettings
 	{
-		public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay;
+		public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
 		public VoicePlayer.VoiceSet voiceSet;
 		[Range(1, StageController.MAX_SPEED)]
 		public int speed;
@@ -40,7 +40,8 @@ public class MicrogameController : MonoBehaviour
 		{
 			//Debug Mode Start (scene open by itself)
 
-			if (localization.gameObject.activeInHierarchy)
+			localization.gameObject.SetActive(debugSettings.localizeText);
+			if (debugSettings.localizeText)
 				localization.GetComponent<LocalizationManager>().Awake();
 
 			traits.onAccess.Invoke();
