@@ -15,11 +15,12 @@ public class LocalizationManager : MonoBehaviour
 
 	private Dictionary<string, string> localizedText;
 
-	void Awake ()
+	public void Awake ()
 	{
-		if (instance != null && instance != this)
+		if (instance != null)
 		{
-			Destroy(gameObject);
+			if (instance != this)
+				Destroy(gameObject);
 			return;
 		}
 		else
@@ -49,6 +50,7 @@ public class LocalizationManager : MonoBehaviour
 			{
 				localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
 			}
+			Debug.Log("Language loaded successfully: " + language);
 		}
 		else
 			Debug.LogError("No English json found!");

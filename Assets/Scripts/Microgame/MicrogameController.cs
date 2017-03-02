@@ -34,12 +34,17 @@ public class MicrogameController : MonoBehaviour
 
 		string sceneName = gameObject.scene.name;
 		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
+		Transform localization = transform.FindChild("Localization");
 
 		if (StageController.instance == null)
 		{
 			//Debug Mode Start (scene open by itself)
 
+			if (localization.gameObject.activeInHierarchy)
+				localization.GetComponent<LocalizationManager>().Awake();
+
 			traits.onAccess.Invoke();
+
 			if (preserveDebugSpeed > -1)
 			{
 				Debug.Log("Debugging at speed " + preserveDebugSpeed);
@@ -79,7 +84,7 @@ public class MicrogameController : MonoBehaviour
 			if (debugSettings.displayCommand)
 			{
 				commandTransform.gameObject.SetActive(true);
-				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = traits.command;
+				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = TextHelper.getLocalizedMicrogameText("command", traits.command);
 			}
 
 			Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
@@ -90,6 +95,10 @@ public class MicrogameController : MonoBehaviour
 		else
 		{
 			//Normal Start
+
+			if (localization.gameObject.activeInHierarchy)
+				localization.gameObject.SetActive(false);
+
 			StageController.instance.stageCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
 
