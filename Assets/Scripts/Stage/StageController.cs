@@ -319,6 +319,7 @@ public class StageController : MonoBehaviour
 		int i = getMicrogameIndex();
 
 		microgameTraits = MicrogameTraits.findMicrogameTraits(microgamePool[i].name, getMicrogameDifficulty(i));
+		microgameTraits.onAccess.Invoke();
 	}
 
 	public float getBeatsRemaining()

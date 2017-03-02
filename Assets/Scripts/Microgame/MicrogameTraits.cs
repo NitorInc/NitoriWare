@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MicrogameTraits : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MicrogameTraits : MonoBehaviour
 	public bool defaultVictory;
 	public float victoryVoiceDelay, failureVoiceDelay;
 	public AudioClip musicClip;
+	public UnityEvent onAccess;
 
 	public enum ControlScheme
 	{

@@ -39,6 +39,7 @@ public class MicrogameController : MonoBehaviour
 		{
 			//Debug Mode Start (scene open by itself)
 
+			traits.onAccess.Invoke();
 			if (preserveDebugSpeed > -1)
 			{
 				Debug.Log("Debugging at speed " + preserveDebugSpeed);
