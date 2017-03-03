@@ -33,7 +33,7 @@ public class TouhouSortSorter : MonoBehaviour
         public Sprite leftIcon, rightIcon;
         public Sprite[] leftPool, rightPool;
     }
-    public Category[] categories;
+	//public Category[] categories;
     
     public struct Style
     {
@@ -42,7 +42,7 @@ public class TouhouSortSorter : MonoBehaviour
     }
 
     void Start() {
-        Category category = categories[Random.Range(0, categories.Length)];
+		Category category = (MicrogameController.instance.getTraits() as TouhouSortTraits).category;
 
         zoneManager.SetZoneAttributes(0, category.leftIcon, category.name, false);
         zoneManager.SetZoneAttributes(1, category.rightIcon, category.name, true);
@@ -185,7 +185,7 @@ public class TouhouSortSorter : MonoBehaviour
 		if (allSorted)
         {
 			// Sorted
-			Debug.Log("Sorted");
+			//Debug.Log("Sorted");
 			sorted = true;
 
             victoryDisplay.SetActive(true);

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4962439210505950}
-  - component: {fileID: 114408231883086542}
+  - component: {fileID: 114557682608579486}
   m_Layer: 0
   m_Name: Traits3
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114408231883086542
+--- !u!114 &114557682608579486
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,15 +48,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 1981665479895998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17105db20cdb01345be39e2b3b1e9ef3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a53217bbdab6a04786c50a296fff1ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _controlScheme: 1
   _hideCursor: 0
   _duration: 1
   _canEndEarly: 1
-  _command: Sort!
+  _command: Sort by {0}!
   _defaultVictory: 0
   _victoryVoiceDelay: 0
   _failureVoiceDelay: 0
   _musicClip: {fileID: 0}
+  categories:
+  - name: hat
+    leftIcon: {fileID: 21300000, guid: 73141636933d46541b6bd8938398e91d, type: 3}
+    rightIcon: {fileID: 21300000, guid: a1f5d98bce79bfb4c9b3c02c19b013cb, type: 3}
+    leftPool:
+    - {fileID: 21300000, guid: 78ae153d9e063624abd2dd8f51e4a9ab, type: 3}
+    - {fileID: 21300000, guid: 86a6da5477473ed4c978648478c89d48, type: 3}
+    - {fileID: 21300000, guid: 127f669051b537749a9e75d5ed67ebe5, type: 3}
+    rightPool:
+    - {fileID: 21300000, guid: 2e447ad2ce459ef4290478cc22996362, type: 3}
+    - {fileID: 21300000, guid: 83e20c22de1ce2d4d95a2e83d1675f7c, type: 3}
+    - {fileID: 21300000, guid: f0f9433af91c32a4397b61f269621493, type: 3}
+  - name: wing
+    leftIcon: {fileID: 21300000, guid: 5e1c2d2e410784c45b66b26d8e6344e3, type: 3}
+    rightIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    leftPool:
+    - {fileID: 21300000, guid: 0a9ac0745dde25e46958894c0e523783, type: 3}
+    rightPool:
+    - {fileID: 21300000, guid: 2e447ad2ce459ef4290478cc22996362, type: 3}
+    - {fileID: 21300000, guid: 127f669051b537749a9e75d5ed67ebe5, type: 3}
+    - {fileID: 21300000, guid: 78ae153d9e063624abd2dd8f51e4a9ab, type: 3}
+  category:
+    name: 
+    leftIcon: {fileID: 0}
+    rightIcon: {fileID: 0}
+    leftPool: []
+    rightPool: []
