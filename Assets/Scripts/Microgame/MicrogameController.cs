@@ -44,7 +44,7 @@ public class MicrogameController : MonoBehaviour
 			if (debugSettings.localizeText)
 				localization.GetComponent<LocalizationManager>().Awake();
 
-			traits.onAccess.Invoke();
+			traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
 
 			if (preserveDebugSpeed > -1)
 			{

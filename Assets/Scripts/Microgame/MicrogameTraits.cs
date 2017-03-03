@@ -5,15 +5,41 @@ using UnityEngine.Events;
 
 public class MicrogameTraits : MonoBehaviour
 {
-	public ControlScheme controlScheme;
-	public bool hideCursor;
-	public Duration duration;
-	public bool canEndEarly;
-	public string command;
-	public bool defaultVictory;
-	public float victoryVoiceDelay, failureVoiceDelay;
-	public AudioClip musicClip;
-	public UnityEvent onAccess;
+	[SerializeField]
+	private ControlScheme _controlScheme;
+	public virtual ControlScheme controlScheme { get { return _controlScheme; } set { } }
+
+	[SerializeField]
+	private bool _hideCursor;
+	public virtual bool hideCursor { get { return _hideCursor; } set { } }
+
+	[SerializeField]
+	private Duration _duration;
+	public virtual Duration duration { get { return _duration; } set { } }
+
+	[SerializeField]
+	private bool _canEndEarly;
+	public virtual bool canEndEarly { get { return _canEndEarly; } set { } }
+
+	[SerializeField]
+	private string _command;
+	public virtual string command { get { return TextHelper.getLocalizedText("microgame. " + microgameId + ".command", command); } set { } }
+
+	[SerializeField]
+	private bool _defaultVictory;
+	public virtual bool defaultVictory { get { return _defaultVictory; } set { } }
+
+	[SerializeField]
+	private float _victoryVoiceDelay, _failureVoiceDelay;
+	public virtual float victoryVoiceDelay { get { return _victoryVoiceDelay; } set { } }
+	public virtual float failureVoiceDelay { get { return _failureVoiceDelay; } set { } }
+
+	[SerializeField]
+	private AudioClip _musicClip;
+	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
+
+
+	private string microgameId;
 
 	public enum ControlScheme
 	{
@@ -25,6 +51,11 @@ public class MicrogameTraits : MonoBehaviour
 	{
 		Short8Beats,
 		Long16Beats
+	}
+
+	public virtual void onAccessInStage(string microgameId)
+	{
+		this.microgameId = microgameId;
 	}
 
 	public float getDurationInBeats()
