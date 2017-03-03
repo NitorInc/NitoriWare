@@ -24,7 +24,7 @@ public class MicrogameTraits : MonoBehaviour
 	[SerializeField]
 	private string _command;
 	public virtual string command { get { return _command; } set { } }
-	public virtual string localizedCommand { get { return TextHelper.getLocalizedText("microgame." + microgameId + ".command", _command); } set { } }
+	public virtual string localizedCommand { get { return TextHelper.getLocalizedText("microgame." + microgameId + ".command", command); } set { } }
 
 	[SerializeField]
 	private bool _defaultVictory;
@@ -39,8 +39,8 @@ public class MicrogameTraits : MonoBehaviour
 	private AudioClip _musicClip;
 	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
 
-
-	private string microgameId;
+	private string _microgameId;
+	public string microgameId { get { return _microgameId; } set { } }
 
 	public enum ControlScheme
 	{
