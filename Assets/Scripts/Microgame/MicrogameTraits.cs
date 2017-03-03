@@ -56,7 +56,7 @@ public class MicrogameTraits : MonoBehaviour
 
 	public virtual void onAccessInStage(string microgameId)
 	{
-		this.microgameId = microgameId;
+		this._microgameId = microgameId;
 	}
 
 	public float getDurationInBeats()
