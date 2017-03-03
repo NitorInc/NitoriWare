@@ -23,7 +23,8 @@ public class MicrogameTraits : MonoBehaviour
 
 	[SerializeField]
 	private string _command;
-	public virtual string command { get { return TextHelper.getLocalizedText("microgame." + microgameId + ".command", _command); } set { } }
+	public virtual string command { get { return _command; } set { } }
+	public virtual string localizedCommand { get { return TextHelper.getLocalizedText("microgame." + microgameId + ".command", _command); } set { } }
 
 	[SerializeField]
 	private bool _defaultVictory;

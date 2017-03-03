@@ -85,7 +85,7 @@ public class MicrogameController : MonoBehaviour
 			if (debugSettings.displayCommand)
 			{
 				commandTransform.gameObject.SetActive(true);
-				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = TextHelper.getLocalizedMicrogameText("command", traits.command);
+				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = traits.localizedCommand;
 			}
 
 			Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;

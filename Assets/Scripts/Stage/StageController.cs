@@ -266,7 +266,7 @@ public class StageController : MonoBehaviour
 		updateMicrogameTraits();
 
 		//TODO re-enable command warnings
-		command.text = TextHelper.getLocalizedTextNoWarnings("microgame." + microgamePool[getMicrogameIndex()].name + ".command", microgameTraits.command);
+		command.text = microgameTraits.localizedCommand;
 		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
 		controlDisplay.transform.FindChild("Text").GetComponent<TextMesh>().text =
 			TextHelper.getLocalizedTextNoWarnings("control." + microgameTraits.controlScheme.ToString().ToLower(), getDefaultControlString());
