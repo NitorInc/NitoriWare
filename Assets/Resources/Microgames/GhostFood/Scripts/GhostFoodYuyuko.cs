@@ -121,7 +121,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			burpParticles.Play();
 			audioSource.PlayOneShot(burpClip);
 
-			animator.Rebind();
+			animator.Play("Idle");
 			animator.enabled = false;
 			state = State.Hungry;
 			face.transform.parent.localScale = Vector3.one;
