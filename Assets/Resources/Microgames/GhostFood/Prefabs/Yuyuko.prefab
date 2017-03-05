@@ -81,6 +81,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1537155974465798
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4148199604891608}
+  - component: {fileID: 212567188825149426}
+  m_Layer: 0
+  m_Name: Face
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1593720951204002
 GameObject:
   m_ObjectHideFlags: 1
@@ -92,7 +108,7 @@ GameObject:
   - component: {fileID: 212663595602680606}
   - component: {fileID: 114185632656909340}
   m_Layer: 0
-  m_Name: Face
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,8 +207,22 @@ Transform:
   - {fileID: 4245200240238284}
   - {fileID: 4259607338864886}
   - {fileID: 4979347750230342}
+  - {fileID: 4148199604891608}
   m_Father: {fileID: 4274253442374634}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4148199604891608
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1537155974465798}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.55, y: 1.17, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4106084123113284}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4242706636453468
 Transform:
@@ -490,8 +520,6 @@ MonoBehaviour:
   motorSpeedMult: 4
   foods:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   face: {fileID: 4106084123113284}
   body: {fileID: 4286404846975836}
   joint: {fileID: 233471433893459304}
@@ -499,13 +527,14 @@ MonoBehaviour:
   burpParticles: {fileID: 198800562015795866}
   animator: {fileID: 95905446950478962}
   headVibrate: {fileID: 114185632656909340}
-  hungryFace: {fileID: 21300004, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
-  chewingFace1: {fileID: 21300006, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
-  chewingFace2: {fileID: 21300008, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
-  happyFace: {fileID: 21300000, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
+  hungryFace: {fileID: 21300006, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
+  chewingFace1: {fileID: 21300008, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
+  chewingFace2: {fileID: 21300010, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
+  happyFace: {fileID: 21300004, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
   initialScale: 0.1
   victoryScale: 0.25
   victoryMoveSpeedMult: 5
+  faceRenderer: {fileID: 212567188825149426}
   audioSource: {fileID: 82111220913924392}
   chewClip: {fileID: 8300000, guid: 01f65df8a8bda0a4c8e9e77bfe79c900, type: 3}
   victoryClip: {fileID: 8300000, guid: 6b92b5156cb068d4b9f080f73126fe60, type: 3}
@@ -5972,6 +6001,41 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!212 &212567188825149426
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1537155974465798}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300006, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!212 &212663595602680606
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -6003,7 +6067,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300004, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e7861396e71fcd45be2fe5bfc45ae12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -24,7 +24,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	public float initialScale, victoryScale, victoryMoveSpeedMult;
 	private float distanceToCenter;
 	
-
+	[SerializeField]
 	private SpriteRenderer faceRenderer;
 	private int chewsLeft;
 
@@ -41,7 +41,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void Awake()
 	{
-		faceRenderer = face.GetComponent<SpriteRenderer>();
+		//faceRenderer = face.GetComponent<SpriteRenderer>();
 	}
 
 	void Start()
