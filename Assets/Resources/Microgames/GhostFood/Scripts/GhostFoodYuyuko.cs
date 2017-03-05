@@ -10,6 +10,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	public float chewTime, motorSpeedMult;
 
 	public Transform[] foods;
+	public Vector2 foodHueRange;
 
 	public Transform face, body;
 	public HingeJoint2D joint;
@@ -69,6 +70,10 @@ public class GhostFoodYuyuko : MonoBehaviour
 				foods[i].transform.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-4f, 4f), transform.position.z);
 			}
 			while (isInCenter(foods[i].transform.position) || (foods[i].transform.position - transform.position).magnitude < 4f);
+
+			SpriteRenderer foodSprite = foods[i].GetComponent<SpriteRenderer>();
+			foodSprite.color = new HSBColor(Random.Range(foodHueRange.x, foodHueRange.y), 2f, 2f).ToColor();
+			foodSprite.sortingOrder += i + 1;
 			
 		}
 		setFacingRight(transform.position.x < 0f);
@@ -276,6 +281,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 		if ((state == State.Hungry || canEatMultipleFoods) && other.name == "Food")
 		{
 			state = State.Chewing;
+			particles.startColor = other.GetComponent<SpriteRenderer>().color;
 			other.gameObject.SetActive(false);
 			particles.Play();
 			chewsLeft += chewsNeeded;
