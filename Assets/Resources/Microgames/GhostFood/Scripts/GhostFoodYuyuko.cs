@@ -24,7 +24,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	public float initialScale, victoryScale, victoryMoveSpeedMult;
 	private float distanceToCenter;
-	
+
 	[SerializeField]
 	private SpriteRenderer faceRenderer;
 	private int chewsLeft;
@@ -65,7 +65,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 		for (int i = 0; i < foods.Length; foods[i++].gameObject.SetActive(true))
 		{
-			do 
+			do
 			{
 				foods[i].transform.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-4f, 4f), transform.position.z);
 			}
@@ -74,7 +74,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			SpriteRenderer foodSprite = foods[i].GetComponent<SpriteRenderer>();
 			foodSprite.color = new HSBColor(Random.Range(foodHueRange.x, foodHueRange.y), 2f, 2f).ToColor();
 			foodSprite.sortingOrder += i + 1;
-			
+
 		}
 		setFacingRight(transform.position.x < 0f);
 		body.transform.rotation = transform.position.x < 0f ? Quaternion.Euler(0f, 0f, -0.5f * Mathf.Rad2Deg) : Quaternion.Euler(0f, 0f, 0.5f * Mathf.Rad2Deg);
@@ -93,9 +93,9 @@ public class GhostFoodYuyuko : MonoBehaviour
 		burpParticles.SetParticles(new ParticleSystem.Particle[0], 0);
 
 		audioSource.Stop();
-		
+
 	}
-	
+
 	bool isFoodLeft()
 	{
 		for (int i = 0; i < foods.Length; i++)
@@ -105,14 +105,16 @@ public class GhostFoodYuyuko : MonoBehaviour
 		}
 		return false;
 	}
-	
-	void Update ()
+
+	void Update()
 	{
 		if (state != State.Full)
 			updateMovement();
+		updateBodyRotation();
 
+		lastMousePosition = transform.position;
 		updateFace();
-		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(Camera.main, transform.position) * .8f ;
+		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(Camera.main, transform.position) * .8f;
 	}
 
 	void checkForVictory()
@@ -139,12 +141,14 @@ public class GhostFoodYuyuko : MonoBehaviour
 		state = State.Full;
 		animator.enabled = false;
 		face.transform.parent.localScale = Vector3.one;
-		joint.useMotor = false;
+		//joint.useMotor = false;
 		headVibrate.vibrateOn = true;
 		distanceToCenter = ((Vector2)transform.position).magnitude;
 
 		audioSource.PlayOneShot(victoryClip);
 		audioSource.pitch = Time.timeScale;
+
+		motorSpeedMult /= 5f;
 	}
 
 	void spitParticles()
@@ -156,35 +160,35 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void updateFace()
 	{
-		switch(state)
+		switch (state)
 		{
-			case(State.Hungry):
-					faceRenderer.sprite = hungryFace;
-					break;
+			case (State.Hungry):
+				faceRenderer.sprite = hungryFace;
+				break;
 			case (State.Chewing):
-					faceRenderer.sprite = chewingFace1;
-					if (chewsLeft > 0 && Input.GetMouseButtonDown(0) && animator.GetTime() >= chewTime)
+				faceRenderer.sprite = chewingFace1;
+				if (chewsLeft > 0 && Input.GetMouseButtonDown(0) && animator.GetTime() >= chewTime)
+				{
+					animator.enabled = true;
+					//Debug.Log(animator.GetTime());
+					//animator.SetTime(0f);
+					animator.Rebind();
+					//Debug.Log(animator.GetTime());
+					chewsLeft--;
+					audioSource.PlayOneShot(chewClip);
+					audioSource.pitch = Time.timeScale * Random.Range(.9f, 1f);
+					if (chewsLeft == 0)
 					{
-						animator.enabled = true;
-						//Debug.Log(animator.GetTime());
-						//animator.SetTime(0f);
-						animator.Rebind();
-						//Debug.Log(animator.GetTime());
-						chewsLeft--;
-						audioSource.PlayOneShot(chewClip);
-						audioSource.pitch = Time.timeScale * Random.Range(.9f, 1f);
-						if (chewsLeft == 0)
-						{
-							Invoke("checkForVictory", chewTime);
-						}
-						else
-						{
-							Invoke("spitParticles", 1f / 12f);
-						}
+						Invoke("checkForVictory", chewTime);
 					}
-					break;
+					else
+					{
+						Invoke("spitParticles", 1f / 12f);
+					}
+				}
+				break;
 			case (State.Full):
-					faceRenderer.sprite = happyFace;
+				faceRenderer.sprite = happyFace;
 
 				if ((Vector2)transform.position != Vector2.zero)
 				{
@@ -192,11 +196,11 @@ public class GhostFoodYuyuko : MonoBehaviour
 					Vector2 toCenter = -1f * (Vector2)transform.position;
 					transform.position = toCenter.magnitude <= diff ? new Vector3(0f, 0f, transform.position.z) : transform.position + (Vector3)MathHelper.resizeVector2D(toCenter, diff);
 					setScale(Mathf.Lerp(victoryScale, initialScale, toCenter.magnitude / distanceToCenter));
-					
+
 				}
-					break;
+				break;
 			default:
-					break;
+				break;
 		}
 	}
 
@@ -227,23 +231,27 @@ public class GhostFoodYuyuko : MonoBehaviour
 			setFacingRight(true);
 		}
 
+
+		//updateBodyRotation();
+
+
+	}
+
+	void updateBodyRotation()
+	{
 		float speed = (transform.position.x - lastMousePosition.x) / Time.deltaTime;
+		//	, angle = body.localRotation.eulerAngles.z;
+		//if (angle > 180f)
+		//	angle -= 360f;
+		//angle *= -1f;
 
-
-		if (!MathHelper.Approximately(speed, 0f, .01f))
-		{
-			joint.useMotor = true;
-			JointMotor2D motor = joint.motor;
-			motor.motorSpeed = speed * motorSpeedMult;
-			joint.motor = motor;
-		}
-		else
-		{
-			joint.useMotor = false;
-		}
-
-
-		lastMousePosition = getMousePosition();
+		float zRotation = body.transform.eulerAngles.z + (-1f * speed * motorSpeedMult * Time.deltaTime);
+		if (zRotation > 180f)
+			zRotation -= 360f;
+		zRotation = Mathf.Clamp(zRotation, joint.limits.min, joint.limits.max);
+		if (zRotation < 0f)
+			zRotation += 360f;
+		body.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
 	}
 
 	bool isFacingRight()
