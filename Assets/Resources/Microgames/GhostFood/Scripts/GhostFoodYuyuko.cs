@@ -10,6 +10,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	public float chewTime, motorSpeedMult;
 
 	public Transform[] foods;
+	public Sprite[] foodSpritePool;
 	public Vector2 foodHueRange;
 
 	public Transform face, body;
@@ -72,6 +73,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			while (isInCenter(foods[i].transform.position) || (foods[i].transform.position - transform.position).magnitude < 4f);
 
 			SpriteRenderer foodSprite = foods[i].GetComponent<SpriteRenderer>();
+			foodSprite.sprite = foodSpritePool[Random.Range(0, foodSpritePool.Length)];
 			foodSprite.color = new HSBColor(Random.Range(foodHueRange.x, foodHueRange.y), 2f, 2f).ToColor();
 			foodSprite.sortingOrder += i + 1;
 
