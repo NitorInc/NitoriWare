@@ -70,7 +70,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			{
 				foods[i].transform.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-4f, 4f), transform.position.z);
 			}
-			while (isInCenter(foods[i].transform.position) || (foods[i].transform.position - transform.position).magnitude < 4f);
+			while (isInCenter(foods[i].transform.position) || isNearOtherFood(i, 1f) || (foods[i].transform.position - transform.position).magnitude < 4f);
 
 			SpriteRenderer foodSprite = foods[i].GetComponent<SpriteRenderer>();
 			foodSprite.sprite = foodSpritePool[Random.Range(0, foodSpritePool.Length)];
@@ -96,6 +96,16 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 		audioSource.Stop();
 
+	}
+
+	bool isNearOtherFood(int index, float threshold)
+	{
+		for (int i = 0; i < index; i++)
+		{
+			if (((Vector2)foods[i].transform.position - (Vector2)foods[index].transform.position).magnitude < threshold)
+				return true;
+		}
+		return false;
 	}
 
 	bool isFoodLeft()
