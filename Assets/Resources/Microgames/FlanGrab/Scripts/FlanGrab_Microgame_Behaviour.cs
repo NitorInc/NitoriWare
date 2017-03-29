@@ -13,7 +13,7 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     public int meteorQuantity;
 	public float createTime = 1f;
     public float timeBetweenCreation;
-	public Animator flanimator;
+	public Animator flanimator, victoryAnimator;
     private float timeCounter;
     private int meteorCreationCounter = 0;
     private int meteorDestructionCounter = 0;
@@ -79,6 +79,7 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         {
 			MicrogameController.instance.setVictory(true, true);
 			FlanGrab_Microgame_Behaviour.instance.flanimator.Play("Victory");
+			victoryAnimator.enabled = true;
         }
     }
 

@@ -148,7 +148,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 		ParticleSystem.EmissionModule emission = particles.emission;
 		emission.enabled = false;
 		particles.startSize *= 1.8f;
-		particles.Emit(10);
+		particles.Emit(5);
         Instantiate(explosionEffect, meteorSprite.transform.position, Quaternion.identity);
         Destroy(meteorSprite.gameObject);
         this.microgameBehaviour.increaseDestructionCounter();
