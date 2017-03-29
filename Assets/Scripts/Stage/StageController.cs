@@ -411,11 +411,8 @@ public class StageController : MonoBehaviour
 	void Update()
 	{
 
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
-		}
-		else if (Input.GetKeyDown(KeyCode.R))
+		//Debug scene reset
+		if (Input.GetKeyDown(KeyCode.R))
 		{
 			SceneManager.LoadScene(gameObject.scene.buildIndex);
 		}
