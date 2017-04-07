@@ -21,9 +21,9 @@ public class PotionPool : MonoBehaviour
 
 	void shuffleIngredients()
 	{
-		int index = 0, choice;
+	int choice;
 		GameObject hold;
-		while (index < ingredients.Length)
+		for (int index = 0; index < ingredients.Length; index++)
 		{
 			choice = Random.Range(index, ingredients.Length);
 			if (choice != index)
@@ -32,7 +32,7 @@ public class PotionPool : MonoBehaviour
 				ingredients[index] = ingredients[choice];
 				ingredients[choice] = hold;
 			}
-			index++;
+			
 		}
 	}
 	
