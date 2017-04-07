@@ -59,7 +59,7 @@ public class DonationCoin : MonoBehaviour
 
 
 
-		lastVelocity = new Vector2(0f, -1f);
+		lastVelocity = Vector2.down;
 
 	}
 	
@@ -78,15 +78,15 @@ public class DonationCoin : MonoBehaviour
 		else if (transform.position.y <= slowHeight && transform.position.y > fallHeight)
 		{
 			//body.isKinematic = true;
-			body.velocity = new Vector2(0f, speed * -1f);
+			body.velocity = Vector2.down * speed;
 		}
 		else if (transform.position.y <= fallHeight)
 		{
-			body.velocity = new Vector2(0f, speed * -3f);
+			body.velocity = Vector2.down * speed * 3f;
 		}
 		else
 		{
-			body.AddTorque(body.velocity.x * -1f);
+			body.AddTorque(-body.velocity.x);
 		}
 
 
