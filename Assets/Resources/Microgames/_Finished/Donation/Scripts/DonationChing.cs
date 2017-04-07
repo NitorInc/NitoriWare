@@ -58,7 +58,7 @@ public class DonationChing : MonoBehaviour
 
 		updateAppearance();
 
-		transform.position += new Vector3(0f, ySpeed * Time.deltaTime, .05f * Time.deltaTime);
+		transform.position += new Vector3(0f, ySpeed , .05f) * Time.deltaTime;
 
 	}
 
