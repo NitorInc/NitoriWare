@@ -7,6 +7,7 @@ public class WrenchTighten : MonoBehaviour
 	public float upSpeed, downSpeed, maxRotation, scaleSpeed, minScale, maxScale, boltRotation, progressMult;
 	public int cyclesNeeded;
 	public bool arrowIndicator, fastening, finished;
+	public Animator sceneAnimator;
 
 	public Transform bolt, screw;
 	public Vibrate handVibrate;
@@ -14,7 +15,7 @@ public class WrenchTighten : MonoBehaviour
 
 	private float minRotation;
 	private int cyclesLeft;
-	private bool goingUp;
+	private bool moving;
 
 	void Start ()
 	{
@@ -23,7 +24,7 @@ public class WrenchTighten : MonoBehaviour
 
 	public void reset()
 	{
-		goingUp = false;
+		moving = false;
 		minRotation = maxRotation - (Mathf.PI / 3f);
 		setRotation(maxRotation);
 		fastening = true;
@@ -62,46 +63,48 @@ public class WrenchTighten : MonoBehaviour
 		MicrogameController.instance.setVictory(true, true);
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 		finished = true;
+		sceneAnimator.enabled = true;
 	}
 
 	void updateFasten()
 	{
-		if (Input.GetKey(KeyCode.DownArrow) && (fastening || getRotation() >= maxRotation || Mathf.Approximately(getRotation(), maxRotation)))
+		if (fastening)
 		{
-			fastening = true;
-			float diff = downSpeed * Time.deltaTime;
-			if (getRotation() - diff <= minRotation)
+			if (Input.GetKeyDown(KeyCode.DownArrow))
+				moving = true;
+			if (moving)
 			{
-				goingUp = false;
-				setRotation(minRotation);
-				if (cyclesLeft == 1)
+				float diff = downSpeed * Time.deltaTime;
+				if (getRotation() - diff <= minRotation)
 				{
-					finish();
-					return;
+					cyclesLeft--;
+					moving = false;
+					fastening = false;
+					setRotation(minRotation);
+					if (cyclesLeft == 0)
+					{
+						finish();
+						return;
+					}
+					else if (arrowIndicator)
+							arrowBlink.enableBlink(true);
 				}
-				else if (arrowIndicator)
-					arrowBlink.enableBlink(true);
+				else
+					setRotation(getRotation() - diff);
 			}
-			else
-				setRotation(getRotation() - diff);
-
 			setBoltRotation(getRotation() + boltRotation);
-
 		}
 		else
 		{
-			if (Input.GetKey(KeyCode.UpArrow))
-				goingUp = true;
-			if (goingUp && (!fastening || getRotation() <= minRotation || Mathf.Approximately(getRotation(), minRotation)))
+			if (Input.GetKeyDown(KeyCode.UpArrow))
+				moving = true;
+			if (moving)
 			{
-				if (fastening)
-				{
-					cyclesLeft--;
-				}
-				fastening = false;
 				float diff = upSpeed * Time.deltaTime;
 				if (getRotation() + diff >= maxRotation)
 				{
+					moving = false;
+					fastening = true;
 					arrowBlink.disableBlink(false);
 					setRotation(maxRotation);
 				}

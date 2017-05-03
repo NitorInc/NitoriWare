@@ -40,7 +40,7 @@ public class MicrogameTimer : MonoBehaviour
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			Invoke("playTick", (beatsLeft - (i + 2)) * ScenarioController.beatLength);
+			Invoke("playTick", (beatsLeft - (i + 2)) * StageController.beatLength);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	void Update()
 	{
-		beatsLeft -= Time.deltaTime / ScenarioController.beatLength;
+		beatsLeft -= Time.deltaTime / StageController.beatLength;
 	}
 
 	void LateUpdate()

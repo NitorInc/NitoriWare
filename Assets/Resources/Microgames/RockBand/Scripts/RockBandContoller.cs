@@ -9,7 +9,10 @@ public class RockBandContoller : MonoBehaviour
 	public RockBandNote[] notes;
 	public Animator kyoani, mystiaAnimator;
 	public RockBandLight[] lights;
+	public AudioClip victoryClip, failureClip;
+	public AudioClip[] noteHitClips;
 
+	private AudioSource _audioSource;
 	private State state;
 	public enum State
 	{
@@ -22,6 +25,8 @@ public class RockBandContoller : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		_audioSource = GetComponent<AudioSource>();
+		_audioSource.pitch = Time.timeScale;
 	}
 
 	public void victory()
@@ -32,6 +37,7 @@ public class RockBandContoller : MonoBehaviour
 		{
 			light.onVictory();
 		}
+		_audioSource.PlayOneShot(victoryClip);
 	}
 
 	public void failure()
@@ -43,6 +49,17 @@ public class RockBandContoller : MonoBehaviour
 		{
 			notes[i].gameObject.SetActive(false);
 		}
+		_audioSource.PlayOneShot(failureClip);
+	}
+
+	void hitNote()
+	{
+		setState(State.Hit);
+		foreach (RockBandLight light in lights)
+		{
+			light.onHit();
+		}
+		_audioSource.PlayOneShot(noteHitClips[Random.Range(0, noteHitClips.Length)]);
 	}
 	
 	void Update ()
@@ -73,11 +90,7 @@ public class RockBandContoller : MonoBehaviour
 							victory();
 						else
 						{
-							setState(State.Hit);
-							foreach(RockBandLight light in lights)
-							{
-								light.onHit();
-							}
+							hitNote();
 						}
 					}
 					else

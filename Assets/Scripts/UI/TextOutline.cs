@@ -7,6 +7,7 @@ public class TextOutline : MonoBehaviour
 {
 
 	public float pixelSize = 1;
+	public int cloneCount = 8;
 	public Color outlineColor = Color.black;
 	public bool resolutionDependant = false;
 	public int doubleResolution = 1024;
@@ -19,7 +20,7 @@ public class TextOutline : MonoBehaviour
 		textMesh = GetComponent<TextMesh>();
 		meshRenderer = GetComponent<MeshRenderer>();
 
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < cloneCount; i++)
 		{
 			GameObject outline = new GameObject("outline", typeof(TextMesh));
 			outline.transform.parent = transform;
@@ -61,7 +62,7 @@ public class TextOutline : MonoBehaviour
 			other.gameObject.layer = gameObject.layer;
 
 			bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
-			Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * pixelSize : pixelSize);
+			Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
 			Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint + pixelOffset);
 			other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
@@ -71,10 +72,13 @@ public class TextOutline : MonoBehaviour
 		}
 	}
 
+	float getFunctionalPixelSize()
+	{
+		return pixelSize * 5f / Camera.main.orthographicSize;
+	}
+
 	Vector3 GetOffset(int i)
 	{
-		float x = (i & 3) == 0 ? 0 : (i & 7) < 4 ? 1 : -1;
-		float y = (i & 3) == 2 ? 0 : ((i + 2) & 7) < 4 ? 1 : -1;
-		return new Vector3(x, y, 0);
+		return (Vector3)MathHelper.getVectorFromAngle2D(360f * ((float)i / (float)cloneCount), 1f);
 	}
 }

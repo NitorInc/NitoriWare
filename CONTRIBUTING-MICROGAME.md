@@ -43,7 +43,7 @@ Where to keep files and what to name them:
 * As for scenes, each difficulty must be a separate scene named [Game ID]+[Difficulty Number], (i.e. ReimuCash1).
 * As you create the scenes, add them to the project build path
 * Open Assets/Resources/MicrogameInfo.txt and add your game's name, control scheme, and command message. The format should be easy to follow. (This is a temporary requirement while we work on an alternative)
-* When you submit a pull request for your microgame, the only files that should be changed outside of its ID folder should be MicrogameInfo.txt and the build path.
+* When you submit a pull request for your microgame, the only files that should be changed outside of its ID folder should be MicrogameInfo.txt and the build path (unless you ask for my permission to change something else).
 
 ## Programming
 Guidelines for putting your microgame together:
@@ -86,12 +86,12 @@ Playing your microgame scene by itself is referred to as "Debug Mode". The Micro
 * The MicrogameController script has several variables in the inspector beginning with "Debug". *Debug Objects is not to be messed with*, but the other ones will all change how the game is played in debug mode (mute music, don't display command, etc.) but won't affect its playback in the real game.
 * The Main Camera has an inactive FPS display attacked to it. Feel free to activate it in debug mode but remember to disable it again before submitting your pull request.
 
-Once your game is working just fine in Debug Mode, fire up the Nitori stage in Assets/Resources/Scenarios/Nitori/Nitori.unity and follow these steps to test your microgame in the actual game. This one is a bit hard to explain but bear with me:
+Once your game is working just fine in Debug Mode, fire up the Nitori stage in Assets/Resources/Stages/Nitori/Nitori.unity and follow these steps to test your microgame in the actual game. This one is a bit hard to explain but bear with me:
 * First, make sure you've added the game info to Assets/Resources/MicrogameInfo.txts and that you've added your microgame scenes to the build path, or this won't work,
-* The scene hierarchy has a GameObject called Scenario at its root. Click on it and you'll notice an attached script called Scenario Controller.
+* The scene hierarchy has a GameObject called "Stage". Click on its first child, "Controller", and you'll notice an attached script called Stage Controller.
 * Look down a few variables until you see Microgame Pool. This is the list of microgames that the scene will load from and cycle through when it plays, including what difficulty the microgame will be the first time it's played. You can resize and edit it however you want to include your microgame.
 * You can change the variables above Microgame Pool to change various things about how the microgames are loaded: Whether the game order is shuffled, whether the game speeds up after a couple microgames, whether the microgame gets harder after each full cycle, the speed the game plays at, and an option to mute music.
 * If you're confused and you want to just test your microgame, use this setup: set shuffle and speed increase to off, and make your microgame the only element in Microgame Pool. If you want to test just one difficulty, set the base difficulty to whichever you wish and disable difficulty increase. If you want to test all three difficulties in a row, enable difficulty increase and set base difficulty to 1.
 * The game will likely work in this scene if it worked in debug mode. If something unexpected goes awry, let me know.
 * You should also test by building the project after you've done this before you submit your pull request.
-* Once you're done with all that, revert the changes in Nitori.unity (or just don't commit them) and you're free to submit that pull request if everything's functional!
+* Once you're done with all that, revert any changes in Nitori.unity and the Stages folder in general (or just don't commit them) and you're free to submit that pull request if everything's functional!
