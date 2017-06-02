@@ -16,7 +16,7 @@ public class TextHelper
 	}
 
 	/// <summary>
-	/// Gets localized text with prefix "microgame.[ID]," added automatically
+	/// Gets localized text with prefix "microgame.[ID]." added automatically
 	/// </summary>
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
