@@ -5,6 +5,8 @@ using System.IO;
 
 public class LocalizationManager : MonoBehaviour
 {
+	[Multiline]
+	public string testData;
 	private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
 
 	public static LocalizationManager instance;
@@ -13,7 +15,7 @@ public class LocalizationManager : MonoBehaviour
 	private string forceLanguage;
 	private string language;
 
-	private Dictionary<string, string> localizedText;
+	private SerializedNestedStrings localizedText;
 
 	public void Awake ()
 	{
@@ -29,28 +31,26 @@ public class LocalizationManager : MonoBehaviour
 			DontDestroyOnLoad(gameObject);
 
 		language = (forceLanguage == "" ? Application.systemLanguage.ToString() : forceLanguage);
-		loadLocalizedText("Languages/" + language + ".json");
+		loadLocalizedText("Languages/" + language + "");
 	}
 
 	
 	public void loadLocalizedText(string filename)
 	{
-		localizedText = new Dictionary<string, string>();
 		string filePath = Path.Combine(Application.streamingAssetsPath, filename);
 		if (!File.Exists(filePath))
 		{
 			filePath = filePath.Replace(language, "English");
 			Debug.Log("Language " + language + " not found. Using English");
+			language = "English";
 		}
 		if (File.Exists(filePath))
 		{
-			string jsonString = File.ReadAllText(filePath);
-			LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(jsonString);
-			for (int i = 0; i < loadedData.items.Length; i++)
-			{
-				localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
-			}
-			Debug.Log("Language loaded successfully: " + language);
+			System.DateTime started = System.DateTime.Now;
+			localizedText = SerializedNestedStrings.deserialize(File.ReadAllText(filePath));
+			testData = localizedText.ToString();
+			System.TimeSpan timeElapsed = System.DateTime.Now - started;
+			Debug.Log("Language " + language + " loaded successfully. Deserialization time: " + timeElapsed.TotalMilliseconds + "ms");
 		}
 		else
 			Debug.LogError("No English json found!");
@@ -76,16 +76,24 @@ public class LocalizationManager : MonoBehaviour
 	{
 		if (localizedText == null) 
 			return defaultString;
-		if (!localizedText.ContainsKey(key))
+		string value = (string)localizedText[key];
+		if (key.Split('.')[0].Equals("multiline"))
+			value = value.Replace("\\n", "\n");
+		if (string.IsNullOrEmpty(value))
 		{
 			Debug.LogWarning("Language " + getLanguage() + " does not have a value for key " + key);
 			return defaultString;
 		}
-		return localizedText[key];
+		return value;
 	}
 
 	public string getLocalizedValueNoWarnings(string key, string defaultString)
 	{
-		return (localizedText == null) ? defaultString : (localizedText.ContainsKey(key) ? localizedText[key] : defaultString);
+		if (localizedText == null)
+			return defaultString;
+		string value = (string)localizedText[key];
+		if (key.Split('.')[0].Equals("multiline"))
+			value = value.Replace("\\n", "\n");
+		return string.IsNullOrEmpty(value) ? defaultString : value;
 	}
 }
