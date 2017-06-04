@@ -183,7 +183,7 @@ public class MicrogameController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Redisplays the command text with the specified message
+	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
 	public void displayCommand(string command)
@@ -195,6 +195,16 @@ public class MicrogameController : MonoBehaviour
 		_animator.Rebind();
 		_animator.Play("Command");
 		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
+	}
+
+	/// <summary>
+	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
+	/// </summary>
+	/// <param name="command"></param>
+	public void displayLocalizedCommand(string key, string defaultString)
+	{
+		Debug.Log(key);
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
 	}
 
 	void Update ()
