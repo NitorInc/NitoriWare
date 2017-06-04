@@ -5,8 +5,6 @@ using System.IO;
 
 public class LocalizationManager : MonoBehaviour
 {
-	[Multiline]
-	public string testData;
 	private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
 
 	public static LocalizationManager instance;
@@ -48,7 +46,6 @@ public class LocalizationManager : MonoBehaviour
 		{
 			System.DateTime started = System.DateTime.Now;
 			localizedText = SerializedNestedStrings.deserialize(File.ReadAllText(filePath));
-			testData = localizedText.ToString();
 			System.TimeSpan timeElapsed = System.DateTime.Now - started;
 			Debug.Log("Language " + language + " loaded successfully. Deserialization time: " + timeElapsed.TotalMilliseconds + "ms");
 		}
