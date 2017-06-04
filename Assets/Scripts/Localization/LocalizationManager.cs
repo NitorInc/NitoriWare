@@ -74,8 +74,7 @@ public class LocalizationManager : MonoBehaviour
 		if (localizedText == null) 
 			return defaultString;
 		string value = (string)localizedText[key];
-		if (key.Split('.')[0].Equals("multiline"))
-			value = value.Replace("\\n", "\n");
+		value = value.Replace("\\n", "\n");
 		if (string.IsNullOrEmpty(value))
 		{
 			Debug.LogWarning("Language " + getLanguage() + " does not have a value for key " + key);
