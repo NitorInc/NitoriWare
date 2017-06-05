@@ -105,6 +105,15 @@ public class MathHelper
 	}
 
 	/// <summary>
+	/// Returns a random bool
+	/// </summary>
+	/// <returns></returns>
+	public static bool randomBool()
+	{
+		return Random.value >= 0.5;
+	}
+
+	/// <summary>
 	/// An alternateative to Mathf.approximately with a settable proximity threshold
 	/// </summary>
 	/// <param name="value1"></param>
