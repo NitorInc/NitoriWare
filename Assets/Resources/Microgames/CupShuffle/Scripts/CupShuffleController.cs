@@ -8,6 +8,8 @@ public class CupShuffleController : MonoBehaviour
 
 	public int cupCount, shuffleCount;
 	public float shuffleTime, shuffleStartDelay;
+	public bool enableBackwardsShuffles;
+	public float fakeOutChance;
 	public GameObject cupPrefab;
 	public AudioClip shuffleClip, correctClip, incorrectClip;
 
@@ -87,13 +89,15 @@ public class CupShuffleController : MonoBehaviour
 	{
 		int indexA = Random.Range(0, cupCount), indexB;
 		do {indexB = Random.Range(0, cupCount);} while (indexA == indexB);
-		bool cupAUp = Random.value < .5f;
+		bool cupAUp = Random.value < .5f,
+			backwards = enableBackwardsShuffles ? MathHelper.randomBool() : false,
+			fakeout = Random.value < fakeOutChance;
 		CupShuffleCup cupA = cups[indexA], cupB = cups[indexB];
 
 		cupA.endAnimation();
 		cupB.endAnimation();
-		cupA.startAnimation(cupB.position - cupA.position, shuffleTime, cupAUp);
-		cupB.startAnimation(cupA.position - cupB.position, shuffleTime, !cupAUp);
+		cupA.startAnimation(cupB.position - cupA.position, shuffleTime, cupAUp, backwards, fakeout);
+		cupB.startAnimation(cupA.position - cupB.position, shuffleTime, !cupAUp, backwards, fakeout);
 
 		_audioSource.PlayOneShot(shuffleClip);
 	}
