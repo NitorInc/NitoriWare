@@ -203,7 +203,6 @@ public class MicrogameController : MonoBehaviour
 	/// <param name="command"></param>
 	public void displayLocalizedCommand(string key, string defaultString)
 	{
-		Debug.Log(key);
 		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
 	}
 
