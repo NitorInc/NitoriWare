@@ -74,12 +74,12 @@ public class LocalizationManager : MonoBehaviour
 		if (localizedText == null) 
 			return defaultString;
 		string value = (string)localizedText[key];
-		value = value.Replace("\\n", "\n");
 		if (string.IsNullOrEmpty(value))
 		{
 			Debug.LogWarning("Language " + getLanguage() + " does not have a value for key " + key);
 			return defaultString;
 		}
+		value = value.Replace("\\n", "\n");
 		return value;
 	}
 
@@ -88,8 +88,10 @@ public class LocalizationManager : MonoBehaviour
 		if (localizedText == null)
 			return defaultString;
 		string value = (string)localizedText[key];
+		if (string.IsNullOrEmpty(value))
+			return defaultString;
 		if (key.Split('.')[0].Equals("multiline"))
 			value = value.Replace("\\n", "\n");
-		return string.IsNullOrEmpty(value) ? defaultString : value;
+		return value;
 	}
 }
