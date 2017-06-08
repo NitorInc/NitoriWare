@@ -182,7 +182,7 @@ public class MathHelper
 		}
 		else
 		{
-			transform.Translate((Vector3)resizeVector2D(relativePosition, diff));
+			transform.position += (Vector3)resizeVector2D(relativePosition, diff);
 			return false;
 		}
 	}
