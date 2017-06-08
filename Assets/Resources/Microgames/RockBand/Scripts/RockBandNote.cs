@@ -9,6 +9,10 @@ public class RockBandNote : MonoBehaviour
 	public KeyCode key;
 	public KeyCode[] possibleKeys;
 
+	[SerializeField]
+	private Animator noteAnimator;
+	private Animator beatAnimator;
+
 	public State state;
 	public enum State
 	{
@@ -17,7 +21,7 @@ public class RockBandNote : MonoBehaviour
 		Played
 	}
 
-	void Start ()
+	void Start()
 	{
 		int keyIndex = Random.Range(0, possibleKeys.Length);
 		key = possibleKeys[keyIndex];
@@ -26,17 +30,21 @@ public class RockBandNote : MonoBehaviour
 		updatePosition();
 	}
 	
-	void Update ()
+	void Update()
 	{
-		updatePosition();
+		if (state != State.Played)
+			updatePosition();
+		else
+			MathHelper.moveTowards2D(transform, beatAnimator.transform.position, 15f);
 	}
 
 	public void playNote()
 	{
 		state = State.Played;
-
-		//TODO Play animation for notes
-		gameObject.SetActive(false);
+		noteAnimator.Play("Hit");
+		GetComponentInChildren<ParticleSystem>().Play();
+		beatAnimator.Rebind();
+		beatAnimator.Play("Hit");
 	}
 
 	void updatePosition()
@@ -47,9 +55,11 @@ public class RockBandNote : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.name == "Beat Zone")
+		if (other.name == "RockBandBeatZone")
 		{
 			state = State.InRange;
+			if (beatAnimator == null)
+				beatAnimator = other.GetComponent<Animator>();
 		}
 		else if (other.name == "Failure Zone")
 		{
