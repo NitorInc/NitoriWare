@@ -215,15 +215,12 @@ public class StageController : MonoBehaviour
 		}
 
 		//Apply speed increase between rounds
-		if (speedIncreaseOn)
+		if (speedIncreaseOn && getMicrogameIndex() == 0)
 		{
-			if (getMicrogameIndex() == 0)
-			{
-				if (round > 3)
-					speed = round - 2;
-				else
-					speed = 1;
-			}
+			if (round > 3)
+				speed = round - 2;
+			else
+				speed = 1;
 			if (speed > MAX_SPEED)
 				speed = MAX_SPEED;
 		}
