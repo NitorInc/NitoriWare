@@ -229,10 +229,12 @@ public class StageController : MonoBehaviour
 		}
 
 
-		if (interruption != Interruption.Nothing)
+		if (interruption != Interruption.Nothing && life > 0)
+		{
 			invokeAtBeat("updateTo" + interruption.ToString(), 0f);
+			animationStartTime += getInterruptionBeats() * beatLength;
+		}
 
-		animationStartTime += getInterruptionBeats() * beatLength;
 		invokeIntroAnimations();
 
 		introSource.pitch = getSpeedMult();
