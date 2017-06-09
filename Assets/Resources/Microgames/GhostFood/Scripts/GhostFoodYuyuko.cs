@@ -80,8 +80,8 @@ public class GhostFoodYuyuko : MonoBehaviour
 		}
 		setFacingRight(transform.position.x < 0f);
 		body.transform.rotation = transform.position.x < 0f ? Quaternion.Euler(0f, 0f, -0.5f * Mathf.Rad2Deg) : Quaternion.Euler(0f, 0f, 0.5f * Mathf.Rad2Deg);
-		animator.SetTime(1f);
-		animator.enabled = false;
+		//animator.playbackTime = 1f;
+		//animator.enabled = false;
 
 		headVibrate.vibrateOn = false;
 		setScale(initialScale);
@@ -179,12 +179,12 @@ public class GhostFoodYuyuko : MonoBehaviour
 				break;
 			case (State.Chewing):
 				faceRenderer.sprite = chewingFace1;
-				if (chewsLeft > 0 && Input.GetMouseButtonDown(0) && animator.GetTime() >= chewTime)
+				if (chewsLeft > 0 && Input.GetMouseButtonDown(0))// && animator.playbackTime >= chewTime)
 				{
-					animator.enabled = true;
 					//Debug.Log(animator.GetTime());
 					//animator.SetTime(0f);
 					animator.Rebind();
+					animator.Play("Chew", -1, 0f);
 					//Debug.Log(animator.GetTime());
 					chewsLeft--;
 					audioSource.PlayOneShot(chewClip);
@@ -301,13 +301,13 @@ public class GhostFoodYuyuko : MonoBehaviour
 		if ((state == State.Hungry || canEatMultipleFoods) && other.name == "Food")
 		{
 			state = State.Chewing;
+			animator.enabled = true;
 			particles.startColor = other.GetComponent<SpriteRenderer>().color;
 			other.gameObject.SetActive(false);
 			particles.Play();
 			chewsLeft += chewsNeeded;
 			CancelInvoke();
-			animator.enabled = true;
-			animator.SetTime(1f);
+			animator.Play("Chew", -1, 1f);
 		}
 	}
 
