@@ -68,7 +68,7 @@ public class CameraShake : MonoBehaviour
 			resetGoal();
 			transform.localPosition = goalPosition;
 		}
-		else if (MathHelper.moveTowards2D(transform, (Vector2)goalPosition, shakeSpeed))
+		else if (transform.moveTowards((Vector2)goalPosition, shakeSpeed))
 		{
 			resetGoal();
 		}
@@ -91,7 +91,7 @@ public class CameraShake : MonoBehaviour
 		if (xShake == 0f && yShake == 0f)
 		{
 			goalPosition = initialPosition;
-			MathHelper.moveTowards2D(transform, (Vector2)goalPosition, shakeSpeed);
+			transform.moveTowards((Vector2)goalPosition, shakeSpeed);
 		}
 	}
 }

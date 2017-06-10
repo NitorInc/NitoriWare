@@ -35,7 +35,7 @@ public class RockBandNote : MonoBehaviour
 		if (state != State.Played)
 			updatePosition();
 		else
-			MathHelper.moveTowards2D(transform, beatAnimator.transform.position, 15f);
+			transform.moveTowards(beatAnimator.transform.position, 15f);
 	}
 
 	public void playNote()

@@ -79,6 +79,6 @@ public class TextOutline : MonoBehaviour
 
 	Vector3 GetOffset(int i)
 	{
-		return (Vector3)MathHelper.getVectorFromAngle2D(360f * ((float)i / (float)cloneCount), 1f);
+		return (Vector3)MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
 	}
 }

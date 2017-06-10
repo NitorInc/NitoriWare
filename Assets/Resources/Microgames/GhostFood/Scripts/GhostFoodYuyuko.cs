@@ -206,7 +206,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 				{
 					float diff = victoryMoveSpeedMult * distanceToCenter * Time.deltaTime;
 					Vector2 toCenter = -1f * (Vector2)transform.position;
-					transform.position = toCenter.magnitude <= diff ? new Vector3(0f, 0f, transform.position.z) : transform.position + (Vector3)MathHelper.resizeVector2D(toCenter, diff);
+					transform.position = toCenter.magnitude <= diff ? new Vector3(0f, 0f, transform.position.z) : transform.position + (Vector3)toCenter.resize(diff);
 					setScale(Mathf.Lerp(victoryScale, initialScale, toCenter.magnitude / distanceToCenter));
 
 				}
