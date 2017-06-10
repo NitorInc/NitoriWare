@@ -467,7 +467,7 @@ public class StageController : MonoBehaviour
 
 	void setFinalAnswer()
 	{
-		//Can't have this happening before the microgame actually starts
+		//Can't have this happening in the beat before the microgame actually starts
 		if (animationPart != AnimationPart.Idle && animationPart != AnimationPart.LastBeat)
 		{
 			Invoke("setFinalAnswer", beatLength);
