@@ -130,6 +130,11 @@ public class MicrogameController : MonoBehaviour
 		return traits;
 	}
 
+	public Transform getCommandTransform()
+	{
+		return commandTransform;
+	}
+
 	/// <summary>
 	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
 	/// </summary>
@@ -139,6 +144,7 @@ public class MicrogameController : MonoBehaviour
 	{
 		if (StageController.instance == null)
 		{
+			//Debug victory
 			if (victoryDetermined)
 			{
 				return;
@@ -150,6 +156,7 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 		{
+			//StageController handles regular victory
 			StageController.instance.setMicrogameVictory(victory, final);
 		}
 	}
