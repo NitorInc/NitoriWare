@@ -8,11 +8,15 @@ public class PauseManager : MonoBehaviour
 	public UnityEvent onPause, onUnPause;
 
 	[SerializeField]
+	//Enable and hold P to pause and unpause frantically
 	private bool enableVigorousTesting;
 
 	//Whitelisted items won't be affected by pause
 	public AudioSource[] audioSourceWhitelist;
 	public MonoBehaviour[] scriptWhitelist;
+
+	[SerializeField]
+	private Transform menu;
 
 	private bool paused;
 
@@ -92,6 +96,7 @@ public class PauseManager : MonoBehaviour
 		pauseData.cursorVisible = Cursor.visible;
 		Cursor.visible = true;
 
+		menu.gameObject.SetActive(true);
 		paused = true;
 	}
 
@@ -122,6 +127,7 @@ public class PauseManager : MonoBehaviour
 		MicrogameTimer.instance.gameObject.SetActive(true);
 		Cursor.visible = pauseData.cursorVisible;
 
+		menu.gameObject.SetActive(false);
 		paused = false;
 	}
 }
