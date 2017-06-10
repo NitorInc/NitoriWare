@@ -15,15 +15,17 @@ public class PauseManager : MonoBehaviour
 	public MonoBehaviour[] scriptWhitelist;
 
 	private bool paused;
-	private float timeScale;
 
 	PauseData pauseData;
+	//Varopis data stored on pause that gets reapplied on unpause
 	private struct PauseData
 	{
+		public float timeScale;
 		public List<AudioSource> pausedAudioSources;
 		public List<MonoBehaviour> disabledScripts;
 		public int camCullingMask;
 		public Color camColor;
+		public bool cursorVisible;
 	}
 
 	private float pauseTimer = 0f;
@@ -49,7 +51,7 @@ public class PauseManager : MonoBehaviour
 
 	void pause()
 	{
-		timeScale = Time.timeScale;
+		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 
 		AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
@@ -87,13 +89,15 @@ public class PauseManager : MonoBehaviour
 			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(false);
 		}
 		MicrogameTimer.instance.gameObject.SetActive(false);
+		pauseData.cursorVisible = Cursor.visible;
+		Cursor.visible = true;
 
 		paused = true;
 	}
 
 	void unPause()
 	{
-		Time.timeScale = timeScale;
+		Time.timeScale = pauseData.timeScale;
 
 		foreach (AudioSource source in pauseData.pausedAudioSources)
 		{
@@ -116,6 +120,7 @@ public class PauseManager : MonoBehaviour
 			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
 		}
 		MicrogameTimer.instance.gameObject.SetActive(true);
+		Cursor.visible = pauseData.cursorVisible;
 
 		paused = false;
 	}
