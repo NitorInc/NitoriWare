@@ -17,8 +17,14 @@ public class PauseManager : MonoBehaviour
 	private bool paused;
 	private float timeScale;
 
-	private List<AudioSource> pausedAudioSources;
-	private List<MonoBehaviour> disabledScripts;
+	PauseData pauseData;
+	private struct PauseData
+	{
+		public List<AudioSource> pausedAudioSources;
+		public List<MonoBehaviour> disabledScripts;
+		public int camCullingMask;
+		public Color camColor;
+	}
 
 	private float pauseTimer = 0f;
 
@@ -47,32 +53,38 @@ public class PauseManager : MonoBehaviour
 		Time.timeScale = 0f;
 
 		AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-		pausedAudioSources = new List<AudioSource>();
+		pauseData.pausedAudioSources = new List<AudioSource>();
 		List<AudioSource> whitelistedAudioSources = new List<AudioSource>(audioSourceWhitelist);
 		foreach (AudioSource source in audioSources)
 		{
 			if (!whitelistedAudioSources.Remove(source) && source.isPlaying)
 			{
 				source.Pause();
-				pausedAudioSources.Add(source);
+				pauseData.pausedAudioSources.Add(source);
 			}
 		}
 
 		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
-		disabledScripts = new List<MonoBehaviour>();
+		pauseData.disabledScripts = new List<MonoBehaviour>();
 		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach( MonoBehaviour script in scripts)
 		{
 			if (!whitelistedScripts.Remove(script) && script.enabled && script != this)
 			{
 				script.enabled = false;
-				disabledScripts.Add(script);
+				pauseData.disabledScripts.Add(script);
 			}
 		}
 
 		onPause.Invoke();
 		if (MicrogameController.instance != null)
+		{
 			MicrogameController.instance.onPause.Invoke();
+			pauseData.camCullingMask = Camera.main.cullingMask;
+			pauseData.camColor = Camera.main.backgroundColor;
+			Camera.main.cullingMask = 0;
+			Camera.main.backgroundColor = Color.black;
+		}
 
 		paused = true;
 	}
@@ -81,13 +93,13 @@ public class PauseManager : MonoBehaviour
 	{
 		Time.timeScale = timeScale;
 
-		foreach (AudioSource source in pausedAudioSources)
+		foreach (AudioSource source in pauseData.pausedAudioSources)
 		{
 			if (source != null)
 				source.UnPause();
 		}
 
-		foreach (MonoBehaviour script in disabledScripts)
+		foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
 			if (script != null)
 				script.enabled = true;
@@ -95,7 +107,11 @@ public class PauseManager : MonoBehaviour
 
 		onUnPause.Invoke();
 		if (MicrogameController.instance != null)
+		{
+			Camera.main.cullingMask = pauseData.camCullingMask;
+			Camera.main.backgroundColor = pauseData.camColor;
 			MicrogameController.instance.onUnPause.Invoke();
+		}
 
 		paused = false;
 	}
