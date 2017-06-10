@@ -206,7 +206,7 @@ public class StageController : MonoBehaviour
 		if (speedIncreaseOn)
 		{
 			int index = getMicrogameIndex();
-			if (index == 4 || index == 8)
+			if (index == 5 || index == 10)
 			{
 				speed++;
 				if (speedUpAnimation)
