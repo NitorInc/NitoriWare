@@ -16,10 +16,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000010474567360}
-  - 114: {fileID: 114000012508119198}
+  - component: {fileID: 4000010474567360}
+  - component: {fileID: 114000012508119198}
   m_Layer: 0
   m_Name: Microgame Controller
   m_TagString: Untagged
@@ -27,6 +27,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1695043619663174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4189048250575678}
+  - component: {fileID: 114556066951631810}
+  m_Layer: 0
+  m_Name: Localization
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &4000010474567360
 Transform:
   m_ObjectHideFlags: 1
@@ -36,10 +52,24 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 4189048250575678}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4189048250575678
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1695043619663174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4000010474567360}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000012508119198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,15 +81,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52349f5c7886fff41adb82d94ec4e4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlScheme: 1
-  beatDuration: 8
-  command: 
-  defaultVictory: 0
-  canEndEarly: 0
-  musicClip: {fileID: 0}
-  debugMusic: 0
-  debugCommand: 0
-  debugTimer: 1
-  debugTimerTick: 0
-  debugSpeed: 1
+  debugSettings:
+    playMusic: 0
+    displayCommand: 0
+    showTimer: 1
+    timerTick: 0
+    simulateStartDelay: 0
+    localizeText: 0
+    voiceSet: 1
+    speed: 1
+  onPause:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onUnPause:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   debugObjects: {fileID: 144522, guid: 381ce693579bdec4aa38e1fa2a10b2d7, type: 2}
+  debugPauseManager: {fileID: 1605610730045640, guid: 02f6fcc0c1ad43c4dad9e5bef4a2acd8,
+    type: 2}
+--- !u!114 &114556066951631810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1695043619663174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a56e340e9c5dac4db542b7358acb726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceLanguage: 

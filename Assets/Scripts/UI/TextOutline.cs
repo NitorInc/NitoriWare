@@ -62,7 +62,7 @@ public class TextOutline : MonoBehaviour
 			other.gameObject.layer = gameObject.layer;
 
 			bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
-			Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * pixelSize : pixelSize);
+			Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
 			Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint + pixelOffset);
 			other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
@@ -72,8 +72,13 @@ public class TextOutline : MonoBehaviour
 		}
 	}
 
+	float getFunctionalPixelSize()
+	{
+		return pixelSize * 5f / Camera.main.orthographicSize;
+	}
+
 	Vector3 GetOffset(int i)
 	{
-		return (Vector3)MathHelper.getVectorFromAngle2D(360f * ((float)i / (float)cloneCount), 1f);
+		return (Vector3)MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
 	}
 }

@@ -6,57 +6,77 @@ using System.Collections;
 public class MicrogameController : MonoBehaviour
 {
 	public static MicrogameController instance;
+	private static int preserveDebugSpeed = -1;
+
+	[SerializeField]
+	private DebugSettings debugSettings;
+	[System.Serializable]
+	struct DebugSettings
+	{
+		public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
+		public VoicePlayer.VoiceSet voiceSet;
+		[Range(1, StageController.MAX_SPEED)]
+		public int speed;
+	}
 
 
-	public ControlScheme controlScheme;
-	public int beatDuration;
-	public string command;
-	public bool defaultVictory, canEndEarly, hideCursor;
-	public AudioClip musicClip;
-
-	public bool debugMusic, debugCommand, debugTimer, debugTimerTick, debugSimulateDelay;
-	[Range(1, StageController.MAX_SPEED)]
-	public int debugSpeed;
 	public UnityEvent onPause, onUnPause;
-	public GameObject debugObjects;
+	public GameObject debugObjects, debugPauseManager;
 
+	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
 	private Transform commandTransform;
-
-	public enum ControlScheme
-	{
-		Touhou,
-		Mouse
-	}
+	private VoicePlayer debugVoicePlayer;
 
 	void Awake()
 	{
 		instance = this;
 
+		string sceneName = gameObject.scene.name;
+		if (sceneName.Equals("Template"))
+			sceneName = "_Template1";
+		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
+		Transform localization = transform.FindChild("Localization");
+
 		if (StageController.instance == null)
 		{
 			//Debug Mode Start (scene open by itself)
+
+			localization.gameObject.SetActive(debugSettings.localizeText);
+			if (debugSettings.localizeText)
+				localization.GetComponent<LocalizationManager>().Awake();
+
+			traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
+
+			if (preserveDebugSpeed > -1)
+			{
+				Debug.Log("Debugging at speed " + preserveDebugSpeed);
+				debugSettings.speed = preserveDebugSpeed;
+				preserveDebugSpeed = -1;
+			}
+
 			StageController.beatLength = 60f / 130f;
-			Time.timeScale = StageController.getSpeedMult(debugSpeed);
+			Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
 
 			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
+			debugPauseManager = Instantiate(debugPauseManager, Vector3.zero, Quaternion.identity) as GameObject;
 
 			MicrogameTimer.instance = debugObjects.transform.FindChild("UI Camera").FindChild("Timer").GetComponent<MicrogameTimer>();
-			MicrogameTimer.instance.beatsLeft = (float)beatDuration + (debugSimulateDelay ? 1f : 0f);
-			if (!debugTimer)
+			MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
+			if (!debugSettings.showTimer)
 				MicrogameTimer.instance.disableDisplay = true;
-			if (debugTimerTick)
+			if (debugSettings.timerTick)
 				MicrogameTimer.instance.invokeTick();
 
-			victory = defaultVictory;
+			victory = traits.defaultVictory;
 			victoryDetermined = false;
 
-			if (debugMusic && musicClip != null)
+			if (debugSettings.playMusic && traits.musicClip != null)
 			{
 				AudioSource source = debugObjects.transform.FindChild("Music").GetComponent<AudioSource>();
-				source.clip = musicClip;
-				source.pitch = StageController.getSpeedMult(debugSpeed);
-				if (!debugSimulateDelay)
+				source.clip = traits.musicClip;
+				source.pitch = StageController.getSpeedMult(debugSettings.speed);
+				if (!debugSettings.simulateStartDelay)
 					source.Play();
 				else
 					AudioHelper.playScheduled(source, StageController.beatLength);
@@ -65,32 +85,36 @@ public class MicrogameController : MonoBehaviour
 			Transform UICam = debugObjects.transform.FindChild("UI Camera");
 			commandTransform = UICam.FindChild("Command");
 			UICam.gameObject.SetActive(true);
-			if (debugCommand)
+			if (debugSettings.displayCommand)
 			{
 				commandTransform.gameObject.SetActive(true);
-				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
+				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = traits.localizedCommand;
 			}
 
-			Cursor.visible = controlScheme == ControlScheme.Mouse && !hideCursor;
+			Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
+
+			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
+			debugVoicePlayer.loadClips(debugSettings.voiceSet);
 		}
 		else
 		{
 			//Normal Start
+
+			if (localization.gameObject.activeInHierarchy)
+				localization.gameObject.SetActive(false);
+
 			StageController.instance.stageCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
 
-			MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
-			MicrogameTimer.instance.gameObject.SetActive(true);
+			StageController.instance.microgameMusicSource.clip = traits.musicClip;
 
-			StageController.instance.microgameMusicSource.clip = musicClip;
-
-			if (hideCursor)
+			if (traits.hideCursor)
 				Cursor.visible = false;
 
 			commandTransform = StageController.instance.transform.root.FindChild("UI").FindChild("Command");
 
 			StageController.instance.resetVictory();
-			StageController.instance.invokeNextCycle();
+			StageController.instance.onMicrogameAwake();
 		}
 
 	}
@@ -98,6 +122,20 @@ public class MicrogameController : MonoBehaviour
 	void Start()
 	{
 		SceneManager.SetActiveScene(gameObject.scene);
+	}
+
+	/// <summary>
+	/// Returns MicrogameTraits for the microgame (from the prefab)
+	/// </summary>
+	/// <returns></returns>
+	public MicrogameTraits getTraits()
+	{
+		return traits;
+	}
+
+	public Transform getCommandTransform()
+	{
+		return commandTransform;
 	}
 
 	/// <summary>
@@ -109,15 +147,19 @@ public class MicrogameController : MonoBehaviour
 	{
 		if (StageController.instance == null)
 		{
+			//Debug victory
 			if (victoryDetermined)
 			{
 				return;
 			}
 			this.victory = victory;
 			victoryDetermined = final;
+			if (final)
+				debugVoicePlayer.playClip(victory, victory ? traits.victoryVoiceDelay : traits.failureVoiceDelay);
 		}
 		else
 		{
+			//StageController handles regular victory
 			StageController.instance.setMicrogameVictory(victory, final);
 		}
 	}
@@ -151,7 +193,7 @@ public class MicrogameController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Redisplays the command text with the specified message
+	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
 	public void displayCommand(string command)
@@ -165,11 +207,39 @@ public class MicrogameController : MonoBehaviour
 		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 	}
 
+	/// <summary>
+	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
+	/// </summary>
+	/// <param name="command"></param>
+	public void displayLocalizedCommand(string key, string defaultString)
+	{
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
+	}
+
 	void Update ()
 	{
-		if (StageController.instance == null && Input.GetKeyDown(KeyCode.R))
+		if (StageController.instance == null)
 		{
-			SceneManager.LoadScene(gameObject.scene.buildIndex);
+			if (Input.GetKeyDown(KeyCode.R))
+				SceneManager.LoadScene(gameObject.scene.buildIndex);
+			else if (Input.GetKey(KeyCode.F))
+			{
+				preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
+				SceneManager.LoadScene(gameObject.scene.buildIndex);
+			}
+			else if (Input.GetKey(KeyCode.N))
+			{
+				string sceneName = SceneManager.GetActiveScene().name;
+				char[] sceneChars = sceneName.ToCharArray();
+				if (sceneChars[sceneChars.Length - 1] != '3')
+				{
+					int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
+					sceneName = sceneName.Substring(0, sceneName.Length - 1);
+					SceneManager.LoadScene(sceneName + (stageNumber + 1).ToString());
+				}
+				else
+					SceneManager.LoadScene(gameObject.scene.buildIndex);
+			}
 		}
 	}
 }

@@ -24,7 +24,7 @@ public class SpriteOutline : MonoBehaviour
 	private Vector3 getOffset(int sprite)
 	{
 		float angle = (float)sprite * (Mathf.PI * 2f / 8f);
-		Vector3 offset = MathHelper.getVectorFromAngle2D(angle, thickness) * Mathf.Rad2Deg;
+		Vector3 offset = MathHelper.getVector2FromAngle(angle, thickness) * Mathf.Rad2Deg;
 		offset.z = .001f;
 		return offset;
 	}

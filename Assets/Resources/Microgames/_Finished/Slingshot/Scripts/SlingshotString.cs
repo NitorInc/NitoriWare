@@ -46,7 +46,7 @@ public class SlingshotString : MonoBehaviour
 		float scale = ((Vector2)anchor1.transform.position - (Vector2)anchor2.transform.position).magnitude;
 
 		transform.localRotation = Quaternion.Euler(0f, 0f,
-			MathHelper.getVectorAngle2D((Vector2)anchor2.transform.position - (Vector2)anchor1.transform.position));
+			((Vector2)(anchor2.transform.position - anchor1.transform.position)).getAngle());
 
 		transform.localScale = new Vector3(scale, transform.localScale.y, transform.localScale.z);
 	}

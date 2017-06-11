@@ -1,49 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TouhouSortDropZone : MonoBehaviour {
-	// A zone that a sortable must be sorted into
+public class TouhouSortDropZone : MonoBehaviour
+{
+    // A zone that a sortable must be sorted into
 
-	// The category that this zone represents
-	public TouhouSortSortable.Style category;
-	// Inverts the zone (e.g. no hats allowed)
-	public bool invert;
+    public SpriteRenderer icon;
+    
+    // The category that this zone represents
+    [SerializeField]
+    string style;
+    // Inverts the zone (e.g. no hats allowed)
+    [SerializeField]
+    bool invert;
+    
+    public void SetCategory(string style, bool invert, Sprite icon)
+    {
+        this.style = style;
+        this.invert = invert;
 
-	public TouhouSortSorter sorter;
-
-	public bool Belongs(TouhouSortSortable sortable) {
+        this.icon.sprite = icon;
+    }
+    
+	public bool Belongs(TouhouSortSortable touhou)
+    {
 		// Checks if a given sortable belongs in this zone
 		bool belongs = false;
-
-		int zoneTypeId = (int)category;
-		foreach (TouhouSortSortable.Style style in sortable.styles) {
-			int typeId = (int)style;
-
-			if (typeId == zoneTypeId) {
-				belongs = true;
-				break;
-			}
+        
+		if (touhou.GetStyle() == style)
+        {
+			belongs = true;
 		}
 
-		if (invert) {
+		if (invert)
+        {
 			belongs = !belongs;
 		}
 
 		return belongs;
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-		TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
-		sortable.EnterZone(gameObject.GetComponent<TouhouSortDropZone>());
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
+        sortable.EnterZone(gameObject.GetComponent<TouhouSortDropZone>());
+    }
 
-		sorter.SendMessage ("CheckSort");
-	}
+    void OnTriggerExit2D(Collider2D other)
+    {
+        TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
+        sortable.ExitZone(gameObject.GetComponent<TouhouSortDropZone>());
+    }
 
-	void OnTriggerExit2D(Collider2D other) {
-		TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
-		sortable.ExitZone(gameObject.GetComponent<TouhouSortDropZone>());
-
-		sorter.SendMessage ("CheckSort");
-	}
 }

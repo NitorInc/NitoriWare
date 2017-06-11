@@ -26,7 +26,7 @@ public class AudioHelper
 		x -= camera.transform.position.x;
 		x /= camera.orthographicSize * (4f / 3f);
 
-		return MathHelper.clamp(x, -1f, 1f);
+		return Mathf.Clamp(x, -1f, 1f);
 	}
 
 }

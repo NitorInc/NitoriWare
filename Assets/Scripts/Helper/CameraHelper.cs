@@ -80,9 +80,9 @@ public class CameraHelper
 		//if (isPointOffscreen(position))
 		//	return lastCursorPosition;
 
-		position.x = MathHelper.clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f),
+		position.x = Mathf.Clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f),
 			Camera.main.transform.position.x + (camSize * 4f / 3f));
-		position.y = MathHelper.clamp(position.y, Camera.main.transform.position.x - camSize,
+		position.y = Mathf.Clamp(position.y, Camera.main.transform.position.x - camSize,
 			Camera.main.transform.position.x + camSize);
 		position.z = z;
 

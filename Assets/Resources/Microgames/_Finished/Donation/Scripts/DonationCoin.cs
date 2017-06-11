@@ -6,7 +6,7 @@ public class DonationCoin : MonoBehaviour
 
 	public float speed, minSpawnX, maxSpawnX, minStartTime, maxStartTime, slowHeight, fallHeight;
 
-	private float startTime;
+	private float startTime, outOfPlayY = -4.2f;
 
 	public Rigidbody2D body;
 	public bool isMainCoin;
@@ -15,7 +15,10 @@ public class DonationCoin : MonoBehaviour
 
 	public AudioSource bounceSource, grabSource;
 	public AudioClip bounceClip;
+	public AudioClip[] grabClips;
 	new public Collider2D collider;
+
+	private bool outOfPlay;
 
 	void Awake()
 	{
@@ -23,6 +26,11 @@ public class DonationCoin : MonoBehaviour
 			reset();
 	}
 
+	void Start()
+	{
+		outOfPlay = false;
+		DonationReimu.coinsInPlay++;
+	}
 
 	public void reset ()
 	{
@@ -51,7 +59,7 @@ public class DonationCoin : MonoBehaviour
 
 
 
-		lastVelocity = new Vector2(0f, -1f);
+		lastVelocity = Vector2.down;
 
 	}
 	
@@ -70,15 +78,15 @@ public class DonationCoin : MonoBehaviour
 		else if (transform.position.y <= slowHeight && transform.position.y > fallHeight)
 		{
 			//body.isKinematic = true;
-			body.velocity = new Vector2(0f, speed * -1f);
+			body.velocity = Vector2.down * speed;
 		}
 		else if (transform.position.y <= fallHeight)
 		{
-			body.velocity = new Vector2(0f, speed * -3f);
+			body.velocity = Vector2.down * speed * 3f;
 		}
 		else
 		{
-			body.AddTorque(body.velocity.x * -1f);
+			body.AddTorque(-body.velocity.x);
 		}
 
 
@@ -93,6 +101,12 @@ public class DonationCoin : MonoBehaviour
 		}
 
 		lastVelocity = body.velocity;
+
+		if (!outOfPlay && transform.position.y < outOfPlayY)
+		{
+			outOfPlay = true;
+			DonationReimu.coinsInPlay--;
+		}
 	}
 
 	void playBounceSound(float volume)
@@ -118,7 +132,9 @@ public class DonationCoin : MonoBehaviour
 	{
 		if (other.name == "Reimu")
 		{
-			grabSource.pitch = .8f * Time.timeScale;
+			outOfPlay = true;
+			grabSource.clip = grabClips[Random.Range(0, grabClips.Length)];
+			grabSource.pitch = Time.timeScale;
 			grabSource.panStereo = getStereoPan();
 			grabSource.Play();
 			DonationReimu reimu = other.GetComponent<DonationReimu>();

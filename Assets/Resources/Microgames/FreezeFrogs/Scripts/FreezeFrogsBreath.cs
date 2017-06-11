@@ -98,7 +98,7 @@ public class FreezeFrogsBreath : MonoBehaviour
 		breathParticle.transform.position = transform.position;
 		breathParticle.transform.Translate(spawnOffset, transform);
 		breathParticle.name = "Breath";
-		breathParticle.GetComponent<Rigidbody2D>().velocity = MathHelper.getVectorFromAngle2D(getAngle(), fireSpeed);
+		breathParticle.GetComponent<Rigidbody2D>().velocity = MathHelper.getVector2FromAngle(getAngle(), fireSpeed);
 		//breathParticle.GetComponent<PoolAfterTime>().initiate(lifetime, pool);
 		breathParticle.transform.parent = parentObject;
 

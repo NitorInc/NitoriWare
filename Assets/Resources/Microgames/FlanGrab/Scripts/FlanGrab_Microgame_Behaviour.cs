@@ -4,24 +4,31 @@ using UnityEngine;
 
 public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
 
+	public static FlanGrab_Microgame_Behaviour instance;
+
     public GameObject meteorPrefab;
     public float leftLimit;
     public float rightLimit;
 
     public int meteorQuantity;
+	public float createTime = 1f;
     public float timeBetweenCreation;
-    private float timeCounter = 0;
-    [SerializeField]                            // Delete Later
+	public Animator flanimator, victoryAnimator;
+    private float timeCounter;
     private int meteorCreationCounter = 0;
-    [SerializeField]                            // Delete Later
     private int meteorDestructionCounter = 0;
     private bool rightCreationPosition;
 
+	//which meteor (0 or 1) will be the one coming from the left
+	private int leftMeteor;
+
     // Use this for initialization
-    void Start () {     
+    void Start () {
+		instance = this;
         meteorDestructionCounter = 0;           // Delete Later
         meteorCreationCounter = 0;              // Delete Later
-        timeCounter = 0.5f;
+		timeCounter = createTime;
+		leftMeteor = Random.Range(0, 2);
     }
 
     // Update is called once per frame
@@ -57,17 +64,9 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         var waveAmplitude = meteorScript.amplitude;
         var meteorBounds = meteorInstance.GetComponent<CircleCollider2D>().bounds;
         var centerPoint = meteorBounds.center.x;
-        var xPosition = -1f;                                        // Default value for initialization
-        switch (waveMovementIsOn)
-        {
-            case true:
-                xPosition = Random.Range(A + centerPoint + waveAmplitude, B - centerPoint - waveAmplitude);
-                break;
 
-            case false:
-                xPosition = Random.Range(A + centerPoint, B - centerPoint);
-                break;
-        }
+		//Conditionally assign xPosition based on whether this is the left meteor
+		var xPosition = (leftMeteor == meteorCreationCounter) ? Random.Range(A, 0f) : Random.Range(0f, B);
 
         meteorInstance.transform.position = new Vector3(xPosition, 10, 0);
         meteorInstance.SetActive(true);
@@ -78,7 +77,9 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
         meteorDestructionCounter += 1;
         if (meteorDestructionCounter == meteorQuantity)
         {
-            MicrogameController.instance.setVictory(true, true);
+			MicrogameController.instance.setVictory(true, true);
+			FlanGrab_Microgame_Behaviour.instance.flanimator.Play("Victory");
+			victoryAnimator.enabled = true;
         }
     }
 

@@ -4,7 +4,7 @@ using System.Collections;
 
 public class MouseGrabbable : MonoBehaviour
 {
-	public bool centerOnCursor;
+	public bool centerOnCursor, disableOnVictory, disableOnLoss;
 	public UnityEvent onGrab, onRelease;
 
 	private Collider2D _collider2D;
@@ -36,6 +36,15 @@ public class MouseGrabbable : MonoBehaviour
 	
 	void Update ()
 	{
+		if (MicrogameController.instance.getVictoryDetermined())
+		{
+			if ((disableOnVictory && MicrogameController.instance.getVictory()) || (disableOnLoss && !MicrogameController.instance.getVictory()))
+			{
+				enabled = false;
+				return;
+			}
+		}
+
 		if (_collider2D == null)
 			return;
 
