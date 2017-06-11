@@ -56,7 +56,7 @@ public class Vibrate : MonoBehaviour
 
 	void updateVibrate()
 	{
-		if (MathHelper.moveTowards2DLocal(transform, vibrateGoal, vibrateSpeed))
+		if (MathHelper.moveTowardsLocal(transform, vibrateGoal, vibrateSpeed))
 			resetVibrateGoal();
 	}
 

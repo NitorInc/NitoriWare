@@ -101,7 +101,7 @@ public class Spider : MonoBehaviour
 
 		Vector3 foodPosition = food.transform.position;
 
-		float angle = MathHelper.getVectorAngle2D((Vector2)(transform.position - foodPosition)) * Mathf.Deg2Rad,
+		float angle = ((Vector2)(transform.position - foodPosition)).getAngle() * Mathf.Deg2Rad,
 			distance = ((Vector2)(transform.position - foodPosition)).magnitude;
 
 		transform.rotation = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg);

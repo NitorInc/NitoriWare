@@ -62,7 +62,7 @@ public class YukariCakeController : MonoBehaviour {
     public void PlayFailureAnimation()
     {
         PlayFailureSound();
-        YukariAnimator.Stop();
+		YukariAnimator.enabled = false;
         YukariFailSprites.SetActive(true);
         Enemy.PlayFailureAnimation();
     }

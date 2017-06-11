@@ -107,7 +107,7 @@ public class SlingshotAmmo : MonoBehaviour
 			case(State.Grabbed):
 				Vector2 diff = (Vector2)initialPosition - (Vector2)transform.position;
 				transform.rotation = Quaternion.Euler(0f, 0f,
-					.5f * MathHelper.getVectorAngle2D(diff)
+					.5f * diff.getAngle()
 					* Mathf.Lerp(0f, 1f, Mathf.Abs(diff.y))
 					* Mathf.Lerp(0f, 1f, diff.x));
 				if (!Input.GetMouseButton(0))
@@ -179,7 +179,7 @@ public class SlingshotAmmo : MonoBehaviour
 			case(State.Flung):
 				updateAudioPan();
 				if (!MicrogameController.instance.getVictory() && rigidThing.velocity.x > 0f)
-					transform.rotation = Quaternion.Euler(0f, 0f, MathHelper.getVectorAngle2D(rigidThing.velocity) * .5f);
+					transform.rotation = Quaternion.Euler(0f, 0f, rigidThing.velocity.getAngle() * .5f);
 
 				if (transform.position.x > lossX || (rigidThing.velocity.y < 0f && transform.position.y < lossY))
 				{

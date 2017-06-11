@@ -84,7 +84,7 @@ public class PotionIngredient : MonoBehaviour
 				break;
 			case (State.Used):
 				rigidThing.bodyType = RigidbodyType2D.Static;
-				MathHelper.moveTowards2D(transform, pot.transform.position + new Vector3(0f, -.5f, 0f), speedToPot);
+				transform.moveTowards(pot.transform.position + new Vector3(0f, -.5f, 0f), speedToPot);
 				break;
 			default:
 				break;

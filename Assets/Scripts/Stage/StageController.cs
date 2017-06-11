@@ -215,24 +215,23 @@ public class StageController : MonoBehaviour
 		}
 
 		//Apply speed increase between rounds
-		if (speedIncreaseOn)
+		if (speedIncreaseOn && getMicrogameIndex() == 0)
 		{
-			if (getMicrogameIndex() == 0)
-			{
-				if (round > 3)
-					speed = round - 2;
-				else
-					speed = 1;
-			}
+			if (round > 3)
+				speed = round - 2;
+			else
+				speed = 1;
 			if (speed > MAX_SPEED)
 				speed = MAX_SPEED;
 		}
 
 
-		if (interruption != Interruption.Nothing)
+		if (interruption != Interruption.Nothing && life > 0)
+		{
 			invokeAtBeat("updateTo" + interruption.ToString(), 0f);
+			animationStartTime += getInterruptionBeats() * beatLength;
+		}
 
-		animationStartTime += getInterruptionBeats() * beatLength;
 		invokeIntroAnimations();
 
 		introSource.pitch = getSpeedMult();
@@ -411,11 +410,8 @@ public class StageController : MonoBehaviour
 	void Update()
 	{
 
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
-		}
-		else if (Input.GetKeyDown(KeyCode.R))
+		//Debug scene reset
+		if (Input.GetKeyDown(KeyCode.R))
 		{
 			SceneManager.LoadScene(gameObject.scene.buildIndex);
 		}
@@ -471,7 +467,7 @@ public class StageController : MonoBehaviour
 
 	void setFinalAnswer()
 	{
-		//Can't have this happening before the microgame actually starts
+		//Can't have this happening in the beat before the microgame actually starts
 		if (animationPart != AnimationPart.Idle && animationPart != AnimationPart.LastBeat)
 		{
 			Invoke("setFinalAnswer", beatLength);

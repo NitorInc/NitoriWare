@@ -38,7 +38,7 @@ public class CupShuffleCup : MonoBehaviour
 	private Animation currentAnimation;
 	private struct Animation
 	{
-		public bool active, goingUp;
+		public bool active, goingUp, backwards, fakeout;
 		public int cupDistance;
 		public float startTime, duration;
 	}
@@ -55,13 +55,15 @@ public class CupShuffleCup : MonoBehaviour
 		currentAnimation.active = false;
 	}
 
-	public void startAnimation(int cupDistance, float duration, bool goingUp)
+	public void startAnimation(int cupDistance, float duration, bool goingUp, bool backwards, bool fakeout)
 	{
 		currentAnimation.active = true;
 		currentAnimation.startTime = Time.time;
 		currentAnimation.cupDistance = cupDistance;
 		currentAnimation.duration = duration;
 		currentAnimation.goingUp = goingUp;
+		currentAnimation.backwards = backwards;
+		currentAnimation.fakeout = fakeout;
 	}
 	
 	void Update ()
@@ -104,7 +106,8 @@ public class CupShuffleCup : MonoBehaviour
 	{
 		if (currentAnimation.active)
 		{
-			position += currentAnimation.cupDistance;
+			if (!currentAnimation.fakeout)
+				position += currentAnimation.cupDistance;
 			lerpPosition(0f);
 			currentAnimation.active = false;
 		}
@@ -112,9 +115,11 @@ public class CupShuffleCup : MonoBehaviour
 
 	void lerpPosition(float time)
 	{
+		if (currentAnimation.fakeout && time > .5f)
+			time = 1f - time;
 		transform.position = leftmostPosition + new Vector3(((float)position * cupSeparation)
 			+ Mathf.Lerp(0f, (float)cupSeparation * currentAnimation.cupDistance, time),
-			moveCurve.Evaluate(time) * (float)currentAnimation.cupDistance /* * (currentAnimation.goingUp ? 1f : -1f)*/, transform.position.z);
+			moveCurve.Evaluate(time) * (float)currentAnimation.cupDistance * (currentAnimation.backwards ? -1f : 1f), transform.position.z);
 	}
 
 }

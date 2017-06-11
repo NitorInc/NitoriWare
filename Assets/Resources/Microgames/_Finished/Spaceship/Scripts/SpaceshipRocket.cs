@@ -70,7 +70,7 @@ public class SpaceshipRocket : MonoBehaviour
 		for (int i = 0; i < spaceshipBodies.Length; i++)
 		{
 			spaceshipBodies[i].isKinematic = false;
-			spaceshipBodies[i].AddForce(MathHelper.getVectorFromAngle2D(Random.Range(30f, 150f), 600f));
+			spaceshipBodies[i].AddForce(MathHelper.getVector2FromAngle(Random.Range(30f, 150f), 600f));
 			spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 700f);
 			//spaceshipBodies[i].AddForce(MathHelper.getVectorFromAngle2D(Random.Range(3f, 150f), 600f));
 			//spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 500f);
@@ -81,9 +81,9 @@ public class SpaceshipRocket : MonoBehaviour
 		CameraShake.instance.shakeSpeed = 15f;
 
 		float force = 200f, torque = 20f;
-		leftBody.AddForce((Vector3)MathHelper.getVectorFromAngle2D(120f, force));
+		leftBody.AddForce((Vector3)MathHelper.getVector2FromAngle(120f, force));
 		leftBody.AddTorque(torque);
-		rightBody.AddForce((Vector3)MathHelper.getVectorFromAngle2D(30f, force));
+		rightBody.AddForce((Vector3)MathHelper.getVector2FromAngle(30f, force));
 		rightBody.AddTorque(torque * -1f);
 
 		sceneAnimator.SetInteger("state", (int)state);

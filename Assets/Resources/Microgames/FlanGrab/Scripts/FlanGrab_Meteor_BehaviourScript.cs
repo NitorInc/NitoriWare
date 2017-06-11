@@ -144,7 +144,11 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         // Destroy Meteor's sprite but not the gameObject. When the ParticleSystem associated is no longer active, meteor's gameObject will be destroyed in Update().
         this.hasBeenDestroyed = true;
         this.GetComponent<Collider2D>().enabled = false;
-        this.GetComponentInChildren<ParticleSystem>().loop = false;
+		ParticleSystem particles = GetComponentInChildren<ParticleSystem>();
+		ParticleSystem.EmissionModule emission = particles.emission;
+		emission.enabled = false;
+		particles.startSize *= 1.8f;
+		particles.Emit(5);
         Instantiate(explosionEffect, meteorSprite.transform.position, Quaternion.identity);
         Destroy(meteorSprite.gameObject);
         this.microgameBehaviour.increaseDestructionCounter();

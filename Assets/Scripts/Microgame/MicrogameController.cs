@@ -21,7 +21,7 @@ public class MicrogameController : MonoBehaviour
 
 
 	public UnityEvent onPause, onUnPause;
-	public GameObject debugObjects;
+	public GameObject debugObjects, debugPauseManager;
 
 	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
@@ -33,6 +33,8 @@ public class MicrogameController : MonoBehaviour
 		instance = this;
 
 		string sceneName = gameObject.scene.name;
+		if (sceneName.Equals("Template"))
+			sceneName = "_Template1";
 		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
 		Transform localization = transform.FindChild("Localization");
 
@@ -57,6 +59,7 @@ public class MicrogameController : MonoBehaviour
 			Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
 
 			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
+			debugPauseManager = Instantiate(debugPauseManager, Vector3.zero, Quaternion.identity) as GameObject;
 
 			MicrogameTimer.instance = debugObjects.transform.FindChild("UI Camera").FindChild("Timer").GetComponent<MicrogameTimer>();
 			MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
@@ -130,6 +133,11 @@ public class MicrogameController : MonoBehaviour
 		return traits;
 	}
 
+	public Transform getCommandTransform()
+	{
+		return commandTransform;
+	}
+
 	/// <summary>
 	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
 	/// </summary>
@@ -139,6 +147,7 @@ public class MicrogameController : MonoBehaviour
 	{
 		if (StageController.instance == null)
 		{
+			//Debug victory
 			if (victoryDetermined)
 			{
 				return;
@@ -150,6 +159,7 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 		{
+			//StageController handles regular victory
 			StageController.instance.setMicrogameVictory(victory, final);
 		}
 	}
@@ -183,7 +193,7 @@ public class MicrogameController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Redisplays the command text with the specified message
+	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
 	public void displayCommand(string command)
@@ -195,6 +205,15 @@ public class MicrogameController : MonoBehaviour
 		_animator.Rebind();
 		_animator.Play("Command");
 		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
+	}
+
+	/// <summary>
+	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
+	/// </summary>
+	/// <param name="command"></param>
+	public void displayLocalizedCommand(string key, string defaultString)
+	{
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
 	}
 
 	void Update ()

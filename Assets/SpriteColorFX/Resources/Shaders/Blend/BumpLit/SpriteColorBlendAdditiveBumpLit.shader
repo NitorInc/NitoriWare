@@ -1,4 +1,6 @@
-﻿///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Sprite Color FX.
 //
 // Copyright (c) Ibuprogames <hello@ibuprogames.com>. All rights reserved.
@@ -98,7 +100,7 @@ Shader "Sprites/Sprite Color FX/Sprite Color Blend Additive Bump Lit"
 
       o.color = _Color * v.color;
 
-      float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
+      float4 oPos = UnityObjectToClipPos(v.vertex);
 #if UNITY_UV_STARTS_AT_TOP
       float scale = -1.0;
 #else

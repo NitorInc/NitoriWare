@@ -120,7 +120,7 @@ public class ChenFoodChen : MonoBehaviour
 			else
 			{
 
-				transform.position += (Vector3)MathHelper.resizeVector2D(goalVector, attackSpeed * Time.deltaTime);
+				transform.position += (Vector3)goalVector.resize(attackSpeed * Time.deltaTime);
 
 			}
 		}
@@ -145,7 +145,7 @@ public class ChenFoodChen : MonoBehaviour
 			}
 			else
 			{
-				transform.position += (Vector3)MathHelper.getVectorFromAngle2D(attackAngle * Mathf.Rad2Deg, attackSpeed * Time.deltaTime);
+				transform.position += (Vector3)MathHelper.getVector2FromAngle(attackAngle * Mathf.Rad2Deg, attackSpeed * Time.deltaTime);
 			}
 		}
 		else
@@ -184,7 +184,7 @@ public class ChenFoodChen : MonoBehaviour
 			attackSpeed /= 2f;
 		attackStartSpeed = attackSpeed;
 
-		attackAngle = MathHelper.getVectorAngle2D(attackGoal - (Vector2)transform.position) * Mathf.Deg2Rad;
+		attackAngle = (attackGoal - (Vector2)transform.position).getAngle() * Mathf.Deg2Rad;
 
 		leapSource.PlayOneShot(leapClips[leaps - leapsLeft]);
 	}
