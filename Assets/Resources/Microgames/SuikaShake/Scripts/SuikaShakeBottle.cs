@@ -42,7 +42,7 @@ public class SuikaShakeBottle : MonoBehaviour
 
 		if (health < 0)
 		{
-			if (MathHelper.moveTowards2D(transform, Vector2.zero, 30f))
+			if (transform.moveTowards(Vector2.zero, 30f))
 				enabled = false;
 			return;
 		}

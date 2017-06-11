@@ -43,7 +43,7 @@ public class SuikaShakeSuika : MonoBehaviour
 	{
 		transform.parent = null;
 		_rigidBody.bodyType = RigidbodyType2D.Dynamic;
-		_rigidBody.velocity = MathHelper.getVectorFromAngle2D(Random.Range(45, 135), Random.Range(5, 15));
+		_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(45, 135), Random.Range(5, 15));
 
 		_spriteRenderer.GetComponent<Vibrate>().vibrateOn = false;
 	}
