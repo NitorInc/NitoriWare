@@ -71,6 +71,7 @@ public class SuikaShakeBottle : MonoBehaviour
 		if (health <= 0)
 		{
 			GetComponent<FollowCursor>().enabled = false;
+			MicrogameController.instance.setVictory(true, true);
 		}
 	}
 
