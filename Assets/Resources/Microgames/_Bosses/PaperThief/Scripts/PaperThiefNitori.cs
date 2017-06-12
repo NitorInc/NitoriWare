@@ -8,6 +8,8 @@ public class PaperThiefNitori : MonoBehaviour
 	private float walkSpeed, walkAcc, rotateSpeed, walkCooldown;
 	[SerializeField]
 	private Animator rigAnimator;
+	[SerializeField]
+	private Transform spinTransform;
 
 	private Rigidbody2D _rigidBody2D;
 	private bool facingRight;
@@ -16,7 +18,7 @@ public class PaperThiefNitori : MonoBehaviour
 	void Awake()
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
-		facingRight = MathHelper.Approximately(getRotation(), 180f, 1f);
+		facingRight = MathHelper.Approximately(getSpinRotation(), -180f, 1f);
 	}
 	
 	void Update()
@@ -36,7 +38,7 @@ public class PaperThiefNitori : MonoBehaviour
 		_rigidBody2D.velocity = new Vector2(Mathf.Clamp(_rigidBody2D.velocity.x, -walkSpeed, walkSpeed), _rigidBody2D.velocity.y);
 
 		updateAnimatorValues(direction);
-		updateRotation(direction);
+		updateSpinRotation(direction);
 	}
 
 	void updateAnimatorValues(int direction)
@@ -60,33 +62,35 @@ public class PaperThiefNitori : MonoBehaviour
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 	}
 
-	void updateRotation(int direction)
+	void updateSpinRotation(int direction)
 	{
-		float rotation = getRotation();
-		if (!(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, 180f, .001f)))
+		float rotation = getSpinRotation();
+		if (!(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)))
 			direction = 0;
 		if (direction != 0)
 			facingRight = direction == 1;
 
-		float goalRotation = facingRight ? 180f : 0f;
+		//Spin between 0 and -180 degrees
+		float goalRotation = facingRight ? -180f : 0f;
 		if (!MathHelper.Approximately(rotation, goalRotation, .0001f))
 		{
 			float diff = rotateSpeed * Time.deltaTime;
 			if (Mathf.Abs(goalRotation - rotation) <= diff)
-				setRotation(goalRotation);
+				setSpinRotation(goalRotation);
 			else
-				setRotation(rotation + (diff * Mathf.Sign(goalRotation - rotation)));
+				setSpinRotation(rotation + (diff * Mathf.Sign(goalRotation - rotation)));
 		}
 	}
 
-	float getRotation()
+	float getSpinRotation()
 	{
-		return transform.rotation.eulerAngles.y;
+		Vector3 eulers = spinTransform.rotation.eulerAngles;
+		return eulers.y <= 0f ? eulers.y : eulers.y - 360f;
 	}
 
-	void setRotation(float rotation)
+	void setSpinRotation(float rotation)
 	{
-		Vector3 eulers = transform.rotation.eulerAngles;
-		transform.rotation = Quaternion.Euler(eulers.x, rotation, eulers.z);
+		Vector3 eulers = spinTransform.rotation.eulerAngles;
+		spinTransform.rotation = Quaternion.Euler(eulers.x, rotation, eulers.z);
 	}
 }

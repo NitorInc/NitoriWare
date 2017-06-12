@@ -22,12 +22,12 @@ public class PaperThiefZIndexer : MonoBehaviour
 	{
 		float degrees = transform.rotation.eulerAngles.y % 360;
 		bool flip = degrees > 90 && degrees < 270;
-		//if (MathHelper.Approximately(degrees, 0f, .1f) || MathHelper.Approximately(degrees, 180f, .1f))
+		if (MathHelper.Approximately(degrees, 0f, .1f) || MathHelper.Approximately(degrees, 180f, .1f))
 			return (flip ? -1f : 1f);
-		//degrees %= 180;
-		//if (degrees > 90)
-		//	degrees = 180 - degrees;
-		//return (90 - degrees) / 90 * (flip ? -1f : 1f);
+		degrees %= 180;
+		if (degrees > 90)
+			degrees = 180 - degrees;
+		return (90 - degrees) / 90 * (flip ? -1f : 1f);
 
 	}
 }
