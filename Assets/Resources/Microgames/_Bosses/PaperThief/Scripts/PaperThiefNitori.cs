@@ -55,7 +55,7 @@ public class PaperThiefNitori : MonoBehaviour
 		rigAnimator.SetBool("Walking", walking);
 
 		if (direction == 0)
-			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.995f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
+			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9965f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 	}
