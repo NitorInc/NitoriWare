@@ -10,6 +10,8 @@ public class PaperThiefNitori : MonoBehaviour
 	private Animator rigAnimator;
 	[SerializeField]
 	private Transform spinTransform;
+	[SerializeField]
+	private BoxCollider2D walkCollider;
 
 	private Rigidbody2D _rigidBody2D;
 	private bool facingRight;
@@ -29,9 +31,9 @@ public class PaperThiefNitori : MonoBehaviour
 	void updatePlatforming()
 	{
 		int direction = 0;
-		if (Input.GetKey(KeyCode.LeftArrow))
+		if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
 			direction -= 1;
-		if (Input.GetKey(KeyCode.RightArrow))
+		if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
 			direction += 1;
 
 		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
@@ -42,7 +44,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
-			rigAnimator.Play("Idle");
+			rigAnimator.Play("Jump Up");
 			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
 		}
 	}
@@ -98,9 +100,18 @@ public class PaperThiefNitori : MonoBehaviour
 
 	bool isGrounded()
 	{
-		//Debug.DrawLine(transform.position + (Vector3.down * 1f), transform.position + (Vector3.down * 1f) + (Vector3.down * .1f));
-		return Physics2D.Raycast((Vector2)transform.position + (Vector2.down * .01f), Vector2.down, .01f);
+		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
+		return MathHelper.visibleRaycast2D((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
+			Vector2.right, dist);
 		
+	}
+
+	bool wallContact(bool right)
+	{
+		float xOffset = walkCollider.bounds.extents.x + .1f;
+		return right ?
+			MathHelper.visibleRaycast2D((Vector2)transform.position + (Vector2.right * xOffset), Vector2.up, walkCollider.bounds.extents.y * 2f) :
+			MathHelper.visibleRaycast2D((Vector2)transform.position + (Vector2.left * xOffset), Vector2.up, walkCollider.bounds.extents.y * 2f);
 	}
 
 	void updateSpinRotation(int direction)
