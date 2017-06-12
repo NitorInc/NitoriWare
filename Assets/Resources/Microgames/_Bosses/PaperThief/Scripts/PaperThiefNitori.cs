@@ -5,7 +5,7 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, walkCooldown, jumpSpeed;
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, walkCooldown, spinCooldown, jumpSpeed;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
@@ -15,7 +15,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 	private Rigidbody2D _rigidBody2D;
 	private bool facingRight;
-	private float walkCooldownTimer;
+	private float walkCooldownTimer, spinCooldownTimer;
 
 	void Awake()
 	{
@@ -40,7 +40,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 		updateWalkSpeed(direction);
 		updateAnimatorValues(direction);
-		updateSpinRotation(direction);
+		updateSpinRotation(direction == 0 ? 0 : (int)Mathf.Sign(_rigidBody2D.velocity.x));
 
 		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
@@ -117,7 +117,9 @@ public class PaperThiefNitori : MonoBehaviour
 	void updateSpinRotation(int direction)
 	{
 		float rotation = getSpinRotation();
-		if (!isGrounded() || !(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)))
+		if (spinCooldownTimer > 0f)
+			spinCooldownTimer -= Time.deltaTime;
+		if (/*!isGrounded() || */ !(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)) || spinCooldownTimer > 0f)
 			direction = 0;
 		if (direction != 0)
 			facingRight = direction == 1;
@@ -131,6 +133,8 @@ public class PaperThiefNitori : MonoBehaviour
 				setSpinRotation(goalRotation);
 			else
 				setSpinRotation(rotation + (diff * Mathf.Sign(goalRotation - rotation)));
+
+			spinCooldownTimer = spinCooldown;
 		}
 	}
 
