@@ -5,7 +5,7 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, walkAcc, walkDec, rotateSpeed, walkCooldown, jumpSpeed;
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, walkCooldown, jumpSpeed;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
@@ -42,16 +42,20 @@ public class PaperThiefNitori : MonoBehaviour
 
 		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
+			rigAnimator.Play("Idle");
 			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
 		}
 	}
 
 	void updateWalkSpeed(int direction)
 	{
-		float goalSpeed, acc;
-		goalSpeed = (float)direction * walkSpeed;
-		acc = (direction == 0f) ? walkDec : walkAcc;
 		Vector2 velocity = _rigidBody2D.velocity;
+		float goalSpeed, acc;
+		goalSpeed = (float)direction * (isGrounded() ? walkSpeed : jumpMoveSpeed);
+		if (isGrounded() || Mathf.Abs(velocity.y) > jumpMoveSpeed)
+			acc = (direction == 0f) ? walkDec : walkAcc;
+		else
+			acc = (direction == 0f) ? jumpDec: jumpAcc;
 
 		if (!MathHelper.Approximately(velocity.x, goalSpeed, .0001f))
 		{
@@ -71,6 +75,8 @@ public class PaperThiefNitori : MonoBehaviour
 		{
 			if (walkCooldownTimer > 0f)
 				walkCooldownTimer -= Time.deltaTime;
+			if (!isGrounded())
+				walkCooldown = 0f;
 			walking = walkCooldownTimer > 0f;
 			//walking = false;
 		}
