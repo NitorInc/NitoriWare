@@ -44,7 +44,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
-			rigAnimator.Play("Jump Up");
+			//rigAnimator.Play("Jump Up");
 			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
 		}
 	}
