@@ -40,7 +40,8 @@ public class PaperThiefNitori : MonoBehaviour
 
 		updateWalkSpeed(direction);
 		updateAnimatorValues(direction);
-		updateSpinRotation(direction == 0 ? 0 : (int)Mathf.Sign(_rigidBody2D.velocity.x));
+		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
+		updateSpinRotation((direction == 0 || actualDirection != direction) ? 0 : actualDirection);
 
 		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
@@ -103,8 +104,8 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		float xOffset = walkCollider.bounds.extents.x + .1f;
 		return right ?
-			MathHelper.visibleRaycast2D((Vector2)transform.position + (Vector2.right * xOffset), Vector2.up, walkCollider.bounds.extents.y * 2f) :
-			MathHelper.visibleRaycast2D((Vector2)transform.position + (Vector2.left * xOffset), Vector2.up, walkCollider.bounds.extents.y * 2f);
+			MathHelper.visibleRaycast2D((Vector2)transform.position + new Vector2(xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f) :
+			MathHelper.visibleRaycast2D((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
 	}
 
 	void updateSpinRotation(int direction)
