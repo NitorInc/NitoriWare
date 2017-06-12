@@ -5,7 +5,7 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, walkAcc, rotateSpeed, walkCooldown;
+	private float walkSpeed, walkAcc, walkDec, rotateSpeed, walkCooldown, jumpSpeed;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
@@ -34,11 +34,33 @@ public class PaperThiefNitori : MonoBehaviour
 		if (Input.GetKey(KeyCode.RightArrow))
 			direction += 1;
 
-		_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
-		_rigidBody2D.velocity = new Vector2(Mathf.Clamp(_rigidBody2D.velocity.x, -walkSpeed, walkSpeed), _rigidBody2D.velocity.y);
+		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
 
+		updateWalkSpeed(direction);
 		updateAnimatorValues(direction);
 		updateSpinRotation(direction);
+
+		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
+		{
+			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+		}
+	}
+
+	void updateWalkSpeed(int direction)
+	{
+		float goalSpeed, acc;
+		goalSpeed = (float)direction * walkSpeed;
+		acc = (direction == 0f) ? walkDec : walkAcc;
+		Vector2 velocity = _rigidBody2D.velocity;
+
+		if (!MathHelper.Approximately(velocity.x, goalSpeed, .0001f))
+		{
+			float diff = acc * Time.deltaTime;
+			if (Mathf.Abs(goalSpeed - velocity.x) <= diff)
+				_rigidBody2D.velocity = new Vector2(goalSpeed, velocity.y);
+			else
+				_rigidBody2D.velocity = new Vector2(velocity.x + (diff * Mathf.Sign(goalSpeed - velocity.x)), velocity.y);
+		}
 	}
 
 	void updateAnimatorValues(int direction)
@@ -60,12 +82,25 @@ public class PaperThiefNitori : MonoBehaviour
 			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9965f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
+
+		if (isGrounded())
+			rigAnimator.SetInteger("Jump", 0);
+		else
+			rigAnimator.SetInteger("Jump", _rigidBody2D.velocity.y > 0f ? 1 : 2);
+
+	}
+
+	bool isGrounded()
+	{
+		//Debug.DrawLine(transform.position + (Vector3.down * 1f), transform.position + (Vector3.down * 1f) + (Vector3.down * .1f));
+		return Physics2D.Raycast((Vector2)transform.position + (Vector2.down * .01f), Vector2.down, .01f);
+		
 	}
 
 	void updateSpinRotation(int direction)
 	{
 		float rotation = getSpinRotation();
-		if (!(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)))
+		if (!isGrounded() || !(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)))
 			direction = 0;
 		if (direction != 0)
 			facingRight = direction == 1;
