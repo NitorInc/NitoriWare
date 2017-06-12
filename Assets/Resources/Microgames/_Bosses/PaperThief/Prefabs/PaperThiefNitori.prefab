@@ -669,7 +669,7 @@ Transform:
   - {fileID: 4072612000445470}
   m_Father: {fileID: 4052834929921604}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.97770417}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4591990048111048
 Transform:
   m_ObjectHideFlags: 1
@@ -962,12 +962,29 @@ MonoBehaviour:
   jumpAcc: 40
   jumpDec: 0
   rotateSpeed: 750
-  walkCooldown: 0.15
   spinCooldown: 0
   jumpSpeed: 15
   rigAnimator: {fileID: 95876233013484916}
   spinTransform: {fileID: 4382917291756384}
   walkCollider: {fileID: 61880210241271938}
+  animationWalkCooldown:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.6
+      inSlope: -3.4454317
+      outSlope: -3.4454317
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5
+      value: 0
+      inSlope: -0.039257925
+      outSlope: -0.039257925
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114897540003570782
 MonoBehaviour:
   m_ObjectHideFlags: 1

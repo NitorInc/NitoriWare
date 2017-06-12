@@ -5,7 +5,7 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, walkCooldown, spinCooldown, jumpSpeed;
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
@@ -15,7 +15,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 	private Rigidbody2D _rigidBody2D;
 	private bool facingRight;
-	private float walkCooldownTimer, spinCooldownTimer;
+	private float spinCooldownTimer;
 
 	void Awake()
 	{
@@ -71,23 +71,11 @@ public class PaperThiefNitori : MonoBehaviour
 
 	void updateAnimatorValues(int direction)
 	{
-
-		bool walking = true;
-		if (direction == 0)
-		{
-			if (walkCooldownTimer > 0f)
-				walkCooldownTimer -= Time.deltaTime;
-			if (!isGrounded())
-				walkCooldown = 0f;
-			walking = walkCooldownTimer > 0f;
-			//walking = false;
-		}
-		else
-			walkCooldownTimer = walkCooldown;
-		rigAnimator.SetBool("Walking", walking);
+		rigAnimator.SetBool("Walking", direction != 0);
 
 		if (direction == 0)
-			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9965f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
+			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9995f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
+			//rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(1f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 
@@ -96,7 +84,12 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.SetInteger("Jump", _rigidBody2D.velocity.y > 0f ? 1 : 2);
 
+		AnimatorStateInfo animationState = rigAnimator.GetCurrentAnimatorStateInfo(0);
+		AnimatorClipInfo[] animatorClip = rigAnimator.GetCurrentAnimatorClipInfo(0);
+		if (animatorClip.Length > 0)
+			rigAnimator.SetFloat("NormalizedTime", animatorClip[0].clip.length * animationState.normalizedTime);
 	}
+
 
 	bool isGrounded()
 	{
