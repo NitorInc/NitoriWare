@@ -51,7 +51,8 @@ public class MicrogameTraits : MonoBehaviour
 	public enum Duration
 	{
 		Short8Beats,
-		Long16Beats
+		Long16Beats,
+		BossGame
 	}
 
 	public virtual void onAccessInStage(string microgameId)
@@ -61,7 +62,7 @@ public class MicrogameTraits : MonoBehaviour
 
 	public float getDurationInBeats()
 	{
-		return duration == Duration.Short8Beats ? 8f : 16f;
+		return duration == Duration.Long16Beats ? 16f : (duration == Duration.BossGame ? float.PositiveInfinity : 8f);
 	}
 
 	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty)

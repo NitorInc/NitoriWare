@@ -133,6 +133,15 @@ public class MicrogameController : MonoBehaviour
 		return traits;
 	}
 
+	/// <summary>
+	/// Returns true if microgame is in debug mode (scene open by itself)
+	/// </summary>
+	/// <returns></returns>
+	public bool isDebugMode()
+	{
+		return StageController.instance == null;
+	}
+
 	public Transform getCommandTransform()
 	{
 		return commandTransform;
