@@ -478,7 +478,16 @@ public class StageController : MonoBehaviour
 		voicePlayer.playClip(microgameVictory,
 			getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
 
-		if (MicrogameController.instance.getTraits().canEndEarly)
+		if (MicrogameController.instance.getTraits().GetType() == typeof(MicrogameBossTraits))
+		{
+			Debug.Log("IT WORKS");
+			float endInBeats = microgameVictory ? ((MicrogameBossTraits)MicrogameController.instance.getTraits()).victoryEndBeats
+				: ((MicrogameBossTraits)MicrogameController.instance.getTraits()).failureEndBeats;
+			CancelInvoke();
+			animationStartTime = Time.time + ((endInBeats + 4f) * beatLength);
+			invokeOutroAnimations();
+		}
+		else if (MicrogameController.instance.getTraits().canEndEarly)
 		{
 			float beatOffset = MicrogameTimer.instance.beatsLeft - 2f;
 			beatOffset -= beatOffset % 4f;
@@ -524,7 +533,6 @@ public class StageController : MonoBehaviour
 
 	public void endMicrogameEarly(float beatsEarly)
 	{
-
 		CancelInvoke();
 		MicrogameTimer.instance.CancelInvoke();
 		animationStartTime -= beatLength * beatsEarly;
