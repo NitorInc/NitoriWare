@@ -17,6 +17,14 @@ public class PaperThiefNitori : MonoBehaviour
 	private bool facingRight;
 	private float spinCooldownTimer;
 
+	[SerializeField]
+	private bool _hasControl;
+	public bool hasControl
+	{
+		get { return _hasControl; }
+		set { _hasControl = value; }
+	}
+
 	void Awake()
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
@@ -35,10 +43,13 @@ public class PaperThiefNitori : MonoBehaviour
 	void updatePlatforming()
 	{
 		int direction = 0;
-		if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
-			direction -= 1;
-		if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
-			direction += 1;
+		if (hasControl)
+		{
+			if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
+				direction -= 1;
+			if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
+				direction += 1;
+		}
 
 		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
 
@@ -47,7 +58,7 @@ public class PaperThiefNitori : MonoBehaviour
 		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
 		updateSpinRotation((direction == 0 || actualDirection != direction) ? 0 : actualDirection);
 
-		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
+		if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
 			//rigAnimator.Play("Jump Up");
 			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
