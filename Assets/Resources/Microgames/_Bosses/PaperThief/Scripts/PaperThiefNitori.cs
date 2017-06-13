@@ -18,6 +18,14 @@ public class PaperThiefNitori : MonoBehaviour
 	private float spinCooldownTimer;
 
 	[SerializeField]
+	private State state;
+	public enum State
+	{
+		Platforming,
+		Gun
+	}
+
+	[SerializeField]
 	private bool _hasControl;
 	public bool hasControl
 	{
@@ -36,11 +44,19 @@ public class PaperThiefNitori : MonoBehaviour
 	
 	void Update()
 	{
+
 		updatePlatforming();
+		
 		if (Input.GetKeyDown(KeyCode.V))
 			MicrogameController.instance.setVictory(true, true);
 		else if (Input.GetKeyDown(KeyCode.F))
 			MicrogameController.instance.setVictory(false, true);
+		if (Input.GetKeyDown(KeyCode.G))
+		{
+			state = (State)(1 - (int)state);
+			rigAnimator.SetInteger("State", (int)state);
+			Cursor.visible = state == State.Gun;
+		}
 	}
 
 	void updatePlatforming()
@@ -59,7 +75,7 @@ public class PaperThiefNitori : MonoBehaviour
 		updateWalkSpeed(direction);
 		updateAnimatorValues(direction);
 		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
-		updateSpinRotation((direction == 0 || actualDirection != direction) ? 0 : actualDirection);
+		updateSpinRotation((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
 
 		if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
