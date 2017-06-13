@@ -22,4 +22,13 @@ public class PhysicsHelper2D
 			}
 		}
 	}
+
+	/// <summary>
+	/// performs Physics2D.raycast and also Debug.DrawLine with the same vector
+	/// </summary>
+	public static bool visibleRaycast(Vector2 origin, Vector2 direction, float distance = float.PositiveInfinity, Color? color = null)
+	{
+		Debug.DrawLine(origin, origin + (direction.resize(distance)), color ?? Color.white);
+		return Physics2D.Raycast(origin, direction, distance);
+	}
 }
