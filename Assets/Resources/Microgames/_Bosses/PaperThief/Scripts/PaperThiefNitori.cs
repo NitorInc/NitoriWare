@@ -26,6 +26,10 @@ public class PaperThiefNitori : MonoBehaviour
 	void Update()
 	{
 		updatePlatforming();
+		if (Input.GetKeyDown(KeyCode.V))
+			MicrogameController.instance.setVictory(true, true);
+		else if (Input.GetKeyDown(KeyCode.F))
+			MicrogameController.instance.setVictory(false, true);
 	}
 
 	void updatePlatforming()
