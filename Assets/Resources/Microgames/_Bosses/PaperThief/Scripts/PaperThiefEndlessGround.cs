@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class PaperThiefEndlessGround : MonoBehaviour
 {
+	[SerializeField]
+	private Transform shiftTransform;
 
 	void Update()
 	{
-		for (int i = 0; i < transform.childCount; i++)
+		if (Camera.main.transform.parent.parent == null)
+			return;
+		while (transform.position.x < Camera.main.transform.position.x && CameraHelper.isObjectOffscreen(transform, transform.localScale.x / 2f))
 		{
-			Transform floorPiece = transform.GetChild(i);
-			if (floorPiece.position.x < Camera.main.transform.position.x && CameraHelper.isObjectOffscreen(floorPiece, floorPiece.transform.localPosition.x))
-				transform.localPosition += Vector3.right * (floorPiece.transform.localScale.x);
+			shiftTransform.localPosition += Vector3.left * transform.localScale.x;
 		}
 	}
 }

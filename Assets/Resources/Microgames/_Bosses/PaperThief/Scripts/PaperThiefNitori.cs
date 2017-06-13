@@ -65,8 +65,11 @@ public class PaperThiefNitori : MonoBehaviour
 			MicrogameController.instance.setVictory(false, true);
 		if (Input.GetKeyDown(KeyCode.G))
 		{
-			changeState((State)(1 - (int)state));
-			rigAnimator.SetInteger("State", (int)state);
+			changeState(state == State.Gun ? State.Platforming : State.Gun);
+		}
+		else if (Input.GetKeyDown(KeyCode.T))
+		{
+			rigAnimator.Play("Hop");
 		}
 	}
 
@@ -75,7 +78,6 @@ public class PaperThiefNitori : MonoBehaviour
 		switch (state)
 		{
 			case (State.Platforming):
-				//PaperThiefCamera.instance.setFollow(transform);
 				PaperThiefCamera.instance.transform.parent = null;
 				break;
 			case (State.Gun):
@@ -83,7 +85,7 @@ public class PaperThiefNitori : MonoBehaviour
 				rigAnimator.SetInteger("Jump", 0);
 				PaperThiefCamera.instance.transform.parent = transform;
 				PaperThiefCamera.instance.setFollow(null);
-				PaperThiefCamera.instance.setGoalPosition(new Vector3(-25f, 20f, 0f));
+				PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
 				PaperThiefCamera.instance.setGoalSize(6.5f);
 				gunCursor.gameObject.SetActive(true);
 				break;
@@ -91,6 +93,7 @@ public class PaperThiefNitori : MonoBehaviour
 				break;
 		}
 		this.state = state;
+		rigAnimator.SetInteger("State", (int)state);
 	}
 
 
@@ -111,6 +114,7 @@ public class PaperThiefNitori : MonoBehaviour
 	void createShot(float angle)
 	{
 		Rigidbody2D shot = Instantiate(shotPrefab, shotMarker.position, Quaternion.Euler(0f, 0f, angle + 120f)).GetComponent<Rigidbody2D>();
+		shot.transform.parent = transform;
 		shot.velocity = MathHelper.getVector2FromAngle(angle, shotSpeed) + (Vector2.right * _rigidBody2D.velocity.x);
 		shot.AddTorque(1000f);
 
