@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CollisionHelper
+public class PhysicsHelper2D
 {
 	/// <summary>
 	/// Ignores collision for every single GameObject with a particular tag
