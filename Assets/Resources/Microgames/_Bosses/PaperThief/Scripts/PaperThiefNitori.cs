@@ -29,6 +29,9 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
 		facingRight = MathHelper.Approximately(getSpinRotation(), -180f, 1f);
+
+		if (MicrogameController.instance.isDebugMode())
+			hasControl = true;
 	}
 	
 	void Update()
