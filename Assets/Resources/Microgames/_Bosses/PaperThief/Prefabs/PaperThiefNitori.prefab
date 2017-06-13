@@ -93,6 +93,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1128929094848718
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4766816589448008}
+  m_Layer: 0
+  m_Name: Shot Marker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1149292869248166
 GameObject:
   m_ObjectHideFlags: 1
@@ -500,9 +515,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1910566409127386}
   m_LocalRotation: {x: 1.8124477e-10, y: 0.00000016292059, z: 0.0011124724, w: 0.9999994}
-  m_LocalPosition: {x: -0.904, y: -1.516, z: -0.24}
+  m_LocalPosition: {x: -0.91, y: -0.81, z: -0.24}
   m_LocalScale: {x: 1.3990394, y: 1.555235, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4766816589448008}
   m_Father: {fileID: 4124674323720236}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.127}
@@ -743,6 +759,19 @@ Transform:
   m_Father: {fileID: 4541215674356576}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4766816589448008
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1128929094848718}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.48, y: -0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4088298639277478}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4791609330299200
 Transform:
   m_ObjectHideFlags: 1
@@ -763,7 +792,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1464553629135486}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 70, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4382917291756384}
@@ -1036,10 +1065,16 @@ MonoBehaviour:
   rotateSpeed: 750
   spinCooldown: 0
   jumpSpeed: 15
-  maxGunRotation: 0
+  shotCooldown: 0.25
+  shotSpeed: 25
+  minGunCursorDistance: 0.2
   rigAnimator: {fileID: 95876233013484916}
   spinTransform: {fileID: 4382917291756384}
+  gunTransform: {fileID: 4088298639277478}
+  gunCursor: {fileID: 0}
+  shotMarker: {fileID: 4766816589448008}
   walkCollider: {fileID: 61880210241271938}
+  shotPrefab: {fileID: 1334445560072654, guid: 16092adfbdf43f54691c934b025a5117, type: 2}
   state: 0
   _hasControl: 0
 --- !u!114 &114897540003570782

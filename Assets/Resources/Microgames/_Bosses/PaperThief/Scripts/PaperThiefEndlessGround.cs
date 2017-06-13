@@ -10,8 +10,8 @@ public class PaperThiefEndlessGround : MonoBehaviour
 		for (int i = 0; i < transform.childCount; i++)
 		{
 			Transform floorPiece = transform.GetChild(i);
-			if (floorPiece.position.x < Camera.main.transform.position.x && CameraHelper.isObjectOffscreen(floorPiece))
-				floorPiece.transform.localPosition += Vector3.right * (floorPiece.transform.localScale.x * (float)transform.childCount);
+			if (floorPiece.position.x < Camera.main.transform.position.x && CameraHelper.isObjectOffscreen(floorPiece, floorPiece.transform.localPosition.x))
+				transform.localPosition += Vector3.right * (floorPiece.transform.localScale.x);
 		}
 	}
 }

@@ -5,17 +5,20 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed, maxGunRotation, minGunCursorDistance;
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed,
+	shotCooldown, shotSpeed, minGunCursorDistance;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform spinTransform, gunTransform;
+	private Transform spinTransform, gunTransform, gunCursor, shotMarker;
 	[SerializeField]
 	private BoxCollider2D walkCollider;
+	[SerializeField]
+	private GameObject shotPrefab;
 
 	private Rigidbody2D _rigidBody2D;
 	private bool facingRight;
-	private float spinCooldownTimer;
+	private float spinCooldownTimer, shotCooldownTimer;
 
 	[SerializeField]
 	private State state;
@@ -50,9 +53,7 @@ public class PaperThiefNitori : MonoBehaviour
 				updatePlatforming();
 				break;
 			case(State.Gun):
-				updateGunTilt();
-				updateSpinRotation(1);
-				_rigidBody2D.velocity = new Vector2(walkSpeed * 2f, _rigidBody2D.velocity.y);
+				updateGun();
 				break;
 			default:
 				break;
@@ -66,7 +67,6 @@ public class PaperThiefNitori : MonoBehaviour
 		{
 			changeState((State)(1 - (int)state));
 			rigAnimator.SetInteger("State", (int)state);
-			Cursor.visible = state == State.Gun;
 		}
 	}
 
@@ -75,16 +75,17 @@ public class PaperThiefNitori : MonoBehaviour
 		switch (state)
 		{
 			case (State.Platforming):
+				//PaperThiefCamera.instance.setFollow(transform);
+				PaperThiefCamera.instance.transform.parent = null;
 				break;
 			case (State.Gun):
-				rigAnimator.SetFloat("WalkSpeed", 1f);
-				rigAnimator.SetBool("Walking", true);
+				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetInteger("Jump", 0);
-				rigAnimator.speed = 1.5f;
 				PaperThiefCamera.instance.transform.parent = transform;
 				PaperThiefCamera.instance.setFollow(null);
 				PaperThiefCamera.instance.setGoalPosition(new Vector3(-25f, 20f, 0f));
 				PaperThiefCamera.instance.setGoalSize(6.5f);
+				gunCursor.gameObject.SetActive(true);
 				break;
 			default:
 				break;
@@ -92,13 +93,44 @@ public class PaperThiefNitori : MonoBehaviour
 		this.state = state;
 	}
 
-	void updateGunTilt()
+
+	void updateGun()
+	{
+
+
+		updateSpinRotation(1);
+		_rigidBody2D.velocity = new Vector2(walkSpeed * 2f, _rigidBody2D.velocity.y);
+		float gunAngle = updateGunTilt();
+
+		if (shotCooldownTimer > 0f)
+			shotCooldownTimer -= Time.deltaTime;
+		if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
+			createShot(gunAngle);
+	}
+
+	void createShot(float angle)
+	{
+		Rigidbody2D shot = Instantiate(shotPrefab, shotMarker.position, Quaternion.Euler(0f, 0f, angle + 120f)).GetComponent<Rigidbody2D>();
+		shot.velocity = MathHelper.getVector2FromAngle(angle, shotSpeed) + (Vector2.right * _rigidBody2D.velocity.x);
+		shot.AddTorque(1000f);
+
+		ParticleSystem.MainModule particleModule = shot.GetComponent<ParticleSystem>().main;
+		particleModule.simulationSpace = ParticleSystemSimulationSpace.Custom;
+		particleModule.customSimulationSpace = PaperThiefCamera.instance.transform;
+
+		shotCooldownTimer = shotCooldown;
+	}
+
+	float updateGunTilt()
 	{
 		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - gunTransform.position);
 		float degrees = toCursor.getAngle();
 		//degrees *= Mathf.Lerp(0f, 1f, toCursor.magnitude / 2f);
 		if (degrees >= 0f && degrees <= 90f && toCursor.magnitude >= minGunCursorDistance)
 			rigAnimator.SetFloat("GunTilt", degrees / 90f);
+		else
+			degrees = rigAnimator.GetFloat("GunTilt") * 90f;
+		return degrees;
 	}
 
 	void updatePlatforming()
