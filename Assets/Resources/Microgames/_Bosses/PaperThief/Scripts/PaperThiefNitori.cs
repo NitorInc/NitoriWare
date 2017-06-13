@@ -95,7 +95,7 @@ public class PaperThiefNitori : MonoBehaviour
 	bool isGrounded()
 	{
 		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
-		return MathHelper.visibleRaycast2D((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
+		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
 			Vector2.right, dist);
 		
 	}
@@ -104,8 +104,8 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		float xOffset = walkCollider.bounds.extents.x + .1f;
 		return right ?
-			MathHelper.visibleRaycast2D((Vector2)transform.position + new Vector2(xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f) :
-			MathHelper.visibleRaycast2D((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
+			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f) :
+			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
 	}
 
 	void updateSpinRotation(int direction)
