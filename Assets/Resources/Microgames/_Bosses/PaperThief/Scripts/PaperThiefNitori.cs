@@ -5,11 +5,11 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed;
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed, maxGunRotation, minGunCursorDistance;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform spinTransform;
+	private Transform spinTransform, gunTransform;
 	[SerializeField]
 	private BoxCollider2D walkCollider;
 
@@ -44,8 +44,19 @@ public class PaperThiefNitori : MonoBehaviour
 	
 	void Update()
 	{
-
-		updatePlatforming();
+		switch (state)
+		{
+			case(State.Platforming):
+				updatePlatforming();
+				break;
+			case(State.Gun):
+				updateGunTilt();
+				updateSpinRotation(1);
+				_rigidBody2D.velocity = new Vector2(walkSpeed * 2f, _rigidBody2D.velocity.y);
+				break;
+			default:
+				break;
+		}
 		
 		if (Input.GetKeyDown(KeyCode.V))
 			MicrogameController.instance.setVictory(true, true);
@@ -53,10 +64,41 @@ public class PaperThiefNitori : MonoBehaviour
 			MicrogameController.instance.setVictory(false, true);
 		if (Input.GetKeyDown(KeyCode.G))
 		{
-			state = (State)(1 - (int)state);
+			changeState((State)(1 - (int)state));
 			rigAnimator.SetInteger("State", (int)state);
 			Cursor.visible = state == State.Gun;
 		}
+	}
+
+	void changeState(State state)
+	{
+		switch (state)
+		{
+			case (State.Platforming):
+				break;
+			case (State.Gun):
+				rigAnimator.SetFloat("WalkSpeed", 1f);
+				rigAnimator.SetBool("Walking", true);
+				rigAnimator.SetInteger("Jump", 0);
+				rigAnimator.speed = 1.5f;
+				PaperThiefCamera.instance.transform.parent = transform;
+				PaperThiefCamera.instance.setFollow(null);
+				PaperThiefCamera.instance.setGoalPosition(new Vector3(-25f, 20f, 0f));
+				PaperThiefCamera.instance.setGoalSize(6.5f);
+				break;
+			default:
+				break;
+		}
+		this.state = state;
+	}
+
+	void updateGunTilt()
+	{
+		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - gunTransform.position);
+		float degrees = toCursor.getAngle();
+		//degrees *= Mathf.Lerp(0f, 1f, toCursor.magnitude / 2f);
+		if (degrees >= 0f && degrees <= 90f && toCursor.magnitude >= minGunCursorDistance)
+			rigAnimator.SetFloat("GunTilt", degrees / 90f);
 	}
 
 	void updatePlatforming()
