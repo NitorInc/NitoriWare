@@ -20,42 +20,44 @@ public class CameraHelper
 	}
 
 	/// <summary>
-	/// Determines if an object is onscreen based on its collider, forceSize will override the collider size
+	/// Determines if an object is offscreen based on its collider
 	/// </summary>
-	/// <param name="trans"></param>
+	/// <param name="transform"></param>
 	/// <param name="forceSize"></param>
 	/// <returns></returns>
-	public static bool isObjectOffscreen(Transform trans, float forceSize)
+	public static bool isObjectOffscreen(Transform transform)
+	{
+		float size;
+		if (transform.GetComponent<BoxCollider2D>() != null)
+		{
+			BoxCollider2D collider = transform.GetComponent<BoxCollider2D>();
+			size = collider.size.x;
+			if (collider.size.y > transform.GetComponent<BoxCollider2D>().size.x)
+				size = collider.size.y;
+			size *= transform.lossyScale.x;
+		}
+		else if (transform.GetComponent<CircleCollider2D>() != null)
+		{
+			CircleCollider2D collider = transform.GetComponent<CircleCollider2D>();
+			size = collider.radius;
+			size *= transform.lossyScale.x;
+		}
+		else
+			size = 0f;
+		return isObjectOffscreen(transform, size);
+	}
+
+	/// <summary>
+	/// Determines if an object is offscreen, must be at least forceSize distance away from edge of screen
+	/// </summary>
+	/// <param name="transform"></param>
+	/// <param name="forceSize"></param>
+	/// <returns></returns>
+	public static bool isObjectOffscreen(Transform transform, float forceSize)
 	{
 		camSize = Camera.main.orthographicSize;
-
-		float size = 0f;
-		if (forceSize > 0f)
-		{
-			size = forceSize;
-		}
-		else if (trans.GetComponent<BoxCollider2D>() != null)
-		{
-			BoxCollider2D collider = trans.GetComponent<BoxCollider2D>();
-			size = collider.size.x;
-			if (collider.size.y > trans.GetComponent<BoxCollider2D>().size.x)
-				size = collider.size.y;
-			size *= trans.lossyScale.x;
-		}
-		else if (trans.GetComponent<CircleCollider2D>() != null)
-		{
-			CircleCollider2D collider = trans.GetComponent<CircleCollider2D>();
-			size = collider.radius;
-			size *= trans.lossyScale.x;
-		}
-
-		return Mathf.Abs(trans.position.x - Camera.main.transform.position.x) > (camSize * 4f / 3f) + size
-			|| Mathf.Abs(trans.position.y - Camera.main.transform.position.y) > (camSize) + size;
-
-		//return (trans.position.x > (camSize * 16f / 9f) + size
-		//	|| trans.position.x < (camSize * -16f / 9) - size
-		//	|| trans.position.y > (camSize) + size
-		//	|| trans.position.y < (camSize  * -1f) - size);
+		return Mathf.Abs(transform.position.x - Camera.main.transform.position.x) > (camSize * 4f / 3f) + forceSize
+			|| Mathf.Abs(transform.position.y - Camera.main.transform.position.y) > (camSize) + forceSize;
 	}
 
 	
@@ -82,8 +84,8 @@ public class CameraHelper
 
 		position.x = Mathf.Clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f),
 			Camera.main.transform.position.x + (camSize * 4f / 3f));
-		position.y = Mathf.Clamp(position.y, Camera.main.transform.position.x - camSize,
-			Camera.main.transform.position.x + camSize);
+		position.y = Mathf.Clamp(position.y, Camera.main.transform.position.y - camSize,
+			Camera.main.transform.position.y + camSize);
 		position.z = z;
 
 		lastCursorPosition = position;
