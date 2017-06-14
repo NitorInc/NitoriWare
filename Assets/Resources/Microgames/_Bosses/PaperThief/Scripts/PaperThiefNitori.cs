@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PaperThiefNitori : MonoBehaviour
 {
+	public static PaperThiefNitori instance;
+
 	[SerializeField]
 	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform gunTransform, gunCursor, shotMarker;
+	private Transform gunTransform, gunCursor, shotMarker, stageTransform;
 	[SerializeField]
 	private PaperThiefSpin spinner;
 	[SerializeField]
@@ -39,10 +41,16 @@ public class PaperThiefNitori : MonoBehaviour
 
 	void Awake()
 	{
+		instance = this;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
 
 		if (MicrogameController.instance.isDebugMode())
 			hasControl = true;
+	}
+
+	public State getState()
+	{
+		return state;
 	}
 
 	void Update()
@@ -88,6 +96,7 @@ public class PaperThiefNitori : MonoBehaviour
 				PaperThiefCamera.instance.transform.parent = null;
 				break;
 			case (State.Gun):
+				stageTransform.gameObject.SetActive(false);
 				PaperThiefCamera.instance.stopScroll();
 				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetInteger("Jump", 0);
