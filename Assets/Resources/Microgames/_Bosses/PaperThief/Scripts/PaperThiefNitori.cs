@@ -5,6 +5,9 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	public static PaperThiefNitori instance;
+	public static bool dead;
+
+	public Transform coreTransform;
 
 	[SerializeField]
 	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
@@ -28,7 +31,8 @@ public class PaperThiefNitori : MonoBehaviour
 	public enum State
 	{
 		Platforming,
-		Gun
+		Gun,
+		Dead
 	}
 
 	[SerializeField]
@@ -39,9 +43,17 @@ public class PaperThiefNitori : MonoBehaviour
 		set { _hasControl = value; }
 	}
 
+	public enum QueueAnimation
+	{
+		Idle,			//0
+		GetCucumber,	//1
+		GunRecoil		//2
+	}
+
 	void Awake()
 	{
 		instance = this;
+		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
 
 		if (MicrogameController.instance.isDebugMode())
@@ -74,16 +86,16 @@ public class PaperThiefNitori : MonoBehaviour
 			MicrogameController.instance.setVictory(false, true);
 		if (Input.GetKeyDown(KeyCode.G))
 		{
-			changeState(state == State.Gun ? State.Platforming : State.Gun);
+			//changeState(state == State.Gun ? State.Platforming : State.Gun);
 		}
 		else if (Input.GetKeyDown(KeyCode.T))
 		{
 			//rigAnimator.Play("Hop");
-			rigAnimator.SetInteger("QueuedAnimation", 1);
+			queueAnimation(QueueAnimation.GetCucumber);
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
-			rigAnimator.SetInteger("QueuedAnimation", 0);
+			queueAnimation(QueueAnimation.Idle);
 		}
 
 	}
@@ -93,7 +105,9 @@ public class PaperThiefNitori : MonoBehaviour
 		switch (state)
 		{
 			case (State.Platforming):
-				PaperThiefCamera.instance.transform.parent = null;
+				//PaperThiefCamera.instance.transform.parent = null;
+				PaperThiefCamera.instance.setGoalPosition(new Vector3(20f, 20f, 0f));
+
 				break;
 			case (State.Gun):
 				stageTransform.gameObject.SetActive(false);
@@ -148,10 +162,7 @@ public class PaperThiefNitori : MonoBehaviour
 		shot.velocity = MathHelper.getVector2FromAngle(angle, shotSpeed) + (Vector2.right * _rigidBody2D.velocity.x);
 		shot.AddTorque(1000f);
 
-		ParticleSystem.MainModule particleModule = shot.GetComponent<ParticleSystem>().main;
-		particleModule.simulationSpace = ParticleSystemSimulationSpace.Custom;
-		particleModule.customSimulationSpace = PaperThiefCamera.instance.transform;
-
+		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
 	}
 
@@ -233,6 +244,10 @@ public class PaperThiefNitori : MonoBehaviour
 			rigAnimator.SetFloat("NormalizedTime", animatorClip[0].clip.length * animationState.normalizedTime);
 	}
 
+	void queueAnimation(QueueAnimation animation)
+	{
+		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
+	}
 
 	bool isGrounded()
 	{
@@ -249,5 +264,48 @@ public class PaperThiefNitori : MonoBehaviour
 			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
 	}
 
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (dead)
+			return;
+
+		if (other.name.EndsWith("Death"))
+		{
+			kill(false);
+		}
+		else if (state == State.Platforming && other.name.Equals("Gun Trigger"))
+		{
+			changeState(state == State.Gun ? State.Platforming : State.Gun);
+			Destroy(other.gameObject);
+		}
+	}
+
+	public void kill(bool playAnimation)
+	{
+		PaperThiefCamera.instance.stopScroll();
+
+		_rigidBody2D.bodyType = RigidbodyType2D.Kinematic;
+		_rigidBody2D.velocity = Vector2.zero;
+
+		if (playAnimation)
+		{
+			if (state == State.Gun)
+			{
+				rigAnimator.Play("GunWait");
+				rigAnimator.Play("Death");
+			}
+			changeState(State.Dead);
+		}
+		else
+			rigAnimator.enabled = false;
+
+		dead = true;
+		enabled = false;
+	}
+
+	public Rigidbody2D getRigidBody()
+	{
+		return _rigidBody2D;
+	}
 }
 

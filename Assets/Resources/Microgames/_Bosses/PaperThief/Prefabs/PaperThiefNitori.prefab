@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 114824559139316442}
   - component: {fileID: 50693331723868120}
   - component: {fileID: 61880210241271938}
+  - component: {fileID: 61556099139097226}
   m_Layer: 0
   m_Name: PaperThiefNitori
   m_TagString: Untagged
@@ -510,6 +511,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1987830743978250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4310950526114710}
+  m_Layer: 0
+  m_Name: Core
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4052834929921604
 Transform:
   m_ObjectHideFlags: 1
@@ -650,6 +666,19 @@ Transform:
   m_Father: {fileID: 4965428087867932}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!4 &4310950526114710
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1987830743978250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4818351933161712}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4382917291756384
 Transform:
   m_ObjectHideFlags: 1
@@ -856,6 +885,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4409706265866580}
+  - {fileID: 4310950526114710}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -963,6 +993,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!61 &61556099139097226
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464553629135486}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 2.78}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 5}
+  m_EdgeRadius: 0
 --- !u!61 &61880210241271938
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1129,12 +1184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a08242570d259142b8471a1dcd61285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 8
-  jumpMoveSpeed: 6
+  coreTransform: {fileID: 4310950526114710}
+  walkSpeed: 9
+  jumpMoveSpeed: 6.5
   walkAcc: 100
   walkDec: 150
   jumpAcc: 40
-  jumpDec: 0
+  jumpDec: 10
   jumpSpeed: 15
   spinCooldown: 0.25
   shotCooldown: 0.25
@@ -1144,6 +1200,7 @@ MonoBehaviour:
   gunTransform: {fileID: 4088298639277478}
   gunCursor: {fileID: 0}
   shotMarker: {fileID: 4766816589448008}
+  stageTransform: {fileID: 0}
   spinner: {fileID: 114374904101047258}
   walkCollider: {fileID: 61880210241271938}
   shotPrefab: {fileID: 1334445560072654, guid: 16092adfbdf43f54691c934b025a5117, type: 2}
@@ -1856,7 +1913,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 60
   m_Sprite: {fileID: 21300000, guid: c934455d84323d44f98691d4b1712b60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
