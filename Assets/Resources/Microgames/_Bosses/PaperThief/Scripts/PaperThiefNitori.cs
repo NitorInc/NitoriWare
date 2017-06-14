@@ -73,6 +73,10 @@ public class PaperThiefNitori : MonoBehaviour
 			//rigAnimator.Play("Hop");
 			rigAnimator.SetInteger("QueuedAnimation", 1);
 		}
+		else if (Input.GetKeyDown(KeyCode.I))
+		{
+			rigAnimator.SetInteger("QueuedAnimation", 0);
+		}
 
 	}
 
@@ -84,6 +88,7 @@ public class PaperThiefNitori : MonoBehaviour
 				PaperThiefCamera.instance.transform.parent = null;
 				break;
 			case (State.Gun):
+				PaperThiefCamera.instance.stopScroll();
 				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetInteger("Jump", 0);
 				PaperThiefCamera.instance.transform.parent = transform;
@@ -183,7 +188,7 @@ public class PaperThiefNitori : MonoBehaviour
 		Vector2 velocity = _rigidBody2D.velocity;
 		float goalSpeed, acc;
 		goalSpeed = (float)direction * (isGrounded() ? walkSpeed : jumpMoveSpeed);
-		if (isGrounded() || Mathf.Abs(velocity.y) > jumpMoveSpeed)
+		if (isGrounded() || Mathf.Abs(velocity.x) > jumpMoveSpeed)
 			acc = (direction == 0f) ? walkDec : walkAcc;
 		else
 			acc = (direction == 0f) ? jumpDec : jumpAcc;
@@ -225,7 +230,6 @@ public class PaperThiefNitori : MonoBehaviour
 		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
 		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
 			Vector2.right, dist);
-
 	}
 
 	bool wallContact(bool right)

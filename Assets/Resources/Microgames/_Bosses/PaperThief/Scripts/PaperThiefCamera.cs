@@ -10,11 +10,14 @@ public class PaperThiefCamera : MonoBehaviour
 	private Transform follow;
 	[SerializeField]
 	private float shiftSpeed;
+	[SerializeField]
+	private AnimationCurve velocityOverTime;
+
 
 	private BoxCollider2D boxCollider;
 	private Vector3 goalPosition;
-	private float goalSize, lerpSize, lerpSizeDistance;
-	private bool mustShift;
+	private float goalSize, lerpSize, lerpSizeDistance, startTime;
+	private bool mustShift, scroll;
 
 	void Awake()
 	{
@@ -22,12 +25,19 @@ public class PaperThiefCamera : MonoBehaviour
 		boxCollider = GetComponent<BoxCollider2D>();
 		goalSize = Camera.main.orthographicSize;
 		goalPosition = transform.localPosition;
+		startTime = Time.time;
+		scroll = true;
 	}
 
 	public void setGoalPosition(Vector3 goalPosition)
 	{
 		this.goalPosition = goalPosition;
 		mustShift = true;
+	}
+
+	public void stopScroll()
+	{
+		scroll = false;
 	}
 
 	public void setGoalSize(float goalSize)
@@ -49,6 +59,13 @@ public class PaperThiefCamera : MonoBehaviour
 			updateShift();
 		else if (follow != null)
 			updateFollow();
+		else if (scroll)
+			updateScroll();
+	}
+
+	void updateScroll()
+	{
+		transform.position += Vector3.right * velocityOverTime.Evaluate(Time.time - startTime) * Time.deltaTime;
 	}
 
 	void updateShift()
