@@ -5,19 +5,20 @@ using UnityEngine;
 public class PaperThiefNitori : MonoBehaviour
 {
 	[SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed,
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform spinTransform, gunTransform, gunCursor, shotMarker;
+	private Transform gunTransform, gunCursor, shotMarker;
+	[SerializeField]
+	private PaperThiefSpin spinner;
 	[SerializeField]
 	private BoxCollider2D walkCollider;
 	[SerializeField]
 	private GameObject shotPrefab;
 
 	private Rigidbody2D _rigidBody2D;
-	private bool facingRight;
 	private float spinCooldownTimer, shotCooldownTimer;
 
 	[SerializeField]
@@ -39,26 +40,26 @@ public class PaperThiefNitori : MonoBehaviour
 	void Awake()
 	{
 		_rigidBody2D = GetComponent<Rigidbody2D>();
-		facingRight = MathHelper.Approximately(getSpinRotation(), -180f, 1f);
 
 		if (MicrogameController.instance.isDebugMode())
 			hasControl = true;
 	}
-	
+
 	void Update()
 	{
 		switch (state)
 		{
-			case(State.Platforming):
+			case (State.Platforming):
 				updatePlatforming();
 				break;
-			case(State.Gun):
-				updateGun();
+			case (State.Gun):
+				if (hasControl)
+					updateGun();
 				break;
 			default:
 				break;
 		}
-		
+
 		if (Input.GetKeyDown(KeyCode.V))
 			MicrogameController.instance.setVictory(true, true);
 		else if (Input.GetKeyDown(KeyCode.F))
@@ -71,6 +72,7 @@ public class PaperThiefNitori : MonoBehaviour
 		{
 			rigAnimator.Play("Hop");
 		}
+
 	}
 
 	void changeState(State state)
@@ -99,9 +101,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 	void updateGun()
 	{
-
-
-		updateSpinRotation(1);
+		spinner.facingRight = true;
 		_rigidBody2D.velocity = new Vector2(walkSpeed * 2f, _rigidBody2D.velocity.y);
 		float gunAngle = updateGunTilt();
 
@@ -109,6 +109,21 @@ public class PaperThiefNitori : MonoBehaviour
 			shotCooldownTimer -= Time.deltaTime;
 		if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
 			createShot(gunAngle);
+	}
+
+	void updateSpinner(int direction)
+	{
+		if (spinCooldownTimer > 0f)
+			spinCooldownTimer -= Time.deltaTime;
+		else if (direction != 0)
+		{
+			bool facingRight = direction == 1;
+			if (spinner.facingRight != facingRight)
+			{
+				spinner.facingRight = facingRight;
+				spinCooldownTimer = spinCooldown;
+			}
+		}
 	}
 
 	void createShot(float angle)
@@ -153,7 +168,7 @@ public class PaperThiefNitori : MonoBehaviour
 		updateWalkSpeed(direction);
 		updateAnimatorValues(direction);
 		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
-		updateSpinRotation((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
+		updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
 
 		if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
@@ -170,7 +185,7 @@ public class PaperThiefNitori : MonoBehaviour
 		if (isGrounded() || Mathf.Abs(velocity.y) > jumpMoveSpeed)
 			acc = (direction == 0f) ? walkDec : walkAcc;
 		else
-			acc = (direction == 0f) ? jumpDec: jumpAcc;
+			acc = (direction == 0f) ? jumpDec : jumpAcc;
 
 		if (!MathHelper.Approximately(velocity.x, goalSpeed, .0001f))
 		{
@@ -188,7 +203,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 		if (direction == 0)
 			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9995f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
-			//rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(1f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
+		//rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(1f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 
@@ -209,7 +224,7 @@ public class PaperThiefNitori : MonoBehaviour
 		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
 		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
 			Vector2.right, dist);
-		
+
 	}
 
 	bool wallContact(bool right)
@@ -220,39 +235,5 @@ public class PaperThiefNitori : MonoBehaviour
 			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
 	}
 
-	void updateSpinRotation(int direction)
-	{
-		float rotation = getSpinRotation();
-		if (spinCooldownTimer > 0f)
-			spinCooldownTimer -= Time.deltaTime;
-		if (/*!isGrounded() || */ !(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)) || spinCooldownTimer > 0f)
-			direction = 0;
-		if (direction != 0)
-			facingRight = direction == 1;
-
-		//Spin between 0 and -180 degrees
-		float goalRotation = facingRight ? -180f : 0f;
-		if (!MathHelper.Approximately(rotation, goalRotation, .0001f))
-		{
-			float diff = rotateSpeed * Time.deltaTime;
-			if (Mathf.Abs(goalRotation - rotation) <= diff)
-				setSpinRotation(goalRotation);
-			else
-				setSpinRotation(rotation + (diff * Mathf.Sign(goalRotation - rotation)));
-
-			spinCooldownTimer = spinCooldown;
-		}
-	}
-
-	float getSpinRotation()
-	{
-		Vector3 eulers = spinTransform.rotation.eulerAngles;
-		return eulers.y <= 0f ? eulers.y : eulers.y - 360f;
-	}
-
-	void setSpinRotation(float rotation)
-	{
-		Vector3 eulers = spinTransform.rotation.eulerAngles;
-		spinTransform.rotation = Quaternion.Euler(eulers.x, rotation, eulers.z);
-	}
 }
+
