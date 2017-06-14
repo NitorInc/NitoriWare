@@ -86,7 +86,7 @@ public class PaperThiefNitori : MonoBehaviour
 			MicrogameController.instance.setVictory(false, true);
 		if (Input.GetKeyDown(KeyCode.G))
 		{
-			//changeState(state == State.Gun ? State.Platforming : State.Gun);
+			changeState(state == State.Gun ? State.Platforming : State.Gun);
 		}
 		else if (Input.GetKeyDown(KeyCode.T))
 		{

@@ -44,6 +44,7 @@ public class PaperThiefShot : MonoBehaviour
 			transform.localScale -= Vector3.one * shrinkSpeed * Time.deltaTime;
 			if (transform.localScale.x <= 0f)
 			{
+				transform.localScale = Vector3.zero;
 				Invoke("destroy", 1f);
 				shrank = true;
 			}
@@ -59,6 +60,7 @@ public class PaperThiefShot : MonoBehaviour
 	{
 		_rigidBody.velocity = PaperThiefNitori.instance.getRigidBody().velocity;
 		explosionParticles.Emit(explosionSmokeCount);
+		GetComponent<Collider2D>().enabled = false;
 		dead = true;
 	}
 

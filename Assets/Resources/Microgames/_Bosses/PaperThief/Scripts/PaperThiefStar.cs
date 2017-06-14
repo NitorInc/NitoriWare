@@ -142,10 +142,11 @@ public class PaperThiefStar : MonoBehaviour
 			{
 				other.GetComponent<PaperThiefShot>().kill();
 				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
-				if (velocity.magnitude < killSpeed)
+				if (velocity.magnitude <= killSpeed)
 				{
+					velocity = Vector2.zero;
 					trailParticles.Stop();
-					trailParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+					trailParticleModule.simulationSpeed *= 2f;
 					emitExplosionStars(killStarCount);
 					dead = true;
 					flash.GetComponent<ParticleSystem>().Play();
