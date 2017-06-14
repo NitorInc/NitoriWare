@@ -70,7 +70,8 @@ public class PaperThiefNitori : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.T))
 		{
-			rigAnimator.Play("Hop");
+			//rigAnimator.Play("Hop");
+			rigAnimator.SetInteger("QueuedAnimation", 1);
 		}
 
 	}
