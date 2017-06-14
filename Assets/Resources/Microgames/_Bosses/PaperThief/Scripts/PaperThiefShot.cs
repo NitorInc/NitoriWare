@@ -53,7 +53,8 @@ public class PaperThiefShot : MonoBehaviour
 
 	void destroy()
 	{
-		Destroy(gameObject);
+		if (!PaperThiefNitori.dead)
+			Destroy(gameObject);
 	}
 
 	public void kill()

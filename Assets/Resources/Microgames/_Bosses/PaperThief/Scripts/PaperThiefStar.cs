@@ -73,6 +73,7 @@ public class PaperThiefStar : MonoBehaviour
 			if (transform.localScale.x <= 0f)
 			{
 				transform.localScale = Vector3.zero;
+				Invoke("destroy", 1f);
 				enabled = false;
 			}
 			return;
@@ -160,6 +161,12 @@ public class PaperThiefStar : MonoBehaviour
 				
 			}
 		}
+	}
+
+	void destroy()
+	{
+		if (!PaperThiefNitori.dead)
+			Destroy(gameObject);
 	}
 
 	void emitExplosionStars(int count)
