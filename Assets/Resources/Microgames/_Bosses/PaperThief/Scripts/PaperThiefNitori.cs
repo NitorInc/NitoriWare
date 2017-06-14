@@ -4,50 +4,200 @@ using UnityEngine;
 
 public class PaperThiefNitori : MonoBehaviour
 {
+	public static PaperThiefNitori instance;
+	public static bool dead;
+
+	public Transform coreTransform;
+
 	[SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, rotateSpeed, spinCooldown, jumpSpeed;
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
+	shotCooldown, shotSpeed, minGunCursorDistance;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform spinTransform;
+	private Transform gunTransform, gunCursor, shotMarker, stageTransform;
+	[SerializeField]
+	private PaperThiefSpin spinner;
 	[SerializeField]
 	private BoxCollider2D walkCollider;
+	[SerializeField]
+	private GameObject shotPrefab;
 
 	private Rigidbody2D _rigidBody2D;
-	private bool facingRight;
-	private float spinCooldownTimer;
+	private float spinCooldownTimer, shotCooldownTimer;
+
+	[SerializeField]
+	private State state;
+	public enum State
+	{
+		Platforming,
+		Gun,
+		Dead
+	}
+
+	[SerializeField]
+	private bool _hasControl;
+	public bool hasControl
+	{
+		get { return _hasControl; }
+		set { _hasControl = value; }
+	}
+
+	public enum QueueAnimation
+	{
+		Idle,			//0
+		GetCucumber,	//1
+		GunRecoil		//2
+	}
 
 	void Awake()
 	{
+		instance = this;
+		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
-		facingRight = MathHelper.Approximately(getSpinRotation(), -180f, 1f);
+
+		if (MicrogameController.instance.isDebugMode())
+			hasControl = true;
 	}
-	
+
+	public State getState()
+	{
+		return state;
+	}
+
 	void Update()
 	{
-		updatePlatforming();
+		switch (state)
+		{
+			case (State.Platforming):
+				updatePlatforming();
+				break;
+			case (State.Gun):
+				if (hasControl)
+					updateGun();
+				break;
+			default:
+				break;
+		}
+
 		if (Input.GetKeyDown(KeyCode.V))
 			MicrogameController.instance.setVictory(true, true);
 		else if (Input.GetKeyDown(KeyCode.F))
 			MicrogameController.instance.setVictory(false, true);
+		if (Input.GetKeyDown(KeyCode.G))
+		{
+			changeState(state == State.Gun ? State.Platforming : State.Gun);
+		}
+		else if (Input.GetKeyDown(KeyCode.T))
+		{
+			//rigAnimator.Play("Hop");
+			queueAnimation(QueueAnimation.GetCucumber);
+		}
+		else if (Input.GetKeyDown(KeyCode.I))
+		{
+			queueAnimation(QueueAnimation.Idle);
+		}
+
+	}
+
+	void changeState(State state)
+	{
+		switch (state)
+		{
+			case (State.Platforming):
+				//PaperThiefCamera.instance.transform.parent = null;
+				PaperThiefCamera.instance.setGoalPosition(new Vector3(20f, 20f, 0f));
+
+				break;
+			case (State.Gun):
+				stageTransform.gameObject.SetActive(false);
+				PaperThiefCamera.instance.stopScroll();
+				rigAnimator.SetBool("Walking", false);
+				rigAnimator.SetFloat("WalkSpeed", 1f);
+				rigAnimator.SetInteger("Jump", 0);
+				PaperThiefCamera.instance.transform.parent = transform;
+				PaperThiefCamera.instance.setFollow(null);
+				PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
+				PaperThiefCamera.instance.setGoalSize(6.5f);
+				gunCursor.gameObject.SetActive(true);
+				break;
+			default:
+				break;
+		}
+		this.state = state;
+		rigAnimator.SetInteger("State", (int)state);
+	}
+
+
+	void updateGun()
+	{
+		spinner.facingRight = true;
+		_rigidBody2D.velocity = new Vector2(walkSpeed * 2f, _rigidBody2D.velocity.y);
+		float gunAngle = updateGunTilt();
+
+		if (shotCooldownTimer > 0f)
+			shotCooldownTimer -= Time.deltaTime;
+		if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
+			createShot(gunAngle);
+	}
+
+	void updateSpinner(int direction)
+	{
+		if (spinCooldownTimer > 0f)
+			spinCooldownTimer -= Time.deltaTime;
+		else if (direction != 0)
+		{
+			bool facingRight = direction == 1;
+			if (spinner.facingRight != facingRight)
+			{
+				spinner.facingRight = facingRight;
+				spinCooldownTimer = spinCooldown;
+			}
+		}
+	}
+
+	void createShot(float angle)
+	{
+		Rigidbody2D shot = Instantiate(shotPrefab, shotMarker.position, Quaternion.Euler(0f, 0f, angle + 120f)).GetComponent<Rigidbody2D>();
+		shot.transform.parent = transform;
+		shot.velocity = MathHelper.getVector2FromAngle(angle, shotSpeed) + (Vector2.right * _rigidBody2D.velocity.x);
+		shot.AddTorque(1000f);
+
+		queueAnimation(QueueAnimation.GunRecoil);
+		shotCooldownTimer = shotCooldown;
+	}
+
+	float updateGunTilt()
+	{
+		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - gunTransform.position);
+		float degrees = toCursor.getAngle();
+		//degrees *= Mathf.Lerp(0f, 1f, toCursor.magnitude / 2f);
+		if (degrees >= 0f && degrees <= 90f && toCursor.magnitude >= minGunCursorDistance)
+			rigAnimator.SetFloat("GunTilt", degrees / 90f);
+		else
+			degrees = rigAnimator.GetFloat("GunTilt") * 90f;
+		return degrees;
 	}
 
 	void updatePlatforming()
 	{
 		int direction = 0;
-		if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
-			direction -= 1;
-		if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
-			direction += 1;
+		if (hasControl)
+		{
+			if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
+				direction -= 1;
+			if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
+				direction += 1;
+		}
 
 		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
 
 		updateWalkSpeed(direction);
 		updateAnimatorValues(direction);
 		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
-		updateSpinRotation((direction == 0 || actualDirection != direction) ? 0 : actualDirection);
+		updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
 
-		if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
+		if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
 		{
 			//rigAnimator.Play("Jump Up");
 			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
@@ -59,10 +209,10 @@ public class PaperThiefNitori : MonoBehaviour
 		Vector2 velocity = _rigidBody2D.velocity;
 		float goalSpeed, acc;
 		goalSpeed = (float)direction * (isGrounded() ? walkSpeed : jumpMoveSpeed);
-		if (isGrounded() || Mathf.Abs(velocity.y) > jumpMoveSpeed)
+		if (isGrounded() || Mathf.Abs(velocity.x) > jumpMoveSpeed)
 			acc = (direction == 0f) ? walkDec : walkAcc;
 		else
-			acc = (direction == 0f) ? jumpDec: jumpAcc;
+			acc = (direction == 0f) ? jumpDec : jumpAcc;
 
 		if (!MathHelper.Approximately(velocity.x, goalSpeed, .0001f))
 		{
@@ -80,7 +230,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 		if (direction == 0)
 			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9995f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
-			//rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(1f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
+		//rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(1f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 
@@ -95,13 +245,16 @@ public class PaperThiefNitori : MonoBehaviour
 			rigAnimator.SetFloat("NormalizedTime", animatorClip[0].clip.length * animationState.normalizedTime);
 	}
 
+	void queueAnimation(QueueAnimation animation)
+	{
+		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
+	}
 
 	bool isGrounded()
 	{
 		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
 		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
 			Vector2.right, dist);
-		
 	}
 
 	bool wallContact(bool right)
@@ -112,39 +265,48 @@ public class PaperThiefNitori : MonoBehaviour
 			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
 	}
 
-	void updateSpinRotation(int direction)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		float rotation = getSpinRotation();
-		if (spinCooldownTimer > 0f)
-			spinCooldownTimer -= Time.deltaTime;
-		if (/*!isGrounded() || */ !(MathHelper.Approximately(rotation, 0f, .001f) || MathHelper.Approximately(rotation, -180f, .001f)) || spinCooldownTimer > 0f)
-			direction = 0;
-		if (direction != 0)
-			facingRight = direction == 1;
+		if (dead)
+			return;
 
-		//Spin between 0 and -180 degrees
-		float goalRotation = facingRight ? -180f : 0f;
-		if (!MathHelper.Approximately(rotation, goalRotation, .0001f))
+		if (other.name.EndsWith("Death"))
 		{
-			float diff = rotateSpeed * Time.deltaTime;
-			if (Mathf.Abs(goalRotation - rotation) <= diff)
-				setSpinRotation(goalRotation);
-			else
-				setSpinRotation(rotation + (diff * Mathf.Sign(goalRotation - rotation)));
-
-			spinCooldownTimer = spinCooldown;
+			kill(false);
+		}
+		else if (state == State.Platforming && other.name.Equals("Gun Trigger"))
+		{
+			changeState(state == State.Gun ? State.Platforming : State.Gun);
+			Destroy(other.gameObject);
 		}
 	}
 
-	float getSpinRotation()
+	public void kill(bool playAnimation)
 	{
-		Vector3 eulers = spinTransform.rotation.eulerAngles;
-		return eulers.y <= 0f ? eulers.y : eulers.y - 360f;
+		PaperThiefCamera.instance.stopScroll();
+
+		_rigidBody2D.bodyType = RigidbodyType2D.Kinematic;
+		_rigidBody2D.velocity = Vector2.zero;
+
+		if (playAnimation)
+		{
+			if (state == State.Gun)
+			{
+				rigAnimator.Play("GunWait");
+				rigAnimator.Play("Death");
+			}
+			changeState(State.Dead);
+		}
+		else
+			rigAnimator.enabled = false;
+
+		dead = true;
+		enabled = false;
 	}
 
-	void setSpinRotation(float rotation)
+	public Rigidbody2D getRigidBody()
 	{
-		Vector3 eulers = spinTransform.rotation.eulerAngles;
-		spinTransform.rotation = Quaternion.Euler(eulers.x, rotation, eulers.z);
+		return _rigidBody2D;
 	}
 }
+
