@@ -113,6 +113,7 @@ public class PaperThiefNitori : MonoBehaviour
 				stageTransform.gameObject.SetActive(false);
 				PaperThiefCamera.instance.stopScroll();
 				rigAnimator.SetBool("Walking", false);
+				rigAnimator.SetFloat("WalkSpeed", 1f);
 				rigAnimator.SetInteger("Jump", 0);
 				PaperThiefCamera.instance.transform.parent = transform;
 				PaperThiefCamera.instance.setFollow(null);
