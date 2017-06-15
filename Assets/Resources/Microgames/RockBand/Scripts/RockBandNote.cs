@@ -43,8 +43,7 @@ public class RockBandNote : MonoBehaviour
 		state = State.Played;
 		noteAnimator.Play("Hit");
 		GetComponentInChildren<ParticleSystem>().Play();
-		beatAnimator.Rebind();
-		beatAnimator.Play("Hit");
+		beatAnimator.SetBool("Play", true);
 	}
 
 	void updatePosition()
