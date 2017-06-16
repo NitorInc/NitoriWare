@@ -4,7 +4,7 @@ using System.Collections;
 public class WrenchTighten : MonoBehaviour 
 {
 
-	public float upSpeed, downSpeed, maxRotation, scaleSpeed, minScale, maxScale, boltRotation, progressMult;
+	public float upSpeed, downSpeed, maxRotation, scaleSpeed, minScale, maxScale, boltRotation, progressMult, shakiness, shakeSpeed;
 	public int cyclesNeeded;
 	public bool arrowIndicator, fastening, finished;
 	public Animator sceneAnimator;
@@ -13,9 +13,9 @@ public class WrenchTighten : MonoBehaviour
 	public Vibrate handVibrate;
 	public Blink arrowBlink;
 
-	private float minRotation;
+	private float minRotation, shakeAmount;
 	private int cyclesLeft;
-	private bool moving;
+	private bool moving, shakeUp;
 
 	void Start ()
 	{
@@ -54,7 +54,7 @@ public class WrenchTighten : MonoBehaviour
 
 	float getCycleProgress()
 	{
-		return (getRotation() - minRotation)/(maxRotation - minRotation);
+		return (fastening && !moving) ? 1f : (getRotation() - minRotation)/(maxRotation - minRotation);
 	}
 
 	void finish()
@@ -71,7 +71,11 @@ public class WrenchTighten : MonoBehaviour
 		if (fastening)
 		{
 			if (Input.GetKeyDown(KeyCode.DownArrow))
+			{
+				if (!moving)
+					setRotation(maxRotation);
 				moving = true;
+			}
 			if (moving)
 			{
 				float diff = downSpeed * Time.deltaTime;
@@ -91,8 +95,15 @@ public class WrenchTighten : MonoBehaviour
 				}
 				else
 					setRotation(getRotation() - diff);
+
+				setBoltRotation(getRotation() + boltRotation);	
 			}
-			setBoltRotation(getRotation() + boltRotation);
+			else
+			{
+				setRotation(maxRotation + updateShake());
+				setBoltRotation(maxRotation + boltRotation);
+			}
+
 		}
 		else
 		{
@@ -116,6 +127,23 @@ public class WrenchTighten : MonoBehaviour
 
 		handVibrate.vibrateOn = fastening;
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
+	}
+
+	float updateShake()
+	{
+		if (shakeUp)
+		{
+			shakeAmount = Mathf.Min(shakiness, shakeAmount + (shakeSpeed * Time.deltaTime));
+			if (shakeAmount >= shakiness)
+				shakeUp = false;
+		}
+		else
+		{
+			shakeAmount = Mathf.Max(-shakiness, shakeAmount - (shakeSpeed * Time.deltaTime));
+			if (shakeAmount <= -shakiness)
+				shakeUp = true;
+		}
+		return shakeAmount;
 	}
 
 	void snapWrench()
@@ -142,7 +170,7 @@ public class WrenchTighten : MonoBehaviour
 			else
 				setScale(getScale() - diff);
 		}
-		else if (!fastening && getScale() < maxScale)
+		else if (!fastening && moving && getScale() < maxScale)
 		{
 			float diff = scaleSpeed * Time.deltaTime;
 			if (getScale() + diff >= maxScale)
