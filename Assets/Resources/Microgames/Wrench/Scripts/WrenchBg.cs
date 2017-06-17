@@ -51,7 +51,7 @@ public class WrenchBg : MonoBehaviour
 			points.Add(new Vector3(-x, y, 0f));
 		}
 
-		lineRenderer.numPositions = points.Count;
+		lineRenderer.positionCount = points.Count;
 		lineRenderer.SetPositions(points.ToArray());
 		//lineRenderer.SetPositions(new Vector3[points.Count]);
 		//for (int i = 0; i < points.Count; i++)
