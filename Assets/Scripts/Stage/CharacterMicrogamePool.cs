@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class CharacterMicrogamePool : MonoBehaviour
 {
-	[SerializeField]
-	private MicrogameBatch[] microgameBatches;
-	[SerializeField]
-	private Stage.Microgame bossMicrogame;
+	public MicrogameBatch[] microgameBatches;
+	public Stage.Microgame bossMicrogame;
 
 	[System.Serializable]
 	public struct MicrogameBatch
