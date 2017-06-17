@@ -9,16 +9,15 @@ public class StageController : MonoBehaviour
 
 	public const int MAX_SPEED = 10;
 
-	public bool shuffleOn, speedIncreaseOn, difficultyIncreaseOn;
+	[SerializeField]
+	private Stage stage;
 	[Range(1, MAX_SPEED)]
 	public int speed;
-	public bool muteMusic, speedUpAnimation;
-	public Microgame[] microgamePool;
-	public VoicePlayer.VoiceSet voiceSet;
+	public bool muteMusic;
 
 	public int maxStockpiledScenes;
 
-	private int microgameCount, microgameIndex, loadedMicrogameCount, round, life;
+	private int microgameCount, life;
 	private bool microgameVictory, victoryDetermined;
 
 	public AnimationPart animationPart = AnimationPart.Intro;
@@ -38,18 +37,18 @@ public class StageController : MonoBehaviour
 	public static float beatLength;
 
 	private MicrogameTraits microgameTraits;
-	private float animationStartTime;
+	private float animationStartTime, outroScheduledPlayTime;
 
-	[System.Serializable]
-	public struct Microgame
+	private Queue<MicrogameInstance> microgameQueue;
+	private struct MicrogameInstance
 	{
-		public string name;
-		public int baseDifficulty;
+		public Stage.Microgame microgame;
+		public int difficulty;
 
 		[HideInInspector]
 		public AsyncOperation asyncOperation;
-
 	}
+	private Queue<Stage.Interruption> interruptionQueue;
 
 	public enum AnimationPart
 	{
@@ -57,16 +56,8 @@ public class StageController : MonoBehaviour
 		Intro,		//1	- Part that introduces the microgame, animation begins in this state | 8 beats
 		Outro,		//2	- Part that changes depending on if you win/lose | 4 beats
 		LastBeat,	//3	- Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame | 1 Beat
-
-		SpeedUp		//4 - Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro | 8 Beats
-	}
-
-	//Interruptions happen between Outro and Intro, signaling animations such as speeding up and introducing a boss microgame
-	public Interruption interruption;
-	public enum Interruption
-	{
-		Nothing,
-		SpeedUp
+		SpeedUp,		//4 - Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro | 8 Beats
+		BossStage		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
 	}
 
 	void Start()
@@ -78,18 +69,16 @@ public class StageController : MonoBehaviour
 		setMicrogameVictory(true, false);
 
 		microgameCount = 0;
-		round = 0;
-		startNextRound();
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
 
-		loadedMicrogameCount = 0;
-		loadNextMicrogame();
+		microgameQueue = new Queue<MicrogameInstance>();
+		updateMicrogameQueue(maxStockpiledScenes);
 
 		resetLifeIndicators();
 
 		Time.timeScale = getSpeedMult();
 
-		voicePlayer.loadClips(voiceSet);
+		voicePlayer.loadClips(stage.voiceSet);
 
 		introSource.pitch = getSpeedMult();
 		introSource.Play();
@@ -101,51 +90,55 @@ public class StageController : MonoBehaviour
 		instance = this;
 	}
 
-	public void loadNextMicrogame()
+	public void updateMicrogameQueue(int maxQueueSize)
 	{
-		if (loadedMicrogameCount >= microgamePool.Length)
-			return;
+		int index = microgameCount;
+		while (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index))
+		{
+			MicrogameInstance newInstance = new MicrogameInstance();
+			newInstance.microgame = stage.getMicrogame(index);
+			newInstance.difficulty = stage.getMicrogameDifficulty(newInstance.microgame);
+			StartCoroutine(loadMicrogameAsync(newInstance));
+			microgameQueue.Enqueue(newInstance);
 
-		StartCoroutine(loadMicrogameAsync(loadedMicrogameCount));
-		loadedMicrogameCount++;
+			index++;
+		}
 	}
 
-	IEnumerator loadMicrogameAsync(int index)
+	IEnumerator loadMicrogameAsync(MicrogameInstance instance)
 	{
-		microgamePool[index].asyncOperation = SceneManager.LoadSceneAsync(microgamePool[index].name + getMicrogameDifficulty(index).ToString()
+		instance.asyncOperation = SceneManager.LoadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString()
 		, LoadSceneMode.Additive);
-		microgamePool[index].asyncOperation.allowSceneActivation = false;
-		microgamePool[index].asyncOperation.priority = 999 - index;
+		instance.asyncOperation.allowSceneActivation = false;
+		instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
 
-		while (microgamePool[index].asyncOperation.progress < .9f)
+		while (instance.asyncOperation.progress < .9f)
 		{
 			yield return null;
 		}
 	}
 
-	void startNextRound()
-	{
-		microgameIndex = 0;
-		round++;
-
-		if (shuffleOn)
-		{
-			//Shuffle microgame order
-			int index = 0, choice;
-			Microgame hold;
-			while (index < microgamePool.Length)
-			{
-				choice = Random.Range(index, microgamePool.Length);
-				if (choice != index)
-				{
-					hold = microgamePool[index];
-					microgamePool[index] = microgamePool[choice];
-					microgamePool[choice] = hold;
-				}
-				index++;
-			}
-		}
-	}
+	//TODO Delete?
+	//void startNextRound()
+	//{
+	//	if (shuffleOn)
+	//	{
+	//		//Shuffle microgame order
+	//		int index = 0, choice;
+	//		Microgame hold;
+	//		while (index < microgamePool.Length)
+	//		{
+	//			choice = Random.Range(index, microgamePool.Length);
+	//			if (choice != index)
+	//			{
+	//				hold = microgamePool[index];
+	//				microgamePool[index] = microgamePool[choice];
+	//				microgamePool[choice] = hold;
+	//			}
+	//			index++;
+	//		}
+	//	}
+	//}
 
 
 	//Animation and music time is measured by "beats" here
@@ -157,6 +150,27 @@ public class StageController : MonoBehaviour
 		invokeAtBeat("updateToOutro", -4f);
 
 		invokeAtBeat("updateMicrogameLoading", -2f);
+	}
+
+	void invokeInterruptions()
+	{
+		interruptionQueue = new Queue<Stage.Interruption>();
+		Stage.Interruption[] interruptions = stage.getInterruptions(microgameCount);
+		float interruptionBeats = 0f;
+
+		for (int i = 0; i < interruptions.Length; i++)
+		{
+			Stage.Interruption interruption = interruptions[i];
+			interruption.audioSource.Stop();
+			interruptionQueue.Enqueue(interruption);
+			invokeAtBeat("updateToInterruption", interruptionBeats + interruption.beatDuration);
+
+			if (i == 0)
+				scheduleNextInterruptionAudio(outroScheduledPlayTime + (beatLength * 4f));
+
+			interruptionBeats += interruption.beatDuration;
+		}
+		animationStartTime += interruptionBeats * beatLength;
 	}
 
 	void invokeIntroAnimations()
@@ -179,75 +193,101 @@ public class StageController : MonoBehaviour
 		setAnimationPart(AnimationPart.LastBeat);
 		//if (MicrogameController.instance != null)
 		MicrogameController.instance.displayCommand("");
+
+		outroSource.pitch = getSpeedMult();
+		outroScheduledPlayTime = animationStartTime - (4f * beatLength);
+		AudioHelper.playScheduled(outroSource, outroScheduledPlayTime - Time.time);
 	}
 
 	void updateToOutro()
 	{
-		outroSource.pitch = getSpeedMult();
-		if (!muteMusic)
-			outroSource.Play();
+		//outroSource.pitch = getSpeedMult();
+		//if (!muteMusic)
+		//	outroSource.Play();
+
 		setAnimationPart(AnimationPart.Outro);
 		if (!microgameVictory)
 			lowerLife();
 
 		endMicrogame();
+		microgameQueue.Dequeue();
 		microgameCount++;
 
-		//Reload microgames if we've cycled through them
-		if (getMicrogameIndex() >= microgamePool.Length)
-		{
-			startNextRound();
-			loadedMicrogameCount = 0;
-			loadNextMicrogame();
-		}
-
-		//Determine interruptions and apply speed up
-		interruption = Interruption.Nothing;
-		if (speedIncreaseOn)
-		{
-			int index = getMicrogameIndex();
-			if (index == 5 || index == 10)
-			{
-				speed++;
-				if (speedUpAnimation)
-					interruption = Interruption.SpeedUp;
-			}
-		}
-
-		//Apply speed increase between rounds
-		if (speedIncreaseOn && getMicrogameIndex() == 0)
-		{
-			if (round > 3)
-				speed = round - 2;
-			else
-				speed = 1;
-			if (speed > MAX_SPEED)
-				speed = MAX_SPEED;
-		}
-
-
-		if (interruption != Interruption.Nothing && life > 0)
-		{
-			invokeAtBeat("updateTo" + interruption.ToString(), 0f);
-			animationStartTime += getInterruptionBeats() * beatLength;
-		}
+		float interruptionTime = animationStartTime;
+		if (life > 0)
+			invokeInterruptions();
+		interruptionTime = animationStartTime - interruptionTime;
 
 		invokeIntroAnimations();
 
 		introSource.pitch = getSpeedMult();
 		if (!muteMusic && life > 0)
 		{
-				AudioHelper.playScheduled(introSource, beatLength * (4f + getInterruptionBeats()));
+				AudioHelper.playScheduled(introSource, (beatLength * 4f) + interruptionTime);
 		}
 
 
+	}
+
+	void updateToInterruption()
+	{
+		Stage.Interruption interruption = interruptionQueue.Dequeue();
+		setAnimationPart(interruption.animation);
+
+		if (!interruption.applySpeedChangeAtEnd)
+			speed = getChangedSpeed(interruption);
+		Time.timeScale = getSpeedMult();
+
+		if (interruptionQueue.Count != 0)
+		{
+			Stage.Interruption nextInterruption = interruptionQueue.Peek();
+			scheduleNextInterruptionAudio(interruption.scheduledPlayTime + (interruption.beatDuration * beatLength));
+		}
+	}
+
+	void scheduleNextInterruptionAudio(float timeToPlay)
+	{
+		Stage.Interruption interruption = interruptionQueue.Peek();
+		interruption.audioSource.clip = interruption.audioClip;
+		if (interruption.applySpeedChangeAtEnd)
+			interruption.audioSource.pitch = getSpeedMult();
+		else
+			interruption.audioSource.pitch = getSpeedMult(getChangedSpeed(interruption));
+		interruption.scheduledPlayTime = timeToPlay;
+		if (!muteMusic)
+			AudioHelper.playScheduled(interruption.audioSource, timeToPlay - Time.time);
+	}
+
+	int getChangedSpeed(int speed, Stage.Interruption interruption)
+	{
+		switch (interruption.speedChange)
+		{
+			case (Stage.Interruption.SpeedChange.SpeedUp):
+				return speed + 1;
+			case (Stage.Interruption.SpeedChange.ResetSpeed):
+				return 1;
+			case (Stage.Interruption.SpeedChange.Custom):
+				return stage.getCustomSpeed(microgameCount, interruption);
+			default:
+				return speed;
+		}
+	}
+
+	int getChangedSpeed(Stage.Interruption interruption)
+	{
+		return getChangedSpeed(speed, interruption);
+	}
+
+	MicrogameInstance getCurrentMicrogameInstance()
+	{
+		return microgameQueue.Peek();
 	}
 
 	void updateToIntro()
 	{
 
 		//Placeholder "game over"
-		if (life <= 0)
+		if (life == 0)
 		{
 			Time.timeScale = 1f;
 			CancelInvoke();
@@ -307,17 +347,11 @@ public class StageController : MonoBehaviour
 			microgameMusicSource.Play();
 	}
 
-
-	int getMicrogameIndex()
-	{
-		return microgameIndex;
-	}
-
 	void updateMicrogameTraits()
 	{
-		int i = getMicrogameIndex();
-		microgameTraits = MicrogameTraits.findMicrogameTraits(microgamePool[i].name, getMicrogameDifficulty(i));
-		microgameTraits.onAccessInStage(microgamePool[i].name);
+		MicrogameInstance instance = getCurrentMicrogameInstance();
+		microgameTraits = MicrogameTraits.findMicrogameTraits(instance.microgame.microgameId, instance.difficulty);
+		microgameTraits.onAccessInStage(instance.microgame.microgameId);
 	}
 
 	public float getBeatsRemaining()
@@ -328,9 +362,7 @@ public class StageController : MonoBehaviour
 
 	void startMicrogame()
 	{
-
-		Microgame microgame = microgamePool[getMicrogameIndex()];
-		microgame.asyncOperation.allowSceneActivation = true;
+		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
 	}
 
 	public void resetVictory()
@@ -348,8 +380,6 @@ public class StageController : MonoBehaviour
 		MicrogameTimer.instance.gameObject.SetActive(true);
 		MicrogameTimer.instance.invokeTick();
 		invokeOutroAnimations();
-		
-		microgameIndex++;
 	}
 
 	void endMicrogame()
@@ -377,21 +407,22 @@ public class StageController : MonoBehaviour
 		//sceneLoader.removeMicrogame(microgamePool[microgameIndex]);
 	}
 
-	int getMicrogameDifficulty(int index)
-	{
-		Microgame microgame = microgamePool[index];
+	//TODO Delete?
+	//int getMicrogameDifficulty(int index)
+	//{
+	//	Microgame microgame = microgamePool[index];
 
-		if (!difficultyIncreaseOn)
-			return microgame.baseDifficulty;
+	//	if (!difficultyIncreaseOn)
+	//		return microgame.baseDifficulty;
 
-		int difficulty = round + microgame.baseDifficulty - 1;
+	//	int difficulty = round + microgame.baseDifficulty - 1;
 
-		if (difficulty > 3)
-			difficulty = 3;
+	//	if (difficulty > 3)
+	//		difficulty = 3;
 
-		return difficulty;
+	//	return difficulty;
 
-	}
+	//}
 
 	public void onPause()
 	{
@@ -419,10 +450,7 @@ public class StageController : MonoBehaviour
 
 	void updateMicrogameLoading()
 	{
-		if (getMicrogameIndex() > loadedMicrogameCount - maxStockpiledScenes)
-		{
-			loadNextMicrogame();
-		}
+		updateMicrogameQueue(maxStockpiledScenes);
 	}
 
 	public void setAnimationPart(AnimationPart animationPart)
@@ -550,9 +578,9 @@ public class StageController : MonoBehaviour
 		
 	}
 
-	void invokeAtBeat(string function, float beatFromAnimationStart)
+	void invokeAtBeat(string function, float beatFromCycleStart)
 	{
-		invokeAtTime(function, animationStartTime + (beatLength * beatFromAnimationStart));
+		invokeAtTime(function, animationStartTime + (beatLength * beatFromCycleStart));
 	}
 
 	void invokeAtTime(string function, float time)
@@ -584,22 +612,6 @@ public class StageController : MonoBehaviour
 		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
 		{
 			animator.SetBool(name, state);
-		}
-	}
-
-	private float getInterruptionBeats()
-	{
-		return getInterruptionBeats(interruption);
-	}
-
-	private float getInterruptionBeats(Interruption interruption)
-	{
-		switch (interruption)
-		{
-			case (Interruption.SpeedUp):
-				return 8f;
-			default:
-				return 0f;
 		}
 	}
 

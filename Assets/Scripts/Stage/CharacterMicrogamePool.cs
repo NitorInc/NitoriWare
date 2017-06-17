@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterMicrogamePool : MonoBehaviour
 {
 	public MicrogameBatch[] microgameBatches;
+	public int[] speedUpInstances;
 	public Stage.Microgame bossMicrogame;
 
 	[System.Serializable]

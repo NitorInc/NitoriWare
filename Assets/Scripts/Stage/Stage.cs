@@ -4,15 +4,17 @@ using UnityEngine;
 
 public abstract class Stage : MonoBehaviour
 {
+	public VoicePlayer.VoiceSet voiceSet;
 
 	[System.Serializable]
-	public struct Interruption
+	public class Interruption
 	{
-		[SerializeField]
-		public int animatorPart;	//Must be >3 to not interfere with default stage parts
+		public StageController.AnimationPart animation;
 		public float beatDuration;
+		public AudioSource audioSource;
+		public AudioClip audioClip;
 		public SpeedChange speedChange;
-		public bool applySpeedChangeOnStart;
+		public bool applySpeedChangeAtEnd;
 
 		public enum SpeedChange
 		{
@@ -21,10 +23,13 @@ public abstract class Stage : MonoBehaviour
 			ResetSpeed,
 			Custom
 		}
+
+		[HideInInspector]
+		public float scheduledPlayTime;
 	}
 
 	[System.Serializable]
-	public struct Microgame
+	public class  Microgame
 	{
 		public string microgameId;
 		public int baseDifficulty;
@@ -75,11 +80,20 @@ public abstract class Stage : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Returns max lives in stage, 4 in most cases
+	/// </summary>
+	/// <returns></returns>
+	public virtual int getMaxLife()
+	{
+		return 4;
+	}
+
+	/// <summary>
 	/// Calculates custom speed change when Custom is selected for Interruption speed change
 	/// </summary>
 	/// <param name="interruption"></param>
 	/// <returns></returns>
-	public virtual int getCustomSpeed(Interruption interruption)
+	public virtual int getCustomSpeed(int microgame, Interruption interruption)
 	{
 		return 1;
 	}
