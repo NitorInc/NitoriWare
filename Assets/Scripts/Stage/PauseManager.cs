@@ -12,7 +12,6 @@ public class PauseManager : MonoBehaviour
 	private bool enableVigorousTesting;
 
 	//Whitelisted items won't be affected by pause
-	public AudioSource[] audioSourceWhitelist;
 	public MonoBehaviour[] scriptWhitelist;
 
 	[SerializeField]
@@ -25,7 +24,6 @@ public class PauseManager : MonoBehaviour
 	private struct PauseData
 	{
 		public float timeScale;
-		public List<AudioSource> pausedAudioSources;
 		public List<MonoBehaviour> disabledScripts;
 		public int camCullingMask;
 		public Color camColor;
@@ -57,18 +55,7 @@ public class PauseManager : MonoBehaviour
 	{
 		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
-
-		AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-		pauseData.pausedAudioSources = new List<AudioSource>();
-		List<AudioSource> whitelistedAudioSources = new List<AudioSource>(audioSourceWhitelist);
-		foreach (AudioSource source in audioSources)
-		{
-			if (!whitelistedAudioSources.Remove(source) && source.isPlaying)
-			{
-				source.Pause();
-				pauseData.pausedAudioSources.Add(source);
-			}
-		}
+		AudioListener.pause = true;
 
 		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
 		pauseData.disabledScripts = new List<MonoBehaviour>();
@@ -103,12 +90,7 @@ public class PauseManager : MonoBehaviour
 	void unPause()
 	{
 		Time.timeScale = pauseData.timeScale;
-
-		foreach (AudioSource source in pauseData.pausedAudioSources)
-		{
-			if (source != null)
-				source.UnPause();
-		}
+		AudioListener.pause = false;
 
 		foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
