@@ -103,6 +103,8 @@ class SerializedNestedStrings
 
 	public static SerializedNestedStrings deserialize(string serializedData)
 	{
+		serializedData = serializedData.Replace(((char)13).ToString(), "");	//Remove any instances of carriage return
+
 		List<string> lines = new List<string>(serializedData.Split('\n'));
 		SerializedNestedStrings newData = new SerializedNestedStrings();
 
