@@ -13,7 +13,7 @@ public class StageController : MonoBehaviour
 	private Stage stage;
 	[Range(1, MAX_SPEED)]
 	public int speed;
-	public bool muteMusic;
+	public bool godMode, muteMusic;
 
 	public int maxStockpiledScenes;
 
@@ -80,7 +80,8 @@ public class StageController : MonoBehaviour
 		voicePlayer.loadClips(stage.voiceSet);
 
 		introSource.pitch = getSpeedMult();
-		introSource.Play();
+		if (!muteMusic)
+			introSource.Play();
 		invokeIntroAnimations();
 	}
 
@@ -89,10 +90,11 @@ public class StageController : MonoBehaviour
 		instance = this;
 	}
 
-	public void updateMicrogameQueue(int maxQueueSize)
+	void updateMicrogameQueue(int maxQueueSize)
 	{
-		int index = microgameCount;
-		while (index == microgameCount || (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index)))
+		//Queue all available, unqueued microgames, make sure at least one is queued
+		int index = microgameCount + microgameQueue.Count;
+		while (microgameQueue.Count == 0 || (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index)))
 		{
 			MicrogameInstance newInstance = new MicrogameInstance();
 			newInstance.microgame = stage.getMicrogame(index);
@@ -160,7 +162,7 @@ public class StageController : MonoBehaviour
 			Stage.Interruption interruption = interruptions[i];
 			interruption.audioSource.Stop();
 			interruptionQueue.Enqueue(interruption);
-			invokeAtBeat("updateToInterruption", interruptionBeats + interruption.beatDuration);
+			invokeAtBeat("updateToInterruption", interruptionBeats);
 
 			if (i == 0)
 				scheduleNextInterruptionAudio(outroPlayTime + (beatLength * 4f));
@@ -211,7 +213,7 @@ public class StageController : MonoBehaviour
 		microgameQueue.Dequeue();
 		microgameCount++;
 
-		updateMicrogameLoading();
+		updateMicrogameQueue(maxStockpiledScenes);
 
 		float interruptionTime = animationStartTime;
 		if (life > 0)
@@ -220,15 +222,17 @@ public class StageController : MonoBehaviour
 
 		invokeIntroAnimations();
 
-		introSource.pitch = getSpeedMult();
-		if (!muteMusic && life > 0)
-			AudioHelper.playScheduled(introSource, (beatLength * 4f) + interruptionTime);
+		if (interruptionTime == 0f)
+		{
+			introSource.pitch = getSpeedMult();
+			if (!muteMusic && life > 0)
+				AudioHelper.playScheduled(introSource, beatLength * 4f);
+		}
 
 	}
 
 	void updateToInterruption()
 	{
-		//Debug.Log("INTERRUPTED");
 		Stage.Interruption interruption = interruptionQueue.Dequeue();
 		setAnimationPart(interruption.animation);
 
@@ -241,10 +245,13 @@ public class StageController : MonoBehaviour
 			Stage.Interruption nextInterruption = interruptionQueue.Peek();
 			scheduleNextInterruptionAudio(interruption.scheduledPlayTime + (interruption.beatDuration * beatLength));
 		}
-		else if (interruption.applySpeedChangeAtEnd)
+		else
 		{
-			speed = getChangedSpeed(interruption);
+			if (interruption.applySpeedChangeAtEnd)
+				speed = getChangedSpeed(interruption);
 			introSource.pitch = getSpeedMult();
+			if (!muteMusic)
+				AudioHelper.playScheduled(introSource, (interruption.scheduledPlayTime + (interruption.beatDuration * beatLength)) - Time.time);
 		}
 	}
 
@@ -313,7 +320,7 @@ public class StageController : MonoBehaviour
 		controlDisplay.transform.FindChild("Text").GetComponent<TextMesh>().text =
 			TextHelper.getLocalizedTextNoWarnings("control." + microgameTraits.controlScheme.ToString().ToLower(), getDefaultControlString());
 
-		if (!introSource.isPlaying)
+		if (!introSource.isPlaying && !muteMusic)
 			introSource.Play();
 	}
 
@@ -334,13 +341,6 @@ public class StageController : MonoBehaviour
 	{
 		setAnimationPart(AnimationPart.Idle);
 		//scene.SetActive(false);
-	}
-
-	void updateToSpeedUp()
-	{
-		setAnimationPart(AnimationPart.SpeedUp);
-		speedUpSource.pitch = getSpeedMult(speed - 1);
-		speedUpSource.Play();
 	}
 
 	void playMicrogameMusic()
@@ -453,11 +453,6 @@ public class StageController : MonoBehaviour
 		}
 	}
 
-	void updateMicrogameLoading()
-	{
-		updateMicrogameQueue(maxStockpiledScenes);
-	}
-
 	public void setAnimationPart(AnimationPart animationPart)
 	{
 		this.animationPart = animationPart;
@@ -476,6 +471,9 @@ public class StageController : MonoBehaviour
 	/// <param name="final"></param>
 	public void setMicrogameVictory(bool victory, bool final)
 	{
+		if (godMode)
+			victory = true;
+
 		if (victoryDetermined)
 		{
 			return;
@@ -513,7 +511,6 @@ public class StageController : MonoBehaviour
 
 		if (MicrogameController.instance.getTraits().GetType() == typeof(MicrogameBossTraits))
 		{
-			Debug.Log("IT WORKS");
 			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)MicrogameController.instance.getTraits()).victoryEndBeats
 				: ((MicrogameBossTraits)MicrogameController.instance.getTraits()).failureEndBeats;
 			CancelInvoke();

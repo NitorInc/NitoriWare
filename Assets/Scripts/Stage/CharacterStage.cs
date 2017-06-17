@@ -21,6 +21,8 @@ public class CharacterStage : Stage
 		roundsComplete = roundStartIndex = 0;
 		if (shuffleMicrogames)
 			shuffleBatches();
+
+		revisiting = true;	//TODO remove
 	}
 
 	public override Microgame getMicrogame(int num)
@@ -41,6 +43,10 @@ public class CharacterStage : Stage
 
 	public override int getMicrogameDifficulty(Stage.Microgame microgame)
 	{
+		//TODO add later boss difficulties
+		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+			return 1;
+
 		return Mathf.Min(microgame.baseDifficulty + roundsComplete, 3);
 	}
 
@@ -66,9 +72,9 @@ public class CharacterStage : Stage
 		}
 
 		//Speed up check
-		for (int i = 0; i < microgamePool.speedUpInstances.Length; i++)
+		for (int i = 0; i < microgamePool.speedUpTimes.Length; i++)
 		{
-			if (microgamePool.speedUpInstances[i] == index)
+			if (microgamePool.speedUpTimes[i] == index)
 				return new Interruption[0].add(speedUp);
 		}
 		
@@ -95,8 +101,10 @@ public class CharacterStage : Stage
 			bossVictoryStatus = victoryStatus;
 			if (revisiting)
 			{
-				roundStartIndex = microgame + 1;
-				startNextRound(microgame);
+				if (victoryStatus)	//TODO remove when proper boss win is added
+				{
+					startNextRound(microgame + 1);
+				}
 			}
 			else if (victoryStatus)
 				winStage();
@@ -117,7 +125,7 @@ public class CharacterStage : Stage
 	
 	int getRoundSpeedOffset()
 	{
-		return (roundsComplete < 3) ? 0 : roundsComplete - 3;
+		return (roundsComplete < 3) ? 0 : roundsComplete - 2;
 	}
 
 	void shuffleBatches()
