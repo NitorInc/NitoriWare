@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114420522327985048}
   - component: {fileID: 114481868099649422}
   m_Layer: 8
-  m_Name: Controller
+  m_Name: Stage Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,44 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcccf0d937395ad459e96df545e6f235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shuffleOn: 1
-  speedIncreaseOn: 1
-  difficultyIncreaseOn: 1
+  stage: {fileID: 0}
   speed: 1
   muteMusic: 0
-  speedUpAnimation: 1
-  microgamePool:
-  - name: TraceShape
-    baseDifficulty: 1
-  - name: Donation
-    baseDifficulty: 1
-  - name: Slingshot
-    baseDifficulty: 1
-  - name: ChenFood
-    baseDifficulty: 1
-  - name: GhostFood
-    baseDifficulty: 1
-  - name: Spider
-    baseDifficulty: 1
-  - name: FreezeFrogs
-    baseDifficulty: 1
-  - name: Wrench
-    baseDifficulty: 1
-  - name: Potion
-    baseDifficulty: 1
-  - name: Spaceship
-    baseDifficulty: 1
-  - name: MasterSparkCode
-    baseDifficulty: 1
-  - name: ChenBike
-    baseDifficulty: 1
-  - name: RockBand
-    baseDifficulty: 1
-  - name: CupShuffle
-    baseDifficulty: 1
-  - name: FlanGrab
-    baseDifficulty: 1
-  voiceSet: 1
   maxStockpiledScenes: 8
   animationPart: 1
   voicePlayer: {fileID: 114201885727975310}
@@ -235,7 +200,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d15f85e07c5934d4d91d1a1e4c180763, type: 3}
   - {fileID: 21300000, guid: 8862fd43714fed64aa6e0c8ac2b74708, type: 3}
   placeholderResults: {fileID: 0}
-  interruption: 0
 --- !u!114 &114481868099649422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,4 +211,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2bedef3e194cf44880b3d47b02c43e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadResourcesAsync: 0

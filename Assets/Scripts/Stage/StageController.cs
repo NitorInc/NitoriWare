@@ -18,7 +18,7 @@ public class StageController : MonoBehaviour
 	public int maxStockpiledScenes;
 
 	private int microgameCount, life;
-	private bool microgameVictory, victoryDetermined;
+	private bool microgameVictoryStatus, victoryDetermined;
 
 	public AnimationPart animationPart = AnimationPart.Intro;
 
@@ -37,27 +37,26 @@ public class StageController : MonoBehaviour
 	public static float beatLength;
 
 	private MicrogameTraits microgameTraits;
-	private float animationStartTime, outroScheduledPlayTime;
+	private float animationStartTime, outroPlayTime;
 
 	private Queue<MicrogameInstance> microgameQueue;
-	private struct MicrogameInstance
+	private class MicrogameInstance
 	{
 		public Stage.Microgame microgame;
 		public int difficulty;
-
-		[HideInInspector]
 		public AsyncOperation asyncOperation;
 	}
 	private Queue<Stage.Interruption> interruptionQueue;
 
 	public enum AnimationPart
 	{
-		Idle,		//0	- Animation does nothing, camera is disabled | Until microgame ends
-		Intro,		//1	- Part that introduces the microgame, animation begins in this state | 8 beats
-		Outro,		//2	- Part that changes depending on if you win/lose | 4 beats
-		LastBeat,	//3	- Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame | 1 Beat
+		Idle,			//0	- Animation does nothing, camera is disabled | Until microgame ends
+		Intro,			//1	- Part that introduces the microgame, animation begins in this state | 8 beats
+		Outro,			//2	- Part that changes depending on if you win/lose | 4 beats
+		LastBeat,		//3	- Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame | 1 Beat
 		SpeedUp,		//4 - Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro | 8 Beats
-		BossStage		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
+		BossStage,		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
+		NextRound		//6 - Used after a boss stage or when difficulty increases | 8 beats
 	}
 
 	void Start()
@@ -93,7 +92,7 @@ public class StageController : MonoBehaviour
 	public void updateMicrogameQueue(int maxQueueSize)
 	{
 		int index = microgameCount;
-		while (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index))
+		while (index == microgameCount || (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index)))
 		{
 			MicrogameInstance newInstance = new MicrogameInstance();
 			newInstance.microgame = stage.getMicrogame(index);
@@ -148,8 +147,6 @@ public class StageController : MonoBehaviour
 		invokeAtBeat("updateToLastBeat", -5f);
 
 		invokeAtBeat("updateToOutro", -4f);
-
-		invokeAtBeat("updateMicrogameLoading", -2f);
 	}
 
 	void invokeInterruptions()
@@ -166,7 +163,7 @@ public class StageController : MonoBehaviour
 			invokeAtBeat("updateToInterruption", interruptionBeats + interruption.beatDuration);
 
 			if (i == 0)
-				scheduleNextInterruptionAudio(outroScheduledPlayTime + (beatLength * 4f));
+				scheduleNextInterruptionAudio(outroPlayTime + (beatLength * 4f));
 
 			interruptionBeats += interruption.beatDuration;
 		}
@@ -194,24 +191,27 @@ public class StageController : MonoBehaviour
 		//if (MicrogameController.instance != null)
 		MicrogameController.instance.displayCommand("");
 
-		outroSource.pitch = getSpeedMult();
-		outroScheduledPlayTime = animationStartTime - (4f * beatLength);
-		AudioHelper.playScheduled(outroSource, outroScheduledPlayTime - Time.time);
+		//outroSource.pitch = getSpeedMult();
+		//outroScheduledPlayTime = animationStartTime - (4f * beatLength);
+		//AudioHelper.playScheduled(outroSource, outroScheduledPlayTime - Time.time);
 	}
 
 	void updateToOutro()
 	{
-		//outroSource.pitch = getSpeedMult();
-		//if (!muteMusic)
-		//	outroSource.Play();
+		outroSource.pitch = getSpeedMult();
+		if (!muteMusic)
+			outroSource.Play();
+		outroPlayTime = Time.time;
 
 		setAnimationPart(AnimationPart.Outro);
-		if (!microgameVictory)
+		if (!microgameVictoryStatus)
 			lowerLife();
 
 		endMicrogame();
 		microgameQueue.Dequeue();
 		microgameCount++;
+
+		updateMicrogameLoading();
 
 		float interruptionTime = animationStartTime;
 		if (life > 0)
@@ -222,15 +222,13 @@ public class StageController : MonoBehaviour
 
 		introSource.pitch = getSpeedMult();
 		if (!muteMusic && life > 0)
-		{
-				AudioHelper.playScheduled(introSource, (beatLength * 4f) + interruptionTime);
-		}
-
+			AudioHelper.playScheduled(introSource, (beatLength * 4f) + interruptionTime);
 
 	}
 
 	void updateToInterruption()
 	{
+		//Debug.Log("INTERRUPTED");
 		Stage.Interruption interruption = interruptionQueue.Dequeue();
 		setAnimationPart(interruption.animation);
 
@@ -242,6 +240,11 @@ public class StageController : MonoBehaviour
 		{
 			Stage.Interruption nextInterruption = interruptionQueue.Peek();
 			scheduleNextInterruptionAudio(interruption.scheduledPlayTime + (interruption.beatDuration * beatLength));
+		}
+		else if (interruption.applySpeedChangeAtEnd)
+		{
+			speed = getChangedSpeed(interruption);
+			introSource.pitch = getSpeedMult();
 		}
 	}
 
@@ -263,11 +266,11 @@ public class StageController : MonoBehaviour
 		switch (interruption.speedChange)
 		{
 			case (Stage.Interruption.SpeedChange.SpeedUp):
-				return speed + 1;
+				return Mathf.Clamp(speed + 1, 1, MAX_SPEED);
 			case (Stage.Interruption.SpeedChange.ResetSpeed):
 				return 1;
 			case (Stage.Interruption.SpeedChange.Custom):
-				return stage.getCustomSpeed(microgameCount, interruption);
+				return Mathf.Clamp(stage.getCustomSpeed(microgameCount, interruption), 1, MAX_SPEED);
 			default:
 				return speed;
 		}
@@ -300,7 +303,7 @@ public class StageController : MonoBehaviour
 		setAnimationPart(AnimationPart.Intro);
 
 		Time.timeScale = getSpeedMult();
-		introSource.pitch = getSpeedMult();
+		//introSource.pitch = getSpeedMult();
 
 		updateMicrogameTraits();
 
@@ -385,7 +388,7 @@ public class StageController : MonoBehaviour
 	void endMicrogame()
 	{
 		if (!getVictoryDetermined())
-			voicePlayer.playClip(microgameVictory, 0f);
+			voicePlayer.playClip(microgameVictoryStatus, 0f);
 				//getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
 		else
 			voicePlayer.forcePlay();
@@ -403,6 +406,8 @@ public class StageController : MonoBehaviour
 
 		MicrogameTimer.instance.beatsLeft = 0f;
 		MicrogameTimer.instance.gameObject.SetActive(false);
+
+		stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
 
 		//sceneLoader.removeMicrogame(microgamePool[microgameIndex]);
 	}
@@ -484,13 +489,13 @@ public class StageController : MonoBehaviour
 		{
 			outroSource.clip = failureClip;
 		}
-		microgameVictory = victory;
+		microgameVictoryStatus = victory;
 
 		if (final)
 			setFinalAnswer();
 		victoryDetermined = final;
 
-		setAnimationBool("microgameVictory", microgameVictory);
+		setAnimationBool("microgameVictory", microgameVictoryStatus);
 	}
 
 	void setFinalAnswer()
@@ -503,13 +508,13 @@ public class StageController : MonoBehaviour
 		}
 
 		victoryDetermined = true;
-		voicePlayer.playClip(microgameVictory,
+		voicePlayer.playClip(microgameVictoryStatus,
 			getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
 
 		if (MicrogameController.instance.getTraits().GetType() == typeof(MicrogameBossTraits))
 		{
 			Debug.Log("IT WORKS");
-			float endInBeats = microgameVictory ? ((MicrogameBossTraits)MicrogameController.instance.getTraits()).victoryEndBeats
+			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)MicrogameController.instance.getTraits()).victoryEndBeats
 				: ((MicrogameBossTraits)MicrogameController.instance.getTraits()).failureEndBeats;
 			CancelInvoke();
 			animationStartTime = Time.time + ((endInBeats + 4f) * beatLength);
@@ -531,7 +536,7 @@ public class StageController : MonoBehaviour
 
 	public bool getMicrogameVictory()
 	{
-		return microgameVictory;
+		return microgameVictoryStatus;
 	}
 
 	public bool getVictoryDetermined()

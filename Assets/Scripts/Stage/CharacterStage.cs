@@ -4,37 +4,82 @@ using UnityEngine;
 
 public class CharacterStage : Stage
 {
+	public static bool revisiting;
+
 	[SerializeField]
 	private CharacterMicrogamePool microgamePool;
 	[SerializeField]
-	private bool revisiting;
-	[SerializeField]
 	private bool shuffleMicrogames = true;
+	[SerializeField]
+	private Interruption speedUp, bossIntro, nextRound;
 
-	private int round, roundStartIndex;
+	private int roundsComplete, roundStartIndex;
+	private bool bossVictoryStatus;
 
 	void Awake()
 	{
-		round = roundStartIndex = 0;
+		roundsComplete = roundStartIndex = 0;
 		if (shuffleMicrogames)
 			shuffleBatches();
 	}
 
 	public override Microgame getMicrogame(int num)
 	{
-		return getMicrogameAt(getIndex(num));
+		int index = getIndex(num);
+		for (int i = 0; i < microgamePool.microgameBatches.Length; i++)
+		{
+			CharacterMicrogamePool.MicrogameBatch batch = microgamePool.microgameBatches[i];
+			for (int j = 0; j < batch.pick; j++)
+			{
+				if (index == 0)
+					return batch.pool[j];
+				index--;
+			}
+		}
+		return microgamePool.bossMicrogame;
 	}
 
 	public override int getMicrogameDifficulty(Stage.Microgame microgame)
 	{
-		return Mathf.Min(microgame.baseDifficulty + round, 3);
+		return Mathf.Min(microgame.baseDifficulty + roundsComplete, 3);
 	}
 
 	public override Interruption[] getInterruptions(int num)
 	{
-		Microgame game = getMicrogame(num);
-		num = getIndex(num);
+		Microgame microgame = getMicrogame(num);
+		int index = getIndex(num);
+
+		//Boss over
+		if (roundsComplete > 0 && num == roundStartIndex)
+		{
+			//TODO more after-boss stuff
+			return new Interruption[0].add(nextRound);
+		}
+
+		//Boss Intro
+		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+		{
+			if (getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))	//Not first boss attempt
+				return new Interruption[0];
+			else
+				return new Interruption[0].add(bossIntro);
+		}
+
+		//Speed up check
+		for (int i = 0; i < microgamePool.speedUpInstances.Length; i++)
+		{
+			if (microgamePool.speedUpInstances[i] == index)
+				return new Interruption[0].add(speedUp);
+		}
+		
 		return new Interruption[0];
+	}
+
+	public override int getCustomSpeed(int microgame, Interruption interruption)
+	{
+		if (interruption.animation == StageController.AnimationPart.BossStage || interruption.animation == StageController.AnimationPart.NextRound)
+			return 1 + getRoundSpeedOffset();
+		return 1;
 	}
 
 	public override bool isMicrogameDetermined(int num)
@@ -43,16 +88,17 @@ public class CharacterStage : Stage
 			getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId));
 	}
 
-	public override void onMicrogameEnd(int microgame, bool victory)
+	public override void onMicrogameEnd(int microgame, bool victoryStatus)
 	{
-		if (getMicrogame(microgame).microgameId.Equals(microgamePool.bossMicrogame.microgameId) && victory)
+		if (getMicrogame(microgame).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
 		{
+			bossVictoryStatus = victoryStatus;
 			if (revisiting)
 			{
 				roundStartIndex = microgame + 1;
-				nextRound();
+				startNextRound(microgame);
 			}
-			else
+			else if (victoryStatus)
 				winStage();
 		}
 	}
@@ -62,10 +108,16 @@ public class CharacterStage : Stage
 		//TODO
 	}
 
-	void nextRound()
+	void startNextRound(int startIndex)
 	{
-		//TODO
+		roundsComplete++;
+		roundStartIndex = startIndex;
 		shuffleBatches();
+	}
+	
+	int getRoundSpeedOffset()
+	{
+		return (roundsComplete < 3) ? 0 : roundsComplete - 3;
 	}
 
 	void shuffleBatches()
@@ -86,22 +138,6 @@ public class CharacterStage : Stage
 				}
 			}
 		}
-	}
-
-	//TODO remove if not needed
-	Microgame getMicrogameAt(int index)
-	{
-		for (int i = 0; i < microgamePool.microgameBatches.Length; i++)
-		{
-			CharacterMicrogamePool.MicrogameBatch batch = microgamePool.microgameBatches[i];
-			for (int j = 0; j < batch.pick; j++)
-			{
-				if (index == 0)
-					return batch.pool[j];
-				index--;
-			}
-		}
-		return microgamePool.bossMicrogame;
 	}
 
 	int getIndex(int num)

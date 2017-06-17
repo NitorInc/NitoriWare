@@ -54,9 +54,9 @@ public abstract class Stage : MonoBehaviour
 	/// <summary>
 	/// Fetch all animation interruptions between outro and intro segments
 	/// </summary>
-	/// <param name="cycleIndex"></param>
 	/// <returns></returns>
 	public abstract Interruption[] getInterruptions(int num);
+	/// <param name="cycleIndex"></param>
 
 
 	/// <summary>
@@ -98,4 +98,21 @@ public abstract class Stage : MonoBehaviour
 		return 1;
 	}
 
+
+}
+
+
+public static class StageHelper
+{
+	public static Stage.Interruption[] add(this Stage.Interruption[] interruptions, Stage.Interruption interruption)
+	{
+		Stage.Interruption[] newInterruptions = new Stage.Interruption[interruptions.Length + 1];
+		for (int i = 0; i < interruptions.Length; i++)
+		{
+			newInterruptions[i] = interruptions[i];
+		}
+
+		newInterruptions[interruptions.Length] = interruption;
+		return newInterruptions;
+	}
 }
