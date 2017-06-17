@@ -9,8 +9,6 @@ public class CharacterStage : Stage
 	[SerializeField]
 	private CharacterMicrogamePool microgamePool;
 	[SerializeField]
-	private bool shuffleMicrogames = true;
-	[SerializeField]
 	private Interruption speedUp, bossIntro, nextRound;
 
 	private int roundsComplete, roundStartIndex;
@@ -19,7 +17,7 @@ public class CharacterStage : Stage
 	void Awake()
 	{
 		roundsComplete = roundStartIndex = 0;
-		if (shuffleMicrogames)
+		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
 
 		revisiting = true;	//TODO remove
@@ -90,12 +88,24 @@ public class CharacterStage : Stage
 
 	public override bool isMicrogameDetermined(int num)
 	{
+		if (microgamePool.skipBossMicrogame)
+			return !getMicrogame(num).microgameId.Equals(microgamePool.bossMicrogame.microgameId);
+
 		return !(getMicrogame(num).microgameId.Equals(microgamePool.bossMicrogame.microgameId) &&
 			getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId));
 	}
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
 	{
+		if (microgamePool.skipBossMicrogame)
+		{
+			if (getMicrogame(microgame + 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+			{
+				startNextRound(microgame + 1);
+			}
+			return;
+		}
+
 		if (getMicrogame(microgame).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
 		{
 			bossVictoryStatus = victoryStatus;
@@ -120,7 +130,8 @@ public class CharacterStage : Stage
 	{
 		roundsComplete++;
 		roundStartIndex = startIndex;
-		shuffleBatches();
+		if (microgamePool.shuffleMicrogames)
+			shuffleBatches();
 	}
 	
 	int getRoundSpeedOffset()
