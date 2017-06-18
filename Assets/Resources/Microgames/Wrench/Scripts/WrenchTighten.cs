@@ -13,12 +13,18 @@ public class WrenchTighten : MonoBehaviour
 	public Vibrate handVibrate;
 	public Blink arrowBlink;
 
+	[SerializeField]
+	private AudioClip fastenSound;
+
 	private float minRotation, shakeAmount;
 	private int cyclesLeft;
 	private bool moving, shakeUp;
 
+	private AudioSource _audioSource;
+
 	void Start ()
 	{
+		_audioSource = GetComponent<AudioSource>();
 		reset();
 	}
 
@@ -73,7 +79,10 @@ public class WrenchTighten : MonoBehaviour
 			if (Input.GetKeyDown(KeyCode.DownArrow))
 			{
 				if (!moving)
+				{
+					_audioSource.PlayOneShot(fastenSound);
 					setRotation(maxRotation);
+				}
 				moving = true;
 			}
 			if (moving)
