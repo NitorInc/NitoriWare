@@ -10,15 +10,20 @@ public class WrenchTighten : MonoBehaviour
 	public Animator sceneAnimator;
 
 	public Transform bolt, screw;
-	public Vibrate handVibrate;
 	public Blink arrowBlink;
+
+	[SerializeField]
+	private AudioClip fastenSound;
 
 	private float minRotation, shakeAmount;
 	private int cyclesLeft;
 	private bool moving, shakeUp;
 
+	private AudioSource _audioSource;
+
 	void Start ()
 	{
+		_audioSource = GetComponent<AudioSource>();
 		reset();
 	}
 
@@ -59,7 +64,7 @@ public class WrenchTighten : MonoBehaviour
 
 	void finish()
 	{
-		handVibrate.vibrateOn = false;
+		//handVibrate.vibrateOn = false;
 		MicrogameController.instance.setVictory(true, true);
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 		finished = true;
@@ -73,7 +78,10 @@ public class WrenchTighten : MonoBehaviour
 			if (Input.GetKeyDown(KeyCode.DownArrow))
 			{
 				if (!moving)
+				{
+					_audioSource.PlayOneShot(fastenSound);
 					setRotation(maxRotation);
+				}
 				moving = true;
 			}
 			if (moving)
@@ -125,7 +133,7 @@ public class WrenchTighten : MonoBehaviour
 		}
 
 
-		handVibrate.vibrateOn = fastening;
+		//handVibrate.vibrateOn = fastening;
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 	}
 
