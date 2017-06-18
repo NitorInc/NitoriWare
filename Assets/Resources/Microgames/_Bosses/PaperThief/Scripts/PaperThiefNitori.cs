@@ -161,7 +161,7 @@ public class PaperThiefNitori : MonoBehaviour
 		Rigidbody2D shot = Instantiate(shotPrefab, shotMarker.position, Quaternion.Euler(0f, 0f, angle + 120f)).GetComponent<Rigidbody2D>();
 		shot.transform.parent = transform;
 		shot.velocity = MathHelper.getVector2FromAngle(angle, shotSpeed) + (Vector2.right * _rigidBody2D.velocity.x);
-		shot.AddTorque(1000f);
+		shot.AddTorque(-200f);
 
 		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
