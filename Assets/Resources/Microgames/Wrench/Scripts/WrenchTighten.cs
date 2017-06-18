@@ -10,7 +10,6 @@ public class WrenchTighten : MonoBehaviour
 	public Animator sceneAnimator;
 
 	public Transform bolt, screw;
-	public Vibrate handVibrate;
 	public Blink arrowBlink;
 
 	[SerializeField]
@@ -65,7 +64,7 @@ public class WrenchTighten : MonoBehaviour
 
 	void finish()
 	{
-		handVibrate.vibrateOn = false;
+		//handVibrate.vibrateOn = false;
 		MicrogameController.instance.setVictory(true, true);
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 		finished = true;
@@ -134,7 +133,7 @@ public class WrenchTighten : MonoBehaviour
 		}
 
 
-		handVibrate.vibrateOn = fastening;
+		//handVibrate.vibrateOn = fastening;
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 	}
 
