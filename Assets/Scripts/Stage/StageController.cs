@@ -157,19 +157,21 @@ public class StageController : MonoBehaviour
 		Stage.Interruption[] interruptions = stage.getInterruptions(microgameCount);
 		float interruptionBeats = 0f;
 
+		int endSpeed = speed;
 		for (int i = 0; i < interruptions.Length; i++)
 		{
 			Stage.Interruption interruption = interruptions[i];
-			interruption.audioSource.Stop();
 			interruptionQueue.Enqueue(interruption);
 			invokeAtBeat("updateToInterruption", interruptionBeats);
 
 			if (i == 0)
 				scheduleNextInterruptionAudio(outroPlayTime + (beatLength * 4f));
 
+			endSpeed = getChangedSpeed(endSpeed, interruption);
 			interruptionBeats += interruption.beatDuration;
 		}
 		animationStartTime += interruptionBeats * beatLength;
+		introSource.pitch = getSpeedMult(endSpeed);
 	}
 
 	void invokeIntroAnimations()
@@ -222,19 +224,16 @@ public class StageController : MonoBehaviour
 
 		invokeIntroAnimations();
 
-		if (interruptionTime == 0f)
-		{
-			introSource.pitch = getSpeedMult();
-			if (!muteMusic && life > 0)
-				AudioHelper.playScheduled(introSource, beatLength * 4f);
-		}
+		if (interruptionTime == 0f && !muteMusic && life > 0)
+			AudioHelper.playScheduled(introSource, beatLength * 4f);
 
 	}
 
 	void updateToInterruption()
 	{
 		Stage.Interruption interruption = interruptionQueue.Dequeue();
-		setAnimationPart(interruption.animation);
+		if (interruption.animation != AnimationPart.Idle)
+			setAnimationPart(interruption.animation);
 
 		if (!interruption.applySpeedChangeAtEnd)
 			speed = getChangedSpeed(interruption);
@@ -250,7 +249,7 @@ public class StageController : MonoBehaviour
 			if (interruption.applySpeedChangeAtEnd)
 				speed = getChangedSpeed(interruption);
 			introSource.pitch = getSpeedMult();
-			if (!muteMusic)
+			if (!muteMusic && interruption.beatDuration > 0f)
 				AudioHelper.playScheduled(introSource, (interruption.scheduledPlayTime + (interruption.beatDuration * beatLength)) - Time.time);
 		}
 	}
@@ -258,12 +257,17 @@ public class StageController : MonoBehaviour
 	void scheduleNextInterruptionAudio(float timeToPlay)
 	{
 		Stage.Interruption interruption = interruptionQueue.Peek();
+		interruption.scheduledPlayTime = timeToPlay;
+
+		if (interruption.audioSource == null || interruption.audioClip == null)
+			return;
+
+		interruption.audioSource.Stop();
 		interruption.audioSource.clip = interruption.audioClip;
 		if (interruption.applySpeedChangeAtEnd)
 			interruption.audioSource.pitch = getSpeedMult();
 		else
 			interruption.audioSource.pitch = getSpeedMult(getChangedSpeed(interruption));
-		interruption.scheduledPlayTime = timeToPlay;
 		if (!muteMusic)
 			AudioHelper.playScheduled(interruption.audioSource, timeToPlay - Time.time);
 	}
