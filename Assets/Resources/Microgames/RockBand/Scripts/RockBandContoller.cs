@@ -49,6 +49,12 @@ public class RockBandContoller : MonoBehaviour
 		{
 			notes[i].gameObject.SetActive(false);
 		}
+		foreach (RockBandLight light in lights)
+		{
+			Animator lightAnimator = light.GetComponentInChildren<Animator>();
+			if (lightAnimator != null)
+				lightAnimator.enabled = false;
+		}
 		_audioSource.PlayOneShot(failureClip);
 	}
 
