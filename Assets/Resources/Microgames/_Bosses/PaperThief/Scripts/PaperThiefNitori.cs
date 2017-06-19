@@ -47,7 +47,8 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		Idle,			//0
 		GetCucumber,	//1
-		GunRecoil		//2
+		GunRecoil,		//2
+		Shock			//3
 	}
 
 	void Awake()
@@ -91,7 +92,8 @@ public class PaperThiefNitori : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.T))
 		{
 			//rigAnimator.Play("Hop");
-			queueAnimation(QueueAnimation.GetCucumber);
+			queueAnimation(QueueAnimation.Shock);
+			//queueAnimation(QueueAnimation.GetCucumber);
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
