@@ -70,10 +70,10 @@ public class RockBandContoller : MonoBehaviour
 	
 	void Update ()
 	{
-		if (state == State.Hit)
-			setState(State.Default);
+		//if (state == State.Hit)
+		//	setState(State.Default);
 
-		if (state == State.Default && MicrogameTimer.instance.beatsLeft < 7f)
+		if ((state == State.Default || state == State.Hit) && MicrogameTimer.instance.beatsLeft < 7f)
 			checkForInput();
 
 	}
