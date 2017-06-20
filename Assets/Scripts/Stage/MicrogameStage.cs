@@ -17,7 +17,7 @@ public class MicrogameStage : Stage
 	public override Microgame getMicrogame(int num)
 	{
 		Microgame microgame = new Microgame();
-		microgame.microgameId = string.IsNullOrEmpty(forceMicrogame) ? forceMicrogame : microgameId;
+		microgame.microgameId = !string.IsNullOrEmpty(forceMicrogame) ? forceMicrogame : microgameId;
 		microgame.baseDifficulty = (num % 3) + 1;
 		return microgame;
 	}
