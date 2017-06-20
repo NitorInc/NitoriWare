@@ -11,12 +11,12 @@ public class CharacterStage : Stage
 	[SerializeField]
 	private Interruption speedUp, bossIntro, nextRound;
 
-	private int roundsComplete, roundStartIndex;
+	private int roundsCompleted, roundStartIndex;
 	private bool bossVictoryStatus;
 
 	void Awake()
 	{
-		roundsComplete = roundStartIndex = 0;
+		roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
 
@@ -45,7 +45,7 @@ public class CharacterStage : Stage
 		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
 			return 1;
 
-		return Mathf.Min(microgame.baseDifficulty + roundsComplete, 3);
+		return Mathf.Min(microgame.baseDifficulty + roundsCompleted, 3);
 	}
 
 	public override Interruption[] getInterruptions(int num)
@@ -54,7 +54,7 @@ public class CharacterStage : Stage
 		int index = getIndex(num);
 
 		//Boss over
-		if (roundsComplete > 0 && num == roundStartIndex)
+		if (roundsCompleted > 0 && num == roundStartIndex)
 		{
 			//TODO more after-boss stuff
 			return new Interruption[0].add(nextRound);
@@ -128,7 +128,7 @@ public class CharacterStage : Stage
 
 	void startNextRound(int startIndex)
 	{
-		roundsComplete++;
+		roundsCompleted++;
 		roundStartIndex = startIndex;
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
@@ -136,7 +136,7 @@ public class CharacterStage : Stage
 	
 	int getRoundSpeedOffset()
 	{
-		return (roundsComplete < 3) ? 0 : roundsComplete - 2;
+		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}
 
 	void shuffleBatches()

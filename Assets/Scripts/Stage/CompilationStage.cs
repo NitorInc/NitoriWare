@@ -6,11 +6,13 @@ using System.IO;
 public class CompilationStage : Stage
 {
 	[SerializeField]
-	private int microgamesPerRound = 20;
+	private int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
 	private bool onlyFinishedMicrogames;
+	[SerializeField]
+	private Interruption nextRound;
 
-	[SerializeField]	//TODO remove
+	//[SerializeField]	//Debug
 	private List<Microgame> microgamePool;
 	private int roundsCompleted = 0, roundStartIndex = 0;
 
@@ -59,9 +61,10 @@ public class CompilationStage : Stage
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
 	{
-		if (microgame - roundStartIndex >= microgamesPerRound)
+		if (microgame - roundStartIndex >= microgamesPerRound - 1)
 		{
-			roundsCompleted += microgamesPerRound;
+			roundsCompleted++;
+			roundStartIndex += microgamesPerRound;
 			shuffleGames();
 		}
 	}
@@ -84,6 +87,21 @@ public class CompilationStage : Stage
 
 	public override Interruption[] getInterruptions(int num)
 	{
+		num -= roundStartIndex;
+		if (num % microgamesPerRound == 0)
+			return new Interruption[0].add(nextRound);
+		if (microgamesPerSpeedChange > 0 && num % microgamesPerSpeedChange == 0)
+			return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
 		return new Interruption[0];
+	}
+
+	public override int getCustomSpeed(int microgame, Interruption interruption)
+	{
+		return 1 + getRoundSpeedOffset();
+	}
+
+	int getRoundSpeedOffset()
+	{
+		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}
 }
