@@ -98,7 +98,7 @@ public class StageController : MonoBehaviour
 		{
 			MicrogameInstance newInstance = new MicrogameInstance();
 			newInstance.microgame = stage.getMicrogame(index);
-			newInstance.difficulty = stage.getMicrogameDifficulty(newInstance.microgame);
+			newInstance.difficulty = stage.getMicrogameDifficulty(newInstance.microgame, index);
 			StartCoroutine(loadMicrogameAsync(newInstance));
 			microgameQueue.Enqueue(newInstance);
 

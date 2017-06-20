@@ -9,22 +9,16 @@ public class MicrogameStage : Stage
 	[SerializeField]
 	private string forceMicrogame;
 
-	void Start()
-	{
-		
-	}
-
 	public override Microgame getMicrogame(int num)
 	{
-		Microgame microgame = new Microgame();
+		Microgame microgame = new Microgame(microgameId);
 		microgame.microgameId = !string.IsNullOrEmpty(forceMicrogame) ? forceMicrogame : microgameId;
-		microgame.baseDifficulty = (num % 3) + 1;
 		return microgame;
 	}
 
-	public override int getMicrogameDifficulty(Microgame microgame)
+	public override int getMicrogameDifficulty(Microgame microgame, int num)
 	{
-		return microgame.baseDifficulty;
+		return (num % 3) + 1;
 	}
 
 	public override Interruption[] getInterruptions(int num)
@@ -32,8 +26,6 @@ public class MicrogameStage : Stage
 		if (num == 0 || num % 3 > 0)
 			return new Interruption[0];
 
-		Interruption silentSpeedUp = new Interruption();
-		silentSpeedUp.speedChange = Interruption.SpeedChange.SpeedUp;
-		return new Interruption[0].add(silentSpeedUp);
+		return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
 	}
 }

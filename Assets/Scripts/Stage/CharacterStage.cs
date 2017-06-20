@@ -39,7 +39,7 @@ public class CharacterStage : Stage
 		return microgamePool.bossMicrogame;
 	}
 
-	public override int getMicrogameDifficulty(Stage.Microgame microgame)
+	public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
 	{
 		//TODO add later boss difficulties
 		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
