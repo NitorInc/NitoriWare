@@ -8,7 +8,7 @@ public class CompilationStage : Stage
 	[SerializeField]
 	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
-	private bool onlyFinishedMicrogames;
+	private MicrogameCollection.Restriction restriction = MicrogameCollection.Restriction.StageReady;
 	[SerializeField]
 	protected Interruption nextRound;
 
@@ -18,6 +18,7 @@ public class CompilationStage : Stage
 
 	void Awake()
 	{
+		microgamePool = MicrogameHelper.getMicrogames(restriction);
 		shuffleGames();
 	}
 
