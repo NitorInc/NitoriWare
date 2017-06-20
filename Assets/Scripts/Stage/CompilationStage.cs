@@ -18,28 +18,6 @@ public class CompilationStage : Stage
 
 	void Awake()
 	{
-		microgamePool = new List<Microgame>();
-		string[] finishedMicrogameDirectories = Directory.GetDirectories(Application.dataPath + "/Resources/Microgames/_Finished/");
-
-		for (int i = 0; i < finishedMicrogameDirectories.Length; i++)
-		{
-			string[] dirs = finishedMicrogameDirectories[i].Split('/');
-			string microgameId = dirs[dirs.Length - 1];
-			microgamePool.Add(new Microgame(microgameId));
-		}
-
-		if (!onlyFinishedMicrogames)
-		{
-			string[] microgameDirectories = Directory.GetDirectories(Application.dataPath + "/Resources/Microgames/");
-			for (int i = 0; i < microgameDirectories.Length; i++)
-			{
-				string[] dirs = microgameDirectories[i].Split('/');
-				string microgameId = dirs[dirs.Length - 1];
-				if (!microgameId.StartsWith("_") && MicrogameTraits.findMicrogameTraits(microgameId, 1, true).isStageReady)
-					microgamePool.Add(new Microgame(microgameId));
-			}
-		}
-
 		shuffleGames();
 	}
 

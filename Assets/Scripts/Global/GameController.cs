@@ -3,9 +3,15 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-	//Future site of code that will do something (global settings and such)
-
 	public static GameController instance;
+
+	[SerializeField]
+	private MicrogameCollection _microgameCollection;
+	public MicrogameCollection microgameCollection
+	{
+		get { return _microgameCollection; }
+		set {}
+	}
 
 	void Awake()
 	{
@@ -18,15 +24,5 @@ public class GameController : MonoBehaviour
 		instance = this;
 
 		Cursor.visible = false;
-	}
-
-	void Start ()
-	{
-
-	}
-	
-	void Update ()
-	{
-	
 	}
 }
