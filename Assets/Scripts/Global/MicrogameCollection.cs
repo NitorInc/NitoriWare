@@ -16,11 +16,6 @@ public class MicrogameCollection : MonoBehaviour
 		Finished
 	}
 
-	void Start()
-	{
-		updateMicrogames();
-	}
-	
 	public void updateMicrogames()
 	{
 		finishedMicrogames = new List<Stage.Microgame>();
