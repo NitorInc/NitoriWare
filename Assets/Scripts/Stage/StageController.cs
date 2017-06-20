@@ -61,6 +61,7 @@ public class StageController : MonoBehaviour
 
 	void Start()
 	{
+		stage.gameObject.SetActive(true);
 		setAnimationPart(animationPart);
 		beatLength = outroSource.clip.length / 4f;
 
