@@ -33,7 +33,7 @@ public class CompilationStage : Stage
 			{
 				string[] dirs = microgameDirectories[i].Split('/');
 				string microgameId = dirs[dirs.Length - 1];
-				if (!microgameId.StartsWith("_"))	//TODO is ready for compilation on microgame traits
+				if (!microgameId.StartsWith("_") && MicrogameTraits.findMicrogameTraits(microgameId, 1, true).isStageReady)
 					microgamePool.Add(new Microgame(microgameId));
 			}
 		}

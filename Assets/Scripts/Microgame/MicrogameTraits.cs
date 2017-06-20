@@ -39,6 +39,10 @@ public class MicrogameTraits : MonoBehaviour
 	private AudioClip _musicClip;
 	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
 
+	[SerializeField]
+	private bool _isStageReady;
+	public virtual bool isStageReady { get { return _isStageReady; } set { } }
+
 	private string _microgameId;
 	public string microgameId { get { return _microgameId; } set { } }
 
