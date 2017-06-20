@@ -61,6 +61,7 @@ public class StageController : MonoBehaviour
 
 	void Start()
 	{
+		stage.gameObject.SetActive(true);
 		setAnimationPart(animationPart);
 		beatLength = outroSource.clip.length / 4f;
 
@@ -75,6 +76,7 @@ public class StageController : MonoBehaviour
 
 		resetLifeIndicators();
 
+		speed = stage.getStartSpeed();
 		Time.timeScale = getSpeedMult();
 
 		voicePlayer.loadClips(stage.voiceSet);
@@ -98,7 +100,7 @@ public class StageController : MonoBehaviour
 		{
 			MicrogameInstance newInstance = new MicrogameInstance();
 			newInstance.microgame = stage.getMicrogame(index);
-			newInstance.difficulty = stage.getMicrogameDifficulty(newInstance.microgame);
+			newInstance.difficulty = stage.getMicrogameDifficulty(newInstance.microgame, index);
 			StartCoroutine(loadMicrogameAsync(newInstance));
 			microgameQueue.Enqueue(newInstance);
 
@@ -547,7 +549,7 @@ public class StageController : MonoBehaviour
 
 	void resetLifeIndicators()
 	{
-		life = 4;
+		life = stage.getMaxLife();
 		for (int i = 0; i < lifeIndicators.Length; i++)
 		{
 			lifeIndicators[i].SetInteger("life", lifeIndicators.Length - i);

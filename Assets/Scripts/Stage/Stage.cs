@@ -26,15 +26,25 @@ public abstract class Stage : MonoBehaviour
 
 		[HideInInspector]
 		public float scheduledPlayTime;
+
+		public Interruption(SpeedChange speedChange = SpeedChange.None)
+		{
+			this.speedChange = speedChange;
+		}
 	}
 
 	[System.Serializable]
 	public class  Microgame
 	{
 		public string microgameId;
-		public int baseDifficulty;
-	}
+		public int baseDifficulty = 1;
 
+		public Microgame(string microgameId = "", int baseDifficulty = 1)
+		{
+			this.microgameId = microgameId;
+			this.baseDifficulty = baseDifficulty;
+		}
+	}
 
 	/// <summary>
 	/// Get the nth microgame (based on total microgmaes encountered so far, starts at 0)
@@ -49,7 +59,7 @@ public abstract class Stage : MonoBehaviour
 	/// <param name="microgame"></param>
 	/// <param name="num"></param>
 	/// <returns></returns>
-	public abstract int getMicrogameDifficulty(Microgame microgame);
+	public abstract int getMicrogameDifficulty(Microgame microgame, int num);
 
 	/// <summary>
 	/// Fetch all animation interruptions between outro and intro segments
@@ -89,11 +99,20 @@ public abstract class Stage : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Calculates custom speed change when Custom is selected for Interruption speed change
+	/// Calculates custom speed when Custom is selected for Interruption speed change
 	/// </summary>
 	/// <param name="interruption"></param>
 	/// <returns></returns>
 	public virtual int getCustomSpeed(int microgame, Interruption interruption)
+	{
+		return 1;
+	}
+
+	/// <summary>
+	/// Returns the speed setting to start the stage at
+	/// </summary>
+	/// <returns></returns>
+	public virtual int getStartSpeed()
 	{
 		return 1;
 	}

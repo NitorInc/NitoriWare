@@ -39,6 +39,10 @@ public class MicrogameTraits : MonoBehaviour
 	private AudioClip _musicClip;
 	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
 
+	[SerializeField]
+	private bool _isStageReady;
+	public virtual bool isStageReady { get { return _isStageReady; } set { } }
+
 	private string _microgameId;
 	public string microgameId { get { return _microgameId; } set { } }
 
@@ -64,11 +68,16 @@ public class MicrogameTraits : MonoBehaviour
 		return duration == Duration.Long16Beats ? 16f : 8f;
 	}
 
-	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty)
+	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
 	{
-		GameObject traits = Resources.Load<GameObject>("Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString());
-		if (traits != null)
-			return traits.GetComponent<MicrogameTraits>();
+		GameObject traits;
+
+		if (!skipFinishedFolder)
+		{
+			traits = Resources.Load<GameObject>("Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString());
+			if (traits != null)
+				return traits.GetComponent<MicrogameTraits>();
+		}
 
 		traits = Resources.Load<GameObject>("Microgames/" + microgameId + "/Traits" + difficulty.ToString());
 		if (traits != null)
