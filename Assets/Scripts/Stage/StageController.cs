@@ -75,6 +75,7 @@ public class StageController : MonoBehaviour
 
 		resetLifeIndicators();
 
+		speed = stage.getStartSpeed();
 		Time.timeScale = getSpeedMult();
 
 		voicePlayer.loadClips(stage.voiceSet);

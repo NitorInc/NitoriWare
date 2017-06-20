@@ -6,15 +6,15 @@ using System.IO;
 public class CompilationStage : Stage
 {
 	[SerializeField]
-	private int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
+	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
 	private bool onlyFinishedMicrogames;
 	[SerializeField]
-	private Interruption nextRound;
+	protected Interruption nextRound;
 
 	//[SerializeField]	//Debug
 	private List<Microgame> microgamePool;
-	private int roundsCompleted = 0, roundStartIndex = 0;
+	protected int roundsCompleted = 0, roundStartIndex = 0;
 
 	void Awake()
 	{

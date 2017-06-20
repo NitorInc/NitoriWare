@@ -99,11 +99,20 @@ public abstract class Stage : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Calculates custom speed change when Custom is selected for Interruption speed change
+	/// Calculates custom speed when Custom is selected for Interruption speed change
 	/// </summary>
 	/// <param name="interruption"></param>
 	/// <returns></returns>
 	public virtual int getCustomSpeed(int microgame, Interruption interruption)
+	{
+		return 1;
+	}
+
+	/// <summary>
+	/// Returns the speed setting to start the stage at
+	/// </summary>
+	/// <returns></returns>
+	public virtual int getStartSpeed()
 	{
 		return 1;
 	}
