@@ -548,7 +548,7 @@ public class StageController : MonoBehaviour
 
 	void resetLifeIndicators()
 	{
-		life = 4;
+		life = stage.getMaxLife();
 		for (int i = 0; i < lifeIndicators.Length; i++)
 		{
 			lifeIndicators[i].SetInteger("life", lifeIndicators.Length - i);
