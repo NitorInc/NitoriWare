@@ -304,6 +304,8 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.enabled = false;
 
+		CameraShake.instance.setScreenShake(.15f);
+		CameraShake.instance.shakeCoolRate = .5f;
 		dead = true;
 		enabled = false;
 	}
