@@ -56,34 +56,40 @@ public class StageController : MonoBehaviour
 		LastBeat,		//3	- Starts at the last "beat" before the microgame ends, allowing the scene objects to pop back onscreen before unloading the microgame | 1 Beat
 		SpeedUp,		//4 - Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro | 8 Beats
 		BossStage,		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
-		NextRound		//6 - Used after a boss stage or when difficulty increases | 8 beats
+		NextRound,		//6 - Used after a boss stage or when difficulty increases | 8 beats
+		GameOver		//7 - Player has lost all of their lives | Until stage is quit or restarted
 	}
 
 	void Start()
 	{
-		stage.gameObject.SetActive(true);
-		setAnimationPart(animationPart);
+		//stage.gameObject.SetActive(true);
+		//setMicrogameVictory(true, false);
+
 		beatLength = outroSource.clip.length / 4f;
-
-		animationStartTime = Time.time;
-		setMicrogameVictory(true, false);
-
-		microgameCount = 0;
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
+		voicePlayer.loadClips(stage.voiceSet);
+
+		resetStage();
+	}
+
+	void resetStage()
+	{
+		microgameCount = 0;
+		speed = stage.getStartSpeed();
+		Time.timeScale = getSpeedMult();
+		animationStartTime = Time.time;
 
 		microgameQueue = new Queue<MicrogameInstance>();
 		updateMicrogameQueue(maxStockpiledScenes);
 
 		resetLifeIndicators();
-
-		speed = stage.getStartSpeed();
-		Time.timeScale = getSpeedMult();
-
-		voicePlayer.loadClips(stage.voiceSet);
+		MicrogameNumber.instance.resetNumber();
 
 		introSource.pitch = getSpeedMult();
 		if (!muteMusic)
 			introSource.Play();
+
+		setAnimationPart(AnimationPart.Intro);
 		invokeIntroAnimations();
 	}
 
@@ -155,6 +161,7 @@ public class StageController : MonoBehaviour
 
 	void invokeInterruptions()
 	{
+
 		interruptionQueue = new Queue<Stage.Interruption>();
 		Stage.Interruption[] interruptions = stage.getInterruptions(microgameCount);
 		float interruptionBeats = 0f;
@@ -219,15 +226,22 @@ public class StageController : MonoBehaviour
 
 		updateMicrogameQueue(maxStockpiledScenes);
 
-		float interruptionTime = animationStartTime;
+		//Game over and interruption check
 		if (life > 0)
+		{
+			float interruptionTime = animationStartTime;
 			invokeInterruptions();
-		interruptionTime = animationStartTime - interruptionTime;
+			interruptionTime = animationStartTime - interruptionTime;
+			invokeIntroAnimations();
+			if (interruptionTime == 0f && !muteMusic)
+				AudioHelper.playScheduled(introSource, beatLength * 4f);
+		}
+		else
+		{
+			//TODO game over music
+			invokeAtBeat("updateToGameOver", 0f);
+		}
 
-		invokeIntroAnimations();
-
-		if (interruptionTime == 0f && !muteMusic && life > 0)
-			AudioHelper.playScheduled(introSource, beatLength * 4f);
 
 	}
 
@@ -302,17 +316,6 @@ public class StageController : MonoBehaviour
 	void updateToIntro()
 	{
 
-		//Placeholder "game over"
-		if (life == 0)
-		{
-			Time.timeScale = 1f;
-			CancelInvoke();
-			introSource.Stop();
-			placeholderResults.transform.parent.gameObject.SetActive(true);
-			placeholderResults.setScore(microgameCount);
-			return;
-		}
-
 		setAnimationPart(AnimationPart.Intro);
 
 		Time.timeScale = getSpeedMult();
@@ -328,6 +331,16 @@ public class StageController : MonoBehaviour
 
 		if (!introSource.isPlaying && !muteMusic)
 			introSource.Play();
+	}
+
+	void updateToGameOver()
+	{
+		speed = 1;
+		Time.timeScale = 1f;
+		CancelInvoke();
+		introSource.Stop();
+		placeholderResults.transform.parent.gameObject.SetActive(true);
+		placeholderResults.setScore(microgameCount);
 	}
 
 	string getDefaultControlString()
