@@ -122,15 +122,21 @@ public class MicrogameController : MonoBehaviour
 	void Start()
 	{
 		if (isBeingDiscarded())
-		{
-			GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
-			for (int i = 0; i < rootObjects.Length; i++)
-			{
-				rootObjects[i].SetActive(false);
-			}
-		}
+			shutDownMicrogame();
 		else
 			SceneManager.SetActiveScene(gameObject.scene);
+	}
+
+	/// <summary>
+	/// Disables all root objects in microgame
+	/// </summary>
+	public void shutDownMicrogame()
+	{
+		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
+		for (int i = 0; i < rootObjects.Length; i++)
+		{
+			rootObjects[i].SetActive(false);
+		}
 	}
 
 	bool isBeingDiscarded()

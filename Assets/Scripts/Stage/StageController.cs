@@ -443,8 +443,8 @@ public class StageController : MonoBehaviour
 		else
 			voicePlayer.forcePlay();
 
-		MicrogameController.instance.gameObject.SetActive(false);
-		SceneManager.UnloadScene(MicrogameController.instance.gameObject.scene);
+		MicrogameController.instance.shutDownMicrogame();
+		SceneManager.UnloadSceneAsync(MicrogameController.instance.gameObject.scene);
 		SceneManager.SetActiveScene(gameObject.scene);
 
 		stageCamera.tag = "MainCamera";
