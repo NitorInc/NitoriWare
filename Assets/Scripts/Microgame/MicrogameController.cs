@@ -96,7 +96,7 @@ public class MicrogameController : MonoBehaviour
 			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
 			debugVoicePlayer.loadClips(debugSettings.voiceSet);
 		}
-		else if (StageController.instance.animationPart != StageController.AnimationPart.GameOver)
+		else if (!isBeingDiscarded())
 		{
 			//Normal Start
 
@@ -121,7 +121,21 @@ public class MicrogameController : MonoBehaviour
 
 	void Start()
 	{
-		SceneManager.SetActiveScene(gameObject.scene);
+		if (isBeingDiscarded())
+		{
+			GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
+			for (int i = 0; i < rootObjects.Length; i++)
+			{
+				rootObjects[i].SetActive(false);
+			}
+		}
+		else
+			SceneManager.SetActiveScene(gameObject.scene);
+	}
+
+	bool isBeingDiscarded()
+	{
+		return StageController.instance.animationPart == StageController.AnimationPart.GameOver;
 	}
 
 	/// <summary>

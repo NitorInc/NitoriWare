@@ -137,7 +137,14 @@ public class StageController : MonoBehaviour
 			yield return null;
 		}
 
-		instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
+		do
+		{
+			instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
+			if (instance.asyncOperation == null)
+				yield return null;
+		}
+		while (instance.asyncOperation == null);
+
 		//instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
 		while (!instance.asyncOperation.isDone)
 		{
