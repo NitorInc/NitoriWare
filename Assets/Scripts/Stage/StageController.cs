@@ -58,7 +58,7 @@ public class StageController : MonoBehaviour
 		BossStage,		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
 		NextRound,		//6 - Used after a boss stage or when difficulty increases | 8 beats
 		GameOver,		//7 - Player has lost all of their lives | Until stage is quit or restarted
-		Retry			//8 - Player has hit retry after Game Over | 4 beats
+		Retry			//8 - Player has hit retry after Game Over | 2 beats
 	}
 
 	void Start()
@@ -496,13 +496,12 @@ public class StageController : MonoBehaviour
 	void Update()
 	{
 
-		//Debug scene reset
+		//Retry stage
 		if (animationPart == AnimationPart.GameOver && Input.GetKeyDown(KeyCode.R))
 		{
-			setAnimationPart(AnimationPart.GameOver);
-			resetStage(Time.time + (beatLength * 4f));
+			setAnimationPart(AnimationPart.Retry);
+			resetStage(Time.time + (beatLength * 2f));
 			placeholderResults.transform.parent.gameObject.SetActive(false);
-			//SceneManager.LoadScene(gameObject.scene.buildIndex);
 		}
 	}
 
