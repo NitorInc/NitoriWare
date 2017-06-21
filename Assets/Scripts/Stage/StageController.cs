@@ -497,7 +497,7 @@ public class StageController : MonoBehaviour
 	{
 
 		//Debug scene reset
-		if (Input.GetKeyDown(KeyCode.R))
+		if (animationPart == AnimationPart.GameOver && Input.GetKeyDown(KeyCode.R))
 		{
 			setAnimationPart(AnimationPart.GameOver);
 			resetStage(Time.time + (beatLength * 4f));
