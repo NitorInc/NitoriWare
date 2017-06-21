@@ -249,11 +249,12 @@ public class StageController : MonoBehaviour
 		microgameQueue.Dequeue();
 		microgameCount++;
 
-		updateMicrogameQueue(maxStockpiledScenes);
 
 		//Game over and interruption check
 		if (life > 0)
 		{
+			updateMicrogameQueue(maxStockpiledScenes);
+
 			float interruptionTime = animationStartTime;
 			invokeInterruptions();
 			interruptionTime = animationStartTime - interruptionTime;
@@ -414,8 +415,6 @@ public class StageController : MonoBehaviour
 
 	void startMicrogame()
 	{
-		Debug.Log(getCurrentMicrogameInstance().microgame.microgameId);
-		Debug.Log(getCurrentMicrogameInstance().asyncOperation);
 		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
 	}
 
