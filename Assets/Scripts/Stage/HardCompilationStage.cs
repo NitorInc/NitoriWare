@@ -5,8 +5,9 @@ using UnityEngine;
 public class HardCompilationStage : CompilationStage
 {
 
-	void Start()
+	public override void onStageStart()
 	{
+		base.onStageStart();
 		roundsCompleted = 2;
 	}
 

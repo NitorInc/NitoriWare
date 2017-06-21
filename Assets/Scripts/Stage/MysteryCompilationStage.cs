@@ -7,8 +7,9 @@ public class MysteryCompilationStage : CompilationStage
 	[SerializeField]
 	private Transform disable;
 
-	void Start()
+	public override void onStageStart()
 	{
+		base.onStageStart();
 		disable.gameObject.SetActive(false);
 	}
 
