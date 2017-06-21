@@ -96,7 +96,7 @@ public class MicrogameController : MonoBehaviour
 			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
 			debugVoicePlayer.loadClips(debugSettings.voiceSet);
 		}
-		else
+		else if (StageController.instance.animationPart != StageController.AnimationPart.GameOver)
 		{
 			//Normal Start
 

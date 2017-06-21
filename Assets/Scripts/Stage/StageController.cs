@@ -57,7 +57,8 @@ public class StageController : MonoBehaviour
 		SpeedUp,		//4 - Interruption between Outro and Intro when the game increases speed, speed is actually changed in Intro | 8 Beats
 		BossStage,		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
 		NextRound,		//6 - Used after a boss stage or when difficulty increases | 8 beats
-		GameOver		//7 - Player has lost all of their lives | Until stage is quit or restarted
+		GameOver,		//7 - Player has lost all of their lives | Until stage is quit or restarted
+		Retry			//8 - Player has hit retry after Game Over | 4 beats
 	}
 
 	void Start()
@@ -69,6 +70,7 @@ public class StageController : MonoBehaviour
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
 		voicePlayer.loadClips(stage.voiceSet);
 
+		setAnimationPart(AnimationPart.Intro);
 		resetStage(Time.time);
 	}
 
@@ -90,8 +92,6 @@ public class StageController : MonoBehaviour
 		introSource.pitch = getSpeedMult();
 		if (!muteMusic)
 			AudioHelper.playScheduled(introSource, startTime - Time.time);
-
-		setAnimationPart(AnimationPart.Intro);
 		invokeIntroAnimations();
 	}
 
@@ -124,6 +124,22 @@ public class StageController : MonoBehaviour
 		instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
 
 		while (instance.asyncOperation.progress < .9f)
+		{
+			yield return null;
+		}
+	}
+
+	IEnumerator unloadMicrogameAsync(MicrogameInstance instance)
+	{
+		instance.asyncOperation.allowSceneActivation = true;
+		while (!instance.asyncOperation.isDone)
+		{
+			yield return null;
+		}
+
+		instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
+		//instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
+		while (!instance.asyncOperation.isDone)
 		{
 			yield return null;
 		}
@@ -337,6 +353,11 @@ public class StageController : MonoBehaviour
 
 	void updateToGameOver()
 	{
+		while (microgameQueue.Count > 0)
+		{
+			StartCoroutine(unloadMicrogameAsync(microgameQueue.Dequeue()));
+		}
+		setAnimationPart(AnimationPart.GameOver);
 		speed = 1;
 		Time.timeScale = 1f;
 		CancelInvoke();
@@ -386,6 +407,8 @@ public class StageController : MonoBehaviour
 
 	void startMicrogame()
 	{
+		Debug.Log(getCurrentMicrogameInstance().microgame.microgameId);
+		Debug.Log(getCurrentMicrogameInstance().asyncOperation);
 		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
 	}
 
@@ -470,7 +493,10 @@ public class StageController : MonoBehaviour
 		//Debug scene reset
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			SceneManager.LoadScene(gameObject.scene.buildIndex);
+			setAnimationPart(AnimationPart.GameOver);
+			resetStage(Time.time + (beatLength * 4f));
+			placeholderResults.transform.parent.gameObject.SetActive(false);
+			//SceneManager.LoadScene(gameObject.scene.buildIndex);
 		}
 	}
 
