@@ -69,15 +69,17 @@ public class StageController : MonoBehaviour
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
 		voicePlayer.loadClips(stage.voiceSet);
 
-		resetStage();
+		resetStage(Time.time);
 	}
 
-	void resetStage()
+	void resetStage(float startTime)
 	{
+		stage.onStageStart();
+
 		microgameCount = 0;
 		speed = stage.getStartSpeed();
 		Time.timeScale = getSpeedMult();
-		animationStartTime = Time.time;
+		animationStartTime = startTime;
 
 		microgameQueue = new Queue<MicrogameInstance>();
 		updateMicrogameQueue(maxStockpiledScenes);
@@ -87,7 +89,7 @@ public class StageController : MonoBehaviour
 
 		introSource.pitch = getSpeedMult();
 		if (!muteMusic)
-			introSource.Play();
+			AudioHelper.playScheduled(introSource, startTime - Time.time);
 
 		setAnimationPart(AnimationPart.Intro);
 		invokeIntroAnimations();

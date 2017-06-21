@@ -16,7 +16,7 @@ public class CompilationStage : Stage
 	private List<Microgame> microgamePool;
 	protected int roundsCompleted = 0, roundStartIndex = 0;
 
-	void Awake()
+	public override void onStageStart()
 	{
 		microgamePool = MicrogameHelper.getMicrogames(restriction);
 		shuffleGames();

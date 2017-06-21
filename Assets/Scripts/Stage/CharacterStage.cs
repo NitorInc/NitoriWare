@@ -14,7 +14,7 @@ public class CharacterStage : Stage
 	private int roundsCompleted, roundStartIndex;
 	private bool bossVictoryStatus;
 
-	void Awake()
+	public override void onStageStart()
 	{
 		roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
