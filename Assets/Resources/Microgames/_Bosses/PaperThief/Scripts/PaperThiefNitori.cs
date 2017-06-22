@@ -47,7 +47,9 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		Idle,			//0
 		GetCucumber,	//1
-		GunRecoil		//2
+		GunRecoil,		//2
+		Shock,			//3
+		Confused		//4
 	}
 
 	void Awake()
@@ -91,7 +93,9 @@ public class PaperThiefNitori : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.T))
 		{
 			//rigAnimator.Play("Hop");
-			queueAnimation(QueueAnimation.GetCucumber);
+			queueAnimation(QueueAnimation.Confused);
+			//queueAnimation(QueueAnimation.Shock);
+			//queueAnimation(QueueAnimation.GetCucumber);
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
@@ -300,6 +304,8 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.enabled = false;
 
+		CameraShake.instance.setScreenShake(.15f);
+		CameraShake.instance.shakeCoolRate = .5f;
 		dead = true;
 		enabled = false;
 	}
