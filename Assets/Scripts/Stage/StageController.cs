@@ -283,7 +283,6 @@ public class StageController : MonoBehaviour
 
 		if (interruptionQueue.Count != 0)
 		{
-			Stage.Interruption nextInterruption = interruptionQueue.Peek();
 			scheduleNextInterruptionAudio(interruption.scheduledPlayTime + (interruption.beatDuration * beatLength));
 		}
 		else
