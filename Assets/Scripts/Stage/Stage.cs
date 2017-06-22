@@ -4,9 +4,13 @@ using UnityEngine;
 
 public abstract class Stage : MonoBehaviour
 {
-	public VoicePlayer.VoiceSet voiceSet;
 
-	[System.Serializable]
+#pragma warning disable 0649    //Serialized Fields
+    [SerializeField]
+	private VoicePlayer.VoiceSet voiceSet;
+#pragma warning restore 0649
+
+    [System.Serializable]
 	public class Interruption
 	{
 		public StageController.AnimationPart animation;
@@ -125,6 +129,14 @@ public abstract class Stage : MonoBehaviour
 		return 1;
 	}
 
+    /// <summary>
+    /// Returns voice set used for this stage
+    /// </summary>
+    /// <returns></returns>
+    public VoicePlayer.VoiceSet getVoiceSet()
+    {
+        return voiceSet;
+    }
 
 }
 

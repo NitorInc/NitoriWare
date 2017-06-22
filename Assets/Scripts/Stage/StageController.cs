@@ -68,7 +68,7 @@ public class StageController : MonoBehaviour
 
 		beatLength = outroSource.clip.length / 4f;
 		Application.backgroundLoadingPriority = ThreadPriority.Low;
-		voicePlayer.loadClips(stage.voiceSet);
+		voicePlayer.loadClips(stage.getVoiceSet());
 
 		setAnimationPart(AnimationPart.Intro);
 		resetStage(Time.time);
