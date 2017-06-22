@@ -9,7 +9,8 @@ public class PaperThiefNitori : MonoBehaviour
 
 	public Transform coreTransform;
 
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
 	[SerializeField]
@@ -22,8 +23,9 @@ public class PaperThiefNitori : MonoBehaviour
 	private BoxCollider2D walkCollider;
 	[SerializeField]
 	private GameObject shotPrefab;
+#pragma warning restore 0649
 
-	private Rigidbody2D _rigidBody2D;
+    private Rigidbody2D _rigidBody2D;
 	private float spinCooldownTimer, shotCooldownTimer;
 
 	[SerializeField]

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PaperThiefStar : MonoBehaviour
 {
-	[SerializeField]
+
+#pragma warning disable 0649
+    [SerializeField]
 	private Vector2 LinearVelocity;
 	[SerializeField]
 	private float cameraActivationX, seekMoveSpeed, seekPower, rotateSpeed, forceAngleDirection,
@@ -17,8 +19,9 @@ public class PaperThiefStar : MonoBehaviour
 	private SpriteRenderer flash;
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
+#pragma warning restore 0649
 
-	[SerializeField]
+    [SerializeField]
 	private MovementType movementType;
 	private enum MovementType
 	{
