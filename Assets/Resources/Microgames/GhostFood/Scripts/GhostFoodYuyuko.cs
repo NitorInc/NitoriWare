@@ -32,6 +32,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	public AudioSource audioSource;
 	public AudioClip chewClip, victoryClip, burpClip;
+    private ParticleSystem.MainModule particlesModule, burpParticlesModule;
 
 	public State state;
 	public enum State
@@ -43,7 +44,9 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void Awake()
 	{
-		//faceRenderer = face.GetComponent<SpriteRenderer>();
+        //faceRenderer = face.GetComponent<SpriteRenderer>();
+        burpParticlesModule = burpParticles.main;
+        particlesModule = particles.main;
 	}
 
 	void Start()
@@ -281,7 +284,8 @@ public class GhostFoodYuyuko : MonoBehaviour
 		//burp.transform.localRotation = Quaternion.EulerAngles(0f, facingRight ? 0f : 180f, 0f);
 		//burp.transform.localScale = new Vector3(facingRight ? 1f : -1f, 1f, 1f);
 
-		burpParticles.startRotation = facingRight ? 0f : Mathf.PI;
+        
+		burpParticlesModule.startRotation = facingRight ? 0f : Mathf.PI;
 		//Debug.Log((float)chewsLeft / 6f);
 		//Debug.Log(face.transform.localScale);
 	}
@@ -302,7 +306,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 		{
 			state = State.Chewing;
 			animator.enabled = true;
-			particles.startColor = other.GetComponent<SpriteRenderer>().color;
+			particlesModule.startColor = other.GetComponent<SpriteRenderer>().color;
 			other.gameObject.SetActive(false);
 			particles.Play();
 			chewsLeft += chewsNeeded;
