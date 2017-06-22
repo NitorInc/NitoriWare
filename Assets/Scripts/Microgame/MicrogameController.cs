@@ -141,7 +141,7 @@ public class MicrogameController : MonoBehaviour
 
 	bool isBeingDiscarded()
 	{
-		return StageController.instance.animationPart == StageController.AnimationPart.GameOver;
+		return StageController.instance != null && StageController.instance.animationPart == StageController.AnimationPart.GameOver;
 	}
 
 	/// <summary>
