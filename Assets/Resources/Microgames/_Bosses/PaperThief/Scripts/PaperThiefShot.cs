@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PaperThiefShot : MonoBehaviour
 {
-	[SerializeField]
+
+#pragma warning disable 0649
+    [SerializeField]
 	private float shrinkSpeed;
 	[SerializeField]
 	private int explosionSmokeCount;
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
+#pragma warning restore 0649
 
-	private Rigidbody2D _rigidBody;
+    private Rigidbody2D _rigidBody;
 	private ParticleSystem.MainModule trailParticlesModule, explosionParticlesModule;
 	private bool dead, shrank;
 

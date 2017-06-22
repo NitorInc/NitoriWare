@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 public class MicrogameTraits : MonoBehaviour
 {
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	private ControlScheme _controlScheme;
 	public virtual ControlScheme controlScheme { get { return _controlScheme; } set { } }
 
@@ -42,8 +43,9 @@ public class MicrogameTraits : MonoBehaviour
 	[SerializeField]
 	private bool _isStageReady;
 	public virtual bool isStageReady { get { return _isStageReady; } set { } }
+#pragma warning restore 0649
 
-	private string _microgameId;
+    private string _microgameId;
 	public string microgameId { get { return _microgameId; } set { } }
 
 	public enum ControlScheme

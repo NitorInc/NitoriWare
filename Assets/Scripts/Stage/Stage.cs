@@ -47,6 +47,14 @@ public abstract class Stage : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Called when the stage is first started or the player attempts it again, called before any other method
+	/// </summary>
+	public virtual void onStageStart()
+	{
+
+	}
+
+	/// <summary>
 	/// Get the nth microgame (based on total microgmaes encountered so far, starts at 0)
 	/// </summary>
 	/// <param name="cycleIndex"></param>

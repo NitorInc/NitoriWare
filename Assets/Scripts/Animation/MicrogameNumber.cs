@@ -3,18 +3,13 @@ using System.Collections;
 
 public class MicrogameNumber : MonoBehaviour
 {
+	public static MicrogameNumber instance;
 
 	public TextMesh text;
 
-	void Start ()
+	void Awake()
 	{
-	
-	}
-	
-
-	void Update ()
-	{
-	
+		instance = this;
 	}
 
 	public void increaseNumber()
@@ -23,5 +18,10 @@ public class MicrogameNumber : MonoBehaviour
 			return;
 		int number = int.Parse(text.text) + 1;
 		text.text = number.ToString("D3");
+	}
+
+	public void resetNumber()
+	{
+		text.text = "000";
 	}
 }

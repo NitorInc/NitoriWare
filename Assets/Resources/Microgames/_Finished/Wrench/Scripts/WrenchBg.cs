@@ -5,7 +5,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class WrenchBg : MonoBehaviour
 {
-	[SerializeField]
+    #pragma warning disable 0649
+    [SerializeField]
 	private bool update;
 	[SerializeField]
 	private int linesX, linesY;
@@ -13,8 +14,9 @@ public class WrenchBg : MonoBehaviour
 	private float lineSeparation, lineExtent;
 	[SerializeField]
 	private Vector3 linesStart;
+    #pragma warning restore 0649
 
-	private LineRenderer lineRenderer;
+    private LineRenderer lineRenderer;
 
 	//void Awake()
 	//{

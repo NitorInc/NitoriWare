@@ -26,6 +26,7 @@ Transform:
   m_LocalPosition: {x: -0.26905444, y: -2.0873091, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4081483269072062}
   - {fileID: 4291384653287336}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -41,6 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f3ae8096567b214f86ebd23589cf616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _microgameCollection: {fileID: 114789130494159228}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -68,6 +70,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1636060034102930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4081483269072062}
+  - component: {fileID: 114789130494159228}
+  m_Layer: 0
+  m_Name: Microgame Collection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4081483269072062
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636060034102930}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 499212}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4291384653287336
 Transform:
   m_ObjectHideFlags: 1
@@ -79,7 +110,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 499212}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114115788241763394
 MonoBehaviour:
@@ -93,3 +124,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceLanguage: 
+--- !u!114 &114789130494159228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636060034102930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d274a5ce68cab64098d956a51e0c2c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishedMicrogames:
+  - microgameId: ChenFood
+    baseDifficulty: 1
+  - microgameId: Donation
+    baseDifficulty: 1
+  - microgameId: MasterSparkCode
+    baseDifficulty: 1
+  - microgameId: Potion
+    baseDifficulty: 1
+  - microgameId: Slingshot
+    baseDifficulty: 1
+  - microgameId: Spaceship
+    baseDifficulty: 1
+  - microgameId: TraceShape
+    baseDifficulty: 1
+  - microgameId: Wrench
+    baseDifficulty: 1
+  stageReadyMicrogames:
+  - microgameId: ChenBike
+    baseDifficulty: 1
+  - microgameId: CupShuffle
+    baseDifficulty: 1
+  - microgameId: FlanGrab
+    baseDifficulty: 1
+  - microgameId: FreezeFrogs
+    baseDifficulty: 1
+  - microgameId: GhostFood
+    baseDifficulty: 1
+  - microgameId: RockBand
+    baseDifficulty: 1
+  - microgameId: Spider
+    baseDifficulty: 1
+  unfinishedMicrogames:
+  - microgameId: RemiCover
+    baseDifficulty: 1
+  - microgameId: SuikaShake
+    baseDifficulty: 1
+  - microgameId: TouhouSort
+    baseDifficulty: 1
+  - microgameId: YukariCake
+    baseDifficulty: 1
+  bossMicrogames:
+  - microgameId: PaperThief
+    baseDifficulty: 1

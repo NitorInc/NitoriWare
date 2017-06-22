@@ -35,7 +35,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
         this.particleTrail = GetComponentInChildren<ParticleSystem>();
         this.meteorSprite = GetComponentInChildren<SpriteRenderer>();
-        this.meteorSprite.transform.Rotate(0, 0, Random.RandomRange(0, 360));
+        this.meteorSprite.transform.Rotate(0f, 0f, Random.Range(0f, 360f));
         this.microgameBehaviour = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
         selectEndingPoint();
 
@@ -78,19 +78,19 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         {
             this.originalPosition = this.transform.position;
             this.phase = Random.Range(0, Mathf.PI / 2);
-            this.endingPosition = new Vector2(Random.RandomRange(xLeftLimit + amplitude, xRightLimit - amplitude), yLowerLimit);
+            this.endingPosition = new Vector2(Random.Range(xLeftLimit + amplitude, xRightLimit - amplitude), yLowerLimit);
         }
 
         else if (diagonalMovementIsOn)
         {
             if (this.transform.position.x < midPosition)
             {
-                this.endingPosition = new Vector2(Random.RandomRange(midPosition, xRightLimit), yLowerLimit);
+                this.endingPosition = new Vector2(Random.Range(midPosition, xRightLimit), yLowerLimit);
             }
 
             else
             {
-                this.endingPosition = new Vector2(Random.RandomRange(xLeftLimit, midPosition), yLowerLimit);
+                this.endingPosition = new Vector2(Random.Range(xLeftLimit, midPosition), yLowerLimit);
             }
         }
 
@@ -147,7 +147,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 		ParticleSystem particles = GetComponentInChildren<ParticleSystem>();
 		ParticleSystem.EmissionModule emission = particles.emission;
 		emission.enabled = false;
-		particles.startSize *= 1.8f;
+        ParticleSystem.MainModule module = particles.main;
+        module.startSizeMultiplier *= 1.8f;
 		particles.Emit(5);
         Instantiate(explosionEffect, meteorSprite.transform.position, Quaternion.identity);
         Destroy(meteorSprite.gameObject);

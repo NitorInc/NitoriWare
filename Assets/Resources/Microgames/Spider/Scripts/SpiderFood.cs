@@ -52,10 +52,9 @@ public class SpiderFood : MonoBehaviour
 		{
 			spriteRenderer.color = Color.clear;
 
-			if (Random.Range(0f, 1f) <= .55f)
-				particles.startColor = new Color(1f, .75f, .8f);
-			else
-				particles.startColor = new Color(.08f, .025f, 0f);
+
+            var particleModule = particles.main;
+            particleModule.startColor = (Random.Range(0f, 1f) <= .55f) ? new Color(1f, .75f, .8f) : new Color(.08f, .025f, 0f);
 		}
 		
 	}

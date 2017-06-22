@@ -6,15 +6,17 @@ public class CharacterStage : Stage
 {
 	public static bool revisiting;
 
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	private CharacterMicrogamePool microgamePool;
 	[SerializeField]
 	private Interruption speedUp, bossIntro, nextRound;
+#pragma warning restore 0649
 
-	private int roundsCompleted, roundStartIndex;
-	private bool bossVictoryStatus;
+    private int roundsCompleted, roundStartIndex;
+	private bool bossWon;
 
-	void Awake()
+	public override void onStageStart()
 	{
 		roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
@@ -56,7 +58,11 @@ public class CharacterStage : Stage
 		//Boss over
 		if (roundsCompleted > 0 && num == roundStartIndex)
 		{
-			//TODO more after-boss stuff
+            //TODO more after-boss stuff
+            if (bossWon)
+            {
+                //TODO 1-up
+            }
 			return new Interruption[0].add(nextRound);
 		}
 
@@ -108,7 +114,7 @@ public class CharacterStage : Stage
 
 		if (getMicrogame(microgame).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
 		{
-			bossVictoryStatus = victoryStatus;
+			bossWon = victoryStatus;
 			if (revisiting)
 			{
 				if (victoryStatus)	//TODO remove when proper boss win is added

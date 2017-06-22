@@ -32,7 +32,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     private const int LEFT = 0;                     // Left direction
     private const int RIGHT = 1;                    // Right direction
 
-    private GameObject shadowObject = null;         // List of Gameobjects that in-game represents a Shadow
+    //private GameObject shadowObject = null;         // List of Gameobjects that in-game represents a Shadow
     private GameObject remiliaSprite = null;        // Sprite of Remi
 
     private bool facingRight = true;                // To check if checking to the right 
@@ -44,7 +44,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         Vector2 mousePosition = CameraHelper.getCursorPosition();
         this.transform.position = new Vector2(mousePosition.x, this.transform.position.y);
         this.remiliaSprite = transform.Find("RemiSprite").gameObject;
-        this.shadowObject = GameObject.Find("Player/UmbrellaShadow");
+        //this.shadowObject = GameObject.Find("Player/UmbrellaShadow");
         this.lastMovementSelection = STAND;
         this.selectionTimer = 0.5f;
     }
