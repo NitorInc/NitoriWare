@@ -30,7 +30,7 @@ public class FlanGrab_SightBehaviour : MonoBehaviour {
         // Deactivate Sight if game has ended
         else
         {
-            if (gameObject.active)
+            if (gameObject.activeInHierarchy)
             {
                 gameObject.SetActive(false);
             }

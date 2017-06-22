@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlanGrab_FlandreBehaviour : MonoBehaviour {
 
     private GameObject rightArmObject;
-    private float xRightLimit;
+    //private float xRightLimit;
 
 	[SerializeField]
 	private float bodyRotationMult;
@@ -13,10 +13,10 @@ public class FlanGrab_FlandreBehaviour : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        var microgrameScript = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
-        this.xRightLimit = microgrameScript.rightLimit;
+        //var microgrameScript = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
+        //xRightLimit = microgrameScript.rightLimit;
 
-        this.rightArmObject = this.transform.FindChild("Right_Arm").gameObject;
+        rightArmObject = this.transform.FindChild("Right_Arm").gameObject;
     }
 	
 	// Update is called once per frame
