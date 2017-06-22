@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SuikaShakeBottle : MonoBehaviour
 {
-	[SerializeField]
+
+#pragma warning disable 0649
+    [SerializeField]
 	private float health, minSpeed, progressMult;
 	[SerializeField]
 	private int healthPerSuika;
@@ -12,8 +14,9 @@ public class SuikaShakeBottle : MonoBehaviour
 	private Vector2 suikaOffsetXBounds, suikaOffsetYBounds;
 	[SerializeField]
 	private GameObject suikaPrefab;
+#pragma warning restore 0649
 
-	private bool _pauseBuffer = false;
+    private bool _pauseBuffer = false;
 	public bool pauseBuffer
 	{
 		set { _pauseBuffer = value; }

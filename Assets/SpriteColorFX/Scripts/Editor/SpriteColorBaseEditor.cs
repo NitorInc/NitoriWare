@@ -52,9 +52,11 @@ namespace SpriteColorFX
       if (baseTarget == null)
         baseTarget = this.target as SpriteColorBase;
 
-      EditorGUIUtility.LookLikeControls();
+#pragma warning disable CS0618 // Type or member is obsolete
+            EditorGUIUtility.LookLikeControls();
+#pragma warning restore CS0618 // Type or member is obsolete
 
-      EditorGUI.indentLevel = 0;
+            EditorGUI.indentLevel = 0;
 
       EditorGUIUtility.labelWidth = 125.0f;
 
@@ -146,9 +148,11 @@ namespace SpriteColorFX
       if (GUI.changed == true)
         EditorUtility.SetDirty(target);
 
-      EditorGUIUtility.LookLikeControls();
+#pragma warning disable CS0618 // Type or member is obsolete
+            EditorGUIUtility.LookLikeControls();
+#pragma warning restore CS0618 // Type or member is obsolete
 
-      EditorGUI.indentLevel = 0;
+            EditorGUI.indentLevel = 0;
 
       EditorGUIUtility.labelWidth = 125.0f;
     }

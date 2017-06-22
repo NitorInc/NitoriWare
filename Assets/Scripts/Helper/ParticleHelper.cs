@@ -13,7 +13,7 @@ public class ParticleHelper
 		ParticleSystem.EmissionModule emission = particleSystem.emission;
 		var newRate = new ParticleSystem.MinMaxCurve();
 		newRate.constantMax = rate;
-		emission.rate = newRate;
+		emission.rateOverTime = newRate;
 	}
 
 	/// <summary>
@@ -24,7 +24,7 @@ public class ParticleHelper
 	public static float getEmissionRate(ParticleSystem particleSystem)
 	{
 		ParticleSystem.EmissionModule emission = particleSystem.emission;
-		return emission.rate.constantMax;
+		return emission.rateOverTime.constantMax;
 	}
 
 	/// <summary>

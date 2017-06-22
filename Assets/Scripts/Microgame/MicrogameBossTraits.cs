@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class MicrogameBossTraits : MicrogameTraits
 {
-	
-	[SerializeField]
-	private float _victoryEndBeats, _failureEndBeats;
 
-	public override float getDurationInBeats()
+#pragma warning disable 0649
+    [SerializeField]
+	private float _victoryEndBeats, _failureEndBeats;
+#pragma warning disable 0649
+
+    public override float getDurationInBeats()
 	{
 		return float.PositiveInfinity;
 	}

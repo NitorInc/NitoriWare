@@ -9,7 +9,8 @@ public class PaperThiefNitori : MonoBehaviour
 
 	public Transform coreTransform;
 
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
 	[SerializeField]
@@ -22,8 +23,9 @@ public class PaperThiefNitori : MonoBehaviour
 	private BoxCollider2D walkCollider;
 	[SerializeField]
 	private GameObject shotPrefab;
+#pragma warning restore 0649
 
-	private Rigidbody2D _rigidBody2D;
+    private Rigidbody2D _rigidBody2D;
 	private float spinCooldownTimer, shotCooldownTimer;
 
 	[SerializeField]
@@ -47,7 +49,9 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		Idle,			//0
 		GetCucumber,	//1
-		GunRecoil		//2
+		GunRecoil,		//2
+		Shock,			//3
+		Confused		//4
 	}
 
 	void Awake()
@@ -91,7 +95,9 @@ public class PaperThiefNitori : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.T))
 		{
 			//rigAnimator.Play("Hop");
-			queueAnimation(QueueAnimation.GetCucumber);
+			queueAnimation(QueueAnimation.Confused);
+			//queueAnimation(QueueAnimation.Shock);
+			//queueAnimation(QueueAnimation.GetCucumber);
 		}
 		else if (Input.GetKeyDown(KeyCode.I))
 		{
@@ -300,6 +306,8 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.enabled = false;
 
+		CameraShake.instance.setScreenShake(.15f);
+		CameraShake.instance.shakeCoolRate = .5f;
 		dead = true;
 		enabled = false;
 	}

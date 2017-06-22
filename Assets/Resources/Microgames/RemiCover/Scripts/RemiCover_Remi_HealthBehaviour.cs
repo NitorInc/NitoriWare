@@ -16,6 +16,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     private GameObject remiliaSprite = null;
     public ParticleSystem smokeParticles;
     private ParticleSystem smokeInstance;
+    private ParticleSystem.MainModule smokeInstanceModule;
 	private SpriteRenderer remiSpriteRenderer;
 
     // Use this for initialization
@@ -54,7 +55,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         var emission = smokeInstance.emission;
        
         smokeInstance.transform.position = remiliaSprite.transform.position + (Vector3.up * .5f);
-		smokeInstance.startSize = (((1 - HP) * 90) / 25)
+        var smokeModule = smokeInstance.main;
+		smokeModule.startSize = (((1 - HP) * 90) / 25)
 			* (MicrogameController.instance.getVictory() ? 1f : 1.25f);	//Particle size intensifies on death
 
         emission.rateOverTime = (((1 - HP) * 2000) / 10)

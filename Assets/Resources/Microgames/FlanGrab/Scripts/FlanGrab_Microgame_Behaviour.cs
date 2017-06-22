@@ -59,14 +59,15 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     {
         var meteorInstance = Instantiate(meteorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         meteorInstance.SetActive(false);
-        var meteorScript = meteorPrefab.GetComponent<FlanGrab_Meteor_BehaviourScript>();
-        var waveMovementIsOn = meteorScript.waveMovementIsOn;
-        var waveAmplitude = meteorScript.amplitude;
-        var meteorBounds = meteorInstance.GetComponent<CircleCollider2D>().bounds;
-        var centerPoint = meteorBounds.center.x;
 
-		//Conditionally assign xPosition based on whether this is the left meteor
-		var xPosition = (leftMeteor == meteorCreationCounter) ? Random.Range(A, 0f) : Random.Range(0f, B);
+        var meteorBounds = meteorInstance.GetComponent<CircleCollider2D>().bounds;
+        //var meteorScript = meteorPrefab.GetComponent<FlanGrab_Meteor_BehaviourScript>();
+        //var waveMovementIsOn = meteorScript.waveMovementIsOn;
+        //var waveAmplitude = meteorScript.amplitude;
+        //var centerPoint = meteorBounds.center.x;
+
+        //Conditionally assign xPosition based on whether this is the left meteor
+        var xPosition = (leftMeteor == meteorCreationCounter) ? Random.Range(A, 0f) : Random.Range(0f, B);
 
         meteorInstance.transform.position = new Vector3(xPosition, 10, 0);
         meteorInstance.SetActive(true);
