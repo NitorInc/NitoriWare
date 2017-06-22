@@ -11,6 +11,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma warning disable CS0618 // Type or member is obsolete
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -59,9 +61,9 @@ namespace SpriteColorFX
 
     private void OnGUI()
     {
-      EditorGUIUtility.LookLikeControls();
+            EditorGUIUtility.LookLikeControls();
 
-      EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical();
       {
         EditorGUIUtility.LookLikeControls(24.0f, 50.0f);
 
@@ -486,3 +488,4 @@ namespace SpriteColorFX
     }
   }
 }
+#pragma warning restore CS0618 // Type or member is obsolete
