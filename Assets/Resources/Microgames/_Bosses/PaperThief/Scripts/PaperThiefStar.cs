@@ -66,7 +66,9 @@ public class PaperThiefStar : MonoBehaviour
 
 	void LateUpdate()
 	{
-		if (PaperThiefNitori.dead)
+        if (PaperThiefMarisa.defeated)
+            defeat();
+        else if (PaperThiefNitori.dead)
 			stop();
 	}
 
@@ -151,13 +153,7 @@ public class PaperThiefStar : MonoBehaviour
 				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
 				if (velocity.magnitude <= killSpeed)
 				{
-					velocity = Vector2.zero;
-					trailParticles.Stop();
-					trailParticleModule.simulationSpeed *= 2f;
-					emitExplosionStars(killStarCount);
-					dead = true;
-					flash.GetComponent<ParticleSystem>().Play();
-					GetComponent<Collider2D>().enabled = false;
+                    defeat();
 				}
 				else
 				{
@@ -168,6 +164,18 @@ public class PaperThiefStar : MonoBehaviour
 			}
 		}
 	}
+
+    void defeat()
+    {
+        velocity = Vector2.zero;
+        trailParticles.Stop();
+        trailParticleModule.simulationSpeed *= 2f;
+        emitExplosionStars(killStarCount);
+        dead = true;
+        flash.GetComponent<ParticleSystem>().Play();
+        GetComponent<GrowToSize>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+    }
 
 	void destroy()
 	{

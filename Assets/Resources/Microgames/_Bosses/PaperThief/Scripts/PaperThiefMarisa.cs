@@ -5,13 +5,19 @@ using UnityEngine;
 public class PaperThiefMarisa : MonoBehaviour
 {
 
+    public static bool defeated;
+
 #pragma warning disable 0649
     [SerializeField]
     private State state;
     [SerializeField]
-    private float starFireCooldown, hitFlashSpeed, hitFlashColorDrop;
+    private int maxHealth;
+    [SerializeField]
+    private float starFireCooldown, hitFlashSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private PaperThiefSpin spin;
     [SerializeField]
     private GameObject starPrefab;
     [SerializeField]
@@ -23,7 +29,8 @@ public class PaperThiefMarisa : MonoBehaviour
     private SpriteRenderer[] _spriteRenderers;
     private SineWave _sineWave;
     private bool flashingRed;
-    private float starFireTimer;
+    private float starFireTimer, defeatSpinTimer, moveCenterSpeed;
+    private int health;
     
     public enum State
     {
@@ -43,6 +50,7 @@ public class PaperThiefMarisa : MonoBehaviour
 	{
         _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         _sineWave = GetComponent<SineWave>();
+        defeated = false;
 	}
 
     void Start()
@@ -60,10 +68,20 @@ public class PaperThiefMarisa : MonoBehaviour
         {
             case (State.Fight):
                 starFireTimer = starFireCooldown;
+                health = maxHealth;
+                MicrogameController.instance.displayCommand("Defeat her!");
+                break;
+            case (State.Defeat):
+                PaperThiefNitori.instance.hasControl = false;
+                _sineWave.enabled = false;
+                defeated = true;
+                defeatSpinTimer = 0f;
+                moveCenterSpeed = ((Vector2)transform.localPosition).magnitude / defeatMoveCenterTime;
                 break;
             default:
                 break;
         }
+        rigAnimator.SetInteger("State", (int)state);
         this.state = state;
     }
 	
@@ -74,9 +92,15 @@ public class PaperThiefMarisa : MonoBehaviour
             case (State.Fight):
                 updateFight();
                 break;
+            case (State.Defeat):
+                updateDefeat();
+                break;
             default:
                 break;
         }
+
+        if (flashingRed || _spriteRenderers[0].color.b < 1f)
+            updateHitFlash();
     }
 
     void LateUpdate()
@@ -93,8 +117,22 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Snap);
             starFireTimer = starFireCooldown;
         }
-        if (flashingRed || _spriteRenderers[0].color.b < 1f)
-            updateHitFlash();
+    }
+
+    void updateDefeat()
+    {
+        defeatSpinTimer -= Time.deltaTime;
+        if (defeatSpinTimer < 0f)
+        {
+            spin.facingRight = !spin.facingRight;
+            defeatSpinTimer = defeatSpinFrequency;
+        }
+
+        if (transform.moveTowardsLocal(Vector2.zero, moveCenterSpeed))
+        {
+            spin.facingRight = false;
+            enabled = false;
+        }
     }
 
     void updateHitFlash()
@@ -162,11 +200,15 @@ public class PaperThiefMarisa : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!PaperThiefNitori.dead && other.name.Contains("Shot"))
+        if (!defeated && !PaperThiefNitori.dead && other.name.Contains("Shot"))
         {
-            queueAnimation(QueueAnimation.Hurt);
             other.GetComponent<PaperThiefShot>().kill();
+
+            queueAnimation(QueueAnimation.Hurt);
             flashingRed = true;
+            health--;
+            if (health <= 0)
+                ChangeState(State.Defeat);
         }
     }
 }

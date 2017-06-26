@@ -113,8 +113,9 @@ public class PaperThiefNitori : MonoBehaviour
 			case (State.Platforming):
 				//PaperThiefCamera.instance.transform.parent = null;
 				PaperThiefCamera.instance.setGoalPosition(new Vector3(20f, 20f, 0f));
-
-				break;
+                PaperThiefCamera.instance.setGoalSize(Camera.main.orthographicSize);
+                gunCursor.gameObject.SetActive(false);
+                break;
 			case (State.Gun):
 				stageTransform.gameObject.SetActive(false);
 				PaperThiefCamera.instance.stopScroll();
