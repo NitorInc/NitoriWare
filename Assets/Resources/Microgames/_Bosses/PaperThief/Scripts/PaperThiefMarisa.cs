@@ -23,7 +23,7 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private Transform starCreationPoint;
     [SerializeField]
-    private ParticleSystem broomParticles;
+    private ParticleSystem broomParticles, defeatedParticles;
 #pragma warning restore 0649
 
     private SpriteRenderer[] _spriteRenderers;
@@ -74,9 +74,11 @@ public class PaperThiefMarisa : MonoBehaviour
             case (State.Defeat):
                 PaperThiefNitori.instance.hasControl = false;
                 _sineWave.enabled = false;
-                defeated = true;
                 defeatSpinTimer = 0f;
                 moveCenterSpeed = ((Vector2)transform.localPosition).magnitude / defeatMoveCenterTime;
+                defeatedParticles.Play();
+
+                defeated = true;
                 break;
             default:
                 break;
@@ -131,6 +133,7 @@ public class PaperThiefMarisa : MonoBehaviour
         if (transform.moveTowardsLocal(Vector2.zero, moveCenterSpeed))
         {
             spin.facingRight = false;
+            defeatedParticles.Stop();
             enabled = false;
         }
     }
