@@ -9,7 +9,7 @@ public class PaperThiefStar : MonoBehaviour
     [SerializeField]
 	private Vector2 LinearVelocity;
 	[SerializeField]
-	private float cameraActivationX, seekMoveSpeed, seekPower, rotateSpeed, forceAngleDirection,
+	private float cameraActivationX, seekMoveSpeed, seekPower, rotateSpeed,
 		hitSlowDownMult, hitAcc, killSpeed, flashSpeed, shrinkSpeed;
 	[SerializeField]
 	private int hitStarCount, killStarCount;
@@ -20,6 +20,8 @@ public class PaperThiefStar : MonoBehaviour
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
 #pragma warning restore 0649
+
+    public float forceAngleDirection;
 
     [SerializeField]
 	private MovementType movementType;
@@ -153,6 +155,7 @@ public class PaperThiefStar : MonoBehaviour
 					trailParticleModule.simulationSpeed *= 2f;
 					emitExplosionStars(killStarCount);
 					dead = true;
+                    GetComponent<GrowToSize>().enabled = false;
 					flash.GetComponent<ParticleSystem>().Play();
 					GetComponent<Collider2D>().enabled = false;
 				}

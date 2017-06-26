@@ -390,6 +390,34 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16092adfbdf43f54691c934b025a5117, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &360109898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 360109899}
+  m_Layer: 0
+  m_Name: Star Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360109899
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 360109898}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.85, y: 0.401, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1955152099}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &364648686
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +599,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &468117932 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198059435028847804, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
 --- !u!1001 &487098422
 Prefab:
   m_ObjectHideFlags: 0
@@ -720,6 +753,11 @@ Prefab:
       propertyPath: forceAngleDirection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114825991089295420, guid: 067a7f8bd7d92884a9d9703afe6a2d33,
+        type: 2}
+      propertyPath: seekMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 067a7f8bd7d92884a9d9703afe6a2d33, type: 2}
   m_IsPrefabParent: 0
@@ -728,6 +766,44 @@ Transform:
   m_PrefabParentObject: {fileID: 4504004549463964, guid: 067a7f8bd7d92884a9d9703afe6a2d33,
     type: 2}
   m_PrefabInternal: {fileID: 583260865}
+--- !u!1 &637174707 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1832186513615398, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
+--- !u!95 &637174709 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95471572204068182, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
+--- !u!114 &637174710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 637174707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba620a1e2425244468b5abecca74f457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unityEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1090320836}
+        m_MethodName: createStar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  particleSystems: []
 --- !u!1 &638537679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,6 +1343,7 @@ MonoBehaviour:
   yAmplitude: 1
   yOffset: 0
   relativeToStartPosition: 1
+  positionOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &797745447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1764,64 @@ Transform:
   m_PrefabParentObject: {fileID: 4357763630531588, guid: c5c729f38fcd85e4b85fd3550179caa6,
     type: 2}
   m_PrefabInternal: {fileID: 1136516593}
+--- !u!1 &1090320835 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1881707382608046, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
+--- !u!114 &1090320836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1090320835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef37c43c39233a44b0568c458062d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 1
+  starFireCooldown: 3
+  hitFlashSpeed: 5
+  hitFlashColorDrop: 0.25
+  rigAnimator: {fileID: 637174709}
+  starPrefab: {fileID: 1383397214885520, guid: 067a7f8bd7d92884a9d9703afe6a2d33, type: 2}
+  starCreationPoint: {fileID: 360109899}
+  broomParticles: {fileID: 468117932}
+--- !u!58 &1090320837
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1090320835}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.31, y: -0.03}
+  serializedVersion: 2
+  m_Radius: 3.57
+--- !u!114 &1090320838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1090320835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3467706800869f447a980f1dddc8e13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSpeed: 2.5
+  xAmplitude: 3
+  xOffset: 0.5
+  ySpeed: 1
+  yAmplitude: 3
+  yOffset: 0.5
+  relativeToStartPosition: 0
+  positionOffset: {x: 3.08, y: 1.31, z: 0}
 --- !u!1 &1127717929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,12 +1964,31 @@ Prefab:
     - target: {fileID: 198059435028847804, guid: c5c729f38fcd85e4b85fd3550179caa6,
         type: 2}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198059435028847804, guid: c5c729f38fcd85e4b85fd3550179caa6,
         type: 2}
       propertyPath: randomSeed
       value: -2065174527
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730961462109884, guid: c5c729f38fcd85e4b85fd3550179caa6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198059435028847804, guid: c5c729f38fcd85e4b85fd3550179caa6,
+        type: 2}
+      propertyPath: VelocityModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198059435028847804, guid: c5c729f38fcd85e4b85fd3550179caa6,
+        type: 2}
+      propertyPath: VelocityModule.y.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198059435028847804, guid: c5c729f38fcd85e4b85fd3550179caa6,
+        type: 2}
+      propertyPath: VelocityModule.x.scalar
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c5c729f38fcd85e4b85fd3550179caa6, type: 2}
@@ -2085,6 +2239,7 @@ MonoBehaviour:
   yAmplitude: 1
   yOffset: 0
   relativeToStartPosition: 1
+  positionOffset: {x: 0, y: 0, z: 0}
 --- !u!61 &1453936199
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2379,6 +2534,38 @@ Prefab:
       propertyPath: stageTransform
       value: 
       objectReference: {fileID: 1759987979}
+    - target: {fileID: 4541215674356576, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4952595332421886, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270819596565964, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591990048111048, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271829155211440, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4181209790170418, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4072612000445470, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852320804135756, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
   m_IsPrefabParent: 0
@@ -2702,6 +2889,11 @@ Prefab:
         type: 2}
       propertyPath: forceAngleDirection
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114825991089295420, guid: 067a7f8bd7d92884a9d9703afe6a2d33,
+        type: 2}
+      propertyPath: seekMoveSpeed
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 067a7f8bd7d92884a9d9703afe6a2d33, type: 2}
@@ -3171,6 +3363,11 @@ Prefab:
       propertyPath: forceAngleDirection
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 114825991089295420, guid: 067a7f8bd7d92884a9d9703afe6a2d33,
+        type: 2}
+      propertyPath: seekMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 067a7f8bd7d92884a9d9703afe6a2d33, type: 2}
   m_IsPrefabParent: 0
@@ -3179,6 +3376,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4504004549463964, guid: 067a7f8bd7d92884a9d9703afe6a2d33,
     type: 2}
   m_PrefabInternal: {fileID: 1952892481}
+--- !u!4 &1955152099 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4136965712828842, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
 --- !u!1 &2097373296
 GameObject:
   m_ObjectHideFlags: 0
@@ -3223,7 +3425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2109668217
 Transform:
   m_ObjectHideFlags: 0

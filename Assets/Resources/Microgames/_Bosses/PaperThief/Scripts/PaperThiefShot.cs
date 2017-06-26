@@ -65,6 +65,11 @@ public class PaperThiefShot : MonoBehaviour
 		_rigidBody.velocity = PaperThiefNitori.instance.getRigidBody().velocity;
 		explosionParticles.Emit(explosionSmokeCount);
 		GetComponent<Collider2D>().enabled = false;
+        var trailEmission = trailParticles.emission;
+        var trailCurve = trailEmission.rateOverTime;
+        trailCurve.constant = 0f;
+        trailEmission.rateOverTime = trailCurve;
+        
 		dead = true;
 	}
 
