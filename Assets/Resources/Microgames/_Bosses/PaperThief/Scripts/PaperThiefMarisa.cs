@@ -77,7 +77,13 @@ public class PaperThiefMarisa : MonoBehaviour
             default:
                 break;
         }
-	}
+    }
+
+    void LateUpdate()
+    {
+        if (PaperThiefNitori.dead)
+            stop();
+    }
 
     void updateFight()
     {
@@ -139,10 +145,20 @@ public class PaperThiefMarisa : MonoBehaviour
         }
         newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
     }
+
     void queueAnimation(QueueAnimation animation)
 	{
 		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
-	}
+    }
+
+    void stop()
+    {
+        rigAnimator.enabled = false;
+        var broomModule = broomParticles.main;
+        broomModule.simulationSpeed = 0f;
+        _sineWave.enabled = false;
+        enabled = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

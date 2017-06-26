@@ -133,8 +133,9 @@ public class PaperThiefStar : MonoBehaviour
 	}
 
 	public void stop()
-	{
-		trailParticleModule.simulationSpeed = explosionParticleModule.simulationSpeed = 0f;
+    {
+        GetComponent<GrowToSize>().enabled = false;
+        trailParticleModule.simulationSpeed = explosionParticleModule.simulationSpeed = 0f;
 		enabled = false;
 	}
 	
@@ -155,7 +156,6 @@ public class PaperThiefStar : MonoBehaviour
 					trailParticleModule.simulationSpeed *= 2f;
 					emitExplosionStars(killStarCount);
 					dead = true;
-                    GetComponent<GrowToSize>().enabled = false;
 					flash.GetComponent<ParticleSystem>().Play();
 					GetComponent<Collider2D>().enabled = false;
 				}

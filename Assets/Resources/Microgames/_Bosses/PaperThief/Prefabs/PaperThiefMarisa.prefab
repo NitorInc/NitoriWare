@@ -409,6 +409,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1672097738399896
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4770316152630532}
+  m_Layer: 0
+  m_Name: Star Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1686699311668234
 GameObject:
   m_ObjectHideFlags: 1
@@ -543,6 +558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4059992439818870}
   - component: {fileID: 95471572204068182}
+  - component: {fileID: 114034869910614338}
   m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
@@ -636,6 +652,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4357763630531588}
+  - component: {fileID: 58949717402256670}
+  - component: {fileID: 114935895432360710}
+  - component: {fileID: 114635618402334788}
   m_Layer: 0
   m_Name: PaperThiefMarisa
   m_TagString: Untagged
@@ -810,7 +829,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.51, y: 1.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4770316152630532}
   m_Father: {fileID: 4304817089302656}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1181,6 +1201,19 @@ Transform:
   m_Father: {fileID: 4583991724143020}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4770316152630532
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1672097738399896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.85, y: 0.401, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4136965712828842}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4798807778167190
 Transform:
   m_ObjectHideFlags: 1
@@ -1292,6 +1325,21 @@ Transform:
   m_Father: {fileID: 4114340677804566}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &58949717402256670
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881707382608046}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.31, y: -0.03}
+  serializedVersion: 2
+  m_Radius: 3.57
 --- !u!95 &95471572204068182
 Animator:
   serializedVersion: 3
@@ -1309,6 +1357,53 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114034869910614338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1832186513615398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba620a1e2425244468b5abecca74f457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unityEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114935895432360710}
+        m_MethodName: createStar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  particleSystems: []
+--- !u!114 &114635618402334788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881707382608046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3467706800869f447a980f1dddc8e13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSpeed: 2.5
+  xAmplitude: 3
+  xOffset: 0.5
+  ySpeed: 1
+  yAmplitude: 3
+  yOffset: 0.5
+  relativeToStartPosition: 0
+  positionOffset: {x: 3.08, y: 1.31, z: 0}
 --- !u!114 &114810594775928426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1322,6 +1417,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 750
   _facingRight: 0
+--- !u!114 &114935895432360710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881707382608046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef37c43c39233a44b0568c458062d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 1
+  starFireCooldown: 3
+  hitFlashSpeed: 5
+  hitFlashColorDrop: 0.25
+  rigAnimator: {fileID: 95471572204068182}
+  starPrefab: {fileID: 1383397214885520, guid: 067a7f8bd7d92884a9d9703afe6a2d33, type: 2}
+  starCreationPoint: {fileID: 4770316152630532}
+  broomParticles: {fileID: 198059435028847804}
 --- !u!198 &198059435028847804
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -2291,7 +2405,7 @@ ParticleSystem:
     enabled: 0
     x:
       minMaxState: 0
-      scalar: 0
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4552,7 +4666,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 13
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300016, guid: 1b29a0a8a0980cc4ea218052052401b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
