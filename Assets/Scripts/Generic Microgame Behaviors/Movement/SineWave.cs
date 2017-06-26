@@ -10,7 +10,8 @@ public class SineWave : MonoBehaviour
 	public float xSpeed, xAmplitude, xOffset, ySpeed, yAmplitude, yOffset;
 	public bool relativeToStartPosition;
 
-	private Vector3 offset;
+    [SerializeField]
+	private Vector3 positionOffset;
 	private float startTime;
 
 	void Awake()
@@ -27,17 +28,18 @@ public class SineWave : MonoBehaviour
 
 	public void resetStartPosition()
 	{
-		offset = relativeToStartPosition ? transform.localPosition : Vector3.zero;
+        if (relativeToStartPosition)
+		    positionOffset = transform.localPosition;
 	}
 
 	public void setStartPosition(Vector3 position)
 	{
-		offset = position;
+		positionOffset = position;
 	}
 	
 	void Update ()
 	{
-		float x = transform.localPosition.x - offset.x, y = transform.localPosition.y - offset.y;
+		float x = transform.localPosition.x - positionOffset.x, y = transform.localPosition.y - positionOffset.y;
 		if (xAmplitude > 0f)
 		{
 			x = Mathf.Sin(((Time.time - startTime) * xSpeed) + (xOffset * Mathf.PI)) * xAmplitude;
@@ -46,6 +48,6 @@ public class SineWave : MonoBehaviour
 		{
 			y = Mathf.Sin(((Time.time - startTime) * ySpeed) + (yOffset * Mathf.PI)) * yAmplitude;
 		}
-		transform.localPosition = new Vector3(x, y, transform.localPosition.z) + offset;
+		transform.localPosition = new Vector3(x, y, transform.localPosition.z) + positionOffset;
 	}
 }

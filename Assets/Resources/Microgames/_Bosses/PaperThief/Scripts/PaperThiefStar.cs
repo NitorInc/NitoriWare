@@ -9,7 +9,7 @@ public class PaperThiefStar : MonoBehaviour
     [SerializeField]
 	private Vector2 LinearVelocity;
 	[SerializeField]
-	private float cameraActivationX, seekMoveSpeed, seekPower, rotateSpeed, forceAngleDirection,
+	private float cameraActivationX, seekMoveSpeed, seekPower, rotateSpeed,
 		hitSlowDownMult, hitAcc, killSpeed, flashSpeed, shrinkSpeed;
 	[SerializeField]
 	private int hitStarCount, killStarCount;
@@ -20,6 +20,8 @@ public class PaperThiefStar : MonoBehaviour
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
 #pragma warning restore 0649
+
+    public float forceAngleDirection;
 
     [SerializeField]
 	private MovementType movementType;
@@ -60,11 +62,14 @@ public class PaperThiefStar : MonoBehaviour
 		trailParticleModule.startColor = getRandomHueColor();
 		if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
 			updateMovement();
+        updateFlash();
 	}
 
 	void LateUpdate()
 	{
-		if (PaperThiefNitori.dead)
+        if (PaperThiefMarisa.defeated && !dead)
+            kill();
+        else if (PaperThiefNitori.dead)
 			stop();
 	}
 
@@ -114,16 +119,19 @@ public class PaperThiefStar : MonoBehaviour
 	{
 		if (velocity.magnitude < seekMoveSpeed)
 			velocity = velocity.resize(Mathf.Min(seekMoveSpeed, velocity.magnitude + (hitAcc * Time.deltaTime)));
-
-		if (flashing || dead)
-		{
-			setFlashAlpha(Mathf.Min(getFlashAlpha() + (flashSpeed * Time.deltaTime), 1f));
-			if (getFlashAlpha() == 1f)
-				flashing = false;
-		}
-		else if (getFlashAlpha() > 0f)
-			setFlashAlpha(Mathf.Max(getFlashAlpha() - (flashSpeed * Time.deltaTime), 0f));
 	}
+
+    void updateFlash()
+    {
+        if (flashing || dead)
+        {
+            setFlashAlpha(Mathf.Min(getFlashAlpha() + (flashSpeed * Time.deltaTime), 1f));
+            if (getFlashAlpha() == 1f)
+                flashing = false;
+        }
+        else if (getFlashAlpha() > 0f)
+            setFlashAlpha(Mathf.Max(getFlashAlpha() - (flashSpeed * Time.deltaTime), 0f));
+    }
 
 	float getAngleToPlayer()
 	{
@@ -131,8 +139,9 @@ public class PaperThiefStar : MonoBehaviour
 	}
 
 	public void stop()
-	{
-		trailParticleModule.simulationSpeed = explosionParticleModule.simulationSpeed = 0f;
+    {
+        GetComponent<GrowToSize>().enabled = false;
+        trailParticleModule.simulationSpeed = explosionParticleModule.simulationSpeed = 0f;
 		enabled = false;
 	}
 	
@@ -146,25 +155,32 @@ public class PaperThiefStar : MonoBehaviour
 			{
 				other.GetComponent<PaperThiefShot>().kill();
 				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
-				if (velocity.magnitude <= killSpeed)
+                flashing = true;
+                if (velocity.magnitude <= killSpeed)
 				{
-					velocity = Vector2.zero;
-					trailParticles.Stop();
-					trailParticleModule.simulationSpeed *= 2f;
-					emitExplosionStars(killStarCount);
-					dead = true;
-					flash.GetComponent<ParticleSystem>().Play();
-					GetComponent<Collider2D>().enabled = false;
+                    kill();
 				}
 				else
 				{
-					flashing = true;
 					emitExplosionStars(hitStarCount);
 				}
 				
 			}
 		}
 	}
+
+    void kill()
+    {
+        velocity = Vector2.zero;
+        trailParticles.Stop();
+        trailParticleModule.simulationSpeed *= 2f;
+        emitExplosionStars(killStarCount);
+        flashSpeed *= 3f;
+        dead = true;
+        flash.GetComponent<ParticleSystem>().Play();
+        GetComponent<GrowToSize>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+    }
 
 	void destroy()
 	{
