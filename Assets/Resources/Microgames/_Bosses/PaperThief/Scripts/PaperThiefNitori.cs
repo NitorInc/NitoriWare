@@ -106,7 +106,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 	}
 
-	void changeState(State state)
+	public void changeState(State state)
 	{
 		switch (state)
 		{

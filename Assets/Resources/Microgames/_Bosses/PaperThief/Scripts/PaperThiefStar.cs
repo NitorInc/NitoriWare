@@ -62,12 +62,13 @@ public class PaperThiefStar : MonoBehaviour
 		trailParticleModule.startColor = getRandomHueColor();
 		if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
 			updateMovement();
+        updateFlash();
 	}
 
 	void LateUpdate()
 	{
-        if (PaperThiefMarisa.defeated)
-            defeat();
+        if (PaperThiefMarisa.defeated && !dead)
+            kill();
         else if (PaperThiefNitori.dead)
 			stop();
 	}
@@ -118,16 +119,19 @@ public class PaperThiefStar : MonoBehaviour
 	{
 		if (velocity.magnitude < seekMoveSpeed)
 			velocity = velocity.resize(Mathf.Min(seekMoveSpeed, velocity.magnitude + (hitAcc * Time.deltaTime)));
-
-		if (flashing || dead)
-		{
-			setFlashAlpha(Mathf.Min(getFlashAlpha() + (flashSpeed * Time.deltaTime), 1f));
-			if (getFlashAlpha() == 1f)
-				flashing = false;
-		}
-		else if (getFlashAlpha() > 0f)
-			setFlashAlpha(Mathf.Max(getFlashAlpha() - (flashSpeed * Time.deltaTime), 0f));
 	}
+
+    void updateFlash()
+    {
+        if (flashing || dead)
+        {
+            setFlashAlpha(Mathf.Min(getFlashAlpha() + (flashSpeed * Time.deltaTime), 1f));
+            if (getFlashAlpha() == 1f)
+                flashing = false;
+        }
+        else if (getFlashAlpha() > 0f)
+            setFlashAlpha(Mathf.Max(getFlashAlpha() - (flashSpeed * Time.deltaTime), 0f));
+    }
 
 	float getAngleToPlayer()
 	{
@@ -151,13 +155,13 @@ public class PaperThiefStar : MonoBehaviour
 			{
 				other.GetComponent<PaperThiefShot>().kill();
 				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
-				if (velocity.magnitude <= killSpeed)
+                flashing = true;
+                if (velocity.magnitude <= killSpeed)
 				{
-                    defeat();
+                    kill();
 				}
 				else
 				{
-					flashing = true;
 					emitExplosionStars(hitStarCount);
 				}
 				
@@ -165,12 +169,13 @@ public class PaperThiefStar : MonoBehaviour
 		}
 	}
 
-    void defeat()
+    void kill()
     {
         velocity = Vector2.zero;
         trailParticles.Stop();
         trailParticleModule.simulationSpeed *= 2f;
         emitExplosionStars(killStarCount);
+        flashSpeed *= 3f;
         dead = true;
         flash.GetComponent<ParticleSystem>().Play();
         GetComponent<GrowToSize>().enabled = false;

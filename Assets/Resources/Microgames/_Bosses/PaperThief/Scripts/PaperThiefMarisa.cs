@@ -11,7 +11,7 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private State state;
     [SerializeField]
-    private int maxHealth;
+    private int maxHealth, moveHealth;
     [SerializeField]
     private float starFireCooldown, hitFlashSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
     [SerializeField]
@@ -26,7 +26,7 @@ public class PaperThiefMarisa : MonoBehaviour
     private ParticleSystem broomParticles, defeatedParticles;
 #pragma warning restore 0649
 
-    private SpriteRenderer[] _spriteRenderers;
+    private List<SpriteRenderer> _spriteRenderers;
     private SineWave _sineWave;
     private bool flashingRed;
     private float starFireTimer, defeatSpinTimer, moveCenterSpeed;
@@ -48,10 +48,23 @@ public class PaperThiefMarisa : MonoBehaviour
 
 	void Awake()
 	{
-        _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         _sineWave = GetComponent<SineWave>();
         defeated = false;
-	}
+        
+        _spriteRenderers = new List<SpriteRenderer>();
+        addSpriteRenderers(transform);
+    }
+
+    void addSpriteRenderers(Transform transform)
+    {
+        SpriteRenderer sprRenderer = transform.GetComponent<SpriteRenderer>();
+        if (sprRenderer != null)
+            _spriteRenderers.Add(sprRenderer);
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            addSpriteRenderers(transform.GetChild(i));
+        }
+    }
 
     void Start()
     {
@@ -62,12 +75,12 @@ public class PaperThiefMarisa : MonoBehaviour
         ChangeState(state);
     }
 
-    void ChangeState(State state)
+    public void ChangeState(State state)
     {
         switch(state)
         {
             case (State.Fight):
-                starFireTimer = starFireCooldown;
+                starFireTimer = starFireCooldown / 2f;
                 health = maxHealth;
                 MicrogameController.instance.displayCommand("Defeat her!");
                 break;
@@ -77,6 +90,7 @@ public class PaperThiefMarisa : MonoBehaviour
                 defeatSpinTimer = 0f;
                 moveCenterSpeed = ((Vector2)transform.localPosition).magnitude / defeatMoveCenterTime;
                 defeatedParticles.Play();
+                PaperThiefNitori.instance.changeState(PaperThiefNitori.State.Platforming);
 
                 defeated = true;
                 break;
@@ -166,7 +180,7 @@ public class PaperThiefMarisa : MonoBehaviour
                 color.g = color.b = currentB + diff;
             }
         }
-        for (int i = 0; i < _spriteRenderers.Length; i++)
+        for (int i = 0; i < _spriteRenderers.Count; i++)
         {
             _spriteRenderers[i].color = color;
         }
@@ -184,7 +198,7 @@ public class PaperThiefMarisa : MonoBehaviour
             else if (transform.localPosition.x < 0f)
                 newStarComponent.forceAngleDirection = 1f;
         }
-        newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
+        //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
     }
 
     void queueAnimation(QueueAnimation animation)
@@ -210,7 +224,12 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Hurt);
             flashingRed = true;
             health--;
-            if (health <= 0)
+            if (health == moveHealth)
+            {
+                _sineWave.enabled = true;
+                _sineWave.resetCycle();
+            }
+            else if (health <= 0)
                 ChangeState(State.Defeat);
         }
     }
