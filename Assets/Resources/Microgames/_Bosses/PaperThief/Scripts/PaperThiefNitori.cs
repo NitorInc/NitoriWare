@@ -145,7 +145,7 @@ public class PaperThiefNitori : MonoBehaviour
 				//PaperThiefCamera.instance.setFollow(null);
 				//PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
 				//PaperThiefCamera.instance.setGoalSize(6.5f);
-				gunCursor.gameObject.SetActive(true);
+				//gunCursor.gameObject.SetActive(true);
 				break;
 			default:
 				break;

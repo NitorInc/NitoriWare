@@ -106,7 +106,6 @@ public class PaperThiefMarisa : MonoBehaviour
             case (State.Fight):
                 starFireTimer = starFireCooldown / 2f;
                 health = maxHealth;
-                MicrogameController.instance.displayCommand("Defeat her!");
                 break;
             case (State.Defeat):
                 PaperThiefNitori.instance.hasControl = false;

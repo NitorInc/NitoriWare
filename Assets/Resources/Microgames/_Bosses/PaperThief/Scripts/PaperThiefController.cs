@@ -9,12 +9,18 @@ public class PaperThiefController : MonoBehaviour
 #pragma warning disable 0649	//Serialized Fields
     [SerializeField]
     private Animator sceneAnimator;
+    [SerializeField]
+    private Transform shootCluster;
+    [SerializeField]
+    private Scene scene;
 #pragma warning restore 0649
 
     public enum Scene
     {
-        CucumberSteal,       //0
-        BeginChase
+        Idle,               //0
+        CucumberSteal,      //1
+        BeginChase,         //2
+        BeginFight          //3
     }
 
     void Awake()
@@ -24,11 +30,13 @@ public class PaperThiefController : MonoBehaviour
 
     void Update()
     {
-
+        if (scene == Scene.BeginChase && shootCluster.childCount == 0)
+            startScene(Scene.BeginFight);
     }
 
     public void startScene(Scene scene)
     {
+        this.scene = scene;
         sceneAnimator.SetInteger("QueuedAnimation", (int)scene);
     }
     
@@ -65,6 +73,16 @@ public class PaperThiefController : MonoBehaviour
     public void detachFromNitori()
     {
         PaperThiefCamera.instance.transform.parent = transform;
+    }
+
+    public void displayShootMessage()
+    {
+        MicrogameController.instance.displayLocalizedCommand("PaperThief.commandb", "Shoot Down!");
+    }
+
+    public void displayFightMessage()
+    {
+        MicrogameController.instance.displayLocalizedCommand("PaperThief.commandc", "Defeat Her!");
     }
 
 }
