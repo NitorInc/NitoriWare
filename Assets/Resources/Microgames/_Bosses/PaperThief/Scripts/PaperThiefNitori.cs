@@ -18,13 +18,13 @@ public class PaperThiefNitori : MonoBehaviour
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform gunTransform, gunCursor, shotMarker, stageTransform, cucumberTransform;
+	private Transform gunTransform, gunCursor, shotMarker, stageTransform, cucumberTransform, victoryTransform;
 	[SerializeField]
 	private PaperThiefSpin spinner;
 	[SerializeField]
 	private BoxCollider2D walkCollider;
 	[SerializeField]
-	private GameObject shotPrefab;
+	private GameObject shotPrefab, gunDiscardPrefab;
 #pragma warning restore 0649
 
     public int forceDirection
@@ -151,6 +151,9 @@ public class PaperThiefNitori : MonoBehaviour
 			default:
 				break;
 		}
+        if (this.state == State.Gun && state != State.Gun)
+            Instantiate(gunDiscardPrefab, gunTransform.position, Quaternion.Euler(0f, 0f, updateGunTilt()));
+
 		this.state = state;
 		rigAnimator.SetInteger("State", (int)state);
 	}
@@ -242,6 +245,11 @@ public class PaperThiefNitori : MonoBehaviour
             PaperThiefController.instance.startScene(PaperThiefController.Scene.CucumberSteal);
             if (_rigidBody2D.velocity.y > 0f)
                 _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
+        }
+        else if (PaperThiefMarisa.defeated && transform.position.x >= victoryTransform.position.x - .5f)
+        {
+            forceDirection = 0;
+            PaperThiefController.instance.startScene(PaperThiefController.Scene.Victory);
         }
 	}
 

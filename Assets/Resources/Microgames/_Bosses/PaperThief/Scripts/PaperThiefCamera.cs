@@ -149,4 +149,9 @@ public class PaperThiefCamera : MonoBehaviour
 
         PaperThiefController.instance.startScene(PaperThiefController.Scene.BeginChase);
     }
+
+    public void stopChase()
+    {
+        chase = enabled = false;
+    }
 }

@@ -20,7 +20,9 @@ public class PaperThiefController : MonoBehaviour
         Idle,               //0
         CucumberSteal,      //1
         BeginChase,         //2
-        BeginFight          //3
+        BeginFight,         //3
+        MarisaDeath,        //4
+        Victory             //5
     }
 
     void Awake()
@@ -87,5 +89,11 @@ public class PaperThiefController : MonoBehaviour
         PaperThiefMarisa.instance.ChangeState(PaperThiefMarisa.State.Fight);
     }
 
+
+    public void endFight()
+    {
+        sceneAnimator.enabled = true;
+        startScene(Scene.MarisaDeath);
+    }
 }
 

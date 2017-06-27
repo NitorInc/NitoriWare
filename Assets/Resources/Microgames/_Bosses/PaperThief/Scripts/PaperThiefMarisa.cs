@@ -115,6 +115,7 @@ public class PaperThiefMarisa : MonoBehaviour
                 moveCenterSpeed = ((Vector2)transform.localPosition).magnitude / defeatMoveCenterTime;
                 defeatedParticles.Play();
                 PaperThiefNitori.instance.changeState(PaperThiefNitori.State.Platforming);
+                PaperThiefCamera.instance.stopChase();
 
                 defeated = true;
                 break;
@@ -163,8 +164,8 @@ public class PaperThiefMarisa : MonoBehaviour
             starFireTimer = starFireCooldown;
         }
 
-        if (!_sineWave.enabled)
-            transform.localPosition = fightPosition;
+        //if (!_sineWave.enabled)
+        //    transform.localPosition = fightPosition;
     }
 
     void updateDefeat()
@@ -181,6 +182,7 @@ public class PaperThiefMarisa : MonoBehaviour
             spin.facingRight = false;
             defeatedParticles.Stop();
             enabled = false;
+            PaperThiefController.instance.endFight();
         }
     }
 
@@ -239,9 +241,9 @@ public class PaperThiefMarisa : MonoBehaviour
         PaperThiefStar newStarComponent = newStar.GetComponent<PaperThiefStar>();
         if (_sineWave.enabled)
         {
-            if (transform.localPosition.y < 0f)
+            if (transform.localPosition.y < 1.5f)
                 newStarComponent.forceAngleDirection = -1f;
-            else if (transform.localPosition.x < 0f)
+            else if (transform.localPosition.x < -.5f)
                 newStarComponent.forceAngleDirection = 1f;
         }
         //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
