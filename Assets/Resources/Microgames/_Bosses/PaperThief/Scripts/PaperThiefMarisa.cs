@@ -278,7 +278,6 @@ public class PaperThiefMarisa : MonoBehaviour
             if (health == moveHealth)
             {
                 _sineWave.enabled = true;
-                _sineWave.setStartPosition(transform.position);
                 _sineWave.resetCycle();
             }
             else if (health <= 0)
