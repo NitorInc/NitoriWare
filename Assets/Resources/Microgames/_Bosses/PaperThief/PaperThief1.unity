@@ -468,6 +468,36 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 981050239}
+        m_MethodName: activateToss
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 981050239}
+        m_MethodName: createGun
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   particleSystems:
   - {fileID: 1523362031}
 --- !u!1 &280867082
@@ -8267,6 +8297,30 @@ Transform:
   m_Father: {fileID: 1759987979}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &981050238 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1881707382608046, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
+--- !u!114 &981050239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 981050238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5214437878ae5644d853fe96a0efdc5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  junkPrefab: {fileID: 1710891552931628, guid: 30bd277973391ad4fb1b302cd1a0ce4c, type: 2}
+  gunPrefab: {fileID: 1109692603096122, guid: b9a2931d53c24444ea5bc56c27768501, type: 2}
+  junkPieces:
+  - {fileID: 21300000, guid: 7e2a9a8f6c0a632479fcf3e908a0c9ce, type: 3}
+  - {fileID: 21300000, guid: 1a175b2e36b43644289fae860c2c1d54, type: 3}
+  - {fileID: 21300000, guid: 619ebd388049eec47a7c9cb645e84f14, type: 3}
+  - {fileID: 21300000, guid: eb344b0a69c10204d9ee4e774b93e960, type: 3}
+  disanceBetweenJunk: 1.5
 --- !u!4 &1043374775 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4357763630531588, guid: c5c729f38fcd85e4b85fd3550179caa6,

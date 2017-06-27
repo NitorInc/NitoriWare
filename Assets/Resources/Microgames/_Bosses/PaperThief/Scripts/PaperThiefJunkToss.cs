@@ -11,25 +11,28 @@ public class PaperThiefJunkToss : MonoBehaviour
     [SerializeField]
     private List<Sprite> junkPieces;
     [SerializeField]
-    private float timeBetweenJunk;
+    private float disanceBetweenJunk;
 #pragma warning restore 0649
 
     private bool activated;
     private float junkTimer;
+    private Vector3 lastPosition;
 
 	void Start()
 	{
         activated = false;
+        lastPosition = transform.position;
 	}
 
     void Update()
     {
         if (activated)
         {
-            junkTimer -= Time.deltaTime;
+            junkTimer -= ((Vector2)(transform.position - lastPosition)).magnitude;
             if (junkTimer <= 0f)
                 createJunk();
         }
+        lastPosition = transform.position;
 	}
 
     public void activateToss()
@@ -40,13 +43,15 @@ public class PaperThiefJunkToss : MonoBehaviour
 
     public void createGun()
     {
-        GameObject.Instantiate(junkPrefab, transform.position, Quaternion.identity);
+        GameObject.Instantiate(gunPrefab, transform.position, Quaternion.identity).name = "PaperThiefGun";
     }
 
     void createJunk()
     {
         GameObject.Instantiate(junkPrefab, transform.position, Quaternion.identity).GetComponent<SpriteRenderer>().sprite = junkPieces[0];
         junkPieces.RemoveAt(0);
-        junkTimer += timeBetweenJunk;
+        junkTimer += disanceBetweenJunk;
+        if (junkPieces.Count == 0)
+            enabled = false;
     }
 }
