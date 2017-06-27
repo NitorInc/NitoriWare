@@ -6,18 +6,35 @@ public class PaperThiefCamera : MonoBehaviour
 {
 	public static PaperThiefCamera instance;
 
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	private Transform follow;
 	[SerializeField]
-	private float shiftSpeed;
+	private float shiftSpeed, nitoriFollowSpeed;
 	[SerializeField]
 	private AnimationCurve velocityOverTime;
+#pragma warning restore 0649
 
 
-	private BoxCollider2D boxCollider;
+    private BoxCollider2D boxCollider;
 	private Vector3 goalPosition;
 	private float goalSize, lerpSize, lerpSizeDistance, startTime;
-	private bool mustShift, scroll;
+	private bool mustShift, scroll, _followNitori;
+
+    public bool followNitori
+    {
+        get { return _followNitori; }
+        set
+        {
+            if (value)
+            {
+                stopScroll();
+                updateNitoriShiftGoal();
+            }
+            _followNitori = value;
+        }
+    }
+
 
 	void Awake()
 	{
@@ -52,13 +69,19 @@ public class PaperThiefCamera : MonoBehaviour
 	{
 		this.follow = follow;
 	}
+
+    public void setShiftSpeed(float shiftSpeed)
+    {
+        this.shiftSpeed = shiftSpeed;
+    }
 	
 	void Update()
 	{
+        if (followNitori)
+            updateNitoriShiftGoal();
+
 		if (mustShift)
 			updateShift();
-		else if (follow != null)
-			updateFollow();
 		else if (scroll)
 			updateScroll();
 	}
@@ -93,4 +116,13 @@ public class PaperThiefCamera : MonoBehaviour
 
 		boxCollider.enabled = false;
 	}
+
+    void updateNitoriShiftGoal()
+    {
+        Vector3 nitoriPosition = PaperThiefNitori.instance.transform.localPosition,
+            camPosition = transform.localPosition;
+        setGoalPosition(new Vector3(nitoriPosition.x, camPosition.y, camPosition.z));
+        setShiftSpeed(nitoriFollowSpeed);
+        setGoalSize(Camera.main.orthographicSize);
+    }
 }

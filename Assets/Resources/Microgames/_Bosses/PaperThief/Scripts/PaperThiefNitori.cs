@@ -13,10 +13,12 @@ public class PaperThiefNitori : MonoBehaviour
     [SerializeField]
 	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
+    [SerializeField]
+    private int _forceDirection;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform gunTransform, gunCursor, shotMarker, stageTransform;
+	private Transform gunTransform, gunCursor, shotMarker, stageTransform, cucumberTransform;
 	[SerializeField]
 	private PaperThiefSpin spinner;
 	[SerializeField]
@@ -24,6 +26,12 @@ public class PaperThiefNitori : MonoBehaviour
 	[SerializeField]
 	private GameObject shotPrefab;
 #pragma warning restore 0649
+
+    public int forceDirection
+    {
+        get { return _forceDirection; }
+        set { _forceDirection = value; }
+    }
 
     private Rigidbody2D _rigidBody2D;
 	private float spinCooldownTimer, shotCooldownTimer;
@@ -84,27 +92,30 @@ public class PaperThiefNitori : MonoBehaviour
 				break;
 		}
 
-		if (Input.GetKeyDown(KeyCode.V))
-			MicrogameController.instance.setVictory(true, true);
-		else if (Input.GetKeyDown(KeyCode.F))
-			MicrogameController.instance.setVictory(false, true);
-		if (Input.GetKeyDown(KeyCode.G))
-		{
-			changeState(state == State.Gun ? State.Platforming : State.Gun);
-		}
-		else if (Input.GetKeyDown(KeyCode.T))
-		{
-			//rigAnimator.Play("Hop");
-			queueAnimation(QueueAnimation.Confused);
-			//queueAnimation(QueueAnimation.Shock);
-			//queueAnimation(QueueAnimation.GetCucumber);
-		}
-		else if (Input.GetKeyDown(KeyCode.I))
-		{
-			queueAnimation(QueueAnimation.Idle);
-		}
+        if (MicrogameController.instance.isDebugMode())
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+                MicrogameController.instance.setVictory(true, true);
+            else if (Input.GetKeyDown(KeyCode.F))
+                MicrogameController.instance.setVictory(false, true);
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                changeState(state == State.Gun ? State.Platforming : State.Gun);
+            }
+            //else if (Input.GetKeyDown(KeyCode.T))
+            //{
+            //	//rigAnimator.Play("Hop");
+            //	queueAnimation(QueueAnimation.Confused);
+            //	//queueAnimation(QueueAnimation.Shock);
+            //	//queueAnimation(QueueAnimation.GetCucumber);
+            //}
+            //else if (Input.GetKeyDown(KeyCode.I))
+            //{
+            //	queueAnimation(QueueAnimation.Idle);
+            //}
+        }
 
-	}
+    }
 
 	public void changeState(State state)
 	{
@@ -189,13 +200,15 @@ public class PaperThiefNitori : MonoBehaviour
 	void updatePlatforming()
 	{
 		int direction = 0;
-		if (hasControl)
-		{
-			if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
-				direction -= 1;
-			if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
-				direction += 1;
-		}
+        if (hasControl)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow) && !wallContact(false))
+                direction -= 1;
+            if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
+                direction += 1;
+        }
+        else if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
+                direction = forceDirection;
 
 		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
 
@@ -204,11 +217,19 @@ public class PaperThiefNitori : MonoBehaviour
 		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
 		updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
 
-		if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
-		{
-			//rigAnimator.Play("Jump Up");
-			_rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
-		}
+        if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
+        {
+            //rigAnimator.Play("Jump Up");
+            _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+        }
+
+
+        if (hasControl && transform.position.x >= cucumberTransform.position.x - 1f)
+        {
+            PaperThiefController.instance.startScene(PaperThiefController.Scene.CucumberSteal);
+            if (_rigidBody2D.velocity.y > 0f)
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
+        }
 	}
 
 	void updateWalkSpeed(int direction)
@@ -252,7 +273,7 @@ public class PaperThiefNitori : MonoBehaviour
 			rigAnimator.SetFloat("NormalizedTime", animatorClip[0].clip.length * animationState.normalizedTime);
 	}
 
-	void queueAnimation(QueueAnimation animation)
+	public void queueAnimation(QueueAnimation animation)
 	{
 		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
 	}
@@ -281,11 +302,8 @@ public class PaperThiefNitori : MonoBehaviour
 		{
 			kill(false);
 		}
-		else if (state == State.Platforming && other.name.Equals("Gun Trigger"))
-		{
-			changeState(state == State.Gun ? State.Platforming : State.Gun);
-			Destroy(other.gameObject);
-		}
+		//changeState(state == State.Gun ? State.Platforming : State.Gun);
+		//Destroy(other.gameObject);
 	}
 
 	public void kill(bool playAnimation)
@@ -317,5 +335,28 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		return _rigidBody2D;
 	}
+
+    public void setFacingRight(bool facingRight)
+    {
+        spinner.facingRight = facingRight;
+    }
+
+    public bool isFacingRight()
+    {
+        return spinner.facingRight;
+    }
+
+    public void blink()
+    {
+        StartCoroutine(quickBlink());
+    }
+
+    IEnumerator quickBlink()
+    {
+        rigAnimator.SetBool("BlinkQueued", true);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        rigAnimator.SetBool("BlinkQueued", false);
+    }
 }
 

@@ -15,6 +15,8 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private float starFireCooldown, hitFlashSpeed, unblackenSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
     [SerializeField]
+    private Vector3 fightPosition;
+    [SerializeField]
     private Animator rigAnimator;
     [SerializeField]
     private PaperThiefSpin spin;
@@ -59,7 +61,9 @@ public class PaperThiefMarisa : MonoBehaviour
     {
         Idle,       //0
         Snap,       //1
-        Hurt        //2
+        Hurt,       //2
+        Zoom,       //3
+        Laugh       //4
     }
 
 	void Awake()
@@ -240,7 +244,7 @@ public class PaperThiefMarisa : MonoBehaviour
         //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
     }
 
-    void queueAnimation(QueueAnimation animation)
+    public void queueAnimation(QueueAnimation animation)
 	{
 		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
     }
@@ -252,6 +256,11 @@ public class PaperThiefMarisa : MonoBehaviour
         broomModule.simulationSpeed = 0f;
         _sineWave.enabled = false;
         enabled = false;
+    }
+
+    public void snapToFightPosition()
+    {
+        transform.localPosition = fightPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -271,5 +280,15 @@ public class PaperThiefMarisa : MonoBehaviour
             else if (health <= 0)
                 ChangeState(State.Defeat);
         }
+    }
+
+    public void setFacingRight(bool facingRight)
+    {
+        spin.facingRight = facingRight;
+    }
+
+    public bool isFacingRight()
+    {
+        return spin.facingRight;
     }
 }
