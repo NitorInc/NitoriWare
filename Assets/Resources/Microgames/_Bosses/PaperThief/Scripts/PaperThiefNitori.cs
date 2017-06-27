@@ -135,14 +135,16 @@ public class PaperThiefNitori : MonoBehaviour
                 break;
 			case (State.Gun):
 				stageTransform.gameObject.SetActive(false);
-				PaperThiefCamera.instance.stopScroll();
+
 				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetFloat("WalkSpeed", 1f);
 				rigAnimator.SetInteger("Jump", 0);
-				PaperThiefCamera.instance.transform.parent = transform;
-				PaperThiefCamera.instance.setFollow(null);
-				PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
-				PaperThiefCamera.instance.setGoalSize(6.5f);
+
+                PaperThiefCamera.instance.startChase();
+				//PaperThiefCamera.instance.transform.parent = transform;
+				//PaperThiefCamera.instance.setFollow(null);
+				//PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
+				//PaperThiefCamera.instance.setGoalSize(6.5f);
 				gunCursor.gameObject.SetActive(true);
 				break;
 			default:

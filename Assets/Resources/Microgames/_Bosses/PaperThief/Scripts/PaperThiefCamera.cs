@@ -10,16 +10,16 @@ public class PaperThiefCamera : MonoBehaviour
     [SerializeField]
 	private Transform follow;
 	[SerializeField]
-	private float shiftSpeed, nitoriFollowSpeed;
+	private float shiftSpeed, nitoriFollowSpeed, chaseShiftSpeed;
 	[SerializeField]
 	private AnimationCurve velocityOverTime;
 #pragma warning restore 0649
 
 
     private BoxCollider2D boxCollider;
-	private Vector3 goalPosition;
+	private Vector3 goalPosition, chaseGoalOffset, chaseOffset;
 	private float goalSize, lerpSize, lerpSizeDistance, startTime;
-	private bool mustShift, scroll, _followNitori;
+	private bool mustShift, scroll, _followNitori, chase;
 
     public bool followNitori
     {
@@ -44,6 +44,7 @@ public class PaperThiefCamera : MonoBehaviour
 		goalPosition = transform.localPosition;
 		startTime = Time.time;
 		scroll = true;
+        chase = false;
 	}
 
 	public void setGoalPosition(Vector3 goalPosition)
@@ -75,16 +76,30 @@ public class PaperThiefCamera : MonoBehaviour
         this.shiftSpeed = shiftSpeed;
     }
 	
-	void Update()
+	void LateUpdate()
 	{
         if (followNitori)
             updateNitoriShiftGoal();
+        else if (chase)
+            updateChase();
 
-		if (mustShift)
+        if (mustShift)
 			updateShift();
 		else if (scroll)
 			updateScroll();
 	}
+
+    void updateChase()
+    {
+        if (chaseOffset != chaseGoalOffset)
+        {
+            chaseOffset.x += chaseShiftSpeed * Time.deltaTime;
+            if (chaseOffset.x >= chaseGoalOffset.x)
+                chaseOffset = chaseGoalOffset;
+        }
+
+        transform.position = PaperThiefNitori.instance.transform.position + chaseOffset;
+    }
 
 	void updateScroll()
 	{
@@ -124,5 +139,14 @@ public class PaperThiefCamera : MonoBehaviour
         setGoalPosition(new Vector3(nitoriPosition.x, camPosition.y, camPosition.z));
         setShiftSpeed(nitoriFollowSpeed);
         setGoalSize(Camera.main.orthographicSize);
+    }
+
+    public void startChase()
+    {
+        chase = true;
+        chaseOffset = chaseGoalOffset = transform.position - PaperThiefNitori.instance.transform.position;
+        chaseGoalOffset = new Vector3(7.5f, chaseGoalOffset.y, chaseGoalOffset.z);
+
+        ;
     }
 }
