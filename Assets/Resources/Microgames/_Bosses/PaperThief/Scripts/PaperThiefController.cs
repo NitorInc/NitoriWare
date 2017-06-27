@@ -38,7 +38,6 @@ public class PaperThiefController : MonoBehaviour
 
     public void queueMarisaAnimation(PaperThiefMarisa.QueueAnimation animation)
     {
-        Debug.Log("Queueing " + animation);
         PaperThiefMarisa.instance.queueAnimation(animation);
     }
 
