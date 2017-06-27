@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PaperThiefMarisa : MonoBehaviour
 {
-
+    public static PaperThiefMarisa instance;
     public static bool defeated;
 
 #pragma warning disable 0649
@@ -13,7 +13,7 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private int maxHealth, moveHealth;
     [SerializeField]
-    private float starFireCooldown, hitFlashSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
+    private float starFireCooldown, hitFlashSpeed, unblackenSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
     [SerializeField]
     private Animator rigAnimator;
     [SerializeField]
@@ -28,9 +28,25 @@ public class PaperThiefMarisa : MonoBehaviour
 
     private List<SpriteRenderer> _spriteRenderers;
     private SineWave _sineWave;
-    private bool flashingRed;
+    private bool flashingRed, _blackened;
     private float starFireTimer, defeatSpinTimer, moveCenterSpeed;
     private int health;
+
+    public bool blackened
+    {
+        get {return _blackened;}
+        set 
+        {
+            if (value)
+            {
+                for (int i = 0; i < _spriteRenderers.Count; i++)
+                {
+                    _spriteRenderers[i].color = Color.black;
+                }
+            }
+            _blackened = value;
+        }
+    }
     
     public enum State
     {
@@ -48,9 +64,10 @@ public class PaperThiefMarisa : MonoBehaviour
 
 	void Awake()
 	{
-        _sineWave = GetComponent<SineWave>();
+        instance = this;
         defeated = false;
-        
+
+        _sineWave = GetComponent<SineWave>();
         _spriteRenderers = new List<SpriteRenderer>();
         addSpriteRenderers(transform);
     }
@@ -79,6 +96,9 @@ public class PaperThiefMarisa : MonoBehaviour
     {
         switch(state)
         {
+            case (State.Cutscene):
+                blackened = true;
+                break;
             case (State.Fight):
                 starFireTimer = starFireCooldown / 2f;
                 health = maxHealth;
@@ -87,7 +107,7 @@ public class PaperThiefMarisa : MonoBehaviour
             case (State.Defeat):
                 PaperThiefNitori.instance.hasControl = false;
                 _sineWave.enabled = false;
-                defeatSpinTimer = 0f;
+                defeatSpinTimer = defeatSpinFrequency / 2f;
                 moveCenterSpeed = ((Vector2)transform.localPosition).magnitude / defeatMoveCenterTime;
                 defeatedParticles.Play();
                 PaperThiefNitori.instance.changeState(PaperThiefNitori.State.Platforming);
@@ -115,8 +135,13 @@ public class PaperThiefMarisa : MonoBehaviour
                 break;
         }
 
-        if (flashingRed || _spriteRenderers[0].color.b < 1f)
-            updateHitFlash();
+        if (state != State.Cutscene)
+        {
+            if (flashingRed || _spriteRenderers[0].color.b < 1f)
+                updateHitFlash();
+        }
+        else if (!blackened && _spriteRenderers[0].color.r < 1f)
+            updateBlacken();
     }
 
     void LateUpdate()
@@ -185,6 +210,20 @@ public class PaperThiefMarisa : MonoBehaviour
             _spriteRenderers[i].color = color;
         }
     }
+    
+    void updateBlacken()
+    {
+        Color color = _spriteRenderers[0].color;
+        float diff = unblackenSpeed * Time.deltaTime;
+        if (color.r + diff >= 1f)
+            color = Color.white;
+        else
+            color.r = color.g = color.b = color.r + diff;
+        for (int i = 0; i < _spriteRenderers.Count; i++)
+        {
+            _spriteRenderers[i].color = color;
+        }
+    }
 
     public void createStar()
     {
@@ -217,7 +256,7 @@ public class PaperThiefMarisa : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!defeated && !PaperThiefNitori.dead && other.name.Contains("Shot"))
+        if (state == State.Fight && !defeated && !PaperThiefNitori.dead && other.name.Contains("Shot"))
         {
             other.GetComponent<PaperThiefShot>().kill();
 
