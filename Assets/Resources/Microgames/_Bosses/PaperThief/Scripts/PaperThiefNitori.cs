@@ -101,7 +101,8 @@ public class PaperThiefNitori : MonoBehaviour
                 MicrogameController.instance.setVictory(false, true);
             if (Input.GetKeyDown(KeyCode.G))
             {
-                changeState(state == State.Gun ? State.Platforming : State.Gun);
+                MicrogameController.instance.displayCommand("ASF:ASF");
+                //changeState(state == State.Gun ? State.Platforming : State.Gun);
             }
 
             if (Input.GetKeyDown(KeyCode.S))

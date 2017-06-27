@@ -106,6 +106,7 @@ public class PaperThiefMarisa : MonoBehaviour
             case (State.Fight):
                 starFireTimer = starFireCooldown / 2f;
                 health = maxHealth;
+                transform.localPosition = fightPosition;
                 break;
             case (State.Defeat):
                 PaperThiefNitori.instance.hasControl = false;
@@ -161,6 +162,9 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Snap);
             starFireTimer = starFireCooldown;
         }
+
+        if (!_sineWave.enabled)
+            transform.localPosition = fightPosition;
     }
 
     void updateDefeat()
@@ -274,6 +278,7 @@ public class PaperThiefMarisa : MonoBehaviour
             if (health == moveHealth)
             {
                 _sineWave.enabled = true;
+                _sineWave.setStartPosition(transform.position);
                 _sineWave.resetCycle();
             }
             else if (health <= 0)
