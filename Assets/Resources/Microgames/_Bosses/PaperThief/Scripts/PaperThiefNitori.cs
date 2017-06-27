@@ -69,7 +69,9 @@ public class PaperThiefNitori : MonoBehaviour
 		_rigidBody2D = GetComponent<Rigidbody2D>();
 
 		if (MicrogameController.instance.isDebugMode())
-			hasControl = true;
+        {
+            hasControl = true;
+        }
 	}
 
 	public State getState()
@@ -85,8 +87,7 @@ public class PaperThiefNitori : MonoBehaviour
 				updatePlatforming();
 				break;
 			case (State.Gun):
-				if (hasControl)
-					updateGun();
+				updateGun();
 				break;
 			default:
 				break;
@@ -102,6 +103,11 @@ public class PaperThiefNitori : MonoBehaviour
             {
                 changeState(state == State.Gun ? State.Platforming : State.Gun);
             }
+
+            if (Input.GetKeyDown(KeyCode.S))
+                Time.timeScale *= 4f;
+            if (Input.GetKeyUp(KeyCode.S))
+                Time.timeScale /= 4f;
             //else if (Input.GetKeyDown(KeyCode.T))
             //{
             //	//rigAnimator.Play("Hop");
@@ -151,12 +157,16 @@ public class PaperThiefNitori : MonoBehaviour
 	{
 		spinner.facingRight = true;
 		_rigidBody2D.velocity = new Vector2(walkSpeed * 2f, _rigidBody2D.velocity.y);
-		float gunAngle = updateGunTilt();
 
-		if (shotCooldownTimer > 0f)
-			shotCooldownTimer -= Time.deltaTime;
-		if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
-			createShot(gunAngle);
+        if (hasControl)
+        {
+            float gunAngle = updateGunTilt();
+
+            if (shotCooldownTimer > 0f)
+                shotCooldownTimer -= Time.deltaTime;
+            if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
+                createShot(gunAngle);
+        }
 	}
 
 	void updateSpinner(int direction)
@@ -207,8 +217,8 @@ public class PaperThiefNitori : MonoBehaviour
             if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
                 direction += 1;
         }
-        else if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
-                direction = forceDirection;
+        else //if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
+            direction = forceDirection;
 
 		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
 
@@ -242,6 +252,9 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			acc = (direction == 0f) ? jumpDec : jumpAcc;
 
+        if (isTurningAround(direction))
+            acc *= 2f;
+
 		if (!MathHelper.Approximately(velocity.x, goalSpeed, .0001f))
 		{
 			float diff = acc * Time.deltaTime;
@@ -251,6 +264,12 @@ public class PaperThiefNitori : MonoBehaviour
 				_rigidBody2D.velocity = new Vector2(velocity.x + (diff * Mathf.Sign(goalSpeed - velocity.x)), velocity.y);
 		}
 	}
+
+    bool isTurningAround(int direction)
+    {
+        return direction != 0 && _rigidBody2D.velocity.x != 0
+            && Mathf.Sign((float)direction) == -Mathf.Sign(_rigidBody2D.velocity.x);
+    }
 
 	void updateAnimatorValues(int direction)
 	{
@@ -302,9 +321,12 @@ public class PaperThiefNitori : MonoBehaviour
 		{
 			kill(false);
 		}
-		//changeState(state == State.Gun ? State.Platforming : State.Gun);
-		//Destroy(other.gameObject);
-	}
+        else if (other.name.EndsWith("Gun"))
+        {
+            changeState(State.Gun);
+            Destroy(other.gameObject);
+        }
+    }
 
 	public void kill(bool playAnimation)
 	{
