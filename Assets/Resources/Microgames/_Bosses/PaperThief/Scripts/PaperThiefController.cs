@@ -13,7 +13,8 @@ public class PaperThiefController : MonoBehaviour
 
     public enum Scene
     {
-        CucumberSteal       //0
+        CucumberSteal,       //0
+        BeginChase
     }
 
     void Awake()

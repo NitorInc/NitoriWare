@@ -147,6 +147,6 @@ public class PaperThiefCamera : MonoBehaviour
         chaseOffset = chaseGoalOffset = transform.position - PaperThiefNitori.instance.transform.position;
         chaseGoalOffset = new Vector3(7.5f, chaseGoalOffset.y, chaseGoalOffset.z);
 
-        ;
+        PaperThiefController.instance.startScene(PaperThiefController.Scene.BeginChase);
     }
 }
