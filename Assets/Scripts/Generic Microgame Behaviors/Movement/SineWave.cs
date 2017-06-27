@@ -48,6 +48,6 @@ public class SineWave : MonoBehaviour
 		{
 			y = Mathf.Sin(((Time.time - startTime) * ySpeed) + (yOffset * Mathf.PI)) * yAmplitude;
 		}
-		transform.localPosition = new Vector3(x, y, transform.localPosition.z) + positionOffset;
+		transform.localPosition = new Vector3(x, y, 0f) + positionOffset;
 	}
 }
