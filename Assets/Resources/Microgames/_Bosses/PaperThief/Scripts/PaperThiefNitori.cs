@@ -208,9 +208,15 @@ public class PaperThiefNitori : MonoBehaviour
 
 	float updateGunTilt()
 	{
-		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - gunTransform.position);
-		float degrees = toCursor.getAngle();
-		//degrees *= Mathf.Lerp(0f, 1f, toCursor.magnitude / 2f);
+        PaperThiefCamera.instance.LateUpdate();
+		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - coreTransform.position);
+		float degrees = MathHelper.trueMod(toCursor.getAngle(), 360f);
+
+        if (degrees >= 90f && degrees <= 180f)
+            degrees = 89.9f;
+        else if (degrees > 270f)
+            degrees = 0;
+
 		if (degrees >= 0f && degrees <= 90f && toCursor.magnitude >= minGunCursorDistance)
 			rigAnimator.SetFloat("GunTilt", degrees / 90f);
 		else

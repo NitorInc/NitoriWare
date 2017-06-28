@@ -607,7 +607,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1987830743978250
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -647,7 +647,6 @@ Transform:
   m_Children:
   - {fileID: 4125601310960624}
   - {fileID: 4262634655644030}
-  - {fileID: 4310950526114710}
   m_Father: {fileID: 4382917291756384}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -843,8 +842,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 2.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4035648315709620}
-  m_RootOrder: 2
+  m_Father: {fileID: 4818351933161712}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4382917291756384
 Transform:
@@ -859,7 +858,7 @@ Transform:
   - {fileID: 4409706265866580}
   - {fileID: 4035648315709620}
   m_Father: {fileID: 4818351933161712}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4409706265866580
 Transform:
@@ -1066,6 +1065,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
+  - {fileID: 4310950526114710}
   - {fileID: 4382917291756384}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1402,7 +1402,7 @@ MonoBehaviour:
   spinCooldown: 0.25
   shotCooldown: 0.25
   shotSpeed: 25
-  minGunCursorDistance: 0.2
+  minGunCursorDistance: 0.5
   _forceDirection: 0
   rigAnimator: {fileID: 95876233013484916}
   gunTransform: {fileID: 4088298639277478}
