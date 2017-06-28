@@ -24,7 +24,7 @@ public class PaperThiefStar : MonoBehaviour
 #pragma warning restore 0649
 
     public float forceAngleDirection;
-    private bool activated;
+    private bool activated, outOfShootingRange;
 
     [SerializeField]
 	private MovementType movementType;
@@ -40,7 +40,7 @@ public class PaperThiefStar : MonoBehaviour
 
 	void Start()
 	{
-		dead = false;
+		dead = outOfShootingRange = false;
 		transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
 
 		trailParticleModule = trailParticles.main;
@@ -131,12 +131,28 @@ public class PaperThiefStar : MonoBehaviour
 	}
 
 	void updateSeeking()
-	{
-		float angleDiff = MathHelper.getAngleDifference(velocity.getAngle(), getAngleToPlayer());
-		angleDiff = (seekPower * (angleDiff / 90f) * Time.deltaTime) * (velocity.magnitude / seekMoveSpeed);
-		velocity = MathHelper.getVector2FromAngle(velocity.getAngle() + angleDiff, velocity.magnitude);
+    {
 
-		updateKnockBack();
+        if (transform.position.x <= PaperThiefNitori.instance.transform.position.x)
+        {
+            transform.position = new Vector3(PaperThiefNitori.instance.transform.position.x, transform.position.y, transform.position.z);
+            velocity = Vector2.down * velocity.magnitude;
+            outOfShootingRange = true;
+        }
+        else if (transform.position.y <= PaperThiefNitori.instance.transform.position.y)
+        {
+            transform.position = new Vector3(transform.position.x, PaperThiefNitori.instance.transform.position.y, transform.position.z);
+            velocity = Vector2.left * velocity.magnitude;
+            outOfShootingRange = true;
+        }
+        else if (!outOfShootingRange)
+        {
+            float angle = MathHelper.getAngleDifference(velocity.getAngle(), getAngleToPlayer()),
+                angleDiff = (seekPower * (angle / 90f) * Time.deltaTime) * (velocity.magnitude / seekMoveSpeed);
+            velocity = MathHelper.getVector2FromAngle(velocity.getAngle() + angleDiff, velocity.magnitude);
+        }
+
+        updateKnockBack();
 	}
 
 	void updateKnockBack()
