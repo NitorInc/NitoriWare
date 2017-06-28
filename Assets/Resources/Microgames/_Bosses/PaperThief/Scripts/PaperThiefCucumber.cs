@@ -10,12 +10,27 @@ public class PaperThiefCucumber : MonoBehaviour
     private float moveSpeed;
     [SerializeField]
     private Vector3 holdOffset;
+    [SerializeField]
+    private SineWave sineWave;
+    [SerializeField]
+    private ParticleSystem[] particleSystems;
 #pragma warning restore 0649
 
     private Vector3 goalPosition;
 
     void Update()
     {
+        if (PaperThiefNitori.dead)
+        {
+            for (int i = 0; i < particleSystems.Length; i++)
+            {
+                var module = particleSystems[i].main;
+                module.simulationSpeed = 0f;
+            }
+
+            sineWave.enabled = false;
+            enabled = false;
+        }
         if (goalPosition != Vector3.zero)
         {
             goalPosition = PaperThiefNitori.instance.transform.position + holdOffset;
@@ -26,7 +41,7 @@ public class PaperThiefCucumber : MonoBehaviour
 
     public void collect()
     {
-        GetComponent<SineWave>().enabled = false;
+        sineWave.enabled = false;
         goalPosition = PaperThiefNitori.instance.transform.position + holdOffset;
 
     }
