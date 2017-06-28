@@ -1062,8 +1062,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1464553629135486}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4382917291756384}
@@ -1248,7 +1248,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.25, y: 6.5}
+  m_Size: {x: 3.25, y: 6.4}
   m_EdgeRadius: 0
 --- !u!95 &95876233013484916
 Animator:
@@ -1403,14 +1403,19 @@ MonoBehaviour:
   shotCooldown: 0.25
   shotSpeed: 25
   minGunCursorDistance: 0.2
+  _forceDirection: 0
   rigAnimator: {fileID: 95876233013484916}
   gunTransform: {fileID: 4088298639277478}
   gunCursor: {fileID: 0}
   shotMarker: {fileID: 4766816589448008}
-  stageTransform: {fileID: 0}
+  disableStars: {fileID: 0}
+  cucumberTransform: {fileID: 0}
+  victoryTransform: {fileID: 0}
   spinner: {fileID: 114374904101047258}
   walkCollider: {fileID: 61880210241271938}
   shotPrefab: {fileID: 1334445560072654, guid: 16092adfbdf43f54691c934b025a5117, type: 2}
+  gunDiscardPrefab: {fileID: 1736134466012838, guid: c949a0c734eca624fa72e2f56fbbd22b,
+    type: 2}
   state: 0
   _hasControl: 0
 --- !u!114 &114897540003570782
