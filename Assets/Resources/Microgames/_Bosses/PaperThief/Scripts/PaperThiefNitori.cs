@@ -36,6 +36,7 @@ public class PaperThiefNitori : MonoBehaviour
     }
 
     private Rigidbody2D _rigidBody2D;
+    private Transform startParent;
 	private float spinCooldownTimer, shotCooldownTimer;
 
 	[SerializeField]
@@ -69,6 +70,7 @@ public class PaperThiefNitori : MonoBehaviour
 		instance = this;
 		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
+        startParent = transform.parent;
 
 		if (MicrogameController.instance.isDebugMode())
         {
@@ -124,17 +126,6 @@ public class PaperThiefNitori : MonoBehaviour
             //}
         }
 
-    }
-
-    void LateUpdate()
-    {
-        RaycastHit2D hit = isGrounded();
-        if (hit && _rigidBody2D.velocity.y < 0f)
-        {
-            float snapY = hit.transform.position.y + (hit.collider.bounds.extents.y);
-            transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
-            _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
-        }
     }
 
     public void changeState(State state)
@@ -239,20 +230,40 @@ public class PaperThiefNitori : MonoBehaviour
         else //if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
             direction = forceDirection;
 
-		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
+        RaycastHit2D groundHit = isGrounded();
+        bool grounded = groundHit && _rigidBody2D.velocity.y <= 0f;
 
-		updateWalkSpeed(direction);
-		updateAnimatorValues(direction);
-		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
-		updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
-        
-        if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
+        if (grounded)
         {
-            //rigAnimator.Play("Jump Up");
-            _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+            //Snap to ground y when landing
+            if (_rigidBody2D.velocity.y < 0f)
+            {
+                float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
+                transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
+            }
+
+            //Attach to moving objects
+            if (groundHit.transform.name.Contains("Moving"))
+                transform.parent = groundHit.transform;
+            else
+                transform.parent = startParent;
+            
+            //Jump
+            if (hasControl && Input.GetKeyDown(KeyCode.Space))
+            {
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+                grounded = false;
+                transform.parent = startParent;
+            }
         }
+        
+        int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
+        updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
 
-
+        updateWalkSpeed(direction, grounded);
+        updateAnimatorValues(direction, grounded);
+        
         if (hasControl && transform.position.x >= cucumberTransform.position.x - 1f)
         {
             PaperThiefController.instance.startScene(PaperThiefController.Scene.CucumberSteal);
@@ -266,12 +277,13 @@ public class PaperThiefNitori : MonoBehaviour
         }
 	}
 
-	void updateWalkSpeed(int direction)
+	void updateWalkSpeed(int direction, bool grounded)
 	{
 		Vector2 velocity = _rigidBody2D.velocity;
 		float goalSpeed, acc;
-		goalSpeed = (float)direction * (isGrounded() ? walkSpeed : jumpMoveSpeed);
-		if (isGrounded() || Mathf.Abs(velocity.x) > jumpMoveSpeed)
+
+		goalSpeed = (float)direction * (grounded ? walkSpeed : jumpMoveSpeed);
+		if (grounded || Mathf.Abs(velocity.x) > jumpMoveSpeed)
 			acc = (direction == 0f) ? walkDec : walkAcc;
 		else
 			acc = (direction == 0f) ? jumpDec : jumpAcc;
@@ -295,7 +307,7 @@ public class PaperThiefNitori : MonoBehaviour
             && Mathf.Sign((float)direction) == -Mathf.Sign(_rigidBody2D.velocity.x);
     }
 
-	void updateAnimatorValues(int direction)
+	void updateAnimatorValues(int direction, bool grounded)
 	{
 		rigAnimator.SetBool("Walking", direction != 0);
 
@@ -305,7 +317,7 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 
-		if (isGrounded())
+		if (grounded)
 			rigAnimator.SetInteger("Jump", 0);
 		else
 			rigAnimator.SetInteger("Jump", _rigidBody2D.velocity.y > 0f ? 1 : 2);
@@ -321,7 +333,7 @@ public class PaperThiefNitori : MonoBehaviour
 		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
 	}
 
-	RaycastHit2D isGrounded()
+	public RaycastHit2D isGrounded()
 	{
         float dist = (walkCollider.bounds.extents.x * 2f) - .15f;
 		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .075f, -.1f),
