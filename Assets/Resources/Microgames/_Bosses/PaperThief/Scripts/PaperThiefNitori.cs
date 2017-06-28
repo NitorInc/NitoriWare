@@ -394,12 +394,17 @@ public class PaperThiefNitori : MonoBehaviour
         StartCoroutine(quickBlink());
     }
 
+    public void stopBlinking()
+    {
+        rigAnimator.SetInteger("BlinkQueue", -1);
+    }
+
     IEnumerator quickBlink()
     {
-        rigAnimator.SetBool("BlinkQueued", true);
+        rigAnimator.SetInteger("BlinkQueue", 1);
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        rigAnimator.SetBool("BlinkQueued", false);
+        rigAnimator.SetInteger("BlinkQueue", 0);
     }
 }
 
