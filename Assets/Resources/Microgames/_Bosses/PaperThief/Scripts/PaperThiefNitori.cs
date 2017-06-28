@@ -233,10 +233,17 @@ public class PaperThiefNitori : MonoBehaviour
 		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
 		updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
 
-        if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded())
         {
-            //rigAnimator.Play("Jump Up");
-            _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+            if (hasControl && Input.GetKeyDown(KeyCode.Space))
+            {
+                //rigAnimator.Play("Jump Up");
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+            }
+            else if (_rigidBody2D.velocity.y < 0f)
+            {
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
+            }
         }
 
 
