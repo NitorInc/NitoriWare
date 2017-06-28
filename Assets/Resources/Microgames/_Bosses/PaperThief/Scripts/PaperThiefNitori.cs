@@ -25,6 +25,8 @@ public class PaperThiefNitori : MonoBehaviour
 	private BoxCollider2D walkCollider;
 	[SerializeField]
 	private GameObject shotPrefab, gunDiscardPrefab;
+    [SerializeField]
+    private LayerMask walkMask;
 #pragma warning restore 0649
 
     public int forceDirection
@@ -126,10 +128,11 @@ public class PaperThiefNitori : MonoBehaviour
 
     void LateUpdate()
     {
-        if (isGrounded() && _rigidBody2D.velocity.y < 0f)
+        RaycastHit2D hit = isGrounded();
+        if (hit && _rigidBody2D.velocity.y < 0f)
         {
-            if (transform.position.y < 0f && transform.position.y > -2f)
-                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+            float snapY = hit.transform.position.y + (hit.collider.bounds.extents.y);
+            transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
             _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
         }
     }
@@ -318,19 +321,18 @@ public class PaperThiefNitori : MonoBehaviour
 		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
 	}
 
-	bool isGrounded()
+	RaycastHit2D isGrounded()
 	{
-		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
-		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
-			Vector2.right, dist);
+        float dist = (walkCollider.bounds.extents.x * 2f) - .15f;
+		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .075f, -.1f),
+			Vector2.right, dist, walkMask);
 	}
 
-	bool wallContact(bool right)
+	RaycastHit2D wallContact(bool right)
 	{
 		float xOffset = walkCollider.bounds.extents.x + .1f;
-		return right ?
-			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f) :
-			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
+        return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2((right ? xOffset : -xOffset), .1f),
+            Vector2.up, walkCollider.bounds.extents.y * 1.8f, walkMask);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
