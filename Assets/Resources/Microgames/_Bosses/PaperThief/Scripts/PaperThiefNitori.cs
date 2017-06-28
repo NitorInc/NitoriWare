@@ -327,7 +327,7 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 
-		if (grounded)
+		if (grounded || _rigidBody2D.velocity.y == 0f)
 			rigAnimator.SetInteger("Jump", 0);
 		else
 			rigAnimator.SetInteger("Jump", _rigidBody2D.velocity.y > 0f ? 1 : 2);
