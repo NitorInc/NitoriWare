@@ -154,7 +154,10 @@ public class PaperThiefNitori : MonoBehaviour
 				break;
 		}
         if (this.state == State.Gun && state != State.Gun)
+        {
             Instantiate(gunDiscardPrefab, gunTransform.position, Quaternion.Euler(0f, 0f, updateGunTilt()));
+            gunTransform.gameObject.SetActive(false);
+        }
 
 		this.state = state;
 		rigAnimator.SetInteger("State", (int)state);
