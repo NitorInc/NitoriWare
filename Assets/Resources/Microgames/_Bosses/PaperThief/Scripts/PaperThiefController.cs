@@ -79,13 +79,13 @@ public class PaperThiefController : MonoBehaviour
 
     public void displayShootMessage()
     {
-        MicrogameController.instance.displayLocalizedCommand("PaperThief.commandb", "Shoot Down!");
+        MicrogameController.instance.displayLocalizedCommand("PaperThief.commandc", "Shoot Down!");
     }
 
     public void startFight()
     {
         sceneAnimator.enabled = false;
-        MicrogameController.instance.displayLocalizedCommand("PaperThief.commandc", "Defeat Her!");
+        MicrogameController.instance.displayLocalizedCommand("PaperThief.commandd", "Defeat Her!");
         PaperThiefMarisa.instance.ChangeState(PaperThiefMarisa.State.Fight);
     }
 

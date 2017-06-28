@@ -13,6 +13,8 @@ public class PaperThiefStar : MonoBehaviour
 		hitSlowDownMult, hitAcc, killSpeed, flashSpeed, shrinkSpeed;
 	[SerializeField]
 	private int hitStarCount, killStarCount;
+    [SerializeField]
+    private bool displayDodgeCommand;
 	[SerializeField]
 	private Vector2 seekAngleBounds;
 	[SerializeField]
@@ -22,6 +24,7 @@ public class PaperThiefStar : MonoBehaviour
 #pragma warning restore 0649
 
     public float forceAngleDirection;
+    private bool activated;
 
     [SerializeField]
 	private MovementType movementType;
@@ -55,15 +58,29 @@ public class PaperThiefStar : MonoBehaviour
 			explosionModule.simulationSpace = ParticleSystemSimulationSpace.Custom;
 			explosionModule.customSimulationSpace = PaperThiefCamera.instance.transform;
 		}
+
+        checkActivation();
 	}
 	
 	void Update()
 	{
 		trailParticleModule.startColor = getRandomHueColor();
-		if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
+        if (!activated)
+            checkActivation();
+		if (activated)
 			updateMovement();
         updateFlash();
 	}
+
+    void checkActivation()
+    {
+        if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
+        {
+            activated = true;
+            if (displayDodgeCommand)
+                MicrogameController.instance.displayLocalizedCommand("commandb", "Watch out!");
+        }
+    }
 
 	void LateUpdate()
 	{
