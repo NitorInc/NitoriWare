@@ -18,7 +18,7 @@ public class PaperThiefNitori : MonoBehaviour
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform gunTransform, gunCursor, shotMarker, disableStars, cucumberTransform, victoryTransform;
+	private Transform gunTransform, gunCursor, shotMarker, cucumberTransform, victoryTransform;
 	[SerializeField]
 	private PaperThiefSpin spinner;
 	[SerializeField]
@@ -139,8 +139,6 @@ public class PaperThiefNitori : MonoBehaviour
                 gunCursor.gameObject.SetActive(false);
                 break;
 			case (State.Gun):
-				disableStars.gameObject.SetActive(false);
-
 				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetFloat("WalkSpeed", 1f);
 				rigAnimator.SetInteger("Jump", 0);

@@ -70,6 +70,12 @@ public class PaperThiefStar : MonoBehaviour
 		if (activated)
 			updateMovement();
         updateFlash();
+
+        if (transform.position.x < PaperThiefCamera.instance.transform.position.x - 15f
+            || transform.position.y < PaperThiefCamera.instance.transform.position.y - 10f)
+        {
+            Destroy(gameObject);
+        }
 	}
 
     void checkActivation()
@@ -77,6 +83,7 @@ public class PaperThiefStar : MonoBehaviour
         if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
         {
             activated = true;
+            trailParticles.Play();
             if (displayDodgeCommand)
                 MicrogameController.instance.displayLocalizedCommand("commandb", "Watch out!");
         }
