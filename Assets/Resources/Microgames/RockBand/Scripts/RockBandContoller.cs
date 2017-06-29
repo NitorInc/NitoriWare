@@ -27,6 +27,8 @@ public class RockBandContoller : MonoBehaviour
 		instance = this;
 		_audioSource = GetComponent<AudioSource>();
 		_audioSource.pitch = Time.timeScale;
+
+        QualitySettings.pixelLightCount = lights.Length;
 	}
 
 	public void victory()
