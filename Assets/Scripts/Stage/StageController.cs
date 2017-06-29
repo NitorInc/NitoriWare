@@ -93,6 +93,8 @@ public class StageController : MonoBehaviour
 		introSource.pitch = getSpeedMult();
 		if (!muteMusic)
 			AudioHelper.playScheduled(introSource, startTime - Time.time);
+        updateMicrogameTraits();
+
 		invokeIntroAnimations();
 	}
 
@@ -183,8 +185,12 @@ public class StageController : MonoBehaviour
 	{
 		invokeAtBeat("updateToLastBeat", -5f);
 
-		invokeAtBeat("updateToOutro", -4f);
-	}
+        invokeAtBeat("updateToOutro", -4f);
+
+        invokeAtBeat("updateMicrogameTraits", -2f);
+
+        invokeAtBeat("unloadMicrogame", 2f);
+    }
 
 	void invokeInterruptions()
 	{
@@ -216,7 +222,7 @@ public class StageController : MonoBehaviour
 
 		invokeAtBeat("updateCursorVisibility", 1f);
 
-		invokeAtBeat("startMicrogame", 7f);
+        invokeAtBeat("startMicrogame", 7f);
 
 		invokeAtBeat("playMicrogameMusic", 8f);
 
@@ -348,7 +354,7 @@ public class StageController : MonoBehaviour
 		Time.timeScale = getSpeedMult();
 		//introSource.pitch = getSpeedMult();
 
-		updateMicrogameTraits();
+		//updateMicrogameTraits();
 
 		//TODO re-enable command warnings
 		command.text = microgameTraits.localizedCommand;
@@ -445,11 +451,9 @@ public class StageController : MonoBehaviour
 			voicePlayer.forcePlay();
 
 		MicrogameController.instance.shutDownMicrogame();
-		SceneManager.UnloadSceneAsync(MicrogameController.instance.gameObject.scene);
-		SceneManager.SetActiveScene(gameObject.scene);
+        SceneManager.SetActiveScene(gameObject.scene);
 
 		stageCamera.tag = "MainCamera";
-		MicrogameController.instance = null;
 		CameraController.instance = Camera.main.GetComponent<CameraController>();
 
 		microgameMusicSource.Stop();
@@ -462,6 +466,12 @@ public class StageController : MonoBehaviour
 
 		//sceneLoader.removeMicrogame(microgamePool[microgameIndex]);
 	}
+
+    void unloadMicrogame()
+    {
+		SceneManager.UnloadSceneAsync(MicrogameController.instance.gameObject.scene);
+        MicrogameController.instance = null;
+    }
 
 	//TODO Delete?
 	//int getMicrogameDifficulty(int index)
