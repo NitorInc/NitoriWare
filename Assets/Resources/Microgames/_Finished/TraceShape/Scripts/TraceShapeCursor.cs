@@ -22,7 +22,7 @@ public class TraceShapeCursor : MonoBehaviour
 		_audioSource.pitch = resultSoundSource.pitch = Time.timeScale;
 	}
 	
-	void Update ()
+	void LateUpdate ()
 	{
 		updateTrace();
 	}
