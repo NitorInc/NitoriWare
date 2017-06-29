@@ -238,7 +238,7 @@ public class PaperThiefNitori : MonoBehaviour
             direction = forceDirection;
 
         RaycastHit2D groundHit = isGrounded();
-        bool grounded = groundHit && _rigidBody2D.velocity.y <= 0f;
+        bool grounded = groundHit; // && _rigidBody2D.velocity.y <= 0f;
 
         if (grounded)
         {
