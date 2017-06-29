@@ -19,13 +19,43 @@ public static class MathHelper
 			return (Mathf.Atan(vector.y / vector.x) + Mathf.PI) * Mathf.Rad2Deg;
 	}
 
-	/// <summary>
-	/// Returns a 2D vector from an angle (degrees) and magnitude
-	/// </summary>
-	/// <param name="angle"></param>
-	/// <param name="magnitude"></param>
-	/// <returns></returns>
-	public static Vector2 getVector2FromAngle(float angle, float magnitude)
+    /// <summary>
+    /// Returns modulus that works with negative numbers (always between 0 and m)
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    public static float trueMod(float x, float m)
+    {
+        float r = x % m;
+        while (r < 0f)
+        {
+            r += m;
+        }
+        return r;
+    }
+
+    /// <summary>
+    /// Returns modulus that works with negative numbers (always between 0 and m)
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    public static int trueMod(int x, int m)
+    {
+        int r = x % m;
+        while (r < 0)
+        {
+            r += m;
+        }
+        return r;
+    }
+
+    /// <summary>
+    /// Returns a 2D vector from an angle (degrees) and magnitude
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <param name="magnitude"></param>
+    /// <returns></returns>
+    public static Vector2 getVector2FromAngle(float angle, float magnitude)
 	{
 		return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad) * magnitude, Mathf.Sin(angle * Mathf.Deg2Rad) * magnitude);
 	}
