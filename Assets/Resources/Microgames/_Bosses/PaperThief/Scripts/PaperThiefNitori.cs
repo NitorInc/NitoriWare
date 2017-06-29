@@ -243,7 +243,9 @@ public class PaperThiefNitori : MonoBehaviour
         if (grounded)
         {
             //Snap to ground y when landing
-            if (_rigidBody2D.velocity.y < 0f && transform.position.y - groundHit.transform.position.y >= -maxLandSnapHeight)
+            if (_rigidBody2D.velocity.y < 0f
+                && transform.position.y < groundHit.transform.position.y
+                && transform.position.y >= groundHit.transform.position.y - maxLandSnapHeight)
             {
                 //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
                 transform.position = new Vector3(transform.position.x, groundHit.transform.position.y, transform.position.z);
@@ -348,15 +350,15 @@ public class PaperThiefNitori : MonoBehaviour
 	public RaycastHit2D isGrounded()
 	{
         float dist = (walkCollider.bounds.extents.x * 2f) - .15f;
-		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .075f, -.1f),
+		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .075f, -walkCollider.edgeRadius -.025f),
 			Vector2.right, dist, walkMask);
 	}
 
 	RaycastHit2D wallContact(bool right)
 	{
-		float xOffset = walkCollider.bounds.extents.x + .1f;
+		float xOffset = (walkCollider.bounds.extents.x + walkCollider.edgeRadius) + .1f;
         return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2((right ? xOffset : -xOffset), .1f),
-            Vector2.up, walkCollider.bounds.extents.y * 1.8f, walkMask);
+            Vector2.up, (walkCollider.bounds.extents.y + walkCollider.edgeRadius) * 1.8f, walkMask);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
