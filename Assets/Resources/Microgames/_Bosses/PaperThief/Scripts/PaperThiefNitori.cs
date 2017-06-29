@@ -11,7 +11,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, maxLandSnapHeight, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
     [SerializeField]
     private int _forceDirection;
@@ -105,7 +105,7 @@ public class PaperThiefNitori : MonoBehaviour
                 MicrogameController.instance.setVictory(false, true);
             if (Input.GetKeyDown(KeyCode.G))
             {
-                MicrogameController.instance.displayCommand("ASF:ASF");
+                MicrogameController.instance.displayCommand("send nudes");
                 //changeState(state == State.Gun ? State.Platforming : State.Gun);
             }
 
@@ -243,7 +243,7 @@ public class PaperThiefNitori : MonoBehaviour
         if (grounded)
         {
             //Snap to ground y when landing
-            if (_rigidBody2D.velocity.y < 0f)
+            if (_rigidBody2D.velocity.y < 0f && transform.position.y - groundHit.transform.position.y >= -maxLandSnapHeight)
             {
                 //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
                 transform.position = new Vector3(transform.position.x, groundHit.transform.position.y, transform.position.z);
