@@ -10,6 +10,8 @@ public class PaperThiefCucumber : MonoBehaviour
     private float moveSpeed;
     [SerializeField]
     private Vector3 holdOffset;
+    [SerializeField]
+    private SineWave sineWave;
 #pragma warning restore 0649
 
     private Vector3 goalPosition;
@@ -26,7 +28,7 @@ public class PaperThiefCucumber : MonoBehaviour
 
     public void collect()
     {
-        GetComponent<SineWave>().enabled = false;
+        sineWave.enabled = false;
         goalPosition = PaperThiefNitori.instance.transform.position + holdOffset;
 
     }

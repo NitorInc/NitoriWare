@@ -76,7 +76,7 @@ public class PaperThiefCamera : MonoBehaviour
         this.shiftSpeed = shiftSpeed;
     }
 	
-	void LateUpdate()
+	public void LateUpdate()
 	{
         if (followNitori)
             updateNitoriShiftGoal();

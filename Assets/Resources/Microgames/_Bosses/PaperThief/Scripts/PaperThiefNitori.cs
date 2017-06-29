@@ -11,20 +11,22 @@ public class PaperThiefNitori : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
-	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, spinCooldown,
+	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, maxLandSnapHeight, spinCooldown,
 	shotCooldown, shotSpeed, minGunCursorDistance;
     [SerializeField]
     private int _forceDirection;
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform gunTransform, gunCursor, shotMarker, stageTransform, cucumberTransform, victoryTransform;
+	private Transform gunTransform, gunCursor, shotMarker, cucumberTransform, victoryTransform;
 	[SerializeField]
 	private PaperThiefSpin spinner;
 	[SerializeField]
 	private BoxCollider2D walkCollider;
 	[SerializeField]
 	private GameObject shotPrefab, gunDiscardPrefab;
+    [SerializeField]
+    private LayerMask walkMask;
 #pragma warning restore 0649
 
     public int forceDirection
@@ -34,6 +36,7 @@ public class PaperThiefNitori : MonoBehaviour
     }
 
     private Rigidbody2D _rigidBody2D;
+    private Transform startParent;
 	private float spinCooldownTimer, shotCooldownTimer;
 
 	[SerializeField]
@@ -67,6 +70,7 @@ public class PaperThiefNitori : MonoBehaviour
 		instance = this;
 		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
+        startParent = transform.parent;
 
 		if (MicrogameController.instance.isDebugMode())
         {
@@ -101,7 +105,7 @@ public class PaperThiefNitori : MonoBehaviour
                 MicrogameController.instance.setVictory(false, true);
             if (Input.GetKeyDown(KeyCode.G))
             {
-                MicrogameController.instance.displayCommand("ASF:ASF");
+                MicrogameController.instance.displayCommand("send nudes");
                 //changeState(state == State.Gun ? State.Platforming : State.Gun);
             }
 
@@ -124,7 +128,7 @@ public class PaperThiefNitori : MonoBehaviour
 
     }
 
-	public void changeState(State state)
+    public void changeState(State state)
 	{
 		switch (state)
 		{
@@ -135,8 +139,6 @@ public class PaperThiefNitori : MonoBehaviour
                 gunCursor.gameObject.SetActive(false);
                 break;
 			case (State.Gun):
-				stageTransform.gameObject.SetActive(false);
-
 				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetFloat("WalkSpeed", 1f);
 				rigAnimator.SetInteger("Jump", 0);
@@ -152,7 +154,10 @@ public class PaperThiefNitori : MonoBehaviour
 				break;
 		}
         if (this.state == State.Gun && state != State.Gun)
+        {
             Instantiate(gunDiscardPrefab, gunTransform.position, Quaternion.Euler(0f, 0f, updateGunTilt()));
+            gunTransform.gameObject.SetActive(false);
+        }
 
 		this.state = state;
 		rigAnimator.SetInteger("State", (int)state);
@@ -203,9 +208,15 @@ public class PaperThiefNitori : MonoBehaviour
 
 	float updateGunTilt()
 	{
-		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - gunTransform.position);
-		float degrees = toCursor.getAngle();
-		//degrees *= Mathf.Lerp(0f, 1f, toCursor.magnitude / 2f);
+        PaperThiefCamera.instance.LateUpdate();
+		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - coreTransform.position);
+		float degrees = MathHelper.trueMod(toCursor.getAngle(), 360f);
+
+        if (degrees >= 90f && degrees <= 180f)
+            degrees = 89.9f;
+        else if (degrees > 270f)
+            degrees = 0;
+
 		if (degrees >= 0f && degrees <= 90f && toCursor.magnitude >= minGunCursorDistance)
 			rigAnimator.SetFloat("GunTilt", degrees / 90f);
 		else
@@ -226,20 +237,47 @@ public class PaperThiefNitori : MonoBehaviour
         else //if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
             direction = forceDirection;
 
-		//_rigidBody2D.velocity += Vector2.right * direction * walkAcc * Time.deltaTime;
+        RaycastHit2D groundHit = isGrounded();
+        bool grounded = groundHit; // && _rigidBody2D.velocity.y <= 0f;
 
-		updateWalkSpeed(direction);
-		updateAnimatorValues(direction);
-		int actualDirection = (int)Mathf.Sign(_rigidBody2D.velocity.x);
-		updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
-
-        if (hasControl && isGrounded() && Input.GetKeyDown(KeyCode.Space))
+        if (grounded)
         {
-            //rigAnimator.Play("Jump Up");
-            _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+            //Snap to ground y when landing
+            if (_rigidBody2D.velocity.y < 0f
+                && transform.position.y < groundHit.transform.position.y
+                && transform.position.y >= groundHit.transform.position.y - maxLandSnapHeight)
+            {
+                //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
+                transform.position = new Vector3(transform.position.x, groundHit.transform.position.y, transform.position.z);
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
+            }
+
+            //Attach to moving objects
+            if (groundHit.transform.name.Contains("Moving"))
+                transform.parent = groundHit.transform;
+            else
+                transform.parent = startParent;
+            
+            //Jump
+            if (hasControl && Input.GetKeyDown(KeyCode.Space))
+            {
+                _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
+                grounded = false;
+                transform.parent = startParent;
+            }
         }
+        else
+            transform.parent = startParent;
 
+        int actualDirection = _rigidBody2D.velocity.x == 0 ? 0 : (int)Mathf.Sign(_rigidBody2D.velocity.x);
+        if (actualDirection == 0 && direction != 0)
+            actualDirection = direction;
 
+        updateSpinner((direction == 0 || (direction != 0 && actualDirection != direction)) ? 0 : actualDirection);
+
+        updateWalkSpeed(direction, grounded);
+        updateAnimatorValues(direction, grounded);
+        
         if (hasControl && transform.position.x >= cucumberTransform.position.x - 1f)
         {
             PaperThiefController.instance.startScene(PaperThiefController.Scene.CucumberSteal);
@@ -250,15 +288,17 @@ public class PaperThiefNitori : MonoBehaviour
         {
             forceDirection = 0;
             PaperThiefController.instance.startScene(PaperThiefController.Scene.Victory);
+            MicrogameController.instance.setVictory(true, true);
         }
 	}
 
-	void updateWalkSpeed(int direction)
+	void updateWalkSpeed(int direction, bool grounded)
 	{
 		Vector2 velocity = _rigidBody2D.velocity;
 		float goalSpeed, acc;
-		goalSpeed = (float)direction * (isGrounded() ? walkSpeed : jumpMoveSpeed);
-		if (isGrounded() || Mathf.Abs(velocity.x) > jumpMoveSpeed)
+
+		goalSpeed = (float)direction * (grounded ? walkSpeed : jumpMoveSpeed);
+		if (grounded || Mathf.Abs(velocity.x) > jumpMoveSpeed)
 			acc = (direction == 0f) ? walkDec : walkAcc;
 		else
 			acc = (direction == 0f) ? jumpDec : jumpAcc;
@@ -282,7 +322,7 @@ public class PaperThiefNitori : MonoBehaviour
             && Mathf.Sign((float)direction) == -Mathf.Sign(_rigidBody2D.velocity.x);
     }
 
-	void updateAnimatorValues(int direction)
+	void updateAnimatorValues(int direction, bool grounded)
 	{
 		rigAnimator.SetBool("Walking", direction != 0);
 
@@ -292,7 +332,7 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 
-		if (isGrounded())
+		if (grounded || _rigidBody2D.velocity.y == 0f)
 			rigAnimator.SetInteger("Jump", 0);
 		else
 			rigAnimator.SetInteger("Jump", _rigidBody2D.velocity.y > 0f ? 1 : 2);
@@ -308,19 +348,18 @@ public class PaperThiefNitori : MonoBehaviour
 		rigAnimator.SetInteger("QueuedAnimation", (int)animation);
 	}
 
-	bool isGrounded()
+	public RaycastHit2D isGrounded()
 	{
-		float dist = (walkCollider.bounds.extents.x * 2f) - .2f;
-		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .1f, -.1f),
-			Vector2.right, dist);
+        float dist = (walkCollider.bounds.extents.x * 2f) - .15f;
+		return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .075f, -walkCollider.edgeRadius -.025f),
+			Vector2.right, dist, walkMask);
 	}
 
-	bool wallContact(bool right)
+	RaycastHit2D wallContact(bool right)
 	{
-		float xOffset = walkCollider.bounds.extents.x + .1f;
-		return right ?
-			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f) :
-			PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-xOffset, .1f), Vector2.up, walkCollider.bounds.extents.y * 1.8f);
+		float xOffset = (walkCollider.bounds.extents.x + walkCollider.edgeRadius) + .1f;
+        return PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2((right ? xOffset : -xOffset), .1f),
+            Vector2.up, (walkCollider.bounds.extents.y + walkCollider.edgeRadius) * 1.8f, walkMask);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -358,7 +397,8 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.enabled = false;
 
-		CameraShake.instance.setScreenShake(.15f);
+        MicrogameController.instance.setVictory(false, true);
+        CameraShake.instance.setScreenShake(.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
 		dead = true;
 		enabled = false;
@@ -384,12 +424,17 @@ public class PaperThiefNitori : MonoBehaviour
         StartCoroutine(quickBlink());
     }
 
+    public void stopBlinking()
+    {
+        rigAnimator.SetInteger("BlinkQueue", -1);
+    }
+
     IEnumerator quickBlink()
     {
-        rigAnimator.SetBool("BlinkQueued", true);
+        rigAnimator.SetInteger("BlinkQueue", 1);
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        rigAnimator.SetBool("BlinkQueued", false);
+        rigAnimator.SetInteger("BlinkQueue", 0);
     }
 }
 

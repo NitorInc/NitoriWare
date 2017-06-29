@@ -13,6 +13,8 @@ public class PaperThiefStar : MonoBehaviour
 		hitSlowDownMult, hitAcc, killSpeed, flashSpeed, shrinkSpeed;
 	[SerializeField]
 	private int hitStarCount, killStarCount;
+    [SerializeField]
+    private bool displayDodgeCommand;
 	[SerializeField]
 	private Vector2 seekAngleBounds;
 	[SerializeField]
@@ -22,6 +24,7 @@ public class PaperThiefStar : MonoBehaviour
 #pragma warning restore 0649
 
     public float forceAngleDirection;
+    private bool activated, outOfShootingRange;
 
     [SerializeField]
 	private MovementType movementType;
@@ -37,7 +40,7 @@ public class PaperThiefStar : MonoBehaviour
 
 	void Start()
 	{
-		dead = false;
+		dead = outOfShootingRange = false;
 		transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
 
 		trailParticleModule = trailParticles.main;
@@ -55,15 +58,36 @@ public class PaperThiefStar : MonoBehaviour
 			explosionModule.simulationSpace = ParticleSystemSimulationSpace.Custom;
 			explosionModule.customSimulationSpace = PaperThiefCamera.instance.transform;
 		}
+
+        checkActivation();
 	}
 	
 	void Update()
 	{
 		trailParticleModule.startColor = getRandomHueColor();
-		if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
+        if (!activated)
+            checkActivation();
+		if (activated)
 			updateMovement();
         updateFlash();
+
+        if (transform.position.x < PaperThiefCamera.instance.transform.position.x - 15f
+            || transform.position.y < PaperThiefCamera.instance.transform.position.y - 10f)
+        {
+            Destroy(gameObject);
+        }
 	}
+
+    void checkActivation()
+    {
+        if (PaperThiefCamera.instance.transform.position.x >= cameraActivationX)
+        {
+            activated = true;
+            trailParticles.Play();
+            if (displayDodgeCommand)
+                MicrogameController.instance.displayLocalizedCommand("commandb", "Watch out!");
+        }
+    }
 
 	void LateUpdate()
 	{
@@ -107,12 +131,28 @@ public class PaperThiefStar : MonoBehaviour
 	}
 
 	void updateSeeking()
-	{
-		float angleDiff = MathHelper.getAngleDifference(velocity.getAngle(), getAngleToPlayer());
-		angleDiff = (seekPower * (angleDiff / 90f) * Time.deltaTime) * (velocity.magnitude / seekMoveSpeed);
-		velocity = MathHelper.getVector2FromAngle(velocity.getAngle() + angleDiff, velocity.magnitude);
+    {
 
-		updateKnockBack();
+        if (transform.position.x <= PaperThiefNitori.instance.transform.position.x)
+        {
+            transform.position = new Vector3(PaperThiefNitori.instance.transform.position.x, transform.position.y, transform.position.z);
+            velocity = Vector2.down * velocity.magnitude;
+            outOfShootingRange = true;
+        }
+        else if (transform.position.y <= PaperThiefNitori.instance.transform.position.y)
+        {
+            transform.position = new Vector3(transform.position.x, PaperThiefNitori.instance.transform.position.y, transform.position.z);
+            velocity = Vector2.left * velocity.magnitude;
+            outOfShootingRange = true;
+        }
+        else if (!outOfShootingRange)
+        {
+            float angle = MathHelper.getAngleDifference(velocity.getAngle(), getAngleToPlayer()),
+                angleDiff = (seekPower * (angle / 90f) * Time.deltaTime) * (velocity.magnitude / seekMoveSpeed);
+            velocity = MathHelper.getVector2FromAngle(velocity.getAngle() + angleDiff, velocity.magnitude);
+        }
+
+        updateKnockBack();
 	}
 
 	void updateKnockBack()
