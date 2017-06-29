@@ -249,14 +249,14 @@ public class MicrogameController : MonoBehaviour
 	{
 		if (StageController.instance == null)
 		{
-			if (Input.GetKeyDown(KeyCode.R))
+			if (Input.GetKeyUp(KeyCode.R))
 				SceneManager.LoadScene(gameObject.scene.buildIndex);
-			else if (Input.GetKey(KeyCode.F))
+			else if (Input.GetKeyUp(KeyCode.F))
 			{
 				preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
 				SceneManager.LoadScene(gameObject.scene.buildIndex);
 			}
-			else if (Input.GetKey(KeyCode.N))
+			else if (Input.GetKeyUp(KeyCode.N))
 			{
 				string sceneName = SceneManager.GetActiveScene().name;
 				char[] sceneChars = sceneName.ToCharArray();
