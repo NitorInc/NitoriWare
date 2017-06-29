@@ -264,7 +264,9 @@ public class PaperThiefNitori : MonoBehaviour
                 transform.parent = startParent;
             }
         }
-        
+        else
+            transform.parent = startParent;
+
         int actualDirection = _rigidBody2D.velocity.x == 0 ? 0 : (int)Mathf.Sign(_rigidBody2D.velocity.x);
         if (actualDirection == 0 && direction != 0)
             actualDirection = direction;
