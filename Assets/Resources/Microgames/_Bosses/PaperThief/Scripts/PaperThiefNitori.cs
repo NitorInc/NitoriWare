@@ -288,6 +288,7 @@ public class PaperThiefNitori : MonoBehaviour
         {
             forceDirection = 0;
             PaperThiefController.instance.startScene(PaperThiefController.Scene.Victory);
+            MicrogameController.instance.setVictory(true, true);
         }
 	}
 
@@ -396,7 +397,8 @@ public class PaperThiefNitori : MonoBehaviour
 		else
 			rigAnimator.enabled = false;
 
-		CameraShake.instance.setScreenShake(.15f);
+        MicrogameController.instance.setVictory(false, true);
+        CameraShake.instance.setScreenShake(.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
 		dead = true;
 		enabled = false;
