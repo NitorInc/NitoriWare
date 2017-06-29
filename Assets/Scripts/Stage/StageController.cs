@@ -38,6 +38,7 @@ public class StageController : MonoBehaviour
 
 	private MicrogameTraits microgameTraits;
 	private float animationStartTime, outroPlayTime;
+    private Animator[] sceneAnimators;
 
 	private Queue<MicrogameInstance> microgameQueue;
 	private class MicrogameInstance
@@ -98,7 +99,8 @@ public class StageController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-	}
+        sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
+    }
 
 	void updateMicrogameQueue(int maxQueueSize)
 	{
@@ -654,7 +656,7 @@ public class StageController : MonoBehaviour
 
 	private void setAnimationInteger(string name, int state)
 	{
-		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
+		foreach (Animator animator in sceneAnimators)
 		{
 			animator.SetInteger(name, state);
 		}
@@ -662,7 +664,7 @@ public class StageController : MonoBehaviour
 
 	private void setAnimationBool(string name, bool state)
 	{
-		foreach (Animator animator in transform.root.GetComponentsInChildren<Animator>())
+		foreach (Animator animator in sceneAnimators)
 		{
 			animator.SetBool(name, state);
 		}
