@@ -245,8 +245,8 @@ public class PaperThiefNitori : MonoBehaviour
             //Snap to ground y when landing
             if (_rigidBody2D.velocity.y < 0f)
             {
-                float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
-                transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
+                //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
                 _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
             }
 
