@@ -24,5 +24,6 @@ public class GameController : MonoBehaviour
 		instance = this;
 
 		Cursor.visible = false;
+        Application.targetFrameRate = 60;
 	}
 }
