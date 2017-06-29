@@ -246,7 +246,7 @@ public class PaperThiefNitori : MonoBehaviour
             if (_rigidBody2D.velocity.y < 0f)
             {
                 //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x, groundHit.transform.position.y, transform.position.z);
                 _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
             }
 
