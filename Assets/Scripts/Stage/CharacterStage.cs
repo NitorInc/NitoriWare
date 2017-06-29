@@ -43,10 +43,6 @@ public class CharacterStage : Stage
 
 	public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
 	{
-		//TODO add later boss difficulties
-		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
-			return 1;
-
 		return Mathf.Min(microgame.baseDifficulty + roundsCompleted, 3);
 	}
 
