@@ -48,6 +48,7 @@ public class StageController : MonoBehaviour
 		public AsyncOperation asyncOperation;
 	}
 	private Queue<Stage.Interruption> interruptionQueue;
+    private Scene finishedMicrogame;
 
 	public enum AnimationPart
 	{
@@ -468,12 +469,14 @@ public class StageController : MonoBehaviour
 
 		stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
 
+        finishedMicrogame = MicrogameController.instance.gameObject.scene;
+        MicrogameController.instance = null;
 		//sceneLoader.removeMicrogame(microgamePool[microgameIndex]);
 	}
 
     void unloadMicrogame()
     {
-		SceneManager.UnloadSceneAsync(MicrogameController.instance.gameObject.scene);
+		SceneManager.UnloadSceneAsync(finishedMicrogame);
         MicrogameController.instance = null;
     }
 
