@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using System.Collections;
 
 public class GameController : MonoBehaviour
@@ -10,6 +12,8 @@ public class GameController : MonoBehaviour
     private bool disableCursor;
     [SerializeField]
 	private MicrogameCollection _microgameCollection;
+    [SerializeField]
+    private UnityEvent onSceneLoad;
 #pragma warning restore 0649
 
     public MicrogameCollection microgameCollection
@@ -30,5 +34,18 @@ public class GameController : MonoBehaviour
 
 		Cursor.visible = !disableCursor;
         Application.targetFrameRate = 60;
-	}
+        AudioListener.pause = false;
+        SceneManager.sceneLoaded += onSceneLoaded;
+    }
+
+    void onSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (PauseManager.exitedWhilePaused)
+        {
+            AudioListener.pause = false;
+            Time.timeScale = 1f;
+            PauseManager.exitedWhilePaused = false;
+            Cursor.visible = true;
+        }
+    }
 }
