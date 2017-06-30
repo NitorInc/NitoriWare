@@ -19,6 +19,8 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     private int meteorDestructionCounter = 0;
     private bool rightCreationPosition;
 
+    public CameraShake hitShake, loseShake;
+
 	//which meteor (0 or 1) will be the one coming from the left
 	private int leftMeteor;
 

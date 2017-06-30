@@ -266,6 +266,8 @@ MonoBehaviour:
   timeBetweenCreation: 0.5
   flanimator: {fileID: 1320786036}
   victoryAnimator: {fileID: 1458414412}
+  hitShake: {fileID: 1244315742}
+  loseShake: {fileID: 1244315748}
 --- !u!1 &863183378
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,6 +506,21 @@ MonoBehaviour:
   normalColor: {r: 0.70980394, g: 0.8705883, b: 0.90196085, a: 0}
   victoryColor: {r: 0.70980394, g: 0.8705883, b: 0.90196085, a: 0}
   failureColor: {r: 0.5508695, g: 0.67565215, b: 0.7, a: 0}
+--- !u!114 &1244315742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1244315740}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b0af0d9b8c9e449a537fae7bd4ed01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xShake: 0.25
+  yShake: 0.25
+  shakeSpeed: 0
+  shakeCoolRate: 3
 --- !u!114 &1244315748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +641,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.99, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
 --- !u!4 &1657019175

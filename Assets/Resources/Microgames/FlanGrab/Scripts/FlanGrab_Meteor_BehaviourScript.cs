@@ -135,7 +135,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         this.hasLanded = true;
 
         // Shake camera
-        Camera.main.GetComponent<CameraShake>().enabled = true;
+        microgameBehaviour.hitShake.enabled = false;
+        microgameBehaviour.loseShake.enabled = true;
 
 		FlanGrab_Microgame_Behaviour.instance.flanimator.Play("Loss");
     }
@@ -155,6 +156,14 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         Instantiate(explosionEffect, meteorSprite.transform.position, Quaternion.identity);
         Destroy(meteorSprite.gameObject);
         this.microgameBehaviour.increaseDestructionCounter();
+
+        // Shake camera
+        if (!(MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory()))
+        {
+            microgameBehaviour.hitShake.enabled = true;
+            microgameBehaviour.hitShake.resetShake();
+        }
+
     }
 
 
