@@ -19,6 +19,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
     public float amplitude;                 // Sine wave amplitude  (Only useful when waveMovementIsOn = True).
     private float phase = 0;                // Sine wave phase  (Only useful when waveMovementIsOn = True).
     private Vector2 originalPosition;       // Meteor position if wave movement wasn't enabled.
+    public AudioClip lossClip;
 
     private bool hasBeenDestroyed = false;  // If meteor has been destroyed or not.
     private bool hasLanded = false;         // If meteor has landed or not.
@@ -130,6 +131,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
     {
         // If meteor lands on ground, set the defeat.
         MicrogameController.instance.setVictory(false, true);
+        MicrogameController.instance.playSFX(lossClip);
         this.hasLanded = true;
 
         // Shake camera

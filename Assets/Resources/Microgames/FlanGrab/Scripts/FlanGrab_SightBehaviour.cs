@@ -7,6 +7,8 @@ public class FlanGrab_SightBehaviour : MonoBehaviour {
     private GameObject sightSprite;
     [SerializeField]
     private GameObject meteorInSight;
+    [SerializeField]
+    private AudioClip hitClip, missClip;
 
 	// Use this for initialization
 	void Start () {
@@ -57,8 +59,11 @@ public class FlanGrab_SightBehaviour : MonoBehaviour {
             {
                 var objScript = objCollider.gameObject.GetComponent<FlanGrab_Meteor_BehaviourScript>();
                 objScript.destroyMeteor();
+                MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
+                return;
             }
         }
+        MicrogameController.instance.playSFX(missClip, AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
     }
 
 }
