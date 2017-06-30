@@ -9,12 +9,15 @@ public class CameraShake : MonoBehaviour
 	public float xShake, yShake, shakeSpeed, shakeCoolRate = 1f;
 	private Vector3 initialPosition;
 	private Vector3 goalPosition;
+    private float initialXShake, initialYShake;
 
 	void Awake()
 	{
 		instance = this;
 
 		initialPosition = transform.localPosition;
+        initialXShake = xShake;
+        initialYShake = yShake;
 		goalPosition = initialPosition;
 	}
 	
@@ -42,8 +45,17 @@ public class CameraShake : MonoBehaviour
 		yShake += shake;
 	}
 
+    /// <summary>
+    /// Resets shake x and y values to initial values;
+    /// </summary>
+    public void resetShake()
+    {
+        xShake = initialXShake;
+        yShake = initialYShake;
+    }
+
 	/// <summary>
-	/// Resets all parameters to their default values, centers camera, and stops shake
+	/// Centers camera and stops shake
 	/// </summary>
 	public void reset()
 	{
