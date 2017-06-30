@@ -22,6 +22,8 @@ public class MicrogameController : MonoBehaviour
 
 	public UnityEvent onPause, onUnPause;
 	public GameObject debugObjects, debugPauseManager;
+    [SerializeField]
+    private AudioSource sfxSource;
 
 	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
@@ -161,8 +163,13 @@ public class MicrogameController : MonoBehaviour
 	{
 		return StageController.instance == null;
 	}
+    
+    public AudioSource getSFXSource()
+    {
+        return sfxSource;
+    }
 
-	public Transform getCommandTransform()
+    public Transform getCommandTransform()
 	{
 		return commandTransform;
 	}
@@ -244,6 +251,32 @@ public class MicrogameController : MonoBehaviour
 	{
 		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
 	}
+
+    /// <summary>
+    /// Plays sound effect unaffected by microgame speed
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="pan"></param>
+    /// <param name="pitch"></param>
+    /// <param name="volume"></param>
+    public void playSFXUnscaled(AudioClip clip, float pan = 0f, float pitch = 1f, float volume = 1f)
+    {
+        sfxSource.volume = volume;
+        sfxSource.pitch = pitch;
+        sfxSource.PlayOneShot(clip);
+    }
+
+    /// <summary>
+    /// Plays sound effect and scales it with current speed. use this for most microgame sounds.
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="pan"></param>
+    /// <param name="pitchMult"></param>
+    /// <param name="volume"></param>
+    public void playSFX(AudioClip clip, float pan = 0f, float pitchMult = 1f, float volume = 1f)
+    {
+        playSFXUnscaled(clip, pan, volume, pitchMult * Time.timeScale);
+    }
 
 	void Update ()
 	{
