@@ -158,7 +158,7 @@ public class ChenFoodChen : MonoBehaviour
 		body.setSprite(state == State.Leap|| state == State.Slow);
 		head.setSprite(fish.eaten);
 
-		leapSource.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position) * .85f;
+		leapSource.panStereo = AudioHelper.getAudioPan(transform.position.x) * .85f;
 	}
 
 	void LateUpdate()

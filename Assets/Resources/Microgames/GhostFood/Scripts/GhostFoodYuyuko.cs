@@ -129,7 +129,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 		lastMousePosition = transform.position;
 		updateFace();
-		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(Camera.main, transform.position) * .8f;
+		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(transform.position.x) * .8f;
 	}
 
 	void checkForVictory()
