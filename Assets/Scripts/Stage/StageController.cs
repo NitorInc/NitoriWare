@@ -409,6 +409,9 @@ public class StageController : MonoBehaviour
 
 	void updateMicrogameTraits()
 	{
+        if (microgameQueue.Count <= 0)
+            return;
+
 		MicrogameInstance instance = getCurrentMicrogameInstance();
 		microgameTraits = MicrogameTraits.findMicrogameTraits(instance.microgame.microgameId, instance.difficulty);
 		microgameTraits.onAccessInStage(instance.microgame.microgameId);
