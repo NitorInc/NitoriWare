@@ -5,9 +5,14 @@ public class GameController : MonoBehaviour
 {
 	public static GameController instance;
 
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
+    private bool disableCursor;
+    [SerializeField]
 	private MicrogameCollection _microgameCollection;
-	public MicrogameCollection microgameCollection
+#pragma warning restore 0649
+
+    public MicrogameCollection microgameCollection
 	{
 		get { return _microgameCollection; }
 		set {}
@@ -23,7 +28,7 @@ public class GameController : MonoBehaviour
 		DontDestroyOnLoad(transform.gameObject);
 		instance = this;
 
-		Cursor.visible = false;
+		Cursor.visible = !disableCursor;
         Application.targetFrameRate = 60;
 	}
 }
