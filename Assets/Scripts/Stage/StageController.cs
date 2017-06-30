@@ -73,6 +73,7 @@ public class StageController : MonoBehaviour
 
 		setAnimationPart(AnimationPart.Intro);
 		resetStage(Time.time);
+        Cursor.visible = false;
 	}
 
 	void resetStage(float startTime)
