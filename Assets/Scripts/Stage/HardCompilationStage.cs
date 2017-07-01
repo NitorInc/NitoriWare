@@ -21,11 +21,11 @@ public class HardCompilationStage : CompilationStage
 		return 1;
 	}
 
-	public override Stage.Interruption[] getInterruptions(int num)
-	{
-		num -= roundStartIndex;
-		if (num % microgamesPerRound == 0)
-			return new Interruption[0].add(nextRound);
-		return new Interruption[0];
-	}
+	//public override Stage.Interruption[] getInterruptions(int num)
+	//{
+	//	num -= roundStartIndex;
+	//	if (num % microgamesPerRound == 0)
+	//		return new Interruption[0].add(nextRound);
+	//	return new Interruption[0];
+	//}
 }
