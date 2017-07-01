@@ -88,8 +88,12 @@ public class CharacterStage : Stage
 
 	public override int getCustomSpeed(int microgame, Interruption interruption)
 	{
-		if (interruption.animation == StageController.AnimationPart.BossStage || interruption.animation == StageController.AnimationPart.NextRound)
+		if (interruption.animation == StageController.AnimationPart.BossStage
+            || interruption.animation == StageController.AnimationPart.NextRound
+            || interruption.animation == StageController.AnimationPart.OneUp)
 			return 1 + getRoundSpeedOffset();
+
+        Debug.Log("no not here");
 		return 1;
 	}
 
