@@ -1380,6 +1380,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   particleSystems: []
+  audioSources: []
 --- !u!114 &114824559139316442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1394,7 +1395,7 @@ MonoBehaviour:
   coreTransform: {fileID: 4310950526114710}
   walkSpeed: 9
   jumpMoveSpeed: 6.5
-  walkAcc: 100
+  walkAcc: 300
   walkDec: 150
   jumpAcc: 40
   jumpDec: 10
@@ -1404,6 +1405,7 @@ MonoBehaviour:
   shotCooldown: 0.25
   shotSpeed: 25
   minGunCursorDistance: 0.5
+  deathMusicDelay: 0.33333334
   _forceDirection: 0
   rigAnimator: {fileID: 95876233013484916}
   gunTransform: {fileID: 4088298639277478}
@@ -1419,6 +1421,8 @@ MonoBehaviour:
   walkMask:
     serializedVersion: 2
     m_Bits: 512
+  deathSound: {fileID: 0}
+  deathMusic: {fileID: 0}
   state: 0
   _hasControl: 0
 --- !u!114 &114897540003570782

@@ -26,6 +26,8 @@ public class PaperThiefMarisa : MonoBehaviour
     private Transform starCreationPoint;
     [SerializeField]
     private ParticleSystem broomParticles, defeatedParticles;
+    [SerializeField]
+    private AudioSource fightSource;
 #pragma warning restore 0649
 
     private List<SpriteRenderer> _spriteRenderers;
@@ -116,6 +118,7 @@ public class PaperThiefMarisa : MonoBehaviour
                 defeatedParticles.Play();
                 PaperThiefNitori.instance.changeState(PaperThiefNitori.State.Platforming);
                 PaperThiefCamera.instance.stopChase();
+                fightSource.GetComponent<FadingMusic>().startFade();
 
                 defeated = true;
                 break;

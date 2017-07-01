@@ -12,7 +12,7 @@ public class PaperThiefNitori : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
 	private float walkSpeed, jumpMoveSpeed, walkAcc, walkDec, jumpAcc, jumpDec, jumpSpeed, maxLandSnapHeight, spinCooldown,
-	shotCooldown, shotSpeed, minGunCursorDistance;
+	shotCooldown, shotSpeed, minGunCursorDistance, deathMusicDelay;
     [SerializeField]
     private int _forceDirection;
 	[SerializeField]
@@ -27,6 +27,8 @@ public class PaperThiefNitori : MonoBehaviour
 	private GameObject shotPrefab, gunDiscardPrefab;
     [SerializeField]
     private LayerMask walkMask;
+    [SerializeField]
+    private AudioSource deathSound, deathMusic;
 #pragma warning restore 0649
 
     public int forceDirection
@@ -400,6 +402,15 @@ public class PaperThiefNitori : MonoBehaviour
         MicrogameController.instance.setVictory(false, true);
         CameraShake.instance.setScreenShake(.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
+
+        AudioSource[] sources = deathSound.transform.parent.GetComponentsInChildren<AudioSource>();
+        foreach (AudioSource source in sources)
+        {
+            source.Stop();
+        }
+        deathSound.Play();
+        AudioHelper.playScheduled(deathMusic, deathMusicDelay);
+
 		dead = true;
 		enabled = false;
 	}
