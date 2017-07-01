@@ -768,6 +768,9 @@ MonoBehaviour:
       PublicKeyToken=null
   particleSystems:
   - {fileID: 1523362031}
+  audioSources:
+  - {fileID: 0}
+  - {fileID: 1216275991}
 --- !u!1 &235545343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2480,6 +2483,11 @@ Prefab:
       propertyPath: starFireCooldown
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114935895432360710, guid: c5c729f38fcd85e4b85fd3550179caa6,
+        type: 2}
+      propertyPath: fightSource
+      value: 
+      objectReference: {fileID: 1216275991}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c5c729f38fcd85e4b85fd3550179caa6, type: 2}
   m_IsPrefabParent: 0
@@ -2616,6 +2624,57 @@ Transform:
   m_PrefabParentObject: {fileID: 4504004549463964, guid: 067a7f8bd7d92884a9d9703afe6a2d33,
     type: 2}
   m_PrefabInternal: {fileID: 1178539486}
+--- !u!1001 &1216275990
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340054378268666, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611595176182574, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+      propertyPath: m_Name
+      value: Fight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: a269f9a74689c634588dd5fe0548b21b, type: 2}
+  m_IsPrefabParent: 0
+--- !u!82 &1216275991 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82917104742706192, guid: a269f9a74689c634588dd5fe0548b21b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1216275990}
 --- !u!1 &1296638971
 GameObject:
   m_ObjectHideFlags: 0
