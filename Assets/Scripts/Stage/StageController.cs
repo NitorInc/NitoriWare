@@ -381,6 +381,7 @@ public class StageController : MonoBehaviour
 		introSource.Stop();
 		placeholderResults.transform.parent.gameObject.SetActive(true);
 		placeholderResults.setScore(microgameCount);
+        Cursor.visible = true;
 	}
 
 	string getDefaultControlString()
@@ -511,17 +512,17 @@ public class StageController : MonoBehaviour
 			introSource.UnPause();
 	}
 
-	void Update()
-	{
+	//void Update()
+	//{
 
-		//Retry stage
-		if (animationPart == AnimationPart.GameOver && Input.GetKeyDown(KeyCode.R))
-		{
-			setAnimationPart(AnimationPart.Retry);
-			resetStage(Time.time + (beatLength * 2f));
-			placeholderResults.transform.parent.gameObject.SetActive(false);
-		}
-	}
+	//}
+
+    public void retry()
+    {
+        setAnimationPart(AnimationPart.Retry);
+        resetStage(Time.time + (beatLength * 2f));
+        placeholderResults.transform.parent.gameObject.SetActive(false);
+    }
 
 	public void setAnimationPart(AnimationPart animationPart)
 	{
