@@ -10,7 +10,7 @@ public class CharacterStage : Stage
     [SerializeField]
 	private CharacterMicrogamePool microgamePool;
 	[SerializeField]
-	private Interruption speedUp, bossIntro, nextRound;
+	private Interruption speedUp, bossIntro, nextRound, oneUp;
 #pragma warning restore 0649
 
     private int roundsCompleted, roundStartIndex;
@@ -57,7 +57,12 @@ public class CharacterStage : Stage
             //TODO more after-boss stuff
             if (bossWon)
             {
-                //TODO 1-up
+                if (StageController.instance.getLife() < getMaxLife())
+                {
+                    StageController.instance.setLife(StageController.instance.getLife() + 1);
+                    return new Interruption[0].add(oneUp);
+                }
+                //TODO separate next round after oneUp when we have music
             }
 			return new Interruption[0].add(nextRound);
 		}
@@ -113,10 +118,7 @@ public class CharacterStage : Stage
 			bossWon = victoryStatus;
 			if (revisiting)
 			{
-				if (victoryStatus)	//TODO remove when proper boss win is added
-				{
-					startNextRound(microgame + 1);
-				}
+				startNextRound(microgame + 1);
 			}
 			else if (victoryStatus)
 				winStage();
