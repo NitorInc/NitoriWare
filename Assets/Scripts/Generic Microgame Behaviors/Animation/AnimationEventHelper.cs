@@ -11,6 +11,7 @@ public class AnimationEventHelper : MonoBehaviour
 
 	public UnityEvent[] unityEvents;
 	public ParticleSystem[] particleSystems;
+    public AudioSource[] audioSources;
 
 	void Awake()
 	{
@@ -38,6 +39,34 @@ public class AnimationEventHelper : MonoBehaviour
 	{
 		particleSystems[index].Stop();
 	}
+
+    public void playAudio(int index)
+    {
+        audioSources[index].Play();
+    }
+
+    public void stopAudio(int index)
+    {
+        audioSources[index].Stop();
+    }
+
+    public void pauseAudio(int index)
+    {
+        audioSources[index].Pause();
+    }
+
+    public void unPauseAudio(int index)
+    {
+        audioSources[index].UnPause();
+    }
+
+    /// <summary>
+    /// Object MUST have a FadingMusic component
+    /// </summary>
+    public void fadeAudio(int index)
+    {
+        audioSources[index].GetComponent<FadingMusic>().startFade();
+    }
 
 	//public void setParticleSpeed(int index, float speed)
 	//{
