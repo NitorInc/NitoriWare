@@ -60,7 +60,8 @@ public class StageController : MonoBehaviour
 		BossStage,		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
 		NextRound,		//6 - Used after a boss stage or when difficulty increases | 8 beats
 		GameOver,		//7 - Player has lost all of their lives | Until stage is quit or restarted
-		Retry			//8 - Player has hit retry after Game Over | 2 beats
+		Retry,			//8 - Player has hit retry after Game Over | 2 beats
+        OneUp           //9 - Player has won the boss stage and gets an extra life | 8 beats (placeholder)
 	}
 
 	void Start()
@@ -512,10 +513,24 @@ public class StageController : MonoBehaviour
 			introSource.UnPause();
 	}
 
-	//void Update()
-	//{
+    //void Update()
+    //{
 
-	//}
+    //}
+
+    public int getLife()
+    {
+        return life;
+    }
+
+    public void setLife(int life)
+    {
+        this.life = life;
+        for (int i = 0; i < lifeIndicators.Length; i++)
+        {
+            lifeIndicators[i].SetInteger("life", life - i);
+        }
+    }
 
     public void retry()
     {
@@ -617,7 +632,7 @@ public class StageController : MonoBehaviour
 		life = stage.getMaxLife();
 		for (int i = 0; i < lifeIndicators.Length; i++)
 		{
-			lifeIndicators[i].SetInteger("life", lifeIndicators.Length - i);
+			lifeIndicators[i].SetInteger("life", life - i);
 		}
 
 	}
