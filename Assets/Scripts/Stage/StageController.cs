@@ -381,8 +381,18 @@ public class StageController : MonoBehaviour
 		CancelInvoke();
 		introSource.Stop();
 		placeholderResults.transform.parent.gameObject.SetActive(true);
-		placeholderResults.setScore(microgameCount);
         Cursor.visible = true;
+
+        //TODO better playerprefs saving
+        string scoreString = scene.name + "HighScore";
+        int score = Mathf.Min(microgameCount, 999), highScore = PlayerPrefs.GetInt(scoreString, 0);
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt(scoreString, score);
+        }
+		placeholderResults.setScore(score);
+        placeholderResults.setHighScore(highScore);
 	}
 
 	string getDefaultControlString()
