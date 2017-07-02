@@ -75,6 +75,11 @@ public class PaperThiefCamera : MonoBehaviour
     {
         this.shiftSpeed = shiftSpeed;
     }
+
+    public float getCurrentShiftSpeed()
+    {
+        return velocityOverTime.Evaluate(Time.time - startTime);
+    }
 	
 	public void LateUpdate()
 	{
@@ -103,7 +108,7 @@ public class PaperThiefCamera : MonoBehaviour
 
 	void updateScroll()
 	{
-		transform.position += Vector3.right * velocityOverTime.Evaluate(Time.time - startTime) * Time.deltaTime;
+		transform.position += Vector3.right * getCurrentShiftSpeed() * Time.deltaTime;
 	}
 
 	void updateShift()

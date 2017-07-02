@@ -279,7 +279,30 @@ public class PaperThiefNitori : MonoBehaviour
 
         updateWalkSpeed(direction, grounded);
         updateAnimatorValues(direction, grounded);
-        
+
+        //Bounds stuff
+        if (direction == 0)
+        {
+            RaycastHit2D leftWallHit = wallContact(false);
+            if (leftWallHit && leftWallHit.collider.name.Contains("Bound"))
+            {
+                if (leftWallHit && wallContact(true))
+                {
+                    float dist = (walkCollider.bounds.extents.x * 2f) - .15f;
+                    if (PhysicsHelper2D.visibleRaycast((Vector2)transform.position + new Vector2(-walkCollider.bounds.extents.x + .075f, walkCollider.bounds.extents.y),
+                        Vector2.right, dist, walkMask))
+                        kill(true);
+                }
+                else if (grounded && PaperThiefCamera.instance.getCurrentShiftSpeed() > 1f)
+                {
+                    actualDirection = direction = 1;
+                    updateSpinner(1);
+                    rigAnimator.SetBool("Walking", true);
+                    rigAnimator.SetFloat("WalkSpeed", 1f);
+                }
+            }
+        }
+
         if (hasControl && transform.position.x >= cucumberTransform.position.x - 1f)
         {
             PaperThiefController.instance.startScene(PaperThiefController.Scene.CucumberSteal);
