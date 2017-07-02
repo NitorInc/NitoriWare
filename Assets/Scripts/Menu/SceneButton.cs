@@ -5,14 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneButton : MonoBehaviour
 {
-
-#pragma warning disable 0649   //Serialized Fields
+    
     [SerializeField]
-    protected string targetStage;
-#pragma warning restore 0649
+    protected string _targetStage;
+    public string targetStage
+    {
+        get { return _targetStage; }
+        set { targetStage = value; }
+    }
+    
+
 
     public virtual void press()
     {
-        SceneManager.LoadScene(targetStage);
+        SceneManager.LoadScene(_targetStage);
     }
 }

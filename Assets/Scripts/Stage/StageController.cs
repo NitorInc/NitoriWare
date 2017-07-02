@@ -384,7 +384,7 @@ public class StageController : MonoBehaviour
         Cursor.visible = true;
 
         //TODO better playerprefs saving
-        string scoreString = scene.name + "HighScore";
+        string scoreString = gameObject.scene.name  + "HighScore";
         int score = Mathf.Min(microgameCount, 999), highScore = PlayerPrefs.GetInt(scoreString, 0);
         if (score > highScore)
         {
