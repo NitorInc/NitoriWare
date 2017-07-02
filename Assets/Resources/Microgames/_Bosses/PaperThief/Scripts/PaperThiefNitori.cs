@@ -18,7 +18,7 @@ public class PaperThiefNitori : MonoBehaviour
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
-	private Transform gunTransform, gunCursor, shotMarker, cucumberTransform, victoryTransform;
+	private Transform gunTransform, gunCursor, shotMarker, cucumberTransform, victoryTransform, boundsParent;
 	[SerializeField]
 	private PaperThiefSpin spinner;
 	[SerializeField]
@@ -144,6 +144,7 @@ public class PaperThiefNitori : MonoBehaviour
 				rigAnimator.SetBool("Walking", false);
 				rigAnimator.SetFloat("WalkSpeed", 1f);
 				rigAnimator.SetInteger("Jump", 0);
+                boundsParent.gameObject.SetActive(false);
 
                 PaperThiefCamera.instance.startChase();
 				//PaperThiefCamera.instance.transform.parent = transform;
@@ -284,7 +285,7 @@ public class PaperThiefNitori : MonoBehaviour
         if (direction == 0)
         {
             RaycastHit2D leftWallHit = wallContact(false);
-            if (leftWallHit && leftWallHit.collider.name.Contains("Bound"))
+            if (leftWallHit && leftWallHit.collider.transform.parent == boundsParent)
             {
                 if (leftWallHit && wallContact(true))
                 {
