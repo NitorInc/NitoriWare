@@ -59,11 +59,11 @@ public class FlanGrab_SightBehaviour : MonoBehaviour {
             {
                 var objScript = objCollider.gameObject.GetComponent<FlanGrab_Meteor_BehaviourScript>();
                 objScript.destroyMeteor();
-                MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
+                MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x) * .75f);
                 return;
             }
         }
-        MicrogameController.instance.playSFX(missClip, AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
+        MicrogameController.instance.playSFX(missClip, AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x) * .75f);
     }
 
 }
