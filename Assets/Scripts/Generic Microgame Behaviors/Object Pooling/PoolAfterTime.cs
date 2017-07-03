@@ -14,6 +14,8 @@ public class PoolAfterTime : MonoBehaviour
 	void Start()
 	{
 		timeLeft = lifetime;
+        if (pool == null)
+            pool = transform.parent.GetComponent<ObjectPool>();
 	}
 
 	/// <summary>
