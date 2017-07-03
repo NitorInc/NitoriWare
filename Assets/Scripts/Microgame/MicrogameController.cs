@@ -94,6 +94,7 @@ public class MicrogameController : MonoBehaviour
 			}
 
 			Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
+            Cursor.lockState = CursorLockMode.Confined;
 
 			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
 			debugVoicePlayer.loadClips(debugSettings.voiceSet);
@@ -256,13 +257,14 @@ public class MicrogameController : MonoBehaviour
     /// Plays sound effect unaffected by microgame speed
     /// </summary>
     /// <param name="clip"></param>
-    /// <param name="pan"></param>
+    /// <param name="panStereo"></param>
     /// <param name="pitch"></param>
     /// <param name="volume"></param>
-    public void playSFXUnscaled(AudioClip clip, float pan = 0f, float pitch = 1f, float volume = 1f)
+    public void playSFXUnscaled(AudioClip clip, float panStereo = 0f, float pitch = 1f, float volume = 1f)
     {
         sfxSource.volume = volume;
         sfxSource.pitch = pitch;
+        sfxSource.panStereo = panStereo;
         sfxSource.PlayOneShot(clip);
     }
 
@@ -270,12 +272,12 @@ public class MicrogameController : MonoBehaviour
     /// Plays sound effect and scales it with current speed. use this for most microgame sounds.
     /// </summary>
     /// <param name="clip"></param>
-    /// <param name="pan"></param>
+    /// <param name="panStero"></param>
     /// <param name="pitchMult"></param>
     /// <param name="volume"></param>
-    public void playSFX(AudioClip clip, float pan = 0f, float pitchMult = 1f, float volume = 1f)
+    public void playSFX(AudioClip clip, float panStero = 0f, float pitchMult = 1f, float volume = 1f)
     {
-        playSFXUnscaled(clip, pan, volume, pitchMult * Time.timeScale);
+        playSFXUnscaled(clip, panStero, pitchMult * Time.timeScale, volume);
     }
 
 	void Update ()
