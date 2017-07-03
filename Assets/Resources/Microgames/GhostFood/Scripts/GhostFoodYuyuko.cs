@@ -32,6 +32,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	public AudioSource audioSource;
 	public AudioClip chewClip, victoryClip, burpClip;
+    private ParticleSystem.MainModule particlesModule, burpParticlesModule;
 
 	public State state;
 	public enum State
@@ -43,7 +44,9 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void Awake()
 	{
-		//faceRenderer = face.GetComponent<SpriteRenderer>();
+        //faceRenderer = face.GetComponent<SpriteRenderer>();
+        burpParticlesModule = burpParticles.main;
+        particlesModule = particles.main;
 	}
 
 	void Start()
@@ -80,8 +83,8 @@ public class GhostFoodYuyuko : MonoBehaviour
 		}
 		setFacingRight(transform.position.x < 0f);
 		body.transform.rotation = transform.position.x < 0f ? Quaternion.Euler(0f, 0f, -0.5f * Mathf.Rad2Deg) : Quaternion.Euler(0f, 0f, 0.5f * Mathf.Rad2Deg);
-		animator.SetTime(1f);
-		animator.enabled = false;
+		//animator.playbackTime = 1f;
+		//animator.enabled = false;
 
 		headVibrate.vibrateOn = false;
 		setScale(initialScale);
@@ -126,7 +129,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 		lastMousePosition = transform.position;
 		updateFace();
-		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(Camera.main, transform.position) * .8f;
+		audioSource.panStereo = state == State.Full ? 0f : AudioHelper.getAudioPan(transform.position.x) * .8f;
 	}
 
 	void checkForVictory()
@@ -179,12 +182,12 @@ public class GhostFoodYuyuko : MonoBehaviour
 				break;
 			case (State.Chewing):
 				faceRenderer.sprite = chewingFace1;
-				if (chewsLeft > 0 && Input.GetMouseButtonDown(0) && animator.GetTime() >= chewTime)
+				if (chewsLeft > 0 && Input.GetMouseButtonDown(0))// && animator.playbackTime >= chewTime)
 				{
-					animator.enabled = true;
 					//Debug.Log(animator.GetTime());
 					//animator.SetTime(0f);
 					animator.Rebind();
+					animator.Play("Chew", -1, 0f);
 					//Debug.Log(animator.GetTime());
 					chewsLeft--;
 					audioSource.PlayOneShot(chewClip);
@@ -206,7 +209,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 				{
 					float diff = victoryMoveSpeedMult * distanceToCenter * Time.deltaTime;
 					Vector2 toCenter = -1f * (Vector2)transform.position;
-					transform.position = toCenter.magnitude <= diff ? new Vector3(0f, 0f, transform.position.z) : transform.position + (Vector3)MathHelper.resizeVector2D(toCenter, diff);
+					transform.position = toCenter.magnitude <= diff ? new Vector3(0f, 0f, transform.position.z) : transform.position + (Vector3)toCenter.resize(diff);
 					setScale(Mathf.Lerp(victoryScale, initialScale, toCenter.magnitude / distanceToCenter));
 
 				}
@@ -281,7 +284,8 @@ public class GhostFoodYuyuko : MonoBehaviour
 		//burp.transform.localRotation = Quaternion.EulerAngles(0f, facingRight ? 0f : 180f, 0f);
 		//burp.transform.localScale = new Vector3(facingRight ? 1f : -1f, 1f, 1f);
 
-		burpParticles.startRotation = facingRight ? 0f : Mathf.PI;
+        
+		burpParticlesModule.startRotation = facingRight ? 0f : Mathf.PI;
 		//Debug.Log((float)chewsLeft / 6f);
 		//Debug.Log(face.transform.localScale);
 	}
@@ -301,13 +305,13 @@ public class GhostFoodYuyuko : MonoBehaviour
 		if ((state == State.Hungry || canEatMultipleFoods) && other.name == "Food")
 		{
 			state = State.Chewing;
-			particles.startColor = other.GetComponent<SpriteRenderer>().color;
+			animator.enabled = true;
+			particlesModule.startColor = other.GetComponent<SpriteRenderer>().color;
 			other.gameObject.SetActive(false);
 			particles.Play();
 			chewsLeft += chewsNeeded;
 			CancelInvoke();
-			animator.enabled = true;
-			animator.SetTime(1f);
+			animator.Play("Chew", -1, 1f);
 		}
 	}
 

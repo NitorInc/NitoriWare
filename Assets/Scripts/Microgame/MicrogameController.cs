@@ -21,7 +21,9 @@ public class MicrogameController : MonoBehaviour
 
 
 	public UnityEvent onPause, onUnPause;
-	public GameObject debugObjects;
+	public GameObject debugObjects, debugPauseManager;
+    [SerializeField]
+    private AudioSource sfxSource;
 
 	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
@@ -33,6 +35,8 @@ public class MicrogameController : MonoBehaviour
 		instance = this;
 
 		string sceneName = gameObject.scene.name;
+		if (sceneName.Equals("Template"))
+			sceneName = "_Template1";
 		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
 		Transform localization = transform.FindChild("Localization");
 
@@ -57,6 +61,7 @@ public class MicrogameController : MonoBehaviour
 			Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
 
 			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
+			debugPauseManager = Instantiate(debugPauseManager, Vector3.zero, Quaternion.identity) as GameObject;
 
 			MicrogameTimer.instance = debugObjects.transform.FindChild("UI Camera").FindChild("Timer").GetComponent<MicrogameTimer>();
 			MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
@@ -93,7 +98,7 @@ public class MicrogameController : MonoBehaviour
 			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
 			debugVoicePlayer.loadClips(debugSettings.voiceSet);
 		}
-		else
+		else if (!isBeingDiscarded())
 		{
 			//Normal Start
 
@@ -118,7 +123,27 @@ public class MicrogameController : MonoBehaviour
 
 	void Start()
 	{
-		SceneManager.SetActiveScene(gameObject.scene);
+		if (isBeingDiscarded())
+			shutDownMicrogame();
+		else
+			SceneManager.SetActiveScene(gameObject.scene);
+	}
+
+	/// <summary>
+	/// Disables all root objects in microgame
+	/// </summary>
+	public void shutDownMicrogame()
+	{
+		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
+		for (int i = 0; i < rootObjects.Length; i++)
+		{
+			rootObjects[i].SetActive(false);
+		}
+	}
+
+	bool isBeingDiscarded()
+	{
+		return StageController.instance != null && StageController.instance.animationPart == StageController.AnimationPart.GameOver;
 	}
 
 	/// <summary>
@@ -131,6 +156,25 @@ public class MicrogameController : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Returns true if microgame is in debug mode (scene open by itself)
+	/// </summary>
+	/// <returns></returns>
+	public bool isDebugMode()
+	{
+		return StageController.instance == null;
+	}
+    
+    public AudioSource getSFXSource()
+    {
+        return sfxSource;
+    }
+
+    public Transform getCommandTransform()
+	{
+		return commandTransform;
+	}
+
+	/// <summary>
 	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
 	/// </summary>
 	/// <param name="victory"></param>
@@ -139,6 +183,7 @@ public class MicrogameController : MonoBehaviour
 	{
 		if (StageController.instance == null)
 		{
+			//Debug victory
 			if (victoryDetermined)
 			{
 				return;
@@ -150,6 +195,7 @@ public class MicrogameController : MonoBehaviour
 		}
 		else
 		{
+			//StageController handles regular victory
 			StageController.instance.setMicrogameVictory(victory, final);
 		}
 	}
@@ -183,7 +229,7 @@ public class MicrogameController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Redisplays the command text with the specified message
+	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
 	public void displayCommand(string command)
@@ -197,18 +243,53 @@ public class MicrogameController : MonoBehaviour
 		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
 	}
 
+	/// <summary>
+	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
+	/// </summary>
+	/// <param name="command"></param>
+	public void displayLocalizedCommand(string key, string defaultString)
+	{
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
+	}
+
+    /// <summary>
+    /// Plays sound effect unaffected by microgame speed
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="pan"></param>
+    /// <param name="pitch"></param>
+    /// <param name="volume"></param>
+    public void playSFXUnscaled(AudioClip clip, float pan = 0f, float pitch = 1f, float volume = 1f)
+    {
+        sfxSource.volume = volume;
+        sfxSource.pitch = pitch;
+        sfxSource.PlayOneShot(clip);
+    }
+
+    /// <summary>
+    /// Plays sound effect and scales it with current speed. use this for most microgame sounds.
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="pan"></param>
+    /// <param name="pitchMult"></param>
+    /// <param name="volume"></param>
+    public void playSFX(AudioClip clip, float pan = 0f, float pitchMult = 1f, float volume = 1f)
+    {
+        playSFXUnscaled(clip, pan, volume, pitchMult * Time.timeScale);
+    }
+
 	void Update ()
 	{
 		if (StageController.instance == null)
 		{
-			if (Input.GetKeyDown(KeyCode.R))
+			if (Input.GetKeyUp(KeyCode.R))
 				SceneManager.LoadScene(gameObject.scene.buildIndex);
-			else if (Input.GetKey(KeyCode.F))
+			else if (Input.GetKeyUp(KeyCode.F))
 			{
 				preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
 				SceneManager.LoadScene(gameObject.scene.buildIndex);
 			}
-			else if (Input.GetKey(KeyCode.N))
+			else if (Input.GetKeyUp(KeyCode.N))
 			{
 				string sceneName = SceneManager.GetActiveScene().name;
 				char[] sceneChars = sceneName.ToCharArray();

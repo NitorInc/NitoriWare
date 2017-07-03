@@ -14,19 +14,28 @@ public class AudioHelper
 		source.PlayScheduled(AudioSettings.dspTime + (time / Time.timeScale));
 	}
 
-	/// <summary>
-	/// Finds the appropriate audio pan for a sound effect based on the object's x position
-	/// </summary>
-	/// <param name="camera"></param>
-	/// <param name="position"></param>
-	/// <returns></returns>
-	public static float getAudioPan(Camera camera, Vector3 position)
-	{
-		float x = position.x;
-		x -= camera.transform.position.x;
-		x /= camera.orthographicSize * (4f / 3f);
+    /// <summary>
+    /// Finds the appropriate audio pan for a sound effect based on the object's x position, custom camera
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <param name="xPosition"></param>
+    /// <returns></returns>
+    public static float getAudioPan(float xPosition, Camera camera, float extreme = 1f)
+    {
+        xPosition -= camera.transform.position.x;
+        xPosition /= camera.orthographicSize * (4f / 3f);
 
-		return MathHelper.clamp(x, -1f, 1f);
+        return Mathf.Clamp(xPosition, -1f, 1f) * extreme;
+    }
+
+    /// <summary>
+    /// Finds the appropriate audio pan for a sound effect based on the object's x position
+    /// </summary>
+    /// <param name="xPosition"></param>
+    /// <returns></returns>
+    public static float getAudioPan(float xPosition, float extreme = 1f)
+	{
+        return getAudioPan(xPosition, Camera.main, extreme);
 	}
 
 }

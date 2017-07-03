@@ -55,7 +55,7 @@ public class FreezeFrogsTarget : MonoBehaviour
 		updateProgress();
 		for (int i = 0; i < particleSystems.Length;particleSystems[i].Play(), i++);
 		audio.pitch = /*1.35f */ Time.timeScale;
-		audio.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position);
+		audio.panStereo = AudioHelper.getAudioPan(transform.position.x);
 		audio.Play();
 	}
 

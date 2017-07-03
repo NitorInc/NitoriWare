@@ -1,4 +1,4 @@
-﻿//Found this online
+﻿//Found this online, modified it
 
 using UnityEngine;
 using System.Collections;
@@ -11,8 +11,11 @@ public class TextOutline : MonoBehaviour
 	public Color outlineColor = Color.black;
 	public bool resolutionDependant = false;
 	public int doubleResolution = 1024;
+    public bool updateAttributes;
 
 	private TextMesh textMesh;
+    private TextMesh[] childMeshes;
+    private MeshRenderer[] childMeshRenderers;
 	private MeshRenderer meshRenderer;
 
 	void Start()
@@ -20,6 +23,8 @@ public class TextOutline : MonoBehaviour
 		textMesh = GetComponent<TextMesh>();
 		meshRenderer = GetComponent<MeshRenderer>();
 
+        childMeshes = new TextMesh[cloneCount];
+        childMeshRenderers = new MeshRenderer[cloneCount];
 		for (int i = 0; i < cloneCount; i++)
 		{
 			GameObject outline = new GameObject("outline", typeof(TextMesh));
@@ -33,6 +38,10 @@ public class TextOutline : MonoBehaviour
 			otherMeshRenderer.sortingLayerID = meshRenderer.sortingLayerID;
 			otherMeshRenderer.sortingLayerName = meshRenderer.sortingLayerName;
 			otherMeshRenderer.sortingOrder = meshRenderer.sortingOrder;
+            childMeshRenderers[i] = otherMeshRenderer;
+
+            childMeshes[i] = otherMeshRenderer.GetComponent<TextMesh>();
+            updateAttributes = true;
 		}
 	}
 
@@ -41,32 +50,36 @@ public class TextOutline : MonoBehaviour
 		Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
 		outlineColor.a = textMesh.color.a * textMesh.color.a;
-
-		// copy attributes
-		for (int i = 0; i < transform.childCount; i++)
+        
+		for (int i = 0; i < childMeshes.Length; i++)
 		{
+            
 
-			TextMesh other = transform.GetChild(i).GetComponent<TextMesh>();
-			other.color = outlineColor;
-			other.text = textMesh.text;
-			other.alignment = textMesh.alignment;
-			other.anchor = textMesh.anchor;
-			other.characterSize = textMesh.characterSize;
-			other.font = textMesh.font;
-			other.fontSize = textMesh.fontSize;
-			other.fontStyle = textMesh.fontStyle;
-			other.richText = textMesh.richText;
-			other.tabSize = textMesh.tabSize;
-			other.lineSpacing = textMesh.lineSpacing;
-			other.offsetZ = textMesh.offsetZ;
-			other.gameObject.layer = gameObject.layer;
+			TextMesh other = childMeshes[i];
+            other.text = textMesh.text;
+
+            if (updateAttributes)
+            {
+                other.color = outlineColor;
+                other.alignment = textMesh.alignment;
+                other.anchor = textMesh.anchor;
+                other.characterSize = textMesh.characterSize;
+                other.font = textMesh.font;
+                other.fontSize = textMesh.fontSize;
+                other.fontStyle = textMesh.fontStyle;
+                other.richText = textMesh.richText;
+                other.tabSize = textMesh.tabSize;
+                other.lineSpacing = textMesh.lineSpacing;
+                other.offsetZ = textMesh.offsetZ;
+                other.gameObject.layer = gameObject.layer;
+            }
 
 			bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
 			Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
 			Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint + pixelOffset);
 			other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
-			MeshRenderer otherMeshRenderer = transform.GetChild(i).GetComponent<MeshRenderer>();
+			MeshRenderer otherMeshRenderer = childMeshRenderers[i];
 			otherMeshRenderer.sortingLayerID = meshRenderer.sortingLayerID;
 			otherMeshRenderer.sortingLayerName = meshRenderer.sortingLayerName;
 		}
@@ -79,6 +92,6 @@ public class TextOutline : MonoBehaviour
 
 	Vector3 GetOffset(int i)
 	{
-		return (Vector3)MathHelper.getVectorFromAngle2D(360f * ((float)i / (float)cloneCount), 1f);
+		return (Vector3)MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
 	}
 }

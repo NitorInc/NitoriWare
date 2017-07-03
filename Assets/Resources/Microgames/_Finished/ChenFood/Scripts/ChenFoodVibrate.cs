@@ -49,7 +49,7 @@ public class ChenFoodVibrate : MonoBehaviour
 		else
 		{
 			transform.localPosition +=
-				(Vector3)MathHelper.getVectorFromAngle2D(MathHelper.getVectorAngle2D(vibrateGoal - (Vector2)transform.localPosition),
+				(Vector3)MathHelper.getVector2FromAngle(MathHelper.getAngle(vibrateGoal - (Vector2)transform.localPosition),
 				vibrateSpeed * Time.deltaTime);
 
 		}
@@ -59,7 +59,7 @@ public class ChenFoodVibrate : MonoBehaviour
 
 	public void resetVibrate()
 	{
-		vibrateGoal = MathHelper.getVectorFromAngle2D(Random.Range(0f, 360f), Random.Range(0f, vibrateRadius));
+		vibrateGoal = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), Random.Range(0f, vibrateRadius));
 	}
 	
 }

@@ -38,17 +38,18 @@ public class PotionPot : MonoBehaviour
 		set { _bubbleSource = value; }
 	}
 
-	[SerializeField]
+    #pragma warning disable 0649
+    [SerializeField]
 	private AudioSource sfxSource;
-
-
 	[SerializeField]
 	private AudioClip victoryClip, lossClip;
-
-	void Awake()
+    #pragma warning restore 0649
+    
+    void Awake()
 	{
 		ingredients = potionPool.createPool(ingredientCount);
-		smokeParticles.playbackSpeed = 1.75f;
+        ParticleSystem.MainModule module = smokeParticles.main;
+        module.simulationSpeed = 1.75f;
 
 		reset();
 	}

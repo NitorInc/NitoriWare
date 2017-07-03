@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MathHelper
+public static class MathHelper
 {
 
 	/// <summary>
-	/// Gets the angle of a vector (degrees)
+	/// Gets the angle of a Vector2 (degrees)
 	/// </summary>
 	/// <param name="vector"></param>
 	/// <returns></returns>
-	public static float getVectorAngle2D(Vector2 vector)
+	public static float getAngle(this Vector2 vector)
 	{
 		if (vector == Vector2.zero)
 			return 0f;
@@ -19,27 +19,67 @@ public class MathHelper
 			return (Mathf.Atan(vector.y / vector.x) + Mathf.PI) * Mathf.Rad2Deg;
 	}
 
-	/// <summary>
-	/// Returns a 2D vector from an angle (degrees) and magnitude
-	/// </summary>
-	/// <param name="angle"></param>
-	/// <param name="magnitude"></param>
-	/// <returns></returns>
-	public static Vector2 getVectorFromAngle2D(float angle, float magnitude)
+    /// <summary>
+    /// Returns modulus that works with negative numbers (always between 0 and m)
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    public static float trueMod(float x, float m)
+    {
+        float r = x % m;
+        while (r < 0f)
+        {
+            r += m;
+        }
+        return r;
+    }
+
+    /// <summary>
+    /// Returns modulus that works with negative numbers (always between 0 and m)
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    public static int trueMod(int x, int m)
+    {
+        int r = x % m;
+        while (r < 0)
+        {
+            r += m;
+        }
+        return r;
+    }
+
+    /// <summary>
+    /// Returns a 2D vector from an angle (degrees) and magnitude
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <param name="magnitude"></param>
+    /// <returns></returns>
+    public static Vector2 getVector2FromAngle(float angle, float magnitude)
 	{
 		return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad) * magnitude, Mathf.Sin(angle * Mathf.Deg2Rad) * magnitude);
 	}
 
 	/// <summary>
-	/// Returns a vector with the same angle as the given vector, resized to the given magnitude
+	/// Returns a Vector3 with the same direction resized to the given magnitude
 	/// </summary>
 	/// <param name="vector"></param>
 	/// <param name="magnitude"></param>
 	/// <returns></returns>
-	public static Vector2 resizeVector2D(Vector2 vector, float magnitude)
+	public static Vector3 resize(this Vector3 vector, float magnitude)
 	{
-		float angle = getVectorAngle2D(vector) * Mathf.Deg2Rad;
-		return new Vector2(Mathf.Cos(angle) * magnitude, Mathf.Sin(angle) * magnitude);
+		return Vector3.Scale(vector, Vector3.one * (magnitude / vector.magnitude));
+	}
+
+	/// <summary>
+	/// Returns a Vector3 with the same direction resized to the given magnitude
+	/// </summary>
+	/// <param name="vector"></param>
+	/// <param name="magnitude"></param>
+	/// <returns></returns>
+	public static Vector2 resize(this Vector2 vector, float magnitude)
+	{
+		return Vector2.Scale(vector, Vector2.one * (magnitude / vector.magnitude));
 	}
 
 	/// <summary>
@@ -48,7 +88,7 @@ public class MathHelper
 	/// <param name="angle"></param>
 	/// <param name="target"></param>
 	/// <returns></returns>
-	public static float getAngleDifferences(float angle, float target)
+	public static float getAngleDifference(float angle, float target)
 	{
 		float dist = 0f;
 		int direction;
@@ -105,7 +145,16 @@ public class MathHelper
 	}
 
 	/// <summary>
-	/// An alternateative to Mathf.approximately with a settable proximity threshold
+	/// Returns True or False randomly
+	/// </summary>
+	/// <returns></returns>
+	public static bool randomBool()
+	{
+		return Random.value >= 0.5;
+	}
+
+	/// <summary>
+	/// Alternative method to Mathf.approximately with a proximity threshold
 	/// </summary>
 	/// <param name="value1"></param>
 	/// <param name="value2"></param>
@@ -114,18 +163,6 @@ public class MathHelper
 	public static bool Approximately(float value1, float value2, float threshold)
 	{
 		return Mathf.Abs(value2 - value1) < threshold;
-	}
-
-	/// <summary>
-	/// Returns the 2D distance (no z) between two vector3's
-	/// </summary>
-	/// <param name="position1"></param>
-	/// <param name="position2"></param>
-	/// <returns></returns>
-	public static float get2DDistance(Vector3 position1, Vector3 position2)
-	{
-		//Debug.Log(position1 + " " + position2);
-		return (new Vector2(position1.x, position1.y) - new Vector2(position2.x, position2.y)).magnitude;
 	}
 
 
@@ -148,7 +185,7 @@ public class MathHelper
 	/// </summary>
 	/// <param name="range"></param>
 	/// <returns></returns>
-	public static float randomRange(Vector2 range)
+	public static float randomRangeFromVector(Vector2 range)
 	{
 		return Random.Range(range.x, range.y);
 	}
@@ -160,22 +197,34 @@ public class MathHelper
 	/// <param name="goalPosition"></param>
 	/// <param name="speed"></param>
 	/// <returns></returns>
-	public static bool moveTowards2D(Transform transform, Vector2 goalPosition, float speed)
+	public static bool moveTowards(this Transform transform, Vector3 goalPosition, float speed)
 	{
 		float diff = speed * Time.deltaTime;
 
-		Vector2 relativePosition = goalPosition - (Vector2)transform.position;
+		Vector3 relativeGoalPosition = goalPosition - transform.position;
 
-		if (relativePosition.magnitude <= diff)
+		if (relativeGoalPosition.magnitude <= diff)
 		{
-			transform.position = new Vector3(goalPosition.x, goalPosition.y, transform.position.z);
+			transform.position = goalPosition;
 			return true;
 		}
 		else
 		{
-			transform.Translate((Vector3)resizeVector2D(relativePosition, diff));
+			transform.position += relativeGoalPosition.resize(diff);
 			return false;
 		}
+	}
+
+	/// <summary>
+	/// (2D) Moves an object (frame by frame) to a certain point, will return true if the point is reached that frame
+	/// </summary>
+	/// <param name="transform"></param>
+	/// <param name="goalPosition"></param>
+	/// <param name="speed"></param>
+	/// <returns></returns>
+	public static bool moveTowards(this Transform transform, Vector2 goalPosition, float speed)
+	{
+		return moveTowards(transform, new Vector3(goalPosition.x, goalPosition.y, transform.position.z), speed);
 	}
 
 	/// <summary>
@@ -185,27 +234,33 @@ public class MathHelper
 	/// <param name="goalPosition"></param>
 	/// <param name="speed"></param>
 	/// <returns></returns>
-	public static bool moveTowards2DLocal(Transform transform, Vector2 goalPosition, float speed)
+	public static bool moveTowardsLocal(Transform transform, Vector3 goalPosition, float speed)
 	{
 		float diff = speed * Time.deltaTime;
 
-		Vector2 relativePosition = goalPosition - (Vector2)transform.localPosition;
+		Vector3 relativeGoalPosition = goalPosition - transform.localPosition;
 
-		if (relativePosition.magnitude <= diff)
+		if (relativeGoalPosition.magnitude <= diff)
 		{
-			transform.localPosition = new Vector3(goalPosition.x, goalPosition.y, transform.localPosition.z);
+			transform.localPosition = goalPosition;
 			return true;
 		}
 		else
 		{
-			transform.localPosition += (Vector3)resizeVector2D(relativePosition, diff);
+			transform.localPosition += relativeGoalPosition.resize(diff);
 			return false;
 		}
 	}
-
-	public static float clamp(float var, float min, float max)
+	/// <summary>
+	/// (2D) Moves an object (frame by frame) to a certain point, will return true if the point is reached that frame
+	/// </summary>
+	/// <param name="transform"></param>
+	/// <param name="goalPosition"></param>
+	/// <param name="speed"></param>
+	/// <returns></returns>
+	public static bool moveTowardsLocal(this Transform transform, Vector2 goalPosition, float speed)
 	{
-		return Mathf.Min(Mathf.Max(var, min), max);
+		return moveTowardsLocal(transform, new Vector3(goalPosition.x, goalPosition.y, transform.localPosition.z), speed);
 	}
 
 }
