@@ -103,7 +103,7 @@ public class SuikaShakeSuika : MonoBehaviour
 
         if (SuikaShakeBottle.flingSoundCooldown <= 0f)
         {
-            MicrogameController.instance.playSFX(flingClip, AudioHelper.getAudioPan(transform.position.x), Random.Range(1f, 1.05f));
+            MicrogameController.instance.playSFX(flingClip, MicrogameController.instance.getSFXSource().panStereo, Random.Range(1f, 1.05f));
             SuikaShakeBottle.flingSoundCooldown += minTimePerFlingSound;
         }
     }

@@ -89,7 +89,10 @@ public class SuikaShakeBottle : MonoBehaviour
 			lowerHealth(diff * progressMult);
 
 		lastCursorPosition = currentCursorPosition;
-	}
+
+        MicrogameController.instance.getSFXSource().panStereo = AudioHelper.getAudioPan(transform.position.x) * .8f;
+
+    }
 
 	void lowerHealth(float amount)
 	{
