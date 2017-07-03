@@ -66,11 +66,10 @@ public class SuikaShakeSuika : MonoBehaviour
 	{
 		transform.parent = null;
 		_rigidBody.bodyType = RigidbodyType2D.Dynamic;
-		_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0, 90), Random.Range(3, 10));
+		_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(60, 90), Random.Range(5, 15));
         if (direction < 0 || (direction == 0 && MathHelper.randomBool()))
             _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
 
-        _rigidBody.velocity += velocity / 5f;
 
         //if (MathHelper.randomBool())
         //    _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
@@ -90,7 +89,12 @@ public class SuikaShakeSuika : MonoBehaviour
             transform.localRotation = Quaternion.Euler(0f, 0f, -Random.Range(15f, 30f));
             //_rigidBody.AddTorque(-Random.Range(50f, 150f));
         }
-        _rigidBody.AddTorque(30f * -_rigidBody.velocity.x * Random.Range(.5f, 1f));
+        _rigidBody.AddTorque(15f + (30f * -_rigidBody.velocity.x * Random.Range(.5f, 1f)));
+
+
+        velocity /= 5f;
+        velocity = velocity.resize(Mathf.Min(velocity.magnitude, 10f));
+        _rigidBody.velocity += velocity;
     }
 
 	public float getHealth()
