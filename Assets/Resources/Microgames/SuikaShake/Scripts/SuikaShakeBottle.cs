@@ -5,6 +5,8 @@ using UnityEngine;
 public class SuikaShakeBottle : MonoBehaviour
 {
 
+    public static float flingSoundCooldown;
+
 #pragma warning disable 0649
     [SerializeField]
 	private float health, minSpeed, progressMult, sideChance;
@@ -28,6 +30,8 @@ public class SuikaShakeBottle : MonoBehaviour
 
 	void Start ()
 	{
+        flingSoundCooldown = 0f;
+
 		suikas = new SuikaShakeSuika[(int)(health / healthPerSuika)];
 		for (int i = 0; i < suikas.Length; i++)
 		{
@@ -63,7 +67,11 @@ public class SuikaShakeBottle : MonoBehaviour
 	{
 		Vector2 currentCursorPosition = CameraHelper.getCursorPosition();
 
-		if (health < 0)
+        if (flingSoundCooldown > 0f)
+            flingSoundCooldown -= Time.deltaTime;
+
+
+        if (health < 0)
 		{
 			if (transform.moveTowards(Vector2.zero, 30f))
 				enabled = false;

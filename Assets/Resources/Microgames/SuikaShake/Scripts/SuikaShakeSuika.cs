@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SuikaShakeSuika : MonoBehaviour
 {
+
 #pragma warning disable 0649
     [SerializeField]
 	private float health;
@@ -11,6 +12,10 @@ public class SuikaShakeSuika : MonoBehaviour
     private Sprite middleSprite, rightSprite, fallSprite;
     [SerializeField]
     private Vibrate vibrate;
+    [SerializeField]
+    private AudioClip flingClip;
+    [SerializeField]
+    private float minTimePerFlingSound;
 #pragma warning restore 0649
 
 
@@ -95,6 +100,12 @@ public class SuikaShakeSuika : MonoBehaviour
         velocity /= 5f;
         velocity = velocity.resize(Mathf.Min(velocity.magnitude, 10f));
         _rigidBody.velocity += velocity;
+
+        if (SuikaShakeBottle.flingSoundCooldown <= 0f)
+        {
+            MicrogameController.instance.playSFX(flingClip, AudioHelper.getAudioPan(transform.position.x), Random.Range(1f, 1.05f));
+            SuikaShakeBottle.flingSoundCooldown += minTimePerFlingSound;
+        }
     }
 
 	public float getHealth()
