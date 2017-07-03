@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class SuikaShakeSuika : MonoBehaviour
 {
-	[SerializeField]
+#pragma warning disable 0649
+    [SerializeField]
 	private float health;
-	private bool onBottle = true;
+    [SerializeField]
+    private Sprite middleSprite, rightSprite, fallSprite;
+    [SerializeField]
+    private Vibrate vibrate;
+#pragma warning restore 0649
+
+
+    private bool onBottle = true;
 
 	[SerializeField]
 	private SpriteRenderer _spriteRenderer;
@@ -17,40 +25,83 @@ public class SuikaShakeSuika : MonoBehaviour
 	}
 
 	private Rigidbody2D _rigidBody;
+    private int direction;
 
 	void Awake()
 	{
 		_rigidBody = GetComponent<Rigidbody2D>();
 	}
-	
-	void Update ()
-	{
-		
-	}
 
-	public void setHealth(float health)
+    public void setFacing(int direction)
+    {
+        this.direction = direction;
+        if (direction == 0)
+            _spriteRenderer.sprite = middleSprite;
+        else
+        {
+            _spriteRenderer.sprite = rightSprite;
+            if (direction < 0)
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
+        vibrate.vibrateSpeed *= Random.Range(.5f, 1.5f);
+    }
+
+ //   void Update ()
+	//{
+		
+	//}
+
+	public void setHealth(float health, Vector2 velocity)
 	{
 		this.health = health;
 
 		if (onBottle && health < 0)
 		{
 			onBottle = false;
-			fling();
+			fling(velocity);
 		}
 	}
 
-	void fling()
+	void fling(Vector2 velocity)
 	{
 		transform.parent = null;
 		_rigidBody.bodyType = RigidbodyType2D.Dynamic;
-		_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(45, 135), Random.Range(5, 15));
+		_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0, 90), Random.Range(3, 10));
+        if (direction < 0 || (direction == 0 && MathHelper.randomBool()))
+            _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
+
+        _rigidBody.velocity += velocity / 5f;
+
+        //if (MathHelper.randomBool())
+        //    _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
 
 		_spriteRenderer.GetComponent<Vibrate>().vibrateOn = false;
-	}
+
+        spriteRenderer.sprite = fallSprite;
+        if (_rigidBody.velocity.x < 0f)
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(15f, 30f));
+            //_rigidBody.AddTorque(Random.Range(50f, 150f));
+        }
+        else
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            transform.localRotation = Quaternion.Euler(0f, 0f, -Random.Range(15f, 30f));
+            //_rigidBody.AddTorque(-Random.Range(50f, 150f));
+        }
+        _rigidBody.AddTorque(30f * -_rigidBody.velocity.x * Random.Range(.5f, 1f));
+    }
 
 	public float getHealth()
 	{
 		return health;
-	}
+    }
+
+    public void generateOffset(Collider2D spawnCollider)
+    {
+        float xOffset = spawnCollider.bounds.extents.x, yOffset = spawnCollider.bounds.extents.y;
+        transform.position += (Vector3)spawnCollider.offset + new Vector3(Random.Range(-xOffset, xOffset), Random.Range(-yOffset, yOffset), 0f);
+    }
 
 }

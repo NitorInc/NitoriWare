@@ -12,8 +12,6 @@ public class SuikaShakeBottle : MonoBehaviour
 	private int healthPerSuika;
     [SerializeField]
     private BoxCollider2D middleCollider, leftCollider, rightCollider;
-    [SerializeField]
-    private Sprite middleSprite, rightSprite, fallSprite;
 	[SerializeField]
 	private GameObject suikaPrefab;
 #pragma warning restore 0649
@@ -36,31 +34,30 @@ public class SuikaShakeBottle : MonoBehaviour
             suikas[i] = Instantiate(suikaPrefab, transform.position, Quaternion.identity).GetComponent<SuikaShakeSuika>();
             if (Random.Range(0f, 1f) < sideChance)
             {
-                suikas[i].spriteRenderer.sprite = rightSprite;
                 if (MathHelper.randomBool())
                 {
-                    suikas[i].transform.position += generateSuikaOffset(leftCollider);
-                    suikas[i].transform.GetChild(0).localScale = new Vector3(-1f, 1f, 1f);
+                    suikas[i].generateOffset(leftCollider);
+                    suikas[i].setFacing(-1);
                 }
                 else
                 {
-                    suikas[i].transform.position += generateSuikaOffset(rightCollider);
+                    suikas[i].generateOffset(rightCollider);
+                    suikas[i].setFacing(1);
                 }
             }
             else
             {
-                suikas[i].spriteRenderer.sprite = middleSprite;
-                suikas[i].transform.position += generateSuikaOffset(middleCollider);
+                suikas[i].generateOffset(middleCollider);
+                suikas[i].setFacing(0);
             }
 			suikas[i].transform.parent = transform;
-			suikas[i].spriteRenderer.sortingOrder = i + 1;
-
-            Vibrate vibrate = suikas[i].transform.GetChild(0).GetComponent<Vibrate>();
-            vibrate.vibrateSpeed *= Random.Range(.5f, 1.5f);
+            //suikas[i].spriteRenderer.sortingOrder = 1 + (suikas.Length - i);
+            suikas[i].spriteRenderer.sortingOrder = i + 1;
         }
-		lastCursorPosition = CameraHelper.getCursorPosition();
+        lastCursorPosition = CameraHelper.getCursorPosition();
 		pauseBuffer = true;
 	}
+
 
 	void Update()
 	{
@@ -91,7 +88,8 @@ public class SuikaShakeBottle : MonoBehaviour
 		health -= amount;
 		for (int i = 0; i < suikas.Length; i++)
 		{
-			suikas[i].setHealth(health - (i * healthPerSuika));
+			suikas[i].setHealth(health - (i * healthPerSuika),
+                (((Vector2)CameraHelper.getCursorPosition() - lastCursorPosition) / Time.deltaTime));
 		}
 
 		if (health <= 0)
@@ -99,11 +97,5 @@ public class SuikaShakeBottle : MonoBehaviour
 			GetComponent<FollowCursor>().enabled = false;
 			MicrogameController.instance.setVictory(true, true);
 		}
-	}
-
-	Vector3 generateSuikaOffset(Collider2D spawnCollider)
-	{
-        float xOffset = spawnCollider.bounds.extents.x, yOffset = spawnCollider.bounds.extents.y;
-		return (Vector3)spawnCollider.offset + new Vector3(Random.Range(-xOffset, xOffset) , Random.Range(-yOffset, yOffset), 0f);
 	}
 }

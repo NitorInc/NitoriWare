@@ -19,10 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4842347925260988}
-  - component: {fileID: 61109514239809190}
   - component: {fileID: 212535462682692170}
   - component: {fileID: 114300462167147390}
   - component: {fileID: 114642356015567908}
+  - component: {fileID: 61109514239809190}
+  - component: {fileID: 61893432880810668}
+  - component: {fileID: 61727119838020662}
   m_Layer: 0
   m_Name: SuikaShakeBottle
   m_TagString: Untagged
@@ -55,7 +57,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.26, y: 0}
+  m_Offset: {x: -0.35, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -66,7 +68,57 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 5}
+  m_Size: {x: 1.44, y: 3.5}
+  m_EdgeRadius: 0
+--- !u!61 &61727119838020662
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1476939842326894}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.45, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.56, y: 5.23}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 3.5}
+  m_EdgeRadius: 0
+--- !u!61 &61893432880810668
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1476939842326894}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.69, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.56, y: 5.23}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 3.5}
   m_EdgeRadius: 0
 --- !u!114 &114300462167147390
 MonoBehaviour:
@@ -82,8 +134,11 @@ MonoBehaviour:
   health: 60
   minSpeed: 30
   progressMult: 1.25
+  sideChance: 0.5
   healthPerSuika: 3
-  spawnCollider: {fileID: 61109514239809190}
+  middleCollider: {fileID: 61109514239809190}
+  leftCollider: {fileID: 61727119838020662}
+  rightCollider: {fileID: 61893432880810668}
   suikaPrefab: {fileID: 1945709599916788, guid: 7db1f3649a0b0794180e6752df68e46d,
     type: 2}
 --- !u!114 &114642356015567908
