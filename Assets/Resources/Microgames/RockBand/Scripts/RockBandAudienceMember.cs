@@ -18,6 +18,7 @@ public class RockBandAudienceMember : MonoBehaviour
 
     private Vector3 startPosition;
     private float hopStartTime, hopHeight, hopWait, hopDuration, flipCooldown;
+    private int victoryStatus = 0;
 
 	void Start()
 	{
@@ -53,6 +54,8 @@ public class RockBandAudienceMember : MonoBehaviour
 	{
         updateHop();
         updateFlip();
+        if (victoryStatus == 0)
+            checkVictoryStatus();
 	}
 
     void updateHop()
@@ -71,6 +74,21 @@ public class RockBandAudienceMember : MonoBehaviour
         flipCooldown -= Time.deltaTime;
         if (flipCooldown <= 0f)
             resetFlip();
+    }
+
+    void checkVictoryStatus()
+    {
+        if (MicrogameController.instance.getVictoryDetermined())
+        {
+            if (MicrogameController.instance.getVictory())
+            {
+                hopWaitRandomBounds = Vector2.zero;
+                hopHeightRandomBounds *= 1.5f;
+                if (Time.time - hopStartTime >= hopDuration)
+                    resetHop();
+                victoryStatus = 1;
+            }
+        }
     }
 
     int getNumberFromName()
