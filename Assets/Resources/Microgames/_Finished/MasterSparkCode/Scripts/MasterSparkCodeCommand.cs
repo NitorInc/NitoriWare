@@ -9,6 +9,7 @@ public class MasterSparkCodeCommand : MonoBehaviour {
     public Animator CommandAnimator;
     public Sprite VisualArrow;
     public Sprite VisualAction;
+    public SpriteRenderer spriteRenderer;
 
     private void Update()
     {
@@ -24,7 +25,9 @@ public class MasterSparkCodeCommand : MonoBehaviour {
 
     public void ScaleSelf()
     {
-        transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+        transform.localScale = new Vector3(1.25f, 1.25f, 1f);
+        spriteRenderer.color = Color.white;
+        Debug.Log(transform.localScale);
         //float time = 0;
         //while (time < 1)
         //{
@@ -49,6 +52,7 @@ public class MasterSparkCodeCommand : MonoBehaviour {
 
     public void SetPressed()
     {
+        CommandAnimator.enabled = true;
         CommandAnimator.SetTrigger("stateVictory");
     }
 

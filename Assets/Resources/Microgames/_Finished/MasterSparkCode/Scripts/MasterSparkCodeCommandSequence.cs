@@ -21,7 +21,8 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
             GameObject newObject = Instantiate(CommandPrefab, newPosition, Quaternion.identity) as GameObject;
             MasterSparkCodeCommand newCommand = newObject.GetComponent<MasterSparkCodeCommand>();
             newCommand.SetInput((MasterSparkCodeCommandType)Random.Range(0,(i==0)?4:5));
-            newCommand.ScaleSelf();
+            if (i == 0)
+                newCommand.ScaleSelf();
             InputSequence.Enqueue(newCommand);
         }
 
@@ -43,8 +44,8 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     {
         InputSequence.Dequeue().SetPressed();
         Audio.Play();
-        foreach (var c in InputSequence.ToList())
-            c.MoveSelf(-1.5f);
+        //foreach (var c in InputSequence.ToList())
+        //    c.MoveSelf(-1.5f);
         if(!IsEmpty())
             InputSequence.Peek().ScaleSelf();
     }
