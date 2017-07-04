@@ -27,7 +27,6 @@ public class MasterSparkCodeCommand : MonoBehaviour {
     {
         transform.localScale = new Vector3(1.25f, 1.25f, 1f);
         spriteRenderer.color = Color.white;
-        Debug.Log(transform.localScale);
         //float time = 0;
         //while (time < 1)
         //{
