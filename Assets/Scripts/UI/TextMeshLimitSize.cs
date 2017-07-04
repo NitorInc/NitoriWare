@@ -35,18 +35,21 @@ public class TextMeshLimitSize : MonoBehaviour
     void Start()
     {
         lastString = "";
-        Update();
+        updateScale();
     }
 
     void Update()
     {
         if (textMesh.text != lastString)
-        {
-            transform.localScale = defaultScale;
-            if (textRenderer.bounds.extents.x > maxExtents.x || textRenderer.bounds.extents.y > maxExtents.y)
-                transform.localScale *= Mathf.Min(maxExtents.x / textRenderer.bounds.extents.x, maxExtents.y / textRenderer.bounds.extents.y);
+            updateScale();
+    }
 
-            lastString = textMesh.text;
-        }
+    public void updateScale()
+    {
+        transform.localScale = defaultScale;
+        if (textRenderer.bounds.extents.x > maxExtents.x || textRenderer.bounds.extents.y > maxExtents.y)
+            transform.localScale *= Mathf.Min(maxExtents.x / textRenderer.bounds.extents.x, maxExtents.y / textRenderer.bounds.extents.y);
+
+        lastString = textMesh.text;
     }
 }
