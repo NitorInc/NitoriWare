@@ -12,6 +12,8 @@ public class RockBandAudienceMember : MonoBehaviour
     private Vector2 hopHeightRandomBounds, hopDurationRandomBounds, hopWaitRandomBounds, flipCooldownBounds;
     [SerializeField]
     private SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private Sprite[] sprites;
 #pragma warning restore 0649
 
     private Vector3 startPosition;
@@ -23,8 +25,10 @@ public class RockBandAudienceMember : MonoBehaviour
 
         resetHop();
         hopStartTime = Time.time - Random.Range(-(hopDuration + hopWait), 0f);
-        spriteRenderer.sortingOrder += getNumberFromName();
         updateHop();
+
+        spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
+        spriteRenderer.sortingOrder += getNumberFromName();
 
         if (MathHelper.randomBool())
             flip();
