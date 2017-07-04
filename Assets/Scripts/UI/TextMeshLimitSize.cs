@@ -44,6 +44,12 @@ public class TextMeshLimitSize : MonoBehaviour
             updateScale();
     }
 
+    void LateUpdate()
+    {
+        if (textMesh.text != lastString)
+            updateScale();
+    }
+
     public void updateScale()
     {
         transform.localScale = defaultScale;
