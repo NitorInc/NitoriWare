@@ -25,7 +25,7 @@ public class RockBandAudienceMember : MonoBehaviour
         startPosition = transform.position;
 
         resetHop();
-        hopStartTime = Time.time - Random.Range(-(hopDuration + hopWait), 0f);
+        hopStartTime = Time.time - Random.Range(0f, hopDuration + hopWait);
         updateHop();
 
         spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
