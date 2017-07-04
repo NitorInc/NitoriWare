@@ -38,6 +38,9 @@ public class RockBandAudienceMember : MonoBehaviour
 
     void resetHop()
     {
+        if (victoryStatus == -1)
+            hopHeightRandomBounds = Vector2.zero;
+
         hopStartTime = Time.time;
         hopHeight = MathHelper.randomRangeFromVector(hopHeightRandomBounds);
         hopWait = MathHelper.randomRangeFromVector(hopWaitRandomBounds);
@@ -83,10 +86,27 @@ public class RockBandAudienceMember : MonoBehaviour
             if (MicrogameController.instance.getVictory())
             {
                 hopWaitRandomBounds = Vector2.zero;
+                hopWait = 0f;
                 hopHeightRandomBounds *= 1.5f;
-                if (Time.time - hopStartTime >= hopDuration)
-                    resetHop();
+                //if (Time.time - hopStartTime >= hopDuration)
+                //    resetHop();
                 victoryStatus = 1;
+            }
+            else
+            {
+                float brightness = .5f;
+                spriteRenderer.color = new Color(brightness, brightness, brightness, 1f);
+                if (Time.time - hopStartTime <= hopDuration)
+                {
+                    hopHeight = transform.position.y - startPosition.y;
+                    hopStartTime = Time.time - (hopDuration / 2f);
+                }
+                else
+                {
+                    enabled = false;
+                }
+                flipCooldown = float.PositiveInfinity;
+                victoryStatus = -1;
             }
         }
     }
