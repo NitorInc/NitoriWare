@@ -10,6 +10,8 @@ public class RockBandAudienceMember : MonoBehaviour
     private AnimationCurve hopCurve;
     [SerializeField]
     private Vector2 hopHeightRandomBounds, hopDurationRandomBounds, hopWaitRandomBounds;
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
 #pragma warning restore 0649
 
     private Vector3 startPosition;
@@ -20,6 +22,7 @@ public class RockBandAudienceMember : MonoBehaviour
         startPosition = transform.position;
         resetHop();
         hopStartTime = Random.Range(-hopDuration, 0f);
+        spriteRenderer.sortingOrder += getNumberFromName();
 
         updateHop();
 	}
@@ -41,13 +44,19 @@ public class RockBandAudienceMember : MonoBehaviour
     {
         float timeSinceHopStart = Time.time - hopStartTime,
             height = timeSinceHopStart <= hopDuration ? (hopCurve.Evaluate(timeSinceHopStart / hopDuration) * hopHeight) : 0f;
-        Debug.Log(timeSinceHopStart);
-        Debug.Log(hopStartTime);
+        
         transform.position = startPosition + (Vector3.up * height);
 
         if (timeSinceHopStart > hopDuration + hopWait)
         {
             resetHop();
         }
+    }
+
+    int getNumberFromName()
+    {
+        if (!name.Contains(")"))
+            return 0;
+        return int.Parse(name.Split('(')[1].Split(')')[0]);
     }
 }
