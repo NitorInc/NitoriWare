@@ -27,7 +27,6 @@ public class StageController : MonoBehaviour
 	public Animator[] lifeIndicators;
 	public AudioSource outroSource, introSource, speedUpSource, microgameMusicSource;
 	public AudioClip victoryClip, failureClip;
-	public TextMesh command;
 	public GameObject scene;
 	public SpriteRenderer controlDisplay;
 	public Sprite[] controlSchemeSprites;
@@ -39,6 +38,7 @@ public class StageController : MonoBehaviour
 	private MicrogameTraits microgameTraits;
 	private float animationStartTime, outroPlayTime;
     private Animator[] sceneAnimators;
+    private CommandDisplay commandDisplay;
 
 	private Queue<MicrogameInstance> microgameQueue;
 	private class MicrogameInstance
@@ -105,6 +105,7 @@ public class StageController : MonoBehaviour
 	{
 		instance = this;
         sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
+        commandDisplay = transform.parent.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
     }
 
 	void updateMicrogameQueue(int maxQueueSize)
@@ -360,7 +361,7 @@ public class StageController : MonoBehaviour
 		//updateMicrogameTraits();
 
 		//TODO re-enable command warnings
-		command.text = microgameTraits.localizedCommand;
+		commandDisplay.setText(microgameTraits.localizedCommand);
 		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
 		controlDisplay.transform.FindChild("Text").GetComponent<TextMesh>().text =
 			TextHelper.getLocalizedTextNoWarnings("control." + microgameTraits.controlScheme.ToString().ToLower(), getDefaultControlString());
@@ -421,7 +422,13 @@ public class StageController : MonoBehaviour
 			microgameMusicSource.Play();
 	}
 
-	void updateMicrogameTraits()
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.G))
+        //    commandDisplay.play("Hi there");
+    }
+
+    void updateMicrogameTraits()
 	{
         if (microgameQueue.Count <= 0)
             return;

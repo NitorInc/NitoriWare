@@ -21,7 +21,6 @@ public class CanvasTextOutline : MonoBehaviour
 
     void Start()
     {
-        transform.localPosition = Vector3.zero;
         text = GetComponent<Text>();
         rectTransform = GetComponent<RectTransform>();
 
@@ -49,8 +48,11 @@ public class CanvasTextOutline : MonoBehaviour
             updateAttributes = true;
         }
         Transform parent = transform.parent;
+
+        Vector3 holdPosition = transform.localPosition;
         rectTransform.SetParent(null);
         rectTransform.SetParent(parent);
+        transform.localPosition = holdPosition;
     }
 
     void LateUpdate()

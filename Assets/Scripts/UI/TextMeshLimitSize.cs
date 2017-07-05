@@ -15,13 +15,13 @@ public class TextMeshLimitSize : TextLimitSize
     private Renderer textRenderer;
 #pragma warning restore 0649
 
-	void Awake()
-	{
+    void Awake()
+    {
         if (textMesh == null)
             textMesh = GetComponent<TextMesh>();
         if (textRenderer == null)
             textRenderer = textMesh.GetComponent<Renderer>();
-	}
+    }
 
     public override void updateScale()
     {
@@ -52,6 +52,8 @@ public class TextMeshLimitSize : TextLimitSize
         {
             Vector2 size = textRenderer.bounds.extents * 2f,
                 scaleMult = transform.lossyScale;
+            if (scaleMult.x == 0f || scaleMult.y == 0f)
+                return Vector2.zero;
             size.x /= scaleMult.x;
             size.y /= scaleMult.y;
             return size;

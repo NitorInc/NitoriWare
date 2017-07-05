@@ -13,23 +13,29 @@ public abstract class TextLimitSize : MonoBehaviour
     [SerializeField]
     protected int defaultFontSize;
     [SerializeField]
-    private bool onlyUpdateOnTextChange = true;
+    private bool onlyUpdateOnTextChange = true, resetSizeFields;
 #pragma warning restore 0649
 
     private string lastText;
     
     void Start()
     {
-        if (!Application.isPlaying)
-        {
-            defaultFontSize = getFontSize();
-            maxSize = getSize();
-        }
         lastText = "";
+    }
+    
+    protected virtual void determineSizeFields()
+    {
+        defaultFontSize = getFontSize();
+        maxSize = getSize();
     }
 
     void LateUpdate()
     {
+        if (resetSizeFields)
+        {
+            determineSizeFields();
+            resetSizeFields = false;
+        }
         if (!onlyUpdateOnTextChange || getText() != lastText)
             updateScale();
     }
