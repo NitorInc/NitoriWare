@@ -1,79 +1,64 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
-public class CanvasTextLimitSize : MonoBehaviour
+public class CanvasTextLimitSize : TextLimitSize
 {
-    private static bool canvasUpdated;
+
+    private static bool canvasesUpdated;
 
 #pragma warning disable 0649   //Serialized Fields
-    [SerializeField]
-    private Vector2 maxSize;
     [SerializeField]
     private Text textComponent;
     [SerializeField]
     private RectTransform rectTransform;
-    [SerializeField]
-    private int defaultFontSize;
-    [SerializeField]
-    private bool onlyUpdateOnTextChange = true;
 #pragma warning restore 0649
-
-    private string lastText;
 
     void Awake()
     {
-        canvasUpdated = false;
+        canvasesUpdated = false;
         if (textComponent == null)
             textComponent = GetComponent<Text>();
         if (rectTransform == null)
-             rectTransform = (RectTransform)transform;
-        if (maxSize == Vector2.zero)
-            maxSize = rectTransform.sizeDelta;
-
-        if (!Application.isPlaying)
-        {
-            if (textComponent != null)
-                defaultFontSize = textComponent.fontSize;
-            else
-                enabled = false;
-        }
+            rectTransform = (RectTransform)transform;
     }
 
-    void Start()
-    {
-        lastText = "";
-    }
 
     void Update()
     {
-        canvasUpdated = false;
+        canvasesUpdated = false;
     }
 
-    void LateUpdate()
+    public override void updateScale()
     {
-        if (onlyUpdateOnTextChange && textComponent.text == lastText)
-            return;
-
-        if (!canvasUpdated)
+        if (!canvasesUpdated)
         {
             Canvas.ForceUpdateCanvases();
-            canvasUpdated = true;
+            canvasesUpdated = true;
         }
-        updateScale();
+        base.updateScale();
     }
 
-    public void updateScale()
+    protected override string getText()
     {
-        Vector2 unscaledSize = rectTransform.sizeDelta * (float)defaultFontSize / (float)textComponent.fontSize;
+        return textComponent.text;
+    }
 
-        if (unscaledSize.x > maxSize.x || unscaledSize.y > maxSize.y)
-            textComponent.fontSize = (int)(Mathf.Floor(defaultFontSize * Mathf.Min(maxSize.x / unscaledSize.x, maxSize.y / unscaledSize.y)));
-        else
-            textComponent.fontSize = defaultFontSize;
+    protected override int getFontSize()
+    {
+        return textComponent.fontSize;
+    }
 
-        lastText = textComponent.text;
+    protected override void setFontSize(int fontSize)
+    {
+        textComponent.fontSize = fontSize;
+    }
+
+    protected override Vector2 getSize()
+    {
+        return rectTransform.sizeDelta;
     }
 }
