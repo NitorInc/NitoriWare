@@ -14,6 +14,7 @@ public class MicrogameController : MonoBehaviour
 	struct DebugSettings
 	{
 		public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
+        public string forceLocalizationLanguage;
 		public VoicePlayer.VoiceSet voiceSet;
 		[Range(1, StageController.MAX_SPEED)]
 		public int speed;
@@ -91,11 +92,17 @@ public class MicrogameController : MonoBehaviour
             if (StageController.instance == null)
             {
                 //Debug Start
-                MicrogameDebugObjects debugStuff  = MicrogameDebugObjects.instance;
-                commandDisplay = debugStuff.commandDisplay;
+                MicrogameDebugObjects debugObjects  = MicrogameDebugObjects.instance;
+                commandDisplay = debugObjects.commandDisplay;
                 
                 if (debugSettings.localizeText)
-                     GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>().Awake();
+                {
+                    LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
+                    if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
+                        manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
+                    manager.Awake();
+                    manager.gameObject.SetActive(true);
+                }
                 
                 MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
                 if (!debugSettings.showTimer)
@@ -105,7 +112,7 @@ public class MicrogameController : MonoBehaviour
 
                 if (debugSettings.playMusic && traits.musicClip != null)
                 {
-                    AudioSource source = debugStuff.musicSource;
+                    AudioSource source = debugObjects.musicSource;
                     source.clip = traits.musicClip;
                     source.pitch = StageController.getSpeedMult(debugSettings.speed);
                     if (!debugSettings.simulateStartDelay)
@@ -115,12 +122,12 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                    debugStuff.commandDisplay.play(traits.localizedCommand);
+                    debugObjects.commandDisplay.play(traits.localizedCommand);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
                 //Cursor.lockState = CursorLockMode.Confined;
 
-                debugStuff.voicePlayer.loadClips(debugSettings.voiceSet);
+                debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
 
             }
             SceneManager.SetActiveScene(gameObject.scene);

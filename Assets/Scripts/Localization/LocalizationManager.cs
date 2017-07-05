@@ -32,6 +32,11 @@ public class LocalizationManager : MonoBehaviour
 		loadLocalizedText("Languages/" + language + "");
 	}
 
+    public void setForcedLanguage(string language)
+    {
+        forceLanguage = language;
+    }
+
 	
 	public void loadLocalizedText(string filename)
 	{
