@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
 	private MicrogameCollection _microgameCollection;
     [SerializeField]
+    private Sprite[] controlSprites;
+    [SerializeField]
     private UnityEvent onSceneLoad;
 #pragma warning restore 0649
 
@@ -47,5 +49,11 @@ public class GameController : MonoBehaviour
             PauseManager.exitedWhilePaused = false;
             Cursor.visible = true;
         }
+        onSceneLoad.Invoke();
+    }
+
+    public Sprite getControlSprite(MicrogameTraits.ControlScheme controlScheme)
+    {
+        return controlSprites[(int)controlScheme];
     }
 }
