@@ -27,9 +27,7 @@ public class StageController : MonoBehaviour
 	public Animator[] lifeIndicators;
 	public AudioSource outroSource, introSource, speedUpSource, microgameMusicSource;
 	public AudioClip victoryClip, failureClip;
-	public TextMesh command;
 	public GameObject scene;
-	public SpriteRenderer controlDisplay;
 	public Sprite[] controlSchemeSprites;
 
 	public NitoriScorePlaceholder placeholderResults;
@@ -39,6 +37,9 @@ public class StageController : MonoBehaviour
 	private MicrogameTraits microgameTraits;
 	private float animationStartTime, outroPlayTime;
     private Animator[] sceneAnimators;
+
+    private CommandDisplay commandDisplay;
+    private ControlDisplay controlDisplay;
 
 	private Queue<MicrogameInstance> microgameQueue;
 	private class MicrogameInstance
@@ -105,6 +106,8 @@ public class StageController : MonoBehaviour
 	{
 		instance = this;
         sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
+        commandDisplay = transform.parent.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
+        controlDisplay = transform.parent.FindChild("UI").FindChild("Control Display").GetComponent<ControlDisplay>();
     }
 
 	void updateMicrogameQueue(int maxQueueSize)
@@ -359,11 +362,8 @@ public class StageController : MonoBehaviour
 
 		//updateMicrogameTraits();
 
-		//TODO re-enable command warnings
-		command.text = microgameTraits.localizedCommand;
-		controlDisplay.sprite = controlSchemeSprites[(int)microgameTraits.controlScheme];
-		controlDisplay.transform.FindChild("Text").GetComponent<TextMesh>().text =
-			TextHelper.getLocalizedTextNoWarnings("control." + microgameTraits.controlScheme.ToString().ToLower(), getDefaultControlString());
+		commandDisplay.setText(microgameTraits.localizedCommand);
+        controlDisplay.setControlScheme(microgameTraits.controlScheme);
 
 		if (!introSource.isPlaying && !muteMusic)
 			introSource.Play();
@@ -395,19 +395,6 @@ public class StageController : MonoBehaviour
         placeholderResults.setHighScore(highScore);
 	}
 
-	string getDefaultControlString()
-	{
-		switch (microgameTraits.controlScheme)
-		{
-			case(MicrogameTraits.ControlScheme.Key):
-				return "USE DA KEYZ";
-			case (MicrogameTraits.ControlScheme.Mouse):
-				return "USE DA MOUSE";
-			default:
-				return "USE SOMETHING";
-		}
-	}
-
 	void updateToIdle()
 	{
 		setAnimationPart(AnimationPart.Idle);
@@ -421,7 +408,13 @@ public class StageController : MonoBehaviour
 			microgameMusicSource.Play();
 	}
 
-	void updateMicrogameTraits()
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.G))
+        //    commandDisplay.play("Hi there");
+    }
+
+    void updateMicrogameTraits()
 	{
         if (microgameQueue.Count <= 0)
             return;

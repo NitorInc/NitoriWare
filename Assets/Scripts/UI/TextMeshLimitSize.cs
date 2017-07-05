@@ -3,59 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class TextMeshLimitSize : MonoBehaviour
+public class TextMeshLimitSize : TextLimitSize
 {
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
-    private Vector2 maxExtents;
+    private bool useWorldScaling;
     [SerializeField]
     private TextMesh textMesh;
     [SerializeField]
     private Renderer textRenderer;
-    [SerializeField]
-    private Vector3 defaultScale;
 #pragma warning restore 0649
 
-    private string lastString;
-
     void Awake()
-	{
+    {
         if (textMesh == null)
             textMesh = GetComponent<TextMesh>();
         if (textRenderer == null)
             textRenderer = textMesh.GetComponent<Renderer>();
-        if (maxExtents == Vector2.zero)
-            maxExtents = textRenderer.bounds.extents;
-
-        if (!Application.isPlaying)
-            defaultScale = transform.localScale;
-	}
-
-    void Start()
-    {
-        lastString = "";
-        updateScale();
     }
 
-    void Update()
+    public override void updateScale()
     {
-        if (textMesh.text != lastString)
-            updateScale();
+        setFontSize(defaultFontSize);
+        base.updateScale();
     }
 
-    void LateUpdate()
+    protected override string getText()
     {
-        if (textMesh.text != lastString)
-            updateScale();
+        return textMesh.text;
     }
 
-    public void updateScale()
+    protected override int getFontSize()
     {
-        transform.localScale = defaultScale;
-        if (textRenderer.bounds.extents.x > maxExtents.x || textRenderer.bounds.extents.y > maxExtents.y)
-            transform.localScale *= Mathf.Min(maxExtents.x / textRenderer.bounds.extents.x, maxExtents.y / textRenderer.bounds.extents.y);
+        return textMesh.fontSize;
+    }
 
-        lastString = textMesh.text;
+    protected override void setFontSize(int fontSize)
+    {
+        textMesh.fontSize = fontSize;
+    }
+
+    protected override Vector2 getSize()
+    {
+        if (useWorldScaling)
+            return textRenderer.bounds.extents * 2f;
+        else
+        {
+            Vector2 size = textRenderer.bounds.extents * 2f,
+                scaleMult = transform.lossyScale;
+            if (scaleMult.x == 0f || scaleMult.y == 0f)
+                return Vector2.zero;
+            size.x /= scaleMult.x;
+            size.y /= scaleMult.y;
+            return size;
+        }
     }
 }

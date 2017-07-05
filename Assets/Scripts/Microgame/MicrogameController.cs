@@ -27,7 +27,7 @@ public class MicrogameController : MonoBehaviour
 
 	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
-	private Transform commandTransform;
+    private CommandDisplay commandDisplay;
 	private VoicePlayer debugVoicePlayer;
 
 	void Awake()
@@ -85,12 +85,12 @@ public class MicrogameController : MonoBehaviour
 			}
 
 			Transform UICam = debugObjects.transform.FindChild("UI Camera");
-			commandTransform = UICam.FindChild("Command");
+            commandDisplay = UICam.FindChild("Command").GetComponent<CommandDisplay>(); ;
 			UICam.gameObject.SetActive(true);
 			if (debugSettings.displayCommand)
 			{
-				commandTransform.gameObject.SetActive(true);
-				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = traits.localizedCommand;
+				commandDisplay.gameObject.SetActive(true);
+                commandDisplay.setText(traits.localizedCommand);
 			}
 
 			Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
@@ -114,7 +114,7 @@ public class MicrogameController : MonoBehaviour
 			if (traits.hideCursor)
 				Cursor.visible = false;
 
-			commandTransform = StageController.instance.transform.root.FindChild("UI").FindChild("Command");
+			commandDisplay = StageController.instance.transform.root.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
 
 			StageController.instance.resetVictory();
 			StageController.instance.onMicrogameAwake();
@@ -169,11 +169,6 @@ public class MicrogameController : MonoBehaviour
     {
         return sfxSource;
     }
-
-    public Transform getCommandTransform()
-	{
-		return commandTransform;
-	}
 
 	/// <summary>
 	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
@@ -235,14 +230,20 @@ public class MicrogameController : MonoBehaviour
 	/// <param name="command"></param>
 	public void displayCommand(string command)
 	{
-		if (!commandTransform.gameObject.activeInHierarchy)
-			commandTransform.gameObject.SetActive(true);
+		if (!commandDisplay.gameObject.activeInHierarchy)
+			commandDisplay.gameObject.SetActive(true);
 
-		Animator _animator = commandTransform.GetComponent<Animator>();
-		_animator.Rebind();
-		_animator.Play("Command");
-		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
+        commandDisplay.play(command);
 	}
+
+    /// <summary>
+    /// Gets the currently active command display
+    /// </summary>
+    /// <returns></returns>
+    public CommandDisplay getCommandDisplay()
+    {
+        return commandDisplay;
+    }
 
 	/// <summary>
 	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."

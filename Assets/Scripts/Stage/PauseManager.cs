@@ -86,7 +86,7 @@ public class PauseManager : MonoBehaviour
 			pauseData.camColor = Camera.main.backgroundColor;
 			Camera.main.cullingMask = 0;
 			Camera.main.backgroundColor = Color.black;
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(false);
+			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
 		}
         if (MicrogameTimer.instance != null)
 		    MicrogameTimer.instance.gameObject.SetActive(false);
@@ -133,7 +133,7 @@ public class PauseManager : MonoBehaviour
 			Camera.main.cullingMask = pauseData.camCullingMask;
 			Camera.main.backgroundColor = pauseData.camColor;
 			MicrogameController.instance.onUnPause.Invoke();
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
+			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)
             MicrogameTimer.instance.gameObject.SetActive(true);
