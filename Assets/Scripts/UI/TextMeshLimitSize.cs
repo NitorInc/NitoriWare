@@ -17,8 +17,6 @@ public class TextMeshLimitSize : MonoBehaviour
     private Vector3 defaultScale;
 #pragma warning restore 0649
 
-    private string lastString;
-
     void Awake()
 	{
         if (textMesh == null)
@@ -29,25 +27,20 @@ public class TextMeshLimitSize : MonoBehaviour
             maxExtents = textRenderer.bounds.extents;
 
         if (!Application.isPlaying)
+        {
             defaultScale = transform.localScale;
+            if (textMesh == null || textRenderer == null)
+                enabled = false;
+        }
 	}
 
     void Start()
     {
-        lastString = "";
         updateScale();
     }
-
-    void Update()
-    {
-        if (textMesh.text != lastString)
-            updateScale();
-    }
-
     void LateUpdate()
     {
-        if (textMesh.text != lastString)
-            updateScale();
+        updateScale();
     }
 
     public void updateScale()
@@ -55,7 +48,5 @@ public class TextMeshLimitSize : MonoBehaviour
         transform.localScale = defaultScale;
         if (textRenderer.bounds.extents.x > maxExtents.x || textRenderer.bounds.extents.y > maxExtents.y)
             transform.localScale *= Mathf.Min(maxExtents.x / textRenderer.bounds.extents.x, maxExtents.y / textRenderer.bounds.extents.y);
-
-        lastString = textMesh.text;
     }
 }

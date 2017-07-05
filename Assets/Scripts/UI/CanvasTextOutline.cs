@@ -63,6 +63,7 @@ public class CanvasTextOutline : MonoBehaviour
         {
             Text other = childTexts[i];
             other.text = text.text;
+            other.fontSize = text.fontSize;
 
             if (updateAttributes)
             {
@@ -71,7 +72,6 @@ public class CanvasTextOutline : MonoBehaviour
                 //other.anchor = text.anchor;
                 //other.characterSize = text.characterSize;
                 other.font = text.font;
-                other.fontSize = text.fontSize;
                 other.fontStyle = text.fontStyle;
                 //other.richText = text.richText;
                 //other.tabSize = text.tabSize;
@@ -79,6 +79,9 @@ public class CanvasTextOutline : MonoBehaviour
                 //other.offsetZ = text.offsetZ;
                 other.gameObject.layer = gameObject.layer;
             }
+
+            RectTransform childTransform = childRectTransforms[i];
+            childTransform.sizeDelta = rectTransform.sizeDelta;
 
             bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
             Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
