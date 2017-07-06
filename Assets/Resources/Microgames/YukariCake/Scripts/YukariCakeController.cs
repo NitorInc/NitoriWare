@@ -82,12 +82,12 @@ public class YukariCakeController : MonoBehaviour {
     public void PlayVictorySound()
     {
         YukariSource.PlayOneShot(YukariSoundVictory);
-        Debug.Log("Woo!");
+        //Debug.Log("Woo!");
     }
 
     public void PlayFailureSound()
     {
         YukariSource.PlayOneShot(YukariSoundFail);
-        Debug.Log(":(");
+        //Debug.Log(":(");
     }
 }

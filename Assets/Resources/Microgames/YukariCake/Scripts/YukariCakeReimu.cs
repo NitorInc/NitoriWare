@@ -67,7 +67,7 @@ public class YukariCakeReimu : MonoBehaviour {
 
     public void ChangeState()
     {
-        Debug.Log(string.Format("We're going to change state at {0}", MicrogameTimer.instance.beatsLeft));
+        //Debug.Log(string.Format("We're going to change state at {0}", MicrogameTimer.instance.beatsLeft));
         Animator.SetTrigger("changeState");
     }
 
