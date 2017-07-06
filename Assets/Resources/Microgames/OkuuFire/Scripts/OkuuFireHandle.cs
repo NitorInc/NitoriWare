@@ -7,39 +7,83 @@ public class OkuuFireHandle : MonoBehaviour
     public float completion;
 
     public float maxSpeed = 1;
-    public float maxDistance = 10;
+    public float maxDistance = 20;
+    public float turnLimit = 45;
 
     // Grabbable guide object to track mouse position.
     public MouseGrabbable guide;
     // List of transforms which include a IOkuuFireMechanism component.
     public List<Transform> mechanisms;
 
+    private OkuuFireCrank crank;
+
+    private float minAngle;
+    private float maxAngle;
+    private float reach;
+
+    void Start()
+    {
+        this.crank = this.GetComponentInParent<OkuuFireCrank>();
+
+        float rotations = this.crank.rotations;
+        this.reach = 360 * rotations;
+
+        Vector3 crankPoint = Camera.main.WorldToScreenPoint(this.crank.transform.position);
+        Vector3 handlePoint = Camera.main.WorldToScreenPoint(this.transform.position);
+
+        // Calculate angle of the handle from the crank.
+        Vector2 offset = new Vector2(handlePoint.x - crankPoint.x, handlePoint.y - crankPoint.y);
+        float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+        if (angle < 0)
+            angle = (180 - Mathf.Abs(angle)) + 180;
+        this.minAngle = angle;
+
+        // Calculate max cumulative angle
+        this.maxAngle = this.minAngle + reach;
+    }
+
     void Update()
     {
         // Check if the handle has been grabbed.
         if (this.guide.grabbed)
         {
-            // Get the points at the centre of the handle and the centre of the mouse guide.
-            Vector3 targetPoint = Camera.main.WorldToScreenPoint(this.guide.transform.localPosition);
-            Vector3 handlePoint = Camera.main.WorldToScreenPoint(this.transform.localPosition);
+            // Get the points at the centre of the crank and the centre of the mouse guide.
+            Vector3 targetPoint = Camera.main.WorldToScreenPoint(this.guide.transform.position);
+            Vector3 crankPoint = Camera.main.WorldToScreenPoint(this.crank.transform.position);
+            Vector3 handlePoint = Camera.main.WorldToScreenPoint(this.transform.position);
 
-            // Distance of mouse from centre of handle affects turn speed.
-            float distance = Vector3.Distance(targetPoint, handlePoint);
-            if (distance > this.maxDistance)
-                distance = this.maxDistance;
-            float distanceMultiplier = distance / this.maxDistance;
-
-            // Calculate direction of the mouse from the handle.
-            Vector2 offset = new Vector2(targetPoint.x - handlePoint.x, targetPoint.y - handlePoint.y);
+            // Calculate direction of the mouse from the crank.
+            Vector2 offset = new Vector2(targetPoint.x - crankPoint.x, targetPoint.y - crankPoint.y);
             float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+            if (angle < 0)
+                angle = (180 - Mathf.Abs(angle)) + 180;
 
-            // Favour mechanically reasonable configurations.
-            float vector = 1F - Mathf.Abs(Mathf.Abs(angle) - 90F) / 90F;
-            if (angle < 0F)
-                vector = -vector;
+            // Calculate angle change from previous.
+            float currentAngle = GetCurrentAngle();
+            float deltaAngle = angle - (currentAngle % 360);
+            if (deltaAngle > 180)
+                deltaAngle = deltaAngle - 360;
+            else if (deltaAngle < -180)
+                deltaAngle = deltaAngle + 360;
+            
+            // Limit change.
+            if (deltaAngle > this.turnLimit)
+                deltaAngle = this.turnLimit;
+            else if (deltaAngle < -this.turnLimit)
+                deltaAngle = -this.turnLimit;
 
+            // Determine target angle.
+            float targetAngle = currentAngle + deltaAngle;
+            if (targetAngle < this.minAngle)
+                targetAngle = this.minAngle;
+            else if (targetAngle > this.maxAngle)
+                targetAngle = this.maxAngle;
+            
             // Calculate the new completion amount for the whole machine.
-            float deltaCompletion = Time.deltaTime * this.maxSpeed * distanceMultiplier * vector;
+            float deltaCompletion = ((targetAngle - this.minAngle) / this.reach) - this.completion;
+            // Constrain based on time and max speed.
+            deltaCompletion = deltaCompletion * Time.deltaTime * this.maxSpeed;
+
             float newCompletion = this.completion + deltaCompletion;
             if (newCompletion > 1F)
                 newCompletion = 1F;
@@ -57,12 +101,6 @@ public class OkuuFireHandle : MonoBehaviour
         }
     }
 
-    void ResetGuide()
-    {
-        if (this.guide.transform.position != this.transform.position)
-            this.guide.transform.position = this.transform.position;
-    }
-
     public void MoveMechanism()
     {
         foreach (Transform transform in this.mechanisms)
@@ -75,5 +113,16 @@ public class OkuuFireHandle : MonoBehaviour
     public void OnRelease()
     {
         this.ResetGuide();
+    }
+
+    void ResetGuide()
+    {
+        if (this.guide.transform.position != this.transform.position)
+            this.guide.transform.position = this.transform.position;
+    }
+
+    float GetCurrentAngle()
+    {
+        return this.minAngle + (this.reach * this.completion);
     }
 }
