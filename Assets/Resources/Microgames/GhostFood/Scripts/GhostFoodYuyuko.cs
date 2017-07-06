@@ -31,7 +31,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	private int chewsLeft;
 
 	public AudioSource audioSource;
-	public AudioClip chewClip, victoryClip, burpClip;
+	public AudioClip chewClip, victoryClip, burpClip, chompClip;
     private ParticleSystem.MainModule particlesModule, burpParticlesModule;
 
 	public State state;
@@ -312,7 +312,10 @@ public class GhostFoodYuyuko : MonoBehaviour
 			chewsLeft += chewsNeeded;
 			CancelInvoke();
 			animator.Play("Chew", -1, 1f);
-		}
+
+            audioSource.PlayOneShot(chompClip);
+            audioSource.pitch = Time.timeScale * Random.Range(.95f, 1.05f);
+        }
 	}
 
 	Vector3 getMousePosition()
