@@ -35,6 +35,8 @@ public class YukariCakeController : MonoBehaviour {
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 // Here comes the snatch sequence. Better not get caught.
+
+                YukariAnimator.SetBool("Snatch", true);
                 YukariAnimator.Play("YukariCakeYukariSnatch");
             }
         }
