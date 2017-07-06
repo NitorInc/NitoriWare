@@ -51,6 +51,9 @@ public class YukariCakeController : MonoBehaviour {
 
     public void SetGameFailure()
     {
+        if (MicrogameController.instance.getVictoryDetermined())
+            return;
+
         PlayFailureAnimation();
         MicrogameController.instance.setVictory(false, true);
         Enemy.Stop();
@@ -58,7 +61,7 @@ public class YukariCakeController : MonoBehaviour {
 
     public void PlayVictoryAnimation()
     {
-        YukariAnimator.Play("YukariCakeYukariVictory");
+        YukariAnimator.Play("Victory");
     }
 
     public void PlayFailureAnimation()
