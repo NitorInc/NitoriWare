@@ -12,7 +12,7 @@ public static class MicrogameHelper
 	/// <returns></returns>
 	public static List<Stage.Microgame> getMicrogames(MicrogameCollection.Restriction restriction)
 	{
-		return GameController.instance.microgameCollection.getMicrogames(restriction);
+		return GameController.instance.microgameCollection.getStageMicrogames(restriction);
 	}
 
 	/// <summary>

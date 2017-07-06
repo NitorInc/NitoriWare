@@ -16,6 +16,7 @@ public class StageController : MonoBehaviour
 	public bool godMode, muteMusic;
 
 	public int maxStockpiledScenes;
+    public ThreadPriority sceneLoadPriority;
 
 	private int microgameCount, life;
 	private bool microgameVictoryStatus, victoryDetermined;
@@ -44,7 +45,7 @@ public class StageController : MonoBehaviour
 	private Queue<MicrogameInstance> microgameQueue;
 	private class MicrogameInstance
 	{
-		public Stage.Microgame microgame;
+		public MicrogameCollection.Microgame microgame;
 		public int difficulty;
 		public AsyncOperation asyncOperation;
 	}
@@ -71,15 +72,15 @@ public class StageController : MonoBehaviour
 		//setMicrogameVictory(true, false);
 
 		beatLength = outroSource.clip.length / 4f;
-		Application.backgroundLoadingPriority = ThreadPriority.Low;
+		Application.backgroundLoadingPriority = sceneLoadPriority;
 		voicePlayer.loadClips(stage.getVoiceSet());
 
 		setAnimationPart(AnimationPart.Intro);
-		resetStage(Time.time);
+		resetStage(Time.time, true);
         Cursor.visible = false;
 	}
 
-	void resetStage(float startTime)
+	void resetStage(float startTime, bool firstTime)
 	{
 		stage.onStageStart();
 
@@ -95,7 +96,7 @@ public class StageController : MonoBehaviour
 		MicrogameNumber.instance.resetNumber();
 
 		introSource.pitch = getSpeedMult();
-		if (!muteMusic)
+		if (!muteMusic && firstTime)
 			AudioHelper.playScheduled(introSource, startTime - Time.time);
         updateMicrogameTraits();
 
@@ -117,8 +118,9 @@ public class StageController : MonoBehaviour
 		while (microgameQueue.Count == 0 || (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index)))
 		{
 			MicrogameInstance newInstance = new MicrogameInstance();
-			newInstance.microgame = stage.getMicrogame(index);
-			newInstance.difficulty = stage.getMicrogameDifficulty(newInstance.microgame, index);
+            Stage.Microgame stageMicrogame = stage.getMicrogame(index);
+            newInstance.microgame = GameController.instance.microgameCollection.findMicrogame(stageMicrogame.microgameId);
+			newInstance.difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
 			StartCoroutine(loadMicrogameAsync(newInstance));
 			microgameQueue.Enqueue(newInstance);
 
@@ -133,11 +135,24 @@ public class StageController : MonoBehaviour
 		instance.asyncOperation.allowSceneActivation = false;
 		instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
 
-		while (instance.asyncOperation.progress < .9f)
-		{
-			yield return null;
-		}
-	}
+        yield return null;
+        float holdSpeed = 0f;
+        while (instance.asyncOperation.progress < .9f)
+        {
+            if (holdSpeed == 0f && instance.asyncOperation.allowSceneActivation)
+            {
+                holdSpeed = Time.timeScale;
+                Time.timeScale = 0f;
+                Application.backgroundLoadingPriority = ThreadPriority.High;
+            }
+            yield return null;
+        }
+        if (holdSpeed > 0f)
+        {
+            Time.timeScale = holdSpeed;
+            Application.backgroundLoadingPriority = sceneLoadPriority;
+        }
+    }
 
 	IEnumerator unloadMicrogameAsync(MicrogameInstance instance)
 	{
@@ -155,12 +170,14 @@ public class StageController : MonoBehaviour
 		}
 		while (instance.asyncOperation == null);
 
-		//instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
-		while (!instance.asyncOperation.isDone)
-		{
-			yield return null;
-		}
-	}
+        yield return null;
+
+        //instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
+        //while (!instance.asyncOperation.isDone)
+        //{
+        //	//yield return null;
+        //}
+    }
 
 	//TODO Delete?
 	//void startNextRound()
@@ -420,7 +437,8 @@ public class StageController : MonoBehaviour
             return;
 
 		MicrogameInstance instance = getCurrentMicrogameInstance();
-		microgameTraits = MicrogameTraits.findMicrogameTraits(instance.microgame.microgameId, instance.difficulty);
+        microgameTraits = instance.microgame.difficultyTraits[instance.difficulty - 1];
+		//microgameTraits = MicrogameTraits.findMicrogameTraits(instance.microgame.microgameId, instance.difficulty);
 		microgameTraits.onAccessInStage(instance.microgame.microgameId);
 	}
 
@@ -481,7 +499,7 @@ public class StageController : MonoBehaviour
 
     void unloadMicrogame()
     {
-		SceneManager.UnloadSceneAsync(finishedMicrogame);
+        SceneManager.UnloadSceneAsync(finishedMicrogame);
         MicrogameController.instance = null;
     }
 
@@ -538,7 +556,7 @@ public class StageController : MonoBehaviour
     public void retry()
     {
         setAnimationPart(AnimationPart.Retry);
-        resetStage(Time.time + (beatLength * 2f));
+        resetStage(Time.time + (beatLength * 2f), false);
         placeholderResults.transform.parent.gameObject.SetActive(false);
     }
 
