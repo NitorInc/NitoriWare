@@ -36,8 +36,8 @@ public class YukariCakeController : MonoBehaviour {
             {
                 // Here comes the snatch sequence. Better not get caught.
 
-                YukariAnimator.SetBool("Snatch", true);
-                YukariAnimator.Play("YukariCakeYukariSnatch");
+                YukariAnimator.SetBool("snatch", true);
+                //YukariAnimator.Play("YukariCakeYukariSnatch");
             }
         }
 	}
