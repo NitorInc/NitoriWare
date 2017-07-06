@@ -48,9 +48,10 @@ public class StageController : MonoBehaviour
 		public MicrogameCollection.Microgame microgame;
 		public int difficulty;
 		public AsyncOperation asyncOperation;
+        public Scene scene;
 	}
 	private Queue<Stage.Interruption> interruptionQueue;
-    private Scene finishedMicrogame;
+    private MicrogameInstance finishedMicrogame;
 
 	public enum AnimationPart
 	{
@@ -139,7 +140,7 @@ public class StageController : MonoBehaviour
         float holdSpeed = 0f;
         while (instance.asyncOperation.progress < .9f)
         {
-            if (holdSpeed == 0f && instance.asyncOperation.allowSceneActivation)
+            if (holdSpeed == 0f && instance.asyncOperation.allowSceneActivation && animationPart != AnimationPart.GameOver)
             {
                 holdSpeed = Time.timeScale;
                 Time.timeScale = 0f;
@@ -154,23 +155,26 @@ public class StageController : MonoBehaviour
         }
     }
 
-	IEnumerator unloadMicrogameAsync(MicrogameInstance instance)
+	IEnumerator unloadMicrogamesRecursiveAsync(Queue<MicrogameInstance> queue)
 	{
+        MicrogameInstance instance = queue.Dequeue();
 		instance.asyncOperation.allowSceneActivation = true;
 		while (!instance.asyncOperation.isDone)
 		{
 			yield return null;
 		}
 
-		do
-		{
-			instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
-			if (instance.asyncOperation == null)
-				yield return null;
-		}
-		while (instance.asyncOperation == null);
-
-        yield return null;
+        instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
+        while (instance.asyncOperation == null)
+        {
+            yield return null;
+        }
+        while (!instance.asyncOperation.isDone)
+        {
+            yield return null;
+        }
+        if (queue.Count > 0)
+            StartCoroutine(unloadMicrogamesRecursiveAsync(queue));
 
         //instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
         //while (!instance.asyncOperation.isDone)
@@ -277,7 +281,6 @@ public class StageController : MonoBehaviour
 			lowerLife();
 
 		endMicrogame();
-		microgameQueue.Dequeue();
 		microgameCount++;
 
 
@@ -388,9 +391,10 @@ public class StageController : MonoBehaviour
 
 	void updateToGameOver()
 	{
-		while (microgameQueue.Count > 0)
+		if (microgameQueue.Count > 0)
 		{
-			StartCoroutine(unloadMicrogameAsync(microgameQueue.Dequeue()));
+            microgameQueue.Enqueue(finishedMicrogame);
+			StartCoroutine(unloadMicrogamesRecursiveAsync(microgameQueue));
 		}
 		setAnimationPart(AnimationPart.GameOver);
 		speed = 1;
@@ -463,6 +467,7 @@ public class StageController : MonoBehaviour
 	public void onMicrogameAwake()
 	{
 		animationStartTime += beatLength * (12f + (float)MicrogameController.instance.getTraits().getDurationInBeats());
+        microgameQueue.Peek().scene = MicrogameController.instance.gameObject.scene;
 
 		MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
@@ -492,14 +497,14 @@ public class StageController : MonoBehaviour
 
 		stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
 
-        finishedMicrogame = MicrogameController.instance.gameObject.scene;
+        finishedMicrogame = microgameQueue.Dequeue();
         MicrogameController.instance = null;
 		//sceneLoader.removeMicrogame(microgamePool[microgameIndex]);
 	}
 
     void unloadMicrogame()
     {
-        SceneManager.UnloadSceneAsync(finishedMicrogame);
+        SceneManager.UnloadSceneAsync(finishedMicrogame.scene);
         MicrogameController.instance = null;
     }
 
