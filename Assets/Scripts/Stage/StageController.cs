@@ -49,6 +49,7 @@ public class StageController : MonoBehaviour
 		public int difficulty;
 		public AsyncOperation asyncOperation;
         public Scene scene;
+        public bool isBeingUnloaded;
 	}
 	private Queue<Stage.Interruption> interruptionQueue;
     private MicrogameInstance finishedMicrogame;
@@ -140,7 +141,7 @@ public class StageController : MonoBehaviour
         float holdSpeed = 0f;
         while (instance.asyncOperation.progress < .9f)
         {
-            if (holdSpeed == 0f && instance.asyncOperation.allowSceneActivation && animationPart != AnimationPart.GameOver)
+            if (!instance.isBeingUnloaded && holdSpeed == 0f && instance.asyncOperation.allowSceneActivation)
             {
                 holdSpeed = Time.timeScale;
                 Time.timeScale = 0f;
@@ -164,6 +165,7 @@ public class StageController : MonoBehaviour
 			yield return null;
 		}
 
+        instance.isBeingUnloaded = true;
         instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
         while (instance.asyncOperation == null)
         {
@@ -504,6 +506,7 @@ public class StageController : MonoBehaviour
 
     void unloadMicrogame()
     {
+        finishedMicrogame.isBeingUnloaded = true;
         SceneManager.UnloadSceneAsync(finishedMicrogame.scene);
         MicrogameController.instance = null;
     }
