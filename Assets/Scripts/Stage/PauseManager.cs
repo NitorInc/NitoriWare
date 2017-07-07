@@ -66,7 +66,8 @@ public class PauseManager : MonoBehaviour
 		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach(MonoBehaviour script in scripts)
 		{
-			if (script.enabled && script.transform.root != transform)
+			if (script.enabled && script.transform.root != transform &&
+                !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
 				pauseData.disabledScripts.Add(script);
 		}
         foreach (MonoBehaviour script in whitelistedScripts)

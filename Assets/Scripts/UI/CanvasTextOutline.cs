@@ -28,7 +28,7 @@ public class CanvasTextOutline : MonoBehaviour
         childRectTransforms = new RectTransform[cloneCount];
         for (int i = 0; i < cloneCount; i++)
         {
-            GameObject outline = new GameObject("outline", typeof(Text));
+            GameObject outline = new GameObject("Text Outline", typeof(Text));
 
             //Renderer otherMeshRenderer = outline.GetComponent<Renderer>();
             //otherMeshRenderer.material = new Material(textRenderer.material);
