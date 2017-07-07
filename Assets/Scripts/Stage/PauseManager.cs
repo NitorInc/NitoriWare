@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -53,6 +54,12 @@ public class PauseManager : MonoBehaviour
 				unPause();
 			pauseTimer = Random.Range(.1f, .2f);
 		}
+        else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
+        {
+            if (paused)
+                quit();
+            SceneManager.LoadScene("Menu");
+        }
 	}
 
 	public void pause()
