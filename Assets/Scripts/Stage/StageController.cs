@@ -433,6 +433,9 @@ public class StageController : MonoBehaviour
 
     private void Update()
     {
+        //TODO make this a button function
+        if (animationPart == AnimationPart.GameOver && Input.GetKeyDown(KeyCode.R))
+            retry();
         //if (Input.GetKeyDown(KeyCode.G))
         //    commandDisplay.play("Hi there");
     }

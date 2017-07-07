@@ -56,6 +56,7 @@ public class PauseManager : MonoBehaviour
 		}
         else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
         {
+            //TODO make this a button function
             if (paused)
                 quit();
             SceneManager.LoadScene("Menu");
