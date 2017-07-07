@@ -14,6 +14,7 @@ public class MicrogameController : MonoBehaviour
 	struct DebugSettings
 	{
 		public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
+        public string forceLocalizationLanguage;
 		public VoicePlayer.VoiceSet voiceSet;
 		[Range(1, StageController.MAX_SPEED)]
 		public int speed;
@@ -21,14 +22,13 @@ public class MicrogameController : MonoBehaviour
 
 
 	public UnityEvent onPause, onUnPause;
-	public GameObject debugObjects, debugPauseManager;
     [SerializeField]
     private AudioSource sfxSource;
 
 	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
-	private Transform commandTransform;
-	private VoicePlayer debugVoicePlayer;
+    private CommandDisplay commandDisplay;
+   
 
 	void Awake()
 	{
@@ -38,72 +38,34 @@ public class MicrogameController : MonoBehaviour
 		if (sceneName.Equals("Template"))
 			sceneName = "_Template1";
 		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
-		Transform localization = transform.FindChild("Localization");
 
 		if (StageController.instance == null)
 		{
-			//Debug Mode Start (scene open by itself)
+            //Debug Mode Awake (scene open by itself)
 
-			localization.gameObject.SetActive(debugSettings.localizeText);
-			if (debugSettings.localizeText)
-				localization.GetComponent<LocalizationManager>().Awake();
+            if (MicrogameDebugObjects.instance == null)
+                SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
+            else
+                MicrogameDebugObjects.instance.Reset();
 
-			traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
+            if (preserveDebugSpeed > -1)
+            {
+                Debug.Log("Debugging at speed " + preserveDebugSpeed);
+                debugSettings.speed = preserveDebugSpeed;
+                preserveDebugSpeed = -1;
+            }
 
-			if (preserveDebugSpeed > -1)
-			{
-				Debug.Log("Debugging at speed " + preserveDebugSpeed);
-				debugSettings.speed = preserveDebugSpeed;
-				preserveDebugSpeed = -1;
-			}
+            StageController.beatLength = 60f / 130f;
+            Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
 
-			StageController.beatLength = 60f / 130f;
-			Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
+            victory = traits.defaultVictory;
+            victoryDetermined = false;
 
-			debugObjects = Instantiate(debugObjects, Vector3.zero, Quaternion.identity) as GameObject;
-			debugPauseManager = Instantiate(debugPauseManager, Vector3.zero, Quaternion.identity) as GameObject;
-
-			MicrogameTimer.instance = debugObjects.transform.FindChild("UI Camera").FindChild("Timer").GetComponent<MicrogameTimer>();
-			MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
-			if (!debugSettings.showTimer)
-				MicrogameTimer.instance.disableDisplay = true;
-			if (debugSettings.timerTick)
-				MicrogameTimer.instance.invokeTick();
-
-			victory = traits.defaultVictory;
-			victoryDetermined = false;
-
-			if (debugSettings.playMusic && traits.musicClip != null)
-			{
-				AudioSource source = debugObjects.transform.FindChild("Music").GetComponent<AudioSource>();
-				source.clip = traits.musicClip;
-				source.pitch = StageController.getSpeedMult(debugSettings.speed);
-				if (!debugSettings.simulateStartDelay)
-					source.Play();
-				else
-					AudioHelper.playScheduled(source, StageController.beatLength);
-			}
-
-			Transform UICam = debugObjects.transform.FindChild("UI Camera");
-			commandTransform = UICam.FindChild("Command");
-			UICam.gameObject.SetActive(true);
-			if (debugSettings.displayCommand)
-			{
-				commandTransform.gameObject.SetActive(true);
-				commandTransform.FindChild("Text").GetComponent<TextMesh>().text = traits.localizedCommand;
-			}
-
-			Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
-
-			debugVoicePlayer = debugObjects.transform.FindChild("Voice Player").GetComponent<VoicePlayer>();
-			debugVoicePlayer.loadClips(debugSettings.voiceSet);
-		}
+            traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
+        }
 		else if (!isBeingDiscarded())
 		{
-			//Normal Start
-
-			if (localization.gameObject.activeInHierarchy)
-				localization.gameObject.SetActive(false);
+			//Normal Awake
 
 			StageController.instance.stageCamera.tag = "Camera";
 			Camera.main.GetComponent<AudioListener>().enabled = false;
@@ -113,7 +75,7 @@ public class MicrogameController : MonoBehaviour
 			if (traits.hideCursor)
 				Cursor.visible = false;
 
-			commandTransform = StageController.instance.transform.root.FindChild("UI").FindChild("Command");
+			commandDisplay = StageController.instance.transform.root.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
 
 			StageController.instance.resetVictory();
 			StageController.instance.onMicrogameAwake();
@@ -126,7 +88,50 @@ public class MicrogameController : MonoBehaviour
 		if (isBeingDiscarded())
 			shutDownMicrogame();
 		else
-			SceneManager.SetActiveScene(gameObject.scene);
+        {
+            if (StageController.instance == null)
+            {
+                //Debug Start
+                MicrogameDebugObjects debugObjects  = MicrogameDebugObjects.instance;
+                commandDisplay = debugObjects.commandDisplay;
+                
+                if (debugSettings.localizeText)
+                {
+                    LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
+                    if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
+                        manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
+                    manager.Awake();
+                    manager.gameObject.SetActive(true);
+                }
+                
+                MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
+                if (!debugSettings.showTimer)
+                    MicrogameTimer.instance.disableDisplay = true;
+                if (debugSettings.timerTick)
+                    MicrogameTimer.instance.invokeTick();
+
+                if (debugSettings.playMusic && traits.musicClip != null)
+                {
+                    AudioSource source = debugObjects.musicSource;
+                    source.clip = traits.musicClip;
+                    source.pitch = StageController.getSpeedMult(debugSettings.speed);
+                    if (!debugSettings.simulateStartDelay)
+                        source.Play();
+                    else
+                        AudioHelper.playScheduled(source, StageController.beatLength);
+                }
+                
+                if (debugSettings.displayCommand)
+                    debugObjects.commandDisplay.play(traits.localizedCommand);
+
+                Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
+                //Cursor.lockState = CursorLockMode.Confined;
+
+                debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
+
+            }
+            SceneManager.SetActiveScene(gameObject.scene);
+        }
 	}
 
 	/// <summary>
@@ -169,11 +174,6 @@ public class MicrogameController : MonoBehaviour
         return sfxSource;
     }
 
-    public Transform getCommandTransform()
-	{
-		return commandTransform;
-	}
-
 	/// <summary>
 	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
 	/// </summary>
@@ -191,7 +191,7 @@ public class MicrogameController : MonoBehaviour
 			this.victory = victory;
 			victoryDetermined = final;
 			if (final)
-				debugVoicePlayer.playClip(victory, victory ? traits.victoryVoiceDelay : traits.failureVoiceDelay);
+				MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory ? traits.victoryVoiceDelay : traits.failureVoiceDelay);
 		}
 		else
 		{
@@ -234,14 +234,20 @@ public class MicrogameController : MonoBehaviour
 	/// <param name="command"></param>
 	public void displayCommand(string command)
 	{
-		if (!commandTransform.gameObject.activeInHierarchy)
-			commandTransform.gameObject.SetActive(true);
+		if (!commandDisplay.gameObject.activeInHierarchy)
+			commandDisplay.gameObject.SetActive(true);
 
-		Animator _animator = commandTransform.GetComponent<Animator>();
-		_animator.Rebind();
-		_animator.Play("Command");
-		commandTransform.FindChild("Text").GetComponent<TextMesh>().text = command;
+        commandDisplay.play(command);
 	}
+
+    /// <summary>
+    /// Gets the currently active command display
+    /// </summary>
+    /// <returns></returns>
+    public CommandDisplay getCommandDisplay()
+    {
+        return commandDisplay;
+    }
 
 	/// <summary>
 	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
@@ -256,13 +262,14 @@ public class MicrogameController : MonoBehaviour
     /// Plays sound effect unaffected by microgame speed
     /// </summary>
     /// <param name="clip"></param>
-    /// <param name="pan"></param>
+    /// <param name="panStereo"></param>
     /// <param name="pitch"></param>
     /// <param name="volume"></param>
-    public void playSFXUnscaled(AudioClip clip, float pan = 0f, float pitch = 1f, float volume = 1f)
+    public void playSFXUnscaled(AudioClip clip, float panStereo = 0f, float pitch = 1f, float volume = 1f)
     {
         sfxSource.volume = volume;
         sfxSource.pitch = pitch;
+        sfxSource.panStereo = panStereo;
         sfxSource.PlayOneShot(clip);
     }
 
@@ -270,26 +277,26 @@ public class MicrogameController : MonoBehaviour
     /// Plays sound effect and scales it with current speed. use this for most microgame sounds.
     /// </summary>
     /// <param name="clip"></param>
-    /// <param name="pan"></param>
+    /// <param name="panStero"></param>
     /// <param name="pitchMult"></param>
     /// <param name="volume"></param>
-    public void playSFX(AudioClip clip, float pan = 0f, float pitchMult = 1f, float volume = 1f)
+    public void playSFX(AudioClip clip, float panStero = 0f, float pitchMult = 1f, float volume = 1f)
     {
-        playSFXUnscaled(clip, pan, volume, pitchMult * Time.timeScale);
+        playSFXUnscaled(clip, panStero, pitchMult * Time.timeScale, volume);
     }
 
 	void Update ()
 	{
 		if (StageController.instance == null)
 		{
-			if (Input.GetKeyUp(KeyCode.R))
+			if (Input.GetKeyDown(KeyCode.R))
 				SceneManager.LoadScene(gameObject.scene.buildIndex);
-			else if (Input.GetKeyUp(KeyCode.F))
+			else if (Input.GetKeyDown(KeyCode.F))
 			{
 				preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
 				SceneManager.LoadScene(gameObject.scene.buildIndex);
 			}
-			else if (Input.GetKeyUp(KeyCode.N))
+			else if (Input.GetKeyDown(KeyCode.N))
 			{
 				string sceneName = SceneManager.GetActiveScene().name;
 				char[] sceneChars = sceneName.ToCharArray();

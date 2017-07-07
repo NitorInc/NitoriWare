@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -53,6 +54,13 @@ public class PauseManager : MonoBehaviour
 				unPause();
 			pauseTimer = Random.Range(.1f, .2f);
 		}
+        else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
+        {
+            //TODO make this a button function
+            if (paused)
+                quit();
+            SceneManager.LoadScene("Menu");
+        }
 	}
 
 	public void pause()
@@ -66,7 +74,8 @@ public class PauseManager : MonoBehaviour
 		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach(MonoBehaviour script in scripts)
 		{
-			if (script.enabled && script.transform.root != transform)
+			if (script.enabled && script.transform.root != transform &&
+                !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
 				pauseData.disabledScripts.Add(script);
 		}
         foreach (MonoBehaviour script in whitelistedScripts)
@@ -86,7 +95,7 @@ public class PauseManager : MonoBehaviour
 			pauseData.camColor = Camera.main.backgroundColor;
 			Camera.main.cullingMask = 0;
 			Camera.main.backgroundColor = Color.black;
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(false);
+			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
 		}
         if (MicrogameTimer.instance != null)
 		    MicrogameTimer.instance.gameObject.SetActive(false);
@@ -133,7 +142,7 @@ public class PauseManager : MonoBehaviour
 			Camera.main.cullingMask = pauseData.camCullingMask;
 			Camera.main.backgroundColor = pauseData.camColor;
 			MicrogameController.instance.onUnPause.Invoke();
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
+			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)
             MicrogameTimer.instance.gameObject.SetActive(true);

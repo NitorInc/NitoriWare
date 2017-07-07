@@ -254,13 +254,14 @@ GameObject:
   - component: {fileID: 2342792}
   - component: {fileID: 10216212}
   - component: {fileID: 11452644}
+  - component: {fileID: 114817492135727314}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &159666
 GameObject:
   m_ObjectHideFlags: 1
@@ -271,6 +272,7 @@ GameObject:
   - component: {fileID: 499370}
   - component: {fileID: 2383626}
   - component: {fileID: 9581512}
+  - component: {fileID: 114526571069280238}
   m_Layer: 0
   m_Name: Command
   m_TagString: Untagged
@@ -1189,6 +1191,7 @@ MonoBehaviour:
   outlineColor: {r: 0, g: 0, b: 0, a: 1}
   resolutionDependant: 0
   doubleResolution: 1024
+  updateAttributes: 0
 --- !u!124 &12409426
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2108,6 +2111,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voiceSource: {fileID: 82999306856088190}
+--- !u!114 &114526571069280238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba620a1e2425244468b5abecca74f457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unityEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114817492135727314}
+        m_MethodName: updateScale
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  particleSystems: []
+  audioSources: []
+--- !u!114 &114817492135727314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 156030}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a8b4b39af73ae54a9e7e7be0aa58f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxExtents: {x: 35, y: 10}
+  textMesh: {fileID: 10216212}
+  textRenderer: {fileID: 2342792}
+  defaultScale: {x: 0.02, y: 0.02, z: 1}
 --- !u!212 &212000010965276486
 SpriteRenderer:
   m_ObjectHideFlags: 1
