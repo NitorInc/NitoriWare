@@ -14,6 +14,7 @@ public class OkuuFireHandle : MonoBehaviour
     public MouseGrabbable guide;
     // List of transforms which include a IOkuuFireMechanism component.
     public List<Transform> mechanisms;
+    public OkuuFireCranker cranker;
 
     private OkuuFireCrank crank;
 
@@ -37,6 +38,7 @@ public class OkuuFireHandle : MonoBehaviour
         if (angle < 0)
             angle = (180 - Mathf.Abs(angle)) + 180;
         this.minAngle = angle;
+        this.cranker.SetStartAngle(angle);
 
         // Calculate max cumulative angle
         this.maxAngle = this.minAngle + reach;
@@ -78,7 +80,8 @@ public class OkuuFireHandle : MonoBehaviour
                 targetAngle = this.minAngle;
             else if (targetAngle > this.maxAngle)
                 targetAngle = this.maxAngle;
-            
+            this.cranker.Rotate(targetAngle);
+
             // Calculate the new completion amount for the whole machine.
             float deltaCompletion = ((targetAngle - this.minAngle) / this.reach) - this.completion;
             // Constrain based on time and max speed.
