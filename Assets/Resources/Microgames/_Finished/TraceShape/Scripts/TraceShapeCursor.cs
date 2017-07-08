@@ -15,7 +15,7 @@ public class TraceShapeCursor : MonoBehaviour
 	[SerializeField]
 	private AudioClip victoryClip, buzzerClip;
     [SerializeField]
-    private VictoryColor victoryColor;
+    private VictoryColor[] victoryColors;
 
 	private ParticleSystem traceParticles;
     private bool failed;
@@ -110,7 +110,8 @@ public class TraceShapeCursor : MonoBehaviour
         int activeParticleCount = traceParticles.GetParticles(allParticles);
         for (int i = 0; i < activeParticleCount; i++)
         {
-            allParticles[i].remainingLifetime = particleDisappearStartTime + (i * (particleDisappearDuration / (float)activeParticleCount));
+            allParticles[i].remainingLifetime = particleDisappearStartTime
+                + (particleDisappearDuration -(i * (particleDisappearDuration / (float)activeParticleCount)));
         }
         traceParticles.SetParticles(allParticles, activeParticleCount);
 
@@ -138,7 +139,10 @@ public class TraceShapeCursor : MonoBehaviour
         MicrogameController.instance.setVictory(false, false);
 		emission.enabled = false;
 		_audioSource.volume = 0f;
-        victoryColor.ignoreVictoryDetermined = true;
+        foreach (VictoryColor vColor in victoryColors)
+        {
+            vColor.ignoreVictoryDetermined = true;
+        }
         MicrogameController.instance.playSFX(buzzerClip);
 
         failed = true;
@@ -153,7 +157,10 @@ public class TraceShapeCursor : MonoBehaviour
 
         failed = false;
         //setSpriteActive(true);
-        victoryColor.ignoreVictoryDetermined = false;
+        foreach (VictoryColor vColor in victoryColors)
+        {
+            vColor.ignoreVictoryDetermined = false;
+        }
     }
 
 	//void setSpriteActive(bool active)
