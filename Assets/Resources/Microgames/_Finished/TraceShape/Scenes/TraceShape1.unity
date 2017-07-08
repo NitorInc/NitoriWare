@@ -197,6 +197,31 @@ Prefab:
       propertyPath: victoryVoiceDelay
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.localizeText
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.simulateStartDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.timerTick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.displayCommand
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.playMusic
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -1199,10 +1224,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBoundsNeeded: 17
   outOfBoundsLeft: 5
+  particleDisappearStartTime: 0.25
+  particleDisappearDuration: 0.35
+  particleDisappearResumeTime: 0.75
   essentialColliders: []
   victoryAnimator: {fileID: 631787621}
+  inBoundColliders: {fileID: 513955602}
+  outBoundColliders: {fileID: 110838992}
   resultSoundSource: {fileID: 589259330}
   victoryClip: {fileID: 8300000, guid: e3f0b7d79aaf9dd4ca124035f5bdba81, type: 3}
+  buzzerClip: {fileID: 8300000, guid: e840907679a329740812bfa05608e8a3, type: 3}
+  victoryColor: {fileID: 1074172509}
 --- !u!199 &404941300
 ParticleSystemRenderer:
   serializedVersion: 3
@@ -1309,7 +1341,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1478210936
+  randomSeed: 848043216
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5380,6 +5412,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   particleSystems: []
+  audioSources: []
 --- !u!1 &632962302
 GameObject:
   m_ObjectHideFlags: 0
@@ -6342,6 +6375,7 @@ MonoBehaviour:
   normalColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   victoryColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   failureColor: {r: 0.07121688, g: 0.11191223, b: 0.17586207, a: 1}
+  ignoreVictoryDetermined: 0
 --- !u!1 &1084668041
 GameObject:
   m_ObjectHideFlags: 0
