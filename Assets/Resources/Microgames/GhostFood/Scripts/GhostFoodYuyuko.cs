@@ -7,7 +7,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	public int chewsNeeded;
 
 	public bool canEatMultipleFoods;
-	public float chewTime, motorSpeedMult;
+	public float chewTime, motorSpeedMult, sweatStartTime;
 
 	public Transform[] foods;
 	public Sprite[] foodSpritePool;
@@ -16,7 +16,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	public Transform face, body;
 	public HingeJoint2D joint;
 	public ParticleSystem particles, burpParticles;
-	public Animator animator;
+	public Animator animator, sweatAnimator;
 	public Vibrate headVibrate;
 
 	public Sprite hungryFace, chewingFace1, chewingFace2, happyFace;
@@ -144,7 +144,8 @@ public class GhostFoodYuyuko : MonoBehaviour
 			audioSource.PlayOneShot(burpClip);
 
 			animator.Play("Idle");
-			animator.enabled = false;
+            sweatAnimator.SetInteger("state", 0);
+            animator.enabled = false;
 			state = State.Hungry;
 			face.transform.parent.localScale = Vector3.one;
 		}
@@ -154,8 +155,11 @@ public class GhostFoodYuyuko : MonoBehaviour
 	{
 		MicrogameController.instance.setVictory(true, true);
 		state = State.Full;
-		animator.enabled = false;
-		face.transform.parent.localScale = Vector3.one;
+
+        //animator.SetBool("victory", true);
+        sweatAnimator.SetInteger("state", 2);
+        animator.enabled = false;
+        face.transform.parent.localScale = Vector3.one;
 		//joint.useMotor = false;
 		headVibrate.vibrateOn = true;
 		distanceToCenter = ((Vector2)transform.position).magnitude;
@@ -163,7 +167,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 		audioSource.PlayOneShot(victoryClip);
 		audioSource.pitch = Time.timeScale;
 
-		motorSpeedMult /= 5f;
+        motorSpeedMult /= 5f;
 	}
 
 	void spitParticles()
@@ -184,22 +188,26 @@ public class GhostFoodYuyuko : MonoBehaviour
 				faceRenderer.sprite = chewingFace1;
 				if (chewsLeft > 0 && Input.GetMouseButtonDown(0))// && animator.playbackTime >= chewTime)
 				{
-					//Debug.Log(animator.GetTime());
-					//animator.SetTime(0f);
-					animator.Rebind();
+                    CancelInvoke();
+                    sweatAnimator.SetInteger("state", 0);
+                    //Debug.Log(animator.GetTime());
+                    //animator.SetTime(0f);
+                    animator.Rebind();
 					animator.Play("Chew", -1, 0f);
 					//Debug.Log(animator.GetTime());
 					chewsLeft--;
 					audioSource.PlayOneShot(chewClip);
 					audioSource.pitch = Time.timeScale * Random.Range(.9f, 1f);
-					if (chewsLeft == 0)
+                    spitParticles();
+                    if (chewsLeft == 0)
 					{
 						Invoke("checkForVictory", chewTime);
 					}
 					else
 					{
-						Invoke("spitParticles", 1f / 12f);
-					}
+						//Invoke("spitParticles", 1f / 12f);
+                        Invoke("sweat", sweatStartTime);
+                    }
 				}
 				break;
 			case (State.Full):
@@ -281,10 +289,10 @@ public class GhostFoodYuyuko : MonoBehaviour
 		//Debug.Log(chewsLeft);
 		face.transform.localScale = scale * Mathf.Lerp(1f, 1.3f, (float)chewsLeft / 9f);
 
-		//burp.transform.localRotation = Quaternion.EulerAngles(0f, facingRight ? 0f : 180f, 0f);
-		//burp.transform.localScale = new Vector3(facingRight ? 1f : -1f, 1f, 1f);
+        //burp.transform.localRotation = Quaternion.EulerAngles(0f, facingRight ? 0f : 180f, 0f);
+        //burp.transform.localScale = new Vector3(facingRight ? 1f : -1f, 1f, 1f);
 
-        
+        sweatAnimator.transform.localScale = new Vector3(facingRight ? -1f : 1f, 1f, 1f);
 		burpParticlesModule.startRotation = facingRight ? 0f : Mathf.PI;
 		//Debug.Log((float)chewsLeft / 6f);
 		//Debug.Log(face.transform.localScale);
@@ -300,6 +308,11 @@ public class GhostFoodYuyuko : MonoBehaviour
 		collide(other);
 	}
 
+    void sweat()
+    {
+        sweatAnimator.SetInteger("state", 1);
+    }
+
 	void collide(Collider2D other)
 	{
 		if ((state == State.Hungry || canEatMultipleFoods) && other.name == "Food")
@@ -312,7 +325,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			chewsLeft += chewsNeeded;
 			CancelInvoke();
 			animator.Play("Chew", -1, 1f);
-
+            Invoke("sweat", sweatStartTime);
             audioSource.PlayOneShot(chompClip);
             audioSource.pitch = Time.timeScale * Random.Range(.95f, 1.05f);
         }
