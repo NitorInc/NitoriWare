@@ -21,10 +21,12 @@ public class OkuuFireHandle : MonoBehaviour
     private float minAngle;
     private float maxAngle;
     private float reach;
+    private bool canMove;
 
     void Start()
     {
         this.crank = this.GetComponentInParent<OkuuFireCrank>();
+        this.canMove = true;
 
         float rotations = this.crank.rotations;
         this.reach = 360 * rotations;
@@ -47,12 +49,11 @@ public class OkuuFireHandle : MonoBehaviour
     void Update()
     {
         // Check if the handle has been grabbed.
-        if (this.guide.grabbed)
+        if (this.canMove && this.guide.grabbed)
         {
             // Get the points at the centre of the crank and the centre of the mouse guide.
             Vector3 targetPoint = Camera.main.WorldToScreenPoint(this.guide.transform.position);
             Vector3 crankPoint = Camera.main.WorldToScreenPoint(this.crank.transform.position);
-            Vector3 handlePoint = Camera.main.WorldToScreenPoint(this.transform.position);
 
             // Calculate direction of the mouse from the crank.
             Vector2 offset = new Vector2(targetPoint.x - crankPoint.x, targetPoint.y - crankPoint.y);
@@ -127,5 +128,10 @@ public class OkuuFireHandle : MonoBehaviour
     float GetCurrentAngle()
     {
         return this.minAngle + (this.reach * this.completion);
+    }
+
+    void Victory()
+    {
+        this.canMove = false;
     }
 }

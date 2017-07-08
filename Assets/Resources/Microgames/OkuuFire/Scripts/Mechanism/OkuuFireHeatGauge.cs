@@ -11,9 +11,10 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
     public Transform indicator;
     public SpriteRenderer targetZone;
 
-    public float targetLevel;
+    public GameObject[] victoryObjects;
     
-    public float stability;
+    private float stability;
+    private bool victory;
 
 	void Start ()
     {
@@ -27,15 +28,20 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
 	
 	void Update ()
     {
-        if (this.InTargetZone())
-            stability += Time.deltaTime * this.stabilizeSpeed;
-        else if (stability > 0)
-            stability -= Time.deltaTime * this.destabilizeSpeed;
-        else
-            stability = 0;
-
-        if (stability >= 1)
-            MicrogameController.instance.setVictory(true, true);
+        if (!this.victory)
+        {
+            if (stability >= 1)
+                this.DoVictory();
+            else
+            {
+                if (this.InTargetZone())
+                    stability += Time.deltaTime * this.stabilizeSpeed;
+                else if (stability > 0)
+                    stability -= Time.deltaTime * this.destabilizeSpeed;
+                else
+                    stability = 0;
+            }
+        }
     }
 
     public void Move(float completion)
@@ -66,7 +72,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         newGuagePosition.y = GetGaugePositionY(level);
 
         this.targetZone.transform.localPosition = newGuagePosition;
-        this.targetLevel = level;
     }
 
     bool InTargetZone()
@@ -76,5 +81,16 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         bool inZone = targetZone.GetComponent<Collider2D>().bounds.Contains(currentPosition);
         
         return inZone;
+    }
+
+    void DoVictory()
+    {
+        MicrogameController.instance.setVictory(true, true);
+        this.victory = true;
+
+        foreach (GameObject victoryObject in this.victoryObjects)
+        {
+            victoryObject.SendMessage("Victory");
+        }
     }
 }
