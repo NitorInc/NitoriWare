@@ -3,10 +3,11 @@ using System.Collections;
 
 public class VictoryColor : MonoBehaviour
 {
-	//Changes the color of the object depending on whether the microgame is won or lost or undecided
-	//works on both sprites and camera backgrounds
+    //Changes the color of the object depending on whether the microgame is won or lost or undecided
+    //works on both sprites and camera backgrounds
 
-	public Color normalColor, victoryColor, failureColor;
+    public Color normalColor, victoryColor, failureColor;
+    public bool ignoreVictoryDetermined;
 
 	private SpriteRenderer _spriteRenderer;
 	private Camera _camera;
@@ -19,7 +20,7 @@ public class VictoryColor : MonoBehaviour
 	
 	void Update ()
 	{
-		if (MicrogameController.instance.getVictoryDetermined())
+		if (ignoreVictoryDetermined || MicrogameController.instance.getVictoryDetermined())
 		{
 			if (MicrogameController.instance.getVictory())
 				setColor(victoryColor);
