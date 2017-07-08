@@ -4,6 +4,7 @@ using System.Collections;
 public class TraceShapeCursor : MonoBehaviour
 {
 	public int inBoundsNeeded, outOfBoundsLeft;
+    public float particleDisappearStartTime, particleDisappearEndTime, particleDisappearResumeTime;
 	public Collider2D[] essentialColliders;
 	public Animator victoryAnimator;
 	private AudioSource _audioSource;
@@ -31,12 +32,19 @@ public class TraceShapeCursor : MonoBehaviour
 	{
 		//Enable emmissions if mouse is held down
 		ParticleSystem.EmissionModule emission = traceParticles.emission;
-		emission.enabled = Input.GetMouseButton(0);
-		_audioSource.volume = Input.GetMouseButton(0) ? 1f : 0f;
+        if (!emission.enabled && Input.GetMouseButtonDown(0))
+        {
+            
+            traceParticles.Emit(1); //When mouse is first pressed, create a particle (otherwise one won't be created before the player moves their cursor
+            emission.enabled = true;
+            _audioSource.volume = 1f;
+        }
+        else if (emission.enabled && Input.GetMouseButtonUp(0))
+        {
+            emission.enabled = false;
+            _audioSource.volume = 0f;
+        }
 
-		//When mouse is first pressed, create a particle (otherwise one won't be created before the player moves their cursor)
-		if (Input.GetMouseButtonDown(0))
-			traceParticles.Emit(1);
 
 		//Snap to cursor
 		Vector3 cursorPosition = CameraHelper.getCursorPosition();
@@ -46,7 +54,7 @@ public class TraceShapeCursor : MonoBehaviour
 	void collide(Collider2D other)
 	{
 		//Player must be holding down the mouse button to hit drawing colliders
-		if (!Input.GetMouseButton(0))
+		if (!traceParticles.emission.enabled)
 			return;
 
 		other.gameObject.SetActive(false);
@@ -93,24 +101,39 @@ public class TraceShapeCursor : MonoBehaviour
 	}
 
 	void failure()
-	{
-		MicrogameController.instance.setVictory(false, true);
-		ParticleSystem.EmissionModule emission = traceParticles.emission;
+    {
+        var main = traceParticles.main;
+        ParticleSystem.Particle[] allParticles = new ParticleSystem.Particle[main.maxParticles];
+        int activeParticleCount = traceParticles.GetParticles(allParticles);
+        for (int i = 0; i < activeParticleCount; i++)
+        {
+            allParticles[i].remainingLifetime = particleDisappearStartTime + (i * (particleDisappearStartTime / (float)activeParticleCount));
+        }
+        traceParticles.SetParticles(allParticles, activeParticleCount);
+
+        var emission = traceParticles.emission;
+        MicrogameController.instance.setVictory(false, false);
 		emission.enabled = false;
 		_audioSource.volume = 0f;
-
-		//TODO Failure
-		//Debug.Log("You lose!");
+        
 		enabled = false;
-		disableSprite();
+        Invoke("tryAgain", particleDisappearResumeTime);
+		setSpriteActive(false);
 	}
 
-	void disableSprite()
+    void tryAgain()
+    {
+        if (MicrogameController.instance != null)   //TODO better fix for invoke bringing dead objects back
+            enabled = true;
+        setSpriteActive(true);
+    }
+
+	void setSpriteActive(bool active)
 	{
-		transform.FindChild("Sprite").gameObject.SetActive(false);
-	}
+		transform.FindChild("Sprite").gameObject.SetActive(active);
+    }
 
-	void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
 	{
 		collide(other);
 	}
