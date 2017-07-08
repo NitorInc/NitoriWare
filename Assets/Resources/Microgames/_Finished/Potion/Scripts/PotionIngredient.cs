@@ -63,7 +63,7 @@ public class PotionIngredient : MonoBehaviour
 						grabOffset = (Vector2)(transform.position - CameraHelper.getCursorPosition());
 						snapToMouse();
 						pot.moveToFront(this);
-						_audioSource.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position);
+						_audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
 						_audioSource.PlayOneShot(carryClip);
 						lastPosition = (Vector2)CameraHelper.getCursorPosition();
 						state = State.Grabbed;
@@ -94,7 +94,7 @@ public class PotionIngredient : MonoBehaviour
 
 	void updateSound()
 	{
-		_audioSource.panStereo = AudioHelper.getAudioPan(Camera.main, transform.position);
+		_audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
 		soundDistance += Mathf.Pow(((Vector2)CameraHelper.getCursorPosition() - lastPosition).magnitude, 1f/3f);
 		if (soundDistance >= soundFrequency)
 		{

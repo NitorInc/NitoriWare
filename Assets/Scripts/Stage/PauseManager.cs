@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public static bool exitedWhilePaused;
+
 	public UnityEvent onPause, onUnPause;
 
 	[SerializeField]
@@ -35,7 +38,9 @@ public class PauseManager : MonoBehaviour
 	void Start ()
 	{
 		paused = false;
-	}
+        if (transform.root != transform)
+            Debug.LogWarning("Pause Controller should be put in hierachy root!");
+    }
 	
 	void Update ()
 	{
@@ -49,9 +54,16 @@ public class PauseManager : MonoBehaviour
 				unPause();
 			pauseTimer = Random.Range(.1f, .2f);
 		}
+        else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
+        {
+            //TODO make this a button function
+            if (paused)
+                quit();
+            SceneManager.LoadScene("Menu");
+        }
 	}
 
-	void pause()
+	public void pause()
 	{
 		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
@@ -60,14 +72,20 @@ public class PauseManager : MonoBehaviour
 		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
 		pauseData.disabledScripts = new List<MonoBehaviour>();
 		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
-		foreach( MonoBehaviour script in scripts)
+		foreach(MonoBehaviour script in scripts)
 		{
-			if (!whitelistedScripts.Remove(script) && script.enabled && script != this)
-			{
-				script.enabled = false;
+			if (script.enabled && script.transform.root != transform &&
+                !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
 				pauseData.disabledScripts.Add(script);
-			}
 		}
+        foreach (MonoBehaviour script in whitelistedScripts)
+        {
+            pauseData.disabledScripts.Remove(script);
+        }
+        foreach (MonoBehaviour script in pauseData.disabledScripts)
+        {
+            script.enabled = false;
+        }
 
 		onPause.Invoke();
 		if (MicrogameController.instance != null)
@@ -77,9 +95,11 @@ public class PauseManager : MonoBehaviour
 			pauseData.camColor = Camera.main.backgroundColor;
 			Camera.main.cullingMask = 0;
 			Camera.main.backgroundColor = Color.black;
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(false);
+			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
 		}
-		MicrogameTimer.instance.gameObject.SetActive(false);
+        if (MicrogameTimer.instance != null)
+		    MicrogameTimer.instance.gameObject.SetActive(false);
+
 		pauseData.cursorVisible = Cursor.visible;
 		Cursor.visible = true;
 
@@ -87,29 +107,52 @@ public class PauseManager : MonoBehaviour
 		paused = true;
 	}
 
-	void unPause()
-	{
-		Time.timeScale = pauseData.timeScale;
-		AudioListener.pause = false;
+    /// <summary>
+    /// Called when quitting from pause menu, GameController.onSceneLoaded takes over when the scene is loaded and sets components back to normal
+    /// </summary>
+    public void quit()
+    {
+        foreach (MonoBehaviour script in pauseData.disabledScripts)
+        {
+            if (script != null)
+                script.CancelInvoke();
+        }
 
+        AudioSource[] allAudioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        foreach (AudioSource source in allAudioSources)
+        {
+            source.Stop();
+        }
+
+        exitedWhilePaused = true;
+    }
+
+	public void unPause()
+	{
 		foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
 			if (script != null)
-				script.enabled = true;
+            {
+                script.enabled = true;
+            }
 		}
 
-		onUnPause.Invoke();
 		if (MicrogameController.instance != null)
 		{
 			Camera.main.cullingMask = pauseData.camCullingMask;
 			Camera.main.backgroundColor = pauseData.camColor;
 			MicrogameController.instance.onUnPause.Invoke();
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
-		}
-		MicrogameTimer.instance.gameObject.SetActive(true);
-		Cursor.visible = pauseData.cursorVisible;
+			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
+        }
+        if (MicrogameTimer.instance != null)
+            MicrogameTimer.instance.gameObject.SetActive(true);
+        
+        Time.timeScale = pauseData.timeScale;
+        AudioListener.pause = false;
+        Cursor.visible = pauseData.cursorVisible;
+        menu.gameObject.SetActive(false);
 
-		menu.gameObject.SetActive(false);
-		paused = false;
-	}
+        onUnPause.Invoke();
+        paused = false;
+    }
 }

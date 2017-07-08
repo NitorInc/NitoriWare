@@ -5,7 +5,7 @@ using UnityEngine;
 public class PaperThiefEndlessGround : MonoBehaviour
 {
 	[SerializeField]
-	private Transform shiftTransform;
+	private Transform[] shiftTransforms;
 
 	void Update()
 	{
@@ -13,7 +13,10 @@ public class PaperThiefEndlessGround : MonoBehaviour
 			return;
 		while (transform.position.x < Camera.main.transform.position.x && CameraHelper.isObjectOffscreen(transform, transform.localScale.x / 2f))
 		{
-			shiftTransform.localPosition += Vector3.left * transform.localScale.x;
+            for (int i = 0; i < shiftTransforms.Length; i++)
+            {
+                shiftTransforms[i].localPosition += Vector3.left * transform.localScale.x;
+            }
 		}
 	}
 }

@@ -10,7 +10,7 @@ public class CharacterStage : Stage
     [SerializeField]
 	private CharacterMicrogamePool microgamePool;
 	[SerializeField]
-	private Interruption speedUp, bossIntro, nextRound;
+	private Interruption speedUp, bossIntro, nextRound, oneUp;
 #pragma warning restore 0649
 
     private int roundsCompleted, roundStartIndex;
@@ -43,10 +43,6 @@ public class CharacterStage : Stage
 
 	public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
 	{
-		//TODO add later boss difficulties
-		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
-			return 1;
-
 		return Mathf.Min(microgame.baseDifficulty + roundsCompleted, 3);
 	}
 
@@ -61,7 +57,12 @@ public class CharacterStage : Stage
             //TODO more after-boss stuff
             if (bossWon)
             {
-                //TODO 1-up
+                if (StageController.instance.getLife() < getMaxLife())
+                {
+                    StageController.instance.setLife(StageController.instance.getLife() + 1);
+                    return new Interruption[0].add(oneUp);
+                }
+                //TODO separate next round after oneUp when we have music
             }
 			return new Interruption[0].add(nextRound);
 		}
@@ -87,8 +88,12 @@ public class CharacterStage : Stage
 
 	public override int getCustomSpeed(int microgame, Interruption interruption)
 	{
-		if (interruption.animation == StageController.AnimationPart.BossStage || interruption.animation == StageController.AnimationPart.NextRound)
+		if (interruption.animation == StageController.AnimationPart.BossStage
+            || interruption.animation == StageController.AnimationPart.NextRound
+            || interruption.animation == StageController.AnimationPart.OneUp)
 			return 1 + getRoundSpeedOffset();
+
+        Debug.Log("no not here");
 		return 1;
 	}
 
@@ -117,10 +122,7 @@ public class CharacterStage : Stage
 			bossWon = victoryStatus;
 			if (revisiting)
 			{
-				if (victoryStatus)	//TODO remove when proper boss win is added
-				{
-					startNextRound(microgame + 1);
-				}
+				startNextRound(microgame + 1);
 			}
 			else if (victoryStatus)
 				winStage();

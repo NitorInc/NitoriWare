@@ -20,8 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4504004549463964}
   - component: {fileID: 114825991089295420}
-  - component: {fileID: 212675169409156848}
+  - component: {fileID: 114104677720524812}
   - component: {fileID: 199450537607650546}
+  - component: {fileID: 212675169409156848}
   - component: {fileID: 58989743383873188}
   - component: {fileID: 198065674680180748}
   - component: {fileID: 50546122986522862}
@@ -71,7 +72,7 @@ Transform:
   m_GameObject: {fileID: 1383397214885520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 73.57, y: 6.62, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_Children:
   - {fileID: 4256574428905828}
   m_Father: {fileID: 0}
@@ -103,7 +104,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1383397214885520}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -112,6 +113,36 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.7
+--- !u!114 &114104677720524812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1383397214885520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72310672bc99d9245bbc0147afcdd459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMaxSize:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 58989743383873188}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  goalScale: 0.75
+  growSpeed: 1
+  disableOnMaxSize: 1
 --- !u!114 &114825991089295420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,21 +156,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LinearVelocity: {x: 0, y: 0}
   cameraActivationX: 0
-  seekMoveSpeed: 8
+  seekMoveSpeed: 5
   seekPower: 120
   rotateSpeed: 5
-  forceAngleDirection: 0
-  hitSlowDownMult: 0.5
+  hitSlowDownMult: 0.55
   hitAcc: 5
   killSpeed: 2
   flashSpeed: 5
   shrinkSpeed: 5
   hitStarCount: 10
   killStarCount: 50
-  seekAngleBounds: {x: 30, y: 70}
+  displayDodgeCommand: 0
+  seekAngleBounds: {x: 30, y: 120}
   flash: {fileID: 212257645521003042}
   trailParticles: {fileID: 198065674680180748}
   explosionParticles: {fileID: 198350544119051388}
+  forceAngleDirection: 0
   movementType: 1
 --- !u!198 &198065674680180748
 ParticleSystem:
@@ -152,7 +184,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -682,7 +714,7 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       minMaxState: 0
-      scalar: 25
+      scalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3072,7 +3104,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -3149,7 +3181,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSpeed:
       minMaxState: 3
-      scalar: 16
+      scalar: 18
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3167,7 +3199,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.5
+          value: 0.6666667
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3239,7 +3271,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
     startSize:
       minMaxState: 3
-      scalar: 0.8
+      scalar: 0.9
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3257,7 +3289,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.5
+          value: 0.5555556
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3678,9 +3710,9 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
+          value: 0.58823395
+          inSlope: 1.9333407
+          outSlope: 1.9333407
           tangentMode: 0
         - serializedVersion: 2
           time: 1
@@ -6002,7 +6034,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 3
   m_MinParticleSize: 0
@@ -6053,7 +6085,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 52
   m_RenderMode: 0
   m_SortMode: 3
   m_MinParticleSize: 0

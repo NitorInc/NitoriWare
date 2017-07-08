@@ -10,7 +10,7 @@ public class MysteryCompilationStage : CompilationStage
 	public override void onStageStart()
 	{
 		base.onStageStart();
-		disable.gameObject.SetActive(false);
+        updateCursorVisible();
 	}
 
 	void Update()

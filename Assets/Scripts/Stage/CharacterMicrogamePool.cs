@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class CharacterMicrogamePool : MonoBehaviour
 {
 	public bool shuffleMicrogames = true;
@@ -17,4 +18,15 @@ public class CharacterMicrogamePool : MonoBehaviour
 		public Stage.Microgame[] pool;
 
 	}
+
+    void Update()
+    {
+        if (Application.isPlaying)
+            return;
+
+        for (int i = 0; i < microgameBatches.Length; i++)
+        {
+            microgameBatches[i].pick = Mathf.Min(microgameBatches[i].pool.Length, microgameBatches[i].pick);
+        }
+    }
 }
