@@ -37,12 +37,12 @@ public class TitleInteractive : MonoBehaviour
 			{
 				effectTime = 0f;
 
-				if (animator != null)
-				{
-					animator.enabled = true;
-					if (animatorToDisable != null)
-						animatorToDisable.enabled = false;
-				}
+				//if (animator != null)
+				//{
+				//	animator.enabled = true;
+				//	if (animatorToDisable != null)
+				//		animatorToDisable.enabled = false;
+				//}
 			}
 		}
 	}

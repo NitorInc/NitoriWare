@@ -95,8 +95,7 @@ public class LocalizationManager : MonoBehaviour
 		string value = (string)localizedText[key];
 		if (string.IsNullOrEmpty(value))
 			return defaultString;
-		if (key.Split('.')[0].Equals("multiline"))
-			value = value.Replace("\\n", "\n");
+        value = value.Replace("\\n", "\n");
 		return value;
 	}
 }
