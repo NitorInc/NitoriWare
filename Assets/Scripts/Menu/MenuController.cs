@@ -15,7 +15,7 @@ public class MenuController : MonoBehaviour
     public bool shifting
     {
         get {return _shifting; }
-        set { _shifting = value; }
+        set { _shifting = value; Debug.Log("hey there"); }
     }
 	
     public void shiftMenu(int menu)
