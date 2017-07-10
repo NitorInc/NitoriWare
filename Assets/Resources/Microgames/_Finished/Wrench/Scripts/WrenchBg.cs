@@ -41,7 +41,7 @@ public class WrenchBg : MonoBehaviour
 		for (int i = 0; i < linesX; i++)
 		{
 			float x = linesStart.x + (lineSeparation * (float)i),
-				y = i % 2 == 1 ? lineExtent : -lineExtent;
+				y = (((i % 2) * 2)-1)*lineExtent;
 			points.Add(new Vector3(x, y, 0f));
 			points.Add(new Vector3(x, -y, 0f));
 		}
