@@ -1,26 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class TitleBangClick : MonoBehaviour
 {
-	
-	public Texture2D[] textures;
+
+    public Image[] images;
+	public Sprite[] sprites;
 	public Color[] colors;
 	public float activationTime;
 
 	private Collider2D _collider;
-	private SpriteColorFX.SpriteColorMasks3 mask;
-	private SpriteRenderer spriteRenderer;
 	private Animator animator;
 
-	private int textureIndex, colorIndex;
+	private int spriteIndex, colorIndex;
 
 
 	void Start ()
 	{
 		_collider = GetComponent<Collider2D>();
-		mask = GetComponent<SpriteColorFX.SpriteColorMasks3>();
-		spriteRenderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
 
 		//Camera.main.GetComponent<AudioSource>().time = 40f;
@@ -79,16 +77,22 @@ public class TitleBangClick : MonoBehaviour
 			colorIndex++;
 			if (colorIndex >= colors.Length)
 				colorIndex = 0;
-			spriteRenderer.color = colors[colorIndex];
+            foreach (Image image in images)
+            {
+                image.color = colors[colorIndex];
+            }
 
 			animator.SetInteger("animation", 0);
 		}
 		else if (button == 1)
 		{
-			textureIndex++;
-			if (textureIndex >= textures.Length)
-				textureIndex = 0;
-			mask.textureMaskRed = textures[textureIndex];
+			spriteIndex++;
+			if (spriteIndex >= sprites.Length)
+				spriteIndex = 0;
+            foreach (Image image in images)
+            {
+                image.sprite = sprites[spriteIndex];
+            }
 			animator.SetInteger("animation", 0);
 		}
 	}
