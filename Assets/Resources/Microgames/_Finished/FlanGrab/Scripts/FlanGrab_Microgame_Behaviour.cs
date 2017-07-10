@@ -59,7 +59,7 @@ public class FlanGrab_Microgame_Behaviour : MonoBehaviour {
     // Generate a meteor between the A and B horizontal position
     void generateMeteor(float A, float B)
     {
-        var meteorInstance = Instantiate(meteorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        var meteorInstance = Instantiate(meteorPrefab, Vector3.zero, Quaternion.identity);
         meteorInstance.SetActive(false);
 
         var meteorBounds = meteorInstance.GetComponent<CircleCollider2D>().bounds;

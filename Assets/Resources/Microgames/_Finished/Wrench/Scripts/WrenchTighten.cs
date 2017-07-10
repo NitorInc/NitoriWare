@@ -66,7 +66,7 @@ public class WrenchTighten : MonoBehaviour
 	{
 		//handVibrate.vibrateOn = false;
 		MicrogameController.instance.setVictory(true, true);
-		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
+		screw.transform.localPosition = Vector3.up * getScrewHeight();
 		finished = true;
 		sceneAnimator.enabled = true;
 	}
@@ -171,22 +171,14 @@ public class WrenchTighten : MonoBehaviour
 		if (fastening && getScale() > minScale)
 		{
 			float diff = scaleSpeed * Time.deltaTime;
-			if (getScale() - diff <= minScale)
-			{
-				setScale(minScale);
-			}
-			else
-				setScale(getScale() - diff);
+			
+				setScale(Mathf.Max(minScale, getScale() - diff));
+			
 		}
 		else if (!fastening && moving && getScale() < maxScale)
 		{
 			float diff = scaleSpeed * Time.deltaTime;
-			if (getScale() + diff >= maxScale)
-			{
-				setScale(maxScale);
-			}
-			else
-				setScale(getScale() + diff);
+				setScale(Mathf.Min(maxScale, getScale() + diff));
 		}
 
 	}
@@ -198,7 +190,7 @@ public class WrenchTighten : MonoBehaviour
 
 	void setRotation(float rotation)
 	{
-		transform.rotation = Quaternion.Euler(0f, 0f, rotation * Mathf.Rad2Deg);
+		transform.rotation = Quaternion.AngleAxis(rotation * Mathf.Rad2Deg, Vector3.forward);
 	}
 
 	float getScale()
@@ -218,7 +210,7 @@ public class WrenchTighten : MonoBehaviour
 
 	void setBoltRotation(float rotation)
 	{
-		bolt.transform.rotation = Quaternion.Euler(0f, 0f, rotation * Mathf.Rad2Deg);
+		bolt.transform.rotation = Quaternion.AngleAxis(rotation * Mathf.Rad2Deg, Vector3.forward);
 	}
 
 }

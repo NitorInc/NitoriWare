@@ -15,10 +15,7 @@ public class FlanGrab_ArmBehaviour : MonoBehaviour {
 	void Update () {
 		if (MicrogameController.instance.getVictoryDetermined())
 		{
-			if (MicrogameController.instance.getVictory())
-				anim.SetTrigger("HandClutch");
-			else
-				anim.SetTrigger("OpenHand");
+			anim.SetTrigger(MicrogameController.instance.getVictory() ? "HandClutch" : "OpenHand");
 			enabled = false;
 			return;
 		}
