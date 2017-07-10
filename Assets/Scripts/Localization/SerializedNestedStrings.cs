@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 //Class is used like a dicationary : instance[key] = value
 //Key can have nested values denoted by ".", automatically organizing them hierarchically (i.e. "microgame.ChenFood.command")
@@ -20,62 +21,61 @@ class SerializedNestedStrings
         }
     }
 
-    private Dictionary<string, StringData> data;
+    private StringData rootData;
 
     public SerializedNestedStrings()
     {
-        data = new Dictionary<string, StringData>();
+        rootData = new StringData();
     }
 
     public object getData()
     {
-        return data;
+        return rootData;
     }
 
     public string this[string index]
     {
         get
         {
-            return string.IsNullOrEmpty(index) ? null : getString(data, new List<string>(index.Split('.')));
+            return string.IsNullOrEmpty(index) ? null : getString(rootData, new List<string>(index.Split('.')));
         }
         set
         {
-            setString(data, new List<string>(index.Split('.')), value);
+            setString(rootData, new List<string>(index.Split('.')), value);
         }
     }
 
-    private string getString(Dictionary<string, StringData> baseObject, List<string> keys)
+    private string getString(StringData baseData, List<string> keys)
     {
         if (keys.Count == 1)
         {
             //We are at deepest nesting level
-            return baseObject.ContainsKey(keys[0]) ? baseObject[keys[0]].value : null;
+            return baseData.subData.ContainsKey(keys[0]) ? baseData.subData[keys[0]].value : null;
         }
         else
         {
             //We are not at deepest nesting level
             string currentKey = keys[0];
             keys.RemoveAt(0);
-            var thing = baseObject[currentKey];
-            return baseObject.ContainsKey(currentKey) ? getString((baseObject[currentKey].subData), keys) : null;
+            return baseData.subData.ContainsKey(currentKey) ? getString((baseData.subData[currentKey]), keys) : null;
         }
     }
 
-    private void setString(Dictionary<string, StringData> baseObject, List<string> keys, string value)
+    private void setString(StringData baseData, List<string> keys, string value)
     {
         if (keys.Count == 1)
         {
             //We are at deepest nesting level
-            if (!baseObject.ContainsKey(keys[0]))
-                baseObject[keys[0]] = new StringData();
-            baseObject[keys[0]].value = value;
+            if (!baseData.subData.ContainsKey(keys[0]))
+                baseData.subData[keys[0]] = new StringData();
+            baseData.subData[keys[0]].value = value;
         }
-        else if (baseObject.ContainsKey(keys[0]))
+        else if (baseData.subData.ContainsKey(keys[0]))
         {
             //Not at deepest nesting level but dictionary with same name exists
-            Dictionary<string, StringData> existingObject = baseObject[keys[0]].subData;
+            StringData existingData = baseData.subData[keys[0]];
             keys.RemoveAt(0);
-            setString(existingObject, keys, value);
+            setString(existingData, keys, value);
         }
         else
         {
@@ -83,22 +83,22 @@ class SerializedNestedStrings
             StringData newData = new StringData();
             string currentKey = keys[0];
             keys.RemoveAt(0);
-            baseObject[currentKey] = newData;
-            setString(newData.subData, keys, value);
+            baseData.subData[currentKey] = newData;
+            setString(newData, keys, value);
         }
     }
 
     public override string ToString()
     {
-        string result = serialize(data, 0);
+        string result = serialize(rootData, 0);
         return result == "" ? result : result.Substring(0, result.Length - 1);
     }
 
-    string serialize(Dictionary<string, StringData> baseObject, int nestLevel)
+    string serialize(StringData baseData, int nestLevel)
     {
         //Minimalist serialization, tabs for group hierarchy, "key=value" at lowest level
         string result = "";
-        foreach (KeyValuePair<string, StringData> entry in baseObject)
+        foreach (KeyValuePair<string, StringData> entry in baseData.subData)
         {
             result += new string('\t', nestLevel);
             if (!string.IsNullOrEmpty(entry.Value.value))
@@ -106,51 +106,71 @@ class SerializedNestedStrings
             if (entry.Value.subData.Count > 0)
             {
                 result += entry.Key + "\n";
-                result += serialize(entry.Value.subData, nestLevel + 1);
+                result += serialize(entry.Value, nestLevel + 1);
             }
         }
         return result;
     }
 
-    public static SerializedNestedStrings deserialize(string serializedData)
+    public static SerializedNestedStrings deserialize(string serializedData, SerializedNestedStrings existingStrings = null)
     {
         serializedData = serializedData.Replace(((char)13).ToString(), ""); //Remove any instances of carriage return
+        if (existingStrings == null)
+            existingStrings = new SerializedNestedStrings();
 
-        List<string> lines = new List<string>(serializedData.Split('\n'));
-        SerializedNestedStrings newData = new SerializedNestedStrings();
+        deserializeData(existingStrings.rootData, serializedData.Split('\n'), 0, 0);
 
-        string currentKeyBase = "";
-        for (int i = 0; i < lines.Count; i++)
+        //debugDisplay(existingStrings.rootData, "");
+        //Debug.Log(existingStrings["name"]);
+
+        return existingStrings;
+    }
+
+    static void debugDisplay(StringData data, string key)
+    {
+
+        Debug.Log(key + " : " + data.value);
+        foreach (var item in data.subData)
         {
-            string line = lines[i];
-            int tabCount = getTabCount(line),
-                dotCount = currentKeyBase.Split('.').Length - 1;
-            while (tabCount < dotCount)
-            {
-                //Key is up from previous line in hierarchy
-                //Remove "{key}." from current hierarchy string to go up one level
-                if (dotCount == 1)
-                    currentKeyBase = "";
-                else
-                    currentKeyBase = Regex.Replace(currentKeyBase, @"(.*)\.[^\.]*.$", @"$1.");      //Replace last ".[string]." with "."
-                dotCount--;
-            }
+            debugDisplay(item.Value, key + (key.Equals("") ? "" : ".") + item.Key);
+        }
+    }
+
+    private static int deserializeData(StringData baseData, string[] lines, int startLine, int tabCount)
+    {
+        string line = lines[startLine];
+
+        for (int i = startLine; i < lines.Length; i++)
+        {
+            i = i + (tabCount * 0);
+            line = lines[i];
+            
+            string key = Regex.Replace(lines[i].Split('=')[0], @"^\t*", "");    //String between leading tabs and "="
+            StringData newData = new StringData();
+            baseData.subData[key] = newData;
             if (line.Contains("="))
             {
                 //line is string value, add to deserialized data
-                string key = Regex.Replace(line.Split('=')[0], @"^\t*", ""),    //String between leading tabs and "="
-                    value = Regex.Replace(line, @"^[^=]*=(.*)", @"$1");         //String after first "="
-                newData[currentKeyBase + key] = value;
+                string value = Regex.Replace(line, @"^[^=]*=(.*)", @"$1");         //String after first "="
+                newData.value = value;
             }
-            if (i < lines.Count - 1 && getTabCount(lines[i + 1]) > tabCount)
-            {
-                //line is beginning of a group because next line has more tabs (and exists), increase nest level by adding line to keystring base
-                currentKeyBase += Regex.Replace(line.Split('=')[0], @"^\t*", "") + ".";     //String between leading tabs and "=" (if there is one)
 
+            if (i + 1 < lines.Length)
+            {
+                int nextLineTabCount = getTabCount(lines[i + 1]);
+                if (nextLineTabCount > tabCount)
+                {
+                    //Next line has more tabs than this one, recurse into next level
+                    i = deserializeData(newData, lines, i + 1, tabCount + 1);
+                }
+                else if (nextLineTabCount < tabCount)
+                {
+                    //Next line is no longer on or beneath this level, return what line we're on
+                    return i;
+                }
             }
         }
-
-        return newData;
+        return lines.Length;
     }
 
     static int getTabCount(string line)
