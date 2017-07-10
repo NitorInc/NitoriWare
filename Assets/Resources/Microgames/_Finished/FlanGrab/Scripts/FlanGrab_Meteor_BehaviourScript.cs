@@ -83,16 +83,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         }
 
         else if (diagonalMovementIsOn)
-        {
-            if (this.transform.position.x < midPosition)
-            {
-                this.endingPosition = new Vector2(Random.Range(midPosition, xRightLimit), yLowerLimit);
-            }
-
-            else
-            {
-                this.endingPosition = new Vector2(Random.Range(xLeftLimit, midPosition), yLowerLimit);
-            }
+	{
+                this.endingPosition = new Vector2(this.transform.position.x < midPosition ? Random.Range(midPosition, xRightLimit) : Random.Range(xLeftLimit, midPosition), yLowerLimit);
         }
 
         else
