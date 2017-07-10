@@ -1,11 +1,76 @@
-name=Deutsch
-control
-	key=BENUTZE DIE TASTATUR
-	mouse=BENUTZE DIE MAUS
+generic
+	name=Deutsch
+	gamename=NitorInc.
+	incomplete=Achtung: Das Spiel ist noch nicht komplett übersetzt worden, deshalb kann es sein dass ein paar Dinge noch in Englisch sind
 stage
+	control
+		key=BENUTZE DIE TASTATUR
+		mouse=BENUTZE DIE MAUS
 	speedup=SCHNELLER!
 	boss=BOSS ABSCHNITT
 	levelup=NEUER LEVEL!
+	pause=Spiel pausiert
+		resume=Fortsetzen {0}
+	quit=Verlassen {0}
+	gameover=Spiel vorbei!
+		score=Deine Punktzahl:
+		highscore=Höchstpunktzahl:
+		newhighscore=Neuer Rekord!
+menu
+	yes=Ja
+	no=Nein
+	ok=O.K
+	confirm=Bestätigen
+	cancel=Abbrechen
+	on=An
+	off=Aus
+	play=Spielen
+	main
+		story=Story Modus
+		compilation=Arkade Modus
+		practice=Übungsraum
+		quit=Spiel Verlassen
+			prompt=Bist du dir sicher dass du das Spiel verlassen möchtest?
+		settings=Optionen
+		credits=Mitwirkende
+	gamemode=Wähle einen Spielmodus!
+		locked1=Gesperrt! Schließe {0} ab um das Spiel freizuschalten!
+		locked2=Gesperrt! Erreiche {0} oder mehr Punkte um {1} freizuschalten!
+		highscore=Höchstpunktzahl:
+		compilation
+			description=Versuche so viele Minigames wie möglich zu absolvieren! (Keine Boss level)
+		compilationnormal=Kappa Handbuch
+			description=Normaler Arkade Modus in welcher du Minispiele in zufälliger Reihenfolge spielst.
+		compilationfast=Maximale Kappazität
+			description=SUPER DUPER SCHNELL
+		compilationmystery=(Dokumentation wird benötigt)
+			description=Ups, wir haben die Blaupausen hierfür verloren! Kein kommando oder kontrollbefehl!
+		compilationhard=Gurken Hölle
+			description=Alle Spiele auf der schwersten Stufe und du nur ein Versuch! Wie lange kannst du es aushalten?
+	settings
+		resolution=Bildgröße
+		language=Sprache
+		graphics=Grafikqualität
+			fastest=Am schnellsten
+			fast=Schnell
+			simple=Einfach
+			good=Gut
+			beautiful=Schön
+			fantastic=Fantastisch
+		volume=Lautstärke
+			master=Gesamtlautstärke
+			music=Musik
+			sfx=Spezialeffekte
+			voice=Sprecherlautstärke
+	splash
+		introa=Diese Spiel Demo ist von dem Touhou Project (東方Project) abgeleitet welches von ZUN kreiert worden ist.
+		introb=Viele Fans der Spielereihe haben sich zusammen getan um Code, Grafiken und vieles weitere um diese Minispiele Kollektion zusammen zu stellen.
+		introc=Wenn du Englisch sprechen kannst und zu dem vollständigen Spiel etwas beitragen möchtest dann besuche bitte {0} oder erzähle anderen von uns!
+		webglwarning=Sollte der Web Player dir Probleme bereiten versuche einer der Downloads die etwas weiter unten verlinkt sind.
+nitori
+	storyintro=Sieht so aus als wir einen  Kunden haben.\nMal schauen wie du meinen Marken-Spielen umgehen kannst.\nHalt die Augen offen!
+	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal {0} um wirklich herausgefordert zu werden!
+	compilationfinished=Verdammt, ich bin beeindruckt!\nWarte nur auf die Vollversion des Spieles,\n{0} hat gerade erst angefangen!
 microgame
 	FreezeFrogs
 		command=Friere ein!
@@ -40,11 +105,20 @@ microgame
 		commandb=Entscheide!
 		igname=Hütchenspiel
 	TraceShape
-		command=Ausfüllen!
+		command=Ausmalen!
 		igname=Formen ausfüllen
+	RockBand
+		command=Rocke!
+		igname=Subwoofer
+	ChenBike
+		command=Hupen!
+		igname=Weggehupt
 	MasterSparkCode
 		command=Entfessele!
 		igname=Zielübung
+	OkuuFire
+		command=Regeln!
+		igname=Cool bleiben
 	YukariCake
 		command=Klaue!
 		igname=Dessert Patrouille
@@ -67,12 +141,26 @@ microgame
 		command=Erreiche das Ziel!
 		commandb=Pass auf!
 		commandc=Abschießen!
-		commandd=Besiege sie!
-	KogasaScare
-		igname=Fürchte den Youkai
-	RockBand
-		igname=Subwoofer
-	ChenBike
-		igname=Weggehupt
-	AwooClicker
-		igname=Welparazzi
+		commandd=Mach sie fertig!
+		igname=Die Gurkenjagd
+credits
+	intro={0} wurde durch folgende Fans möglich gemacht!
+	kapptain=Kreativdirektor, Programmierer, Team "Kappitän"
+	leadart=Hauptkünstler, Character Designer
+	UI=Menü und Hintergrund Grafiken
+	menumusic=Titel und Hauptmenü musik
+	microgame
+		management=Minispiel Management
+		managementalt=Kollaboration Management
+		code=Minispiel code
+		art=Minispiel Künstler
+		music=Minispiel Musik
+	localization=Übersetzer
+		management=Übersetzungs Management
+	sfx=Soundeffekte
+	socialmedia=Social Media
+	touhou=Basierend auf Touhou Project von ZUN
+	thanks=Besonderer Dank
+		discord=Der Touhou Project Discord server
+		playtesters=Unsere Spieletester
+		fans=Und alle fans die uns dabei geholfen haben, das Wort zu verbreiten!

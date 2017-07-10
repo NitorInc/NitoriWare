@@ -1,11 +1,71 @@
-name=Русский
-control
-	key=ИСПОЛЬЗУЙ КЛАВУ
-	mouse=ИСПОЛЬЗУЙ МЫШЬ
+generic
+	name=Русский
+	gamename=NitorInc.
+	incomplete=ВНИМАНИЕ: Перевод игры не является полным и окончательным. Часть текста может быть на английском языке.
 stage
+	control
+		key=ИСПОЛЬЗУЙ КЛАВУ
+		mouse=ИСПОЛЬЗУЙ МЫШЬ
 	speedup=БЫСТРЕЕ!
 	boss=БОСС
 	levelup=СЛЕДУЮЩИЙ УРОВЕНЬ!
+	pause=Пауза
+		resume=Продолжить {0}
+	quit=Покинуть {0}
+	gameover=Игра окончена!
+		score=Ваши очки: {0}
+		highscore=Рекорд: {0}
+		newhighscore=Новый рекорд!
+menu
+	yes=Да
+	no=Нет
+	ok=Ок
+	confirm=Подтвердить
+	cancel=Отменить
+	on=Включенно
+	off=Выключенно
+	play=Играть
+	main
+		story=История
+		compilation=Аркада
+		practice=Практика
+		quit=Выйти
+			prompt=Выйти из игры?
+		settings=Настройки
+	gamemode=Выберите режим игры!
+		locked1=Закрыто! Пройдите {0} для разблокирования.
+		locked2=Закрыто! Наберите {0} и более очков в режиме {1} для разблокирования.
+		highscore=Рекорд: {0}
+		compilationfast
+			description=СУПЕР-ПУПЕР БЫСТРО
+		compilationmystery=(необходима документация)
+			description=Упс, чертежи к этому режиму потеряны. Подсказок к схеме управления не будет!
+		compilationhard=Огурцовый ад
+			description=Все сложнейшие игры! Только одна жизнь! Сколько сможете продержаться?
+	settings
+		resolution=Разрешение экрана
+		language=Язык
+		graphics=Настройки графики
+			fastest=Очень быстро
+			fast=Быстро
+			simple=Просто
+			good=Хорошо
+			beautiful=Прекрасно
+			fantastic=Фантастично
+		volume=Громкость
+			master=Общая
+			music=Музыка
+			sfx=Звуки
+			voice=Голос
+	splash
+		introa=Это демо версия игры по Touhou Project (東方Project). Автор оригинала - ZUN.
+		introb=Многочисленные фанаты серий помогли с разработкой кода, музыки, графики, влив свой талант в рахработку этой коллекции мини игр.
+		introc=Если вы владеете английским языком и хотите помочь разработке игры, посетите {0} или помогите, рассказав друзьям об игре.
+		webglwarning=Если у вас проблемы с игрой в браузере, попробуйте скачать игру по ссылке ниже.
+nitori
+	storyintro=Ну надо же, новый посетитель.\nПосмотрим как тебе на вкус мои игры.\nЛучше не моргай!
+	storyfinished=Неплохо, ботан.\nПохоже те не просто заблудившийся прохожий.\nТеперь попробуй {0} для настоящего испытания!
+	compilationfinished=Вы только посмотрите, я впечатлена!\nДождись полной игры,\nэто только начало {0}!
 microgame
 	FreezeFrogs
 		command=Заморозь!
@@ -28,6 +88,7 @@ microgame
 		ingredients=Ингредиенты
 	GhostFood
 		command=Съешь и прожуй!
+		igname=Призрачный дожор
 	Spaceship
 		command=Поехали!
 	CupShuffle
@@ -39,6 +100,8 @@ microgame
 	RockBand
 		command=Сыграй!
 		igname=Рок гав-церт
+	ChenBike
+		command=Бибикай!
 	MasterSparkCode
 		command=Заклинай!
 	YukariCake
@@ -48,6 +111,7 @@ microgame
 		igname=Темные делишки
 	SuikaShake
 		command=Стряси!
+		igname=Взболтать, но не смешивать
 	TouhouSort
 		command=Отсортируй по {0}!
 		hat=шляпам
@@ -59,3 +123,30 @@ microgame
 		igname=ПВО в алом платье
 	PaperThief
 		command=Дойди до конца!
+		commandb=Берегись!
+		commandc=Стреляй!
+		igname=Огурцовая гонка
+	OkuuFire
+		igname=Охладите, углепластик
+credits
+	intro={0} была создана благодаря нашим фанатам!
+	kapptain=Креативный директор, программист, Каппитан команды
+	leadart=Ведущий художник, дизайн персонажей
+	UI=Меню и графика
+	menumusic=Музыка меню
+	stagemusic=Музыка уровней
+	microgame
+		management=Менеджмент
+		managementalt=Менеджмент совместной работы
+		code=Программа
+		art=Графика
+		music=Музыка
+	localization=Локализаторы
+		management=Менеджмент перевода
+	sfx=Звуковые эффекты
+	socialmedia=Социальные медиа
+	touhou=Основано на Touhou Project авторства ZUN
+	thanks=Особая благодарность
+		discord=Дискорд сервер Touhou Project Discord
+		playtesters=Всем нашим тестерам
+		fans=Всем фанатам, помогавшим поделиться игрой со всем миром!
