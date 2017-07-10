@@ -1,33 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
-    private bool dontEnableCursor;
+    private Animator[] animators;
 #pragma warning restore 0649
 
-	void Start()
-	{
-        if (!dontEnableCursor)
-            Cursor.visible = true;
-	}
+    [SerializeField]
+    private bool _shifting;
+    public bool shifting
+    {
+        get {return _shifting; }
+        set { _shifting = value; }
+    }
 	
-	void Update()
-	{
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            SceneManager.LoadScene("Nitori");
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            SceneManager.LoadScene("Compilation");
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            SceneManager.LoadScene("CompilationFast");
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            SceneManager.LoadScene("CompilationMystery");
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-            SceneManager.LoadScene("CompilationHard");
+    public void shiftMenu(int menu)
+    {
+        foreach (Animator animator in animators)
+        {
+            animator.SetInteger("menu", menu);
+        }
+        _shifting = true;
     }
 }
