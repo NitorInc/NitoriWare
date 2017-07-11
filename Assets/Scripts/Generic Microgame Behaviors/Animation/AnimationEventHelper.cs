@@ -115,8 +115,19 @@ public class AnimationEventHelper : MonoBehaviour
 		CameraShake.instance.shakeCoolRate = coolRate;
 	}
 
-	//Use string paramater for name and float paramater for value
-	public void setFloat(AnimationEvent values)
+    //Plays a pitch-scaled sound effect via MicrogameController, asset parameter is the soundClip, float parameter is the audio pan
+    public void playMicrogameSFX(AnimationEvent values)
+    {
+        MicrogameController.instance.playSFX((AudioClip)values.objectReferenceParameter, values.floatParameter);
+    }
+    //Plays a pitch-scaled sound effect via MicrogameController auto-panned to object's position, asset parameter is the soundClip, float parameter is pan Mult
+    public void playPannedMicrogameSFX(AnimationEvent values)
+    {
+        MicrogameController.instance.playSFX((AudioClip)values.objectReferenceParameter, AudioHelper.getAudioPan(transform.position.x) * values.floatParameter);
+    }
+
+    //Use string paramater for name and float paramater for value
+    public void setFloat(AnimationEvent values)
 	{
 		animator.SetFloat(values.stringParameter, values.floatParameter);
 	}
