@@ -209,7 +209,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
-        MicrogameController.instance.playSFX(gunFireClip);//, AudioHelper.getAudioPan(transform.position.x) / 4f);
+        MicrogameController.instance.playSFX(gunFireClip, AudioHelper.getAudioPan(transform.position.x) / 4f, 1.25f);
 	}
 
 	float updateGunTilt()
