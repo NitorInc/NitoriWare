@@ -22,8 +22,9 @@ public class PaperThiefStar : MonoBehaviour
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
     [SerializeField]
-    private AudioClip hitClip, deathClip;
+    private AudioClip hitClip, deathClip, appearClip;
 #pragma warning restore 0649
+    public bool makeAppearSound;
 
     public float forceAngleDirection;
     private bool activated, outOfShootingRange;
@@ -101,7 +102,12 @@ public class PaperThiefStar : MonoBehaviour
 
 	void updateMovement()
 	{
-		if (dead)
+        if (makeAppearSound && !CameraHelper.isObjectOffscreen(transform, 1f))
+        {
+            MicrogameController.instance.playSFX(appearClip, AudioHelper.getAudioPan(transform.position.x, .8f));
+            makeAppearSound = false;
+        }
+        if (dead)
 		{
 			transform.localScale -= Vector3.one * shrinkSpeed * Time.deltaTime;
 			if (transform.localScale.x <= 0f)

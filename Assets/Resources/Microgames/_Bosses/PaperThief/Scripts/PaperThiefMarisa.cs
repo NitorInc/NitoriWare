@@ -265,6 +265,7 @@ public class PaperThiefMarisa : MonoBehaviour
             else if (transform.localPosition.x < -.5f)
                 newStarComponent.forceAngleDirection = 1f;
         }
+        newStarComponent.makeAppearSound = false;
         //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
 
         sfxSource.pitch = Time.timeScale;
