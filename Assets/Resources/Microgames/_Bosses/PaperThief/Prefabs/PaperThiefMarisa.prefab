@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 114935895432360710}
   - component: {fileID: 114635618402334788}
   - component: {fileID: 114452066351608924}
+  - component: {fileID: 82174449470476142}
   m_Layer: 0
   m_Name: PaperThiefMarisa
   m_TagString: Untagged
@@ -1413,6 +1414,86 @@ CircleCollider2D:
   m_Offset: {x: 0.31, y: -0.03}
   serializedVersion: 2
   m_Radius: 3.57
+--- !u!82 &82174449470476142
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881707382608046}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95471572204068182
 Animator:
   serializedVersion: 3
@@ -1470,6 +1551,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   particleSystems: []
+  audioSources: []
 --- !u!114 &114115372018108218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1632,6 +1714,9 @@ MonoBehaviour:
   starCreationPoint: {fileID: 4770316152630532}
   broomParticles: {fileID: 198059435028847804}
   defeatedParticles: {fileID: 198446157994160844}
+  fightSource: {fileID: 0}
+  sfxSource: {fileID: 82174449470476142}
+  hitClip: {fileID: 8300000, guid: e6b7aede3b1a8424bb204c14b22932bc, type: 3}
 --- !u!114 &114944713583168566
 MonoBehaviour:
   m_ObjectHideFlags: 1

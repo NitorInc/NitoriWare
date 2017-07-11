@@ -27,7 +27,9 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private ParticleSystem broomParticles, defeatedParticles;
     [SerializeField]
-    private AudioSource fightSource;
+    private AudioSource fightSource, sfxSource;
+    [SerializeField]
+    private AudioClip hitClip;
 #pragma warning restore 0649
 
     private List<SpriteRenderer> _spriteRenderers;
@@ -280,6 +282,9 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Hurt);
             flashingRed = true;
             health--;
+            sfxSource.pitch = Time.timeScale;
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
+            sfxSource.PlayOneShot(hitClip);
             if (health == moveHealth)
             {
                 _sineWave.enabled = true;
