@@ -21,6 +21,7 @@ public class RippleEffect : MonoBehaviour
 	);
 
     public float effectTime, rippleCoolTime = .25f;
+    private float rippleCoolTimer, dropTimer;
 
     [Range(0.01f, 1.0f)]
 	public float refractionStrength = 0.5f;
@@ -49,20 +50,27 @@ public class RippleEffect : MonoBehaviour
 			time = 1000;
 		}
 
-		public void Reset()
+		public void Reset(bool mousePosition)
 		{
 			//position = new Vector2(Random.value, Random.value);
 
+            if (mousePosition)
+            {
+                position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+            else
+            {
+                Vector2 bounds = new Vector2(Camera.main.orthographicSize * 4f / 3f, Camera.main.orthographicSize);
+                position = Camera.main.transform.position + new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), 0f);
+            }
 
-			position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            position.x -= Camera.main.transform.position.x;
+            position.y -= Camera.main.transform.position.y;
 
-			position.x -= Camera.main.transform.position.x;
-			position.y -= Camera.main.transform.position.y;
-
-			position.x += (Camera.main.orthographicSize * 4f / 3f);
-			position.x /= (Camera.main.orthographicSize * 8f / 3f);
-			position.y += Camera.main.orthographicSize;
-			position.y /= (Camera.main.orthographicSize * 2f);
+            position.x += (Camera.main.orthographicSize * 4f / 3f);
+            position.x /= (Camera.main.orthographicSize * 8f / 3f);
+            position.y += Camera.main.orthographicSize;
+            position.y /= (Camera.main.orthographicSize * 2f);
 			//position.y = 1f - position.y;
 
 			time = 0;
@@ -128,10 +136,19 @@ public class RippleEffect : MonoBehaviour
 
         if (effectTime > 0f)
             effectTime -= Time.deltaTime;
-        else if (rippleCoolTime > 0f)
-            rippleCoolTime -= Time.deltaTime;
-        else if (Input.GetMouseButtonDown(0))
-            checkCollision();
+        else
+        {
+            dropTimer -= Time.deltaTime;
+            if (dropTimer <= 0f)
+            {
+                Emit(false);
+                dropTimer += dropInterval;
+            }
+            if (rippleCoolTimer > 0f)
+                rippleCoolTimer -= Time.deltaTime;
+            else if (Input.GetMouseButtonDown(0))
+                checkCollision();
+        }
 	}
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -146,13 +163,14 @@ public class RippleEffect : MonoBehaviour
 
         if (hit && hit.collider.name == name)
         {
-            Emit();
-
+            Emit(true);
+            rippleCoolTimer = rippleCoolTime;
+            dropTimer += dropInterval;
         }
     }
 
-    public void Emit()
+    public void Emit(bool mousePosition)
     {
-        droplets[dropCount++ % droplets.Length].Reset();
+        droplets[dropCount++ % droplets.Length].Reset(mousePosition);
     }
 }
