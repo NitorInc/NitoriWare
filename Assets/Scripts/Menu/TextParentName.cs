@@ -17,7 +17,9 @@ public class TextParentName : MonoBehaviour
 	{
         if (text == null)
             text = GetComponent<Text>();
-        text.text = transform.parent.name;
+
+        if (!Application.isPlaying)
+            text.text = transform.parent.name;
     }
 	
 	void Update()

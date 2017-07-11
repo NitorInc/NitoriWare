@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class RippleEffect : MonoBehaviour
 {
 	public AnimationCurve waveform = new AnimationCurve(
@@ -19,7 +20,9 @@ public class RippleEffect : MonoBehaviour
 		new Keyframe(0.99f, 0.50f, 0, 0)
 	);
 
-	[Range(0.01f, 1.0f)]
+    public float effectTime, rippleCoolTime = .25f;
+
+    [Range(0.01f, 1.0f)]
 	public float refractionStrength = 0.5f;
 
 	public Color reflectionColor = Color.gray;
@@ -122,15 +125,34 @@ public class RippleEffect : MonoBehaviour
 		foreach (var d in droplets) d.Update();
 
 		UpdateShaderParameters();
+
+        if (effectTime > 0f)
+            effectTime -= Time.deltaTime;
+        else if (rippleCoolTime > 0f)
+            rippleCoolTime -= Time.deltaTime;
+        else if (Input.GetMouseButtonDown(0))
+            checkCollision();
 	}
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		Graphics.Blit(source, destination, material);
-	}
+    }
 
-	public void Emit()
-	{
-		droplets[dropCount++ % droplets.Length].Reset();
-	}
+    void checkCollision()
+    {
+        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
+
+        if (hit && hit.collider.name == name)
+        {
+            Emit();
+
+        }
+    }
+
+    public void Emit()
+    {
+        droplets[dropCount++ % droplets.Length].Reset();
+    }
 }

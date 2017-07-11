@@ -11,11 +11,11 @@ public class MenuController : MonoBehaviour
 #pragma warning restore 0649
 
     [SerializeField]
-    private bool _shifting;
-    public bool shifting
+    private bool _transitioning;
+    public bool transitioning
     {
-        get {return _shifting; }
-        set { _shifting = value; Debug.Log("hey there"); }
+        get {return _transitioning; }
+        set { _transitioning = value; }
     }
 	
     public void shiftMenu(int menu)
@@ -24,6 +24,6 @@ public class MenuController : MonoBehaviour
         {
             animator.SetInteger("menu", menu);
         }
-        _shifting = true;
+        _transitioning = true;
     }
 }
