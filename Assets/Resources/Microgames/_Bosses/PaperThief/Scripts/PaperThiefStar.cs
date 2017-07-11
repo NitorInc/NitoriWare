@@ -22,7 +22,7 @@ public class PaperThiefStar : MonoBehaviour
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
     [SerializeField]
-    private AudioClip hitClip;
+    private AudioClip hitClip, deathClip;
 #pragma warning restore 0649
 
     public float forceAngleDirection;
@@ -202,7 +202,8 @@ public class PaperThiefStar : MonoBehaviour
                 if (velocity.magnitude <= killSpeed)
 				{
                     kill();
-				}
+                    MicrogameController.instance.playSFX(deathClip, AudioHelper.getAudioPan(transform.position.x));
+                }
 				else
 				{
 					emitExplosionStars(hitStarCount);
