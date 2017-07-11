@@ -13,7 +13,7 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private int maxHealth, moveHealth;
     [SerializeField]
-    private float starFireCooldown, hitFlashSpeed, unblackenSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
+    private float starFireCooldown, hitFlashSpeed, unblackenSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime, explodeCooldown;
     [SerializeField]
     private Vector3 fightPosition;
     [SerializeField]
@@ -29,13 +29,13 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private AudioSource fightSource, sfxSource;
     [SerializeField]
-    private AudioClip hitClip, starSpawnClip;
+    private AudioClip hitClip, starSpawnClip, explodeClip;
 #pragma warning restore 0649
 
     private List<SpriteRenderer> _spriteRenderers;
     private SineWave _sineWave;
     private bool flashingRed, _blackened;
-    private float starFireTimer, defeatSpinTimer, moveCenterSpeed;
+    private float starFireTimer, defeatSpinTimer, explodeCoolTimer, moveCenterSpeed;
     private int health;
 
     public bool blackened
@@ -121,6 +121,8 @@ public class PaperThiefMarisa : MonoBehaviour
                 PaperThiefNitori.instance.changeState(PaperThiefNitori.State.Platforming);
                 PaperThiefCamera.instance.stopChase();
                 fightSource.GetComponent<FadingMusic>().startFade();
+                sfxSource.PlayOneShot(explodeClip);
+                explodeCoolTimer = explodeCooldown * Random.Range(.75f, 1.25f);
 
                 defeated = true;
                 break;
@@ -188,6 +190,18 @@ public class PaperThiefMarisa : MonoBehaviour
             defeatedParticles.Stop();
             enabled = false;
             PaperThiefController.instance.endFight();
+        }
+        else
+        {
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
+            sfxSource.pitch = Time.timeScale * Random.Range(.9f, 1.1f);
+
+            explodeCoolTimer -= Time.deltaTime;
+            if (explodeCoolTimer < 0f)
+            {
+                sfxSource.PlayOneShot(explodeClip);
+                explodeCoolTimer = explodeCooldown * Random.Range(.75f, 1.25f);
+            }
         }
     }
 
