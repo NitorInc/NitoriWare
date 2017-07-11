@@ -30,7 +30,7 @@ public class PaperThiefNitori : MonoBehaviour
     [SerializeField]
     private AudioSource deathSound, deathMusic, sfxSource;
     [SerializeField]
-    private AudioClip gunFireClip;
+    private AudioClip gunFireClip, gunEquipClip;
 #pragma warning restore 0649
 
     public int forceDirection
@@ -149,12 +149,17 @@ public class PaperThiefNitori : MonoBehaviour
                 boundsParent.gameObject.SetActive(false);
 
                 PaperThiefCamera.instance.startChase();
-				//PaperThiefCamera.instance.transform.parent = transform;
-				//PaperThiefCamera.instance.setFollow(null);
-				//PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
-				//PaperThiefCamera.instance.setGoalSize(6.5f);
-				//gunCursor.gameObject.SetActive(true);
-				break;
+
+                sfxSource.volume = 1f;
+                sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+                //sfxSource.pitch = 1.25f * Time.timeScale;
+                sfxSource.PlayOneShot(gunEquipClip);
+                //PaperThiefCamera.instance.transform.parent = transform;
+                //PaperThiefCamera.instance.setFollow(null);
+                //PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
+                //PaperThiefCamera.instance.setGoalSize(6.5f);
+                //gunCursor.gameObject.SetActive(true);
+                break;
 			default:
 				break;
 		}
