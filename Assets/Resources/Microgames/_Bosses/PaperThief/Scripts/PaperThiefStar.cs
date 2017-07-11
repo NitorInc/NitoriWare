@@ -21,6 +21,8 @@ public class PaperThiefStar : MonoBehaviour
 	private SpriteRenderer flash;
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
+    [SerializeField]
+    private AudioClip hitClip;
 #pragma warning restore 0649
 
     public float forceAngleDirection;
@@ -203,6 +205,7 @@ public class PaperThiefStar : MonoBehaviour
 				else
 				{
 					emitExplosionStars(hitStarCount);
+                    MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(transform.position.x));
 				}
 				
 			}

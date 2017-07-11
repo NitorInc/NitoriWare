@@ -28,7 +28,7 @@ public class PaperThiefNitori : MonoBehaviour
     [SerializeField]
     private LayerMask walkMask;
     [SerializeField]
-    private AudioSource deathSound, deathMusic;
+    private AudioSource deathSound, deathMusic, sfxSource;
     [SerializeField]
     private AudioClip gunFireClip;
 #pragma warning restore 0649
@@ -209,7 +209,11 @@ public class PaperThiefNitori : MonoBehaviour
 
 		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
-        MicrogameController.instance.playSFX(gunFireClip, AudioHelper.getAudioPan(transform.position.x) / 4f, 1.25f);
+
+        sfxSource.volume = 1f;
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 2f;
+        sfxSource.pitch = 1.25f * Time.timeScale;
+        sfxSource.PlayOneShot(gunFireClip);
 	}
 
 	float updateGunTilt()
