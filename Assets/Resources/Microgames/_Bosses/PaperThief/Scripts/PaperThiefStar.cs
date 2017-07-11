@@ -198,6 +198,7 @@ public class PaperThiefStar : MonoBehaviour
 				other.GetComponent<PaperThiefShot>().kill();
 				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
                 flashing = true;
+                MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(transform.position.x));
                 if (velocity.magnitude <= killSpeed)
 				{
                     kill();
@@ -205,7 +206,6 @@ public class PaperThiefStar : MonoBehaviour
 				else
 				{
 					emitExplosionStars(hitStarCount);
-                    MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(transform.position.x));
 				}
 				
 			}
