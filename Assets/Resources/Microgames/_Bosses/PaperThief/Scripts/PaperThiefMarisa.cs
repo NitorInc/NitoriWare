@@ -29,7 +29,7 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private AudioSource fightSource, sfxSource;
     [SerializeField]
-    private AudioClip hitClip;
+    private AudioClip hitClip, starSpawnClip;
 #pragma warning restore 0649
 
     private List<SpriteRenderer> _spriteRenderers;
@@ -252,6 +252,10 @@ public class PaperThiefMarisa : MonoBehaviour
                 newStarComponent.forceAngleDirection = 1f;
         }
         //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
+
+        sfxSource.pitch = Time.timeScale;
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
+        sfxSource.PlayOneShot(starSpawnClip);
     }
 
     public void queueAnimation(QueueAnimation animation)
