@@ -56,6 +56,6 @@ public class PaperThiefJunk : MonoBehaviour
                 enabled = false;
         }
         _audioSource.pitch = Time.timeScale;
-        _audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        _audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x) * .5f;
 	}
 }
