@@ -171,11 +171,11 @@ public class MenuRippleEffect : MonoBehaviour
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
 
-        if (hit && hit.collider.name == name)
+        if (hit && hit.collider.name == "Ripple Collider")
         {
             Emit(true);
             rippleCoolTimer = rippleCoolTime;
-            dropTimer += dropInterval;
+            dropTimer = dropInterval;
         }
     }
 
