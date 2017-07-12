@@ -13,6 +13,8 @@ public class TitleInteractive : MonoBehaviour
 	void Start ()
 	{
 		rippleCooldown = 0f;
+        if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
+            effectTime = .01f;
 	}
 	
 	void Update ()
