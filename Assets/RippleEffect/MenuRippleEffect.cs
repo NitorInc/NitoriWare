@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class RippleEffect : MonoBehaviour
+public class MenuRippleEffect : MonoBehaviour
 {
 	public AnimationCurve waveform = new AnimationCurve(
 		new Keyframe(0.00f, 0.50f, 0, 0),
@@ -22,6 +22,7 @@ public class RippleEffect : MonoBehaviour
 
     public float effectTime, rippleCoolTime = .25f;
     private float rippleCoolTimer, dropTimer;
+    public bool disableDrops;
 
     [Range(0.01f, 1.0f)]
 	public float refractionStrength = 0.5f;
@@ -128,7 +129,16 @@ public class RippleEffect : MonoBehaviour
 		UpdateShaderParameters();
 	}
 
-	void Update()
+    void Start()
+    {
+        if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
+        {
+            effectTime = .01f;
+            dropTimer = dropInterval;
+        }
+    }
+
+    void Update()
 	{
 		foreach (var d in droplets) d.Update();
 

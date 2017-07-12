@@ -4,7 +4,6 @@ using System.Collections;
 public class TitleInteractive : MonoBehaviour
 {
     public float effectTime;
-	public RippleEffect ripples;
 
 	public Animator animator, animatorToDisable;
 
