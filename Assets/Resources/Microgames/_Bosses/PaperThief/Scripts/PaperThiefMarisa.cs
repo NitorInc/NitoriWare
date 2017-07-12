@@ -13,7 +13,7 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private int maxHealth, moveHealth;
     [SerializeField]
-    private float starFireCooldown, hitFlashSpeed, unblackenSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime;
+    private float starFireCooldown, hitFlashSpeed, unblackenSpeed, hitFlashColorDrop, defeatSpinFrequency, defeatMoveCenterTime, explodeCooldown;
     [SerializeField]
     private Vector3 fightPosition;
     [SerializeField]
@@ -27,13 +27,15 @@ public class PaperThiefMarisa : MonoBehaviour
     [SerializeField]
     private ParticleSystem broomParticles, defeatedParticles;
     [SerializeField]
-    private AudioSource fightSource;
+    private AudioSource fightSource, sfxSource;
+    [SerializeField]
+    private AudioClip hitClip, starSpawnClip, explodeClip;
 #pragma warning restore 0649
 
     private List<SpriteRenderer> _spriteRenderers;
     private SineWave _sineWave;
     private bool flashingRed, _blackened;
-    private float starFireTimer, defeatSpinTimer, moveCenterSpeed;
+    private float starFireTimer, defeatSpinTimer, explodeCoolTimer, moveCenterSpeed;
     private int health;
 
     public bool blackened
@@ -119,6 +121,8 @@ public class PaperThiefMarisa : MonoBehaviour
                 PaperThiefNitori.instance.changeState(PaperThiefNitori.State.Platforming);
                 PaperThiefCamera.instance.stopChase();
                 fightSource.GetComponent<FadingMusic>().startFade();
+                sfxSource.PlayOneShot(explodeClip);
+                explodeCoolTimer = explodeCooldown * Random.Range(.75f, 1.25f);
 
                 defeated = true;
                 break;
@@ -187,6 +191,18 @@ public class PaperThiefMarisa : MonoBehaviour
             enabled = false;
             PaperThiefController.instance.endFight();
         }
+        else
+        {
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
+            sfxSource.pitch = Time.timeScale * Random.Range(.9f, 1.1f);
+
+            explodeCoolTimer -= Time.deltaTime;
+            if (explodeCoolTimer < 0f)
+            {
+                sfxSource.PlayOneShot(explodeClip);
+                explodeCoolTimer = explodeCooldown * Random.Range(.75f, 1.25f);
+            }
+        }
     }
 
     void updateHitFlash()
@@ -249,7 +265,12 @@ public class PaperThiefMarisa : MonoBehaviour
             else if (transform.localPosition.x < -.5f)
                 newStarComponent.forceAngleDirection = 1f;
         }
+        newStarComponent.makeAppearSound = false;
         //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
+
+        sfxSource.pitch = Time.timeScale;
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
+        sfxSource.PlayOneShot(starSpawnClip);
     }
 
     public void queueAnimation(QueueAnimation animation)
@@ -280,6 +301,9 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Hurt);
             flashingRed = true;
             health--;
+            sfxSource.pitch = Time.timeScale;
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
+            sfxSource.PlayOneShot(hitClip);
             if (health == moveHealth)
             {
                 _sineWave.enabled = true;
