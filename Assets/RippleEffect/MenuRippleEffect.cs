@@ -134,7 +134,7 @@ public class MenuRippleEffect : MonoBehaviour
         if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
         {
             effectTime = .01f;
-            dropTimer = dropInterval;
+            //dropTimer = dropInterval;
         }
     }
 
