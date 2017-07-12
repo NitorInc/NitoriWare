@@ -202,9 +202,9 @@ public class PaperThiefStar : MonoBehaviour
 			else if (other.name.Contains("Shot"))
 			{
 				other.GetComponent<PaperThiefShot>().kill();
-				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
+                float soundVolume = Mathf.Lerp(1.5f, 1f, velocity.magnitude / seekMoveSpeed);
+                velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
                 flashing = true;
-                MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(transform.position.x));
                 if (velocity.magnitude <= killSpeed)
 				{
                     kill();
@@ -213,7 +213,8 @@ public class PaperThiefStar : MonoBehaviour
 				else
 				{
 					emitExplosionStars(hitStarCount);
-				}
+                    MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(transform.position.x), soundVolume);
+                }
 				
 			}
 		}
