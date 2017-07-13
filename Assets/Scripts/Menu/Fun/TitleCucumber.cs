@@ -15,9 +15,11 @@ public class TitleCucumber : MonoBehaviour
 #pragma warning restore 0649
 
     private Vector2 lastMousePosition, flingVelocity;
+    private bool grabbed;
 
 	void Start()
-	{
+    {
+        grabbed = false;
         _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
 	
@@ -34,10 +36,10 @@ public class TitleCucumber : MonoBehaviour
             return;
         }
 
-        if (_rigidBody.bodyType == RigidbodyType2D.Dynamic)
+        if (!grabbed)
         {
             if (_rigidBody.velocity == Vector2.zero)
-                _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
+                _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), .01f);
 
             float diff = slowDownAcc * Time.deltaTime;
             if (_rigidBody.velocity.magnitude > minSpeed)
@@ -68,7 +70,8 @@ public class TitleCucumber : MonoBehaviour
 
     public void grab()
     {
-        _rigidBody.bodyType = RigidbodyType2D.Kinematic;
+        //_rigidBody.bodyType = RigidbodyType2D.Kinematic;
+        grabbed = true;
         _rigidBody.freezeRotation = true;
         collideTime = 0f;
         lastMousePosition = CameraHelper.getCursorPosition();
@@ -76,6 +79,7 @@ public class TitleCucumber : MonoBehaviour
 
     public void release()
     {
+        grabbed = false;
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.freezeRotation = false;
         _rigidBody.velocity = flingVelocity;
