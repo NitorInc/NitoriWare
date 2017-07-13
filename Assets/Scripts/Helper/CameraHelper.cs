@@ -1,10 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CameraHelper
 {
 	public static float camSize;
 	public static Vector3 lastCursorPosition;
+
+    private static CameraCollisionResults cameraCollisionResults = new CameraCollisionResults(-1);
+    private struct CameraCollisionResults
+    {
+        public int evaluatedFrame;
+        public Dictionary<int, RaycastHit2D> calculatedHits;
+
+        public CameraCollisionResults(int evaluatedFrame)
+        {
+            this.evaluatedFrame = evaluatedFrame;
+            calculatedHits = new Dictionary<int, RaycastHit2D>();
+        }
+    }
 
 	/// <summary>
 	/// Determines if a certain point in space is not on camera
@@ -111,9 +124,14 @@ public class CameraHelper
 	/// <returns></returns>
 	public static bool isMouseOver(Collider2D collider, float distance = float.PositiveInfinity, int layerMask = Physics2D.DefaultRaycastLayers)
 	{
-
-		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (cameraCollisionResults.evaluatedFrame != Time.frameCount)
+            cameraCollisionResults = new CameraCollisionResults(Time.frameCount);
+        else if (cameraCollisionResults.calculatedHits.ContainsKey(layerMask))
+            return (cameraCollisionResults.calculatedHits[layerMask].collider == collider);
+        
+        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, distance, layerMask);
-		return (hit.collider == collider);
-	}
+        cameraCollisionResults.calculatedHits[layerMask] = hit;
+        return (hit.collider == collider);
+    }
 }
