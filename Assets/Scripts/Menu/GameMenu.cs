@@ -5,8 +5,8 @@ using UnityEngine;
 //Attach to every menu animator
 public class GameMenu : MonoBehaviour
 {
-    public static SubMenu subMenu = SubMenu.Splash;
-    //public static SubMenu subMenu = SubMenu.Title;  //Debug purposes
+    //public static SubMenu subMenu = SubMenu.Splash;
+    public static SubMenu subMenu = SubMenu.Title;  //Debug purposes
     public static bool shifting;
 
 #pragma warning disable 0649	//Serialized Fields
