@@ -23,10 +23,12 @@ public class TitleFloatingInteractive : MonoBehaviour
 #pragma warning restore 0649
 
     private bool ignoreWalls;
+    private float colliderExtent;
 
     void Start()
 	{
-        setIgnoreWalls(true);
+        colliderExtent = Mathf.Max(wallHitCollider.bounds.extents.x, wallHitCollider.bounds.extents.y);
+        wallHitCollider.enabled = false;
 
         Vector2 goal = new Vector2(Random.Range(-floatTowardsBounds.x, floatTowardsBounds.x),
             Random.Range(-floatTowardsBounds.y, floatTowardsBounds.y));
@@ -44,10 +46,10 @@ public class TitleFloatingInteractive : MonoBehaviour
             transform.position += (Vector3)escapeVelocity * Time.deltaTime;
             return;
         }
-        else if (lifetime > 0f && ignoreWalls && !CameraHelper.isObjectOffscreen(transform,
-            -Mathf.Max(wallHitCollider.bounds.extents.x, wallHitCollider.bounds.extents.y)))
+        else if (!wallHitCollider.enabled && !CameraHelper.isObjectOffscreen(transform,
+            -colliderExtent))
         {
-            setIgnoreWalls(false);
+            wallHitCollider.enabled = true;
         }
 
         if (lifetime > 0f)
