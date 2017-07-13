@@ -26,19 +26,18 @@ public class GameMenu : MonoBehaviour
     {
         shifting = subMenu == SubMenu.Splash;
         if (instanceSubMenu != subMenu)
-            updateSubMenu();
+            setSubMenu((int)subMenu);
     }
 
     void LateUpdate()
 	{
         if (instanceSubMenu != subMenu)
-            updateSubMenu();
+            setSubMenu((int)subMenu);
 	}
 
     public void shift(int subMenu)
     {
-        GameMenu.subMenu = (SubMenu)subMenu;
-        updateSubMenu();
+        setSubMenu(subMenu);
         shifting = true;
     }
 
@@ -47,9 +46,9 @@ public class GameMenu : MonoBehaviour
         shifting = false;
     }
 
-    void updateSubMenu()
+    void setSubMenu(int subMenu)
     {
-        instanceSubMenu = subMenu;
+        instanceSubMenu = GameMenu.subMenu = (SubMenu)subMenu;
         animator.SetInteger("SubMenu", (int)instanceSubMenu);
     }
 }
