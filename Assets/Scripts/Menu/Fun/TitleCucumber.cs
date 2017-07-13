@@ -18,12 +18,12 @@ public class TitleCucumber : MonoBehaviour
     private AudioClip grabClip, bounceClip;
 #pragma warning restore 0649
 
-    private Vector2 lastPosition, lastMousePosition, flingVelocity;
+    private Vector2 lastVelocity, lastMousePosition, flingVelocity;
     private bool grabbed;
 
 	void Start()
     {
-        lastPosition = transform.position;
+        lastVelocity = _rigidBody.velocity;
         grabbed = false;
         //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
@@ -43,18 +43,18 @@ public class TitleCucumber : MonoBehaviour
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(speed + diff, minSpeed));
 
             sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-            if ((Mathf.Sign(transform.position.x) == -Mathf.Sign(lastPosition.x))
-                || (Mathf.Sign(transform.position.y) == -Mathf.Sign(lastPosition.y)))
+            if ((Mathf.Sign(_rigidBody.velocity.x) == -Mathf.Sign(lastVelocity.x))
+                || (Mathf.Sign(_rigidBody.velocity.y) == -Mathf.Sign(lastVelocity.y)))
             {
                 //sfxSource.pitch = Mathf.Lerp(.8f, 1.5f, ((speed - minSpeed) / (maxSpeed - minSpeed)));
                 //sfxSource.pitch = Random.Range(.8f, 1f);
                 sfxSource.pitch = 1f;
-                sfxSource.volume = Mathf.Pow(Mathf.Lerp(0f, 1f, ((speed - minSpeed) / (maxSpeed - minSpeed))), .5f);
-                sfxSource.PlayOneShot(bounceClip);
+                sfxSource.PlayOneShot(bounceClip,
+                    Mathf.Pow(Mathf.Lerp(0f, 1f, ((speed - minSpeed) / (maxSpeed - minSpeed))), .5f));
             }
 
 
-            lastPosition = transform.position;
+            lastVelocity = _rigidBody.velocity;
             
 
             //if (_rigidBody.velocity == Vector2.zero)
@@ -88,9 +88,8 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.freezeRotation = true;
         collideTime = 0f;
         lastMousePosition = CameraHelper.getCursorPosition();
-
-        sfxSource.volume = 1f;
-        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);
         sfxSource.pitch = 1f;
         sfxSource.PlayOneShot(grabClip);
     }
@@ -101,9 +100,9 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.freezeRotation = false;
         _rigidBody.velocity = flingVelocity;
-        lastPosition = transform.position;
+        lastVelocity = transform.position;
 
-        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);
         sfxSource.pitch = .8f;
         sfxSource.PlayOneShot(grabClip);
     }
