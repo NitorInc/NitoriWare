@@ -14,6 +14,10 @@ public class TitleMoney : MonoBehaviour
     private Collider2D clickCollider;
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private AudioSource sfxSource;
+    [SerializeField]
+    private AudioClip chingClip;
 #pragma warning restore 0649
 
 	void Start()
@@ -25,6 +29,14 @@ public class TitleMoney : MonoBehaviour
 	void Update()
 	{
 		if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
-            animator.Play("Ching");
+        {
+            animator.SetBool("Ching", true);
+        }
+    }
+
+    public void playChingSound()
+    {
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        sfxSource.PlayOneShot(chingClip);
     }
 }
