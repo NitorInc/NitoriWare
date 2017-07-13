@@ -1341,7 +1341,7 @@ Prefab:
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 224413938078708784, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -2005,6 +2005,7 @@ GameObject:
   - component: {fileID: 1218275498}
   - component: {fileID: 1218275499}
   - component: {fileID: 1218275500}
+  - component: {fileID: 1218275501}
   m_Layer: 0
   m_Name: Title Menu
   m_TagString: Untagged
@@ -2071,6 +2072,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1218275498}
+--- !u!114 &1218275501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218275496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba620a1e2425244468b5abecca74f457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unityEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 736930212}
+        m_MethodName: set_sortingOrder
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 736930212}
+        m_MethodName: set_sortingOrder
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 50
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  particleSystems: []
+  audioSources: []
 --- !u!1 &1231415985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2357,7 +2402,7 @@ Prefab:
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 224413938078708784, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -2869,7 +2914,7 @@ Prefab:
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114955607802540938, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -4505,7 +4550,7 @@ Prefab:
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 224413938078708784, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
