@@ -5,6 +5,7 @@ using UnityEngine;
 public class TitleFloatingInteractive : MonoBehaviour
 {
     public TitleInteractableSpawner spawner;
+    public Vector2 lastVelocity;
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
@@ -21,8 +22,6 @@ public class TitleFloatingInteractive : MonoBehaviour
     AudioClip bounceClip;
 #pragma warning restore 0649
 
-    private Vector2 lastVelocity;
-
     private bool ignoreWalls;
 
     void Start()
@@ -34,26 +33,6 @@ public class TitleFloatingInteractive : MonoBehaviour
         _rigidBody.velocity = (goal - (Vector2)transform.localPosition).resize(startSpeed);
         lastVelocity = _rigidBody.velocity;
 	}
-
-    private void Update()
-    {
-
-        if (lastVelocity != Vector2.zero)
-        {
-            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-            if ((Mathf.Sign(_rigidBody.velocity.x) == -Mathf.Sign(lastVelocity.x))
-                || (Mathf.Sign(_rigidBody.velocity.y) == -Mathf.Sign(lastVelocity.y)))
-            {
-                float speed = _rigidBody.velocity.magnitude;
-                sfxSource.PlayOneShot(bounceClip,
-                    Mathf.Pow(Mathf.Lerp(0f, 1f,
-                    ((speed - bounceVolumeSpeedBounds.x) / (bounceVolumeSpeedBounds.y - bounceVolumeSpeedBounds.y))),
-                    .5f));
-            }
-        }
-
-        lastVelocity = _rigidBody.velocity;
-    }
 
     void LateUpdate()
     {
@@ -77,6 +56,22 @@ public class TitleFloatingInteractive : MonoBehaviour
             if (lifetime <= 0f)
                 setIgnoreWalls(true);
         }
+        
+        if (lastVelocity != Vector2.zero)
+        {
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+            if ((Mathf.Sign(_rigidBody.velocity.x) == -Mathf.Sign(lastVelocity.x))
+                || (Mathf.Sign(_rigidBody.velocity.y) == -Mathf.Sign(lastVelocity.y))
+                || Mathf.Abs(_rigidBody.velocity.magnitude - lastVelocity.magnitude) > bounceVolumeSpeedBounds.x)
+            {
+                float speed = _rigidBody.velocity.magnitude;
+                sfxSource.PlayOneShot(bounceClip,
+                    Mathf.Pow(Mathf.Lerp(0f, 1f,
+                    ((speed - bounceVolumeSpeedBounds.x) / (bounceVolumeSpeedBounds.y - bounceVolumeSpeedBounds.y))),
+                    .5f));
+            }
+        }
+        lastVelocity = _rigidBody.velocity;
 
         if (CameraHelper.isObjectOffscreen(transform, 10f))
             Destroy(gameObject);

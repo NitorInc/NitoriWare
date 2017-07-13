@@ -16,6 +16,8 @@ public class TitleCucumber : MonoBehaviour
     private AudioSource sfxSource;
     [SerializeField]
     private AudioClip grabClip;
+    [SerializeField]
+    private TitleFloatingInteractive floatingInteractive;
 #pragma warning restore 0649
 
     private Vector2 lastMousePosition, flingVelocity;
@@ -89,6 +91,7 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.freezeRotation = false;
         _rigidBody.velocity = flingVelocity;
+        floatingInteractive.lastVelocity = _rigidBody.velocity;
 
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);
         sfxSource.pitch = .8f;
