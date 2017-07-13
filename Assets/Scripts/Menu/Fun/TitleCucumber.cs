@@ -9,7 +9,7 @@ public class TitleCucumber : MonoBehaviour
     [SerializeField]
     private float collideTime, lifeTime;
     [SerializeField]
-    private float minVelocity, maxVelocity, slowDownAcc;
+    private float minSpeed, maxSpeed, slowDownAcc, speedUpAcc;
     [SerializeField]
     private Rigidbody2D _rigidBody;
 #pragma warning restore 0649
@@ -18,19 +18,27 @@ public class TitleCucumber : MonoBehaviour
 
 	void Start()
 	{
-        _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
+        _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
 	
 	void Update()
 	{
-        float diff = slowDownAcc * Time.deltaTime;
 
         if (_rigidBody.bodyType == RigidbodyType2D.Dynamic)
         {
             if (_rigidBody.velocity == Vector2.zero)
-                _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
-            else
-                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Clamp(_rigidBody.velocity.magnitude - diff, minVelocity, maxVelocity));
+                _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
+
+            float diff = slowDownAcc * Time.deltaTime;
+            if (_rigidBody.velocity.magnitude > minSpeed)
+                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Max(_rigidBody.velocity.magnitude - diff, minSpeed));
+            else if (_rigidBody.velocity.magnitude < minSpeed)
+                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(_rigidBody.velocity.magnitude + diff, minSpeed));
+
+            //if (_rigidBody.velocity == Vector2.zero)
+            //    _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
+            //else
+            //    _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Clamp(_rigidBody.velocity.magnitude - diff, minVelocity, maxVelocity));
         }
         else
         {
@@ -38,11 +46,11 @@ public class TitleCucumber : MonoBehaviour
             if (mousePosition - lastMousePosition != Vector2.zero)
             {
                 flingVelocity = (mousePosition - lastMousePosition) / Time.deltaTime;
-                flingVelocity = flingVelocity.resize(Mathf.Min(flingVelocity.magnitude, maxVelocity));
+                flingVelocity = flingVelocity.resize(Mathf.Min(flingVelocity.magnitude, maxSpeed));
             }
             else
             {
-                flingVelocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
+                flingVelocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
             }
             lastMousePosition = mousePosition;
         }

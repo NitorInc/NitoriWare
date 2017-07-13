@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1627669396056810}
   m_IsPrefabParent: 1
+--- !u!1 &1015681689785500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4210060184515346}
+  - component: {fileID: 58772686157130292}
+  m_Layer: 12
+  m_Name: Click Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1627669396056810
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,6 +47,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4210060184515346
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015681689785500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4489740090471528}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4489740090471528
 Transform:
   m_ObjectHideFlags: 1
@@ -40,7 +69,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
   m_LocalPosition: {x: -0.07999992, y: -2.12, z: 19}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4210060184515346}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64,6 +94,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &58772686157130292
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015681689785500}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.12, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.9
 --- !u!60 &60783121268435960
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -127,9 +172,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collideTime: 0
   lifeTime: 0
-  minVelocity: 1
-  maxVelocity: 40
+  minSpeed: 2
+  maxSpeed: 40
   slowDownAcc: 10
+  speedUpAcc: 0
   _rigidBody: {fileID: 50396278909353688}
 --- !u!114 &114542430978418906
 MonoBehaviour:
@@ -145,6 +191,9 @@ MonoBehaviour:
   centerOnCursor: 0
   disableOnVictory: 0
   disableOnLoss: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 6145
   onGrab:
     m_PersistentCalls:
       m_Calls:
@@ -177,6 +226,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  _collider2D: {fileID: 58772686157130292}
 --- !u!212 &212903238737936772
 SpriteRenderer:
   m_ObjectHideFlags: 1
