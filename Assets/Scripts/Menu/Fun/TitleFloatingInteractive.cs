@@ -8,7 +8,9 @@ public class TitleFloatingInteractive : MonoBehaviour
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
-    private float escapeSpeed, lifeTime;
+    private float startSpeed, lifetime, escapeSpeed;
+    [SerializeField]
+    Vector2 floatTowardsBounds;
     [SerializeField]
     private Rigidbody2D _rigidBody;
     [SerializeField]
@@ -19,7 +21,11 @@ public class TitleFloatingInteractive : MonoBehaviour
 
     void Start()
 	{
-        setIgnoreWalls(true);   
+        setIgnoreWalls(true);
+
+        Vector2 goal = new Vector2(Random.Range(-floatTowardsBounds.x, floatTowardsBounds.x),
+            Random.Range(-floatTowardsBounds.y, floatTowardsBounds.y));
+        _rigidBody.velocity = (goal - (Vector2)transform.localPosition).resize(startSpeed);
 	}
 	
 	void LateUpdate()
@@ -32,10 +38,17 @@ public class TitleFloatingInteractive : MonoBehaviour
             transform.position += (Vector3)escapeVelocity * Time.deltaTime;
             return;
         }
-        else if (ignoreWalls && !CameraHelper.isObjectOffscreen(transform,
-            Mathf.Max(wallHitCollider.bounds.extents.x, wallHitCollider.bounds.extents.y)))
+        else if (lifetime > 0f && ignoreWalls && !CameraHelper.isObjectOffscreen(transform,
+            -Mathf.Max(wallHitCollider.bounds.extents.x, wallHitCollider.bounds.extents.y)))
         {
+            setIgnoreWalls(false);
+        }
 
+        if (lifetime > 0f)
+        {
+            lifetime -= Time.deltaTime;
+            if (lifetime <= 0f)
+                setIgnoreWalls(true);
         }
 
         if (CameraHelper.isObjectOffscreen(transform, 10f))

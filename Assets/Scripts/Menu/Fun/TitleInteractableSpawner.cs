@@ -64,7 +64,9 @@ public class TitleInteractableSpawner : MonoBehaviour
             }
         }
 
-        Instantiate(spawn, transform).transform.localPosition = (Vector3)getSpawnOffset(Random.Range(0, 4));
+        GameObject newObject = Instantiate(spawn, transform);
+        newObject.transform.localPosition = (Vector3)getSpawnOffset(Random.Range(0, 4));
+        newObject.GetComponent<TitleFloatingInteractive>().spawner = this;
     }
 
     //0-3 are cardinal directions, starting at 

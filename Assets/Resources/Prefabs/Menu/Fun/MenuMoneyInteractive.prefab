@@ -29,7 +29,7 @@ GameObject:
   - component: {fileID: 82543264554810628}
   - component: {fileID: 96169855342083778}
   - component: {fileID: 114481162631611940}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: MenuMoneyInteractive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,10 +338,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 0}
+  startSpeed: 2
+  lifetime: 0
   escapeSpeed: 30
-  lifeTime: 20
+  floatTowardsBounds: {x: 3, y: 3}
   _rigidBody: {fileID: 50974826988312796}
-  wallHitCollider: {fileID: 0}
+  wallHitCollider: {fileID: 61337471801918548}
 --- !u!212 &212901378194071574
 SpriteRenderer:
   m_ObjectHideFlags: 1
