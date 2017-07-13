@@ -6,22 +6,22 @@ public class ChangeOrderInLayer : MonoBehaviour
 {
 #pragma warning disable 0649    //Serialized Fields
     [SerializeField]
-    private Renderer forceRenderer;
+    private Renderer _renderer;
     [SerializeField]
     private int orderInLayer;
 #pragma warning restore 0649
 
 
-	void Awake ()
+	void Start()
 	{
-        if (forceRenderer == null)
-            forceRenderer = GetComponent<Renderer>();
-		forceRenderer.sortingOrder = orderInLayer;
+        if (_renderer == null)
+            _renderer = GetComponent<Renderer>();
+		_renderer.sortingOrder = orderInLayer;
 	}
 	
 	void Update ()
 	{
-		if (orderInLayer != forceRenderer.sortingOrder)
-			forceRenderer.sortingOrder = orderInLayer;
+		if (orderInLayer != _renderer.sortingOrder)
+			_renderer.sortingOrder = orderInLayer;
 	}
 }
