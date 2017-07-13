@@ -11,6 +11,8 @@ public class TitleInteractableSpawner : MonoBehaviour
     private Vector2 spawnTimeBounds, spawnExtents;
     [SerializeField]
     private Interactable[] interactables;
+    [SerializeField]
+    private GameObject firstSpawn;
 #pragma warning restore 0649
 
     [System.Serializable]
@@ -20,13 +22,13 @@ public class TitleInteractableSpawner : MonoBehaviour
         [Range(0f, 1f)]
         public float spawnFrequency;
     }
-
-
+    
     private float spawnIn;
+    private bool spawnedFirstSpawn;
 
 	void Start()
 	{
-        spawnIn = MathHelper.randomRangeFromVector(spawnTimeBounds);
+        spawnIn = MathHelper.randomRangeFromVector(spawnTimeBounds) / 2f;
 	}
 	
 	void Update()
@@ -47,21 +49,29 @@ public class TitleInteractableSpawner : MonoBehaviour
 
     void spawnInteractable()
     {
-        float spawnWeight = 0f;
-        foreach (Interactable interactable in interactables)
-        {
-            spawnWeight += interactable.spawnFrequency;
-        }
-        float spawnValue = Random.Range(0f, spawnWeight);
         GameObject spawn = null;
-        foreach (Interactable interactable in interactables)
+        if (spawnedFirstSpawn)
         {
-            spawnValue -= interactable.spawnFrequency;
-            if (spawnValue <= 0f)
+            float spawnWeight = 0f;
+            foreach (Interactable interactable in interactables)
             {
-                spawn = interactable.prefab;
-                break;
+                spawnWeight += interactable.spawnFrequency;
             }
+            float spawnValue = Random.Range(0f, spawnWeight);
+            foreach (Interactable interactable in interactables)
+            {
+                spawnValue -= interactable.spawnFrequency;
+                if (spawnValue <= 0f)
+                {
+                    spawn = interactable.prefab;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            spawn = firstSpawn;
+            spawnedFirstSpawn = true;
         }
 
         GameObject newObject = Instantiate(spawn, transform);
