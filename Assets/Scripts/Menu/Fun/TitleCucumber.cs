@@ -12,6 +12,10 @@ public class TitleCucumber : MonoBehaviour
     private float minSpeed, maxSpeed, slowDownAcc, speedUpAcc;
     [SerializeField]
     private Rigidbody2D _rigidBody;
+    [SerializeField]
+    private AudioSource sfxSource;
+    [SerializeField]
+    private AudioClip grabClip;
 #pragma warning restore 0649
 
     private Vector2 lastMousePosition, flingVelocity;
@@ -68,6 +72,11 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.freezeRotation = true;
         collideTime = 0f;
         lastMousePosition = CameraHelper.getCursorPosition();
+
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        sfxSource.pitch = 1f;
+        sfxSource.PlayOneShot(grabClip);
+        Debug.Log(sfxSource.volume);
     }
 
     public void release()
@@ -76,5 +85,9 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.freezeRotation = false;
         _rigidBody.velocity = flingVelocity;
+
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        sfxSource.pitch = .8f;
+        sfxSource.PlayOneShot(grabClip);
     }
 }
