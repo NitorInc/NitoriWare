@@ -6,12 +6,13 @@ public class TitleInteractive : MonoBehaviour
     public float effectTime;
 
 	public Animator animator, animatorToDisable;
+    public int altAnimationFrequency = 3;
 
-	private float rippleCooldown;
+    private int currentAnimation;
 
-	void Start ()
+    void Start ()
 	{
-		rippleCooldown = 0f;
+        currentAnimation = 0;
         if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
             effectTime = .01f;
 	}
@@ -39,17 +40,11 @@ public class TitleInteractive : MonoBehaviour
 
 	void checkForInteraction()
 	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			checkCollision(0);
-		}
-		else if (Input.GetMouseButtonDown(1))
-		{
-			checkCollision(1);
-		}
+		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+			checkCollision();
 	}
 
-	public void checkCollision(int button)
+	public void checkCollision()
 	{
 		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
@@ -58,8 +53,9 @@ public class TitleInteractive : MonoBehaviour
 		{
 			if (animator != null)
 			{
-				animator.SetInteger("animation", button + 1);
+                animator.SetInteger("animation", (currentAnimation % altAnimationFrequency == altAnimationFrequency - 1) ? 2 : 1);
 				Invoke("resetAnimation", .1f);
+                currentAnimation++;
 			}
 
 		}
