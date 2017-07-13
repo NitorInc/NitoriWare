@@ -44,6 +44,8 @@ public class TitleFloatingInteractive : MonoBehaviour
             Vector2 escapeVelocity = MathHelper.getVector2FromAngle(
                 ((Vector2)(transform.position - Camera.main.transform.position)).getAngle(), escapeSpeed);
             transform.position += (Vector3)escapeVelocity * Time.deltaTime;
+            if (CameraHelper.isObjectOffscreen(transform, 10f))
+                Destroy(gameObject);
             return;
         }
         else if (!wallHitCollider.enabled && !CameraHelper.isObjectOffscreen(transform,

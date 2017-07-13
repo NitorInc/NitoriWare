@@ -58,21 +58,27 @@ public class TitleGear : MonoBehaviour
         Transform child = transform.GetChild(0);
         child.transform.localRotation = Quaternion.Euler(0f, 0f,
             child.transform.rotation.eulerAngles.z + transform.rotation.eulerAngles.z);
-        _rigidBody.freezeRotation = true;
-        _rigidBody.freezeRotation = false;
         transform.rotation = Quaternion.identity;
 
         hopping = true;
         hopAnimator.SetBool("Hop", hopping);
+        clickCollider.enabled = false;
+    }
+
+    public void spin()
+    {
+        _rigidBody.freezeRotation = true;
+        _rigidBody.freezeRotation = false;
+        _rigidBody.AddTorque(MathHelper.randomRangeFromVector(zoomRotateBounds) * (_rigidBody.velocity.x >= 0f ? -1f : 1f));
     }
 
     public void fling()
     {
         _rigidBody.velocity = MathHelper.getVector2FromAngle(zoomAngle, MathHelper.randomRangeFromVector(zoomSpeedBounds));
-        _rigidBody.AddTorque(MathHelper.randomRangeFromVector(zoomRotateBounds) * (_rigidBody.velocity.x >= 0f ? -1f : 1f));
         
         hopping = false;
         hopAnimator.SetBool("Hop", hopping);
+        clickCollider.enabled = true;
 
     }
 }
