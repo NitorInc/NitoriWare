@@ -8,7 +8,13 @@ public class GameplayMenu : MonoBehaviour
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
+    private float voiceDelay;
+    [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private FadingMusic bgMusicFade;
+    [SerializeField]
+    private AudioSource voiceSource;
 #pragma warning restore 0649
     
 	void Start()
@@ -20,5 +26,12 @@ public class GameplayMenu : MonoBehaviour
     {
         GameMenu.shifting = true;
         animator.SetTrigger("StartGameplay");
+        bgMusicFade.startFade();
+        Invoke("playVoice", voiceDelay);
+    }
+
+    void playVoice()
+    {
+        voiceSource.Play();
     }
 }
