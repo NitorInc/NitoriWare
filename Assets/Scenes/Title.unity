@@ -1319,6 +1319,7 @@ GameObject:
   - component: {fileID: 1128142634}
   - component: {fileID: 1128142639}
   - component: {fileID: 1128142640}
+  - component: {fileID: 1128142641}
   m_Layer: 0
   m_Name: Ripple Cam
   m_TagString: Untagged
@@ -1487,11 +1488,11 @@ MonoBehaviour:
     m_RotationOrder: 0
   effectTime: 9
   rippleCoolTime: 0.25
-  disableDrops: 0
+  randomDrops: 0
   refractionStrength: 0.5
   reflectionColor: {r: 0.17602697, g: 0.5191306, b: 0.68620694, a: 1}
   reflectionStrength: 0.7
-  waveSpeed: 1
+  waveSpeed: 1.25
   dropInterval: 1.5
   shader: {fileID: 4800000, guid: 162fe242d486f4dab90ed53db15b9c19, type: 3}
 --- !u!61 &1128142640
@@ -1519,6 +1520,98 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 13.333333, y: 10}
   m_EdgeRadius: 0
+--- !u!114 &1128142641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1128142633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1bc7030f5bb244b09b8037c2ded95f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveform:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.063397214
+      value: 0.70158005
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.14348648
+      value: 0.38094795
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.25447083
+      value: 0.6232666
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.3475891
+      value: 0.4149231
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.44999337
+      value: 0.5576297
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.55
+      value: 0.45
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.65
+      value: 0.525
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.75
+      value: 0.48
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.85
+      value: 0.51
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.99
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  effectTime: 9
+  rippleCoolTime: 0.25
+  randomDrops: 1
+  refractionStrength: 0.5
+  reflectionColor: {r: 0.17602697, g: 0.5191306, b: 0.68620694, a: 1}
+  reflectionStrength: 0.46
+  waveSpeed: 1
+  dropInterval: 1.5
+  shader: {fileID: 4800000, guid: 162fe242d486f4dab90ed53db15b9c19, type: 3}
 --- !u!1 &1172122539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,6 +1691,7 @@ GameObject:
   - component: {fileID: 1201246745}
   - component: {fileID: 1201246746}
   - component: {fileID: 1201246747}
+  - component: {fileID: 1201246748}
   m_Layer: 0
   m_Name: Title Anchor
   m_TagString: Untagged
@@ -1645,7 +1739,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.6, y: 0}
+  m_Offset: {x: -0.81, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1668,7 +1762,7 @@ PolygonCollider2D:
       - {x: -6.0072007, y: -1.1895403}
       - {x: -5.4426703, y: -1.1603057}
       - {x: -5.41215, y: 1.1464901}
-      - {x: -6.0096126, y: 1.175529}
+      - {x: -6.0096126, y: 1.1373175}
 --- !u!95 &1201246747
 Animator:
   serializedVersion: 3
@@ -1686,6 +1780,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1201246748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1201246743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e0f2f6748fa894fab3efac7a3a8ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1201246747}
 --- !u!1 &1218275496
 GameObject:
   m_ObjectHideFlags: 0

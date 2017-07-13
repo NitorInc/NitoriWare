@@ -22,7 +22,7 @@ public class MenuRippleEffect : MonoBehaviour
 
     public float effectTime, rippleCoolTime = .25f;
     private float rippleCoolTimer, dropTimer;
-    public bool disableDrops;
+    public bool randomDrops;
 
     [Range(0.01f, 1.0f)]
 	public float refractionStrength = 0.5f;
@@ -149,15 +149,22 @@ public class MenuRippleEffect : MonoBehaviour
         else
         {
             dropTimer -= Time.deltaTime;
-            if (GameMenu.subMenu == GameMenu.SubMenu.Title  && !GameMenu.shifting && dropTimer <= 0f)
+            if (randomDrops)
             {
-                Emit(false);
-                dropTimer += dropInterval;
+                if (GameMenu.subMenu == GameMenu.SubMenu.Title && !GameMenu.shifting && dropTimer <= 0f)
+                {
+                    Emit(false);
+                    dropTimer += dropInterval;
+                }
             }
-            if (rippleCoolTimer > 0f)
-                rippleCoolTimer -= Time.deltaTime;
-            else if (Input.GetMouseButtonDown(0))
-                checkCollision();
+            else
+            {
+                if (rippleCoolTimer > 0f)
+                    rippleCoolTimer -= Time.deltaTime;
+                else if (Input.GetMouseButtonDown(0))
+                    checkCollision();
+
+            }
         }
 	}
 
