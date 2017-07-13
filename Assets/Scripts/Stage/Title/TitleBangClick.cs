@@ -5,7 +5,7 @@ using System.Collections;
 public class TitleBangClick : MonoBehaviour
 {
 
-    public Image[] images;
+    public Image[] images, outlineImages;
 	public Sprite[] sprites;
 	public Color[] colors;
 	public float activationTime;
@@ -81,8 +81,12 @@ public class TitleBangClick : MonoBehaviour
             {
                 image.color = colors[colorIndex];
             }
+            foreach (Image image in outlineImages)
+            {
+                image.color = colors[colorIndex];
+            }
 
-			animator.SetInteger("animation", 0);
+            animator.SetInteger("animation", 0);
 		}
 		else if (button == 1)
 		{
