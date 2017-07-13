@@ -109,11 +109,11 @@ public class CameraHelper
 	/// </summary>
 	/// <param name="collider"></param>
 	/// <returns></returns>
-	public static bool isMouseOver(Collider2D collider)
+	public static bool isMouseOver(Collider2D collider, float distance = float.PositiveInfinity, int layerMask = Physics2D.DefaultRaycastLayers)
 	{
 
 		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
+		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, distance, layerMask);
 		return (hit.collider == collider);
 	}
 }
