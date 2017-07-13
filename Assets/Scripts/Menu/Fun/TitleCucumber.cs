@@ -46,7 +46,10 @@ public class TitleCucumber : MonoBehaviour
             if ((Mathf.Sign(transform.position.x) == -Mathf.Sign(lastPosition.x))
                 || (Mathf.Sign(transform.position.y) == -Mathf.Sign(lastPosition.y)))
             {
-                sfxSource.volume = Mathf.Lerp(0f, 1f, ((speed - minSpeed) / (maxSpeed - minSpeed)));
+                //sfxSource.pitch = Mathf.Lerp(.8f, 1.5f, ((speed - minSpeed) / (maxSpeed - minSpeed)));
+                //sfxSource.pitch = Random.Range(.8f, 1f);
+                sfxSource.pitch = 1f;
+                sfxSource.volume = Mathf.Pow(Mathf.Lerp(0f, 1f, ((speed - minSpeed) / (maxSpeed - minSpeed))), .5f);
                 sfxSource.PlayOneShot(bounceClip);
             }
 
@@ -90,7 +93,6 @@ public class TitleCucumber : MonoBehaviour
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
         sfxSource.pitch = 1f;
         sfxSource.PlayOneShot(grabClip);
-        Debug.Log(sfxSource.volume);
     }
 
     public void release()
