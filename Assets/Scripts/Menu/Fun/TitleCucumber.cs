@@ -15,16 +15,15 @@ public class TitleCucumber : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
     [SerializeField]
-    private AudioClip grabClip, bounceClip;
+    private AudioClip grabClip;
 #pragma warning restore 0649
 
-    private Vector2 lastVelocity, lastMousePosition, flingVelocity;
+    private Vector2 lastMousePosition, flingVelocity;
     private Vector3 initialScale;
     private bool grabbed;
 
 	void Start()
     {
-        lastVelocity = _rigidBody.velocity;
         grabbed = false;
         initialScale = transform.localScale;
         //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
@@ -43,20 +42,6 @@ public class TitleCucumber : MonoBehaviour
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Max(speed - diff, minSpeed));
             else if (speed < minSpeed)
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(speed + diff, minSpeed));
-
-            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-            if ((Mathf.Sign(_rigidBody.velocity.x) == -Mathf.Sign(lastVelocity.x))
-                || (Mathf.Sign(_rigidBody.velocity.y) == -Mathf.Sign(lastVelocity.y)))
-            {
-                //sfxSource.pitch = Mathf.Lerp(.8f, 1.5f, ((speed - minSpeed) / (maxSpeed - minSpeed)));
-                //sfxSource.pitch = Random.Range(.8f, 1f);
-                sfxSource.pitch = 1f;
-                sfxSource.PlayOneShot(bounceClip,
-                    Mathf.Pow(Mathf.Lerp(0f, 1f, ((speed - minSpeed) / (maxSpeed - minSpeed))), .5f));
-            }
-
-
-            lastVelocity = _rigidBody.velocity;
             
 
             //if (_rigidBody.velocity == Vector2.zero)
@@ -104,7 +89,6 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.freezeRotation = false;
         _rigidBody.velocity = flingVelocity;
-        lastVelocity = transform.position;
 
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);
         sfxSource.pitch = .8f;

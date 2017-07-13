@@ -10,12 +10,18 @@ public class TitleFloatingInteractive : MonoBehaviour
     [SerializeField]
     private float startSpeed, lifetime, escapeSpeed;
     [SerializeField]
-    Vector2 floatTowardsBounds;
+    private Vector2 floatTowardsBounds, bounceVolumeSpeedBounds;
     [SerializeField]
     private Rigidbody2D _rigidBody;
     [SerializeField]
     private Collider2D wallHitCollider;
+    [SerializeField]
+    AudioSource sfxSource;
+    [SerializeField]
+    AudioClip bounceClip;
 #pragma warning restore 0649
+
+    private Vector2 lastVelocity;
 
     private bool ignoreWalls;
 
@@ -26,9 +32,30 @@ public class TitleFloatingInteractive : MonoBehaviour
         Vector2 goal = new Vector2(Random.Range(-floatTowardsBounds.x, floatTowardsBounds.x),
             Random.Range(-floatTowardsBounds.y, floatTowardsBounds.y));
         _rigidBody.velocity = (goal - (Vector2)transform.localPosition).resize(startSpeed);
+        lastVelocity = _rigidBody.velocity;
 	}
-	
-	void LateUpdate()
+
+    private void Update()
+    {
+
+        if (lastVelocity != Vector2.zero)
+        {
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+            if ((Mathf.Sign(_rigidBody.velocity.x) == -Mathf.Sign(lastVelocity.x))
+                || (Mathf.Sign(_rigidBody.velocity.y) == -Mathf.Sign(lastVelocity.y)))
+            {
+                float speed = _rigidBody.velocity.magnitude;
+                sfxSource.PlayOneShot(bounceClip,
+                    Mathf.Pow(Mathf.Lerp(0f, 1f,
+                    ((speed - bounceVolumeSpeedBounds.x) / (bounceVolumeSpeedBounds.y - bounceVolumeSpeedBounds.y))),
+                    .5f));
+            }
+        }
+
+        lastVelocity = _rigidBody.velocity;
+    }
+
+    void LateUpdate()
     {
         if (GameMenu.shifting)
         {

@@ -115,7 +115,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0
+  Pan2D: 0.6614473
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -294,7 +294,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedBounds: {x: 1, y: 2}
   torqueBounds: {x: 5, y: 10}
-  bounceVolumeSpeedBounds: {x: 5, y: 15}
   _rigidBody: {fileID: 50974826988312796}
   clickCollider: {fileID: 61337471801918548}
   animator: {fileID: 95373509997791796}
@@ -344,8 +343,11 @@ MonoBehaviour:
   lifetime: 20
   escapeSpeed: 30
   floatTowardsBounds: {x: 3, y: 3}
+  bounceVolumeSpeedBounds: {x: 5, y: 15}
   _rigidBody: {fileID: 50974826988312796}
   wallHitCollider: {fileID: 61337471801918548}
+  sfxSource: {fileID: 82543264554810628}
+  bounceClip: {fileID: 8300000, guid: bae74badf2f0bb94db8c55fb1f2c7ebe, type: 3}
 --- !u!212 &212901378194071574
 SpriteRenderer:
   m_ObjectHideFlags: 1
