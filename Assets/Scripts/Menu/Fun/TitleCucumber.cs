@@ -15,14 +15,15 @@ public class TitleCucumber : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
     [SerializeField]
-    private AudioClip grabClip;
+    private AudioClip grabClip, bounceClip;
 #pragma warning restore 0649
 
-    private Vector2 lastMousePosition, flingVelocity;
+    private Vector2 lastPosition, lastMousePosition, flingVelocity;
     private bool grabbed;
 
 	void Start()
     {
+        lastPosition = transform.position;
         grabbed = false;
         _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
@@ -35,11 +36,23 @@ public class TitleCucumber : MonoBehaviour
             if (_rigidBody.velocity == Vector2.zero)
                 _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), .01f);
 
-            float diff = slowDownAcc * Time.deltaTime;
-            if (_rigidBody.velocity.magnitude > minSpeed)
-                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Max(_rigidBody.velocity.magnitude - diff, minSpeed));
-            else if (_rigidBody.velocity.magnitude < minSpeed)
-                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(_rigidBody.velocity.magnitude + diff, minSpeed));
+            float speed = _rigidBody.velocity.magnitude, diff = slowDownAcc * Time.deltaTime;
+            if (speed> minSpeed)
+                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Max(speed - diff, minSpeed));
+            else if (speed < minSpeed)
+                _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(speed + diff, minSpeed));
+
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+            if ((Mathf.Sign(transform.position.x) == -Mathf.Sign(lastPosition.x))
+                || (Mathf.Sign(transform.position.y) == -Mathf.Sign(lastPosition.y)))
+            {
+                sfxSource.volume = Mathf.Lerp(0f, 1f, ((speed - minSpeed) / (maxSpeed - minSpeed)));
+                sfxSource.PlayOneShot(bounceClip);
+            }
+
+
+            lastPosition = transform.position;
+            
 
             //if (_rigidBody.velocity == Vector2.zero)
             //    _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
@@ -73,6 +86,7 @@ public class TitleCucumber : MonoBehaviour
         collideTime = 0f;
         lastMousePosition = CameraHelper.getCursorPosition();
 
+        sfxSource.volume = 1f;
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
         sfxSource.pitch = 1f;
         sfxSource.PlayOneShot(grabClip);
@@ -85,6 +99,7 @@ public class TitleCucumber : MonoBehaviour
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.freezeRotation = false;
         _rigidBody.velocity = flingVelocity;
+        lastPosition = transform.position;
 
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
         sfxSource.pitch = .8f;
