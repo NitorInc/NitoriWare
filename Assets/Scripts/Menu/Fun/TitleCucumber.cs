@@ -23,6 +23,16 @@ public class TitleCucumber : MonoBehaviour
 	
 	void Update()
 	{
+        if (GameMenu.shifting)
+        {
+            _rigidBody.bodyType = RigidbodyType2D.Kinematic;
+            Vector2 escapeVelocity = MathHelper.getVector2FromAngle(
+                ((Vector2)(transform.position - Camera.main.transform.position)).getAngle(), maxSpeed);
+            transform.position += (Vector3)escapeVelocity * Time.deltaTime;
+            if (CameraHelper.isObjectOffscreen(transform, maxSpeed / 10f))
+                Destroy(gameObject);
+            return;
+        }
 
         if (_rigidBody.bodyType == RigidbodyType2D.Dynamic)
         {
