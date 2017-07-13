@@ -19,12 +19,14 @@ public class TitleCucumber : MonoBehaviour
 #pragma warning restore 0649
 
     private Vector2 lastVelocity, lastMousePosition, flingVelocity;
+    private Vector3 initialScale;
     private bool grabbed;
 
 	void Start()
     {
         lastVelocity = _rigidBody.velocity;
         grabbed = false;
+        initialScale = transform.localScale;
         //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
 	
@@ -92,6 +94,8 @@ public class TitleCucumber : MonoBehaviour
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);
         sfxSource.pitch = 1f;
         sfxSource.PlayOneShot(grabClip);
+
+        transform.localScale = initialScale * 1.2f;
     }
 
     public void release()
@@ -105,5 +109,7 @@ public class TitleCucumber : MonoBehaviour
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);
         sfxSource.pitch = .8f;
         sfxSource.PlayOneShot(grabClip);
+
+        transform.localScale = initialScale * 1f;
     }
 }
