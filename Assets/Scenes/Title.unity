@@ -4490,6 +4490,7 @@ GameObject:
   - component: {fileID: 1561463138}
   - component: {fileID: 1561463140}
   - component: {fileID: 1561463141}
+  - component: {fileID: 1561463142}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -4513,7 +4514,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -65, y: -0.5}
-  m_SizeDelta: {x: 0, y: 134.7}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1561463138
 MonoBehaviour:
@@ -4536,7 +4537,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
-    m_FontSize: 50
+    m_FontSize: 49
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 5
@@ -4566,7 +4567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!114 &1561463141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4585,6 +4586,23 @@ MonoBehaviour:
   resolutionDependant: 0
   doubleResolution: 1024
   updateAttributes: 0
+--- !u!114 &1561463142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1561463136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b8b7631b8b7204996356fa6d8229cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSize: {x: 399, y: 60}
+  defaultFontSize: 50
+  onlyUpdateOnTextChange: 1
+  resetSizeFields: 0
+  textComponent: {fileID: 1561463138}
+  rectTransform: {fileID: 1561463137}
 --- !u!1 &1586203570
 GameObject:
   m_ObjectHideFlags: 0
