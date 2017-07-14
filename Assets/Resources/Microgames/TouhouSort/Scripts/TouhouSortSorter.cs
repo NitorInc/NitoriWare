@@ -64,7 +64,8 @@ public class TouhouSortSorter : MonoBehaviour
 
     TouhouSortSortable[] LoadTouhous(Category category, int amount)
     {
-        List<Style> styles = new List<Style>();
+        List<Style> leftStyles = new List<Style>();
+        List<Style> rightStyles = new List<Style>();
 
         foreach (Sprite sprite in category.leftPool)
         {
@@ -72,22 +73,16 @@ public class TouhouSortSorter : MonoBehaviour
             style.name = category.name;
             style.sprite = sprite;
 
-            styles.Add(style);
+            leftStyles.Add(style);
         }
         foreach (Sprite sprite in category.rightPool)
         {
             Style style = new Style();
             style.sprite = sprite;
 
-            styles.Add(style);
+            rightStyles.Add(style);
         }
         
-        // Scoop <amount> random touhous from the category
-        if (amount > styles.Count)
-        {
-            amount = styles.Count;
-        }
-
         MouseGrabbableGroup grabGroup = stagingArea.GetComponent<MouseGrabbableGroup>();
         TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
@@ -97,7 +92,12 @@ public class TouhouSortSorter : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            Style style = styles[Random.Range(0, styles.Count)];
+            Style style;
+            int coin = Random.Range(0, 2);
+            if (coin == 0)
+                style = leftStyles[Random.Range(0, leftStyles.Count)];
+            else
+                style = rightStyles[Random.Range(0, rightStyles.Count)];
 
             // Build a new touhou instance
             TouhouSortSortable touhou = Instantiate(touhouTemplate, transform.position, transform.rotation);
@@ -110,8 +110,7 @@ public class TouhouSortSorter : MonoBehaviour
             grab.onGrab = dudEvent;
             grab.onRelease = sortEvent;
             grab.disableOnVictory = true;
-
-            styles.Remove(style);
+            
             touhou.transform.parent = stagingArea;
             
             grabGroup.addGrabbable(grab, true);

@@ -60,30 +60,88 @@ MonoBehaviour:
   _victoryVoiceDelay: 0
   _failureVoiceDelay: 0
   _musicClip: {fileID: 0}
+  _isStageReady: 0
   categories:
-  - name: hat
+  - name: hats
     leftIcon: {fileID: 21300000, guid: 73141636933d46541b6bd8938398e91d, type: 3}
     rightIcon: {fileID: 21300000, guid: a1f5d98bce79bfb4c9b3c02c19b013cb, type: 3}
     leftPool:
-    - {fileID: 21300000, guid: 78ae153d9e063624abd2dd8f51e4a9ab, type: 3}
-    - {fileID: 21300000, guid: 86a6da5477473ed4c978648478c89d48, type: 3}
-    - {fileID: 21300000, guid: 127f669051b537749a9e75d5ed67ebe5, type: 3}
+    - {fileID: 21300040, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300044, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300048, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
     rightPool:
-    - {fileID: 21300000, guid: 2e447ad2ce459ef4290478cc22996362, type: 3}
-    - {fileID: 21300000, guid: 83e20c22de1ce2d4d95a2e83d1675f7c, type: 3}
-    - {fileID: 21300000, guid: f0f9433af91c32a4397b61f269621493, type: 3}
-  - name: wing
+    - {fileID: 21300052, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300038, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300012, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300026, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300016, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300024, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+  - name: fairy wings
     leftIcon: {fileID: 21300000, guid: 5e1c2d2e410784c45b66b26d8e6344e3, type: 3}
     rightIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
     leftPool:
-    - {fileID: 21300000, guid: 0a9ac0745dde25e46958894c0e523783, type: 3}
+    - {fileID: 21300000, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300004, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300008, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
     rightPool:
-    - {fileID: 21300000, guid: 2e447ad2ce459ef4290478cc22996362, type: 3}
-    - {fileID: 21300000, guid: 127f669051b537749a9e75d5ed67ebe5, type: 3}
-    - {fileID: 21300000, guid: 78ae153d9e063624abd2dd8f51e4a9ab, type: 3}
+    - {fileID: 21300030, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300034, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300038, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300052, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300026, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300020, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300048, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300016, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300024, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+  - name: bunny ears
+    leftIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    rightIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    leftPool:
+    - {fileID: 21300012, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300016, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300020, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    rightPool:
+    - {fileID: 21300040, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300052, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300026, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300048, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300030, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300000, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300024, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300044, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300034, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+  - name: cat ears
+    leftIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    rightIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    leftPool:
+    - {fileID: 21300026, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300030, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300034, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    rightPool:
+    - {fileID: 21300040, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300012, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300020, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300048, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300004, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300024, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300000, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300008, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300052, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
   category:
-    name: 
-    leftIcon: {fileID: 0}
-    rightIcon: {fileID: 0}
-    leftPool: []
-    rightPool: []
+    name: fairy wings
+    leftIcon: {fileID: 21300000, guid: 5e1c2d2e410784c45b66b26d8e6344e3, type: 3}
+    rightIcon: {fileID: 21300000, guid: 1c4b34acc0e5b4e47bb7c3e1e7d39d1e, type: 3}
+    leftPool:
+    - {fileID: 21300000, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300004, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300008, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    rightPool:
+    - {fileID: 21300030, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300034, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300038, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300052, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300026, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300020, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300048, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300016, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
+    - {fileID: 21300024, guid: fd6ab6a90d788c84294216e13930d5b9, type: 3}
