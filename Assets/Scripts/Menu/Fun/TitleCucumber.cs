@@ -57,11 +57,7 @@ public class TitleCucumber : MonoBehaviour
             if (mousePosition - lastMousePosition != Vector2.zero)
             {
                 flingVelocity = (mousePosition - lastMousePosition) / Time.deltaTime;
-                flingVelocity = flingVelocity.resize(Mathf.Min(flingVelocity.magnitude, maxSpeed));
-            }
-            else
-            {
-                flingVelocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
+                flingVelocity = flingVelocity.resize(Mathf.Clamp(flingVelocity.magnitude, minSpeed, maxSpeed));
             }
             lastMousePosition = mousePosition;
         }
@@ -73,6 +69,7 @@ public class TitleCucumber : MonoBehaviour
             return;
 
         //_rigidBody.bodyType = RigidbodyType2D.Kinematic;
+        flingVelocity = _rigidBody.velocity;
         grabbed = true;
         _rigidBody.freezeRotation = true;
         collideTime = 0f;
