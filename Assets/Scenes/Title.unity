@@ -1883,7 +1883,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Option C
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Option C is the really long one
       m_Image: {fileID: 0}
     - m_Text: Option C
       m_Image: {fileID: 0}
@@ -5526,6 +5526,7 @@ GameObject:
   - component: {fileID: 2000298131}
   - component: {fileID: 2000298130}
   - component: {fileID: 2000298132}
+  - component: {fileID: 2000298133}
   m_Layer: 0
   m_Name: Item Label
   m_TagString: Untagged
@@ -5575,7 +5576,7 @@ MonoBehaviour:
     m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 0
     m_MaxSize: 50
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -5603,6 +5604,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &2000298133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2000298128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b8b7631b8b7204996356fa6d8229cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSize: {x: 421, y: 60}
+  defaultFontSize: 50
+  onlyUpdateOnTextChange: 1
+  resetSizeFields: 0
+  textComponent: {fileID: 2000298130}
+  rectTransform: {fileID: 2000298129}
 --- !u!1 &2041325711
 GameObject:
   m_ObjectHideFlags: 0
