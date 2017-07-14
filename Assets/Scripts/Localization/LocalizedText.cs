@@ -43,6 +43,9 @@ public class LocalizedText : MonoBehaviour
 
 	void setText()
 	{
+        if (string.IsNullOrEmpty(key))
+            return;
+
 		string value;
 		if (keyPrefix == Prefix.CurrentMicrogame)
 			value = TextHelper.getLocalizedMicrogameText(key, getText());
