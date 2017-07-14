@@ -9,14 +9,27 @@ public class LocalizationManager : MonoBehaviour
 
 	public static LocalizationManager instance;
 
-	[SerializeField]
-	private string forceLanguage;
-	private string language;
+    [SerializeField]
+    private Language[] languages;
+    [SerializeField]
+    private string forceLanguage;
+
+    private Language loadedLanguage;
 
 	private SerializedNestedStrings localizedText;
+    private string languageString;
+
+    [System.Serializable]
+    public struct Language
+    {
+        public string filename, languageName;
+        public bool incomplete;
+    }
+
 
 	public void Awake ()
 	{
+        loadedLanguage = new Language();
 		if (instance != null)
 		{
 			if (instance != this)
@@ -27,46 +40,62 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
-
-		language = (forceLanguage == "" ? Application.systemLanguage.ToString() : forceLanguage);
-		loadLocalizedText("Languages/" + language + "");
+        
+		setLanguage((forceLanguage == "" ? Application.systemLanguage.ToString() : forceLanguage));
 	}
 
     public void setForcedLanguage(string language)
     {
         forceLanguage = language;
     }
-
-	
-	public void loadLocalizedText(string filename)
-	{
-		string filePath = Path.Combine(Application.streamingAssetsPath, filename);
-		if (!File.Exists(filePath))
-		{
-			filePath = filePath.Replace(language, "English");
-			Debug.Log("Language " + language + " not found. Using English");
-			language = "English";
-		}
-		if (File.Exists(filePath))
-		{
-			System.DateTime started = System.DateTime.Now;
-			localizedText = SerializedNestedStrings.deserialize(File.ReadAllText(filePath));
-			System.TimeSpan timeElapsed = System.DateTime.Now - started;
-			Debug.Log("Language " + language + " loaded successfully. Deserialization time: " + timeElapsed.TotalMilliseconds + "ms");
-		}
-		else
-			Debug.LogError("No English json found!");
-
-	}
-
-	public string getLanguage()
-	{
-		return language;
-	}
-
+    
 	public void setLanguage(string language)
 	{
-		//TODO make loading async and revisit this
+        StartCoroutine(loadLanguage(checkForLanguage(language)));
+    }
+
+    Language checkForLanguage(string language)
+    {
+        foreach (Language checklanguage in languages)
+        {
+            if (checklanguage.filename.Equals(language, System.StringComparison.OrdinalIgnoreCase))
+                return checklanguage;
+        }
+        Debug.Log("Language " + language + " not found. Using English");
+        return languages[0];
+    }
+
+    public string getInLanguageName(string language)
+    {
+        return checkForLanguage(language).languageName;
+    }
+
+    IEnumerator loadLanguage(Language language)
+    {
+        System.DateTime started = System.DateTime.Now;
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Languages/" + language.filename);
+        languageString = "";
+        if (filePath.Contains("://"))
+        {
+            WWW www = new WWW(filePath);
+            yield return www;
+            languageString = www.text;
+        }
+        else
+            languageString = File.ReadAllText(filePath);
+
+        localizedText = SerializedNestedStrings.deserialize(languageString);
+
+        System.TimeSpan timeElapsed = System.DateTime.Now - started;
+        Debug.Log("Language " + language.filename + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
+
+        loadedLanguage = language;
+        languageString = "";
+    }
+
+    public string getLoadedLanguage()
+	{
+		return string.IsNullOrEmpty(loadedLanguage.filename) ? "" : loadedLanguage.filename;
 	}
 
 	public string getLocalizedValue(string key)
@@ -81,7 +110,7 @@ public class LocalizationManager : MonoBehaviour
 		string value = (string)localizedText[key];
 		if (string.IsNullOrEmpty(value))
 		{
-			Debug.LogWarning("Language " + getLanguage() + " does not have a value for key " + key);
+			Debug.LogWarning("Language " + getLoadedLanguage() + " does not have a value for key " + key);
 			return defaultString;
 		}
 		value = value.Replace("\\n", "\n");

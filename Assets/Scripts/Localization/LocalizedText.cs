@@ -12,11 +12,12 @@ public class LocalizedText : MonoBehaviour
 	public string key
 	{
 		get {return _key;}
-		set { _key = value; setText(); }
+		set { _key = value; updateText(); }
 	}
 
 	private Text textComponent;
 	private TextMesh textMesh;
+    private string language;
 
 	private enum Prefix
 	{
@@ -28,22 +29,31 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-		setText();
-	}
+        language = "";
+        updateText();
+    }
 
-	/// <summary>
-	/// Sets the key to load from and reloads the text with the new key
-	/// </summary>
-	/// <param name="key"></param>
-	public void setKey(string key)
+    private void LateUpdate()
+    {
+        
+        if (language != TextHelper.getLoadedLanguage())
+            updateText();
+    }
+
+    /// <summary>
+    /// Sets the key to load from and reloads the text with the new key
+    /// </summary>
+    /// <param name="key"></param>
+    public void setKey(string key)
 	{
 		this._key = key;
-		setText();
+		updateText();
 	}
 
-	void setText()
+	public void updateText()
 	{
-        if (string.IsNullOrEmpty(key))
+        language = TextHelper.getLoadedLanguage();
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(language))
             return;
 
 		string value;
