@@ -46,9 +46,4 @@ public class ResolutionDropdown : MonoBehaviour
         }
         return 0;
     }
-	
-	void Update()
-	{
-		
-	}
 }
