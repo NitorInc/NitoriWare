@@ -33,7 +33,7 @@ public class LocalizedText : MonoBehaviour
         updateText();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         
         if (language != TextHelper.getLoadedLanguage())
