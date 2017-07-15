@@ -100,7 +100,6 @@ public class MicrogameController : MonoBehaviour
                     LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
                     if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
                         manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
-                    manager.Awake();
                     manager.gameObject.SetActive(true);
                 }
                 
