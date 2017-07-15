@@ -108,6 +108,12 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &18919957 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114175905887893372, guid: dc3a26df704a2484dabc5976c23ea5e6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1513220882}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &39181202
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +620,7 @@ Prefab:
     - target: {fileID: 224307346655512196, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114233250279414416, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
@@ -1726,7 +1732,7 @@ Prefab:
     - target: {fileID: 224307346655512196, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114126494762388204, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
@@ -1814,6 +1820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropdown: {fileID: 999711738}
   keyPrefix: menu.settings.graphics
+  label: {fileID: 2123941503}
 --- !u!114 &999711738 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114126494762388204, guid: dc3a26df704a2484dabc5976c23ea5e6,
@@ -2875,6 +2882,7 @@ GameObject:
   - component: {fileID: 1276036422}
   - component: {fileID: 1276036421}
   - component: {fileID: 1276036420}
+  - component: {fileID: 1276036423}
   m_Layer: 0
   m_Name: DropDowns
   m_TagString: Untagged
@@ -2965,6 +2973,44 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 50
   m_TargetDisplay: 0
+--- !u!114 &1276036423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1276036418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd2b214f50b5f346bbf256a4998f8e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLanguageChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1513220886}
+        m_MethodName: setOptionText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 999711737}
+        m_MethodName: setOptionText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &1278618360
 GameObject:
   m_ObjectHideFlags: 0
@@ -3870,7 +3916,7 @@ Prefab:
     - target: {fileID: 224307346655512196, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114126494762388204, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
@@ -4095,7 +4141,7 @@ Prefab:
     - target: {fileID: 224307346655512196, guid: dc3a26df704a2484dabc5976c23ea5e6,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1471259200740870, guid: dc3a26df704a2484dabc5976c23ea5e6, type: 2}
       propertyPath: m_Name
@@ -4179,6 +4225,7 @@ MonoBehaviour:
   dropdown: {fileID: 1513220885}
   yesKey: menu.yes
   noKey: menu.no
+  label: {fileID: 18919957}
 --- !u!1 &1519290829
 GameObject:
   m_ObjectHideFlags: 0
@@ -5198,7 +5245,7 @@ Prefab:
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
@@ -5849,6 +5896,12 @@ MonoBehaviour:
   relativeToStartPosition: 0
   resetOnStop: 0
   resetOnStart: 0
+--- !u!114 &2123941503 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114175905887893372, guid: dc3a26df704a2484dabc5976c23ea5e6,
+    type: 2}
+  m_PrefabInternal: {fileID: 999711734}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &2125393981
 Prefab:
   m_ObjectHideFlags: 0

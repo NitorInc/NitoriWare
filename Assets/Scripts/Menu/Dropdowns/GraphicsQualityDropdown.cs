@@ -12,6 +12,8 @@ public class GraphicsQualityDropdown : MonoBehaviour
     private Dropdown dropdown;
     [SerializeField]
     private string keyPrefix;
+    [SerializeField]
+    private Text label;
 #pragma warning restore 0649
 
     void Start()
@@ -22,13 +24,14 @@ public class GraphicsQualityDropdown : MonoBehaviour
         dropdown.value = QualitySettings.GetQualityLevel();
     }
 
-    void setOptionText()
+    public void setOptionText()
     {
         string[] defaultNames = QualitySettings.names;
         for (int i = 0; i < dropdown.options.Count; i++)
         {
             dropdown.options[i].text = TextHelper.getLocalizedText(keyPrefix + "." + i.ToString(), defaultNames[i]);
         }
+        label.text = dropdown.options[dropdown.value].text;
     }
 
     public void select(int item)

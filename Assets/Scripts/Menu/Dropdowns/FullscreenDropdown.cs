@@ -13,13 +13,21 @@ public class FullscreenDropdown : MonoBehaviour
     private Dropdown dropdown;
     [SerializeField]
     private string yesKey, noKey;
+    [SerializeField]
+    private Text label;
 #pragma warning restore 0649
 
     void Start()
     {
+        setOptionText();
+        dropdown.value = Screen.fullScreen ? 0 : 1;
+    }
+
+    public void setOptionText()
+    {
         dropdown.options[0].text = TextHelper.getLocalizedText(yesKey, "Yes");
         dropdown.options[1].text = TextHelper.getLocalizedText(noKey, "No");
-        dropdown.value = Screen.fullScreen ? 0 : 1;
+        label.text = dropdown.options[dropdown.value].text;
     }
 
     void Update()
