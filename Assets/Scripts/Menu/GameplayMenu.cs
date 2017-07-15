@@ -24,7 +24,7 @@ public class GameplayMenu : MonoBehaviour
 
     public void startGameplay()
     {
-        GameMenu.shifting = true;
+        GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
         animator.SetTrigger("StartGameplay");
         bgMusicFade.startFade();
         Invoke("playVoice", voiceDelay);
