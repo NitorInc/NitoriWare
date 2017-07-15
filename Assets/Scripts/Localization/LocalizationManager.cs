@@ -93,6 +93,11 @@ public class LocalizationManager : MonoBehaviour
         languageString = "";
     }
 
+    public Language[] getAllLanguages()
+    {
+        return languages;
+    }
+
     public string getLoadedLanguage()
 	{
 		return string.IsNullOrEmpty(loadedLanguage.filename) ? "" : loadedLanguage.filename;
