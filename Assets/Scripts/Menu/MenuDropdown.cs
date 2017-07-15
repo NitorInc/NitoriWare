@@ -42,13 +42,15 @@ public class MenuDropdown : MonoBehaviour
         
     }
 
-    public void setValue(int value)
+    public void press(int value)
     {
-
+        animator.Play("UpdateValue");
     }
 
     bool isOpen()
     {
         return transform.childCount > closedChildCount;
     }
+
+    
 }
