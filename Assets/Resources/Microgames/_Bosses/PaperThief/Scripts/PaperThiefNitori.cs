@@ -152,7 +152,7 @@ public class PaperThiefNitori : MonoBehaviour
 
                 PaperThiefCamera.instance.startChase();
 
-                sfxSource.volume = 1f;
+                //sfxSource.volume = 1f;
                 sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
                 //sfxSource.pitch = 1.25f * Time.timeScale;
                 sfxSource.PlayOneShot(gunEquipClip);
@@ -217,7 +217,7 @@ public class PaperThiefNitori : MonoBehaviour
 		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
 
-        sfxSource.volume = 1f;
+        //sfxSource.volume = 1f;
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 2f;
         sfxSource.pitch = Time.timeScale;
         sfxSource.PlayOneShot(gunFireClip);

@@ -49,8 +49,7 @@ public class PaperThiefJunk : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, bounceY, transform.position.z);
                 _rigidBody.velocity = Vector2.zero;
                 _rigidBody.bodyType = RigidbodyType2D.Kinematic;
-                _audioSource.volume /= 2f;
-                _audioSource.PlayOneShot(bounceClip);
+                _audioSource.PlayOneShot(bounceClip, .5f);
             }
             else
                 enabled = false;
