@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
 //Class is used like a dicationary : instance[key] = value
 //Key can have nested values denoted by ".", automatically organizing them hierarchically (i.e. "microgame.ChenFood.command")
@@ -126,24 +125,15 @@ class SerializedNestedStrings
         return existingStrings;
     }
 
-    static void debugDisplay(StringData data, string key)
-    {
-
-        Debug.Log(key + " : " + data.value);
-        foreach (var item in data.subData)
-        {
-            debugDisplay(item.Value, key + (key.Equals("") ? "" : ".") + item.Key);
-        }
-    }
-
     private static int deserializeData(StringData baseData, string[] lines, int startLine, int tabCount)
     {
         string line = lines[startLine];
 
         for (int i = startLine; i < lines.Length; i++)
         {
-            i = i + (tabCount * 0);
             line = lines[i];
+            if (getTabCount(line) < tabCount)   //We haven't finished recursing and line tab count is less than expected
+                return i - 1;   //Return previous line so we we can reevaulate this line on previous level
             
             string key = Regex.Replace(lines[i].Split('=')[0], @"^\t*", "");    //String between leading tabs and "="
             StringData newData = new StringData();

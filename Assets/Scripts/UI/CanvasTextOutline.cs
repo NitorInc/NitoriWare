@@ -45,6 +45,9 @@ public class CanvasTextOutline : MonoBehaviour
             outlineTransform.sizeDelta = rectTransform.sizeDelta;
             outlineTransform.transform.localScale = transform.localScale;
             childRectTransforms[i] = outlineTransform;
+            outlineTransform.anchorMax = rectTransform.anchorMax;
+            outlineTransform.anchorMin = rectTransform.anchorMax;
+            outlineTransform.pivot = rectTransform.pivot;
             updateAttributes = true;
         }
         Transform parent = transform.parent;

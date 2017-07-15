@@ -10,6 +10,8 @@ public class FadingMusic : MonoBehaviour
     private bool fadeInFirst;
     [SerializeField]
     private float fadeSpeed;
+    [SerializeField]
+    private PrefsHelper.VolumeType type = PrefsHelper.VolumeType.Music;
 #pragma warning restore 0649
 
     private AudioSource _audioSource;
@@ -30,12 +32,16 @@ public class FadingMusic : MonoBehaviour
 	
 	void updateFade()
 	{
-        float diff = fadeSpeed * Time.deltaTime;
+        if (PrefsHelper.getVolume(type) <= 0f)
+            return;
+
+        float volumeMult = PrefsHelper.getVolume(type);
+        float diff = fadeSpeed * Time.deltaTime * volumeMult;
         if (fadeInFirst)
         {
-            if (_audioSource.volume >= diff)
+            if (_audioSource.volume >= volumeMult)
             {
-                _audioSource.volume = 1f;
+                _audioSource.volume = volumeMult;
                 fadeInFirst = started = false;
             }
             else

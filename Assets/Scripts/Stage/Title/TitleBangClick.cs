@@ -5,7 +5,7 @@ using System.Collections;
 public class TitleBangClick : MonoBehaviour
 {
 
-    public Image[] images;
+    public Image[] images, outlineImages;
 	public Sprite[] sprites;
 	public Color[] colors;
 	public float activationTime;
@@ -20,6 +20,8 @@ public class TitleBangClick : MonoBehaviour
 	{
 		_collider = GetComponent<Collider2D>();
 		animator = GetComponent<Animator>();
+        if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
+            activationTime = .01f;
 
 		//Camera.main.GetComponent<AudioSource>().time = 40f;
 
@@ -27,8 +29,7 @@ public class TitleBangClick : MonoBehaviour
 
 	void Update ()
 	{
-
-
+        
 		if (activationTime > 0f)
 		{
 			activationTime -= Time.deltaTime;
@@ -81,8 +82,12 @@ public class TitleBangClick : MonoBehaviour
             {
                 image.color = colors[colorIndex];
             }
+            foreach (Image image in outlineImages)
+            {
+                image.color = colors[colorIndex];
+            }
 
-			animator.SetInteger("animation", 0);
+            animator.SetInteger("animation", 0);
 		}
 		else if (button == 1)
 		{

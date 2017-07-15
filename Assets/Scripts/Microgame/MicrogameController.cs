@@ -100,7 +100,6 @@ public class MicrogameController : MonoBehaviour
                     LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
                     if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
                         manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
-                    manager.Awake();
                     manager.gameObject.SetActive(true);
                 }
                 
@@ -267,10 +266,9 @@ public class MicrogameController : MonoBehaviour
     /// <param name="volume"></param>
     public void playSFXUnscaled(AudioClip clip, float panStereo = 0f, float pitch = 1f, float volume = 1f)
     {
-        sfxSource.volume = volume;
         sfxSource.pitch = pitch;
         sfxSource.panStereo = panStereo;
-        sfxSource.PlayOneShot(clip);
+        sfxSource.PlayOneShot(clip, volume * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX));
     }
 
     /// <summary>
