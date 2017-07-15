@@ -18,12 +18,14 @@ public class MenuDropdown : MonoBehaviour
     private bool hiding;
     private MenuDropdown[] neighbors;
     private bool wasOpenLastFrame;
+    private int startFrame;
 
-	void Start()
+    void Start()
 	{
         closedChildCount = transform.childCount;
         neighbors = transform.parent.GetComponentsInChildren<MenuDropdown>();
         wasOpenLastFrame = false;
+        startFrame = Time.frameCount;
 	}
 	
 	void Update()
@@ -64,7 +66,8 @@ public class MenuDropdown : MonoBehaviour
 
     public void press(int value)
     {
-        animator.Play("UpdateValue");
+        if (Time.frameCount > startFrame)
+            animator.Play("UpdateValue");
     }
 
     bool areAnyNeighborsOpen(bool includeSelf)
