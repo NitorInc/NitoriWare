@@ -6,6 +6,8 @@ using System.IO;
 public class LocalizationManager : MonoBehaviour
 {
 	private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
+    private const string DefaultLanguage = "English";
+    private const string PreferredLanguagePrefKey = "settings.preferredlanguage";
 
 	public static LocalizationManager instance;
 
@@ -15,7 +17,6 @@ public class LocalizationManager : MonoBehaviour
     private string forceLanguage;
 
     private Language loadedLanguage;
-
 	private SerializedNestedStrings localizedText;
     private string languageString;
 
@@ -40,8 +41,16 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
-        
-		setLanguage((forceLanguage == "" ? Application.systemLanguage.ToString() : forceLanguage));
+
+        string languageToLoad,
+            preferredLanguage = getPreferredLangauge(); ;
+        if (!string.IsNullOrEmpty(forceLanguage))
+            languageToLoad = forceLanguage;
+        else if (!string.IsNullOrEmpty(preferredLanguage))
+            languageToLoad = preferredLanguage;
+        else
+            languageToLoad = Application.systemLanguage.ToString();
+		setLanguage(languageToLoad);
 	}
 
     public void setForcedLanguage(string language)
@@ -107,6 +116,16 @@ public class LocalizationManager : MonoBehaviour
 	{
 		return (localizedText == null) ? "No language set" : getLocalizedValue(key, NotFoundString);
 	}
+
+    public string getPreferredLangauge()
+    {
+        return PlayerPrefs.GetString(PreferredLanguagePrefKey, "");
+    }
+
+    public void setPreferredLanguage(string language)
+    {
+        PlayerPrefs.SetString(PreferredLanguagePrefKey, language);
+    }
 
 	public string getLocalizedValue(string key, string defaultString)
 	{

@@ -27,7 +27,7 @@ public class LanguageDropdown : MonoBehaviour
         dropdown.ClearOptions();
         dropdown.AddOptions((from language in languages select new Dropdown.OptionData(language.languageName)).ToList());
 
-        dropdown.value = findLanguageIndex(TextHelper.getLoadedLanguage());
+        dropdown.value = findLanguageIndex(LocalizationManager.instance.getPreferredLangauge());
     }
 
     int findLanguageIndex(string fileName)
@@ -46,7 +46,11 @@ public class LanguageDropdown : MonoBehaviour
         if (LocalizationManager.instance == null)
             return;
 
-        if (languageFilenames[item] != TextHelper.getLoadedLanguage())
-            LocalizationManager.instance.setLanguage(languageFilenames[item]);
+        string language = languageFilenames[item];
+        if (language != TextHelper.getLoadedLanguage())
+        {
+            LocalizationManager.instance.setLanguage(language);
+            LocalizationManager.instance.setPreferredLanguage(language);
+        }
     }
 }
