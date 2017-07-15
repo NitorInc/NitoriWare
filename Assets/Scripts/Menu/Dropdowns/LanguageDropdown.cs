@@ -27,7 +27,7 @@ public class LanguageDropdown : MonoBehaviour
         dropdown.ClearOptions();
         dropdown.AddOptions((from language in languages select new Dropdown.OptionData(language.languageName)).ToList());
 
-        dropdown.value = findLanguageIndex(LocalizationManager.instance.getPreferredLangauge());
+        dropdown.value = findLanguageIndex(PrefsHelper.getPreferredLanguage());
     }
 
     int findLanguageIndex(string fileName)
@@ -50,7 +50,6 @@ public class LanguageDropdown : MonoBehaviour
         if (language != TextHelper.getLoadedLanguage())
         {
             LocalizationManager.instance.setLanguage(language);
-            LocalizationManager.instance.setPreferredLanguage(language);
         }
     }
 }

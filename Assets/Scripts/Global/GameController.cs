@@ -18,6 +18,13 @@ public class GameController : MonoBehaviour
     private UnityEvent onSceneLoad;
 #pragma warning restore 0649
 
+    public Prefs storedPrefs;
+    public struct Prefs
+    {
+        public string preferredLanguage;
+        public float masterVolume, musicVolume, sfxVolume, voiceVolume;
+    }
+
     public MicrogameCollection microgameCollection
 	{
 		get { return _microgameCollection; }

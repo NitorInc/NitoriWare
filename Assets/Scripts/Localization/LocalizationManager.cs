@@ -6,8 +6,7 @@ using System.IO;
 public class LocalizationManager : MonoBehaviour
 {
 	private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
-    private const string DefaultLanguage = "English";
-    private const string PreferredLanguagePrefKey = "settings.preferredlanguage";
+    public const string DefaultLanguage = "English";
 
 	public static LocalizationManager instance;
 
@@ -15,7 +14,7 @@ public class LocalizationManager : MonoBehaviour
     private Language[] languages;
     [SerializeField]
     private string forceLanguage;
-
+    
     private Language loadedLanguage;
 	private SerializedNestedStrings localizedText;
     private string languageString;
@@ -26,7 +25,6 @@ public class LocalizationManager : MonoBehaviour
         public string filename, languageName;
         public bool incomplete;
     }
-
 
 	public void Awake ()
 	{
@@ -42,8 +40,8 @@ public class LocalizationManager : MonoBehaviour
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
 
-        string languageToLoad,
-            preferredLanguage = getPreferredLangauge(); ;
+        string languageToLoad;
+        string preferredLanguage = PrefsHelper.getPreferredLanguage();
         if (!string.IsNullOrEmpty(forceLanguage))
             languageToLoad = forceLanguage;
         else if (!string.IsNullOrEmpty(preferredLanguage))
@@ -97,6 +95,7 @@ public class LocalizationManager : MonoBehaviour
 
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
         Debug.Log("Language " + language.filename + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
+        PrefsHelper.setPreferredLanguage(language.filename);
 
         loadedLanguage = language;
         languageString = "";
@@ -116,16 +115,6 @@ public class LocalizationManager : MonoBehaviour
 	{
 		return (localizedText == null) ? "No language set" : getLocalizedValue(key, NotFoundString);
 	}
-
-    public string getPreferredLangauge()
-    {
-        return PlayerPrefs.GetString(PreferredLanguagePrefKey, "");
-    }
-
-    public void setPreferredLanguage(string language)
-    {
-        PlayerPrefs.SetString(PreferredLanguagePrefKey, language);
-    }
 
 	public string getLocalizedValue(string key, string defaultString)
 	{
