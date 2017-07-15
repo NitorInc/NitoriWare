@@ -60,7 +60,7 @@ public class RippleEffect : MonoBehaviour
 			position.x /= (Camera.main.orthographicSize * 8f / 3f);
 			position.y += Camera.main.orthographicSize;
 			position.y /= (Camera.main.orthographicSize * 2f);
-			position.y = 1f - position.y;
+			//position.y = 1f - position.y;
 
 			time = 0;
 		}

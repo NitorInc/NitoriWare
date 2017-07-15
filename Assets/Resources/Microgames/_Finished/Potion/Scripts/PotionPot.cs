@@ -214,7 +214,8 @@ public class PotionPot : MonoBehaviour
 
 	void awakenPotion()
 	{
-		victoryPotion.SetActive(true);
+        if (gameObject.activeInHierarchy)
+		    victoryPotion.SetActive(true);
 	}
 
 	

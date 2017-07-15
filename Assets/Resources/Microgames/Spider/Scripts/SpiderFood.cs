@@ -12,6 +12,7 @@ public class SpiderFood : MonoBehaviour
 
 	private SpriteRenderer spriteRenderer;
 	private ParticleSystem particles;
+    public AudioClip grabClip;
 
 
 	void Awake ()
@@ -33,7 +34,10 @@ public class SpiderFood : MonoBehaviour
 			{
 				float distance = ((Vector2)(transform.position - cursorPosition)).magnitude;
 				if (distance <= grabRadius && Input.GetMouseButtonDown(0))
-					grabbed = true;
+                {
+                    MicrogameController.instance.playSFX(grabClip, AudioHelper.getAudioPan(transform.position.x));
+                    grabbed = true;
+                }
 
 				float scale = (1f + (Mathf.Sin(Time.time * 8f) / 5f)) * initialScale;
 				transform.localScale = new Vector3(scale, scale, 1f);
@@ -43,7 +47,10 @@ public class SpiderFood : MonoBehaviour
 				transform.localScale = Vector3.one * initialScale;
 
 				if (!Input.GetMouseButton(0))
-					grabbed = false;
+                {
+                    MicrogameController.instance.playSFX(grabClip, AudioHelper.getAudioPan(transform.position.x), .8f);
+                    grabbed = false;
+                }
 				else
 					transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
 			}

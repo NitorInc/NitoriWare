@@ -1759,12 +1759,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBoundsNeeded: 53
   outOfBoundsLeft: 4
+  particleDisappearStartTime: 0.25
+  particleDisappearDuration: 0.35
+  particleDisappearResumeTime: 0.75
   essentialColliders:
   - {fileID: 591254714}
   - {fileID: 765553127}
   victoryAnimator: {fileID: 631787621}
+  inBoundColliders: {fileID: 513955602}
+  outBoundColliders: {fileID: 110838992}
   resultSoundSource: {fileID: 589259330}
   victoryClip: {fileID: 8300000, guid: e3f0b7d79aaf9dd4ca124035f5bdba81, type: 3}
+  buzzerClip: {fileID: 8300000, guid: e840907679a329740812bfa05608e8a3, type: 3}
+  victoryColors:
+  - {fileID: 1074172509}
+  - {fileID: 632962305}
 --- !u!199 &404941300
 ParticleSystemRenderer:
   serializedVersion: 3
@@ -1871,7 +1880,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1238116079
+  randomSeed: 855136842
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6201,6 +6210,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   particleSystems: []
+  audioSources: []
 --- !u!1 &632962302
 GameObject:
   m_ObjectHideFlags: 0
@@ -6210,6 +6220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 632962303}
   - component: {fileID: 632962304}
+  - component: {fileID: 632962305}
   m_Layer: 0
   m_Name: Silhouette
   m_TagString: Untagged
@@ -6263,13 +6274,28 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d4b06a3b897ab27449eafb0fa2760b87, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.384}
+  m_Color: {r: 0, g: 0.14901961, b: 1, a: 0.38431373}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+--- !u!114 &632962305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 632962302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe363abb92124447a08d8b150b21029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalColor: {r: 0, g: 0.14901961, b: 1, a: 0.38431373}
+  victoryColor: {r: 0, g: 0.14901961, b: 1, a: 0.38431373}
+  failureColor: {r: 0.36206898, g: 0.04505149, b: 0.04505149, a: 0.38431373}
+  ignoreVictoryDetermined: 0
 --- !u!1 &634447201
 GameObject:
   m_ObjectHideFlags: 0
@@ -8442,6 +8468,7 @@ MonoBehaviour:
   normalColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   victoryColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   failureColor: {r: 0.07121688, g: 0.11191223, b: 0.17586207, a: 1}
+  ignoreVictoryDetermined: 0
 --- !u!1 &1076742487
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class Spider : MonoBehaviour
 	private float mouthAngle;
 	private bool mouthClosing;
 
-	public AudioSource feedSound;
+    public AudioClip victoryClip;
 
 	void Awake ()
 	{
@@ -125,9 +125,10 @@ public class Spider : MonoBehaviour
 			//food.GetComponent<ParticleSystem>().emission.rate = new ParticleSystem.MinMaxCurve(food.particleRate);
 
 			MicrogameController.instance.setVictory(true, true);
-			
-			//feedSound.pitch = 1.1f * Time.timeScale;
-			//feedSound.Play();
+
+            //feedSound.pitch = 1.1f * Time.timeScale;
+            //feedSound.Play();
+            MicrogameController.instance.playSFX(victoryClip, 0f, 1f, .75f);
 
 			//CameraController.instance.setShakeCoolRate(0f);
 			//CameraController.instance.setScreenShake(1f);

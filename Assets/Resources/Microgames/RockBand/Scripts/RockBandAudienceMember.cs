@@ -14,6 +14,8 @@ public class RockBandAudienceMember : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private Sprite[] sprites;
+    [SerializeField]
+    private Sprite failSprite;
 #pragma warning restore 0649
 
     private Vector3 startPosition;
@@ -109,6 +111,7 @@ public class RockBandAudienceMember : MonoBehaviour
                 }
                 flipCooldown = float.PositiveInfinity;
                 victoryStatus = -1;
+                spriteRenderer.sprite = failSprite;
             }
         }
     }
