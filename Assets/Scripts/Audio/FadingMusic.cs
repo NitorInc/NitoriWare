@@ -7,6 +7,8 @@ public class FadingMusic : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
+    private bool fadeInFirst;
+    [SerializeField]
     private float fadeSpeed;
 #pragma warning restore 0649
 
@@ -29,17 +31,32 @@ public class FadingMusic : MonoBehaviour
 	void updateFade()
 	{
         float diff = fadeSpeed * Time.deltaTime;
-        if (_audioSource.volume <= diff)
+        if (fadeInFirst)
         {
-            _audioSource.volume = 0f;
-            _audioSource.Stop();
+            if (_audioSource.volume >= diff)
+            {
+                _audioSource.volume = 1f;
+                fadeInFirst = started = false;
+            }
+            else
+                _audioSource.volume += diff;
         }
         else
-            _audioSource.volume -= diff;
+        {
+            if (_audioSource.volume <= diff)
+            {
+                _audioSource.volume = 0f;
+                _audioSource.Stop();
+            }
+            else
+                _audioSource.volume -= diff;
+        }
 	}
 
     public void startFade()
     {
+        if (started && fadeInFirst)
+            fadeInFirst = false;
         started = true;
     }
 }
