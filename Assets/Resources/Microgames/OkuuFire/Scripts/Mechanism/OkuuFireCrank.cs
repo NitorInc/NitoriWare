@@ -3,6 +3,7 @@
 public class OkuuFireCrank : MonoBehaviour, IOkuuFireMechanism
 {
     // Number of complete rotations possible.
+    [Header("Number of times the crank can be rotated 360 degrees")]
     public float rotations;
     
     private float reach;
