@@ -10,6 +10,8 @@ public class TextParentName : MonoBehaviour
 #pragma warning disable 0649	//Serialized Fields
     [SerializeField]
     private Text text;
+    [SerializeField]
+    private bool editorModeOnly = true;
 	
 #pragma warning restore 0649
 
@@ -18,7 +20,7 @@ public class TextParentName : MonoBehaviour
         if (text == null)
             text = GetComponent<Text>();
 
-        if (!Application.isPlaying)
+        if (!editorModeOnly || !Application.isPlaying)
             text.text = transform.parent.name;
     }
 	
