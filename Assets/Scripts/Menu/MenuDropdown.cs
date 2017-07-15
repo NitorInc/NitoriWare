@@ -41,7 +41,7 @@ public class MenuDropdown : MonoBehaviour
         else
             hiding = false;
 
-        animator.SetBool("CanHighlight", CameraHelper.isMouseOver(clickCollider) && !isOpen());
+        animator.SetBool("CanHighlight", CameraHelper.isMouseOver(clickCollider) && !areAnyNeighborsOpen(true));
         
         //Gotta force these sometimes
         if (isOpen() && Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
