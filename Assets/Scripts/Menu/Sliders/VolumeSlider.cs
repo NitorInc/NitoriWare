@@ -12,17 +12,45 @@ public class VolumeSlider : MonoBehaviour
     private Slider slider;
     [SerializeField]
     private PrefsHelper.VolumeType type;
+    [SerializeField]
+    private bool applyOnMouseUp;
+    [SerializeField]
+    private AudioSource onChangeSource;
+    [SerializeField]
+    private AudioClip onChangeClip;
 #pragma warning restore 0649
 
-
+    private bool queueChange;
 
 	void Start()
 	{
         slider.value = PrefsHelper.getVolumeRaw(type);
+        queueChange = false;
 	}
+
+    void Update()
+    {
+        if (queueChange && Input.GetMouseButtonUp(0))
+            updateValue();
+    }
 
     public void setValue()
     {
+        if (applyOnMouseUp)
+            queueChange = true;
+        else
+            updateValue();
+    }
+
+    void updateValue()
+    {
         PrefsHelper.setVolume(type, slider.value);
+        if (onChangeSource != null)
+        {
+            onChangeSource.Stop();
+            if (queueChange)
+                onChangeSource.PlayOneShot(onChangeClip, PrefsHelper.getVolume(type));
+        }
+        queueChange = false;
     }
 }
