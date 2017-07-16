@@ -532,6 +532,24 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6117e692051a1f24cbe41f46f74304a5, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &162876867 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1997114940704122, guid: c574bd28dd624c8419470e4bee7356ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 1405005229}
+--- !u!114 &162876868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162876867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ebb0068329f7e45819ea7bb58c45ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  operation: 2
+  compareTo: 0
 --- !u!1 &192852392
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +922,24 @@ Transform:
   m_Father: {fileID: 1586203572}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &326989222 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1997114940704122, guid: c574bd28dd624c8419470e4bee7356ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 2125393981}
+--- !u!114 &326989223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 326989222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ebb0068329f7e45819ea7bb58c45ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  operation: 0
+  compareTo: 0
 --- !u!1 &364825017
 GameObject:
   m_ObjectHideFlags: 0
@@ -6500,12 +6536,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1997114940704122, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
       propertyPath: m_Name
-      value: Story Mode
+      value: Story Play
       objectReference: {fileID: 0}
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 331
+      value: 139
       objectReference: {fileID: 0}
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -6515,7 +6551,7 @@ Prefab:
     - target: {fileID: 114955607802540938, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_Text
-      value: Story Mode
+      value: Play
       objectReference: {fileID: 0}
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -6570,7 +6606,7 @@ Prefab:
     - target: {fileID: 114588522345810848, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: _key
-      value: menu.main.story
+      value: menu.play
       objectReference: {fileID: 0}
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -6602,6 +6638,10 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Nitori
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997114940704122, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
@@ -9886,17 +9926,17 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1997114940704122, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
       propertyPath: m_Name
-      value: Play
+      value: Arcade Play
       objectReference: {fileID: 0}
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 372
+      value: 139
       objectReference: {fileID: 0}
     - target: {fileID: 224203364939074042, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224413938078708784, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -9940,7 +9980,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1997114940704122, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114588522345810848, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
