@@ -477,6 +477,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13a12f689dd83e942b03df54f33899a1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &98192171 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1523846499907566, guid: 87c500271f0d4254883151e055c319b9,
+    type: 2}
+  m_PrefabInternal: {fileID: 486694319}
 --- !u!1001 &160277792
 Prefab:
   m_ObjectHideFlags: 0
@@ -2742,7 +2747,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 32765
+  m_SortingOrder: 32748
   m_Sprite: {fileID: 21300000, guid: 8be105d304966c341bf55874e04b7996, type: 3}
   m_Color: {r: 0.2565217, g: 0.794, b: 1, a: 1}
   m_FlipX: 0
@@ -4760,6 +4765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voiceDelay: 0.35
+  sceneShiftTime: 1.5
   animator: {fileID: 1218275498}
   bgMusicFade: {fileID: 1519290836}
   voiceSource: {fileID: 444263066}
@@ -6525,16 +6531,16 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1218275500}
+      objectReference: {fileID: 98192171}
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: startGameplay
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -6549,7 +6555,7 @@ Prefab:
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
         type: 2}
@@ -6565,6 +6571,37 @@ Prefab:
         type: 2}
       propertyPath: _key
       value: menu.main.story
+      objectReference: {fileID: 0}
+    - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114751744462167996, guid: c574bd28dd624c8419470e4bee7356ef,
+        type: 2}
+      propertyPath: unityEvents.Array.data[0].m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 98192171}
+    - target: {fileID: 114047095405417306, guid: c574bd28dd624c8419470e4bee7356ef,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Nitori
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c574bd28dd624c8419470e4bee7356ef, type: 2}
@@ -7509,7 +7546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInFirst: 0
-  fadeSpeed: 2
+  fadeSpeed: 1
   type: 1
 --- !u!82 &1519290837
 AudioSource:
@@ -7522,7 +7559,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a747f16c4dd6c694bb3a2178ba785440, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9112,7 +9149,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 32750
   m_Sprite: {fileID: 21300000, guid: 8dd12fa80fda1ec4696cf63b9192fd88, type: 3}
   m_Color: {r: 0.23137255, g: 0.68235296, b: 0.9019608, a: 0}
   m_FlipX: 0
@@ -9560,7 +9597,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 32766
+  m_SortingOrder: 32749
   m_Sprite: {fileID: 21300000, guid: 8be105d304966c341bf55874e04b7996, type: 3}
   m_Color: {r: 0.2565217, g: 0.794, b: 1, a: 0.5882353}
   m_FlipX: 0

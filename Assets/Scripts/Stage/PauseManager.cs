@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public static bool disablePause;
     public static bool exitedWhilePaused;
 
 	public UnityEvent onPause, onUnPause;
@@ -65,6 +66,9 @@ public class PauseManager : MonoBehaviour
 
 	public void pause()
 	{
+        if (disablePause)
+            return;
+
 		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 		AudioListener.pause = true;

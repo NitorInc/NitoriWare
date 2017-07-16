@@ -10,6 +10,8 @@ public class GameplayMenu : MonoBehaviour
     [SerializeField]
     private float voiceDelay;
     [SerializeField]
+    private float sceneShiftTime;
+    [SerializeField]
     private Animator animator;
     [SerializeField]
     private FadingMusic bgMusicFade;
@@ -22,12 +24,13 @@ public class GameplayMenu : MonoBehaviour
         animator.ResetTrigger("StartGameplay");
     }
 
-    public void startGameplay()
+    public void startGameplay(string scene)
     {
         GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
         animator.SetTrigger("StartGameplay");
         bgMusicFade.startFade();
         Invoke("playVoice", voiceDelay);
+        GameController.instance.sceneShifter.startShift(scene, sceneShiftTime);
     }
 
     void playVoice()
