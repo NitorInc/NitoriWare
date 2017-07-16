@@ -5,9 +5,10 @@ using System.Collections;
 public class MouseGrabbable : MonoBehaviour
 {
 	public bool centerOnCursor, disableOnVictory, disableOnLoss;
-	public UnityEvent onGrab, onRelease;
+    public LayerMask layerMask = Physics2D.DefaultRaycastLayers;
+    public UnityEvent onGrab, onRelease;
+	public Collider2D _collider2D;
 
-	private Collider2D _collider2D;
 	private Vector2 grabOffset;
 	private SpriteRenderer _spriteRenderer;
 	private bool _grabbed = false;
@@ -29,14 +30,15 @@ public class MouseGrabbable : MonoBehaviour
 	}
 
 	void Awake ()
-	{
-		_collider2D = GetComponent<Collider2D>();
+    {
+        if (_collider2D == null)
+            _collider2D = GetComponent<Collider2D>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	void Update ()
 	{
-		if (MicrogameController.instance.getVictoryDetermined())
+		if (MicrogameController.instance != null && MicrogameController.instance.getVictoryDetermined())
 		{
 			if ((disableOnVictory && MicrogameController.instance.getVictory()) || (disableOnLoss && !MicrogameController.instance.getVictory()))
 			{
@@ -67,7 +69,7 @@ public class MouseGrabbable : MonoBehaviour
 	{
 		if (!grabbed)
 		{
-			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D))
+			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, float.PositiveInfinity, layerMask))
 				grabbed = true;
 		}
 		else

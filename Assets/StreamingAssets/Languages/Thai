@@ -1,5 +1,6 @@
 generic
 	name=ภาษาไทย
+	incomplete=คำเตือน: คำแปลบางส่วนยังไม่เสร็จสมบูรณ์ดีนัก ข้อความบางคำอาจจะขึ้นแสดงเป็นภาษาอังกฤษ
 stage
 	control
 		key=ใช้คีย์บอร์ด
@@ -7,15 +8,76 @@ stage
 	speedup=เร็วกว่านี้!
 	boss=ด่านบอส
 	levelup=เลเวลอัพ!
+	pause=หยุดเกมชั่วคราว
+		resume=เล่นต่อ
+	quit=ออกจากเกม
+	gameover=จบเกม
+		score=คะแนนที่ได้: {0}
+		highscore=สถิติ: {0}
+		newhighscore=สถิติใหม่!
 menu
+	yes=ใช่
+	no=ไม่
+	ok=OK
+	back=ถอยกลับ
+	backalt=ถอยกลับ
+	confirm=คอนเฟิร์ม
+	cancel=ยกเลิก
+	on=เปิด
+	off=ปิด
+	play=เริ่มเล่น
 	main
-		quit
-			prompt
+		story=โหมดเนื้อเรื่อง
+		compilation=โหมดอาร์เคด
+		practice=ฝึกเล่น
+		quit=ออกจากเกม
+			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
+		settings=ตั้งค่า
+		credits=ผู้จัดทำ
+	gamemode=เลือกโหมดเกม!
+		locked1=ยังเล่นไม่ได้จ้า! เล่น {0} ให้ผ่านก่อนนะ!
+		locked2=ยังเล่นไม่ได้จ้า! เล่น {1} ให้ได้ {0} คะแนนก่อนนะ!
+		highscore=สถิติ: {0}
+		compilation
+			description=ลองเล่นไมโครเกมให้ได้มากที่สุด! ไม่มีด่านบอส
+		compilationnormal
+			description=โหมดอาร์เคดธรรมดา: เกมทุกเกมจะถูกสลับ
+		compilationfast=ความจุสูงสุด
+			description=เร็วมากกกกกกก
+		compilationhard=นรกแตงกวา
+			description=ในโหมดนี้ มีแต่เกมระดับยากที่สุดเท่านั้น โอกาสมีแค่ชีวิตเดียว จะทนได้นานแค่ไหนกันนะ?
+	settings
+		resolution=ขนาดหน้าจอ
+		fullscreen=เต็มจอ
+		language=ภาษา
+		graphics=คุณภาพกราฟฟิก
+			0=เร็วที่สุด
+			1=ค่อนข้างเร็ว
+			2=เรียบง่าย
+			3=ดี
+			4=สวยงาม
+			5=เลิศเลอ
+		volume=ระดับเสียง
+			master=มาสเตอร์
+			music=เสียงเพลง
+			sfx=เอฟเฟกต์
+			voice=เสียงพูด
+	splash
+		introa=เวอร์ชั่นทดลองนี้เป็นเกมที่ได้รับแรงบันดาลใจมาจากโทโฮโปรเจกต์ สร้างโดยท่าน ZUN
+		introb=แฟน ๆ ของซีรี่ยส์นี่ได้ช่วยกันเขียนโค้ด แต่งเพลง วาดรูป และใช้ความสามรถต่าง ๆ นา ๆ ในการทำเกมนี้
+		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และคุณอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้
+		webglwarning=ถ้าตัวเกมในเว็บไซต์เล่นไม่ได้ ลองดาวน์โหลดจากลิ้งค์พวกนี้ดูสิ
+nitori
+	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
+	storyfinished=เยี่ยมมากนายเนิร์ด\nนายไม่น่าจะเป็นแค่นักช็อปเล่น ๆ สินะ\nลอง {0} ดูสิ!
+	compilationfinished=เฮ้ ไม่เลวนี่!\nนายรอเกมตัวเต็มออกมาก่อนนะ\n{0}มันเพิ่งจะเริ่มต้นเอง!
 microgame
 	FreezeFrogs
 		command=ทำให้แข็ง!
 	Slingshot
 		command=ยิง!
+	ChenFood
+		command=ระวังถูกกิน!
 	Spider
 		command=ให้อาหาร!
 	Donation
@@ -29,7 +91,34 @@ microgame
 		command=กินและเคี้ยว!
 	Spaceship
 		command=ปล่อย!
+	CupShuffle
+		command=จับตาดู!
+		commandb=เลือก!
 	TraceShape
 		command=ระบายสี!
+	RockBand
+		command=แสดง
+	ChenBike
+		command=บีบแตร!
 	MasterSparkCode
 		command=ร่าย!
+	OkuuFire
+		command=ควบคุม!
+	YukariCake
+		command=รับ!
+	RemiCover
+		command=ปกป้อง!
+	SuikaShake
+		command=เขย่า!
+	TouhouSort
+		command=แบ่งตาม {0}!
+		hat=ส่วนหัว
+		wing=ปีก
+		ear=หู
+	FlanGrab
+		command=ปกป้อง!
+	PaperThief
+		command=ไปให้ถึงจุดหมาย!
+		commandb=อันตราย!
+		commandc=ยิง!
+		commandd=ชนะเธอซะ!

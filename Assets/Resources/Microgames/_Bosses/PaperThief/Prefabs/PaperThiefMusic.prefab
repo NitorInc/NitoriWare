@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4520548259398290}
   - component: {fileID: 82137686368251632}
+  - component: {fileID: 114606722936656258}
   m_Layer: 0
   m_Name: Death Sound
   m_TagString: Untagged
@@ -36,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4313054355740588}
   - component: {fileID: 82910906603448082}
+  - component: {fileID: 114839509336585272}
   m_Layer: 0
   m_Name: Death Music
   m_TagString: Untagged
@@ -54,6 +56,7 @@ GameObject:
   - component: {fileID: 114208361206223666}
   - component: {fileID: 114570463500568530}
   - component: {fileID: 82917104742706192}
+  - component: {fileID: 114613121796964654}
   m_Layer: 0
   m_Name: Fight Music
   m_TagString: Untagged
@@ -69,7 +72,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4340054378268666}
-  - component: {fileID: 114699662173026932}
   m_Layer: 0
   m_Name: PaperThiefMusic
   m_TagString: Untagged
@@ -88,6 +90,7 @@ GameObject:
   - component: {fileID: 114651908119624480}
   - component: {fileID: 114762192163398082}
   - component: {fileID: 82572539313808112}
+  - component: {fileID: 114111946381726652}
   m_Layer: 0
   m_Name: Stage Music
   m_TagString: Untagged
@@ -484,6 +487,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114111946381726652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791219722834404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  volumeType: 1
 --- !u!114 &114208361206223666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -508,7 +526,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d6db264afb27e4e8505e2ed5c5d691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInFirst: 0
   fadeSpeed: 0.5
+--- !u!114 &114606722936656258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1327126602338918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  volumeType: 2
+--- !u!114 &114613121796964654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1611595176182574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  volumeType: 1
 --- !u!114 &114651908119624480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -520,19 +569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d6db264afb27e4e8505e2ed5c5d691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInFirst: 0
   fadeSpeed: 1
---- !u!114 &114699662173026932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1634516106591042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  includeChildren: 1
 --- !u!114 &114762192163398082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -544,3 +582,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9af0ef4733c13a499fac79d73c3e974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114839509336585272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1431933368286284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  volumeType: 1

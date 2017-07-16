@@ -40,7 +40,7 @@ public class TraceShapeCursor : MonoBehaviour
 		//Enable emmissions if mouse is held down
 		ParticleSystem.EmissionModule emission = traceParticles.emission;
         emission.enabled = Input.GetMouseButton(0);
-        _audioSource.volume = Input.GetMouseButton(0) ? 1f : 0f;
+        _audioSource.volume = Input.GetMouseButton(0) ? PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX) : 0f;
 
         if (!emission.enabled && Input.GetMouseButtonDown(0))
             traceParticles.Emit(1); //When mouse is first pressed, create a particle (otherwise one won't be created before the player moves their cursor

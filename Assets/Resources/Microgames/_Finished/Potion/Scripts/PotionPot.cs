@@ -59,13 +59,14 @@ public class PotionPot : MonoBehaviour
 	}
 
 	void Update()
-	{
-		if (state != State.Default)
+    {
+        float volumeScale = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+        if (state != State.Default && volumeScale > 0f)
 		{
-			if (bubbleSource.volume > 0f)
+            if (bubbleSource.volume / volumeScale > 0f)
 			{
-				bubbleSource.volume -= bubbleFadeSpeed * Time.deltaTime;
-				bubbleSource.volume = Mathf.Max(bubbleSource.volume, 0f);
+				bubbleSource.volume -= bubbleFadeSpeed * Time.deltaTime * volumeScale;
+				bubbleSource.volume = Mathf.Max(bubbleSource.volume, 0f) * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 			}
 		}
 		else if (!bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)

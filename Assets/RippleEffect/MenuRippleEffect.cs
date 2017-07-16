@@ -3,7 +3,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class RippleEffect : MonoBehaviour
+
+public class MenuRippleEffect : MonoBehaviour
 {
 	public AnimationCurve waveform = new AnimationCurve(
 		new Keyframe(0.00f, 0.50f, 0, 0),
@@ -19,7 +20,11 @@ public class RippleEffect : MonoBehaviour
 		new Keyframe(0.99f, 0.50f, 0, 0)
 	);
 
-	[Range(0.01f, 1.0f)]
+    public float effectTime, rippleCoolTime = .25f;
+    private float rippleCoolTimer, dropTimer;
+    public bool randomDrops;
+
+    [Range(0.01f, 1.0f)]
 	public float refractionStrength = 0.5f;
 
 	public Color reflectionColor = Color.gray;
@@ -46,20 +51,27 @@ public class RippleEffect : MonoBehaviour
 			time = 1000;
 		}
 
-		public void Reset()
+		public void Reset(bool mousePosition)
 		{
 			//position = new Vector2(Random.value, Random.value);
 
+            if (mousePosition)
+            {
+                position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+            else
+            {
+                Vector2 bounds = new Vector2(Camera.main.orthographicSize * 4f / 3f, Camera.main.orthographicSize);
+                position = Camera.main.transform.position + new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), 0f);
+            }
 
-			position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            position.x -= Camera.main.transform.position.x;
+            position.y -= Camera.main.transform.position.y;
 
-			position.x -= Camera.main.transform.position.x;
-			position.y -= Camera.main.transform.position.y;
-
-			position.x += (Camera.main.orthographicSize * 4f / 3f);
-			position.x /= (Camera.main.orthographicSize * 8f / 3f);
-			position.y += Camera.main.orthographicSize;
-			position.y /= (Camera.main.orthographicSize * 2f);
+            position.x += (Camera.main.orthographicSize * 4f / 3f);
+            position.x /= (Camera.main.orthographicSize * 8f / 3f);
+            position.y += Camera.main.orthographicSize;
+            position.y /= (Camera.main.orthographicSize * 2f);
 			//position.y = 1f - position.y;
 
 			time = 0;
@@ -117,20 +129,65 @@ public class RippleEffect : MonoBehaviour
 		UpdateShaderParameters();
 	}
 
-	void Update()
+    void Start()
+    {
+        if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
+        {
+            effectTime = .01f;
+            //dropTimer = dropInterval;
+        }
+    }
+
+    void Update()
 	{
 		foreach (var d in droplets) d.Update();
 
 		UpdateShaderParameters();
+
+        if (effectTime > 0f)
+            effectTime -= Time.deltaTime;
+        else
+        {
+            dropTimer -= Time.deltaTime;
+            if (randomDrops)
+            {
+                if (dropTimer <= 0f)// && GameMenu.subMenu == GameMenu.SubMenu.Title && !GameMenu.shifting)
+                {
+                    Emit(false);
+                    dropTimer += dropInterval;
+                }
+            }
+            else
+            {
+                if (rippleCoolTimer > 0f)
+                    rippleCoolTimer -= Time.deltaTime;
+                else if (Input.GetMouseButtonDown(0))
+                    checkCollision();
+
+            }
+        }
 	}
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		Graphics.Blit(source, destination, material);
-	}
+    }
 
-	public void Emit()
-	{
-		droplets[dropCount++ % droplets.Length].Reset();
-	}
+    void checkCollision()
+    {
+        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
+
+        if (hit && hit.collider.name == "Ripple Collider")
+        {
+            Emit(true);
+            rippleCoolTimer = rippleCoolTime;
+            dropTimer = dropInterval;
+        }
+    }
+
+    public void Emit(bool mousePosition)
+    {
+        droplets[dropCount++ % droplets.Length].Reset(mousePosition);
+    }
 }

@@ -30,7 +30,7 @@ public class PaperThiefNitori : MonoBehaviour
     [SerializeField]
     private AudioSource deathSound, deathMusic, sfxSource;
     [SerializeField]
-    private AudioClip gunFireClip, gunEquipClip;
+    private AudioClip stepClip, jumpClip, gunFireClip, gunEquipClip, deathClip;
 #pragma warning restore 0649
 
     public int forceDirection
@@ -41,7 +41,7 @@ public class PaperThiefNitori : MonoBehaviour
 
     private Rigidbody2D _rigidBody2D;
     private Transform startParent;
-	private float spinCooldownTimer, shotCooldownTimer;
+	private float spinCooldownTimer, shotCooldownTimer, lastStepSoundPlayedAt;
 
 	[SerializeField]
 	private State state;
@@ -75,8 +75,10 @@ public class PaperThiefNitori : MonoBehaviour
 		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
         startParent = transform.parent;
+        sfxSource.pitch = Time.timeScale;
+        lastStepSoundPlayedAt = Time.time;
 
-		if (MicrogameController.instance.isDebugMode())
+        if (MicrogameController.instance.isDebugMode())
         {
             hasControl = true;
         }
@@ -150,7 +152,7 @@ public class PaperThiefNitori : MonoBehaviour
 
                 PaperThiefCamera.instance.startChase();
 
-                sfxSource.volume = 1f;
+                //sfxSource.volume = 1f;
                 sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
                 //sfxSource.pitch = 1.25f * Time.timeScale;
                 sfxSource.PlayOneShot(gunEquipClip);
@@ -215,9 +217,9 @@ public class PaperThiefNitori : MonoBehaviour
 		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
 
-        sfxSource.volume = 1f;
+        //sfxSource.volume = 1f;
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 2f;
-        sfxSource.pitch = 1.25f * Time.timeScale;
+        sfxSource.pitch = Time.timeScale;
         sfxSource.PlayOneShot(gunFireClip);
 	}
 
@@ -265,6 +267,13 @@ public class PaperThiefNitori : MonoBehaviour
                 //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
                 transform.position = new Vector3(transform.position.x, groundHit.transform.position.y, transform.position.z);
                 _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
+
+                if (hasControl && Time.time >= lastStepSoundPlayedAt + .2f)
+                {
+                    sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+                    sfxSource.PlayOneShot(stepClip);
+                    lastStepSoundPlayedAt = Time.time;
+                }
             }
 
             //Attach to moving objects
@@ -279,6 +288,8 @@ public class PaperThiefNitori : MonoBehaviour
                 _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, jumpSpeed);
                 grounded = false;
                 transform.parent = startParent;
+                sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+                sfxSource.PlayOneShot(jumpClip);
             }
         }
         else
@@ -353,6 +364,29 @@ public class PaperThiefNitori : MonoBehaviour
 				_rigidBody2D.velocity = new Vector2(velocity.x + (diff * Mathf.Sign(goalSpeed - velocity.x)), velocity.y);
 		}
 	}
+
+    public void playStepSound()
+    {
+        if (canStep())
+        {
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+            sfxSource.PlayOneShot(stepClip);
+            lastStepSoundPlayedAt = Time.time;
+        }
+    }
+
+    bool canStep()
+    {
+        if (state == State.Gun)
+            return false;
+        if (!hasControl)
+            return true;
+        if (Time.time < (lastStepSoundPlayedAt + .2f))
+            return false;
+        return rigAnimator.GetBool("Walking") && isGrounded();
+        //return (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+        //    && !(Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow));
+    }
 
     bool isTurningAround(int direction)
     {

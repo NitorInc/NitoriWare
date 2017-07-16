@@ -37,4 +37,13 @@ public class TextHelper
 	{
 		return LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValueNoWarnings(key, defaultValue);
 	}
+
+    /// <summary>
+    /// Shortcut to LocalizationManager.instance.getLanguage() with null check
+    /// </summary>
+    /// <returns></returns>
+    public static string getLoadedLanguage()
+    {
+        return LocalizationManager.instance == null ? "" : LocalizationManager.instance.getLoadedLanguage();
+    }
 }

@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 217594214}
   - component: {fileID: 217594213}
   - component: {fileID: 217594215}
+  - component: {fileID: 217594216}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -245,6 +246,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &217594216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 217594212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  volumeType: 2
 --- !u!1001 &399779482
 Prefab:
   m_ObjectHideFlags: 0
@@ -1075,6 +1091,7 @@ MonoBehaviour:
   normalColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   victoryColor: {r: 1, g: 0.622, b: 0.309, a: 1}
   failureColor: {r: 0.497, g: 0.241, b: 0.778, a: 1}
+  ignoreVictoryDetermined: 0
 --- !u!1001 &1539621113
 Prefab:
   m_ObjectHideFlags: 0

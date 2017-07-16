@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 61880210241271938}
   - component: {fileID: 61556099139097226}
   - component: {fileID: 82645090566467474}
+  - component: {fileID: 114122335641526132}
   m_Layer: 0
   m_Name: PaperThiefNitori
   m_TagString: Untagged
@@ -938,7 +939,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1546263199499198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.56, y: -0.05, z: 0}
+  m_LocalPosition: {x: -0.56, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4980344485745378}
@@ -951,7 +952,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705143414285216}
   m_LocalRotation: {x: 0, y: 0, z: 0.0056552133, w: 0.9999841}
-  m_LocalPosition: {x: 0.05, y: 1.378, z: 0.12}
+  m_LocalPosition: {x: 0.05, y: 1.378, z: 0.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980344485745378}
@@ -981,7 +982,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1057869750099662}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.335, y: -0.05, z: 0}
+  m_LocalPosition: {x: 0.335, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4980344485745378}
@@ -1348,6 +1349,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114122335641526132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464553629135486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 0
+  tieToVolumeSettings: 1
+  volumeType: 2
 --- !u!114 &114305423955801224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1460,6 +1476,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114824559139316442}
+        m_MethodName: playStepSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   particleSystems: []
   audioSources: []
 --- !u!114 &114824559139316442
@@ -1506,8 +1537,11 @@ MonoBehaviour:
   deathSound: {fileID: 0}
   deathMusic: {fileID: 0}
   sfxSource: {fileID: 82645090566467474}
+  stepClip: {fileID: 8300000, guid: eefe131d36a2de34caa1ca04b6cacfd3, type: 3}
+  jumpClip: {fileID: 8300000, guid: 1b5e97846eed6f343a440c4ff5238e6c, type: 3}
   gunFireClip: {fileID: 8300000, guid: 67753f5eb54b76947b938a77f658054e, type: 3}
   gunEquipClip: {fileID: 8300000, guid: bab1f0a0da322384085cf6f953af7c86, type: 3}
+  deathClip: {fileID: 0}
   state: 0
   _hasControl: 1
 --- !u!114 &114897540003570782

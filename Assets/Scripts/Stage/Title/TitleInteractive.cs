@@ -3,31 +3,22 @@ using System.Collections;
 
 public class TitleInteractive : MonoBehaviour
 {
-
-	public bool isTop;
-	public float effectTime, rippleCoolTime;
-	public TitleInteractive nextInteractive;
-	public RippleEffect ripples;
+    public float effectTime;
 
 	public Animator animator, animatorToDisable;
+    public int altAnimationFrequency = 3;
 
-	private float rippleCooldown;
+    private int currentAnimation;
 
-	void Start ()
+    void Start ()
 	{
-		rippleCooldown = 0f;
+        currentAnimation = 0;
+        if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
+            effectTime = .01f;
 	}
 	
 	void Update ()
 	{
-
-		if (rippleCooldown > 0f)
-			rippleCooldown -= Time.deltaTime;
-
-
-		if (!isTop)
-			return;
-
 		if (effectTime <= 0f)
 			checkForInteraction();
 		else
@@ -37,47 +28,24 @@ public class TitleInteractive : MonoBehaviour
 			{
 				effectTime = 0f;
 
-				if (animator != null)
-				{
-					animator.enabled = true;
-					if (animatorToDisable != null)
-						animatorToDisable.enabled = false;
-				}
-			}
+                if (animator != null)
+                {
+                    animator.enabled = true;
+                    //if (animatorToDisable != null)
+                    //    animatorToDisable.enabled = false;
+                }
+            }
 		}
 	}
 
 	void checkForInteraction()
 	{
-
-
-
-		if (Input.GetMouseButtonDown(0))
-		{
-			checkCollision(0);
-		}
-		else if (Input.GetMouseButtonDown(1))
-		{
-			checkCollision(1);
-		}
-		//else if (ripples != null && Input.GetMouseButton(0))
-		//{
-
-		//	ripples.Emit();
-
-		//	//ripples.Emit(position);
-		//}
-
-
-
+		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+			checkCollision();
 	}
 
-	public void checkCollision(int button)
+	public void checkCollision()
 	{
-
-
-
-
 		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
 
@@ -85,22 +53,11 @@ public class TitleInteractive : MonoBehaviour
 		{
 			if (animator != null)
 			{
-				animator.SetInteger("animation", button + 1);
+                animator.SetInteger("animation", (currentAnimation % altAnimationFrequency == altAnimationFrequency - 1) ? 2 : 1);
 				Invoke("resetAnimation", .1f);
+                currentAnimation++;
 			}
 
-		}
-		else if (nextInteractive != null)
-		{
-			nextInteractive.checkCollision(button);
-		}
-		else if (ripples != null)
-		{
-			if (rippleCooldown <= 0f)
-			{
-				ripples.Emit();
-				rippleCooldown = rippleCoolTime;
-			}
 		}
 
 	}
