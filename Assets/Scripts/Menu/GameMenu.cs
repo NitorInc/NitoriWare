@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameMenu : MonoBehaviour
 {
     public static SubMenu subMenu = SubMenu.Splash;
-    //public static SubMenu subMenu = SubMenu.Settings;  //Debug purposes
+    //public static SubMenu subMenu = SubMenu.Title;  //Debug purposes
     public static bool shifting;
 
     private static GameMenu shiftOrigin;
