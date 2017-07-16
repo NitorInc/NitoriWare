@@ -189,6 +189,7 @@ MonoBehaviour:
   attachTo: {fileID: 61470758}
   target: {fileID: 0}
   victoryClip: {fileID: 8300000, guid: 9a6db70eaa747a041bc96dec8df1108c, type: 3}
+  confettiParticles: {fileID: 1350765899}
 --- !u!82 &245915939
 AudioSource:
   m_ObjectHideFlags: 0
@@ -494,6 +495,58 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+--- !u!1001 &1350765898
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362411047773176, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 198427449523411074, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3,
+        type: 2}
+      propertyPath: randomSeed
+      value: -157032922
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3, type: 2}
+  m_IsPrefabParent: 0
+--- !u!198 &1350765899 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198427449523411074, guid: 21827bab1c9cd4f49ba4ae7b1fb5bdc3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1350765898}
 --- !u!1001 &1587022998
 Prefab:
   m_ObjectHideFlags: 0
