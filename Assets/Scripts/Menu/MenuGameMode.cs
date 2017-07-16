@@ -15,6 +15,8 @@ public class MenuGameMode : MonoBehaviour
     [SerializeField]
     private Text highScoreText;
     [SerializeField]
+    private GameplayMenu gameplayMenu;
+    [SerializeField]
     private string modeName;
     [SerializeField]
     private bool triggerDescription;
@@ -70,5 +72,10 @@ public class MenuGameMode : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public void startGameplay()
+    {
+        gameplayMenu.startGameplay(modeName);
     }
 }
