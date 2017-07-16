@@ -32,7 +32,7 @@ public class MenuDropdown : MonoBehaviour
     {
         if (GameMenu.shifting)
         {
-            if (!isOpen())
+            if (isOpen())
             {
                 animator.SetBool("CanHighlight", false);
                 dropdown.Hide();
