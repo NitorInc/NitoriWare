@@ -69,10 +69,10 @@ public class TitleFloatingInteractive : MonoBehaviour
                 || Mathf.Abs(_rigidBody.velocity.magnitude - lastVelocity.magnitude) > bounceVolumeSpeedBounds.x)
             {
                 float speed = _rigidBody.velocity.magnitude;
-                float volume = Mathf.Pow(Mathf.Lerp(0f, 1f,
-                    ((speed - bounceVolumeSpeedBounds.x) / (bounceVolumeSpeedBounds.y - bounceVolumeSpeedBounds.y))),
-                    .5f);
-                if (volume > 0 && PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX) > 0f && !float.IsNaN(volume))
+                float volume = Mathf.Pow(Mathf.Lerp(.5f, 1f,
+                    ((speed - bounceVolumeSpeedBounds.x) / (bounceVolumeSpeedBounds.y - bounceVolumeSpeedBounds.x))),
+                    1f);
+                if (volume > .5f && PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX) > 0f && !float.IsNaN(volume))
                     sfxSource.PlayOneShot(bounceClip, volume);
             }
         }
