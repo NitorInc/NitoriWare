@@ -25,8 +25,8 @@ public class FullscreenDropdown : MonoBehaviour
 
     public void setOptionText()
     {
-        dropdown.options[0].text = TextHelper.getLocalizedText(yesKey, "Yes");
-        dropdown.options[1].text = TextHelper.getLocalizedText(noKey, "No");
+        dropdown.options[0].text = TextHelper.getLocalizedText(yesKey, "On");
+        dropdown.options[1].text = TextHelper.getLocalizedText(noKey, "Off");
         label.text = dropdown.options[dropdown.value].text;
     }
 
