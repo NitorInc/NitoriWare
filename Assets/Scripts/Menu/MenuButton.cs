@@ -47,6 +47,6 @@ public class MenuButton : MonoBehaviour
 
     public bool isMouseOver()
     {
-        return CameraHelper.isMouseOver(backupCollider);
+        return !GameMenu.shifting && CameraHelper.isMouseOver(backupCollider);
     }
 }

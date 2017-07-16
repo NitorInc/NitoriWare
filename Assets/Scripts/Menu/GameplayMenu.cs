@@ -45,6 +45,7 @@ public class GameplayMenu : MonoBehaviour
             GameController.instance.sceneShifter.startShift(scene, sceneShiftTime);
         }
 
+        GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
         gameplayStarting = true;
         enabled = false;
     }
