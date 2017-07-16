@@ -28,7 +28,7 @@ public static class PrefsHelper
 
     private static StoredPrefs loadPrefs()
     {
-        setProgress(1); //Debug purposes;
+        //setProgress(1); //Debug purposes;
 
         StoredPrefs newPrefs = new StoredPrefs();
         newPrefs.preferredLanguage = PlayerPrefs.GetString(PreferredLanguageKey, LocalizationManager.DefaultLanguage);
@@ -119,7 +119,7 @@ public static class PrefsHelper
     /// <returns></returns>
     public static int getHighScore(string stage)
     {
-        return PlayerPrefs.GetInt(HighScorePrefix + "stage", 0);
+        return PlayerPrefs.GetInt(HighScorePrefix + stage.ToLower(), 0);
     }
     
     /// <summary>
@@ -129,6 +129,6 @@ public static class PrefsHelper
     /// <param name="score"></param>
     public static void setHighScore(string stage, int score)
     {
-        PlayerPrefs.SetInt(HighScorePrefix + "stage", score);
+        PlayerPrefs.SetInt(HighScorePrefix + stage.ToLower(), score);
     }
 }

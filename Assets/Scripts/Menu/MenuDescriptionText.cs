@@ -22,7 +22,6 @@ public class MenuDescriptionText : MonoBehaviour
 	{
         rectTransform = (RectTransform)transform;
         baseObject.SetActive(false);
-        activate(TextHelper.getLocalizedText("menu.gamemode.compilation.description", "Oh no i can find it"));
     }
 	
 	void Update()

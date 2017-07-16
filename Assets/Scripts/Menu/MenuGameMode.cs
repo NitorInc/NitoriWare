@@ -28,8 +28,6 @@ public class MenuGameMode : MonoBehaviour
 
 	void Awake()
 	{
-        PrefsHelper.setHighScore(modeName, 25);
-
         neighbors = new List<MenuGameMode>();
         for (int i = 0; i < transform.parent.childCount; i++)
         {
@@ -54,7 +52,7 @@ public class MenuGameMode : MonoBehaviour
 
             if (highlighted && !descriptionText.isActivated())
                 descriptionText.activate(TextHelper.getLocalizedText(KeyPrefix + modeName + ".description", defaultDescription));
-            else if (descriptionText.isActivated() && !areAnyNeighborsHighlighted(true))
+            else if (descriptionText.isActivated() && (GameMenu.shifting || !areAnyNeighborsHighlighted(true)))
                 descriptionText.deActivate();
         }
     }
