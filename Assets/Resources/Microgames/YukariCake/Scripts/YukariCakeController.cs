@@ -17,8 +17,8 @@ public class YukariCakeController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        foreach (var a in AudioSources)
-            a.pitch = Time.timeScale;
+        //foreach (var a in AudioSources)
+        //    a.pitch = Time.timeScale;
 	}
 	
 	// Update is called once per frame
