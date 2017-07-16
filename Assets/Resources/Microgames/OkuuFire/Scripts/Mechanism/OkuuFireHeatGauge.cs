@@ -46,7 +46,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         }
 
         // Randomly determine a target temperature
-        float targetLevel = 0.3F + UnityEngine.Random.Range(0F, 0.6F);
+        float targetLevel = 0.4F + UnityEngine.Random.Range(0F, 0.4F);
         this.SetTarget(targetLevel);
         this.targetStartLevel = targetLevel;
 	}
@@ -71,7 +71,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
                 if (Mathf.Abs(driftAmount) >= Mathf.Abs(this.driftRange))
                     this.driftRange = -this.driftRange;
                 float newTarget = this.targetLevel + (Time.deltaTime * this.driftSpeed * this.driftRange);
-                this.SetTarget(newTarget);
+                //this.SetTarget(newTarget);
 
                 // Stabilize when in target zone
                 if (this.InTargetZone())
@@ -126,6 +126,12 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         newGuagePosition.y = GetGaugePositionY(level);
 
         this.targetZone.transform.localPosition = newGuagePosition;
+        SineWave wave = targetZone.GetComponent<SineWave>();
+        if (wave != null)
+        {
+            wave.resetStartPosition();
+            wave.yOffset = Random.Range(0f, 1f);
+        }
         this.targetLevel = level;
     }
 
@@ -147,5 +153,8 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         {
             victoryObject.SendMessage("Victory");
         }
+        SineWave wave = targetZone.GetComponent<SineWave>();
+        if (wave != null)
+            wave.enabled = false;
     }
 }
