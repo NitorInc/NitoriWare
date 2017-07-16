@@ -38,10 +38,15 @@ public class MenuButton : MonoBehaviour
     void setButtonEnabled(bool enabled)
     {
         button.enabled = enabled;
-        if (enabled && CameraHelper.isMouseOver(backupCollider))
+        if (enabled && isMouseOver())
         {
             buttonAnimator.ResetTrigger("Normal");
             buttonAnimator.SetTrigger("Highlighted");
         }
+    }
+
+    public bool isMouseOver()
+    {
+        return CameraHelper.isMouseOver(backupCollider);
     }
 }

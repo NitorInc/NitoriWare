@@ -129,6 +129,6 @@ public static class PrefsHelper
     /// <param name="score"></param>
     public static void setHighScore(string stage, int score)
     {
-        PlayerPrefs.SetInt(HighScorePrefix + "stage", 0);
+        PlayerPrefs.SetInt(HighScorePrefix + "stage", score);
     }
 }

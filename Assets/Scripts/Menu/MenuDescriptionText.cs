@@ -24,18 +24,30 @@ public class MenuDescriptionText : MonoBehaviour
         baseObject.SetActive(false);
         activate(TextHelper.getLocalizedText("menu.gamemode.compilation.description", "Oh no i can find it"));
     }
-
-    public void activate(string text)
-    {
-        rectTransform.anchoredPosition = new Vector2(startX, rectTransform.anchoredPosition.y);
-        textComponent.text = text;
-        baseObject.SetActive(true);
-    }
 	
 	void Update()
 	{
         rectTransform.anchoredPosition += Vector2.left * xSpeed * Time.deltaTime;
         if (rectTransform.anchoredPosition.x < -(rectTransform.sizeDelta.x * transform.localScale.x) + minX)
             rectTransform.anchoredPosition = new Vector2(restartX, rectTransform.anchoredPosition.y);
-	}
+    }
+
+    public void activate(string text)
+    {
+        if (rectTransform == null)
+            Start();
+        rectTransform.anchoredPosition = new Vector2(startX, rectTransform.anchoredPosition.y);
+        textComponent.text = text;
+        baseObject.SetActive(true);
+    }
+
+    public bool isActivated()
+    {
+        return baseObject.activeInHierarchy;
+    }
+
+    public void deActivate()
+    {
+        baseObject.gameObject.SetActive(false);
+    }
 }
