@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameMenu : MonoBehaviour
 {
     //public static SubMenu subMenu = SubMenu.Splash;
-    public static SubMenu subMenu = SubMenu.Title;  //Debug purposes
+    public static SubMenu subMenu = SubMenu.Gamemode;  //Debug purposes
     public static bool shifting;
 
     private static GameMenu shiftOrigin;
@@ -15,7 +15,8 @@ public class GameMenu : MonoBehaviour
     {
         Splash = 0,
         Title = 1,
-        Settings = 2
+        Settings = 2,
+        Gamemode = 3
     }
 
     void Awake()
