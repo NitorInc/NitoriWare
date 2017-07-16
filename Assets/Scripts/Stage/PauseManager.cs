@@ -60,7 +60,7 @@ public class PauseManager : MonoBehaviour
             //TODO make this a button function
             if (paused)
                 quit();
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Title");
         }
 	}
 
