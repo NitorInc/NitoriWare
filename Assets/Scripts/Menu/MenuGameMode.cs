@@ -49,7 +49,7 @@ public class MenuGameMode : MonoBehaviour
 
     void formatText()
     {
-        highScoreText.text = string.Format(TextHelper.getLocalizedText("stage.gameover.highscore", highScoreText.text),
+        highScoreText.text = string.Format(TextHelper.getLocalizedText("menu.gamemode.highscore", highScoreText.text),
             PrefsHelper.getHighScore(modeName).ToString("D3"));
         formattedLanguage = TextHelper.getLoadedLanguage();
     }
