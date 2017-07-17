@@ -7,7 +7,6 @@ public class GameController : MonoBehaviour
 {
 	public static GameController instance;
 
-    public string startScene;
 
 #pragma warning disable 0649
     [SerializeField]
@@ -21,6 +20,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private UnityEvent onSceneLoad;
 #pragma warning restore 0649
+
+    private string startScene;
 
     public MicrogameCollection microgameCollection
 	{
@@ -70,5 +71,10 @@ public class GameController : MonoBehaviour
     public Sprite getControlSprite(MicrogameTraits.ControlScheme controlScheme)
     {
         return controlSprites[(int)controlScheme];
+    }
+
+    public string getStartScene()
+    {
+        return startScene;
     }
 }

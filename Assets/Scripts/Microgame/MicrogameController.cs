@@ -40,7 +40,7 @@ public class MicrogameController : MonoBehaviour
 			sceneName = "_Template1";
 		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
 
-        debugMode = GameController.instance == null || GameController.instance.startScene == "Microgame Debug";
+        debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 
         if (debugMode)
 		{
