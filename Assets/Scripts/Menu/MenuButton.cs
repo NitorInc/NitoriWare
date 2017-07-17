@@ -17,13 +17,29 @@ public class MenuButton : MonoBehaviour
     private bool playPressAnimation = true;
 #pragma warning restore 0649
 
+    private int clickBuffer;   //Waits one frame to enable button to prevent carry-over clicks from last scene
+
 	void Start()
 	{
-		
+        button.interactable = false;
+        clickBuffer = 2;
 	}
+
+    void enableButton()
+    {
+        button.interactable = true;
+    }
 	
 	void LateUpdate()
 	{
+        if (clickBuffer > 0)
+        {
+            clickBuffer--;
+            if (clickBuffer == 0)
+                button.interactable = true;
+            return;
+        }
+
         bool shouldEnable = shouldButtonBeEnabled();
         if (button.enabled != shouldEnable)
             setButtonEnabled(shouldEnable);

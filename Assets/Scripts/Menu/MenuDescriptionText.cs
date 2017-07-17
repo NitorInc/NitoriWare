@@ -35,6 +35,8 @@ public class MenuDescriptionText : MonoBehaviour
     {
         if (rectTransform == null)
             Start();
+        if (GameMenu.shifting)
+            return;
         rectTransform.anchoredPosition = new Vector2(startX, rectTransform.anchoredPosition.y);
         textComponent.text = text;
         baseObject.SetActive(true);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SceneShifter : MonoBehaviour
@@ -11,7 +12,7 @@ public class SceneShifter : MonoBehaviour
     [SerializeField]
     private bool useRealTime = true;
     [SerializeField]
-    private SpriteRenderer blocker;
+    private Image blocker;
 #pragma warning restore 0649
 
     private string goalScene;
@@ -43,7 +44,12 @@ public class SceneShifter : MonoBehaviour
         else
         {
             if (sceneLoadedTime < 0f)
+            {
+
                 sceneLoadedTime = getCurrentTime();
+                //fadeDuration = .5f;
+            }
+
 
             float timeSinceLoaded = getCurrentTime() - sceneLoadedTime;
             float alpha = Mathf.Lerp(1f, 0f, timeSinceLoaded / fadeDuration);
