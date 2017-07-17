@@ -150,7 +150,7 @@ public class CharacterStage : Stage
         int batch = 0;
         foreach (var item in microgamePool.microgameBatches)
         {
-            batch += item.pool.Length;
+            batch += item.pick;
         }
         return batch + 1;
     }
