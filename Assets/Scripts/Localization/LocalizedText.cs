@@ -73,13 +73,16 @@ public class LocalizedText : MonoBehaviour
 		else
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText());
 
-        string[] parameterStrings = new string[parameters.Length];
-        for (int i = 0; i < parameters.Length; i++)
+        if (parameters != null && parameters.Length > 0)
         {
-            Parameter parameter = parameters[i];
-            parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+            string[] parameterStrings = new string[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                Parameter parameter = parameters[i];
+                parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+            }
+            value = string.Format(value, parameterStrings);
         }
-        value = string.Format(value, parameterStrings);
 
 		setText(value);
 	}
