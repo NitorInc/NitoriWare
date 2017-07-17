@@ -137,8 +137,11 @@ public class PauseManager : MonoBehaviour
     }
 
 	public void unPause()
-	{
-		foreach (MonoBehaviour script in pauseData.disabledScripts)
+    {
+        if (disablePause)
+            return;
+
+        foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
 			if (script != null)
             {
