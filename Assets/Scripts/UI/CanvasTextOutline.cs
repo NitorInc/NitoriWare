@@ -91,7 +91,7 @@ public class CanvasTextOutline : MonoBehaviour
             bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
             Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
             Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
-                (pixelOffset * (float)Screen.currentResolution.width / 1280f));
+                (pixelOffset * (float)Screen.currentResolution.width / 1400f));
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
             //Renderer otherMeshRenderer = childMeshRenderers[i];
