@@ -21,6 +21,8 @@ public class SceneShifter : MonoBehaviour
     private bool leavingScene;
     private float shiftStartTime;
     private float sceneLoadedTime;
+
+    private AsyncOperation operation;
 	
 	void Update()
 	{
@@ -32,6 +34,7 @@ public class SceneShifter : MonoBehaviour
                 if (getblockerAlpha() >= 1f)
                 {
                     SceneManager.LoadScene(goalScene);
+                    operation.allowSceneActivation = true;
                     sceneLoadedTime = -1f;
                     leavingScene = false;
                 }
@@ -45,9 +48,8 @@ public class SceneShifter : MonoBehaviour
         {
             if (sceneLoadedTime < 0f)
             {
-
                 sceneLoadedTime = getCurrentTime();
-                //fadeDuration = .5f;
+                operation = null;
             }
 
 
@@ -64,6 +66,9 @@ public class SceneShifter : MonoBehaviour
 
     public void startShift(string goalScene, float shiftDuration = DefaultShiftDuration, float fadeDuration = DefaultFadeDuration)
     {
+        if (operation != null)
+            return;
+
         PauseManager.disablePause = true;
         gameObject.SetActive(true);
         this.shiftDuration = shiftDuration;
@@ -72,6 +77,8 @@ public class SceneShifter : MonoBehaviour
         leavingScene = true;
         shiftStartTime = getCurrentTime();
         setBlockerAlpha(0f);
+        operation = SceneManager.LoadSceneAsync(goalScene);
+        operation.allowSceneActivation = false;
     }
 
     //public float getShiftDuration()
