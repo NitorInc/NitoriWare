@@ -54,17 +54,17 @@ public class PauseManager : MonoBehaviour
 		{
 			if (!paused)
 				pause();
-			else
-				unPause();
-			pauseTimer = Random.Range(.1f, .2f);
-		}
-        else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
-        {
-            //TODO make this a button function
-            if (paused)
-                quit();
-            SceneManager.LoadScene("Title");
+            //else
+            //	unPause();
+            //pauseTimer = Random.Range(.1f, .2f);
         }
+        //else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
+        //{
+        //    //TODO make this a button function
+        //    if (paused)
+        //        quit();
+        //    SceneManager.LoadScene("Title");
+        //}
 	}
 
 	public void pause()

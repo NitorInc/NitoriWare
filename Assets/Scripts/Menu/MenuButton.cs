@@ -15,15 +15,27 @@ public class MenuButton : MonoBehaviour
     private Collider2D backupCollider;
     [SerializeField]
     private bool playPressAnimation = true;
+    [SerializeField]
+    private KeyCode pressKey = KeyCode.None;
 #pragma warning restore 0649
 
     private int clickBuffer;   //Waits one frame to enable button to prevent carry-over clicks from last scene
 
 	void Start()
-	{
+    {
+        bufferClick();
+    }
+
+    private void OnEnable()
+    {
+        bufferClick();
+    }
+
+    void bufferClick()
+    {
         button.interactable = false;
         clickBuffer = 2;
-	}
+    }
 
     void enableButton()
     {
@@ -46,6 +58,11 @@ public class MenuButton : MonoBehaviour
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
+
+        if (button.enabled & button.interactable && Input.GetKeyDown(pressKey))
+        {
+            button.onClick.Invoke();
+        }
     }
 
     bool shouldButtonBeEnabled()
