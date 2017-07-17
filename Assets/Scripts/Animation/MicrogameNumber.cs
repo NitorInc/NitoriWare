@@ -24,7 +24,7 @@ public class MicrogameNumber : MonoBehaviour
     {
         if (text.text == "999")
             return;
-        int number = int.Parse(text.text) + 1;
+        int number = int.Parse(text.text) - 1;
         text.text = number.ToString("D3");
     }
 
