@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class CanvasTextLimitSize : TextLimitSize
 {
 
-    private static bool canvasesUpdated;
-
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
     private Text textComponent;
@@ -17,29 +15,37 @@ public class CanvasTextLimitSize : TextLimitSize
     private RectTransform rectTransform;
 #pragma warning restore 0649
 
+    private CanvasTextOutline outline;  //Force update when size is changed
+
     void Awake()
     {
-        canvasesUpdated = false;
         if (textComponent == null)
             textComponent = GetComponent<Text>();
         if (rectTransform == null)
             rectTransform = (RectTransform)transform;
-    }
-
-
-    void Update()
-    {
-        canvasesUpdated = false;
+        if (outline == null)
+            outline = GetComponent<CanvasTextOutline>();
     }
 
     public override void updateScale()
     {
-        if (!canvasesUpdated)
+        var fitter = GetComponent<ContentSizeFitter>();
+        if (fitter != null)
         {
-            Canvas.ForceUpdateCanvases();
-            canvasesUpdated = true;
+            fitter.SetLayoutHorizontal();
+            fitter.SetLayoutVertical();
         }
+        
         base.updateScale();
+        if (outline != null)
+        {
+            var children = outline.getChildTexts();
+            if (children != null)
+            {
+                outline.updateAttributes = true;
+                outline.LateUpdate();
+            }
+        }
     }
 
     protected override string getText()

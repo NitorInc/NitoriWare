@@ -15,18 +15,29 @@ public class TextMeshLimitSize : TextLimitSize
     private Renderer textRenderer;
 #pragma warning restore 0649
 
+    private TextOutline outline;    //Force update when resized
+
     void Awake()
     {
         if (textMesh == null)
             textMesh = GetComponent<TextMesh>();
         if (textRenderer == null)
             textRenderer = textMesh.GetComponent<Renderer>();
+        if (outline == null)
+            outline = GetComponent<TextOutline>();
     }
 
     public override void updateScale()
     {
         setFontSize(defaultFontSize);
+        int beforeFontSize = getFontSize();
         base.updateScale();
+
+        //if (outline != null)
+        //{
+        //    outline.updateAttributes = true;
+        //    outline.LateUpdate();
+        //}
     }
 
     protected override string getText()

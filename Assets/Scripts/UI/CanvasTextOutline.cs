@@ -58,7 +58,7 @@ public class CanvasTextOutline : MonoBehaviour
         transform.localPosition = holdPosition;
     }
 
-    void LateUpdate()
+    public void LateUpdate()
     {
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
@@ -98,6 +98,11 @@ public class CanvasTextOutline : MonoBehaviour
             //otherMeshRenderer.sortingLayerID = textRenderer.sortingLayerID;
             //otherMeshRenderer.sortingLayerName = textRenderer.sortingLayerName;
         }
+    }
+
+    public Text[] getChildTexts()
+    {
+        return childTexts;
     }
 
     float getFunctionalPixelSize()

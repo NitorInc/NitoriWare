@@ -18,6 +18,8 @@ public class LocalizedText : MonoBehaviour
 		set { _key = value; updateText(); }
     }
 
+    private TextLimitSize limitSize;    //Force update when text is changed
+
     [System.Serializable]
     public struct Parameter
     {
@@ -40,12 +42,13 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
+        limitSize = GetComponent<TextLimitSize>();
         loadedLanguage = "";
         initialText = getText();
         updateText();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         
         if (loadedLanguage != TextHelper.getLoadedLanguage())
@@ -89,7 +92,17 @@ public class LocalizedText : MonoBehaviour
         }
 
 		setText(value);
-	}
+
+        //if (limitSize != null)
+        //{
+        //    var component = GetComponent<TextLimitSize>();
+        //    component.updateScale();
+        //    //if (textComponent != null)
+        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
+        //    //else if (textMesh != null)
+        //    //    ((TextMeshLimitSize)limitSize).updateScale();
+        //}
+    }
 
 	private void setText(string text)
 	{
