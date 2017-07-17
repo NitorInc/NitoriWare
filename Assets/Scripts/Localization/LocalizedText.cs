@@ -9,13 +9,24 @@ public class LocalizedText : MonoBehaviour
 	private Prefix keyPrefix;
 	[SerializeField]
 	private string _key;
+    [SerializeField]
+    private Parameter[] parameters;
+
 	public string key
 	{
 		get {return _key;}
 		set { _key = value; updateText(); }
-	}
+    }
 
-	private Text textComponent;
+    [System.Serializable]
+    public struct Parameter
+    {
+        public string value;
+        public bool isKey;
+        public string keyDefaultString;
+    }
+
+    private Text textComponent;
 	private TextMesh textMesh;
     private string language;
 
@@ -61,6 +72,15 @@ public class LocalizedText : MonoBehaviour
 			value = TextHelper.getLocalizedMicrogameText(key, getText());
 		else
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText());
+
+        string[] parameterStrings = new string[parameters.Length];
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            Parameter parameter = parameters[i];
+            parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+        }
+        value = string.Format(value, parameterStrings);
+
 		setText(value);
 	}
 

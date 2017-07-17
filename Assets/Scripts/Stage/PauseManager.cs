@@ -15,6 +15,9 @@ public class PauseManager : MonoBehaviour
 	//Enable and hold P to pause and unpause frantically
 	private bool enableVigorousTesting;
 
+    [SerializeField]
+    private float quitShiftDuration;
+
 	//Whitelisted items won't be affected by pause
 	public MonoBehaviour[] scriptWhitelist;
 
@@ -127,6 +130,8 @@ public class PauseManager : MonoBehaviour
         {
             source.Stop();
         }
+
+        GameController.instance.sceneShifter.startShift("Title", quitShiftDuration);
 
         exitedWhilePaused = true;
     }

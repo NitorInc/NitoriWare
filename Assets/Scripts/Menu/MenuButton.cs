@@ -13,6 +13,8 @@ public class MenuButton : MonoBehaviour
     private Animator buttonAnimator;
     [SerializeField]
     private Collider2D backupCollider;
+    [SerializeField]
+    private bool playPressAnimation = true;
 #pragma warning restore 0649
 
 	void Start()
@@ -27,7 +29,7 @@ public class MenuButton : MonoBehaviour
             setButtonEnabled(shouldEnable);
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
-        buttonAnimator.SetBool("MouseDown", Input.GetMouseButtonDown(0));
+        buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
     }
 
     bool shouldButtonBeEnabled()
