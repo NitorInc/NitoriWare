@@ -54,4 +54,9 @@ public class GameplayMenu : MonoBehaviour
     {
         voiceSource.Play();
     }
+
+    private void OnDestroy()
+    {
+        gameplayStarting = false;
+    }
 }

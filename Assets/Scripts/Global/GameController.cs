@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 {
 	public static GameController instance;
 
+    public string startScene;
+
 #pragma warning disable 0649
     [SerializeField]
     private bool disableCursor;
@@ -35,8 +37,10 @@ public class GameController : MonoBehaviour
 		{
 			Destroy(gameObject);
 			return;
-		}
-		DontDestroyOnLoad(transform.gameObject);
+        }
+
+        startScene = gameObject.scene.name;
+        DontDestroyOnLoad(transform.gameObject);
 		instance = this;
 
 		Cursor.visible = !disableCursor;
@@ -44,6 +48,12 @@ public class GameController : MonoBehaviour
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //        PlayerPrefs.DeleteAll();
+    //}
 
     void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {

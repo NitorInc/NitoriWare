@@ -32,15 +32,19 @@ public class GameMenu : MonoBehaviour
 
     public void shift(int subMenu)
     {
+        if (shiftOrigin == null)
+            shiftOrigin = this;
         setSubMenu(subMenu);
         shifting = true;
-        shiftOrigin = this;
     }
 
     public void endShift()
     {
-        if (shiftOrigin != this)
+        if (shiftOrigin != this)    //Shift cannot be ended by the same menu that starts it, this prevents early endShifts in reversible shift animations
+        {
             shifting = false;
+            shiftOrigin = null;
+        }
     }
 
     void setSubMenu(int subMenu)
@@ -51,5 +55,10 @@ public class GameMenu : MonoBehaviour
     void setShifting(bool shifting)
     {
         GameMenu.shifting = shifting;
+    }
+
+    private void OnDestroy()
+    {
+        shifting = false;
     }
 }
