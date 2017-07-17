@@ -26,6 +26,8 @@ public class MenuGameMode : MonoBehaviour
     private string defaultDescription;
 #pragma warning restore 0649
 
+    private string initialString, formattedLanguage;
+
     private List<MenuGameMode> neighbors;
 
 	void Awake()
@@ -41,13 +43,25 @@ public class MenuGameMode : MonoBehaviour
 
     private void Start()
     {
+        initialString = highScoreText.text;
+        formatText();
+    }
+
+    void formatText()
+    {
         highScoreText.text = string.Format(TextHelper.getLocalizedText("stage.gameover.highscore", highScoreText.text),
             PrefsHelper.getHighScore(modeName).ToString("D3"));
-        //highScoreText.text = highScoreText.text
+        formattedLanguage = TextHelper.getLoadedLanguage();
     }
 
     void Update()
 	{
+        if (TextHelper.getLoadedLanguage() != formattedLanguage)
+        {
+            highScoreText.text = initialString;
+            formatText();
+        }
+
         if (triggerDescription)
         {
             bool highlighted = menuButton.isMouseOver();
