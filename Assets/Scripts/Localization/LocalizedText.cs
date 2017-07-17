@@ -28,7 +28,7 @@ public class LocalizedText : MonoBehaviour
 
     private Text textComponent;
 	private TextMesh textMesh;
-    private string language;
+    private string initialText, loadedLanguage;
 
 	private enum Prefix
 	{
@@ -40,15 +40,19 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        language = "";
+        loadedLanguage = "";
+        initialText = getText();
         updateText();
     }
 
     private void Update()
     {
         
-        if (language != TextHelper.getLoadedLanguage())
+        if (loadedLanguage != TextHelper.getLoadedLanguage())
+        {
+            setText(initialText);
             updateText();
+        }
     }
 
     /// <summary>
@@ -63,8 +67,8 @@ public class LocalizedText : MonoBehaviour
 
 	public void updateText()
 	{
-        language = TextHelper.getLoadedLanguage();
-        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(language))
+        loadedLanguage = TextHelper.getLoadedLanguage();
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage))
             return;
 
 		string value;
