@@ -10,7 +10,9 @@ public class CharacterStage : Stage
     [SerializeField]
 	private CharacterMicrogamePool microgamePool;
 	[SerializeField]
-	private Interruption speedUp, bossIntro, nextRound, oneUp;
+	private Interruption speedUp, bossIntro, nextRound, oneUp, wonStage;
+    [SerializeField]
+    private float victorySceneShiftTime = 5f;
 #pragma warning restore 0649
 
     private int roundsCompleted, roundStartIndex;
@@ -22,7 +24,8 @@ public class CharacterStage : Stage
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
 
-		revisiting = true;	//TODO remove
+        revisiting = false;
+		//revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
 	}
 
 	public override Microgame getMicrogame(int num)
@@ -51,8 +54,12 @@ public class CharacterStage : Stage
 		Microgame microgame = getMicrogame(num);
 		int index = getIndex(num);
 
-		//Boss over
-		if (roundsCompleted > 0 && num == roundStartIndex)
+        //Boss over
+        if (!revisiting && bossWon)
+        {
+            return new Interruption[0].add(wonStage);
+        }
+        else if (roundsCompleted > 0 && num == roundStartIndex)
 		{
             //TODO more after-boss stuff
             if (bossWon)
@@ -65,25 +72,25 @@ public class CharacterStage : Stage
                 //TODO separate next round after oneUp when we have music
             }
 			return new Interruption[0].add(nextRound);
-		}
+        }
 
-		//Boss Intro
-		if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
-		{
-			if (getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))	//Not first boss attempt
-				return new Interruption[0];
-			else
-				return new Interruption[0].add(bossIntro);
-		}
+        //Boss Intro
+        if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+        {
+            if (getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))  //Not first boss attempt
+                return new Interruption[0];
+            else
+                return new Interruption[0].add(bossIntro);
+        }
 
-		//Speed up check
-		for (int i = 0; i < microgamePool.speedUpTimes.Length; i++)
-		{
-			if (microgamePool.speedUpTimes[i] == index)
-				return new Interruption[0].add(speedUp);
-		}
-		
-		return new Interruption[0];
+        //Speed up check
+        for (int i = 0; i < microgamePool.speedUpTimes.Length; i++)
+        {
+            if (microgamePool.speedUpTimes[i] == index)
+                return new Interruption[0].add(speedUp);
+        }
+
+        return new Interruption[0];
 	}
 
 	public override int getCustomSpeed(int microgame, Interruption interruption)
@@ -118,21 +125,35 @@ public class CharacterStage : Stage
 		}
 
 		if (getMicrogame(microgame).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
-		{
-			bossWon = victoryStatus;
-			if (revisiting)
-			{
-				startNextRound(microgame + 1);
-			}
-			else if (victoryStatus)
-				winStage();
-		}
+        {
+            bossWon = victoryStatus;
+            if (revisiting)
+            {
+                startNextRound(microgame + 1);
+            }
+            else if (victoryStatus)
+                winStage();
+            else
+                StageController.instance.lowerScore();
+        }
 	}
 
 	void winStage()
 	{
-		//TODO
+        GameController.instance.sceneShifter.startShift("Title", victorySceneShiftTime);
+        PrefsHelper.setProgress(1);
+        PrefsHelper.setHighScore(gameObject.scene.name, getRoundMicrogameCount());
 	}
+
+    int getRoundMicrogameCount()
+    {
+        int batch = 0;
+        foreach (var item in microgamePool.microgameBatches)
+        {
+            batch += item.pool.Length;
+        }
+        return batch + 1;
+    }
 
 	void startNextRound(int startIndex)
 	{

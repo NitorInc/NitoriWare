@@ -406,15 +406,15 @@ public class StageController : MonoBehaviour
 		placeholderResults.transform.parent.gameObject.SetActive(true);
         Cursor.visible = true;
 
+
         //TODO better playerprefs saving
-        string scoreString = gameObject.scene.name  + "HighScore";
-        int score = Mathf.Min(microgameCount, 999), highScore = PlayerPrefs.GetInt(scoreString, 0);
+        int score = Mathf.Min(microgameCount, 999), highScore = PrefsHelper.getHighScore(gameObject.scene.name);
         if (score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt(scoreString, score);
+            PrefsHelper.setHighScore(gameObject.scene.name, score);
         }
-		placeholderResults.setScore(score);
+		placeholderResults.setScore(MicrogameNumber.instance.getNumber());
         placeholderResults.setHighScore(highScore);
 	}
 
@@ -438,6 +438,11 @@ public class StageController : MonoBehaviour
             retry();
         //if (Input.GetKeyDown(KeyCode.G))
         //    commandDisplay.play("Hi there");
+    }
+
+    public void lowerScore()
+    {
+        MicrogameNumber.instance.decreaseNumber();
     }
 
     void updateMicrogameTraits()
