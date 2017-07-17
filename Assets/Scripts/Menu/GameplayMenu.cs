@@ -38,7 +38,7 @@ public class GameplayMenu : MonoBehaviour
         //GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
         animator.SetTrigger("StartGameplay");
 
-        if (!string.IsNullOrEmpty(scene))
+        if (!string.IsNullOrEmpty(scene) && !gameplayStarting)
         {
             bgMusicFade.startFade();
             Invoke("playVoice", voiceDelay);
