@@ -115,14 +115,38 @@ public class MicrogameCollection : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns a copied list of all boss microgmaes, regardless of completion, in Stage.Microagme type
+	/// Returns a copied list of all boss microgmaes, regardless of completion, in Stage.Microgame type
 	/// </summary>
 	/// <returns></returns>
-	public List<Stage.Microgame> getBossMicrogames()
+	public List<Stage.Microgame> getStageBossMicrogames()
 	{
         List<Stage.Microgame> returnList = convertToStageMicrogameList(bossMicrogames);
 		return returnList;
-	}
+    }
+
+    /// <summary>/// Returns all microgames in the game (with given restriction) in MicrogmaeCollection.Microgame type (used for batch getting traits)
+    /// </summary>
+    /// <returns></returns>
+    public List<Microgame> getCollectionMicrogames(Restriction restriction)
+    {
+        List<Microgame> returnList = finishedMicrogames;
+        if (restriction != Restriction.Finished)
+        {
+            returnList.AddRange(stageReadyMicrogames);
+            if (restriction == Restriction.All)
+                returnList.AddRange(unfinishedMicrogames);
+        }
+        return returnList;
+    }
+
+    /// <summary>
+    /// Returns a copied list of all boss microgmaes, regardless of completion, in MicrogameCollection.Microgame type
+    /// </summary>
+    /// <returns></returns>
+    public List<Microgame> getCollectionBossMicrogames()
+    {
+        return bossMicrogames;
+    }
 
     public Microgame findMicrogame(string microgameId)
     {

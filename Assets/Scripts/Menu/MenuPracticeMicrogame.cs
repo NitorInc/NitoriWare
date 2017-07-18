@@ -12,29 +12,31 @@ public class MenuPracticeMicrogame : MonoBehaviour
     [SerializeField]
     private Text nameText;
     [SerializeField]
+    private Image icon;
+    [SerializeField]
     private Vector3 scaleAtCenter;
     [SerializeField]
     private float timeToCenter;
 #pragma warning restore 0649
 
-    private static List<Stage.Microgame> microgamePool;
+    private static List<MicrogameCollection.Microgame> microgamePool;
     private static MenuPracticeMicrogame selectedInstance;
 
     private Vector3 initialPosition;
     private Vector3 initialScale, initialParentScale;
     private int initialSiblingIndex;
     
-    private Stage.Microgame microgame;
+    private MicrogameCollection.Microgame microgame;
 
 	void Start()
 	{
         selectedInstance = null;
         if (microgamePool == null)
-            microgamePool = GameController.instance.microgameCollection.getStageMicrogames(MicrogameCollection.Restriction.StageReady);
+            microgamePool = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.StageReady);
 
         if (name.Contains("Boss"))
         {
-            microgame = GameController.instance.microgameCollection.getBossMicrogames()[0];
+            microgame = GameController.instance.microgameCollection.getCollectionBossMicrogames()[0];
         }
         else
         {
@@ -52,6 +54,10 @@ public class MenuPracticeMicrogame : MonoBehaviour
         initialScale = transform.localScale;
         initialPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
+
+        Sprite iconSprite = microgame.difficultyTraits[0].menuIcon;
+        if (iconSprite != null)
+            icon.sprite = iconSprite;
 	}
 	
 	void LateUpdate()
