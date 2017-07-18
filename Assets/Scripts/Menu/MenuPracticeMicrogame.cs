@@ -56,7 +56,10 @@ public class MenuPracticeMicrogame : MonoBehaviour
                 if (GameMenu.subMenu == GameMenu.SubMenu.PracticeSelect)    //Moving towards center
                 {
                     if (transform.moveTowardsLocal(Vector2.zero, moveSpeed))
+                    {
+                        //menuAnimator.SetBool("Shifting", false);
                         GameMenu.shifting = false;
+                    }
                 }
                 else                                                        //Moving away from center
                 {
@@ -88,5 +91,6 @@ public class MenuPracticeMicrogame : MonoBehaviour
     {
         selectedInstance = this;
         transform.SetAsLastSibling();
+        MicrogameStage.microgameId = microgame.microgameId;
     }
 }
