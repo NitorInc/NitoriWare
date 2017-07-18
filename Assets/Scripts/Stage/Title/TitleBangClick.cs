@@ -35,6 +35,8 @@ public class TitleBangClick : MonoBehaviour
 			activationTime -= Time.deltaTime;
 			return;
 		}
+        if (GameMenu.shifting)
+            return;
 
 
 		float startTime = 3f / 60f,
