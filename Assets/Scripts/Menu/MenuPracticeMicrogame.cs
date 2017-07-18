@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuPracticeMicrogame : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class MenuPracticeMicrogame : MonoBehaviour
 #pragma warning disable 0649	//Serialized Fields
     [SerializeField]
     private MenuButton menuButton;
+    [SerializeField]
+    private Text nameText;
     [SerializeField]
     private Vector3 scaleAtCenter;
     [SerializeField]
@@ -92,5 +95,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         selectedInstance = this;
         transform.SetAsLastSibling();
         MicrogameStage.microgameId = microgame.microgameId;
+
+        nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", microgame.microgameId);
     }
 }
