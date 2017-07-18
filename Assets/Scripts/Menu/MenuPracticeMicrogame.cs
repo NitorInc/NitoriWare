@@ -55,7 +55,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         initialPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
 
-        Sprite iconSprite = microgame.difficultyTraits[0].menuIcon;
+        Sprite iconSprite = microgame.menuIcon;
         if (iconSprite != null)
             icon.sprite = iconSprite;
 	}

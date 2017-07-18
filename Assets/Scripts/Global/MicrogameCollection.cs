@@ -20,10 +20,15 @@ public class MicrogameCollection : MonoBehaviour
         private MicrogameTraits[] _difficultyTraits;
         public MicrogameTraits[] difficultyTraits { get { return _difficultyTraits; } }
 
-        public Microgame(string microgameId, MicrogameTraits[] difficultyTraits)
+        [SerializeField]
+        private Sprite _menuIcon;
+        public Sprite menuIcon { get { return _menuIcon; } }
+
+        public Microgame(string microgameId, MicrogameTraits[] difficultyTraits, Sprite menuIcon)
         {
             _microgameId = microgameId;
             _difficultyTraits = difficultyTraits;
+            _menuIcon = menuIcon;
         }
     }
 
@@ -47,7 +52,7 @@ public class MicrogameCollection : MonoBehaviour
 			string[] dirs = microgameDirectories[i].Split('/');
 			string microgameId = dirs[dirs.Length - 1];
             MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId, false);
-            finishedMicrogames.Add(new Microgame(microgameId, difficultyTraits));
+            finishedMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
 		}
 
 		microgameDirectories = Directory.GetDirectories(Application.dataPath + "/Resources/Microgames/");
@@ -59,9 +64,9 @@ public class MicrogameCollection : MonoBehaviour
 			{
                 MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId, true);
 				if (difficultyTraits[0].isStageReady)
-					stageReadyMicrogames.Add(new Microgame(microgameId, difficultyTraits));
+					stageReadyMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
 				else
-					unfinishedMicrogames.Add(new Microgame(microgameId, difficultyTraits));
+					unfinishedMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
 			}
 		}
 
@@ -71,7 +76,7 @@ public class MicrogameCollection : MonoBehaviour
 			string[] dirs = microgameDirectories[i].Split('/');
 			string microgameId = dirs[dirs.Length - 1];
             MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId, true);
-            bossMicrogames.Add(new Microgame(microgameId, difficultyTraits));
+            bossMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
 		}
 	}
 
@@ -83,6 +88,11 @@ public class MicrogameCollection : MonoBehaviour
             traits[i] = MicrogameTraits.findMicrogameTraits(microgameId, i + 1, skipFInishedFolder);
         }
         return traits;
+    }
+    
+    Sprite getSprite(string microgameId)
+    {
+        return Resources.Load<Sprite>("Sprites/MicrogameIcons/" + microgameId + "Icon");
     }
 
     //public List<Microgame> getMicrogames(Restriction restriction)
