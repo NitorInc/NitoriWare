@@ -23,8 +23,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private Vector3 initialPosition;
     private Vector3 initialScale, initialParentScale;
     private int initialSiblingIndex;
-
-    private int microgameNumber;
+    
     private Stage.Microgame microgame;
 
 	void Start()
@@ -33,14 +32,21 @@ public class MenuPracticeMicrogame : MonoBehaviour
         if (microgamePool == null)
             microgamePool = GameController.instance.microgameCollection.getStageMicrogames(MicrogameCollection.Restriction.StageReady);
 
-        microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
-        if (microgameNumber >= microgamePool.Count)
+        if (name.Contains("Boss"))
         {
-            gameObject.SetActive(false);
-            return;
+            microgame = GameController.instance.microgameCollection.getBossMicrogames()[0];
         }
         else
-            microgame = microgamePool[microgameNumber];
+        {
+            int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
+            if (microgameNumber >= microgamePool.Count)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            else
+                microgame = microgamePool[microgameNumber];
+        }
 
         initialParentScale = transform.parent.localScale;
         initialScale = transform.localScale;

@@ -25,11 +25,18 @@ public class GameMenu : MonoBehaviour
     {
         Cursor.visible = true;
         shifting = (subMenu == SubMenu.Splash);
+        correctSubMenu();
         setSubMenu((int)subMenu);
 
         MenuAnimationUpdater updater = GetComponent<MenuAnimationUpdater>();
         if (updater != null)
             updater.updateAnimatorValues();
+    }
+
+    void correctSubMenu()
+    {
+        if (subMenu == SubMenu.PracticeSelect)
+            subMenu = SubMenu.Practice;
     }
 
     public void shift(int subMenu)
