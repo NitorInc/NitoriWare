@@ -23,7 +23,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private static MenuPracticeMicrogame selectedInstance;
 
     private Vector3 initialPosition;
-    private Vector3 initialScale, initialParentScale;
+    private Vector3 initialScale;
     private int initialSiblingIndex;
     
     private MicrogameCollection.Microgame microgame;
@@ -49,8 +49,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
             else
                 microgame = microgamePool[microgameNumber];
         }
-
-        initialParentScale = transform.parent.localScale;
+        
         initialScale = transform.localScale;
         initialPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
@@ -91,7 +90,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         }
         else if (GameMenu.shifting) //Stay constant scale when shifting to/from practice menu
         {
-            float mult = initialParentScale.x / transform.parent.localScale.x;
+            float mult = 1f / transform.parent.localScale.x;
             transform.localScale = initialScale * mult;
 
             transform.localPosition = transform.parent.localScale.x <= .011f ? Vector3.zero : initialPosition;
