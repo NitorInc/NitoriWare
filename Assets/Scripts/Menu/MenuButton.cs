@@ -66,6 +66,7 @@ public class MenuButton : MonoBehaviour
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
+        buttonAnimator.SetBool("MouseOver", isMouseOver());
 
         if (button.enabled & button.interactable && Input.GetKeyDown(pressKey))
         {

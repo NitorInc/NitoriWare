@@ -64,6 +64,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
                     {
                         transform.SetSiblingIndex(initialSiblingIndex);
                         GameMenu.shifting = false;
+                        selectedInstance = null;
                     }
                 }
                 transform.localScale = Vector3.Lerp(scaleAtCenter, initialScale,
