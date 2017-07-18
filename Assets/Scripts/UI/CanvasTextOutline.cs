@@ -94,6 +94,9 @@ public class CanvasTextOutline : MonoBehaviour
                 (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
+            other.transform.localScale = transform.localScale;
+            other.transform.rotation = transform.rotation;
+
             //Renderer otherMeshRenderer = childMeshRenderers[i];
             //otherMeshRenderer.sortingLayerID = textRenderer.sortingLayerID;
             //otherMeshRenderer.sortingLayerName = textRenderer.sortingLayerName;
