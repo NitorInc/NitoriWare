@@ -53,7 +53,7 @@ public class MenuButton : MonoBehaviour
         }
 
         bool shouldEnable = shouldButtonBeEnabled();
-        if (button.enabled != shouldEnable)
+        if (button.interactable != shouldEnable)
             setButtonEnabled(shouldEnable);
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
@@ -72,7 +72,7 @@ public class MenuButton : MonoBehaviour
 
     void setButtonEnabled(bool enabled)
     {
-        button.enabled = enabled;
+        button.interactable = enabled;
         if (enabled && isMouseOver())
         {
             buttonAnimator.ResetTrigger("Normal");
