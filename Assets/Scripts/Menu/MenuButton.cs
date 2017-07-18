@@ -16,6 +16,8 @@ public class MenuButton : MonoBehaviour
     [SerializeField]
     private bool playPressAnimation = true;
     [SerializeField]
+    private bool checkMouseOverCollider = true;
+    [SerializeField]
     private KeyCode pressKey = KeyCode.None;
 #pragma warning restore 0649
 
@@ -66,7 +68,7 @@ public class MenuButton : MonoBehaviour
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
-        buttonAnimator.SetBool("MouseOver", isMouseOver());
+        buttonAnimator.SetBool("MouseOver", !checkMouseOverCollider || isMouseOver());
 
         if (button.enabled & button.interactable && Input.GetKeyDown(pressKey))
         {
