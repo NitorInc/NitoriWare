@@ -151,7 +151,7 @@ public class MenuRippleEffect : MonoBehaviour
             dropTimer -= Time.deltaTime;
             if (randomDrops)
             {
-                if (dropTimer <= 0f)// && GameMenu.subMenu == GameMenu.SubMenu.Title && !GameMenu.shifting)
+                if (dropTimer <= 0f && GameMenu.subMenu == GameMenu.SubMenu.Title && !GameMenu.shifting)
                 {
                     Emit(false);
                     dropTimer += dropInterval;

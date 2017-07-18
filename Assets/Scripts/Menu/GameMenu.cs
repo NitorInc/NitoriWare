@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameMenu : MonoBehaviour
 {
     public static SubMenu subMenu = SubMenu.Splash;
-    //public static SubMenu subMenu = SubMenu.Title;  //Debug purposes
+    //public static SubMenu subMenu = SubMenu.Gamemode;  //Debug purposes
     public static bool shifting;
 
     private static GameMenu shiftOrigin;
@@ -15,12 +15,17 @@ public class GameMenu : MonoBehaviour
     {
         Splash = 0,
         Title = 1,
-        Settings = 2
+        Settings = 2,
+        Gamemode = 3,
+        Practice = 4,
+        PracticeSelect = 5
     }
 
     void Awake()
     {
+        Cursor.visible = true;
         shifting = (subMenu == SubMenu.Splash);
+        correctSubMenu();
         setSubMenu((int)subMenu);
 
         MenuAnimationUpdater updater = GetComponent<MenuAnimationUpdater>();
@@ -28,17 +33,27 @@ public class GameMenu : MonoBehaviour
             updater.updateAnimatorValues();
     }
 
+    void correctSubMenu()
+    {
+        if (subMenu == SubMenu.PracticeSelect)
+            subMenu = SubMenu.Practice;
+    }
+
     public void shift(int subMenu)
     {
+        if (shiftOrigin == null)
+            shiftOrigin = this;
         setSubMenu(subMenu);
         shifting = true;
-        shiftOrigin = this;
     }
 
     public void endShift()
     {
-        if (shiftOrigin != this)
+        if (shiftOrigin != this)    //Shift cannot be ended by the same menu that starts it, this prevents early endShifts in reversible shift animations
+        {
             shifting = false;
+            shiftOrigin = null;
+        }
     }
 
     void setSubMenu(int subMenu)
@@ -49,5 +64,10 @@ public class GameMenu : MonoBehaviour
     void setShifting(bool shifting)
     {
         GameMenu.shifting = shifting;
+    }
+
+    private void OnDestroy()
+    {
+        shifting = false;
     }
 }

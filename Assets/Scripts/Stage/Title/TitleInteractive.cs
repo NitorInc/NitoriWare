@@ -19,6 +19,7 @@ public class TitleInteractive : MonoBehaviour
 	
 	void Update ()
 	{
+
 		if (effectTime <= 0f)
 			checkForInteraction();
 		else
@@ -40,7 +41,7 @@ public class TitleInteractive : MonoBehaviour
 
 	void checkForInteraction()
 	{
-		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+		if (!GameMenu.shifting && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
 			checkCollision();
 	}
 

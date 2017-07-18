@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public static bool disablePause;
     public static bool exitedWhilePaused;
 
 	public UnityEvent onPause, onUnPause;
@@ -13,6 +14,9 @@ public class PauseManager : MonoBehaviour
 	[SerializeField]
 	//Enable and hold P to pause and unpause frantically
 	private bool enableVigorousTesting;
+
+    [SerializeField]
+    private float quitShiftDuration;
 
 	//Whitelisted items won't be affected by pause
 	public MonoBehaviour[] scriptWhitelist;
@@ -50,21 +54,24 @@ public class PauseManager : MonoBehaviour
 		{
 			if (!paused)
 				pause();
-			else
-				unPause();
-			pauseTimer = Random.Range(.1f, .2f);
-		}
-        else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
-        {
-            //TODO make this a button function
-            if (paused)
-                quit();
-            SceneManager.LoadScene("Menu");
+            //else
+            //	unPause();
+            //pauseTimer = Random.Range(.1f, .2f);
         }
+        //else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
+        //{
+        //    //TODO make this a button function
+        //    if (paused)
+        //        quit();
+        //    SceneManager.LoadScene("Title");
+        //}
 	}
 
 	public void pause()
 	{
+        if (disablePause)
+            return;
+
 		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 		AudioListener.pause = true;
@@ -124,12 +131,17 @@ public class PauseManager : MonoBehaviour
             source.Stop();
         }
 
+        GameController.instance.sceneShifter.startShift("Title", quitShiftDuration);
+
         exitedWhilePaused = true;
     }
 
 	public void unPause()
-	{
-		foreach (MonoBehaviour script in pauseData.disabledScripts)
+    {
+        if (disablePause)
+            return;
+
+        foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
 			if (script != null)
             {

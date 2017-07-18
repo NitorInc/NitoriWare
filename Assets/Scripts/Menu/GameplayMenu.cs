@@ -5,10 +5,13 @@ using UnityEngine;
 //Attach to all menu screens that can transition to gameplay
 public class GameplayMenu : MonoBehaviour
 {
+    private static bool gameplayStarting;
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
     private float voiceDelay;
+    [SerializeField]
+    private float sceneShiftTime;
     [SerializeField]
     private Animator animator;
     [SerializeField]
@@ -19,19 +22,41 @@ public class GameplayMenu : MonoBehaviour
     
 	void Start()
     {
-        animator.ResetTrigger("StartGameplay");
+        gameplayStarting = false;
     }
 
-    public void startGameplay()
+    public void Update()
     {
-        GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
+        if (gameplayStarting)
+        {
+            startGameplay("");
+        }
+    }
+
+    public void startGameplay(string scene)
+    {
+        //GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
         animator.SetTrigger("StartGameplay");
-        bgMusicFade.startFade();
-        Invoke("playVoice", voiceDelay);
+
+        if (!string.IsNullOrEmpty(scene) && !gameplayStarting)
+        {
+            bgMusicFade.startFade();
+            Invoke("playVoice", voiceDelay);
+            GameController.instance.sceneShifter.startShift(scene, sceneShiftTime);
+        }
+
+        GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
+        gameplayStarting = true;
+        enabled = false;
     }
 
     void playVoice()
     {
         voiceSource.Play();
+    }
+
+    private void OnDestroy()
+    {
+        gameplayStarting = false;
     }
 }

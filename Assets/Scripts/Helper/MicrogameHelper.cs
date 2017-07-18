@@ -22,6 +22,6 @@ public static class MicrogameHelper
 	/// <returns></returns>
 	public static List<Stage.Microgame> getBossMicrogames()
 	{
-		return GameController.instance.microgameCollection.getBossMicrogames();
+		return GameController.instance.microgameCollection.getStageBossMicrogames();
 	}
 }

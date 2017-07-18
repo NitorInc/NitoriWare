@@ -6,6 +6,9 @@ public static class PrefsHelper
 {
     private const string PreferredLanguageKey = "settings.preferredlanguage";
     private const string VolumeKeyPrefix = "settings.volume.";
+    private const string ProgressKey = "save.progress"; //How many gamemodes the player has completed
+    private const string HighScorePrefix = "save.highscore.";
+
     private static int volumeTypeCount = 4;
 
     private static StoredPrefs storedPrefs = loadPrefs();
@@ -25,6 +28,8 @@ public static class PrefsHelper
 
     private static StoredPrefs loadPrefs()
     {
+        //setProgress(1); //Debug purposes;
+
         StoredPrefs newPrefs = new StoredPrefs();
         newPrefs.preferredLanguage = PlayerPrefs.GetString(PreferredLanguageKey, LocalizationManager.DefaultLanguage);
         newPrefs.volumes = new float[volumeTypeCount];
@@ -88,4 +93,42 @@ public static class PrefsHelper
         PlayerPrefs.SetFloat(VolumeKeyPrefix + type.ToString(), value);
     }
 
+
+    /// <summary>
+    /// Returns how many stages the player has beatsn, from story mode to arcade modes
+    /// </summary>
+    /// <returns></returns>
+    public static int getProgress()
+    {
+        return PlayerPrefs.GetInt(ProgressKey, 0);
+    }
+
+    /// <summary>
+    /// Sets the amount of stages the player has won
+    /// </summary>
+    /// <param name="progress"></param>
+    public static void setProgress(int progress)
+    {
+        PlayerPrefs.SetInt(ProgressKey, progress);
+    }
+    
+    /// <summary>
+    /// Returns player's high score for given scene name
+    /// </summary>
+    /// <param name="stage"></param>
+    /// <returns></returns>
+    public static int getHighScore(string stage)
+    {
+        return PlayerPrefs.GetInt(HighScorePrefix + stage.ToLower(), 0);
+    }
+    
+    /// <summary>
+    /// Sets the player's highs core to a new score
+    /// </summary>
+    /// <param name="stage"></param>
+    /// <param name="score"></param>
+    public static void setHighScore(string stage, int score)
+    {
+        PlayerPrefs.SetInt(HighScorePrefix + stage.ToLower(), score);
+    }
 }

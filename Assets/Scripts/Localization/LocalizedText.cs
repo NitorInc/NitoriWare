@@ -9,15 +9,28 @@ public class LocalizedText : MonoBehaviour
 	private Prefix keyPrefix;
 	[SerializeField]
 	private string _key;
+    [SerializeField]
+    private Parameter[] parameters;
+
 	public string key
 	{
 		get {return _key;}
 		set { _key = value; updateText(); }
-	}
+    }
 
-	private Text textComponent;
+    private TextLimitSize limitSize;    //Force update when text is changed
+
+    [System.Serializable]
+    public struct Parameter
+    {
+        public string value;
+        public bool isKey;
+        public string keyDefaultString;
+    }
+
+    private Text textComponent;
 	private TextMesh textMesh;
-    private string language;
+    private string initialText, loadedLanguage;
 
 	private enum Prefix
 	{
@@ -29,15 +42,20 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        language = "";
+        limitSize = GetComponent<TextLimitSize>();
+        loadedLanguage = "";
+        initialText = getText();
         updateText();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         
-        if (language != TextHelper.getLoadedLanguage())
+        if (loadedLanguage != TextHelper.getLoadedLanguage())
+        {
+            setText(initialText);
             updateText();
+        }
     }
 
     /// <summary>
@@ -52,8 +70,8 @@ public class LocalizedText : MonoBehaviour
 
 	public void updateText()
 	{
-        language = TextHelper.getLoadedLanguage();
-        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(language))
+        loadedLanguage = TextHelper.getLoadedLanguage();
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage))
             return;
 
 		string value;
@@ -61,8 +79,30 @@ public class LocalizedText : MonoBehaviour
 			value = TextHelper.getLocalizedMicrogameText(key, getText());
 		else
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText());
+
+        if (parameters != null && parameters.Length > 0)
+        {
+            string[] parameterStrings = new string[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                Parameter parameter = parameters[i];
+                parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+            }
+            value = string.Format(value, parameterStrings);
+        }
+
 		setText(value);
-	}
+
+        //if (limitSize != null)
+        //{
+        //    var component = GetComponent<TextLimitSize>();
+        //    component.updateScale();
+        //    //if (textComponent != null)
+        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
+        //    //else if (textMesh != null)
+        //    //    ((TextMeshLimitSize)limitSize).updateScale();
+        //}
+    }
 
 	private void setText(string text)
 	{

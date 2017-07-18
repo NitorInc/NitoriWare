@@ -7,29 +7,30 @@ public class GameController : MonoBehaviour
 {
 	public static GameController instance;
 
+
 #pragma warning disable 0649
     [SerializeField]
     private bool disableCursor;
     [SerializeField]
 	private MicrogameCollection _microgameCollection;
     [SerializeField]
+    private SceneShifter _sceneShifter;
+    [SerializeField]
     private Sprite[] controlSprites;
     [SerializeField]
     private UnityEvent onSceneLoad;
 #pragma warning restore 0649
 
-    public Prefs storedPrefs;
-    public struct Prefs
-    {
-        public string preferredLanguage;
-        public float masterVolume, musicVolume, sfxVolume, voiceVolume;
-    }
+    private string startScene;
 
     public MicrogameCollection microgameCollection
 	{
 		get { return _microgameCollection; }
-		set {}
 	}
+    public SceneShifter sceneShifter
+    {
+        get { return _sceneShifter; }
+    }
 
 	void Awake()
 	{
@@ -37,8 +38,10 @@ public class GameController : MonoBehaviour
 		{
 			Destroy(gameObject);
 			return;
-		}
-		DontDestroyOnLoad(transform.gameObject);
+        }
+
+        startScene = gameObject.scene.name;
+        DontDestroyOnLoad(transform.gameObject);
 		instance = this;
 
 		Cursor.visible = !disableCursor;
@@ -46,6 +49,12 @@ public class GameController : MonoBehaviour
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //        PlayerPrefs.DeleteAll();
+    //}
 
     void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -62,5 +71,10 @@ public class GameController : MonoBehaviour
     public Sprite getControlSprite(MicrogameTraits.ControlScheme controlScheme)
     {
         return controlSprites[(int)controlScheme];
+    }
+
+    public string getStartScene()
+    {
+        return startScene;
     }
 }

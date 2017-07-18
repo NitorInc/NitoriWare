@@ -123,8 +123,9 @@ public class LocalizationManager : MonoBehaviour
 		string value = (string)localizedText[key];
 		if (string.IsNullOrEmpty(value))
 		{
-			Debug.LogWarning("Language " + getLoadedLanguage() + " does not have a value for key " + key);
-			return defaultString;
+            if (!loadedLanguage.incomplete)
+			Debug.LogWarning("Language " + getLoadedLanguage() + " is not marked as incomplete but does not have a value for key " + key);
+			    return defaultString;
 		}
 		value = value.Replace("\\n", "\n");
 		return value;

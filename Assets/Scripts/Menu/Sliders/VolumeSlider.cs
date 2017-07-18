@@ -30,6 +30,7 @@ public class VolumeSlider : MonoBehaviour
 
     void Update()
     {
+        slider.interactable = !GameMenu.shifting;
         if (queueChange && Input.GetMouseButtonUp(0))
             updateValue();
     }
