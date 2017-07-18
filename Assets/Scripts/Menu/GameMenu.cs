@@ -17,7 +17,8 @@ public class GameMenu : MonoBehaviour
         Title = 1,
         Settings = 2,
         Gamemode = 3,
-        Practice = 4
+        Practice = 4,
+        PracticeSelect = 5
     }
 
     void Awake()

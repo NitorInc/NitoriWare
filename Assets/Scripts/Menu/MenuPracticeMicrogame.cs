@@ -7,23 +7,26 @@ public class MenuPracticeMicrogame : MonoBehaviour
 
 #pragma warning disable 0649	//Serialized Fields
     [SerializeField]
-    private AnimationCurve shiftCurve;
+    private MenuButton menuButton;
     [SerializeField]
-    private float shiftDuration;
+    private Vector3 scaleAtCenter;
+    [SerializeField]
+    private float timeToCenter;
 #pragma warning restore 0649
 
     private static List<Stage.Microgame> microgamePool;
+    private static MenuPracticeMicrogame selectedInstance;
 
-    private Vector3 initialScale, initialParentScale;
     private Vector3 initialPosition;
+    private Vector3 initialScale, initialParentScale;
+    private int initialSiblingIndex;
 
     private int microgameNumber;
-    private float shiftStartTime;
-    private bool isShifting, inCorrectMenu;
     private Stage.Microgame microgame;
 
 	void Start()
 	{
+        selectedInstance = null;
         if (microgamePool == null)
             microgamePool = GameController.instance.microgameCollection.getStageMicrogames(MicrogameCollection.Restriction.StageReady);
 
@@ -39,21 +42,35 @@ public class MenuPracticeMicrogame : MonoBehaviour
         initialParentScale = transform.parent.localScale;
         initialScale = transform.localScale;
         initialPosition = transform.localPosition;
-
-        //Vector2 displacement = transform.localPosition;
-
-        //isShifting = false;
-        //inCorrectMenu = GameMenu.subMenu == GameMenu.SubMenu.Practice;
-        //if (!inCorrectMenu)
-        //{   
-        //    shiftStartTime = -shiftDuration;
-        //    updateShift(1f);
-        //}
+        initialSiblingIndex = transform.GetSiblingIndex();
 	}
 	
 	void LateUpdate()
     {
-        if (GameMenu.shifting)
+        if (selectedInstance == this)   //Move towards/away from center when selected
+        {
+            if (GameMenu.shifting)
+            {
+                
+                float moveSpeed = ((Vector2)initialPosition).magnitude / timeToCenter;
+                if (GameMenu.subMenu == GameMenu.SubMenu.PracticeSelect)    //Moving towards center
+                {
+                    if (transform.moveTowardsLocal(Vector2.zero, moveSpeed))
+                        GameMenu.shifting = false;
+                }
+                else                                                        //Moving away from center
+                {
+                    if (transform.moveTowardsLocal(initialPosition, moveSpeed))
+                    {
+                        transform.SetSiblingIndex(initialSiblingIndex);
+                        GameMenu.shifting = false;
+                    }
+                }
+                transform.localScale = Vector3.Lerp(scaleAtCenter, initialScale,
+                    ((Vector2)transform.localPosition).magnitude / ((Vector2)initialPosition).magnitude);
+            }
+        }
+        else if (GameMenu.shifting) //Stay constant scale when shifting to/from practice menu
         {
             float mult = initialParentScale.x / transform.parent.localScale.x;
             transform.localScale = initialScale * mult;
@@ -63,39 +80,12 @@ public class MenuPracticeMicrogame : MonoBehaviour
         else
             transform.localScale = initialScale;
 
-        ////Update shift status
-        //if (!isShifting && GameMenu.shifting)
-        //{
-        //    isShifting = true;
-        //    if (inCorrectMenu || GameMenu.subMenu == GameMenu.SubMenu.Practice) //We're either leaving our submenu or going to it
-        //    {
-        //        inCorrectMenu = !inCorrectMenu;
-        //        shiftStartTime = Time.time;
-        //    }
-        //    else //Otherwise set shift out progress to 1
-        //        shiftStartTime = -shiftDuration;
-        //}
-
-        //if (isShifting)
-        //{
-        //    float progress = getShiftProgress();
-        //    if (progress >= 1f)
-        //    {
-        //        progress = 1f;
-        //        isShifting = false;
-        //    }
-        //    updateShift(GameMenu.subMenu == GameMenu.SubMenu.Practice ? -progress : progress);
-        //}
-	}
-
-    void updateShift(float progress)
-    {
-        //transform.localPosition = initialPosition +
-        //    (Vector3)MathHelper.getVector2FromAngle(shiftAngle, shiftCurve.Evaluate(progress) * shiftDistance);
+        menuButton.forceDisable = selectedInstance != null; //Disable if something is selected
     }
 
-    float getShiftProgress()
+    public void select()
     {
-        return ((Time.time - shiftStartTime) / shiftDuration);
+        selectedInstance = this;
+        transform.SetAsLastSibling();
     }
 }

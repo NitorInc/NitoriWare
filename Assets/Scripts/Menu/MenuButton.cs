@@ -19,6 +19,14 @@ public class MenuButton : MonoBehaviour
     private KeyCode pressKey = KeyCode.None;
 #pragma warning restore 0649
 
+    private bool _forceDisable;
+    public bool forceDisable
+    {
+        get { return _forceDisable; }
+        set { _forceDisable = value; }
+    }
+
+
     private int clickBuffer;   //Waits one frame to enable button to prevent carry-over clicks from last scene
 
 	void Start()
@@ -67,7 +75,7 @@ public class MenuButton : MonoBehaviour
 
     bool shouldButtonBeEnabled()
     {
-        return !GameMenu.shifting;
+        return !_forceDisable && !GameMenu.shifting;
     }
 
     void setButtonEnabled(bool enabled)

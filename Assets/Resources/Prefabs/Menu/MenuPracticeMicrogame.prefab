@@ -183,32 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2569e15bcebbf4f8031de8255560d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shiftCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: -0.0017547607
-      value: 0
-      inSlope: -0.12843779
-      outSlope: -0.12843779
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.16434868
-      value: -0.017806632
-      inSlope: -0.077950865
-      outSlope: -0.077950865
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0.9964676
-      inSlope: 1.9660836
-      outSlope: 1.9660836
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  shiftDistanceMult: 10
-  shiftDuration: 1
+  menuButton: {fileID: 114721008737940488}
+  scaleAtCenter: {x: 1, y: 1, z: 1}
+  timeToCenter: 0.2
 --- !u!114 &114164585223339038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,7 +236,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114667130458436578}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114149992186714820}
+        m_MethodName: select
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114463865546211480
