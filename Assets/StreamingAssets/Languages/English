@@ -1,11 +1,79 @@
-name=English
-control
-	key=USE DA KEYZ
-	mouse=USE DA MOUSE
+generic
+	name=English
+	gamename=NitorInc.
+	incomplete=WARNING: This language is not completely translated. Some text may show up in English.
 stage
+	control
+		key=USE DA KEYZ
+		mouse=USE DA MOUSE
 	speedup=FASTER!
 	boss=BOSS STAGE
 	levelup=LEVEL UP!
+	pause=Game Paused
+		resume=Resume {0}
+	quit=Quit {0}
+	gameover=Game Over!
+		score=You Scored: {0}
+		highscore=High Score: {0}
+		newhighscore=New High Score!
+menu
+	yes=Yes
+	no=No
+	ok=OK
+	back=Back
+	backalt=Go Back
+	confirm=Confirm
+	cancel=Cancel
+	on=On
+	off=Off
+	play=Play
+	main
+		story=Story Mode
+		compilation=Arcade Mode
+		practice=Microgame Practice
+		quit=Quit Game
+			prompt=Are you sure you want to quit {0}?
+		settings=Settings
+		credits=Credits
+	gamemode=Select a game mode!
+		locked1=Locked! Complete {0} to unlock.
+		locked2=Locked! Score a {0} or more in {1} to unlock.
+		highscore=High Score: {0}
+		compilationmode
+			description=Challenge as many microgames as you can! No boss stage.
+		compilation=Kappa Compendium
+			description=Normal Arcade Mode: play all microgames shuffled.
+		compilationfast=Max Kappacity
+			description=SUPER DUPER FAST!!
+		compilationmystery=(Documentation Needed)
+			description=Oops, we lost the blueprints for this one. No comand or control prompt!
+		compilationhard=Cucumber Hell
+			description=All the hardest games! Only one life! How long can you last?
+	settings
+		resolution=Screen Resolution
+		fullscreen=Fullscreen
+		language=Language
+		graphics=Graphics Quality
+			0=Fastest
+			1=Fast
+			2=Simple
+			3=Good
+			4=Beautiful
+			5=Fantastic
+		volume=Volume
+			master=Master
+			music=Music
+			sfx=SFX
+			voice=Voice
+	splash
+		introa=This game demo is a derivative work of Touhou Project (東方Project) created by ZUN.
+		introb=Many fans of the series have collaborated and contributed code, music, art, and various other talents to create this collection of microgames.
+		introc=If you can speak English and you'd like to contribute to the full game, please visit {0}\nOr just help spread the word!
+		webglwarning=If the web player gives you trouble, try one of the downloads linked below instead.
+nitori
+	storyintro=Looks like we've got a new customer.\nLet's see how you handle my trademark games.\nBetter not blink!
+	storyfinished=Nice job, nerd.\nGuess you're not just a window shopper.\nNow try {0} for a real challenge!
+	compilationfinished=Well dang, I'm impressed!\nBut just you wait for the full game,\n{0} has only just begun!
 microgame
 	FreezeFrogs
 		command=Freeze!
@@ -37,15 +105,22 @@ microgame
 	CupShuffle
 		command=Pay Attention!
 		commandb=Choose!
+		igname=Youk-hiding
 	TraceShape
 		command=Fill in!
-		igname=Nitori Paint
+		igname=Brushing Up
 	RockBand
 		command=Perform!
 		igname=Subwoofer
+	ChenBike
+		command=Honk!
+		igname=What the Honk
 	MasterSparkCode
 		command=Cast!
 		igname=Test-Fire
+	OkuuFire
+		command=Regulate!
+		igname=Keep it Cool
 	YukariCake
 		command=Snatch!
 		igname=Dessert Patrol
@@ -69,9 +144,26 @@ microgame
 		commandb=Watch out!
 		commandc=Shoot down!
 		commandd=Defeat her!
-	KogasaScare
-		igname=UmBOOlla
-	ChenBike
-		igname=What the Honk
-	AwooClicker
-		igname=Puparrazi
+		igname=The Cucumber Caper
+credits
+	intro={0} was made possible thanks to the following fans!
+	kapptain=Creative Director, Programmer, Team "Kapptain"
+	leadart=Lead Artist, Character Designer
+	UI=Menu and Stage Graphics
+	menumusic=Title/Menu Music
+	stagemusic=Stage Music
+	microgame
+		management=Microgame Management
+		managementalt=Collab Management
+		code=Microgame Code
+		art=Microgame Art
+		music=Microgame Music
+	localization=Localizers
+		management=Localzation Management
+	sfx=Sound Effects
+	socialmedia=Social Media
+	touhou=Based on Touhou Project by ZUN
+	thanks=Special Thanks
+		discord=The Touhou Project Discord server
+		playtesters=All our playtesters
+		fans=And all the fans who have helped us spread the word!

@@ -27,6 +27,7 @@ public class MicrogameController : MonoBehaviour
 
 	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
+    private bool debugMode;
     private CommandDisplay commandDisplay;
    
 
@@ -39,7 +40,9 @@ public class MicrogameController : MonoBehaviour
 			sceneName = "_Template1";
 		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
 
-		if (StageController.instance == null)
+        debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
+
+        if (debugMode)
 		{
             //Debug Mode Awake (scene open by itself)
 
@@ -89,7 +92,7 @@ public class MicrogameController : MonoBehaviour
 			shutDownMicrogame();
 		else
         {
-            if (StageController.instance == null)
+            if (debugMode)
             {
                 //Debug Start
                 MicrogameDebugObjects debugObjects  = MicrogameDebugObjects.instance;
@@ -100,7 +103,6 @@ public class MicrogameController : MonoBehaviour
                     LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
                     if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
                         manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
-                    manager.Awake();
                     manager.gameObject.SetActive(true);
                 }
                 
@@ -148,7 +150,11 @@ public class MicrogameController : MonoBehaviour
 
 	bool isBeingDiscarded()
 	{
-		return StageController.instance != null && StageController.instance.animationPart == StageController.AnimationPart.GameOver;
+        if (debugMode)
+            return false;
+		return StageController.instance == null
+            || StageController.instance.animationPart == StageController.AnimationPart.GameOver
+            || StageController.instance.animationPart == StageController.AnimationPart.WonStage;
 	}
 
 	/// <summary>
@@ -166,8 +172,13 @@ public class MicrogameController : MonoBehaviour
 	/// <returns></returns>
 	public bool isDebugMode()
 	{
-		return StageController.instance == null;
+        return debugMode;
 	}
+
+    string getSceneWithoutNumber(string scene)
+    {
+        return scene.Substring(0, scene.Length - 1);
+    }
     
     public AudioSource getSFXSource()
     {
@@ -181,7 +192,7 @@ public class MicrogameController : MonoBehaviour
 	/// <param name="final"></param>
 	public void setVictory(bool victory, bool final)
 	{
-		if (StageController.instance == null)
+		if (debugMode)
 		{
 			//Debug victory
 			if (victoryDetermined)
@@ -206,7 +217,7 @@ public class MicrogameController : MonoBehaviour
 	/// <returns></returns>
 	public bool getVictory()
 	{
-		if (StageController.instance == null)
+		if (debugMode)
 		{
 			return victory;
 		}
@@ -220,7 +231,7 @@ public class MicrogameController : MonoBehaviour
 	/// <returns></returns>
 	public bool getVictoryDetermined()
 	{
-		if (StageController.instance == null)
+		if (debugMode)
 		{
 			return victoryDetermined;
 		}
@@ -267,10 +278,9 @@ public class MicrogameController : MonoBehaviour
     /// <param name="volume"></param>
     public void playSFXUnscaled(AudioClip clip, float panStereo = 0f, float pitch = 1f, float volume = 1f)
     {
-        sfxSource.volume = volume;
         sfxSource.pitch = pitch;
         sfxSource.panStereo = panStereo;
-        sfxSource.PlayOneShot(clip);
+        sfxSource.PlayOneShot(clip, volume * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX));
     }
 
     /// <summary>
@@ -287,7 +297,7 @@ public class MicrogameController : MonoBehaviour
 
 	void Update ()
 	{
-		if (StageController.instance == null)
+		if (debugMode)
 		{
 			if (Input.GetKeyDown(KeyCode.R))
 				SceneManager.LoadScene(gameObject.scene.buildIndex);

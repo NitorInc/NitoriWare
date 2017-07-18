@@ -65,7 +65,8 @@ public class StageController : MonoBehaviour
 		NextRound,		//6 - Used after a boss stage or when difficulty increases | 8 beats
 		GameOver,		//7 - Player has lost all of their lives | Until stage is quit or restarted
 		Retry,			//8 - Player has hit retry after Game Over | 2 beats
-        OneUp           //9 - Player has won the boss stage and gets an extra life | 8 beats (placeholder)
+        OneUp,          //9 - Player has won the boss stage and gets an extra life | 8 beats (placeholder)
+        WonStage        //10 - Player has won a character stage for the first time | 8 beats, ends stage
 	}
 
 	void Start()
@@ -406,17 +407,22 @@ public class StageController : MonoBehaviour
 		placeholderResults.transform.parent.gameObject.SetActive(true);
         Cursor.visible = true;
 
+
         //TODO better playerprefs saving
-        string scoreString = gameObject.scene.name  + "HighScore";
-        int score = Mathf.Min(microgameCount, 999), highScore = PlayerPrefs.GetInt(scoreString, 0);
+        int score = Mathf.Min(microgameCount, 999), highScore = PrefsHelper.getHighScore(gameObject.scene.name);
         if (score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt(scoreString, score);
+            PrefsHelper.setHighScore(gameObject.scene.name, score);
         }
-		placeholderResults.setScore(score);
+		placeholderResults.setScore(MicrogameNumber.instance.getNumber());
         placeholderResults.setHighScore(highScore);
 	}
+
+    public bool isGameOver()
+    {
+        return animationPart == AnimationPart.GameOver || animationPart == AnimationPart.WonStage;
+    }
 
 	void updateToIdle()
 	{
@@ -438,6 +444,11 @@ public class StageController : MonoBehaviour
             retry();
         //if (Input.GetKeyDown(KeyCode.G))
         //    commandDisplay.play("Hi there");
+    }
+
+    public void lowerScore()
+    {
+        MicrogameNumber.instance.decreaseNumber();
     }
 
     void updateMicrogameTraits()

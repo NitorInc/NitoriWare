@@ -42,12 +42,27 @@ public abstract class TextLimitSize : MonoBehaviour
 
     public virtual void updateScale()
     {
-        Vector2 size = getSize() * ((float)defaultFontSize / (float)getFontSize());
-
-        if (size.x > maxSize.x || size.y > maxSize.y)
-            setFontSize((int)(Mathf.Floor(defaultFontSize * Mathf.Min(maxSize.x / size.x, maxSize.y / size.y))));
+        Vector2 sizeAtDefaultFont = getSize() * ((float)defaultFontSize / (float)getFontSize());
+        Vector2 resizedSize = sizeAtDefaultFont;
+        setFontSize(defaultFontSize);
+        
+        if (sizeAtDefaultFont.x > maxSize.x || sizeAtDefaultFont.y > maxSize.y)
+        {
+            do
+            {
+                float mult = Mathf.Min(maxSize.x / resizedSize.x, maxSize.y / resizedSize.y);
+                setFontSize(Mathf.FloorToInt((float)getFontSize() * mult));
+                //Debug.Log(name + " fit");
+                resizedSize *= mult;
+            }
+            while (resizedSize.x > maxSize.x + .001f || resizedSize.y > maxSize.y + .001f);
+        }
         else
+        {
+            if (name.Contains("Description"))
+                Debug.Log("why?");
             setFontSize(defaultFontSize);
+        }
 
         lastText = getText();
     }

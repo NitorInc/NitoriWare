@@ -1,11 +1,79 @@
-name=Русский
-control
-	key=ИСПОЛЬЗУЙ КЛАВУ
-	mouse=ИСПОЛЬЗУЙ МЫШЬ
+generic
+	name=Русский
+	gamename=NitorInc.
+	incomplete=ВНИМАНИЕ: Перевод игры не является полным и окончательным. Часть текста может быть на английском языке.
 stage
+	control
+		key=ИСПОЛЬЗУЙ КЛАВУ
+		mouse=ИСПОЛЬЗУЙ МЫШЬ
 	speedup=БЫСТРЕЕ!
 	boss=БОСС
 	levelup=СЛЕДУЮЩИЙ УРОВЕНЬ!
+	pause=Пауза
+		resume=Продолжить {0}
+	quit=Покинуть игру {0}
+	gameover=Игра окончена!
+		score=Ваши очки: {0}
+		highscore=Рекорд: {0}
+		newhighscore=Новый рекорд!
+menu
+	yes=Да
+	no=Нет
+	ok=Ок
+	back=Назад
+	backalt=Вернуться
+	confirm=Подтвердить
+	cancel=Отменить
+	on=Включено
+	off=Выключено
+	play=Играть
+	main
+		story=История
+		compilation=Аркада
+		practice=Практика
+		quit=Выйти
+			prompt=Вы уверены, что хотите выйти из {0}?
+		settings=Настройки
+		credits=Титры
+	gamemode=Выберите режим игры!
+		locked1=Закрыто! Пройдите {0} для разблокирования.
+		locked2=Закрыто! Наберите {0} и более очков в режиме {1} для разблокирования.
+		highscore=Рекорд: {0}
+		compilationmode
+			description=Играйте во столько микро игр, сколько сможете. Без боссов!
+		compilation=Энциклопедия каппы
+			description=Обычный аркадный режим: все игры в случайном порядке.
+		compilationfast=Каппец какая скорость
+			description=СУПЕР-ПУПЕР БЫСТРО!!
+		compilationmystery=(необходима документация)
+			description=Упс, чертежи к этому режиму потеряны. Подсказок к схеме управления не будет!
+		compilationhard=Огурцовый ад
+			description=Все сложнейшие игры! Только одна жизнь! Сколько сможете продержаться?
+	settings
+		resolution=Разрешение экрана
+		fullscreen=В полный экран
+		language=Язык
+		graphics=Настройки графики
+			0=Очень быстро
+			1=Быстро
+			2=Просто
+			3=Хорошо
+			4=Прекрасно
+			5=Фантастично
+		volume=Громкость
+			master=Общая
+			music=Музыка
+			sfx=Звуки
+			voice=Голос
+	splash
+		introa=Это демо версия игры по Touhou Project (東方Project). Автор оригинала - ZUN.
+		introb=Многочисленные фанаты серий помогли с разработкой кода, музыки, графики, влив свой талант в разработку этой коллекции микро игр.
+		introc=Если вы владеете английским языком и хотите помочь разработке игры, посетите {0}\nИли помогите, рассказав об игре друзьям.
+		webglwarning=Если у вас проблемы с игрой в браузере, попробуйте скачать игру по ссылке ниже.
+nitori
+	storyintro=Ну надо же, новый посетитель.\nПосмотрим как тебе на вкус мои игры.\nЛучше не моргай!
+	storyfinished=Неплохо, ботан.\nПохоже ты не просто случайный прохожий.\nТеперь попробуй {0} для настоящего испытания!
+	compilationfinished=Вы только посмотрите, я впечатлена!\nДождись полной игры,\nэто только начало {0}!
 microgame
 	FreezeFrogs
 		command=Заморозь!
@@ -14,40 +82,55 @@ microgame
 		command=Рогатка!
 		igname=На голову выше
 	ChenFood
-		command=Не будь съеденой!
+		command=Не будь съеденной!
 		igname=Кошки-рыбки
 	Spider
 		command=Накорми!
+		igname=Домашний паучок
 	Donation
 		command=Поймай 3!
+		igname=Хакурэйзино
 	Wrench
 		command=Закрути!
 		igname=Отдел по закручиванию гаек
 	Potion
 		command=Закинь!
 		ingredients=Ингредиенты
+		igname=Зельеварение
 	GhostFood
 		command=Съешь и прожуй!
+		igname=Призрачный дожор
 	Spaceship
 		command=Поехали!
+		igname=Космическая Программа Ёкаев
 	CupShuffle
-		command=Следи!
+		command=Не упусти!
 		commandb=Выбери!
+		igname=Ёкай в наперстке
 	TraceShape
 		command=Закрась!
 		igname=Раскраски от каппы
 	RockBand
 		command=Сыграй!
 		igname=Рок гав-церт
+	ChenBike
+		command=Бибикай!
+		igname=Забибикались совсем
 	MasterSparkCode
 		command=Заклинай!
+		igname=Тренировка на феях
+	OkuuFire
+		command=Регулируй!
+		igname=Охладите, углепластик
 	YukariCake
 		command=Утащи!
+		igname=Десерт-тация
 	RemiCover
 		command=Прикрой!
-		igname=Темные делишки
+		igname=Тёмные делишки
 	SuikaShake
-		command=Стряси!
+		command=Стряхни!
+		igname=Взболтать, но не смешивать
 	TouhouSort
 		command=Отсортируй по {0}!
 		hat=шляпам
@@ -58,4 +141,30 @@ microgame
 		command=Защити!
 		igname=ПВО в алом платье
 	PaperThief
-		command=Дойди до конца!
+		command=Дойди до цели!
+		commandb=Берегись!
+		commandc=Стреляй!
+		commandd=Прибей её!
+		igname=Огурцовая гонка
+credits
+	intro={0} была создана благодаря нашим фанатам!
+	kapptain=Креативный директор, программист, "Каппитан" команды
+	leadart=Ведущий художник, дизайн персонажей
+	UI=Меню и графика
+	menumusic=Музыка меню
+	stagemusic=Музыка уровней
+	microgame
+		management=Менеджер микро игр
+		managementalt=Менеджер совместной работы
+		code=Программа
+		art=Графика
+		music=Музыка
+	localization=Локализаторы
+		management=Менеджмент перевода
+	sfx=Звуковые эффекты
+	socialmedia=Социальные медиа
+	touhou=Основано на Touhou Project авторства ZUN
+	thanks=Особая благодарность
+		discord=Дискорд серверу Touhou Project Discord
+		playtesters=Всем нашим тестерам
+		fans=Всем фанатам, помогавшим поделиться игрой со всем миром!

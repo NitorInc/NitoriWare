@@ -924,6 +924,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1136516594}
+        m_MethodName: startFade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   particleSystems:
   - {fileID: 1523362031}
   audioSources:
@@ -3474,7 +3489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
-  _key: control.mouse
+  _key: stage.control.mouse
 --- !u!1 &1129361995
 GameObject:
   m_ObjectHideFlags: 0
@@ -3621,6 +3636,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c5c729f38fcd85e4b85fd3550179caa6, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1136516594 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114421992017276544, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
+  m_Script: {fileID: 11500000, guid: 14d6db264afb27e4e8505e2ed5c5d691, type: 3}
 --- !u!1 &1143297731
 GameObject:
   m_ObjectHideFlags: 0
@@ -5226,6 +5247,21 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
+        type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.4437458
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
+        type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.791
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
+        type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.8874916
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 72dba666113776b4dbc710553bb6dc53, type: 2}

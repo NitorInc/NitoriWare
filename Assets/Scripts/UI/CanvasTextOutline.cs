@@ -45,6 +45,9 @@ public class CanvasTextOutline : MonoBehaviour
             outlineTransform.sizeDelta = rectTransform.sizeDelta;
             outlineTransform.transform.localScale = transform.localScale;
             childRectTransforms[i] = outlineTransform;
+            outlineTransform.anchorMax = rectTransform.anchorMax;
+            outlineTransform.anchorMin = rectTransform.anchorMax;
+            outlineTransform.pivot = rectTransform.pivot;
             updateAttributes = true;
         }
         Transform parent = transform.parent;
@@ -55,7 +58,7 @@ public class CanvasTextOutline : MonoBehaviour
         transform.localPosition = holdPosition;
     }
 
-    void LateUpdate()
+    public void LateUpdate()
     {
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
@@ -87,13 +90,22 @@ public class CanvasTextOutline : MonoBehaviour
 
             bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
             Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint + pixelOffset);
+            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
+                (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
+
+            other.transform.localScale = transform.localScale;
+            other.transform.rotation = transform.rotation;
 
             //Renderer otherMeshRenderer = childMeshRenderers[i];
             //otherMeshRenderer.sortingLayerID = textRenderer.sortingLayerID;
             //otherMeshRenderer.sortingLayerName = textRenderer.sortingLayerName;
         }
+    }
+
+    public Text[] getChildTexts()
+    {
+        return childTexts;
     }
 
     float getFunctionalPixelSize()

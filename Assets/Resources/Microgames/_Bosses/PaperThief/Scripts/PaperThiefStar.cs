@@ -21,7 +21,10 @@ public class PaperThiefStar : MonoBehaviour
 	private SpriteRenderer flash;
 	[SerializeField]
 	private ParticleSystem trailParticles, explosionParticles;
+    [SerializeField]
+    private AudioClip hitClip, deathClip, appearClip;
 #pragma warning restore 0649
+    public bool makeAppearSound;
 
     public float forceAngleDirection;
     private bool activated, outOfShootingRange;
@@ -99,7 +102,12 @@ public class PaperThiefStar : MonoBehaviour
 
 	void updateMovement()
 	{
-		if (dead)
+        if (makeAppearSound && !CameraHelper.isObjectOffscreen(transform, 1f))
+        {
+            MicrogameController.instance.playSFX(appearClip);//, AudioHelper.getAudioPan(transform.position.x, .8f));
+            makeAppearSound = false;
+        }
+        if (dead)
 		{
 			transform.localScale -= Vector3.one * shrinkSpeed * Time.deltaTime;
 			if (transform.localScale.x <= 0f)
@@ -194,16 +202,19 @@ public class PaperThiefStar : MonoBehaviour
 			else if (other.name.Contains("Shot"))
 			{
 				other.GetComponent<PaperThiefShot>().kill();
-				velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
+                float soundVolume = Mathf.Lerp(1.5f, 1f, velocity.magnitude / seekMoveSpeed);
+                velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
                 flashing = true;
                 if (velocity.magnitude <= killSpeed)
 				{
                     kill();
-				}
+                    MicrogameController.instance.playSFX(deathClip, AudioHelper.getAudioPan(transform.position.x));
+                }
 				else
 				{
 					emitExplosionStars(hitStarCount);
-				}
+                    MicrogameController.instance.playSFX(hitClip, AudioHelper.getAudioPan(transform.position.x), soundVolume);
+                }
 				
 			}
 		}

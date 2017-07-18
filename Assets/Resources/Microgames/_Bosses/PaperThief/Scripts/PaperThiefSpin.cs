@@ -44,13 +44,13 @@ public class PaperThiefSpin : MonoBehaviour
 	
 	float getSpinRotation()
 	{
-		Vector3 eulers = transform.rotation.eulerAngles;
+		Vector3 eulers = transform.localRotation.eulerAngles;
 		return eulers.y <= 0f ? eulers.y : eulers.y - 360f;
 	}
 
 	void setSpinRotation(float rotation)
 	{
-		Vector3 eulers = transform.rotation.eulerAngles;
-		transform.rotation = Quaternion.Euler(eulers.x, rotation, eulers.z);
+		Vector3 eulers = transform.localRotation.eulerAngles;
+		transform.localRotation = Quaternion.Euler(eulers.x, rotation, eulers.z);
 	}
 }

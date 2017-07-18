@@ -14,8 +14,8 @@ public class MasterSparkCode : MonoBehaviour {
     public List<AudioSource> AudioSources;
 
     void Start () {
-        foreach (var a in AudioSources)
-            a.pitch = Time.timeScale;
+        //foreach (var a in AudioSources)
+        //    a.pitch = Time.timeScale;
     }
 	
 	// Update is called once per frame

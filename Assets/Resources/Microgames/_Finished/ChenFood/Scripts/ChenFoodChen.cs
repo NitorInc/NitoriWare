@@ -75,8 +75,6 @@ public class ChenFoodChen : MonoBehaviour
 		Cursor.visible = false;
 
 		leapSource.Stop();
-
-		leapSource.pitch = Time.timeScale;
 	}
 
 

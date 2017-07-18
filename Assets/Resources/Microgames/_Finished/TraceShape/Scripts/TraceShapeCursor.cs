@@ -4,49 +4,60 @@ using System.Collections;
 public class TraceShapeCursor : MonoBehaviour
 {
 	public int inBoundsNeeded, outOfBoundsLeft;
+    public float particleDisappearStartTime, particleDisappearDuration, particleDisappearResumeTime;
 	public Collider2D[] essentialColliders;
 	public Animator victoryAnimator;
 	private AudioSource _audioSource;
-	[SerializeField]
+    [SerializeField]
+    private Transform inBoundColliders, outBoundColliders;
+    [SerializeField]
 	private AudioSource resultSoundSource;
 	[SerializeField]
-	private AudioClip victoryClip;
+	private AudioClip victoryClip, buzzerClip;
+    [SerializeField]
+    private VictoryColor[] victoryColors;
 
 	private ParticleSystem traceParticles;
+    private bool failed;
 
 	void Start ()
 	{
 		_audioSource = GetComponent<AudioSource>();
 		traceParticles = GetComponent<ParticleSystem>();
 		Cursor.visible = false;
-		_audioSource.pitch = resultSoundSource.pitch = Time.timeScale;
+		//_audioSource.pitch = resultSoundSource.pitch = Time.timeScale;
 	}
 	
 	void LateUpdate ()
 	{
-		updateTrace();
+        updateCursor();
+        if (!failed)
+		    updateTrace();
 	}
 
 	void updateTrace()
 	{
 		//Enable emmissions if mouse is held down
 		ParticleSystem.EmissionModule emission = traceParticles.emission;
-		emission.enabled = Input.GetMouseButton(0);
-		_audioSource.volume = Input.GetMouseButton(0) ? 1f : 0f;
+        emission.enabled = Input.GetMouseButton(0);
+        _audioSource.volume = Input.GetMouseButton(0) ? PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX) : 0f;
 
-		//When mouse is first pressed, create a particle (otherwise one won't be created before the player moves their cursor)
-		if (Input.GetMouseButtonDown(0))
-			traceParticles.Emit(1);
+        if (!emission.enabled && Input.GetMouseButtonDown(0))
+            traceParticles.Emit(1); //When mouse is first pressed, create a particle (otherwise one won't be created before the player moves their cursor
 
-		//Snap to cursor
-		Vector3 cursorPosition = CameraHelper.getCursorPosition();
-		transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
 	}
+
+    void updateCursor()
+    {
+        //Snap to cursor
+        Vector3 cursorPosition = CameraHelper.getCursorPosition();
+        transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
+    }
 
 	void collide(Collider2D other)
 	{
 		//Player must be holding down the mouse button to hit drawing colliders
-		if (!Input.GetMouseButton(0))
+		if (!traceParticles.emission.enabled)
 			return;
 
 		other.gameObject.SetActive(false);
@@ -93,24 +104,71 @@ public class TraceShapeCursor : MonoBehaviour
 	}
 
 	void failure()
-	{
-		MicrogameController.instance.setVictory(false, true);
-		ParticleSystem.EmissionModule emission = traceParticles.emission;
+    {
+        var main = traceParticles.main;
+        ParticleSystem.Particle[] allParticles = new ParticleSystem.Particle[main.maxParticles];
+        int activeParticleCount = traceParticles.GetParticles(allParticles);
+        for (int i = 0; i < activeParticleCount; i++)
+        {
+            allParticles[i].remainingLifetime = particleDisappearStartTime
+                + (particleDisappearDuration -(i * (particleDisappearDuration / (float)activeParticleCount)));
+        }
+        traceParticles.SetParticles(allParticles, activeParticleCount);
+
+
+        for (int i = 0; i < inBoundColliders.childCount; i++)
+        {
+            GameObject child = inBoundColliders.GetChild(i).gameObject;
+            if (!child.activeInHierarchy)
+            {
+                inBoundsNeeded++;
+                child.SetActive(true);
+            }
+        }
+        for (int i = 0; i < outBoundColliders.childCount; i++)
+        {
+            GameObject child = outBoundColliders.GetChild(i).gameObject;
+            if (!child.activeInHierarchy)
+            {
+                outOfBoundsLeft++;
+                child.SetActive(true);
+            }
+        }
+
+        var emission = traceParticles.emission;
+        MicrogameController.instance.setVictory(false, false);
 		emission.enabled = false;
 		_audioSource.volume = 0f;
+        foreach (VictoryColor vColor in victoryColors)
+        {
+            vColor.ignoreVictoryDetermined = true;
+        }
+        MicrogameController.instance.playSFX(buzzerClip);
 
-		//TODO Failure
-		//Debug.Log("You lose!");
-		enabled = false;
-		disableSprite();
+        failed = true;
+        Invoke("tryAgain", particleDisappearResumeTime);
+		//setSpriteActive(false);
 	}
 
-	void disableSprite()
-	{
-		transform.FindChild("Sprite").gameObject.SetActive(false);
-	}
+    void tryAgain()
+    {
+        if (MicrogameController.instance == null)   //TODO better fix for invoke bringing dead objects back
+            return;
 
-	void OnTriggerEnter2D(Collider2D other)
+        failed = false;
+        //setSpriteActive(true);
+        foreach (VictoryColor vColor in victoryColors)
+        {
+            vColor.ignoreVictoryDetermined = false;
+        }
+    }
+
+	//void setSpriteActive(bool active)
+	//{
+	//	transform.FindChild("Sprite").gameObject.SetActive(active);
+ //   }
+
+    void OnTriggerEnter2D(Collider2D other)
 	{
 		collide(other);
 	}

@@ -12,15 +12,19 @@ public class PaperThiefJunk : MonoBehaviour
     private bool staysOnGround;
     [SerializeField]
     private float bounceY, bounceSpeed, torqueMult;
+    [SerializeField]
+    private AudioClip bounceClip;
 #pragma warning restore 0649
 
     private bool bounced;
 
     private Rigidbody2D _rigidBody;
+    private AudioSource _audioSource;
 
 	void Awake()
 	{
         _rigidBody = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
 	}
 
     void Start()
@@ -38,15 +42,19 @@ public class PaperThiefJunk : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, bounceY, transform.position.z);
                 _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, bounceSpeed);
                 bounced = true;
+                _audioSource.PlayOneShot(bounceClip);
             }
             else if (staysOnGround)
             {
                 transform.position = new Vector3(transform.position.x, bounceY, transform.position.z);
                 _rigidBody.velocity = Vector2.zero;
                 _rigidBody.bodyType = RigidbodyType2D.Kinematic;
+                _audioSource.PlayOneShot(bounceClip, .5f);
             }
             else
                 enabled = false;
         }
+        _audioSource.pitch = Time.timeScale;
+        _audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x) * .5f;
 	}
 }

@@ -152,6 +152,16 @@ Prefab:
       propertyPath: debugSettings.displayCommand
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.localizeText
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.forceLocalizationLanguage
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -376,6 +386,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224977355195208440, guid: d65b190e50a7e1641ab773a6b743498e,
     type: 2}
   m_PrefabInternal: {fileID: 104418303}
+--- !u!114 &137145822 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114421992017276544, guid: c5c729f38fcd85e4b85fd3550179caa6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1136516593}
+  m_Script: {fileID: 11500000, guid: 14d6db264afb27e4e8505e2ed5c5d691, type: 3}
 --- !u!82 &188383718 stripped
 AudioSource:
   m_PrefabParentObject: {fileID: 82572539313808112, guid: a269f9a74689c634588dd5fe0548b21b,
@@ -690,6 +706,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 137145822}
+        m_MethodName: startFade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   particleSystems:
   - {fileID: 1523362031}
   audioSources:
@@ -741,7 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
-  _key: control.mouse
+  _key: stage.control.mouse
 --- !u!1 &280867082
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +1016,7 @@ Prefab:
     - target: {fileID: 224977355195208440, guid: d65b190e50a7e1641ab773a6b743498e,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 31.01
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 224977355195208440, guid: d65b190e50a7e1641ab773a6b743498e,
         type: 2}
@@ -2982,6 +3013,22 @@ Prefab:
       propertyPath: boundsParent
       value: 
       objectReference: {fileID: 1292368459}
+    - target: {fileID: 4537074254811814, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613574485059470, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613574485059470, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4905286556010512, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.073
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 39bc4284334e6dc49bbbeff4981fedd7, type: 2}
   m_IsPrefabParent: 0
@@ -3198,6 +3245,21 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
+        type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.4437458
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
+        type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.791
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
+        type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.8874916
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 72dba666113776b4dbc710553bb6dc53, type: 2}
