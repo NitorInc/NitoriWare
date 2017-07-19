@@ -8,7 +8,7 @@ public class TouhouSortSorter : MonoBehaviour
 	// Handles objects and win/loss
 
 	// Spacing between starting sortables
-	static float GAP = 2.0f;
+	static float GAP = 2.2f;
 
 	// Max number of sortable touhous
 	public int slotCount;
