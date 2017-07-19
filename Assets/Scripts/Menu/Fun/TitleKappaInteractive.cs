@@ -11,11 +11,13 @@ public class TitleKappaInteractive : MonoBehaviour
     [SerializeField]
     private ParticleSystem eatParticles;
     [SerializeField]
+    private Animator animator;
+    [SerializeField]
     private float collideTime, lifeTime, clickSpeed;
     [SerializeField]
     private float minSpeed, maxSpeed, slowDownAcc, speedUpAcc;
     [SerializeField]
-    private float eatGrowScale;
+    private float eatGrowScale, explodeSpeed;
     [SerializeField]
     private Rigidbody2D _rigidBody;
     [SerializeField]
@@ -80,12 +82,42 @@ public class TitleKappaInteractive : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.name.Contains("Cucumber"))
+        if (enabled && collision.collider.name.Contains("Cucumber"))
         {
             Destroy(collision.collider.gameObject);
             transform.localScale *= eatGrowScale;
             sfxSource.PlayOneShot(eatClip);
             eatParticles.Play();
+
+            animator.SetTrigger("Eat");
+            int eatCount = animator.GetInteger("EatCount");
+            animator.SetInteger("EatCount", eatCount + 1);
+
+            if (eatCount >= 2)
+            {
+                _rigidBody.bodyType = RigidbodyType2D.Kinematic;
+                _rigidBody.velocity = Vector2.zero;
+                enabled = false;
+            }
         }
+    }
+
+    public void explode()
+    {
+        for (int i = 0; i < transform.parent.childCount; i++)
+        {
+            Transform childTransform = transform.parent.GetChild(i);
+            if (childTransform != transform)
+                childTransform.GetComponent<Rigidbody2D>().velocity = ((Vector2)(childTransform.position - transform.position)).resize(explodeSpeed);
+        }
+
+        _collider2D.enabled = false;
+        GetComponent<TrailRenderer>().time = 0f;
+        Invoke("kill", .5f);
+    }
+
+    void kill()
+    {
+        Destroy(gameObject);
     }
 }
