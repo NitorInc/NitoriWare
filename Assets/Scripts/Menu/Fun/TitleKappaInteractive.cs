@@ -73,7 +73,7 @@ public class TitleKappaInteractive : MonoBehaviour
         }
         
 
-        if (CameraHelper.isMouseOver(_collider2D))
+        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D))
             click();
     }
 
