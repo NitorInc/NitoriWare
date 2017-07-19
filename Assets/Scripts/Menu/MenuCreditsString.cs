@@ -10,17 +10,17 @@ public class MenuCreditsString : MonoBehaviour
     private CanvasTextLimitSize limitSize;
     [SerializeField]
     private CanvasTextOutline outline;
+    [SerializeField]
+    private float offscreenThreshold = 10f;
 #pragma warning restore 0649
 
-    private bool activated;
-
-	void Update()
+    void Update()
 	{
-		if (!activated && !CameraHelper.isObjectOffscreen(transform, 2f))
+		if (!CameraHelper.isObjectOffscreen(transform, offscreenThreshold))
         {
             limitSize.enabled = true;
             outline.enabled = true;
-            activated = true;
+            enabled = false;
         }
 	}
 }
