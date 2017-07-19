@@ -31,11 +31,13 @@ public class TitleKappaInteractive : MonoBehaviour
     private Vector2 lastMousePosition, flingVelocity;
     private Vector3 initialScale;
     private bool grabbed;
+    private List<GameObject> eatenCucumbers;
 
     void Start()
     {
         grabbed = false;
         initialScale = transform.localScale;
+        eatenCucumbers = new List<GameObject>();
         //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
     }
 
@@ -84,7 +86,15 @@ public class TitleKappaInteractive : MonoBehaviour
     {
         if (enabled && collision.collider.name.Contains("Cucumber"))
         {
-            Destroy(collision.collider.gameObject);
+            Vector3 holdScale = transform.localScale;
+            transform.localScale = Vector3.one;
+            var eatenCucumber = collision.collider.gameObject;
+            eatenCucumbers.Add(eatenCucumber);
+            eatenCucumber.transform.parent = transform;
+            eatenCucumber.SetActive(false);
+            transform.localScale = holdScale;
+
+
             transform.localScale *= eatGrowScale;
             sfxSource.PlayOneShot(eatClip);
             eatParticles.Play();
@@ -92,7 +102,6 @@ public class TitleKappaInteractive : MonoBehaviour
             animator.SetTrigger("Eat");
             int eatCount = animator.GetInteger("EatCount");
             animator.SetInteger("EatCount", eatCount + 1);
-
             if (eatCount >= 2)
             {
                 _rigidBody.bodyType = RigidbodyType2D.Kinematic;
@@ -104,6 +113,15 @@ public class TitleKappaInteractive : MonoBehaviour
 
     public void explode()
     {
+        Vector3 holdScale = transform.localScale;
+        transform.localScale = Vector3.one;
+        foreach (GameObject eatenCucumber in eatenCucumbers)
+        {
+            eatenCucumber.SetActive(true);
+            eatenCucumber.transform.parent = transform.parent;
+        }
+        transform.localScale = holdScale;
+
         for (int i = 0; i < transform.parent.childCount; i++)
         {
             Transform childTransform = transform.parent.GetChild(i);
