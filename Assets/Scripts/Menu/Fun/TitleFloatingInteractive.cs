@@ -88,12 +88,16 @@ public class TitleFloatingInteractive : MonoBehaviour
     bool canStayActive()
     {
         if (!GameMenu.shifting)
-            return true;
-        if (GameMenu.subMenu == GameMenu.SubMenu.Title)
-            return GameMenu.shiftingFrom == GameMenu.SubMenu.Credits;
-        if (GameMenu.subMenu == GameMenu.SubMenu.Credits)
-            return GameMenu.shiftingFrom == GameMenu.SubMenu.Title;
-        return false;
+        {
+            if (GameMenu.subMenu == GameMenu.SubMenu.Title)
+                return GameMenu.shiftingFrom == GameMenu.SubMenu.Credits;
+            else if (GameMenu.subMenu == GameMenu.SubMenu.Credits)
+                return GameMenu.shiftingFrom == GameMenu.SubMenu.Title;
+            else
+                return false;
+        }
+        else
+            return GameMenu.subMenu == GameMenu.SubMenu.Title || GameMenu.subMenu == GameMenu.SubMenu.Credits;
     }
 
     public void setIgnoreWalls(bool ignore)
