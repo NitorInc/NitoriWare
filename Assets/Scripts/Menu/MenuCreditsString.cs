@@ -18,8 +18,10 @@ public class MenuCreditsString : MonoBehaviour
 	{
 		if (!CameraHelper.isObjectOffscreen(transform, offscreenThreshold))
         {
-            limitSize.enabled = true;
-            outline.enabled = true;
+            if (limitSize != null)
+                limitSize.enabled = true;
+            if (outline != null)
+                outline.enabled = true;
             enabled = false;
         }
 	}
