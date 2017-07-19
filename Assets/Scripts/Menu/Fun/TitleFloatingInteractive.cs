@@ -38,7 +38,7 @@ public class TitleFloatingInteractive : MonoBehaviour
 
     void LateUpdate()
     {
-        if (GameMenu.shifting)
+        if (!canStayActive())
         {
             _rigidBody.bodyType = RigidbodyType2D.Kinematic;
             Vector2 escapeVelocity = MathHelper.getVector2FromAngle(
@@ -83,6 +83,17 @@ public class TitleFloatingInteractive : MonoBehaviour
 
         if (CameraHelper.isObjectOffscreen(transform, 10f))
             Destroy(gameObject);
+    }
+
+    bool canStayActive()
+    {
+        if (!GameMenu.shifting)
+            return true;
+        if (GameMenu.subMenu == GameMenu.SubMenu.Title)
+            return GameMenu.shiftingFrom == GameMenu.SubMenu.Credits;
+        if (GameMenu.subMenu == GameMenu.SubMenu.Credits)
+            return GameMenu.shiftingFrom == GameMenu.SubMenu.Title;
+        return false;
     }
 
     public void setIgnoreWalls(bool ignore)
