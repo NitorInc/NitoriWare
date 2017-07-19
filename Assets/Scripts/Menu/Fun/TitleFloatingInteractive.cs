@@ -87,7 +87,7 @@ public class TitleFloatingInteractive : MonoBehaviour
 
     bool canStayActive()
     {
-        if (!GameMenu.shifting)
+        if (GameMenu.shifting)
         {
             if (GameMenu.subMenu == GameMenu.SubMenu.Title)
                 return GameMenu.shiftingFrom == GameMenu.SubMenu.Credits;

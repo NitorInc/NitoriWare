@@ -39,7 +39,7 @@ public class TitleInteractableSpawner : MonoBehaviour
 
     bool canSpawn()
     {
-        if (!GameMenu.shifting)
+        if (GameMenu.shifting)
         {
             if (GameMenu.subMenu == GameMenu.SubMenu.Title)
                 return GameMenu.shiftingFrom == GameMenu.SubMenu.Credits;
