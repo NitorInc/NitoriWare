@@ -55,7 +55,7 @@ public class TitleFloatingInteractive : MonoBehaviour
         }
 
         if (lifetime > 0f)
-        {
+        {   
             lifetime -= Time.deltaTime;
             if (lifetime <= 0f)
                 setIgnoreWalls(true);
