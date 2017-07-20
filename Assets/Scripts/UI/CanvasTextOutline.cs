@@ -105,9 +105,7 @@ public class CanvasTextOutline : MonoBehaviour
             Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
             //if (scaleLocally)
             //    worldPoint.Scale(transform.parent.lossyScale);
-
-            if (transform.root.name.Contains("Pause"))
-                Debug.Log(transform.parent.lossyScale);
+            
             worldPoint += transform.position;
 
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);

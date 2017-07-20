@@ -55,7 +55,7 @@ public abstract class Stage : MonoBehaviour
 	/// </summary>
 	public virtual void onStageStart()
 	{
-
+        PrefsHelper.setVisitedStage(gameObject.scene.name, true);
 	}
 
 	/// <summary>

@@ -8,6 +8,7 @@ public static class PrefsHelper
     private const string VolumeKeyPrefix = "settings.volume.";
     private const string ProgressKey = "save.progress"; //How many gamemodes the player has completed
     private const string HighScorePrefix = "save.highscore.";
+    private const string StageVisitPrefix = "save.visited.";
 
     private static int volumeTypeCount = 4;
 
@@ -119,6 +120,7 @@ public static class PrefsHelper
     /// <returns></returns>
     public static int getHighScore(string stage)
     {
+        stage = stage.ToLower();
         return PlayerPrefs.GetInt(HighScorePrefix + stage.ToLower(), 0);
     }
     
@@ -129,6 +131,28 @@ public static class PrefsHelper
     /// <param name="score"></param>
     public static void setHighScore(string stage, int score)
     {
+        stage = stage.ToLower();
         PlayerPrefs.SetInt(HighScorePrefix + stage.ToLower(), score);
+    }
+
+    /// <summary>
+    /// Returns whether the stage was ever visited by the player
+    /// </summary>
+    /// <param name="stage"></param>
+    public static bool getVisitedStage(string stage)
+    {
+        stage = stage.ToLower();
+        return PlayerPrefs.GetInt(StageVisitPrefix + stage, 0) > 0;
+    }
+
+    /// <summary>
+    /// Set whether the player has visited the stage at least once
+    /// </summary>
+    /// <param name="stage"></param>
+    /// <param name="visited"></param>
+    public static void setVisitedStage(string stage, bool visited)
+    {
+        stage = stage.ToLower();
+        PlayerPrefs.SetInt(StageVisitPrefix + stage, visited ? 1 : 0);
     }
 }

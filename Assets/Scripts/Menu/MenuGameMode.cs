@@ -17,6 +17,8 @@ public class MenuGameMode : MonoBehaviour
     [SerializeField]
     private GameObject blocker;
     [SerializeField]
+    private GameObject unlockedText;
+    [SerializeField]
     private GameplayMenu gameplayMenu;
     [SerializeField]
     private string modeName;
@@ -56,7 +58,13 @@ public class MenuGameMode : MonoBehaviour
                 triggerDescription = false;
             }
             else
+            {
                 PrefsHelper.setProgress(2);
+                if (!PrefsHelper.getVisitedStage(modeName))
+                {
+                    unlockedText.SetActive(true);
+                }
+            }
         }
 	}
 
