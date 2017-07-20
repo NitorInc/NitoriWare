@@ -92,9 +92,13 @@ public class CanvasTextOutline : MonoBehaviour
             childTransform.sizeDelta = rectTransform.sizeDelta;
 
             bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
-            Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
-                (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
+            //Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
+            //Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
+            //    (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
+
+            float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
+            Vector3 worldPoint = transform.position + (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
+
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
             other.transform.localScale = transform.localScale;
