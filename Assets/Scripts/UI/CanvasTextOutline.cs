@@ -10,7 +10,7 @@ public class CanvasTextOutline : MonoBehaviour
     public float pixelSize = 1, sortingOrder;
     public int cloneCount = 8;
     public Color outlineColor = Color.black;
-    public bool resolutionDependant = false;
+    public bool scaleLocally = false;
     public int doubleResolution = 1024;
     public bool updateAttributes;
 
@@ -91,13 +91,19 @@ public class CanvasTextOutline : MonoBehaviour
             RectTransform childTransform = childRectTransforms[i];
             childTransform.sizeDelta = rectTransform.sizeDelta;
 
-            bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
+            //bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
             //Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
             //Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
             //    (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
 
-            float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
-            Vector3 worldPoint = transform.position + (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
+            float fixedPixelWorldSize = (10f * (4f / 3f)) / 960f;
+            Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
+            //if (scaleLocally)
+            //    worldPoint.Scale(transform.parent.lossyScale);
+
+            if (transform.root.name.Contains("Pause"))
+                Debug.Log(transform.parent.lossyScale);
+            worldPoint += transform.position;
 
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
@@ -117,7 +123,7 @@ public class CanvasTextOutline : MonoBehaviour
 
     float getFunctionalPixelSize()
     {
-        return pixelSize * 5f / Camera.main.orthographicSize;
+        return pixelSize;// * 5f / Camera.main.orthographicSize;
     }
 
     Vector3 GetOffset(int i)
