@@ -6,8 +6,9 @@ using UnityEngine;
 public class GameMenu : MonoBehaviour
 {
     public static SubMenu subMenu = SubMenu.Splash;
-    //public static SubMenu subMenu = SubMenu.Gamemode;  //Debug purposes
+    //public static SubMenu subMenu = SubMenu.Credits;  //Debug purposes
     public static bool shifting;
+    public static SubMenu shiftingFrom;
 
     private static GameMenu shiftOrigin;
 
@@ -18,7 +19,8 @@ public class GameMenu : MonoBehaviour
         Settings = 2,
         Gamemode = 3,
         Practice = 4,
-        PracticeSelect = 5
+        PracticeSelect = 5,
+        Credits = 6
     }
 
     void Awake()
@@ -43,6 +45,7 @@ public class GameMenu : MonoBehaviour
     {
         if (shiftOrigin == null)
             shiftOrigin = this;
+        shiftingFrom = GameMenu.subMenu;
         setSubMenu(subMenu);
         shifting = true;
     }

@@ -41,6 +41,7 @@ public class PauseManager : MonoBehaviour
 
 	void Start ()
 	{
+        transform.position = Vector3.zero;
 		paused = false;
         if (transform.root != transform)
             Debug.LogWarning("Pause Controller should be put in hierachy root!");
