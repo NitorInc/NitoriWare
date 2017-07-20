@@ -291,7 +291,7 @@ Prefab:
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
@@ -335,7 +335,11 @@ Prefab:
     - target: {fileID: 114925589270672156, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: m_Text
-      value: Nitori is saying stuff
+      value: 'Words
+
+        Words
+
+        Words'
       objectReference: {fileID: 0}
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
@@ -385,7 +389,7 @@ Prefab:
     - target: {fileID: 114784200351317754, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: pixelSize
-      value: 5
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13a12f689dd83e942b03df54f33899a1, type: 2}
@@ -528,7 +532,7 @@ GameObject:
   - component: {fileID: 631460957}
   - component: {fileID: 631460958}
   m_Layer: 0
-  m_Name: Nitori
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -670,7 +674,7 @@ Prefab:
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
@@ -714,7 +718,11 @@ Prefab:
     - target: {fileID: 114925589270672156, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: m_Text
-      value: Nitori is saying more stuff.
+      value: 'Words
+
+        Words
+
+        Words'
       objectReference: {fileID: 0}
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
@@ -764,7 +772,7 @@ Prefab:
     - target: {fileID: 114784200351317754, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: pixelSize
-      value: 5
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13a12f689dd83e942b03df54f33899a1, type: 2}
@@ -782,6 +790,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1703119339}
+  - component: {fileID: 1703119340}
   m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
@@ -804,6 +813,23 @@ Transform:
   m_Father: {fileID: 179737999}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1703119340
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1703119338}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 17951e3cf1a779e49b97962a6ac88073, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1705403534
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +964,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 52
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &1705403540
 MonoBehaviour:
@@ -963,24 +989,30 @@ MonoBehaviour:
 
       Better not blink!'
     parameters: []
+    shiftScene: Nitori
+  - key: nitori.storyfinished
+    defaultValue: '"Nice job, nerd.
+
+      Guess you''re not just a window shopper.
+
+      Now try {0} for a real challenge!"'
+    parameters:
+    - value: menu.main.compilation
+      isKey: 1
+      keyDefaultString: Arcade Mode
     shiftScene: Title
-  - key: nitori.storyintro
-    defaultValue: 'Looks like we''ve got a new customer.
+  - key: nitori.compilationfinished
+    defaultValue: '"Well dang, I''m impressed!
 
-      Let''s see how you handle my trademark games.
+      But just you wait for the full game,
 
-      Better not blink!'
-    parameters: []
+      {0} has only just begun!"'
+    parameters:
+    - value: generic.gamename
+      isKey: 1
+      keyDefaultString: NitorInc.
     shiftScene: Title
-  - key: nitori.storyintro
-    defaultValue: 'Looks like we''ve got a new customer.
-
-      Let''s see how you handle my trademark games.
-
-      Better not blink!'
-    parameters: []
-    shiftScene: Title
-  sceneTime: 5
+  sceneTime: 10
 --- !u!1001 &1788592973
 Prefab:
   m_ObjectHideFlags: 0
@@ -1019,6 +1051,11 @@ Prefab:
     - target: {fileID: 499212, guid: 87c500271f0d4254883151e055c319b9, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115788241763394, guid: 87c500271f0d4254883151e055c319b9,
+        type: 2}
+      propertyPath: forceLanguage
+      value: English
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87c500271f0d4254883151e055c319b9, type: 2}
@@ -1088,7 +1125,7 @@ Prefab:
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
@@ -1132,7 +1169,11 @@ Prefab:
     - target: {fileID: 114925589270672156, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: m_Text
-      value: Nitori is saying stuff
+      value: 'Words
+
+        Words
+
+        Words'
       objectReference: {fileID: 0}
     - target: {fileID: 114103967297976088, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
@@ -1167,7 +1208,17 @@ Prefab:
     - target: {fileID: 114784200351317754, guid: 13a12f689dd83e942b03df54f33899a1,
         type: 2}
       propertyPath: pixelSize
-      value: 5
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 224708008858638026, guid: 13a12f689dd83e942b03df54f33899a1,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13a12f689dd83e942b03df54f33899a1, type: 2}
