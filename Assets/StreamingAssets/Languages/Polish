@@ -1,11 +1,78 @@
-name=Polski
-control
-	key=UŻYJ KLAWY
-	mouse=UŻYJ MYCHY
+generic
+	name=Polski
+	incomplete=UWAGA: Gra nie została całkowicie przetłumaczona na język polski. Część tekstu może być po angielsku.
 stage
+	control
+		key=UŻYJ KLAWY
+		mouse=UŻYJ MYCHY
 	speedup=SZYBCIEJ!
 	boss=BOSS
-	levelup=POZIOM W GÓRĘ!
+	levelup=LEVEL UP!
+	pause=Pauza
+		resume=Kontynuuj {0}
+	quit=Wyjdź {0}
+	gameover=Koniec gry!
+		score=Twój wynik: {0}
+		highscore=Najlepszy wynik: {0}
+		newhighscore=Nowy rekord!
+menu
+	yes=Tak
+	no=Nie
+	ok=OK
+	back=Powrót
+	backalt=Wróć
+	confirm=Potwierdź
+	cancel=Anuluj
+	on=Włącz
+	off=Wyłącz
+	play=Graj
+	main
+		story=Tryb fabularny
+		compilation=Tryb arcade
+		practice=Trening mikro gier
+		quit=Zakończ grę
+			prompt=Czy na pewno chcesz zakończyć {0}?
+		settings=Ustawienia
+		credits=Współtwórcy
+	gamemode=Wybierz tryb gry!
+		locked1=Zablokowane! Przejdź {0} aby odblokować.
+		locked2=Zablokowane! Uzyskaj {0} punktów lub więcej w {1} aby odblokować.
+		highscore=Najlepszy wynik: {0}
+		compilationmode
+			description=Spróbuj swoich sił w niekończącym się maratonie mikro gier! Brak etapów z bossami.
+		compilation=Kompendium Kappy
+			description=Tryb arcade normalny: graj we wszystkie mikrogry, w losowej kolejności.
+		compilationfast=Maksymalna prędkość
+			description=SUPER MEGA SZYBKO!!
+		compilationmystery=(Potrzebna dokumentacja)
+			description=Ups, zgubliśmy plany do tego trybu. Brak wskazówek!
+		compilationhard=Ogórkowe piekło
+			description=Tylko najtrudniejsze gry! Tylko jedno życie! Jak długo przetrwasz?
+	settings
+		resolution=Rozdzielczość ekranu
+		fullscreen=Pełny ekran
+		language=Język
+		graphics=Jakość grafiki
+			0=Najszybsza
+			1=Szybka
+			2=Zwykła
+			3=Dobra
+			4=Piękna
+			5=Fantastyczna
+		volume=Głośność
+			master=Ogólna
+			music=Muzyka
+			sfx=Efekty dźwiękowe
+			voice=Głos
+	splash
+		introa=To demo gry jest pochodnym dziełem Touhou Project (東方Project), stworzonym przez ZUN.
+		introb=Wiele fanów tej serii razem pracowało nad kodowaniem, muzyką, grafiką i innymi aspektami wszystkich mikrogier.
+		introc=Jeżeli znasz angielski i chciałbyś przyłączyć się do pracy nad pełną grą, odwiedź {0}\nAlbo po prostu rozpuść wieści o grze!
+		webglwarning=Jeżeli doświadczasz jakichś problemów z odtwarzaczem przeglądarkowym, spróbuj pobrać grę z poniżej podanych linków.
+nitori
+	storyintro=Wygląda na to, że mamy nowego klienta.\nZobaczmy jak poradzisz sobię z moimi markowymi grami.\nNie mrugnij okiem!
+	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu jedynie pooglądać wystawe.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
+	compilationfinished=No no, jestem pod wrażeniem!\nCiekawe czy dasz sobie radę w pełnej grze!\nTo jedynie początek {0}!
 microgame
 	FreezeFrogs
 		command=Zamróź!
@@ -42,9 +109,18 @@ microgame
 	TraceShape
 		command=Wypełnij!
 		igname=Malowanie z Nitori
+	RockBand
+		command=Daj czadu!
+		igname=SubWOOFer
+	ChenBike
+		command=Trąb!
+		igname=Co Do Jasnej Trąby!?
 	MasterSparkCode
 		command=Rzuć zaklęcie!
 		igname=Praktyka Docelowa
+	OkuuFire
+		command=Wyreguluj!
+		igname=Wszystko pod kontrolą
 	YukariCake
 		command=Podkradnij!
 		igname=Smak na Słodkości
@@ -65,11 +141,29 @@ microgame
 		igname=Obrona posiadłości
 	PaperThief
 		command=Dotrzyj do celu!
-	KogasaScare
-		igname=Bój Się
-	RockBand
-		igname=SubWOOFer
-	ChenBike
-		igname=Co Do Jasnej Trąby!?
-	AwooClicker
-		igname=Psaparrazi
+		commandb=Uważaj!
+		commandc=Zestrzel!
+		commandd=Pokonaj ją!
+		igname=W pogoni za ogórkiem
+credits
+	intro={0} powstało dzięki niżej wymienionym fanom!
+	kapptain=Kierunek twórczy, Programista, "Kappitan" drużyny
+	leadart=Głowny artysta, Projektant postaci
+	UI=Grafika w menu i etapach gry
+	menumusic=Muzyka na ekranie startowym/w menu
+	stagemusic=Muzyka w etapach gry
+	microgame
+		management=Zarządzanie mikro grami
+		managementalt=Zarządzanie kolaboracją
+		code=Kodowanie mikro gier
+		art=Grafika w mikro grach
+		music=Muzyka w mikro grach
+	localization=Lokalizatorzy
+		management=Zarządzanie lokalizacją
+	sfx=Efekty dźwiękowe
+	socialmedia=Media socjalne
+	touhou=Oparte na Touhou Project, autorstwa ZUN
+	thanks=Specjalne podziękowania
+		discord=Serwer Discord The Touhou Project
+		playtesters=Wszystkim testującym gre
+		fans=I wszystkim fanom za rozgłos!

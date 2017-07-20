@@ -9,14 +9,28 @@ public class LocalizedText : MonoBehaviour
 	private Prefix keyPrefix;
 	[SerializeField]
 	private string _key;
+    [SerializeField]
+    private Parameter[] parameters;
+
 	public string key
 	{
 		get {return _key;}
-		set { _key = value; setText(); }
-	}
+		set { _key = value; updateText(); }
+    }
 
-	private Text textComponent;
+    private TextLimitSize limitSize;    //Force update when text is changed
+
+    [System.Serializable]
+    public struct Parameter
+    {
+        public string value;
+        public bool isKey;
+        public string keyDefaultString;
+    }
+
+    private Text textComponent;
 	private TextMesh textMesh;
+    private string initialText, loadedLanguage;
 
 	private enum Prefix
 	{
@@ -28,28 +42,67 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-		setText();
-	}
+        limitSize = GetComponent<TextLimitSize>();
+        loadedLanguage = "";
+        initialText = getText();
+        updateText();
+    }
 
-	/// <summary>
-	/// Sets the key to load from and reloads the text with the new key
-	/// </summary>
-	/// <param name="key"></param>
-	public void setKey(string key)
+    private void LateUpdate()
+    {
+        
+        if (loadedLanguage != TextHelper.getLoadedLanguage())
+        {
+            setText(initialText);
+            updateText();
+        }
+    }
+
+    /// <summary>
+    /// Sets the key to load from and reloads the text with the new key
+    /// </summary>
+    /// <param name="key"></param>
+    public void setKey(string key)
 	{
 		this._key = key;
-		setText();
+		updateText();
 	}
 
-	void setText()
+	public void updateText()
 	{
+        loadedLanguage = TextHelper.getLoadedLanguage();
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage))
+            return;
+
 		string value;
 		if (keyPrefix == Prefix.CurrentMicrogame)
 			value = TextHelper.getLocalizedMicrogameText(key, getText());
 		else
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText());
+
+        if (parameters != null && parameters.Length > 0)
+        {
+            string[] parameterStrings = new string[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                Parameter parameter = parameters[i];
+                parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+            }
+            value = string.Format(value, parameterStrings);
+        }
+
 		setText(value);
-	}
+
+        //if (limitSize != null)
+        //{
+        //    var component = GetComponent<TextLimitSize>();
+        //    component.updateScale();
+        //    //if (textComponent != null)
+        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
+        //    //else if (textMesh != null)
+        //    //    ((TextMeshLimitSize)limitSize).updateScale();
+        //}
+    }
 
 	private void setText(string text)
 	{

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public static bool disablePause;
     public static bool exitedWhilePaused;
 
 	public UnityEvent onPause, onUnPause;
@@ -12,6 +14,9 @@ public class PauseManager : MonoBehaviour
 	[SerializeField]
 	//Enable and hold P to pause and unpause frantically
 	private bool enableVigorousTesting;
+
+    [SerializeField]
+    private float quitShiftDuration;
 
 	//Whitelisted items won't be affected by pause
 	public MonoBehaviour[] scriptWhitelist;
@@ -36,6 +41,7 @@ public class PauseManager : MonoBehaviour
 
 	void Start ()
 	{
+        transform.position = Vector3.zero;
 		paused = false;
         if (transform.root != transform)
             Debug.LogWarning("Pause Controller should be put in hierachy root!");
@@ -49,14 +55,24 @@ public class PauseManager : MonoBehaviour
 		{
 			if (!paused)
 				pause();
-			else
-				unPause();
-			pauseTimer = Random.Range(.1f, .2f);
-		}
+            //else
+            //	unPause();
+            //pauseTimer = Random.Range(.1f, .2f);
+        }
+        //else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
+        //{
+        //    //TODO make this a button function
+        //    if (paused)
+        //        quit();
+        //    SceneManager.LoadScene("Title");
+        //}
 	}
 
 	public void pause()
 	{
+        if (disablePause)
+            return;
+
 		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 		AudioListener.pause = true;
@@ -66,7 +82,8 @@ public class PauseManager : MonoBehaviour
 		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach(MonoBehaviour script in scripts)
 		{
-			if (script.enabled && script.transform.root != transform)
+			if (script.enabled && script.transform.root != transform &&
+                !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
 				pauseData.disabledScripts.Add(script);
 		}
         foreach (MonoBehaviour script in whitelistedScripts)
@@ -86,7 +103,7 @@ public class PauseManager : MonoBehaviour
 			pauseData.camColor = Camera.main.backgroundColor;
 			Camera.main.cullingMask = 0;
 			Camera.main.backgroundColor = Color.black;
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(false);
+			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
 		}
         if (MicrogameTimer.instance != null)
 		    MicrogameTimer.instance.gameObject.SetActive(false);
@@ -115,12 +132,17 @@ public class PauseManager : MonoBehaviour
             source.Stop();
         }
 
+        GameController.instance.sceneShifter.startShift("Title", quitShiftDuration);
+
         exitedWhilePaused = true;
     }
 
 	public void unPause()
-	{
-		foreach (MonoBehaviour script in pauseData.disabledScripts)
+    {
+        if (disablePause)
+            return;
+
+        foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
 			if (script != null)
             {
@@ -133,7 +155,7 @@ public class PauseManager : MonoBehaviour
 			Camera.main.cullingMask = pauseData.camCullingMask;
 			Camera.main.backgroundColor = pauseData.camColor;
 			MicrogameController.instance.onUnPause.Invoke();
-			MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
+			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)
             MicrogameTimer.instance.gameObject.SetActive(true);

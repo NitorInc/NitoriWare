@@ -116,7 +116,7 @@ public class DonationCoin : MonoBehaviour
 
 		volume = Mathf.Min(1f, volume);
 		volume /= 2f;
-		bounceSource.volume = volume;
+		bounceSource.volume = volume * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 
 		bounceSource.panStereo = getStereoPan();
 

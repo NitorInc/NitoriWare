@@ -4,14 +4,18 @@ using System.Collections;
 [ExecuteInEditMode]
 public class ChangeOrderInLayer : MonoBehaviour
 {
-	public int orderInLayer;
+#pragma warning disable 0649    //Serialized Fields
+    [SerializeField]
+    private Renderer _renderer;
+    [SerializeField]
+    private int orderInLayer;
+#pragma warning restore 0649
 
-	private Renderer _renderer;
 
-
-	void Awake ()
+	void Start()
 	{
-		_renderer = GetComponent<Renderer>();
+        if (_renderer == null)
+            _renderer = GetComponent<Renderer>();
 		_renderer.sortingOrder = orderInLayer;
 	}
 	

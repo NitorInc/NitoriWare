@@ -38,7 +38,7 @@ public class CupShuffleController : MonoBehaviour
 	{
 		instance = this;
 		_audioSource = GetComponent<AudioSource>();
-		_audioSource.pitch = Time.timeScale;
+		//_audioSource.pitch = Time.timeScale;
 	}
 
 	void Start()

@@ -25,7 +25,7 @@ public class AudioHelper
         xPosition -= camera.transform.position.x;
         xPosition /= camera.orthographicSize * (4f / 3f);
 
-        return Mathf.Clamp(xPosition, -1f, 1f) * extreme;
+        return Mathf.Clamp(xPosition, -extreme, extreme);
     }
 
     /// <summary>

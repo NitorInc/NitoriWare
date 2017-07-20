@@ -17,8 +17,8 @@ public class YukariCakeController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        foreach (var a in AudioSources)
-            a.pitch = Time.timeScale;
+        //foreach (var a in AudioSources)
+        //    a.pitch = Time.timeScale;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +35,9 @@ public class YukariCakeController : MonoBehaviour {
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 // Here comes the snatch sequence. Better not get caught.
-                YukariAnimator.Play("YukariCakeYukariSnatch");
+
+                YukariAnimator.SetBool("snatch", true);
+                //YukariAnimator.Play("YukariCakeYukariSnatch");
             }
         }
 	}
@@ -49,6 +51,9 @@ public class YukariCakeController : MonoBehaviour {
 
     public void SetGameFailure()
     {
+        if (MicrogameController.instance.getVictoryDetermined())
+            return;
+
         PlayFailureAnimation();
         MicrogameController.instance.setVictory(false, true);
         Enemy.Stop();
@@ -56,7 +61,7 @@ public class YukariCakeController : MonoBehaviour {
 
     public void PlayVictoryAnimation()
     {
-        YukariAnimator.Play("YukariCakeYukariVictory");
+        YukariAnimator.Play("Victory");
     }
 
     public void PlayFailureAnimation()
@@ -80,12 +85,12 @@ public class YukariCakeController : MonoBehaviour {
     public void PlayVictorySound()
     {
         YukariSource.PlayOneShot(YukariSoundVictory);
-        Debug.Log("Woo!");
+        //Debug.Log("Woo!");
     }
 
     public void PlayFailureSound()
     {
         YukariSource.PlayOneShot(YukariSoundFail);
-        Debug.Log(":(");
+        //Debug.Log(":(");
     }
 }

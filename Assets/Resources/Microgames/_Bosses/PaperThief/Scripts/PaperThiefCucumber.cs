@@ -12,6 +12,10 @@ public class PaperThiefCucumber : MonoBehaviour
     private Vector3 holdOffset;
     [SerializeField]
     private SineWave sineWave;
+    [SerializeField]
+    private AudioClip grabClip;
+    [SerializeField]
+    private float grabClipDelay;
 #pragma warning restore 0649
 
     private Vector3 goalPosition;
@@ -22,8 +26,16 @@ public class PaperThiefCucumber : MonoBehaviour
         {
             goalPosition = PaperThiefNitori.instance.transform.position + holdOffset;
             if (transform.moveTowards(goalPosition, moveSpeed))
+            {
+                Invoke("playGrabClip", grabClipDelay);
                 goalPosition = Vector3.zero;
+            }
         }
+    }
+
+    void playGrabClip()
+    {
+        MicrogameController.instance.playSFX(grabClip);
     }
 
     public void collect()

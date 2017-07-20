@@ -67,7 +67,7 @@ public class YukariCakeReimu : MonoBehaviour {
 
     public void ChangeState()
     {
-        Debug.Log(string.Format("We're going to change state at {0}", MicrogameTimer.instance.beatsLeft));
+        //Debug.Log(string.Format("We're going to change state at {0}", MicrogameTimer.instance.beatsLeft));
         Animator.SetTrigger("changeState");
     }
 
@@ -94,7 +94,7 @@ public class YukariCakeReimu : MonoBehaviour {
     public Queue<float> DifficultyEasyPattern()
     {
         // Easy is a set pattern.
-        return new Queue<float>(new[]{ 7.6f, 4.4f });
+        return new Queue<float>(new[]{ 7.6f, 5.4f });
     }
 
     public Queue<float> DifficultyMediumPattern()
@@ -106,10 +106,10 @@ public class YukariCakeReimu : MonoBehaviour {
         var beatsLeft = 8f;
         for (int i = 0; i < 4; i++)
         {
-            beatsLeft -= (i == 0) ? Random.Range(0.25f, 0.45f) :
-                         (i == 1) ? Random.Range(2f, 2.8f) :
-                         (i == 2) ? Random.Range(0.8f, 1.2f) :
-                         Random.Range(2f, 2.5f);
+            beatsLeft -= (i == 0) ? Random.Range(-.75f, -.5f) :
+                         (i == 1) ? Random.Range(1.25f, 1.6f) :
+                         (i == 2) ? Random.Range(1.5f, 2.5f) :
+                         Random.Range(1.5f, 2f);
             queue.Enqueue(beatsLeft);
         }
         return queue;
@@ -122,13 +122,15 @@ public class YukariCakeReimu : MonoBehaviour {
 
         var queue = new Queue<float>();
         var beatsLeft = 8f;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
-            beatsLeft -= (i == 0) ? Random.Range(0.1f, 0.30f) :
+            beatsLeft -= (i == 0) ? Random.Range(0f, -.5f) :
                          (i == 1) ? Random.Range(2f, 2.5f) :
-                         (i == 2) ? 0.5f :
+                         (i == 2) ? 1f :
+                         (i == 3) ? 1f :
                          Random.Range(2f, 1.5f);
             queue.Enqueue(beatsLeft);
+            
         }
         return queue;
     }

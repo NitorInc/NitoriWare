@@ -7,6 +7,6 @@ public class YukariCakeAnimatorStates : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Mirai zura!?");
+        //Debug.Log("Mirai zura!?");
     }
 }

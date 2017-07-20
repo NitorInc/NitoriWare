@@ -8,10 +8,13 @@ public class FreezeFrogsTarget : MonoBehaviour
 	public Animator animator;
 	public ParticleSystem[] particleSystems;
 
+    private Rigidbody2D _rigidBody;
+
 	new public AudioSource audio;
 
 	void Start()
 	{
+        _rigidBody = GetComponent<Rigidbody2D>();
 		reset();
 	}
 	
@@ -54,10 +57,15 @@ public class FreezeFrogsTarget : MonoBehaviour
 		progress = 1f;
 		updateProgress();
 		for (int i = 0; i < particleSystems.Length;particleSystems[i].Play(), i++);
-		audio.pitch = /*1.35f */ Time.timeScale;
+		//audio.pitch = /*1.35f */ Time.timeScale;
 		audio.panStereo = AudioHelper.getAudioPan(transform.position.x);
 		audio.Play();
-	}
+
+        animator.enabled = false;
+        transform.parent = null;
+        _rigidBody.bodyType = RigidbodyType2D.Dynamic;
+        _rigidBody.velocity = Vector2.up * 8f;
+    }
 
 	void OnTriggerEnter2D(Collider2D other)
 	{

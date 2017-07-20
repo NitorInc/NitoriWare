@@ -65,7 +65,7 @@ public class SlingshotAmmo : MonoBehaviour
 
 		backString.gameObject.SetActive(true);
 
-		audio.pitch = audio.volume = 1f;
+		audio.pitch = audio.volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 		audio.Stop();
 
 	}
@@ -125,6 +125,7 @@ public class SlingshotAmmo : MonoBehaviour
 						updateAudioPan();
 						audio.pitch -= .5f * Time.timeScale;
 						audio.volume = (getStretchPitch() / Time.timeScale) - .75f;
+                        audio.volume *= PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 						audio.PlayOneShot(launchClip);
 
 						head.GetComponent<Vibrate>().vibrateOn = false;
@@ -153,7 +154,7 @@ public class SlingshotAmmo : MonoBehaviour
 						audio.Stop();
 
 						updateAudioPan();
-						audio.volume = 1f;
+                        audio.volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 						audio.pitch = Time.timeScale;
 						audio.PlayOneShot(breakClip);
 					}
@@ -241,7 +242,7 @@ public class SlingshotAmmo : MonoBehaviour
 			rigidThing.gravityScale = 0f;
 
 			updateAudioPan();
-			audio.volume = 1f;
+			audio.volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 			audio.pitch = Time.timeScale;
 			audio.PlayOneShot(hitClip);
 

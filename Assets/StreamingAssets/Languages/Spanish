@@ -1,53 +1,170 @@
-name=Español
-control
-	key=USA EL TECLADO
-	mouse=USA EL RATÓN
+generic
+	name=Español
+	gamename=NitorInc.
+	incomplete=ADVERTENCIA: Este idioma no está traducido completamente, podrían salir frases en inglés.
 stage
+	control
+		key=USA EL TECLADO
+		mouse=USA EL RATÓN
 	speedup=¡MÁS RÁPIDO!
-	boss=¡JUEGO DEL JEFE!
+	boss=NIVEL DEL JEFE
 	levelup=¡NIVEL AUMENTADO!
+	pause=Partida en pausa
+		resume=Reanudar
+	quit=Salir
+	gameover=¡Fin de la partida!
+		score=Tu puntuación:
+		highscore=Puntuación máxima:
+		newhighscore=¡Nuevo récord!
+menu
+	yes=Sí
+	no=No
+	ok=OK
+	back=Atrás
+	backalt=Volver atrás
+	confirm=Confirmar
+	cancel=Cancelar
+	on=Encendido
+	off=Apagado
+	play=Jugar
+	main
+		story=Modo historia
+		compilation=Modo arcade
+		practice=Practicar microjuegos
+		quit=Salir del juego
+			prompt=¿Seguro que quieres irte?
+		settings=Opciones
+		credits=Créditos
+	gamemode=¡Selecciona un modo de juego!
+		locked1=¡Bloqueado! Completa {0} para desbloquearlo
+		locked2=¡Bloqueado! Consigue una puntuación de {0} o más en {1} para desbloquearlo
+		highscore=Puntuación máxima:
+		compilationmode
+			description=¡Juega todos los microjuegos que puedas! Sin jefes.
+		compilation=Compendio Kappa
+			description=Modo Arcade Normal: Juega todos los microjuegos mezclados.
+		compilationfast=Máxima Kappacidad
+			description=!!SÚPER SÚPER RÁPIDO!!
+		compilationmystery=(Documentación necesaria)
+			description=Ups, hemos perdido los planos de este. ¡No sabemos ni los comandos ni controles!
+		compilationhard=Pepininfierno
+			description=¡Todos los juegos difíciles! ¡Solo una vida! ¿Cuanto podrás aguantar?
+	settings
+		resolution=Resolución de pantalla
+		fullscreen=Pantalla completa
+		language=Idioma
+		graphics=Calidad de los gráficos
+			0=Fluido
+			1=Rápido
+			2=Simple
+			3=Bueno
+			4=Precioso
+			5=Fantástico
+		volume=Volumen
+			master=Maestro
+			music=Música
+			sfx=Efectos especiales
+			voice=Voz
+	splash
+		introa=El demo de este juego es un trabajo derivativo del Proyecto Touhou (東方Project) creado por ZUN.
+		introb=Muchos fans de esta serie han colaborado y contribuído código, música, arte, y otros varios talentos para crear esta colección de microjuegos
+		introc=Si puedes hablar Inglés y te gustaría contribuir a completar el juego, por favor visita {0} \n¡También puedes ayudar difundiendonos!
+		webglwarning=Si el reproductor web te da problemas, prueba usando uno de los enlaces de descarga que hay abajo
+nitori
+	storyintro="Parece que tenemos un cliente nuevo\nVamos a ver como te las apañas con mis juegos de marca\n¡Más te vale no pestañear!"
+	storyfinished=Bien hecho, nerd.\nParece que a parte de mirar también compras.\n¡Prueba ahora {0} para un desafío de verdad!
+	compilationfinished="Mira tú, ¡me has impresionado!\nPero esperate a que el juego esté terminado,\n'{0} tan solo acaba de empezar!"
 microgame
 	FreezeFrogs
 		command=¡Congela!
-		igname=Ancas congeladas
+		igname=Congelaranas
 	Slingshot
 		command=¡Lanza!
-		igname=Tirakuris
+		igname=Matacabezas
+	ChenFood
+		command=¡Que no te coman!
+		igname=Pesgato
 	Spider
 		command=¡Alimenta!
+		igname=Alimentarañas
 	Donation
 		command=¡Obtén 3!
+		igname=Cazamonedas
 	Wrench
 		command=¡Atornilla!
-		igname=Atornillante
+		igname=Desarrollo Desternillante
 	Potion
 		command=¡Echa!
 		ingredients=Ingredientes
+		igname=Poción Peligrosa
 	GhostFood
 		command=¡Come y mastica!
+		igname=Fantasma tragón
 	Spaceship
 		command=¡Despega!
-		igname=Programa espacial youkai
+		igname=Programa Espacial Youkai
 	CupShuffle
 		command=¡Presta atención!
 		commandb=¡Elige!
+		igname=Sukundite
 	TraceShape
 		command=¡Rellena!
 		igname=Pintori
+	RockBand
+		command=¡Actúa!
+		igname=Subguaufer
+	ChenBike
+		command=¡Honk!
+		igname=¿Qué bocinas tú?
 	MasterSparkCode
-		command=¡Hechiza!
-		igname=Tiro al blanco
+		command=¡Conjura!
+		igname=Chispa al blanco
+	OkuuFire
+		command=¡Regula!
+		igname=Bajo Control
 	YukariCake
 		command=¡Roba!
-		igname=Patrulla del postre
+		igname=Robapostres
 	RemiCover
 		command=¡Dale sombra!
-		igname=Turbia vampira
-	ChenFood
-		igname=Pesgato
-	RockBand
-		igname=Subguaufer
-	AwooClicker
-		igname=Paparazzi canino
+		igname=Negocio turbio
 	SuikaShake
-		igname=Mezclada, no batida
+		command=¡Quítatelas de encima!
+		igname=Mezclada, Sin Agitar
+	TouhouSort
+		command=¡Ordena por {0}!
+		hat=Sombreros
+		wing=Alas
+		ear=Orejas
+		igname=Chicas de todo Tipo
+	FlanGrab
+		command=¡Protege!
+		igname=¡AntiMeteoFlan!
+	PaperThief
+		command=¡Alcanza la meta!
+		commandb=¡Cuídado!
+		commandc=¡Dispara!
+		commandd=¡Vencela!
+		igname=Kappaseo
+credits
+	intro=¡{0} ha podido ser realizado gracias a los siguientes fans!
+	kapptain=Director Creativo, Programador, "Kappitan" del Equipo
+	leadart=Director Artístico, Diseño de Personajes
+	UI=Gráficos del Menú y los Niveles
+	menumusic=Música del Título/Menú
+	stagemusic=Música de Niveles
+	microgame
+		management=Gestión de Microjuegos
+		managementalt=Gestión del Collab
+		code=Código de los Microjuegos
+		art=Arte de los microjuegos
+		music=Música de los Microjuegos
+	localization=Localizadores
+		management=Gestión de Localización
+	sfx=Efectos de Sonido
+	socialmedia=Social Media
+	touhou=Basado en el Proyecto Touhou de ZUN
+	thanks=Agradecimientos Especiales
+		discord=El Servidor de Discord del Proyecto Touhou
+		playtesters=Todos nuestros playtesters
+		fans=¡Y todos los fans que nos ayudaron a difundirnos!
