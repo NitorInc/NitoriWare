@@ -96,7 +96,7 @@ public class CanvasTextOutline : MonoBehaviour
             //Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
             //    (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
 
-            float fixedPixelWorldSize = (10f * (4f / 3f)) / 960f;
+            float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
             Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
             //if (scaleLocally)
             //    worldPoint.Scale(transform.parent.lossyScale);
