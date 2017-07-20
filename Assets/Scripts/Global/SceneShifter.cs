@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneShifter : MonoBehaviour
 {
     private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .25f;
+    private const float MinBlackScreenTime = .5f;
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
@@ -31,16 +32,14 @@ public class SceneShifter : MonoBehaviour
             float timeLeft = shiftStartTime + shiftDuration - getCurrentTime();
             if (timeLeft < fadeDuration)
             {
-                if (getblockerAlpha() >= 1f)
+                setBlockerAlpha(Mathf.Lerp(1f, 0f, timeLeft / fadeDuration));
+
+                if (timeLeft < -MinBlackScreenTime)
                 {
                     SceneManager.LoadScene(goalScene);
                     operation.allowSceneActivation = true;
                     sceneLoadedTime = -1f;
                     leavingScene = false;
-                }
-                else
-                {
-                    setBlockerAlpha(Mathf.Lerp(1f, 0f, timeLeft / fadeDuration));
                 }
             }
         }
