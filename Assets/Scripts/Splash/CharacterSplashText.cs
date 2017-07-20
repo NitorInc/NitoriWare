@@ -25,12 +25,26 @@ public class CharacterSplashText : MonoBehaviour
         public string shiftScene;
     }
 
+    private Phrase phrase;
+    private float holdFadeDuration;
+
     void Start()
     {
         Cursor.visible = false;
-        Phrase phrase = phrases[determinePhraseIndex()];
+        phrase = phrases[determinePhraseIndex()];
         setTexts(phrase);
-        GameController.instance.sceneShifter.startShift(phrase.shiftScene, sceneTime);
+
+        Invoke("queueShift", sceneTime / 2f);
+
+        holdFadeDuration = GameController.instance.sceneShifter.getFadeDuration();
+        GameController.instance.sceneShifter.setFadeDuration(1f);
+
+    }
+
+    void queueShift()
+    {
+        GameController.instance.sceneShifter.startShift(phrase.shiftScene, sceneTime / 2f);
+        GameController.instance.sceneShifter.setFadeDuration(holdFadeDuration);
     }
 
     int determinePhraseIndex()

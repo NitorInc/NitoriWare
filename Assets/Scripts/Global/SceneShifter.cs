@@ -81,25 +81,25 @@ public class SceneShifter : MonoBehaviour
         operation.allowSceneActivation = false;
     }
 
-    //public float getShiftDuration()
-    //{
-    //    return shiftDuration;
-    //}
+    public float getShiftDuration()
+    {
+        return shiftDuration;
+    }
 
-    //private void setShiftDuration(float shiftDuration)
-    //{
-    //    this.shiftDuration = shiftDuration;
-    //}
+    public void setShiftDuration(float shiftDuration)
+    {
+        this.shiftDuration = shiftDuration;
+    }
 
-    //public float getFadeDuration()
-    //{
-    //    return fadeDuration;
-    //}
+    public float getFadeDuration()
+    {
+        return fadeDuration;
+    }
 
-    //private void setFadeDuration(float fadeDuration)
-    //{
-    //    this.fadeDuration = fadeDuration;
-    //}
+    public void setFadeDuration(float fadeDuration)
+    {
+        this.fadeDuration = fadeDuration;
+    }
 
     float getCurrentTime()
     {
