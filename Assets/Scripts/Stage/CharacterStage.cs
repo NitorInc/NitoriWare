@@ -24,9 +24,9 @@ public class CharacterStage : Stage
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
 
-        revisiting = false;
-		//revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
-	}
+        //revisiting = false;
+        revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
+    }
 
 	public override Microgame getMicrogame(int num)
 	{
