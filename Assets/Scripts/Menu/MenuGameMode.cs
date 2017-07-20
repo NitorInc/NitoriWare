@@ -15,9 +15,15 @@ public class MenuGameMode : MonoBehaviour
     [SerializeField]
     private Text highScoreText;
     [SerializeField]
+    private GameObject blocker;
+    [SerializeField]
     private GameplayMenu gameplayMenu;
     [SerializeField]
     private string modeName;
+    [SerializeField]
+    private string prerequisiteStage;
+    [SerializeField]
+    private int prerequisiteScore;
     [SerializeField]
     private bool triggerDescription;
 
@@ -38,6 +44,19 @@ public class MenuGameMode : MonoBehaviour
             MenuGameMode neighbor = transform.parent.GetChild(i).GetComponent<MenuGameMode>();
             if (neighbor != null)
                 neighbors.Add(neighbor);
+        }
+
+        if (blocker != null)
+        {
+            if (PrefsHelper.getHighScore(prerequisiteStage) < prerequisiteScore)
+            {
+                blocker.SetActive(true);
+                menuButton.gameObject.SetActive(false);
+                highScoreText.gameObject.SetActive(false);
+                triggerDescription = false;
+            }
+            else
+                PrefsHelper.setProgress(2);
         }
 	}
 
