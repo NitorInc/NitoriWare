@@ -139,12 +139,12 @@ public class MicrogameCollection : MonoBehaviour
     /// <returns></returns>
     public List<Microgame> getCollectionMicrogames(Restriction restriction)
     {
-        List<Microgame> returnList = finishedMicrogames;
+        List<Microgame> returnList = new List<Microgame>(finishedMicrogames);
         if (restriction != Restriction.Finished)
         {
-            returnList.AddRange(stageReadyMicrogames);
+            returnList.AddRange(new List<Microgame>(stageReadyMicrogames));
             if (restriction == Restriction.All)
-                returnList.AddRange(unfinishedMicrogames);
+                returnList.AddRange(new List<Microgame>(unfinishedMicrogames));
         }
         return returnList;
     }
@@ -155,7 +155,8 @@ public class MicrogameCollection : MonoBehaviour
     /// <returns></returns>
     public List<Microgame> getCollectionBossMicrogames()
     {
-        return bossMicrogames;
+        List<Microgame> returnList = new List<Microgame>(bossMicrogames);
+        return returnList;
     }
 
     public Microgame findMicrogame(string microgameId)
