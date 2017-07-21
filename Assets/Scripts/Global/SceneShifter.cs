@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneShifter : MonoBehaviour
 {
+    private const string QuitString = "QUITGAME";
+
     private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .25f;
     private const float MinBlackScreenTime = .5f;
 
@@ -36,10 +38,17 @@ public class SceneShifter : MonoBehaviour
 
                 if (timeLeft < -MinBlackScreenTime)
                 {
-                    SceneManager.LoadScene(goalScene);
-                    operation.allowSceneActivation = true;
-                    sceneLoadedTime = -1f;
-                    leavingScene = false;
+                    if (!goalScene.Equals(QuitString))
+                    {
+                        SceneManager.LoadScene(goalScene);
+                        operation.allowSceneActivation = true;
+                        sceneLoadedTime = -1f;
+                        leavingScene = false;
+                    }
+                    else
+                    {
+                        Application.Quit();
+                    }
                 }
             }
         }
@@ -76,8 +85,17 @@ public class SceneShifter : MonoBehaviour
         leavingScene = true;
         shiftStartTime = getCurrentTime();
         setBlockerAlpha(0f);
-        operation = SceneManager.LoadSceneAsync(goalScene);
-        operation.allowSceneActivation = false;
+
+        if (!goalScene.Equals(QuitString))
+        {
+            operation = SceneManager.LoadSceneAsync(goalScene);
+            operation.allowSceneActivation = false;
+        }
+    }
+
+    public void shiftToQuitGame(float shiftDuration = DefaultShiftDuration, float fadeDuration = DefaultFadeDuration)
+    {
+        startShift(QuitString, shiftDuration, fadeDuration);
     }
 
     public float getShiftDuration()
