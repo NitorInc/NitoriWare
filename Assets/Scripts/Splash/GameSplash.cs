@@ -30,6 +30,7 @@ public class GameSplash : MonoBehaviour
 	void Start()
 	{
         state = State.WaitForLocalization;
+        blocker.gameObject.SetActive(true);
 	}
 	
 	void Update()
