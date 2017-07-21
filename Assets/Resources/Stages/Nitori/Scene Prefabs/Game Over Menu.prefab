@@ -267,6 +267,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4097222014742594}
   - component: {fileID: 114301593445144008}
+  - component: {fileID: 82148874935698106}
+  - component: {fileID: 114157347736910048}
   m_Layer: 0
   m_Name: Game Over Menu
   m_TagString: Untagged
@@ -582,6 +584,86 @@ PolygonCollider2D:
       - {x: 73.61857, y: 5.000656}
       - {x: 70.427025, y: 10.431427}
       - {x: 64.18783, y: 14.1651}
+--- !u!82 &82148874935698106
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294756560676786}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ac6026f608b99864c831914cc24fbdcc, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95147659445661118
 Animator:
   serializedVersion: 3
@@ -812,6 +894,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Game Over
+--- !u!114 &114157347736910048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294756560676786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d6db264afb27e4e8505e2ed5c5d691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInFirst: 1
+  fadeSpeed: 1
+  type: 1
 --- !u!114 &114166513679591216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -997,6 +1093,7 @@ MonoBehaviour:
   menuButtons:
   - {fileID: 114016751865828008}
   - {fileID: 114483395454364860}
+  fadingMusic: {fileID: 114157347736910048}
 --- !u!114 &114308186139163086
 MonoBehaviour:
   m_ObjectHideFlags: 1

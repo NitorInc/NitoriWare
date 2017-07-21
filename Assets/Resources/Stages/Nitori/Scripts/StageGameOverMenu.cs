@@ -19,6 +19,8 @@ public class StageGameOverMenu : MonoBehaviour
     private float quitShiftTime;
     [SerializeField]
     private MenuButton[] menuButtons;
+    [SerializeField]
+    private FadingMusic fadingMusic;
 #pragma warning restore 0649
 
     private float BGGoalAlpha;
@@ -41,6 +43,9 @@ public class StageGameOverMenu : MonoBehaviour
         state = State.FadeIn;
         gameObject.SetActive(true);
         PauseManager.disablePause = true;
+
+        fadingMusic.GetComponent<AudioSource>().time = 0f;
+        fadingMusic.startFade();
 
         foreach (MenuButton menuButton in menuButtons)
         {
@@ -102,7 +107,7 @@ public class StageGameOverMenu : MonoBehaviour
             {
                 setBGAlpha(0f);
                 PauseManager.disablePause = false;
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
             }
             else
                 setBGAlpha(alpha - diff);
@@ -117,6 +122,7 @@ public class StageGameOverMenu : MonoBehaviour
         Invoke("disableMenuItems", .15f);
         StageController.instance.retry();
         state = State.FadeOut;
+        fadingMusic.startFade();
     }
 
     public void quit()
@@ -125,6 +131,7 @@ public class StageGameOverMenu : MonoBehaviour
             return;
 
         GameController.instance.sceneShifter.startShift("Title", quitShiftTime);
+        fadingMusic.startFade();
     }
 
     void disableMenuItems()
