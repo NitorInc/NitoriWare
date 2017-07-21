@@ -31,7 +31,7 @@ public class StageController : MonoBehaviour
 	public GameObject scene;
 	public Sprite[] controlSchemeSprites;
 
-	public NitoriScorePlaceholder placeholderResults;
+	public StageGameOverMenu gameOverMenu;
 
 	public static float beatLength;
 
@@ -404,19 +404,9 @@ public class StageController : MonoBehaviour
 		Time.timeScale = 1f;
 		CancelInvoke();
 		introSource.Stop();
-		placeholderResults.transform.parent.gameObject.SetActive(true);
+		gameOverMenu.gameObject.SetActive(true);
+        gameOverMenu.setScore(MicrogameNumber.instance.getNumber());
         Cursor.visible = true;
-
-
-        //TODO better playerprefs saving
-        int score = Mathf.Min(microgameCount, 999), highScore = PrefsHelper.getHighScore(gameObject.scene.name);
-        if (score > highScore)
-        {
-            highScore = score;
-            PrefsHelper.setHighScore(gameObject.scene.name, score);
-        }
-		placeholderResults.setScore(MicrogameNumber.instance.getNumber());
-        placeholderResults.setHighScore(highScore);
 	}
 
     public bool isGameOver()
@@ -579,7 +569,7 @@ public class StageController : MonoBehaviour
     {
         setAnimationPart(AnimationPart.Retry);
         resetStage(Time.time + (beatLength * 2f), false);
-        placeholderResults.transform.parent.gameObject.SetActive(false);
+        gameOverMenu.transform.parent.gameObject.SetActive(false);
     }
 
 	public void setAnimationPart(AnimationPart animationPart)
