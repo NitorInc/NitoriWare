@@ -23,6 +23,8 @@ public class PauseManager : MonoBehaviour
 
 	[SerializeField]
 	private Transform menu;
+    [SerializeField]
+    private Canvas menuCanvas;
 
 	private bool paused;
 
@@ -43,6 +45,7 @@ public class PauseManager : MonoBehaviour
 	{
         transform.position = Vector3.zero;
 		paused = false;
+        menuCanvas.worldCamera = Camera.main;
         if (transform.root != transform)
             Debug.LogWarning("Pause Controller should be put in hierachy root!");
     }
