@@ -64,7 +64,7 @@ public class StageController : MonoBehaviour
 		BossStage,		//5 - Interruption between Outro and Intro when a boss is first encountered during this round | 8 beats
 		NextRound,		//6 - Used after a boss stage or when difficulty increases | 8 beats
 		GameOver,		//7 - Player has lost all of their lives | Until stage is quit or restarted
-		Retry,			//8 - Player has hit retry after Game Over | 2 beats
+		Retry,			//8 - Player has hit retry after Game Over | 4 beats
         OneUp,          //9 - Player has won the boss stage and gets an extra life | 8 beats (placeholder)
         WonStage        //10 - Player has won a character stage for the first time | 8 beats, ends stage
 	}
@@ -405,7 +405,7 @@ public class StageController : MonoBehaviour
 		CancelInvoke();
 		introSource.Stop();
 		gameOverMenu.gameObject.SetActive(true);
-        gameOverMenu.setScore(MicrogameNumber.instance.getNumber());
+        gameOverMenu.initialize(MicrogameNumber.instance.getNumber());
         Cursor.visible = true;
 	}
 
@@ -429,9 +429,8 @@ public class StageController : MonoBehaviour
 
     private void Update()
     {
-        //TODO make this a button function
-        if (animationPart == AnimationPart.GameOver && Input.GetKeyDown(KeyCode.R))
-            retry();
+        //if (animationPart == AnimationPart.GameOver && Input.GetKeyDown(KeyCode.R))
+        //    retry();
         //if (Input.GetKeyDown(KeyCode.G))
         //    commandDisplay.play("Hi there");
     }
@@ -568,8 +567,7 @@ public class StageController : MonoBehaviour
     public void retry()
     {
         setAnimationPart(AnimationPart.Retry);
-        resetStage(Time.time + (beatLength * 2f), false);
-        gameOverMenu.transform.parent.gameObject.SetActive(false);
+        resetStage(Time.time + (beatLength * 4f), false);
     }
 
 	public void setAnimationPart(AnimationPart animationPart)

@@ -6,15 +6,42 @@ public class StageGameOverMenu : MonoBehaviour
 {
 #pragma warning disable 0649
     [SerializeField]
+    private GameObject menuItems;
+    [SerializeField]
     private Text scoreNumberText, highScoreNumberText;
     [SerializeField]
     private GameObject highScoreIndicator;
     [SerializeField]
-    private float fadeTime;
+    private Image fadeBG;
+    [SerializeField]
+    private float fadeSpeed;
+    [SerializeField]
+    private float quitShiftTime;
+    [SerializeField]
+    private Animator[] buttonAnimators;
 #pragma warning restore 0649
 
-    public void setScore(int score)
-	{
+    private float BGGoalAlpha;
+
+    private State state;
+    private enum State
+    {
+        FadeIn,
+        Menu,
+        FadeOut
+    }
+
+
+    public void initialize(int score)
+    {
+        if (BGGoalAlpha == 0f)
+            BGGoalAlpha = getBGAlpha();
+        setBGAlpha(0f);
+
+        state = State.FadeIn;
+        gameObject.SetActive(true);
+        PauseManager.disablePause = true;
+
         int currentHighScore = PrefsHelper.getHighScore(gameObject.scene.name);
         if (score > currentHighScore)
         {
@@ -25,12 +52,79 @@ public class StageGameOverMenu : MonoBehaviour
         }
         setNumber(scoreNumberText, score);
         setNumber(highScoreNumberText, currentHighScore);
+
 	}
 
-    public void initialize()
+    void Update()
     {
-        gameObject.SetActive(true);
-        PauseManager.disablePause = true;
+        switch(state)
+        {
+            case (State.FadeIn):
+                UpdateFade(true);
+                break;
+            case (State.Menu):
+                break;
+            case (State.FadeOut):
+                UpdateFade(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void UpdateFade(bool fadeIn)
+    {
+        float diff = fadeSpeed * Time.deltaTime,
+            alpha = getBGAlpha();
+        if (fadeIn)
+        {
+            if (alpha + diff >= BGGoalAlpha)
+            {
+                setBGAlpha(BGGoalAlpha);
+                menuItems.SetActive(true);
+                foreach (Animator buttonAnimator in buttonAnimators)
+                {
+                    buttonAnimator.Play("Normal");
+                }
+                state = State.Menu;
+            }
+            else
+                setBGAlpha(alpha + diff);
+        }
+        else
+        {
+            if (alpha - diff <= 0f)
+            {
+                setBGAlpha(0f);
+                PauseManager.disablePause = false;
+                gameObject.SetActive(false);
+            }
+            else
+                setBGAlpha(alpha - diff);
+        }
+    }
+
+    public void retry()
+    {
+        if (state != State.Menu)
+            return;
+
+        Invoke("disableMenuItems", .1f);
+        StageController.instance.retry();
+        state = State.FadeOut;
+    }
+
+    public void quit()
+    {
+        if (state != State.Menu)
+            return;
+
+        GameController.instance.sceneShifter.startShift("Title", quitShiftTime);
+    }
+
+    void disableMenuItems()
+    {
+        menuItems.SetActive(false);
     }
 
     void setNumber(Text textComponent, int score)
@@ -39,5 +133,17 @@ public class StageGameOverMenu : MonoBehaviour
 
         int number = score;
         textComponent.text += number.ToString("D3");
+    }
+
+    void setBGAlpha(float alpha)
+    {
+        Color color = fadeBG.color;
+        color.a = alpha;
+        fadeBG.color = color;
+    }
+
+    float getBGAlpha()
+    {
+        return fadeBG.color.a;
     }
 }
