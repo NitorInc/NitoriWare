@@ -70,7 +70,7 @@ public class MenuButton : MonoBehaviour
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
         buttonAnimator.SetBool("MouseOver", !checkMouseOverCollider || isMouseOver());
 
-        if (button.enabled & button.interactable && Input.GetKeyDown(pressKey))
+        if (button.enabled && button.interactable && Input.GetKeyDown(pressKey))
         {
             button.onClick.Invoke();
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HardCompilationStage : CompilationStage
 {
+    public int progressionScoreThreshold;
 
 	public override void onStageStart()
 	{
@@ -21,11 +22,23 @@ public class HardCompilationStage : CompilationStage
 		return 1;
 	}
 
-	//public override Stage.Interruption[] getInterruptions(int num)
-	//{
-	//	num -= roundStartIndex;
-	//	if (num % microgamesPerRound == 0)
-	//		return new Interruption[0].add(nextRound);
-	//	return new Interruption[0];
-	//}
+    public override string getExitScene()
+    {
+        if (PrefsHelper.getProgress() < PrefsHelper.GameProgress.AllCompilationComplete && PrefsHelper.getHighScore(gameObject.scene.name) >= progressionScoreThreshold)
+        {
+            PrefsHelper.setProgress(PrefsHelper.GameProgress.AllCompilationComplete);
+            GameMenu.subMenu = GameMenu.SubMenu.Credits;
+            return "NitoriSplash";
+        }
+        else
+            return base.getExitScene();
+    }
+
+    //public override Stage.Interruption[] getInterruptions(int num)
+    //{
+    //	num -= roundStartIndex;
+    //	if (num % microgamesPerRound == 0)
+    //		return new Interruption[0].add(nextRound);
+    //	return new Interruption[0];
+    //}
 }

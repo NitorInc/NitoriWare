@@ -19,14 +19,15 @@ public class CharacterStage : Stage
 	private bool bossWon;
 
 	public override void onStageStart()
-	{
-		roundsCompleted = roundStartIndex = 0;
+    {
+        base.onStageStart();
+        roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
 
-        revisiting = false;
-		//revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
-	}
+        //revisiting = false;
+        revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
+    }
 
 	public override Microgame getMicrogame(int num)
 	{
@@ -139,9 +140,9 @@ public class CharacterStage : Stage
 	}
 
 	void winStage()
-	{
-        GameController.instance.sceneShifter.startShift("Title", victorySceneShiftTime);
-        PrefsHelper.setProgress(1);
+    {
+        PrefsHelper.setProgress(PrefsHelper.GameProgress.StoryComplete);
+        GameController.instance.sceneShifter.startShift("NitoriSplash", victorySceneShiftTime); //TODO replace when we're past the demo
         PrefsHelper.setHighScore(gameObject.scene.name, getRoundMicrogameCount());
 	}
 
