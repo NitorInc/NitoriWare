@@ -138,6 +138,15 @@ public abstract class Stage : MonoBehaviour
         return voiceSet;
     }
 
+    /// <summary>
+    /// Returns which scene the stage will exit to, called upon exit
+    /// </summary>
+    /// <returns></returns>
+    public virtual string getExitScene()
+    {
+        return "Title";
+    }
+
 }
 
 

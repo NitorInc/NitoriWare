@@ -718,6 +718,11 @@ public class StageController : MonoBehaviour
 		return 1f + ((float)(speed - 1) * .125f);
 	}
 
+    public Stage getStage()
+    {
+        return stage;
+    }
+
 	private void setAnimationInteger(string name, int state)
 	{
 		foreach (Animator animator in sceneAnimators)

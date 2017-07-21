@@ -141,7 +141,7 @@ public class CharacterStage : Stage
 
 	void winStage()
     {
-        PrefsHelper.setProgress(1);
+        PrefsHelper.setProgress(PrefsHelper.GameProgress.StoryComplete);
         GameController.instance.sceneShifter.startShift("NitoriSplash", victorySceneShiftTime); //TODO replace when we're past the demo
         PrefsHelper.setHighScore(gameObject.scene.name, getRoundMicrogameCount());
 	}

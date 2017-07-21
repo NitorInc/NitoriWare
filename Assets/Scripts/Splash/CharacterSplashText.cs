@@ -49,8 +49,7 @@ public class CharacterSplashText : MonoBehaviour
 
     int determinePhraseIndex()
     {
-        int progress = PrefsHelper.getProgress();
-        return progress < 2 ? progress : 2;
+        return (int)PrefsHelper.getProgress();
     }
 
     void setTexts(Phrase phrase)

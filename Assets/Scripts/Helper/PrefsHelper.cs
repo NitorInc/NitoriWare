@@ -27,6 +27,14 @@ public static class PrefsHelper
         Voice
     }
 
+    public enum GameProgress
+    {
+        Started = 0,
+        StoryComplete = 1,
+        AllCompilationComplete = 2
+    }
+
+
     private static StoredPrefs loadPrefs()
     {
         //setProgress(1); //Debug purposes;
@@ -99,18 +107,18 @@ public static class PrefsHelper
     /// Returns how many stages the player has beatsn, from story mode to arcade modes
     /// </summary>
     /// <returns></returns>
-    public static int getProgress()
+    public static GameProgress getProgress()
     {
-        return PlayerPrefs.GetInt(ProgressKey, 0);
+        return (GameProgress)PlayerPrefs.GetInt(ProgressKey, 0);
     }
 
     /// <summary>
     /// Sets the amount of stages the player has won
     /// </summary>
     /// <param name="progress"></param>
-    public static void setProgress(int progress)
+    public static void setProgress(GameProgress progress)
     {
-        PlayerPrefs.SetInt(ProgressKey, progress);
+        PlayerPrefs.SetInt(ProgressKey, (int)progress);
     }
     
     /// <summary>

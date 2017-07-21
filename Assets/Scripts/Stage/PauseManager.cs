@@ -132,7 +132,7 @@ public class PauseManager : MonoBehaviour
             source.Stop();
         }
 
-        GameController.instance.sceneShifter.startShift("Title", quitShiftDuration);
+        GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftDuration);
 
         exitedWhilePaused = true;
     }

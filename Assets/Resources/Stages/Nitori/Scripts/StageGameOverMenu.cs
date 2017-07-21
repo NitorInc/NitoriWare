@@ -130,7 +130,7 @@ public class StageGameOverMenu : MonoBehaviour
         if (state != State.Menu)
             return;
 
-        GameController.instance.sceneShifter.startShift("Title", quitShiftTime);
+        GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftTime);
         fadingMusic.startFade();
     }
 

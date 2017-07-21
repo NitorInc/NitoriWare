@@ -59,7 +59,6 @@ public class MenuGameMode : MonoBehaviour
             }
             else
             {
-                PrefsHelper.setProgress(2);
                 if (!PrefsHelper.getVisitedStage(modeName))
                 {
                     unlockedText.SetActive(true);
