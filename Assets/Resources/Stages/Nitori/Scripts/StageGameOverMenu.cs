@@ -18,7 +18,7 @@ public class StageGameOverMenu : MonoBehaviour
     [SerializeField]
     private float quitShiftTime;
     [SerializeField]
-    private Animator[] buttonAnimators;
+    private MenuButton[] menuButtons;
 #pragma warning restore 0649
 
     private float BGGoalAlpha;
@@ -41,6 +41,11 @@ public class StageGameOverMenu : MonoBehaviour
         state = State.FadeIn;
         gameObject.SetActive(true);
         PauseManager.disablePause = true;
+
+        foreach (MenuButton menuButton in menuButtons)
+        {
+            menuButton.forceDisable = false;
+        }
 
         int currentHighScore = PrefsHelper.getHighScore(gameObject.scene.name);
         if (score > currentHighScore)
@@ -82,9 +87,9 @@ public class StageGameOverMenu : MonoBehaviour
             {
                 setBGAlpha(BGGoalAlpha);
                 menuItems.SetActive(true);
-                foreach (Animator buttonAnimator in buttonAnimators)
+                foreach (MenuButton menuButton in menuButtons)
                 {
-                    buttonAnimator.Play("Normal");
+                    menuButton.GetComponent<Animator>().Play("Normal");
                 }
                 state = State.Menu;
             }
@@ -109,7 +114,7 @@ public class StageGameOverMenu : MonoBehaviour
         if (state != State.Menu)
             return;
 
-        Invoke("disableMenuItems", .1f);
+        Invoke("disableMenuItems", .15f);
         StageController.instance.retry();
         state = State.FadeOut;
     }

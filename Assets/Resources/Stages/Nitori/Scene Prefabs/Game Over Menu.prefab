@@ -992,11 +992,11 @@ MonoBehaviour:
   highScoreNumberText: {fileID: 114363863153021020}
   highScoreIndicator: {fileID: 1739776399333272}
   fadeBG: {fileID: 114524263580855598}
-  fadeSpeed: 4
+  fadeSpeed: 2.5
   quitShiftTime: 1
-  buttonAnimators:
-  - {fileID: 95147659445661118}
-  - {fileID: 95626894260432126}
+  menuButtons:
+  - {fileID: 114016751865828008}
+  - {fileID: 114483395454364860}
 --- !u!114 &114308186139163086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1350,6 +1350,28 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Normal
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114016751865828008}
+        m_MethodName: set_forceDisable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 114483395454364860}
+        m_MethodName: set_forceDisable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
