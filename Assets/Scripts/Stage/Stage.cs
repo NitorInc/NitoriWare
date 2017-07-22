@@ -55,7 +55,7 @@ public abstract class Stage : MonoBehaviour
 	/// </summary>
 	public virtual void onStageStart()
 	{
-
+        PrefsHelper.setVisitedStage(gameObject.scene.name, true);
 	}
 
 	/// <summary>
@@ -136,6 +136,15 @@ public abstract class Stage : MonoBehaviour
     public VoicePlayer.VoiceSet getVoiceSet()
     {
         return voiceSet;
+    }
+
+    /// <summary>
+    /// Returns which scene the stage will exit to, called upon exit
+    /// </summary>
+    /// <returns></returns>
+    public virtual string getExitScene()
+    {
+        return "Title";
     }
 
 }

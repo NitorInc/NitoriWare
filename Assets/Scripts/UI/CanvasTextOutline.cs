@@ -10,8 +10,10 @@ public class CanvasTextOutline : MonoBehaviour
     public float pixelSize = 1, sortingOrder;
     public int cloneCount = 8;
     public Color outlineColor = Color.black;
-    public bool resolutionDependant = false;
+    public bool scaleLocally = false;
     public int doubleResolution = 1024;
+    public bool squareAlign = false;
+
     public bool updateAttributes;
 
     private Text text;
@@ -23,6 +25,9 @@ public class CanvasTextOutline : MonoBehaviour
     {
         text = GetComponent<Text>();
         rectTransform = GetComponent<RectTransform>();
+
+        if (cloneCount != 8)
+            squareAlign = false;
 
         childTexts = new Text[cloneCount];
         childRectTransforms = new RectTransform[cloneCount];
@@ -60,6 +65,9 @@ public class CanvasTextOutline : MonoBehaviour
 
     public void LateUpdate()
     {
+        if (text == null)
+            return;
+
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
         outlineColor.a = text.color.a * text.color.a;
@@ -88,10 +96,18 @@ public class CanvasTextOutline : MonoBehaviour
             RectTransform childTransform = childRectTransforms[i];
             childTransform.sizeDelta = rectTransform.sizeDelta;
 
-            bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
-            Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
-                (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
+            //bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
+            //Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
+            //Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
+            //    (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
+
+            float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
+            Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
+            //if (scaleLocally)
+            //    worldPoint.Scale(transform.parent.lossyScale);
+            
+            worldPoint += transform.position;
+
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
             other.transform.localScale = transform.localScale;
@@ -110,11 +126,17 @@ public class CanvasTextOutline : MonoBehaviour
 
     float getFunctionalPixelSize()
     {
-        return pixelSize * 5f / Camera.main.orthographicSize;
+        return pixelSize;// * 5f / Camera.main.orthographicSize;
     }
 
     Vector3 GetOffset(int i)
     {
-        return (Vector3)MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
+        if (squareAlign)
+        {
+            Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+        }
+        else
+            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
     }
 }

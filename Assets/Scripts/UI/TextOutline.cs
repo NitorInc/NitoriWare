@@ -11,6 +11,8 @@ public class TextOutline : MonoBehaviour
 	public Color outlineColor = Color.black;
 	public bool resolutionDependant = false;
 	public int doubleResolution = 1024;
+    public bool squareAlign = false;
+
     public bool updateAttributes;
 
 	private TextMesh textMesh;
@@ -22,6 +24,9 @@ public class TextOutline : MonoBehaviour
 	{
 		textMesh = GetComponent<TextMesh>();
 		meshRenderer = GetComponent<MeshRenderer>();
+
+        if (cloneCount != 8)
+            squareAlign = false;
 
         childMeshes = new TextMesh[cloneCount];
         childMeshRenderers = new MeshRenderer[cloneCount];
@@ -93,6 +98,9 @@ public class TextOutline : MonoBehaviour
 
 	Vector3 GetOffset(int i)
 	{
-		return (Vector3)MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
+        if (squareAlign)
+            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+        else
+            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
 	}
 }

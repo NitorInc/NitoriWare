@@ -16,7 +16,13 @@ public class MenuButton : MonoBehaviour
     [SerializeField]
     private bool playPressAnimation = true;
     [SerializeField]
+    private bool SFXIgnoreListenerPause;
+    [SerializeField]
     private bool checkMouseOverCollider = true;
+    [SerializeField]
+    private AudioSource sfxSource;
+    [SerializeField]
+    private AudioClip pressClip;
     [SerializeField]
     private KeyCode pressKey = KeyCode.None;
 #pragma warning restore 0649
@@ -34,6 +40,21 @@ public class MenuButton : MonoBehaviour
 	void Start()
     {
         bufferClick();
+        button.onClick.AddListener(() => onClick());
+        if (SFXIgnoreListenerPause)
+            sfxSource.ignoreListenerPause = true;
+    }
+
+    public void onClick()
+    {
+        float volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+        if (volume > 0f)
+            sfxSource.PlayOneShot(pressClip, volume);
+    }
+
+    void OnDestroy()
+    {
+        button.onClick.RemoveListener(() => onClick());
     }
 
     private void OnEnable()
@@ -70,7 +91,7 @@ public class MenuButton : MonoBehaviour
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
         buttonAnimator.SetBool("MouseOver", !checkMouseOverCollider || isMouseOver());
 
-        if (button.enabled & button.interactable && Input.GetKeyDown(pressKey))
+        if (button.enabled && button.interactable && Input.GetKeyDown(pressKey))
         {
             button.onClick.Invoke();
         }
@@ -90,6 +111,7 @@ public class MenuButton : MonoBehaviour
             buttonAnimator.SetTrigger("Highlighted");
         }
     }
+
 
     public bool isMouseOver()
     {

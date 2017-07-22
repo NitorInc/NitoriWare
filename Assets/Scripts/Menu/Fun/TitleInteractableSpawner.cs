@@ -33,9 +33,24 @@ public class TitleInteractableSpawner : MonoBehaviour
 	
 	void Update()
 	{
-        if (!GameMenu.shifting && GameMenu.subMenu == GameMenu.SubMenu.Title)
+        if (canSpawn())
             updateSpawner();
-	}
+    }
+
+    bool canSpawn()
+    {
+        if (GameMenu.shifting)
+        {
+            if (GameMenu.subMenu == GameMenu.SubMenu.Title)
+                return GameMenu.shiftingFrom == GameMenu.SubMenu.Credits;
+            else if (GameMenu.subMenu == GameMenu.SubMenu.Credits)
+                return GameMenu.shiftingFrom == GameMenu.SubMenu.Title;
+            else
+                return false;
+        }
+        else
+            return GameMenu.subMenu == GameMenu.SubMenu.Title || GameMenu.subMenu == GameMenu.SubMenu.Credits;
+    }
 
     void updateSpawner()
     {
