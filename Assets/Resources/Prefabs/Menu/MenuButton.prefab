@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 95418389718469892}
   - component: {fileID: 60928692845043182}
   - component: {fileID: 114751744462167996}
+  - component: {fileID: 82855492726178944}
   m_Layer: 0
   m_Name: MenuButton
   m_TagString: Untagged
@@ -122,6 +123,86 @@ PolygonCollider2D:
       - {x: 73.61857, y: 5.000656}
       - {x: 70.427025, y: 10.431427}
       - {x: 64.18783, y: 14.1651}
+--- !u!82 &82855492726178944
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1997114940704122}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95418389718469892
 Animator:
   serializedVersion: 3
@@ -252,6 +333,10 @@ MonoBehaviour:
   buttonAnimator: {fileID: 95418389718469892}
   backupCollider: {fileID: 60928692845043182}
   playPressAnimation: 1
+  checkMouseOverCollider: 1
+  sfxSource: {fileID: 82855492726178944}
+  pressClip: {fileID: 8300000, guid: c55c4e50df673d840bb0ae8a0a449d5f, type: 3}
+  pressKey: 0
 --- !u!114 &114588522345810848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,8 +407,9 @@ MonoBehaviour:
   sortingOrder: 0
   cloneCount: 9
   outlineColor: {r: 0, g: 0.3137931, b: 0.1197568, a: 1}
-  resolutionDependant: 0
+  scaleLocally: 0
   doubleResolution: 1024
+  squareAlign: 0
   updateAttributes: 0
 --- !u!114 &114955607802540938
 MonoBehaviour:
