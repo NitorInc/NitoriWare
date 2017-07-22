@@ -50,6 +50,13 @@ public class GameplayMenu : MonoBehaviour
         enabled = false;
     }
 
+    public void quitGame()
+    {
+        bgMusicFade.startFade();
+        GetComponent<GameMenu>().shift((int)GameMenu.SubMenu.Quit);
+        GameController.instance.sceneShifter.shiftToQuitGame(1f, .5f);
+    }
+
     void playVoice()
     {
         voiceSource.Play();

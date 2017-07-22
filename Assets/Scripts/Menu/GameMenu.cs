@@ -5,8 +5,8 @@ using UnityEngine;
 //Attach to every menu animator
 public class GameMenu : MonoBehaviour
 {
-    public static SubMenu subMenu = SubMenu.Splash;
-    //public static SubMenu subMenu = SubMenu.Credits;  //Debug purposes
+    //public static SubMenu subMenu = SubMenu.Splash;
+    public static SubMenu subMenu = SubMenu.Title;  //Debug purposes
     public static bool shifting;
     public static SubMenu shiftingFrom;
 
@@ -20,7 +20,8 @@ public class GameMenu : MonoBehaviour
         Gamemode = 3,
         Practice = 4,
         PracticeSelect = 5,
-        Credits = 6
+        Credits = 6,
+        Quit = 7
     }
 
     void Awake()

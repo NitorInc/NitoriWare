@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneShifter : MonoBehaviour
 {
+    private const string QuitString = "QUITGAME";
+
     private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .25f;
+    private const float MinBlackScreenTime = .5f;
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
@@ -31,16 +34,21 @@ public class SceneShifter : MonoBehaviour
             float timeLeft = shiftStartTime + shiftDuration - getCurrentTime();
             if (timeLeft < fadeDuration)
             {
-                if (getblockerAlpha() >= 1f)
+                setBlockerAlpha(Mathf.Lerp(1f, 0f, timeLeft / fadeDuration));
+
+                if (timeLeft < -MinBlackScreenTime)
                 {
-                    SceneManager.LoadScene(goalScene);
-                    operation.allowSceneActivation = true;
-                    sceneLoadedTime = -1f;
-                    leavingScene = false;
-                }
-                else
-                {
-                    setBlockerAlpha(Mathf.Lerp(1f, 0f, timeLeft / fadeDuration));
+                    if (!goalScene.Equals(QuitString))
+                    {
+                        SceneManager.LoadScene(goalScene);
+                        operation.allowSceneActivation = true;
+                        sceneLoadedTime = -1f;
+                        leavingScene = false;
+                    }
+                    else
+                    {
+                        Application.Quit();
+                    }
                 }
             }
         }
@@ -77,29 +85,38 @@ public class SceneShifter : MonoBehaviour
         leavingScene = true;
         shiftStartTime = getCurrentTime();
         setBlockerAlpha(0f);
-        operation = SceneManager.LoadSceneAsync(goalScene);
-        operation.allowSceneActivation = false;
+
+        if (!goalScene.Equals(QuitString))
+        {
+            operation = SceneManager.LoadSceneAsync(goalScene);
+            operation.allowSceneActivation = false;
+        }
     }
 
-    //public float getShiftDuration()
-    //{
-    //    return shiftDuration;
-    //}
+    public void shiftToQuitGame(float shiftDuration = DefaultShiftDuration, float fadeDuration = DefaultFadeDuration)
+    {
+        startShift(QuitString, shiftDuration, fadeDuration);
+    }
 
-    //private void setShiftDuration(float shiftDuration)
-    //{
-    //    this.shiftDuration = shiftDuration;
-    //}
+    public float getShiftDuration()
+    {
+        return shiftDuration;
+    }
 
-    //public float getFadeDuration()
-    //{
-    //    return fadeDuration;
-    //}
+    public void setShiftDuration(float shiftDuration)
+    {
+        this.shiftDuration = shiftDuration;
+    }
 
-    //private void setFadeDuration(float fadeDuration)
-    //{
-    //    this.fadeDuration = fadeDuration;
-    //}
+    public float getFadeDuration()
+    {
+        return fadeDuration;
+    }
+
+    public void setFadeDuration(float fadeDuration)
+    {
+        this.fadeDuration = fadeDuration;
+    }
 
     float getCurrentTime()
     {

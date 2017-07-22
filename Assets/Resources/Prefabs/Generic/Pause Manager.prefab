@@ -133,6 +133,9 @@ GameObject:
   - component: {fileID: 224716586937973792}
   - component: {fileID: 222918578086169222}
   - component: {fileID: 114445487298838906}
+  - component: {fileID: 114089021952880892}
+  - component: {fileID: 114410191449133576}
+  - component: {fileID: 114883644482888376}
   m_Layer: 8
   m_Name: Text
   m_TagString: Untagged
@@ -242,6 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4292880627724570}
   - component: {fileID: 114637843832790718}
+  - component: {fileID: 82493303505704374}
   m_Layer: 8
   m_Name: Pause Manager
   m_TagString: Untagged
@@ -358,7 +362,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1605610730045640}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4133273526685928}
@@ -448,6 +452,86 @@ PolygonCollider2D:
       - {x: 73.61857, y: 5.000656}
       - {x: 70.427025, y: 10.431427}
       - {x: 64.18783, y: 14.1651}
+--- !u!82 &82493303505704374
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605610730045640}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95157720263054390
 Animator:
   serializedVersion: 3
@@ -543,6 +627,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114089021952880892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206303641497890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b8b7631b8b7204996356fa6d8229cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSize: {x: 850, y: 200}
+  defaultFontSize: 100
+  onlyUpdateOnTextChange: 1
+  resetSizeFields: 0
+  textComponent: {fileID: 114445487298838906}
+  rectTransform: {fileID: 224716586937973792}
 --- !u!114 &114096275656873706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -936,6 +1037,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114410191449133576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206303641497890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &114445487298838906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -956,9 +1070,9 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: a19d8415ae42947479b2e16e414b330a, type: 3}
+    m_Font: {fileID: 12800000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
     m_FontSize: 100
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
@@ -1030,6 +1144,7 @@ MonoBehaviour:
   outlineColor: {r: 0, g: 0.3137931, b: 0.1197568, a: 1}
   scaleLocally: 1
   doubleResolution: 1024
+  squareAlign: 0
   updateAttributes: 0
 --- !u!114 &114602422570439250
 MonoBehaviour:
@@ -1081,6 +1196,7 @@ MonoBehaviour:
   outlineColor: {r: 0, g: 0.3137931, b: 0.1197568, a: 1}
   scaleLocally: 1
   doubleResolution: 1024
+  squareAlign: 0
   updateAttributes: 0
 --- !u!114 &114637843832790718
 MonoBehaviour:
@@ -1107,6 +1223,7 @@ MonoBehaviour:
   quitShiftDuration: 0.5
   scriptWhitelist: []
   menu: {fileID: 4133273526685928}
+  menuCanvas: {fileID: 223796167972485138}
 --- !u!114 &114658369930069342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1122,7 +1239,10 @@ MonoBehaviour:
   buttonAnimator: {fileID: 95839950609838274}
   backupCollider: {fileID: 60843764218241426}
   playPressAnimation: 0
+  SFXIgnoreListenerPause: 1
   checkMouseOverCollider: 0
+  sfxSource: {fileID: 82493303505704374}
+  pressClip: {fileID: 8300000, guid: 65e725e633088044885cb929fa4e5278, type: 3}
   pressKey: 27
 --- !u!114 &114665073413389334
 MonoBehaviour:
@@ -1293,8 +1413,25 @@ MonoBehaviour:
   buttonAnimator: {fileID: 95157720263054390}
   backupCollider: {fileID: 60168475151762158}
   playPressAnimation: 1
+  SFXIgnoreListenerPause: 1
   checkMouseOverCollider: 0
+  sfxSource: {fileID: 82493303505704374}
+  pressClip: {fileID: 8300000, guid: 65e725e633088044885cb929fa4e5278, type: 3}
   pressKey: 113
+--- !u!114 &114883644482888376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206303641497890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 802eeaa3d714ff143b464702812c929a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyPrefix: 0
+  _key: stage.pause
+  parameters: []
 --- !u!114 &114931811322384850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1346,6 +1483,17 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 95839950609838274}
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Normal
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 95157720263054390}
         m_MethodName: Play
         m_Mode: 5
         m_Arguments:
@@ -1706,7 +1854,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 75}
-  m_SizeDelta: {x: 350, y: 150}
+  m_SizeDelta: {x: 418, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224745742217877408
 RectTransform:

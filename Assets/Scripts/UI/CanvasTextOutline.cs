@@ -12,6 +12,8 @@ public class CanvasTextOutline : MonoBehaviour
     public Color outlineColor = Color.black;
     public bool scaleLocally = false;
     public int doubleResolution = 1024;
+    public bool squareAlign = false;
+
     public bool updateAttributes;
 
     private Text text;
@@ -23,6 +25,9 @@ public class CanvasTextOutline : MonoBehaviour
     {
         text = GetComponent<Text>();
         rectTransform = GetComponent<RectTransform>();
+
+        if (cloneCount != 8)
+            squareAlign = false;
 
         childTexts = new Text[cloneCount];
         childRectTransforms = new RectTransform[cloneCount];
@@ -100,9 +105,7 @@ public class CanvasTextOutline : MonoBehaviour
             Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
             //if (scaleLocally)
             //    worldPoint.Scale(transform.parent.lossyScale);
-
-            if (transform.root.name.Contains("Pause"))
-                Debug.Log(transform.parent.lossyScale);
+            
             worldPoint += transform.position;
 
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
@@ -128,6 +131,12 @@ public class CanvasTextOutline : MonoBehaviour
 
     Vector3 GetOffset(int i)
     {
-        return (Vector3)MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
+        if (squareAlign)
+        {
+            Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+        }
+        else
+            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
     }
 }
