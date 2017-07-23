@@ -11,10 +11,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
     [HideInInspector]
     public float destabilizeSpeed = 1;
     
-    [Header("Target zone drifting (increases difficulty a lot)")]
-    public float driftRange = 0;
-    public float driftSpeed = 1;
-    
     [Header("Stage settings")]
     public Transform start;
     public float height;
@@ -31,7 +27,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
     private float stability;
     private bool victory;
 
-	void Start ()
+	void Awake()
     {
         // Set start temperature
         if (heatControl)
@@ -40,10 +36,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
             this.SetLevel(startLevel);
             this.heatSpeed = this.maxHeatSpeed;
         }
-        else
-        {
-            this.SetLevel(0);
-        }
 
         // Randomly determine a target temperature
         float targetLevel = 0.4F + UnityEngine.Random.Range(0F, 0.4F);
@@ -51,7 +43,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         this.targetStartLevel = targetLevel;
 	}
 	
-	void Update ()
+	void Update()
     {
         if (!this.victory)
         {
@@ -65,14 +57,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
                     float newHeat = this.heatLevel + (Time.deltaTime * this.heatSpeed);
                     this.SetLevel(newHeat);
                 }
-
-                // Drift the target zone if necessary
-                float driftAmount =  this.targetLevel - this.targetStartLevel;
-                if (Mathf.Abs(driftAmount) >= Mathf.Abs(this.driftRange))
-                    this.driftRange = -this.driftRange;
-                float newTarget = this.targetLevel + (Time.deltaTime * this.driftSpeed * this.driftRange);
-                //this.SetTarget(newTarget);
-
+                
                 // Stabilize when in target zone
                 if (this.InTargetZone())
                     stability += Time.deltaTime * this.stabilizeSpeed;
@@ -99,8 +84,28 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         }
     }
 
+    public float GetTargetOffset()
+    {
+        float currentPosition = this.indicator.localPosition.y;
+        float targetPosition = this.targetZone.transform.localPosition.y;
+        
+        return targetPosition - currentPosition;
+    }
+
+    public bool InTargetZone()
+    {
+        Vector3 currentPosition = this.targetZone.transform.position;
+        currentPosition.y = this.indicator.position.y;
+        bool inZone = targetZone.GetComponent<Collider2D>().bounds.Contains(currentPosition);
+
+        return inZone;
+    }
+
     float GetGaugePositionY(float level)
     {
+        // Invert
+        level = 1 - level;
+
         float gaugeY = this.height * level;
         Vector3 gaugeStart = start.localPosition;
         gaugeY = gaugeStart.y + gaugeY;
@@ -133,15 +138,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
             wave.yOffset = Random.Range(0f, 1f);
         }
         this.targetLevel = level;
-    }
-
-    bool InTargetZone()
-    {
-        Vector3 currentPosition = this.targetZone.transform.position;
-        currentPosition.y = this.indicator.position.y;
-        bool inZone = targetZone.GetComponent<Collider2D>().bounds.Contains(currentPosition);
-        
-        return inZone;
     }
 
     void DoVictory()
