@@ -49,8 +49,12 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!MicrogameController.instance.getVictoryDetermined())
+        if (!MicrogameController.instance.getVictoryDetermined() && MicrogameTimer.instance.beatsLeft >= .5f)
             moveCharacter();
+        else if (MicrogameTimer.instance.beatsLeft < .5f)
+            animator.SetInteger("MovementAnimation", (int)movements.STAND);
+
+
     }
 
     // Perform the current movement selected. If no movement is selected, then choose randomly a movement to perform.
