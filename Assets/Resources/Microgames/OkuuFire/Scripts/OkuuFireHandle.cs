@@ -10,18 +10,28 @@ public class OkuuFireHandle : MonoBehaviour
     public float maxDistance = 20;
     public float turnLimit = 45;
 
+    public float maxSoundLinger = 0.2F;
+
     // Grabbable guide object to track mouse position.
     public MouseGrabbable guide;
+    public OkuuFirePulsate nob;
+
+    public OkuuFireHeatGauge gauge;
+    public SpriteRenderer clockwiseArrow;
+    public SpriteRenderer anticlockwiseArrow;
+
     // List of transforms which include a IOkuuFireMechanism component.
     public List<Transform> mechanisms;
     public OkuuFireCranker cranker;
 
     private OkuuFireCrank crank;
+    private AudioSource crankSound;
 
     private float minAngle;
     private float maxAngle;
     private float reach;
     private bool canMove;
+    private float soundLinger;
 
     void Start()
     {
@@ -44,10 +54,18 @@ public class OkuuFireHandle : MonoBehaviour
 
         // Calculate max cumulative angle
         this.maxAngle = this.minAngle + reach;
+
+        this.crankSound = this.GetComponent<AudioSource>();
+        this.crankSound.Pause();
+
+        this.MoveMechanism();
+        this.ShowArrow(this.gauge.GetTargetOffset());
     }
 
     void Update()
     {
+        float deltaCompletion = 0;
+
         // Check if the handle has been grabbed.
         if (this.canMove && this.guide.grabbed)
         {
@@ -84,7 +102,7 @@ public class OkuuFireHandle : MonoBehaviour
             this.cranker.Rotate(targetAngle);
 
             // Calculate the new completion amount for the whole machine.
-            float deltaCompletion = ((targetAngle - this.minAngle) / this.reach) - this.completion;
+            deltaCompletion = ((targetAngle - this.minAngle) / this.reach) - this.completion;
             // Constrain based on time and max speed.
             deltaCompletion = deltaCompletion * Time.deltaTime * this.maxSpeed;
 
@@ -94,14 +112,45 @@ public class OkuuFireHandle : MonoBehaviour
             else if (newCompletion < 0F)
                 newCompletion = 0F;
 
-            // Set completion and move the machine.
+            // Set completion.
             this.completion = newCompletion;
+
+            // Move the machine.
             this.MoveMechanism();
         }
         else
         {
             // Make sure the guide remains on the handle when not in use.
             this.ResetGuide();
+        }
+
+        // Play sound
+        float speed = Mathf.Abs(deltaCompletion / Time.deltaTime);
+        if (Mathf.Abs(deltaCompletion) > 0.0001)
+        {
+            // Reset
+            soundLinger = maxSoundLinger;
+
+            // Volume/pitch control
+            this.crankSound.volume = (soundLinger / maxSoundLinger) * speed * 3;
+            this.crankSound.pitch = speed + 0.8F;
+
+            // Play
+            if (!this.crankSound.isPlaying)
+                this.crankSound.Play();
+        }
+        else
+        {
+            // Decay
+            soundLinger -= Time.deltaTime;
+
+            // Volume/pitch control
+            float newVolume = soundLinger / maxSoundLinger;
+            this.crankSound.volume = newVolume;
+
+            // Pause
+            if (soundLinger <= 0)
+                this.crankSound.Pause();
         }
     }
 
@@ -113,10 +162,45 @@ public class OkuuFireHandle : MonoBehaviour
             mechanism.Move(this.completion);
         }
     }
-    
+
+    public void OnGrab()
+    {
+        this.nob.Pulse = false;
+
+        this.HideArrow();
+    }
+
     public void OnRelease()
     {
-        this.ResetGuide();
+        if (this.canMove)
+        {
+            this.nob.Pulse = true;
+        }
+
+        this.ShowArrow(this.gauge.GetTargetOffset());
+    }
+
+    void ShowArrow(float offset)
+    {
+        if (!this.gauge.InTargetZone())
+        {
+            if (offset > 0)
+            {
+                this.clockwiseArrow.enabled = true;
+                this.anticlockwiseArrow.enabled = false;
+            }
+            else
+            {
+                this.clockwiseArrow.enabled = false;
+                this.anticlockwiseArrow.enabled = true;
+            }
+        }
+    }
+
+    void HideArrow()
+    {
+        this.clockwiseArrow.enabled = false;
+        this.anticlockwiseArrow.enabled = false;
     }
 
     void ResetGuide()
@@ -133,5 +217,6 @@ public class OkuuFireHandle : MonoBehaviour
     void Victory()
     {
         this.canMove = false;
+        this.nob.Pulse = false;
     }
 }
