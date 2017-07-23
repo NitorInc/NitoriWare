@@ -44,7 +44,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         this.healthScript = GetComponent<RemiCover_Remi_HealthBehaviour>();
         setInitialPosition();
         setInitialMovement((int)movements.STAND, initialMovementDuration);
-
     }
 
     // Update is called once per frame
@@ -56,100 +55,50 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
             moveCharacter();
         }
 
-
-    }
-
-    /// <summary>
-    // Set the initial position of gameObject according to the position of the cursor
-    /// </summary>
-    private void setInitialPosition()
-    {
-        Vector2 mousePosition = CameraHelper.getCursorPosition();
-        transform.position = new Vector2(mousePosition.x, this.transform.position.y);
     }
 
 
-    /// <summary>
-    /// Set the initial movement which Remilia will make And the time for which is going to make that movement
-    /// </summary>
-    private void setInitialMovement(int movement, float timer)
-    {
-        this.currentMovementSelection = movement;
-        this.movementTimer = timer;
-        this.previousMovementSelection = (int)movements.NONE;
-    }
 
 
-    /// <summary>
-    /// Make Remilia perform certain movement. If no movement is selected to be performed, then choose randomly a movement.
-    /// </summary>
+    // Perform the current movement selected. If no movement is selected, then choose randomly a movement to perform.
     private void moveCharacter()
     {
         if (currentMovementSelection == (int)movements.NONE)
-        {
             chooseMovement();
-            changeMovementAnimation();
-        }
-
         performMovement();
-
     }
 
-
-    /// <summary>
     /// Choose a movement for Remilia to perform. Standing movement won't be chosen twice in a row.
-    /// </summary>
     private void chooseMovement()
     {
 
-        int rnd_number;
-        if (previousMovementSelection == (int)movements.STAND)
-        {
-            rnd_number = Random.Range(0, totalProbabilityValue - standProbability);         // Standing won't be chosen twice in a row
-        }
-        else if (previousMovementSelection == (int)movements.TELEPORT)
-        {
-            rnd_number = Random.Range(0, totalProbabilityValue - teleportProbability - standProbability);       // Teleport won't be chosen twice in a row.
-                                                                                                                // Also, if previous movement was teleport stand won't be chosen either.
-        }
-        else
-        {
-            rnd_number = Random.Range(0, totalProbabilityValue);
-        }
-
+        int rnd_number = RandomNumberForMovementSelection();
 
         if (hasWalkingBeenSelected(rnd_number))
-        {
-            chooseMovementDirection();
             currentMovementSelection = (int)movements.WALK;
-        }
-
         else if (hasRunningBeenSelected(rnd_number))
-        {
-            chooseMovementDirection();
             currentMovementSelection = (int)movements.RUN;
-        }
-
         else if (hasTeleportBeenSelected(rnd_number))
-        {
             currentMovementSelection = (int)movements.TELEPORT;
-        }
-
-        else
-        {
+        else if (hasStandingBeenSelected(rnd_number))
             currentMovementSelection = (int)movements.STAND;
-        }
+        else
+            currentMovementSelection = (int)movements.NONE;
+
+
+        Debug.Log("RND: " + rnd_number + " - MOV: " + currentMovementSelection);
+        chooseMovementDirection();
 
         movementTimer = Random.Range(minimumMovementDuration, maximumMovementDuration);
     }
 
-    /// <summary>
-    /// Make Remilia perform the movement selected currently
-    /// </summary>
 
+
+    /// Make Remilia perform the movement selected currently
     private void performMovement()
     {
 
+        changeMovementAnimation();
 
         switch (currentMovementSelection)
         {
@@ -189,97 +138,24 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         this.movementTimer = 0;
     }
 
-    /// <summary>
-    /// Check if Walk movement has been selected.
-    /// </summary>
-    private bool hasWalkingBeenSelected(int number)
-    {
-        return (number >= 0 && number < walkProbability);
-    }
 
-    /// <summary>
-    /// Check if Running movement has been selected.
-    /// </summary>
-    private bool hasRunningBeenSelected(int number)
-    {
-        return (number >= walkProbability && number < (walkProbability + runningProbabilty));
-    }
 
-    /// <summary>
-    /// Check if Teleport movement has been selected.
-    /// </summary>
-    private bool hasTeleportBeenSelected(int number)
-    {
-        return (number >= (walkProbability + runningProbabilty) && number < (walkProbability + runningProbabilty + teleportProbability));
-    }
-
-    /// <summary>
-    /// Check if Standing movement has been selected.
-    /// </summary>
-    private bool hasStandingBeenSelected(int number)
-    {
-        return (number >= (walkProbability + runningProbabilty + teleportProbability) && number < totalProbabilityValue);
-    }
-
-    /// <summary>
     /// Change movement animation
-    /// </summary>
     private void changeMovementAnimation()
     {
-
-        switch (previousMovementSelection)
-        {
-
-            case (int)movements.RUN:
-                if (currentMovementSelection != (int)movements.RUN)
-                {
-                    animator.SetBool("Run", false);
-                }
-                break;
-
-            case (int)movements.WALK:
-                if (currentMovementSelection != (int)movements.WALK)
-                {
-                    animator.SetBool("Walk", false);
-                }
-                break;
-
-
-            case (int)movements.TELEPORT:
-                if (currentMovementSelection != (int)movements.TELEPORT)
-                {
-                    animator.SetBool("Teleport", false);
-                }
-                break;
-
-        }
-
-        switch (currentMovementSelection)
-        {
-            case (int)movements.RUN:
-                animator.SetBool("Run", true);
-                break;
-
-            case (int)movements.WALK:
-                animator.SetBool("Walk", true);
-                break;
-
-            case (int)movements.TELEPORT:
-                animator.SetBool("Teleport", true);
-                break;
-
-            case (int)movements.STAND:
-                animator.SetBool("Run", false);
-                animator.SetBool("Walk", false);
-                animator.SetBool("Teleport", false);
-                break;
-        }
+        // Movement animation:
+        // 1 -> WALK
+        // 2 -> IDLE
+        // 3 -> RUN
+        // 4 -> TELEPORT
+        if (currentMovementSelection == (int)movements.NONE)
+            animator.SetInteger("MovementAnimation", 2);
+        else
+            animator.SetInteger("MovementAnimation", currentMovementSelection);
+    
     }
 
-
-    /// <summary>
     /// Perform Walking Movement
-    /// </summary>
     private void performWalkMovement()
     {
         var move = obtainMovementVector3();
@@ -289,9 +165,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
 
     }
 
-    /// <summary>
     /// Change the position of the character randomly. If the new position is near the previous position, then the new position is moved a little.
-    /// </summary>
     private void changePosition()
     {
 
@@ -322,53 +196,38 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         transform.position = new Vector2(newPosition, transform.position.y);
     }
 
-
-    /// <summary>
     /// Perform Standing Movement
-    /// </summary>
     private void performStandingMovement()
     {
         this.currentSpeed = 0;
     }
 
-    /// <summary>
     /// Perform Running movement
-    /// </summary>
     private void performRunMovement()
     {
         var move = obtainMovementVector3();
-        if (currentSpeed == 0)
-        {
-            this.currentSpeed = walkingSpeed;
-        }
-        else if (currentSpeed < runningSpeed)
-        {
-            this.currentSpeed += accelerationFactor;
-        }
 
+        if (currentSpeed == 0)
+            this.currentSpeed = walkingSpeed;
+        else if (currentSpeed < runningSpeed)
+            this.currentSpeed += accelerationFactor;
         this.transform.position = transform.position + (move * currentSpeed * Time.deltaTime);
+
         changeDirectionOnLimit();
     }
 
-    /// <summary>
     /// Perform Teleport movement
-    /// </summary>
     public void performTeleportMovement()
     {
-        // Teleport movement is performed by Animator..-
+        // Teleport movement is performed by Animator...
         if (healthScript.isActiveAndEnabled)
             healthScript.setInmunnity(true);
-
-
     }
 
-    /// <summary>
     /// Gets called when teleport movement has ended
-    /// </summary>
     public void endTeleportMovement()
     {
-
-        animator.SetBool("Teleport", false);
+        animator.SetInteger("MovementAnimation", 2);
 
         if (healthScript.isActiveAndEnabled)
             healthScript.setInmunnity(false);
@@ -378,38 +237,39 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
 
     }
 
-    /// Choose randomly a direction (Left or Right) which Remilia will follow. A new direction won't be chosen if the character was walking or running previously
+    // Choose randomly a direction (Left or Right) which the gameobject will follow. A new direction won't be chosen if the character was walking or running previously
     private void chooseMovementDirection()
     {
-        if (previousMovementSelection == (int)movements.WALK || previousMovementSelection == (int)movements.RUN)
+        if (previousMovementSelection != (int)movements.WALK && previousMovementSelection != (int)movements.RUN)
         {
-            return;
+            if (currentMovementSelection == (int)movements.WALK || currentMovementSelection == (int)movements.RUN)
+            {
+                currentMovementDirection = randomDirection();
+                if (DoesItNeedsToFlip())
+                    flipHorizontally();
+            }
         }
-
-        this.currentMovementDirection = Random.Range(0, 2); // LEFT = 0, RIGHT = 1
-
-        if ((this.currentMovementDirection == (int)movementDirections.RIGHT && facingRight == false) ||
-            (this.currentMovementDirection == (int)movementDirections.LEFT && facingRight == true))
-        {
-            flipHorizontally();
-        }
-
     }
 
 
-    /// Change movement direction if Remi reach the left or right limit.
+    // Check if gameobject needs to be fliped in order to face the current movement direction.
+    private bool DoesItNeedsToFlip()
+    {
+        return (this.currentMovementDirection == (int)movementDirections.RIGHT && facingRight == false) || (this.currentMovementDirection == (int)movementDirections.LEFT && facingRight == true);
+    }
+
+
+    // Change movement direction if object reachs the left or right limits.
     private void changeDirectionOnLimit()
     {
-
-        if (this.transform.position.x <= leftLimit) this.currentMovementDirection = (int)movementDirections.RIGHT;
-        else if (this.transform.position.x >= rightLimit) this.currentMovementDirection = (int)movementDirections.LEFT;
-
-        if (this.currentMovementDirection == (int)movementDirections.RIGHT && facingRight == false) flipHorizontally();
-        else if (this.currentMovementDirection == (int)movementDirections.LEFT && facingRight == true) flipHorizontally();
+        if (this.transform.position.x <= leftLimit)
+            this.currentMovementDirection = (int)movementDirections.RIGHT;
+        else if (this.transform.position.x >= rightLimit)
+            this.currentMovementDirection = (int)movementDirections.LEFT;
+        if (DoesItNeedsToFlip()) flipHorizontally();
     }
 
-
-    /// Generate a movement vector that depends on the direction of the current movement.
+    // Generate a movement vector that depends on the direction of the current movement.
     private Vector3 obtainMovementVector3()
     {
         var move = new Vector3(0, 0, 0);
@@ -439,14 +299,80 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         this.transform.position = new Vector2(Mathf.Clamp(leftLimit, this.transform.position.x, rightLimit), this.transform.position.y);
     }
 
+
+    // Generate a random movement direction selection ( 0 -> LEFT, 1 -> RIGHT )
+    private int randomDirection()
+    {
+        return Random.Range(0, 2);
+    }
+
     // Generate a random Boolean value
     private bool randomBoolean()
     {
-        if (Random.value >= 0.5)
-        {
-            return true;
-        }
-        return false;
+        return Random.value >= 0.5;
+    }
+
+    // Generate a random number for movement selection
+    private int RandomNumberForMovementSelection()
+    {
+        int rnd_number;
+
+        if (previousMovementSelection == (int)movements.STAND)                               // Standing won't be chosen twice in a row
+            rnd_number = Random.Range(0, totalProbabilityValue - standProbability + 1);          
+        else if (previousMovementSelection == (int)movements.TELEPORT)                       // Teleport won't be chosen twice in a row.
+            rnd_number = Random.Range(0, totalProbabilityValue - teleportProbability + 1);       
+        else
+            rnd_number = Random.Range(0, totalProbabilityValue + 1);
+
+        return rnd_number;
+    }
+
+    // Set the initial position of gameObject according to the position of the cursor
+    private void setInitialPosition()
+    {
+        Vector2 mousePosition = CameraHelper.getCursorPosition();
+        transform.position = new Vector2(mousePosition.x, transform.position.y);
+    }
+
+    // Set the initial movement and the time for which is going to make that movement
+    private void setInitialMovement(int movement, float timer)
+    {
+        this.currentMovementSelection = movement;
+        this.movementTimer = timer;
+        this.previousMovementSelection = (int)movements.NONE;
+    }
+
+    // Check if Walk movement has been selected. 
+    private bool hasWalkingBeenSelected(int number)
+    {
+        return (number > 0 && number <= walkProbability);
+    }
+
+    // Check if Running movement has been selected.
+    private bool hasRunningBeenSelected(int number)
+    {
+        return (number > walkProbability && number <= (walkProbability + runningProbabilty));
+    }
+
+    // Check if Teleport movement has been selected.
+    private bool hasTeleportBeenSelected(int number)
+    {
+        if (previousMovementSelection == (int)movements.TELEPORT)  // Teleport won't be chosen twice in a row.
+            return false;
+        else
+            return (number > (walkProbability + runningProbabilty) && number <= (walkProbability + runningProbabilty + teleportProbability));
+    }
+
+    // Check if Standing movement has been selected.    
+    private bool hasStandingBeenSelected(int number)
+    {
+        if (previousMovementSelection == (int)movements.STAND)  // Standing won't be chosen twice in a row.
+            return false;
+        else
+            if (previousMovementSelection == (int)movements.STAND)
+                return (number > (walkProbability + runningProbabilty) && number <= totalProbabilityValue);
+            else
+                return (number > (walkProbability + runningProbabilty + teleportProbability) && number <= totalProbabilityValue);
     }
 
 }
