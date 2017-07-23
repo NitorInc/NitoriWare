@@ -74,11 +74,10 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     // Game is over
     private void GameOver()
     {
-        gameObject.SendMessage("characterHasDied");
         MicrogameController.instance.setVictory(false, true);
+        GetComponent<Animator>().SetInteger("MovementAnimation", 5);
     }
 
-    // Ma
     public void setInmunnity(bool inmunity_value)
     {
 

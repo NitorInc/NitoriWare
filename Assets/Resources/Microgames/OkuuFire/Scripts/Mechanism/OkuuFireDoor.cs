@@ -8,7 +8,7 @@ public class OkuuFireDoor : MonoBehaviour, IOkuuFireMechanism
     private Vector3 startPosition;
     private Vector3 endPosition;
     
-    void Start()
+    void Awake()
     {
         this.startPosition = transform.localPosition;
 
