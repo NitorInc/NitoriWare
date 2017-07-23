@@ -9,6 +9,7 @@ public class ChenBikePlayerFail : MonoBehaviour
     public SpriteRenderer camera_darken;
     public SpriteRenderer alt_light;
     public SpriteRenderer light_system;
+    public GameObject disablecounter;
     public bool check_for_light;
 
 	void Awake()
@@ -24,6 +25,7 @@ public class ChenBikePlayerFail : MonoBehaviour
             chenAnimator.Play("ChenRIP");
             MicrogameController.instance.setVictory(false, true);
             chenspeed.speed = 1;
+            Destroy(disablecounter);
             if (check_for_light == true)
             {
                 camera_darken.enabled = true;

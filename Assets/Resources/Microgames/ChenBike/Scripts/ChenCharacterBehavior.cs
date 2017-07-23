@@ -7,7 +7,8 @@ public class ChenCharacterBehavior : MonoBehaviour {
     public float divider = 4f;
     public bool honkedat = false;
 
-    public Sprite placeholderhonkedsprite;
+    public Sprite honkedsprite;
+    public Sprite ripsprite;
     private Vector3 newPosition;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody;
@@ -30,10 +31,8 @@ public class ChenCharacterBehavior : MonoBehaviour {
             newPosition.x += Time.deltaTime * speed;
             newPosition.y -= Time.deltaTime * speed / divider;
             transform.position = newPosition;
-        } else
-        {
-            charAnimator.Play("Bang");
         }
+        else { charAnimator.Play("Idle"); }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -51,15 +50,15 @@ public class ChenCharacterBehavior : MonoBehaviour {
         if (ChenBikePlayer.honking == true && other.name == "ChenHonk")
         {
             honkedat = true;
-            spriteRenderer.sprite = placeholderhonkedsprite; //placeholder
+            spriteRenderer.sprite = honkedsprite; //doesn't work, feedback needed
             Destroy(questionm);
         }
 
         if (honkedat == false && other.name == "ChenBody")
         {
-            honkedat = true; //placeholder
-            spriteRenderer.sprite = placeholderhonkedsprite; //placeholder
-            Destroy(questionm); //placeholder
+            honkedat = true; // despite variable name it just stops character movement
+            Destroy(questionm);
+            spriteRenderer.sprite = ripsprite; //doesn't work, feedback needed
             ifdead.dead = true;
             ifdead2.dead = true;
         }
