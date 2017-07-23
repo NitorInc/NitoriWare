@@ -18,6 +18,7 @@ public class CompilationStage : Stage
 
 	public override void onStageStart()
 	{
+        base.onStageStart();
 		microgamePool = MicrogameHelper.getMicrogames(restriction);
         roundsCompleted = roundStartIndex = 0;
 		shuffleGames();

@@ -9,7 +9,7 @@ public class MenuEnableByProgress : MonoBehaviour
     [SerializeField]
     private Operation operation;
     [SerializeField]
-    private int compareTo;
+    private PrefsHelper.GameProgress compareTo;
 #pragma warning restore 0649
 
     public enum Operation
@@ -27,7 +27,7 @@ public class MenuEnableByProgress : MonoBehaviour
 	
 	bool requirementMet()
     {
-        int progress = PrefsHelper.getProgress();
+        PrefsHelper.GameProgress progress = PrefsHelper.getProgress();
         switch (operation)
         {
             case (Operation.GreaterThan):

@@ -27,7 +27,7 @@ public class LocalizationManager : MonoBehaviour
     }
 
 	public void Awake ()
-	{
+    {
         loadedLanguage = new Language();
 		if (instance != null)
 		{

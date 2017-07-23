@@ -76,20 +76,9 @@ public class LocalizedText : MonoBehaviour
 
 		string value;
 		if (keyPrefix == Prefix.CurrentMicrogame)
-			value = TextHelper.getLocalizedMicrogameText(key, getText());
+			value = TextHelper.getLocalizedMicrogameText(key, getText(), parameters);
 		else
-			value = TextHelper.getLocalizedText(getPrefixedKey(), getText());
-
-        if (parameters != null && parameters.Length > 0)
-        {
-            string[] parameterStrings = new string[parameters.Length];
-            for (int i = 0; i < parameters.Length; i++)
-            {
-                Parameter parameter = parameters[i];
-                parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
-            }
-            value = string.Format(value, parameterStrings);
-        }
+			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
 		setText(value);
 

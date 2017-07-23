@@ -10,10 +10,21 @@ public class TextHelper
 	/// </summary>
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
-	public static string getLocalizedText(string key, string defaultValue)
+	public static string getLocalizedText(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
 	{
-		return LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValue(key, defaultValue);
-	}
+        string value = LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValue(key, defaultValue);
+        if (parameters != null && parameters.Length > 0)
+        {
+            string[] parameterStrings = new string[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                LocalizedText.Parameter parameter = parameters[i];
+                parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+            }
+            value = string.Format(value, parameterStrings);
+        }
+        return value;
+    }
 
 	/// <summary>
 	/// Gets localized text with prefix "microgame.[ID]." added automatically
@@ -21,10 +32,10 @@ public class TextHelper
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static string getLocalizedMicrogameText(string key, string defaultValue)
+	public static string getLocalizedMicrogameText(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
 	{
 		Scene scene = MicrogameController.instance.gameObject.scene;
-		return getLocalizedText("microgame." + scene.name.Substring(0, scene.name.Length - 1) + "." + key, defaultValue);
+		return getLocalizedText("microgame." + scene.name.Substring(0, scene.name.Length - 1) + "." + key, defaultValue, parameters);
 	}
 
 	/// <summary>
@@ -33,10 +44,21 @@ public class TextHelper
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static string getLocalizedTextNoWarnings(string key, string defaultValue)
+	public static string getLocalizedTextNoWarnings(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
 	{
-		return LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValueNoWarnings(key, defaultValue);
-	}
+		string value = LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValueNoWarnings(key, defaultValue);
+        if (parameters != null && parameters.Length > 0)
+        {
+            string[] parameterStrings = new string[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                LocalizedText.Parameter parameter = parameters[i];
+                parameterStrings[i] = parameter.isKey ? TextHelper.getLocalizedText(parameter.value, parameter.keyDefaultString) : parameter.value;
+            }
+            value = string.Format(value, parameterStrings);
+        }
+        return value;
+    }
 
     /// <summary>
     /// Shortcut to LocalizationManager.instance.getLanguage() with null check
