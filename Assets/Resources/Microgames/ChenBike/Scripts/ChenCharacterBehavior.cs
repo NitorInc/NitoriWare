@@ -16,6 +16,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
     public Animator charAnimator;
     public ChenBikePlayerFail ifdead;
     public ChenBikePlayerFail ifdead2;
+    public int sortingorder;
 
     // Use this for initialization
     void Start () {
@@ -32,7 +33,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
             newPosition.y -= Time.deltaTime * speed / divider;
             transform.position = newPosition;
         }
-        else { charAnimator.Play("Idle"); }
+        else { charAnimator.enabled = false; }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -51,6 +52,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
         {
             honkedat = true;
             spriteRenderer.sprite = honkedsprite; //doesn't work, feedback needed
+            spriteRenderer.sortingOrder = sortingorder;
             Destroy(questionm);
         }
 
@@ -59,6 +61,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
             honkedat = true; // despite variable name it just stops character movement
             Destroy(questionm);
             spriteRenderer.sprite = ripsprite; //doesn't work, feedback needed
+            spriteRenderer.sortingOrder = sortingorder;
             ifdead.dead = true;
             ifdead2.dead = true;
         }
