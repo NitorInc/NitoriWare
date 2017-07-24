@@ -1,25 +1,28 @@
 generic
 	name=日本語
 	gamename=NitorInc.
-	incomplete=注意：日本語版は翻訳中なのでテキストは所々英語で見えます。
+	incomplete=注意！日本語翻訳は完璧ではありません。英語のテキストが残っています。
 stage
 	control
-		key=キーボード使用
-		mouse=マウス使用
-	speedup=早く！
-	boss=ボスステージ
-	levelup=レベルアップ！
-	pause=ゲームポース
-		resume=続く {0}
-	quit=終了 {0}
+		key=キーボード操作きぼー！
+		mouse=マウスを使用しよー！
+	speedup=急いで！
+	boss=BOSS STAGE
+	levelup=LEVEL UP!
+	pause=PAUSED
+		resume=続ける {0}
+	quit=やめる {0}
+	retry=やりなおす {0}
 	gameover=ゲームオーバー
-		score=スコア: {0}
-		highscore=ハイスコア: {0}
+		score=すこあ: {0}
+		highscore=はいすこあ: {0}
 		newhighscore=ハイスコア更新！
 menu
 	yes=はい
 	no=いいえ
 	ok=OK
+	back=もどる
+	backalt=もどる
 	confirm=確認
 	cancel=キャンセル
 	on=オン
@@ -28,18 +31,52 @@ menu
 	main
 		story=ストリーモード
 		compilation=アーケードモード
+		practice=練習試合
+		quit=ゲームをやめる
+			prompt=本当にやめちゃう？
 		settings=設定
-	gamemode
+		credits=クレジット
+	gamemode=モードを選ぶ！
+		highscore=ハイスコア: {0}
+		compilationmode
+			description=可能な限りプレイする！ボスなし
+		compilationfast
+			description=超高速!!
+		compilationmystery=必要な書類
 		compilationhard=キュウリ地獄
+			description=最狂の難易度！たった一つの命！どれだけ生きられるかな？
+	settings
+		resolution=解像度を選ぶ
+		fullscreen=フルスクリーン
+		language=言語
+		graphics=グラフィックの質
+			0=最速
+			1=速い
+			2=シンプル
+			3=良い
+			4=美しい
+			5=素晴らしい
+		volume=ボリューム
+			master=全体
+			music=音楽
+			sfx=効果
+			voice=声
+	microgamecredits
+		art=アート: {0}
+		code=コー​​ド: {0}
+		music=音楽: {0}
 microgame
 	FreezeFrogs
-		command=冷凍しろ！
+		command=動くな！
 		igname=かえる・こおる
 	Slingshot
 		command=飛ばせ！
 		igname=鳥飛ばし
+	ChenFood
+		command=食べてはいけない！
+		igname=ねこだまし
 	Spider
-		command=食べさせろ！
+		command=食べる！
 		igname=くももぐもぐ
 	Donation
 		command=３円受けろ！
@@ -49,40 +86,71 @@ microgame
 		igname=かっぱしめしめ
 	Potion
 		command=落とせ！
-		ingredients=材料
+		ingredients=成分
 		igname=釜構い
 	GhostFood
 		command=かじれ！
 		igname=幽食
 	Spaceship
 		command=飛び立て！
+		igname=発射台
 	CupShuffle
 		command=気をつけろ！
 		commandb=選べ！
 		igname=目眩まし
 	TraceShape
 		command=彩れ！
+		igname=差し入れる
+	RockBand
+		command=演ずる！
+		igname=ライブパフォーマンス
+	ChenBike
+		command=パフパフ！
 	MasterSparkCode
 		command=魔法かけろ！
+		igname=射的
+	OkuuFire
+		command=規制する！
+		igname=落ち着け！
 	YukariCake
 		command=奪え！
 		igname=甘党さん
 	RemiCover
 		command=陰翳しろ！
+		igname=吸血鬼欠点
+	SuikaShake
+		command=振り払う！
+		igname=萃香と酔漢
 	TouhouSort
 		command={0}で分けろ！
 		hat=帽子
 		wing=翼型
 		ear=耳
+		igname=東方整理する
 	FlanGrab
 		command=守れ！
 		igname=留守番中
 	PaperThief
 		command=目的を貫け！
-		commandb=危ない！
+		commandb=あぶない！
 		commandc=撃て！
 		commandd=倒せ！
-	ChenFood
-		igname=ねこだまし
-	SuikaShake
-		igname=萃香と酔漢
+		igname=きゅうり追いかける
+credits
+	intro={0} の制作に協力してくれた人たち
+	kapptain=ディレクター、プログラマー、チーム"Kapptain"
+	leadart=首領アーティスト、キャラクターデザイナー
+	UI=メニューとステージのグラフィックス
+	menumusic=メニュー音楽
+	stagemusic=ステージ音楽
+	microgame
+		management=ミニゲーム経営
+		managementalt=コラボレーション経営
+		code=ミニゲームコード
+		art=ミニゲームアート
+		music=ミニゲーム経営
+	localization=翻訳者
+		management=翻訳者経営
+	sfx=音設計者
+	socialmedia=プロモーター
+	thanks=特別な感謝

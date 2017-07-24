@@ -12,6 +12,7 @@ stage
 	pause=Spiel pausiert
 		resume=Fortsetzen {0}
 	quit=Verlassen {0}
+	retry=Erneut versuchen {0}
 	gameover=Spiel vorbei!
 		score=Deine Punktzahl: {0}
 		highscore=Höchstpunktzahl: {0}
@@ -24,7 +25,7 @@ menu
 	backalt=Zurück
 	confirm=Bestätigen
 	cancel=Abbrechen
-	on=An
+	on=Ein
 	off=Aus
 	play=Spielen
 	main
@@ -32,26 +33,26 @@ menu
 		compilation=Arkade Modus
 		practice=Übungsraum
 		quit=Spiel Verlassen
-			prompt=Bist du dir sicher dass du das Spiel verlassen möchtest?
+			prompt=Bist du dir sicher dass du {0} verlassen möchtest?
 		settings=Optionen
 		credits=Mitwirkende
 	gamemode=Wähle einen Spielmodus!
 		locked1=Gesperrt! Schließe {0} ab um das Spiel freizuschalten!
-		locked2=Gesperrt! Erreiche {0} oder mehr Punkte um {1} freizuschalten!
+		locked2=Gesperrt! Erreiche {0} oder mehr Punkte in {1} zum Freischalten
 		highscore=Höchstpunktzahl: {0}
 		compilationmode
 			description=Versuche so viele Minigames wie möglich zu absolvieren! (Keine Boss level)
 		compilation=Kappa Handbuch
 			description=Normaler Arkade Modus in welcher du Minispiele in zufälliger Reihenfolge spielst.
 		compilationfast=Maximale Kappazität
-			description=SUPER DUPER SCHNELL!!
+			description=SUPER DUPER SCHNELL! Alle Minispiele in zufälliger Reihenfolge auf höchster Schwierigkeitsstufe
 		compilationmystery=(Dokumentation wird benötigt)
 			description=Ups, wir haben die Blaupausen hierfür verloren! Kein Kommando oder kKntrollbefehl!
 		compilationhard=Gurken Hölle
 			description=Alle Spiele auf der schwersten Stufe und du nur ein Versuch! Wie lange kannst du es aushalten?
 	settings
 		resolution=Bildgröße
-		fullscreen=Vollbild
+		fullscreen=Vollbildmodus
 		language=Sprache
 		graphics=Grafikqualität
 			0=Am schnellsten
@@ -65,6 +66,10 @@ menu
 			music=Musik
 			sfx=Spezialeffekte
 			voice=Sprecherlautstärke
+	microgamecredits
+		art=Künstler: {0}
+		code=Code: {0}
+		music=Musik: {0}
 	splash
 		introa=Diese Spiel Demo ist von dem Touhou Project (東方Project) abgeleitet welches von ZUN kreiert worden ist.
 		introb=Viele Fans der Spielereihe haben sich zusammen getan um Code, Grafiken und vieles weitere um diese Minispiele Kollektion zusammen zu stellen.
@@ -72,7 +77,7 @@ menu
 		webglwarning=Sollte der Web Player dir Probleme bereiten versuche einen der Downloads die etwas weiter unten verlinkt sind.
 nitori
 	storyintro=Sieht so aus als wir einen  Kunden haben.\nMal schauen wie du meinen Marken-Spielen umgehen kannst.\nHalt die Augen offen!
-	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal {0} um wirklich herausgefordert zu werden!
+	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal den {0} um wirklich herausgefordert zu werden!
 	compilationfinished=Verdammt, ich bin beeindruckt!\nWarte nur auf die Vollversion des Spieles,\n{0} hat gerade erst angefangen!
 microgame
 	FreezeFrogs
@@ -83,7 +88,7 @@ microgame
 		igname=Kopf hoch
 	ChenFood
 		command=Werde nicht gegessen!
-		igname=Katzenflucht
+		igname=Katzenjagd
 	Spider
 		command=Füttere!
 		igname=Spinnenfütterung
@@ -92,11 +97,11 @@ microgame
 		igname=Ka-Tschingko
 	Wrench
 		command=Mache Fest!
-		igname=Kappa Schraubenzieher
+		igname=Kapparateur
 	Potion
 		command=Reinwerfen!
 		ingredients=Zutaten
-		igname=Problematische Alchemie
+		igname=Verzwickte Alchemie
 	GhostFood
 		command=Essen und kauen!
 		igname=Geisterspeisung
@@ -109,19 +114,19 @@ microgame
 		igname=Hütchenspiel
 	TraceShape
 		command=Ausmalen!
-		igname=Formen ausfüllen
+		igname=Dingen neuen Anstrich verpassen
 	RockBand
 		command=Rocke!
 		igname=Subwoofer
 	ChenBike
-		command=Honk!
+		command=Hupe!
 		igname=Weggehupt
 	MasterSparkCode
 		command=Entfessele!
 		igname=Zielübung
 	OkuuFire
 		command=Regeln!
-		igname=Cool bleiben
+		igname=Alles unter Okuuntrolle
 	YukariCake
 		command=Klaue!
 		igname=Dessert Patrouille
@@ -136,7 +141,7 @@ microgame
 		hat=Kopfbedeckung
 		wing=Flügeltyp
 		ear=Ohren
-		igname=Touhou Sortierer
+		igname=Mädchen aller art
 	FlanGrab
 		command=Beschütze!
 		igname=Villa Wachdienst
@@ -149,17 +154,18 @@ microgame
 credits
 	intro={0} wurde durch folgende Fans möglich gemacht!
 	kapptain=Kreativdirektor, Programmierer, Team "Kappitän"
-	leadart=Hauptkünstler, Character Designer
+	leadart=Lead Artist, Character Designer
 	UI=Menü und Hintergrund Grafiken
 	menumusic=Titel und Hauptmenü musik
+	stagemusic=Spielemusik
 	microgame
 		management=Minispiel Management
 		managementalt=Kollaboration Management
 		code=Minispiel Code
-		art=Minispiel Künstler
+		art=Minispiel Artist
 		music=Minispiel Musik
 	localization=Übersetzer
-		management=Übersetzungs Management
+		management=Lokalisierungs Management
 	sfx=Soundeffekte
 	socialmedia=Social Media
 	touhou=Basierend auf Touhou Project von ZUN
