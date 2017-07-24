@@ -7132,7 +7132,6 @@ GameObject:
   - component: {fileID: 2377}
   - component: {fileID: 2374}
   - component: {fileID: 2378}
-  - component: {fileID: 2379}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -14027,7 +14026,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a747f16c4dd6c694bb3a2178ba785440, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -42784,7 +42783,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   particleSystems: []
-  audioSources: []
+  audioSources:
+  - {fileID: 650}
 --- !u!114 &2208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46865,19 +46865,6 @@ MonoBehaviour:
   loopStartTime: 13.333333
   loopEndTime: 104.7619
   testLoopPoint: 0
---- !u!114 &2379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f545c97741b14f4abf79a691af010e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playTime: 2
-  frameBuffer: 1
 --- !u!114 &2380
 MonoBehaviour:
   m_ObjectHideFlags: 0
