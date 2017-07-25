@@ -38,7 +38,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         }
 
         // Randomly determine a target temperature
-        float targetLevel = 0.5F - UnityEngine.Random.Range(0F, 0.49F);
+        float targetLevel = 0.5F - UnityEngine.Random.Range(0F, 0.38F);
         this.SetTarget(targetLevel);
         this.targetStartLevel = targetLevel;
 	}
