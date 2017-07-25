@@ -18,7 +18,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     // Use this for initialization
     void Start() {
         smokeInstance = (ParticleSystem)Instantiate(smokeParticles, transform.position, smokeParticles.transform.rotation);
-        sprite = GetComponentsInChildren<SpriteRenderer>(true);
+        sprite = transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>(true);
     }
 
 
