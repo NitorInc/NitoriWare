@@ -178,6 +178,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
 
         resetMovementSelectionParameters();
         this.currentSpeed = 0;
+
     }
 
     // Check if gameobject needs to be fliped in order to face the current movement direction.
