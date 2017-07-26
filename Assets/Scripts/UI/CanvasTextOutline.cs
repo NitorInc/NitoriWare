@@ -133,7 +133,7 @@ public class CanvasTextOutline : MonoBehaviour
     {
         if (squareAlign)
         {
-            Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+            //Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
             return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
         }
         else
