@@ -10,7 +10,9 @@ public class ChenBikePlayerFail : MonoBehaviour
     public SpriteRenderer alt_light;
     public SpriteRenderer light_system;
     public GameObject disablecounter;
+    public GameObject chenshadowobject;
     public bool check_for_light;
+    public bool isChenshadow;
 
 	void Awake()
 	{
@@ -22,15 +24,23 @@ public class ChenBikePlayerFail : MonoBehaviour
 	{
         if (dead == true)
         {
-            chenAnimator.Play("ChenRIP");
-            MicrogameController.instance.setVictory(false, true);
-            chenspeed.speed = 1;
-            Destroy(disablecounter);
-            if (check_for_light == true)
+            if (isChenshadow == true)
             {
-                camera_darken.enabled = true;
-                alt_light.enabled = true;
-                light_system.enabled = false;
+                chenAnimator.Play("ChenShadowExit");
+            }
+            else
+            {
+                chenAnimator.Play("ChenRIP");
+                MicrogameController.instance.setVictory(false, true);
+                chenspeed.speed = 1;
+                Destroy(disablecounter);
+                if (check_for_light == true)
+                {
+                    camera_darken.enabled = true;
+                    alt_light.enabled = true;
+                    light_system.enabled = false;
+
+                }
             }
         }
     }

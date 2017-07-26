@@ -14,19 +14,28 @@ public class ChenCharacterBehavior : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody;
     public GameObject questionm;
+    public GameObject charshadow;
     public Animator charAnimator;
-    public string walkcycle;
+    public bool isren;
+    public bool istewi;
+    public bool isreisen;
+    public bool isnazrin;
+    public bool hasShadow;
+    public string bushjumpanim;
     public ChenBikePlayerFail ifdead;
     public ChenBikePlayerFail ifdead2;
+    public ChenBikePlayerFail ifdead3;
     public int sortingorder;
 
     // Use this for initialization
     void Start(){
-        newPosition = transform.position;
+        newPosition = transform.parent.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
         charAnimator = GetComponent<Animator>();
-        charAnimator.enabled = false;
-        //charAnimator.Play(walkcycle);
+        charAnimator.SetBool("isRen", isren);
+        charAnimator.SetBool("isTewi", istewi);
+        charAnimator.SetBool("isReisen", isreisen);
+        charAnimator.SetBool("isNazrin", isnazrin);
     }
 	
 	// Update is called once per frame
@@ -35,7 +44,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
         {
             newPosition.x += Time.deltaTime * speed;
             newPosition.y -= Time.deltaTime * speed / divider;
-            transform.position = newPosition;
+            transform.parent.position = newPosition;
         }
     }
 
@@ -57,7 +66,11 @@ public class ChenCharacterBehavior : MonoBehaviour {
             {
                 honkedat = true;
                 Destroy(questionm);
-                charAnimator.Play("ChenCharBushJump");
+                charAnimator.Play(bushjumpanim);
+                if (hasShadow == true)
+                {
+                    Destroy(charshadow);
+                }
             }
 
             if (honkedat == false && other.name == "ChenBody")
@@ -68,6 +81,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
                 spriteRenderer.sprite = ripsprite;
                 ifdead.dead = true;
                 ifdead2.dead = true;
+                ifdead3.dead = true;
             }
         }else
         {
@@ -85,6 +99,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
                 charAnimator.Play("Bang");
                 ifdead.dead = true;
                 ifdead2.dead = true;
+                ifdead3.dead = true;
             }
         }
     }
