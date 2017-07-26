@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class TouhouSortSorter : MonoBehaviour
 {
-	// Primary class for TouhouSort game handling
-	// Handles objects and win/loss
+    // Primary class for TouhouSort game handling
+    // Handles objects and win/loss
+    
+    // Spacing between starting sortables
+    static float GAP = 2.2f;
+    
+    [Header("Max number of sortable touhous")]
+    public int slotCount;
 
-	// Spacing between starting sortables
-	static float GAP = 2.2f;
-
-	// Max number of sortable touhous
-	public int slotCount;
-
-	public Transform stagingArea;
+    [Header("Stage elements")]
+    public Transform stagingArea;
     public TouhouSortZoneManager zoneManager;
 
     public TouhouSortSortable touhouTemplate;
 
-	//public TouhouSortTouhouBucket touhouBucket;
-    public GameObject victoryDisplay;
-
+    public ParticleSystem confettiParticles;
+    
 	TouhouSortSortable[] touhous;
 	Vector3[] slots;
 
@@ -86,18 +86,33 @@ public class TouhouSortSorter : MonoBehaviour
         MouseGrabbableGroup grabGroup = stagingArea.GetComponent<MouseGrabbableGroup>();
         TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
-        UnityEvent dudEvent = new UnityEvent();
-        UnityEvent sortEvent = new UnityEvent();
-        sortEvent.AddListener(CheckSort);
-
         for (int i = 0; i < amount; i++)
         {
             Style style;
-            int coin = Random.Range(0, 2);
-            if (coin == 0)
-                style = leftStyles[Random.Range(0, leftStyles.Count)];
-            else
+            if (leftStyles.Count == 0)
+            {
                 style = rightStyles[Random.Range(0, rightStyles.Count)];
+                rightStyles.Remove(style);
+            }
+            else if (rightStyles.Count == 0)
+            {
+                style = leftStyles[Random.Range(0, leftStyles.Count)];
+                leftStyles.Remove(style);
+            }
+            else
+            {
+                int coin = Random.Range(0, 2);
+                if (coin == 0)
+                {
+                    style = leftStyles[Random.Range(0, leftStyles.Count)];
+                    leftStyles.Remove(style);
+                }
+                else
+                {
+                    style = rightStyles[Random.Range(0, rightStyles.Count)];
+                    rightStyles.Remove(style);
+                }
+            }
 
             // Build a new touhou instance
             TouhouSortSortable touhou = Instantiate(touhouTemplate, transform.position, transform.rotation);
@@ -107,8 +122,16 @@ public class TouhouSortSorter : MonoBehaviour
             touhou.SetStyle(style.name);
 
             MouseGrabbable grab = touhou.gameObject.AddComponent<MouseGrabbable>();
-            grab.onGrab = dudEvent;
-            grab.onRelease = sortEvent;
+
+            UnityEvent grabEvent = new UnityEvent();
+            grabEvent.AddListener(touhou.OnGrab);
+
+            UnityEvent releaseEvent = new UnityEvent();
+            releaseEvent.AddListener(touhou.OnRelease);
+            releaseEvent.AddListener(CheckSort);
+
+            grab.onGrab = grabEvent;
+            grab.onRelease = releaseEvent;
             grab.disableOnVictory = true;
             
             touhou.transform.parent = stagingArea;
@@ -184,23 +207,13 @@ public class TouhouSortSorter : MonoBehaviour
 		if (allSorted)
         {
 			// Sorted
-			//Debug.Log("Sorted");
 			sorted = true;
+            
+            confettiParticles.gameObject.SetActive(true);
+            confettiParticles.Play();
 
-            victoryDisplay.SetActive(true);
-
-			MicrogameController.instance.setVictory(true, true);
-		}
-		else if (sorted)
-        {
-			// Unsorted (wont ever happen)
-			Debug.Log("Unsorted");
-			sorted = false;
-
-            victoryDisplay.SetActive(false);
-
-            MicrogameController.instance.setVictory(false, true);
-		}
+            MicrogameController.instance.setVictory(true, true);
+        }
 	}
 
 }

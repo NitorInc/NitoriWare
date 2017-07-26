@@ -55,7 +55,7 @@ public class StageGameOverMenu : MonoBehaviour
         int currentHighScore = PrefsHelper.getHighScore(gameObject.scene.name);
         if (score > currentHighScore)
         {
-            if (currentHighScore > 0)
+            if (currentHighScore > 0 && highScoreIndicator != null)
                 highScoreIndicator.SetActive(true);
             currentHighScore = score;
             PrefsHelper.setHighScore(gameObject.scene.name, currentHighScore);
