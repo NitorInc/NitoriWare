@@ -37,6 +37,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     private Animator animator;
     private RemiCover_Remi_HealthBehaviour healthScript;
 
+    public AudioClip teleportSFX;
 
     void Start()
     {
@@ -139,6 +140,12 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     {
         if (healthScript.isActiveAndEnabled)
             healthScript.setInmunnity(true);
+    }
+
+    private void playTeleportSound()
+    {
+        MicrogameController.instance.playSFX(teleportSFX);
+ 
     }
 
     // Change the position of the character randomly. If the new position is near the previous position, then the new position is moved a little.
