@@ -14,6 +14,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     private SpriteRenderer[] sprite;
     private bool inmunity = false;
 
+    public AudioSource burningSFX;
+    public AudioClip defeatSFX;
 
     // Use this for initialization
     void Start() {
@@ -24,6 +26,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
 
         if (!MicrogameController.instance.getVictoryDetermined() && !inmunity){
             updateHP();
@@ -56,8 +59,17 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         emission.rateOverTime = (((1 - HP) * 2000) / 10)
 			* (MicrogameController.instance.getVictory() ? 1f : 1.5f);	//Particle rate intensifies on death
 
+        manageEmissionSound();
+
     }
 
+    private void manageEmissionSound()
+    {
+        if (inmunity)
+            burningSFX.volume = 0;
+        else
+            burningSFX.volume = (1 - HP) * 1.5f;
+    }
 
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
     private void updateHP()
@@ -76,6 +88,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     {
         MicrogameController.instance.setVictory(false, true);
         GetComponent<Animator>().SetInteger("MovementAnimation", 5);
+        MicrogameController.instance.playSFX(defeatSFX);
     }
 
     public void setInmunnity(bool inmunity_value)
