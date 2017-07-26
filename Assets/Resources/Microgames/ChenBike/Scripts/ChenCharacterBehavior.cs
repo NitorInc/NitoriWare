@@ -6,6 +6,7 @@ public class ChenCharacterBehavior : MonoBehaviour {
     public float speed = 1f;
     public float divider = 4f;
     public bool honkedat = false;
+    public bool enableold = false;
 
     public Sprite honkedsprite;
     public Sprite ripsprite;
@@ -14,26 +15,28 @@ public class ChenCharacterBehavior : MonoBehaviour {
     private Rigidbody2D rigidBody;
     public GameObject questionm;
     public Animator charAnimator;
+    public string walkcycle;
     public ChenBikePlayerFail ifdead;
     public ChenBikePlayerFail ifdead2;
     public int sortingorder;
 
     // Use this for initialization
-    void Start () {
+    void Start(){
         newPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
         charAnimator = GetComponent<Animator>();
+        charAnimator.enabled = false;
+        //charAnimator.Play(walkcycle);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update(){
         if (honkedat == false)
         {
             newPosition.x += Time.deltaTime * speed;
             newPosition.y -= Time.deltaTime * speed / divider;
             transform.position = newPosition;
         }
-        else { charAnimator.enabled = false; }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -48,22 +51,41 @@ public class ChenCharacterBehavior : MonoBehaviour {
 
     void collide(Collider2D other)
     {
-        if (ChenBikePlayer.honking == true && other.name == "ChenHonk")
+        if (enableold == false)
         {
-            honkedat = true;
-            spriteRenderer.sprite = honkedsprite; //doesn't work, feedback needed
-            spriteRenderer.sortingOrder = sortingorder;
-            Destroy(questionm);
-        }
+            if (ChenBikePlayer.honking == true && other.name == "ChenHonk")
+            {
+                honkedat = true;
+                Destroy(questionm);
+                charAnimator.Play("ChenCharBushJump");
+            }
 
-        if (honkedat == false && other.name == "ChenBody")
+            if (honkedat == false && other.name == "ChenBody")
+            {
+                honkedat = true;
+                Destroy(questionm);
+                charAnimator.enabled = false;
+                spriteRenderer.sprite = ripsprite;
+                ifdead.dead = true;
+                ifdead2.dead = true;
+            }
+        }else
         {
-            honkedat = true; // despite variable name it just stops character movement
-            Destroy(questionm);
-            spriteRenderer.sprite = ripsprite; //doesn't work, feedback needed
-            spriteRenderer.sortingOrder = sortingorder;
-            ifdead.dead = true;
-            ifdead2.dead = true;
+            if (ChenBikePlayer.honking == true && other.name == "ChenHonk")
+            {
+                honkedat = true;
+                Destroy(questionm);
+                charAnimator.Play("Bang");
+            }
+
+            if (honkedat == false && other.name == "ChenBody")
+            {
+                honkedat = true;
+                Destroy(questionm);
+                charAnimator.Play("Bang");
+                ifdead.dead = true;
+                ifdead2.dead = true;
+            }
         }
     }
 }

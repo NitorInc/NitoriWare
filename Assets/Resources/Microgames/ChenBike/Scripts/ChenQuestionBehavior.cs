@@ -32,6 +32,7 @@ public class ChenQuestionBehavior : MonoBehaviour {
         if (other.name == "ChenHonk")
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            questionAnimator.enabled = true;
             questionAnimator.Play("QuestionAnimation");
         }
     }
