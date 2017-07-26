@@ -2,10 +2,12 @@
 
 public class TouhouSortSortable : MonoBehaviour
 {
-	// Defines an object (usually a touhou)
-	// that can be sorted into a category
+    // Defines an object (usually a touhou)
+    // that can be sorted into a category
     
-	public Collider2D hitBox;
+    public Collider2D hitBox;
+
+    public AudioClip grabClip;
 
     // The style of this touhou instance
     [SerializeField]
@@ -15,11 +17,11 @@ public class TouhouSortSortable : MonoBehaviour
     [SerializeField]
     TouhouSortDropZone currentZone;
 
-	void Start ()
+    void Start ()
     {
-		Collider2D grabBox = GetComponent<Collider2D> ();
-		Physics2D.IgnoreCollision(grabBox, hitBox);
-	}
+        Collider2D grabBox = GetComponent<Collider2D> ();
+        Physics2D.IgnoreCollision(grabBox, hitBox);
+    }
 
     public string GetStyle()
     {
@@ -33,20 +35,32 @@ public class TouhouSortSortable : MonoBehaviour
 
     public TouhouSortDropZone GetCurrentZone()
     {
-		return currentZone;
-	}
+        return currentZone;
+    }
 
-	public void EnterZone(TouhouSortDropZone zone)
+    public void EnterZone(TouhouSortDropZone zone)
     {
-		currentZone = zone;
-	}
+        currentZone = zone;
+    }
 
-	public void ExitZone(TouhouSortDropZone zone)
+    public void ExitZone(TouhouSortDropZone zone)
     {
-		if (currentZone == zone)
+        if (currentZone == zone)
         {
-			currentZone = null;
-		}
-	}
+            currentZone = null;
+        }
+    }
+
+    public void OnGrab()
+    {
+        MicrogameController.instance.playSFX(grabClip, AudioHelper.getAudioPan(transform.position.x),
+                pitchMult: 0.7F, volume: 0.8F);
+    }
+
+    public void OnRelease()
+    {
+        MicrogameController.instance.playSFX(grabClip, AudioHelper.getAudioPan(transform.position.x),
+                pitchMult: 0.6F, volume: 0.8F);
+    }
 
 }
