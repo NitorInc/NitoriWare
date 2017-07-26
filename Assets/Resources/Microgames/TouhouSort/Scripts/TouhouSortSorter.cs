@@ -89,11 +89,30 @@ public class TouhouSortSorter : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             Style style;
-            int coin = Random.Range(0, 2);
-            if (coin == 0)
-                style = leftStyles[Random.Range(0, leftStyles.Count)];
-            else
+            if (leftStyles.Count == 0)
+            {
                 style = rightStyles[Random.Range(0, rightStyles.Count)];
+                rightStyles.Remove(style);
+            }
+            else if (rightStyles.Count == 0)
+            {
+                style = leftStyles[Random.Range(0, leftStyles.Count)];
+                leftStyles.Remove(style);
+            }
+            else
+            {
+                int coin = Random.Range(0, 2);
+                if (coin == 0)
+                {
+                    style = leftStyles[Random.Range(0, leftStyles.Count)];
+                    leftStyles.Remove(style);
+                }
+                else
+                {
+                    style = rightStyles[Random.Range(0, rightStyles.Count)];
+                    rightStyles.Remove(style);
+                }
+            }
 
             // Build a new touhou instance
             TouhouSortSortable touhou = Instantiate(touhouTemplate, transform.position, transform.rotation);
