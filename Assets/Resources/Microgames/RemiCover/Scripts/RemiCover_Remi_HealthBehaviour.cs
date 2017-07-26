@@ -6,6 +6,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
 
     private float HP = 1;                           // Remilia's Health Points.
     public float burnSpeed;                         // How much will HP decrease when Remilia's collider is exposed to sunlight?
+    public Vector2 burnBeatBounds;                   // Between what beats can remi be hurt?
     private int collidersOutside = 0;               // How many colliders are outside of Umbrella's shadow?
 
     public ParticleSystem smokeParticles;
@@ -29,7 +30,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     void Update() {
 
 
-        if (!MicrogameController.instance.getVictoryDetermined() && !inmunity){
+        if (MicrogameTimer.instance.beatsLeft <= burnBeatBounds.x && MicrogameTimer.instance.beatsLeft >= burnBeatBounds.y
+            && !MicrogameController.instance.getVictoryDetermined() && !inmunity){
             updateHP();
             if (HP <= 0)
                 GameOver(); 
@@ -72,7 +74,6 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
             burningSFX.volume = (1 - HP) * 1.5f;
 
         burningSFX.volume *= PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
-        Debug.Log(burningSFX.volume);
     }
 
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
