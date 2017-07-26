@@ -9,12 +9,13 @@ stage
 	speedup=¡MÁS RÁPIDO!
 	boss=NIVEL DEL JEFE
 	levelup=¡NIVEL AUMENTADO!
-	pause=Partida en pausa
-		resume=Reanudar
-	quit=Salir
+	pause=Pausa
+		resume=Reanudar {0}
+	quit=Salir {0}
+	retry=Reintentar {0}
 	gameover=¡Fin de la partida!
-		score=Tu puntuación:
-		highscore=Puntuación máxima:
+		score=Puntuación: {0}
+		highscore=Puntuación máxima: {0}
 		newhighscore=¡Nuevo récord!
 menu
 	yes=Sí
@@ -28,25 +29,27 @@ menu
 	off=Apagado
 	play=Jugar
 	main
-		story=Modo historia
-		compilation=Modo arcade
-		practice=Practicar microjuegos
-		quit=Salir del juego
-			prompt=¿Seguro que quieres irte?
+		story=Modo Historia
+			description=¡Juega al modo historia sin parar!¿Cual sera tu maxima puntuación?
+		compilation=Modo Arcade
+		practice=Practicar Microjuegos
+			description=¡Mejora tus habilidades en los microjuegos y Consigue las puntuaciones mas altas, para que puedas presumir a tus amigos!
+		quit=Salir del Juego
+			prompt=¿Seguro que quieres salir?
 		settings=Opciones
 		credits=Créditos
 	gamemode=¡Selecciona un modo de juego!
 		locked1=¡Bloqueado! Completa {0} para desbloquearlo
 		locked2=¡Bloqueado! Consigue una puntuación de {0} o más en {1} para desbloquearlo
-		highscore=Puntuación máxima:
+		highscore=Puntuación máxima: {0}
 		compilationmode
 			description=¡Juega todos los microjuegos que puedas! Sin jefes.
 		compilation=Compendio Kappa
 			description=Modo Arcade Normal: Juega todos los microjuegos mezclados.
 		compilationfast=Máxima Kappacidad
-			description=!!SÚPER SÚPER RÁPIDO!!
+			description=¡¡SÚPER MEGA RÁPIDO!!
 		compilationmystery=(Documentación necesaria)
-			description=Ups, hemos perdido los planos de este. ¡No sabemos ni los comandos ni controles!
+			description=Ups, hemos perdido los planos de esto. ¡No sabemos ni los comandos ni controles!
 		compilationhard=Pepininfierno
 			description=¡Todos los juegos difíciles! ¡Solo una vida! ¿Cuanto podrás aguantar?
 	settings
@@ -58,18 +61,22 @@ menu
 			1=Rápido
 			2=Simple
 			3=Bueno
-			4=Precioso
+			4=Hermoso
 			5=Fantástico
 		volume=Volumen
 			master=Maestro
 			music=Música
 			sfx=Efectos especiales
 			voice=Voz
+	microgamecredits
+		art=Arte: {0}
+		code=Código: {0}
+		music=Música: {0}
 	splash
-		introa=El demo de este juego es un trabajo derivativo del Proyecto Touhou (東方Project) creado por ZUN.
+		introa=El demo de este juego es un trabajo derivativo de Touhou Project (東方Project) creado por ZUN.
 		introb=Muchos fans de esta serie han colaborado y contribuído código, música, arte, y otros varios talentos para crear esta colección de microjuegos
 		introc=Si puedes hablar Inglés y te gustaría contribuir a completar el juego, por favor visita {0} \n¡También puedes ayudar difundiendonos!
-		webglwarning=Si el reproductor web te da problemas, prueba usando uno de los enlaces de descarga que hay abajo
+		webglwarning=Si el reproductor web te da problemas, prueba usando uno de los enlaces de descarga que hay abajo.
 nitori
 	storyintro="Parece que tenemos un cliente nuevo\nVamos a ver como te las apañas con mis juegos de marca\n¡Más te vale no pestañear!"
 	storyfinished=Bien hecho, nerd.\nParece que a parte de mirar también compras.\n¡Prueba ahora {0} para un desafío de verdad!
@@ -79,13 +86,13 @@ microgame
 		command=¡Congela!
 		igname=Congelaranas
 	Slingshot
-		command=¡Lanza!
+		command=¡Lanzalo!
 		igname=Matacabezas
 	ChenFood
 		command=¡Que no te coman!
-		igname=Pesgato
+		igname=Pezscape
 	Spider
-		command=¡Alimenta!
+		command=¡Come!
 		igname=Alimentarañas
 	Donation
 		command=¡Obtén 3!
@@ -94,12 +101,12 @@ microgame
 		command=¡Atornilla!
 		igname=Desarrollo Desternillante
 	Potion
-		command=¡Echa!
+		command=¡Metelo adentro!
 		ingredients=Ingredientes
 		igname=Poción Peligrosa
 	GhostFood
 		command=¡Come y mastica!
-		igname=Fantasma tragón
+		igname=Fantasma Tragón
 	Spaceship
 		command=¡Despega!
 		igname=Programa Espacial Youkai
@@ -118,7 +125,7 @@ microgame
 		igname=¿Qué bocinas tú?
 	MasterSparkCode
 		command=¡Conjura!
-		igname=Chispa al blanco
+		igname=Master Spark al blanco
 	OkuuFire
 		command=¡Regula!
 		igname=Bajo Control
@@ -129,7 +136,7 @@ microgame
 		command=¡Dale sombra!
 		igname=Negocio turbio
 	SuikaShake
-		command=¡Quítatelas de encima!
+		command=¡Quítalas de encima!
 		igname=Mezclada, Sin Agitar
 	TouhouSort
 		command=¡Ordena por {0}!
@@ -139,7 +146,7 @@ microgame
 		igname=Chicas de todo Tipo
 	FlanGrab
 		command=¡Protege!
-		igname=¡AntiMeteoFlan!
+		igname=AntiMeteoFlan
 	PaperThief
 		command=¡Alcanza la meta!
 		commandb=¡Cuídado!
@@ -154,7 +161,7 @@ credits
 	menumusic=Música del Título/Menú
 	stagemusic=Música de Niveles
 	microgame
-		management=Gestión de Microjuegos
+		management=Gestión de los Microjuegos
 		managementalt=Gestión del Collab
 		code=Código de los Microjuegos
 		art=Arte de los microjuegos
@@ -162,9 +169,11 @@ credits
 	localization=Localizadores
 		management=Gestión de Localización
 	sfx=Efectos de Sonido
-	socialmedia=Social Media
-	touhou=Basado en el Proyecto Touhou de ZUN
+	voice=Voz de Nitori
+	trailer=Trailer del Demo
+	socialmedia=Redes Sociales
+	touhou=Este Fangame esta basado en Touhou Project, creado por ZUN
 	thanks=Agradecimientos Especiales
-		discord=El Servidor de Discord del Proyecto Touhou
+		discord=El Servidor de Discord de Touhou Project
 		playtesters=Todos nuestros playtesters
 		fans=¡Y todos los fans que nos ayudaron a difundirnos!

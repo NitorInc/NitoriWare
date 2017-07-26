@@ -1,17 +1,18 @@
 generic
 	name=日本語
 	gamename=NitorInc.
-	incomplete=注意：日本語版は翻訳中なのでテキストは所々英語で見えます。
+	incomplete=注意：和訳はまだ完成しておりません。英語のままの場合がありますのでご了承ください。
 stage
 	control
-		key=キーボード使用
-		mouse=マウス使用
-	speedup=早く！
-	boss=ボスステージ
-	levelup=レベルアップ！
-	pause=ゲームポース
-		resume=続く {0}
-	quit=終了 {0}
+		key=キーボード操作きぼー！
+		mouse=マウス使えー！
+	speedup=SPEED UP!
+	boss=BOSS STAGE
+	levelup=LEVEL UP!
+	pause=PAUSE
+		resume=再開 {0}
+	quit=やめる {0}
+	retry=やりなおす {0}
 	gameover=ゲームオーバー
 		score=スコア: {0}
 		highscore=ハイスコア: {0}
@@ -20,69 +21,159 @@ menu
 	yes=はい
 	no=いいえ
 	ok=OK
-	confirm=確認
+	back=もどる
+	backalt=もどる
+	confirm=OK
 	cancel=キャンセル
 	on=オン
 	off=オフ
-	play=プレイ
+	play=スタート
 	main
-		story=ストリーモード
+		story=ストーリーモード
+			description=ハイスコアを目指せ！無限ストーリーモード！
 		compilation=アーケードモード
+		practice=プラクティスモード
+			description=地力を上げてハイスコアを更新して自慢ツイでもしましょう！
+		quit=やめる
+			prompt=本当にやめちゃう？
 		settings=設定
-	gamemode
-		compilationhard=キュウリ地獄
+		credits=スタッフロール
+	gamemode=モードを選べ！
+		locked1={0}を完走したら開放するよ！
+		locked2={1}で{0}点達成したら開放するよ！
+		highscore=ハイスコア: {0}
+		compilationmode
+			description=ミニゲームやり放題！(ボスステ抜き)
+		compilation=カッパ・コンペンディウム
+			description=通常モード(ランダム順で全てのミニゲームを遊べる)
+		compilationfast=マクシマム・カッパシティモード
+			description=超スピード！？
+		compilationmystery=(名前を入力してください)
+			description=あっ、申し訳ないがこいつの設計図を無くしたせいで操作ヒントは表示しなくなった。それでも大丈夫？
+		compilationhard=キュウリ・ヘールモード
+			description=最狂の難易度！たった一つの残機！どれだけ生きられるかな？
+	settings
+		resolution=解像度
+		fullscreen=フルスクリーン
+		language=言語
+		graphics=画質設定
+			0=最低
+			1=低い
+			2=やや低い
+			3=普通
+			4=高い
+			5=最高
+		volume=音量
+			master=全体
+			music=BGM
+			sfx=SE
+			voice=ボイス
+	microgamecredits
+		art=グラフィック: {0}
+		code=プログラム: {0}
+		music=BGM: {0}
+	splash
+		introa=今作品は「東方Project」の二次創作ゲームです。
+		introb=このゲームは有志なファンの皆様から頂いたプログラミング、アレンジ、イラストなど、数々の協力のおかげで実現した作品です。
+		introc=皆様のご宣伝、ご協力を心からお願いいたします。\n制作に関する情報はこちらでお願いします {0}
+		webglwarning=ブラウザ版で不具合が出る場合は下のリンクのPC版をお試し下さい。
+nitori
+	storyintro=あら、お客さんこういうのは初めてか？\nちょうどいいタイミングだ、うちのとっておきを見せてやろう！\n目を離せんなよ！
+	storyfinished=なかなかやるじゃない！\nそれだけじゃな足りなさそうだな。\nこういう優れたお客様に「{0}」を用意した。ぜひやってみてね！
+	compilationfinished=ここまでいけるとは…さすがに驚いた。\nでも調子に乗るなよ？これはあくまで未完成品だからね！\n全部完成したらボッコボコにするからな！
 microgame
 	FreezeFrogs
-		command=冷凍しろ！
+		command=凍らせ！
 		igname=かえる・こおる
 	Slingshot
 		command=飛ばせ！
-		igname=鳥飛ばし
+		igname=ヤタガラスリング
+	ChenFood
+		command=捕食されるな！
+		igname=さしみ大好きです。
 	Spider
-		command=食べさせろ！
+		command=食べさせて！
 		igname=くももぐもぐ
 	Donation
-		command=３円受けろ！
-		igname=びた一文
+		command=三文拾え！
+		igname=奉納は三文の徳
 	Wrench
 		command=締めろ！
 		igname=かっぱしめしめ
 	Potion
 		command=落とせ！
 		ingredients=材料
-		igname=釜構い
+		igname=魔女のたしなみ
 	GhostFood
-		command=かじれ！
-		igname=幽食
+		command=かじって食べよ！
+		igname=ゴーストトリート
 	Spaceship
-		command=飛び立て！
+		command=打ち上げろ！
+		igname=幻想オリオン計画
 	CupShuffle
-		command=気をつけろ！
+		command=集中しろ！
 		commandb=選べ！
-		igname=目眩まし
+		igname=キャップの神隠し
 	TraceShape
-		command=彩れ！
+		command=塗れ！
+		igname=ぬりぬりチャレンジ
+	RockBand
+		command=歌え！
+		igname=鳥獣伎楽
+	ChenBike
+		command=パフパフ！
+		igname=パフパフ
 	MasterSparkCode
-		command=魔法かけろ！
+		command=ボムれ！
+		igname=ファストドロウスパーク
+	OkuuFire
+		command=制御しろ！
+		igname=お空の制御教室
 	YukariCake
-		command=奪え！
-		igname=甘党さん
+		command=盗め！
+		igname=おせんべいファンタジア
 	RemiCover
-		command=陰翳しろ！
+		command=傘をさして！
+		igname=日焼けしたい吸血鬼
+	SuikaShake
+		command=振り払え！
+		igname=スイカシェーカー
 	TouhouSort
 		command={0}で分けろ！
 		hat=帽子
-		wing=翼型
+		wing=翼
 		ear=耳
+		igname=キャラソート
 	FlanGrab
 		command=守れ！
-		igname=留守番中
+		igname=禁じられた遊び
 	PaperThief
-		command=目的を貫け！
-		commandb=危ない！
-		commandc=撃て！
-		commandd=倒せ！
-	ChenFood
-		igname=ねこだまし
-	SuikaShake
-		igname=萃香と酔漢
+		command=ゴールまで走れ！
+		commandb=あぶない！
+		commandc=打ち砕け！
+		commandd=ぶっ倒せ！
+		igname=キュウリ大戦争
+credits
+	intro={0} の制作に協力してくれた人たち
+	kapptain=製作総指揮、プログラム、チーム・カッパテン
+	leadart=美術監督、キャラクターデザイン
+	UI=UIデザイン、ステージグラフィック
+	menumusic=タイトルBGM
+	stagemusic=ステージBGM
+	microgame
+		management=ミニゲーム総指揮
+		managementalt=コラボ協力
+		code=プログラム
+		art=グラフィック
+		music=音楽
+	localization=ローカライズ
+		management=ローカライズ総指揮
+	sfx=音響効果
+	voice=にとり役
+	trailer=宣伝PV
+	socialmedia=プロモーション
+	touhou=このゲームは「東方Project」の二次創作品です
+	thanks=スペシャルサンクス
+		discord=Touhou Projectディスコードサーバー
+		playtesters=ゲームテストに参加した皆様と
+		fans=このゲームを世界中に広がっていた東方ファンの皆様です！

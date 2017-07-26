@@ -1,34 +1,174 @@
 generic
 	name=Bahasa Indonesia
+	gamename=NitorInc.
+	incomplete=PERHATIAN: Bahasa ini tidak sepenuhnya diterjemahkan. Beberapa teks mungkin masih dalam Bahasa Inggris.
 stage
 	control
-		key=GUNAKAN KEYBOARD
-		mouse=GUNAKAN MOUSE
-	speedup=LEBIH CEPAT!
-	boss=STAGE BOSS
+		key=PAKE KIBOTZ BOZ!
+		mouse=PAKE MOZ BOZ!
+	speedup=CEPETAN BOZ!
+	boss=STAGE BOZZ!
 	levelup=NAIK LEVEL!
+	pause=Jeda Boz
+		resume=Kembali {0}
+	quit=Keluar {0}
+	retry=Ulangi {0}
+	gameover=Tamat
+		score=Skor kamu: {0}
+		highscore=Skor tertinggi: {0}
+		newhighscore=Rekor Baru!
+menu
+	yes=Ya
+	no=Tidak
+	ok=OK
+	back=Kembali
+	backalt=Kembali
+	confirm=Ya
+	cancel=Batalkan
+	on=On
+	off=Off
+	play=Main
+	main
+		story=Mode Cerita
+			description=Mainkan cerita tanpa akhir! Seberapa tinggi skor yang bisa kamu capai?
+		compilation=Mode Arcade
+		practice=Latihan Permainan
+			description=Latih kemampuan microgame-mu, capai nilai tertinggi untuk dipamerkan ke temanmu!
+		quit=Keluar Permainan
+			prompt=Yakin ingin keluar {0}?
+		settings=Pengaturan
+	gamemode=Pilih mode permainan!
+		locked1=Terkunci! Selesaikan {0} untuk membuka.
+		locked2=Terkunci! Capai skor {0} atau lebih {1} untuk membuka.
+		highscore=Skor Tertinggi: {0}
+		compilationmode
+			description=Tantang sebanyak-banyaknya microgames yang kamu bisa! Tidak ada stage boss.
+		compilation=Ringkasan Kappa
+			description=Mode Arcade Normal: mainkan semua microgames secara acak.
+		compilationfast=Kappasitas Penuh
+			description=SANGAT AMAT CEPAT!!
+		compilationmystery=(Butuh Dokumentasi)
+			description=Ups, cetak biru yang satu ini hilang. Tidak ada perintah atau input kontrol!
+		compilationhard=Neraka Timun
+			description=Semua permainan tersulit! Hanya satu nyawa! Seberapa lama kamu bisa tahan?
+	settings
+		resolution=Resolusi Layar
+		fullscreen=Layar Penuh
+		language=Bahasa
+		graphics=Kualitas Grafik
+			0=Tercepat
+			1=Cepat
+			2=Biasa
+			3=Bagus
+			4=Cantik
+			5=Fantastis
+		volume=Volume
+			master=Master
+			music=Musik
+			sfx=Efek Spesial
+			voice=Suara
+	microgamecredits
+		art=Ilustrasi: {0}
+		code=Coding: {0}
+		music=Musik: {0}
+	splash
+		introa=Demo ini adalah karya derivatif dari serial Touhou Project (東方Project) yang dibuat oleh ZUN.
+		introb=Banyak fans dari seri ini berkolaborasi dan berkontribusi dalam coding, musik, ilustrasi, dan berbagai hal lainnya demi membuat koleksi microgames ini.
+		introc=Jika kamu bisa berbahasa Inggris dan mau berkontribusi dalam permainan ini, silakan kunjungi {0} atau kamu bisa menyebarkan permainan ini!
+		webglwarning=Jika web player bermasalah, coba unduh lewat tautan dibawah.
+nitori
+	storyintro=Sepertinya kita kedatangan pelanggan baru.\nCoba kita lihat bagaimana kau memainkan permainan buatanku.\nJangan meleng!
+	storyfinished=Kerja bagus, gan.\nRupanya kamu nggak sekedar lihat-lihat.\nSekarang coba {0} untuk tantangan yang sesungguhnya!
+	compilationfinished=Mantab jiwa! Kamu benar-benar hebat!\nTapi tunggu sampai versi full.\n{0} baru saja dimulai!
 microgame
 	FreezeFrogs
 		command=Bekukan!
+		igname=Kodok Kodok Dingin
 	Slingshot
 		command=Lemparkan!
+		igname=Sabung Burung
+	ChenFood
+		command=Jangan sampai dimakan!
+		igname=Kabur, cing!
 	Spider
 		command=Suapi!
+		igname=Laba Lapar
 	Donation
 		command=Tangkap 3!
+		igname=Donasi Seikhlasnya
 	Wrench
 		command=Kencangkan!
+		igname=Kappa-sitas Tertinggi
 	Potion
-		command=Masukan!
+		command=Masukkan!
 		ingredients=Bahan-bahan
+		igname=Racik Ramuan
 	GhostFood
 		command=Makan dan kunyah!
+		igname=Misteri Kuliner Alam Gaib
 	Spaceship
-		command=Terbangkan!
+		command=Luncurkan!
+		igname=Teori Konspirasi Youkai Antariksa
 	CupShuffle
-		command=Hati-hati!
+		command=Perhatikan!
 		commandb=Pilih!
+		igname=Sei-mbunyi
 	TraceShape
 		command=Isi!
+		igname=Brushing Up
+	RockBand
+		command=Tampil!
+		igname=Pentas Seni
+	ChenBike
+		command=Klakson!
+		igname=Klakson Dhonk
 	MasterSparkCode
-		command=Rapalkan!
+		command=Ajikan!
+		igname=Latihan Menembak
+	OkuuFire
+		command=Atur!
+		igname=Aman Terkendali
+	YukariCake
+		command=Curi!
+		igname=Patroli Manisan
+	RemiCover
+		command=Berteduh!
+		igname=Awas Gosong
+	SuikaShake
+		command=Lepaskan!
+		igname=Mabuk dan Terguncang
+	TouhouSort
+		command=Sortir sesuai {0}!
+		hat=tutup kepala
+		wing=tipe sayap
+		ear=telinga
+		igname=Touhou Beraneka Ragam
+	FlanGrab
+		command=Lindungi!
+		igname=Pertahanan Mansion
+	PaperThief
+		command=Larilah sampai tujuan!
+		commandb=Awas!
+		commandc=Tembak!
+		commandd=Kalahkan dia!
+		igname=Pengejaran Timun
+credits
+	intro=Terima kasih kepada para fans yang membuat {0}!
+	kapptain=Direktur Kreatif, Programmer, "Kapptain" tim
+	leadart=Lead Artist, Desain Karakter
+	UI=Grafis Menu dan Stage
+	menumusic=Musik Menu Utama
+	stagemusic=Musik Stage
+	microgame
+		management=Manajemen Microgame
+		managementalt=Manajemen Kolaborasi
+	localization=Alih Bahasa
+		management=Manajemen Alih Bahasa
+	sfx=Efek Suara
+	voice=Suara Nitori
+	socialmedia=Promosi/Sosial Media
+	touhou=Fangame ini adalah karya derivatif dari Touhou Project yang dibuat oleh ZUN.
+	thanks=Ucapan Terima Kasih
+		discord=Server Touhou Discord
+		playtesters=Semua Playtester
+		fans=Dan semua fans yang menyebarkan kabar gembira ini!

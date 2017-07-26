@@ -70,12 +70,17 @@ public class TitleGear : MonoBehaviour
         _rigidBody.freezeRotation = true;
         _rigidBody.freezeRotation = false;
         _rigidBody.AddTorque(MathHelper.randomRangeFromVector(zoomRotateBounds) * (_rigidBody.velocity.x >= 0f ? -1f : 1f));
+
+        sfxSource.volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+        sfxSource.PlayOneShot(hopClip);
     }
 
     public void fling()
     {
         _rigidBody.velocity = MathHelper.getVector2FromAngle(zoomAngle, MathHelper.randomRangeFromVector(zoomSpeedBounds));
-        
+
+        sfxSource.volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+        sfxSource.PlayOneShot(zoomClip);
         hopping = false;
         hopAnimator.SetBool("Hop", hopping);
         clickCollider.enabled = true;

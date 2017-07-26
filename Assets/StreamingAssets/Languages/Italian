@@ -1,5 +1,7 @@
 generic
 	name=Italiano
+	gamename=Nitorinc.
+	incomplete=ATTENZIONE : La traduzione per questa lingua non è completa, pertanto parte dei testi potrebbero essere in inglese
 stage
 	control
 		key=USA LA TASTIERA
@@ -7,10 +9,82 @@ stage
 	speedup=PIU' VELOCE!
 	boss=LIVELLO DEL BOSS
 	levelup=LEVEL UP!
+	pause=Pausa
+		resume=Riprendi
+	quit=Esci
+	retry=Riprova
+	gameover=Game Over!
+		score=Il tuo punteggio :
+		highscore=Record:
+		newhighscore=Nuovo Record!
+menu
+	yes=Si
+	no=No
+	ok=OK
+	back=Indietro
+	backalt=Torna indietro
+	confirm=Conferma
+	cancel=Annulla
+	on=On
+	off=Off
+	play=Gioca
+	main
+		story=Modalità Storia
+			description=Gioca la Modalit Storia all'infinito! Quanti punti riuscirai a fare?
+		compilation=Modalità Arcade
+		practice=Allenati ai microgames
+			description=Affila le tua abilità e aumnta i tuoi punteggi, così puoi vantarti con gli amici!
+		quit=Chiudi Gioco
+			prompt=Sei sicuro di volere chiudere{0}?
+		settings=Impostazioni
+		credits=Crediti
+	gamemode=Seleziona una modalità di gioco!
+		locked1=Bloccato! Completa {0} per sbloccare
+		locked2=Bloccato! Raggiungi un punteggio pari o superiore a {0} in {1} per sbloccare
+		highscore=Record : {0}
+		compilationmode
+			description=Gioca quanti più microgames puoi! Le boss fights sono escluse.
+		compilation=Kappa Compendium
+			description=Modalità Arcade Normale : gioca tutti i microgames in ordine sparso
+		compilationfast=Massima Kappacità!
+			description=VELOCE COME UNA LEPRE!!
+		compilationmystery=(documenti mancanti)
+			description=Oops! Pare che abbiamo perso i progetti per questo. Niente comandi!
+		compilationhard=Che inferno di cetrioli
+			description=I giochi più difficili! Una sola vita! Quanto reggerai?
+	settings
+		resolution=Risoluzione dello schermo
+		fullscreen=Schermo Intero
+		language=Lingua
+		graphics=Grafica
+			0=Più veloce
+			1=Veloce
+			2=Semplice
+			3=Buona
+			4=Bella
+			5=Fantastica
+		volume=Volume
+			master=Master
+			music=Musica
+			sfx=SFX
+			voice=Voce
+	microgamecredits
+		art=Arte: {0}
+		code=Codice: {0}
+		music=Musica: {0}
+	splash
+		introa=Questa demo è un prodotto basato su Touhou Project (東方Project) creato da ZUN.
+		introb=Molti fan della serie hanno collaborato e contribuito con codici, musica, arte e molto altro per la creazione di questi microgames
+		introc=Se conoscete l'inglese e volete contribuire alla realizzazione del gioco completo, vi preghiamo di visitare {0}, oppure di aiutare a spargere la parola!
+		webglwarning=Se il Web Player rende le cose difficili, potete usare uno dei link sotto
+nitori
+	storyintro=Pare che abbiamo un nuovo cliente!\nVediamo un pò come te la cavi con i miei giochi brevettati.\nOcchi fissi sullo schermo!
+	storyfinished=Bel lavoro, nerdaccione!\nNon sei un cliente qualunque, eh?\nPerchè non provi {0} , se desideri una vera sfida?
+	compilationfinished=Bhe, cavolo, impressionante!\nMa non sarà così facile quando il gioco sarà completo,\n{0} non è che appena cominciato!
 microgame
 	FreezeFrogs
 		command=Congela!
-		igname=Rane Congelate
+		igname=Ghiaccioli di Rana
 	Slingshot
 		command=Lancia!
 		igname=Teste per Aria
@@ -19,13 +93,13 @@ microgame
 		igname=Cibo per Gatti
 	Spider
 		command=Dai da mangiare!
-		igname=Dolci per il Ragno
+		igname=Dessert per il Ragno
 	Donation
 		command=Collezionane 3!
-		igname=Vinci il Premio
+		igname=Vinci il Premio!
 	Wrench
 		command=Avvita!
-		igname=La Chiave Inglese del Kappa
+		igname=Kapperi, che avvitata!
 	Potion
 		command=Butta dentro!
 		ingredients=Ingredienti
@@ -42,13 +116,19 @@ microgame
 		igname=Gioco delle Tre Campanelle
 	TraceShape
 		command=Riempi!
-		igname=Disegna con Nitori
+		igname=Colora le Immagini
 	RockBand
 		command=Esibisciti!
 		igname=La Band degli Youkai
+	ChenBike
+		command=Suona il clacson!
+		igname=A Suon di Clacson!
 	MasterSparkCode
 		command=Attiva!
-		igname=Sparka al Bersaglio
+		igname=Sparka il Bersaglio
+	OkuuFire
+		command=Regola!
+		igname=Non Surriscaldarti!
 	YukariCake
 		command=Ruba!
 		igname=Ladra di Torte
@@ -58,18 +138,40 @@ microgame
 	SuikaShake
 		command=Scuoti!
 		igname=Un'Ubriacatura da Oni
+	TouhouSort
+		command=Ragruppa per {0}
+		hat=copricapo/accessori
+		wing=ali
+		ear=orecchie
+		igname=Touhou di Tutti i Tipi!
 	FlanGrab
 		command=Proteggi!
-		igname=Occhio alla Meteora
+		igname=In Rotta di Collisione
 	PaperThief
 		command=Raggiungi l'obiettivo!
 		commandb=Attenzione!
 		commandc=Attacca!
 		commandd=Dalle il colpo di grazia!
-	TouhouSort
-		hat=copricapo/accessori
-		wing=ali
-		ear=orecchie
-		igname=Smista il Touhou!
-	ChenBike
-		igname=HONK!HONK!
+		igname=Corsa del Cetriolo
+credits
+	intro=La realizzazione di {0} è stata resa possibile grazie ai seguenti fans!
+	kapptain=Direttore Creativo, Programmatore, Kapp-itano del Team
+	leadart=Artisti e designers
+	UI=Grafica del menù e degli stages
+	menumusic=Musica del menù/titolo
+	stagemusic=Musica degli stages
+	microgame
+		management=Management dei microgames
+		managementalt=Management collaborazioni
+		code=Codificazione dei microgames
+		art=Arte microgames
+		music=Musica dei microgames
+	localization=Localizzatori
+		management=Management della localizzazione
+	sfx=Effetti sonori
+	socialmedia=Promozione e social media
+	touhou=Questo fangame è basato sul Touhou Project, creato da ZUN
+	thanks=Ringraziamenti speciali
+		discord=Il Touhou Project Discord Server
+		playtesters=Tutti i nostri testers
+		fans=E tutti i fan che ci hanno aiutato spargendo la voce!

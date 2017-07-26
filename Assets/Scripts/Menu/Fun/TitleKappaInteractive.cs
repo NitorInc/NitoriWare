@@ -23,7 +23,7 @@ public class TitleKappaInteractive : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
     [SerializeField]
-    private AudioClip eatClip;
+    private AudioClip eatClip, explodeClip;
     [SerializeField]
     private TitleFloatingInteractive floatingInteractive;
 #pragma warning restore 0649
@@ -129,6 +129,7 @@ public class TitleKappaInteractive : MonoBehaviour
                 childTransform.GetComponent<Rigidbody2D>().velocity = ((Vector2)(childTransform.position - transform.position)).resize(explodeSpeed);
         }
 
+        sfxSource.PlayOneShot(explodeClip);
         _collider2D.enabled = false;
         GetComponent<TrailRenderer>().time = 0f;
         Invoke("kill", .5f);

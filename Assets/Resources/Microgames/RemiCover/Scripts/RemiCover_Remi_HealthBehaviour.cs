@@ -6,6 +6,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
 
     private float HP = 1;                           // Remilia's Health Points.
     public float burnSpeed;                         // How much will HP decrease when Remilia's collider is exposed to sunlight?
+    public Vector2 burnBeatBounds;                   // Between what beats can remi be hurt?
     private int collidersOutside = 0;               // How many colliders are outside of Umbrella's shadow?
 
     public ParticleSystem smokeParticles;
@@ -14,18 +15,23 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     private SpriteRenderer[] sprite;
     private bool inmunity = false;
 
+    public AudioSource burningSFX;
+    public AudioClip defeatSFX;
 
     // Use this for initialization
     void Start() {
         smokeInstance = (ParticleSystem)Instantiate(smokeParticles, transform.position, smokeParticles.transform.rotation);
-        sprite = GetComponentsInChildren<SpriteRenderer>(true);
+        sprite = transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>(true);
+        burningSFX.pitch = Time.timeScale;
     }
 
 
     // Update is called once per frame
     void Update() {
 
-        if (!MicrogameController.instance.getVictoryDetermined() && !inmunity){
+
+        if (MicrogameTimer.instance.beatsLeft <= burnBeatBounds.x && MicrogameTimer.instance.beatsLeft >= burnBeatBounds.y
+            && !MicrogameController.instance.getVictoryDetermined() && !inmunity){
             updateHP();
             if (HP <= 0)
                 GameOver(); 
@@ -56,8 +62,19 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         emission.rateOverTime = (((1 - HP) * 2000) / 10)
 			* (MicrogameController.instance.getVictory() ? 1f : 1.5f);	//Particle rate intensifies on death
 
+        manageEmissionSound();
+
     }
 
+    private void manageEmissionSound()
+    {
+        if (inmunity)
+            burningSFX.volume = 0;
+        else
+            burningSFX.volume = (1 - HP) * 1.5f;
+
+        burningSFX.volume *= PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+    }
 
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
     private void updateHP()
@@ -76,6 +93,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     {
         MicrogameController.instance.setVictory(false, true);
         GetComponent<Animator>().SetInteger("MovementAnimation", 5);
+        MicrogameController.instance.playSFX(defeatSFX);
     }
 
     public void setInmunnity(bool inmunity_value)

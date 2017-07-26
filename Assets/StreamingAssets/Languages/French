@@ -1,5 +1,7 @@
 generic
 	name=Français
+	gamename=NitorInc.
+	incomplete=ATTENTION: Cette langue n'est pas entièrement traduite. Certains textes peuvent apparaître en anglais.
 stage
 	control
 		key=PRAN TON KLAVIER
@@ -10,14 +12,17 @@ stage
 	pause=Jeu en pause
 		resume=Reprendre {0}
 	quit=Quitter {0}
+	retry=Réessayer
 	gameover=Game Over!
 		score=Ton score {0}
 		highscore=Record {0}
-		newhighscore=Nouveau Record! {0}
+		newhighscore=Nouveau Record!
 menu
 	yes=Oui
 	no=Non
 	ok=OK
+	back=Retour
+	backalt=Retour
 	confirm=Confirmer
 	cancel=Annuler
 	on=On
@@ -28,7 +33,51 @@ menu
 		compilation=Mode Arcade
 		practice=Entrainement Mini-Jeux
 		quit=Quitter le jeu
-			prompt=Vous êtes sûrs de vouloir quitter {0}
+			prompt=Êtes-vous sûr de vouloir quitter? {0}
+		settings=Options
+		credits=Crédits
+	gamemode=Choisissez un mode!
+		locked1=Bloqué! Complètez {0} pour débloquer.
+		locked2=Bloqué! Ayez un score de {0} ou plus dans {1} pour débloquer.
+		highscore=Record: {0}
+		compilationmode
+			description=Jouez à autant de mini-jeux que vous voulez ! Pas de Boss.
+		compilation=Kappa Compendium
+			description=Mode Arcade Normal: jouez à tous les mini-jeux mélangés.
+		compilationfast=Kappacité Max
+			description=HYPER VITESSE!
+		compilationmystery=(Documentation requise)
+			description=Oups, on a perdu les plans pour celui là. Ni commande ni contrôle ne seront montrés!
+		compilationhard=Enfer des Concombres
+			description=Les jeux les plus difficiles avec seulement une vie. Combien de temps peux-tu survivre?
+	settings
+		fullscreen=Plein Écran
+		language=Langue
+		graphics=Qualité Graphique
+			0=Très basse
+			1=Basse
+			2=Moyenne
+			3=Bien
+			4=Beau
+			5=Fantastique
+		volume=Volume
+			master=Principal
+			music=Musique
+			sfx=Effets Sonores
+			voice=Voix
+	microgamecredits
+		art=Art: {0}
+		code=Code: {0}
+		music=Musique{0}
+	splash
+		introa=La démo de ce jeu est dérivée de Touhou Project (東方Project) créé par ZUN.
+		introb=Beaucoup de fans de la série on collaborés et contribués au code, à la musique, aux graphismes pour créer cette collection de mini-jeux.
+		introc=Si vous parlez anglais et souhaitez contribuer à la création du jeu, veuillez vous rendre sur {0} ou faites simplement  parler de nous!
+		webglwarning=Si vous rencontrez des problèmes avec la version web, essayez les liens de téléchargement plus bas.
+nitori
+	storyintro=On dirait qu'on a un nouveau client.\nVoyons comment tu t'en sort sur mes jeux.\nMieux vaut pas cligner des yeux!
+	storyfinished=Bien joué, petit geek.\nTu m'as pas l'air d'être un lèche-vitrine.\nMaintenant essaye {0} pour un vrai défi!
+	compilationfinished=Eh bien, je suis impressionnée!\nMais un peu de patience avant que le jeu complet soit terminé.\n{0} a juste commencé!
 microgame
 	FreezeFrogs
 		command=Gèle !
@@ -36,39 +85,92 @@ microgame
 	Slingshot
 		command=Lance !
 		igname=Tir d'aile
+	ChenFood
+		command=Ne te fais pas manger!
+		igname=Eperlan Succulent
 	Spider
-		command=Nouris !
+		command=Nourris !
 		igname=Nourris l'araignée
 	Donation
 		command=Collecte-en 3 !
 		igname=Attrape-sous
 	Wrench
-		command=Joins !
+		command=Serre!
+		igname=Technologie Kappa
 	Potion
 		command=Fais tomber !
 		ingredients=Ingrédients
+		igname=La Marmite à Potion
 	GhostFood
 		command=Mange et mâche !
+		igname=Nourriture Spectrale
 	Spaceship
 		command=Démarre !
+		igname=Programme Spatial Youkai
+	CupShuffle
+		command=Fais attention!
+		commandb=Choisis!
+		igname=Cache-Youkai
 	TraceShape
 		command=Remplis !
+		igname=Remplissage de formes
+	RockBand
+		command=Chante !
+		igname=Sub-ouaf-er
+	ChenBike
+		command=Klaxonne!
+		igname=Klaxonnez-moi ça!
 	MasterSparkCode
 		command=Incante !
+		igname=Cible d'Entraînement
+	OkuuFire
+		command=Règle!
+		igname=Sang-Froid
+	YukariCake
+		command=Attrape!
+		igname=Patrouille des Desserts
 	RemiCover
-		command=Ombre!
+		command=Fais de l'ombre!
+		igname=Twilight: Protection
 	SuikaShake
 		command=Secoue!
+		igname=Onis Bourrées
 	TouhouSort
 		command=Trie par {0} !
 		hat=Chapeau
 		wing=Type d'aile
-		ear=oreilles
+		ear=Oreilles
+		igname=Demoiselles de toutes sortes
 	FlanGrab
 		command=Protège!
+		igname=Sécurité de seconde main
 	PaperThief
 		command=Atteins l'arrivée!
-	CupShuffle
-		commandb=Choisis!
-	ChenFood
-		igname=Chireine
+		commandb=Attention!
+		commandc=Tire!
+		commandd=Détruis-la!
+		igname=La Chasse au Comcombre
+credits
+	intro={0} à été possible grace au fans suivants!
+	kapptain=Directeur Créatif, Développeur, "Kappataine" d'équipe
+	leadart=Artiste en chef,  Concepteur de personnages
+	UI=Graphismes des menus et stages
+	menumusic=Musique de l'écran d'accueil et menu
+	stagemusic=Musique des niveaux
+	microgame
+		management=Gestion des micro-jeux
+		managementalt=Gestion de la collaboration
+		code=Codeur des micro-jeux
+		art=Art des mircro-jeux
+		music=Musique des mircro-jeux
+	localization=Traduction
+		management=Gestion des traducteurs
+	sfx=Effet sonores
+	voice=Voix de Nitori
+	trailer=Trailer de la démo
+	socialmedia=Promotion et Réseaux sociaux
+	touhou=Ce jeu créé par les fans a été inspiré par Touhou Project(東方プロジェクト) dont le créateur est ZUN
+	thanks=Remerciements spéciaux à
+		discord=Le discord de Touhou Project
+		playtesters=Tous nos testeurs
+		fans=Et tous les fans qui ont fait passer le message!

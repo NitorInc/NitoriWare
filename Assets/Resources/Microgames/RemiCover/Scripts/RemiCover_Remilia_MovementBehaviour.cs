@@ -16,6 +16,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     public int runningProbabilty;
     public int teleportProbability;
     private int totalProbabilityValue;
+    public float teleportImmunityDelay;
 
     // Movement actions
     private enum movements { NONE, WALK, STAND, RUN, TELEPORT }     // Movements available
@@ -174,10 +175,16 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     public void endTeleportMovement()
     {
         if (healthScript.isActiveAndEnabled)
-            healthScript.setInmunnity(false);
+            Invoke("stopImmunity", teleportImmunityDelay);
 
         resetMovementSelectionParameters();
         this.currentSpeed = 0;
+
+    }
+
+    void stopImmunity()
+    {
+        healthScript.setInmunnity(false);
     }
 
     // Check if gameobject needs to be fliped in order to face the current movement direction.

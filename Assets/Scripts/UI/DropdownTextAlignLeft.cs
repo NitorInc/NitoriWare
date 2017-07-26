@@ -37,7 +37,7 @@ public class DropdownTextAlignLeft : MonoBehaviour
 
     void updateSize()
     {
-        Debug.Log((rectTransform.sizeDelta.x - initialXSize));
+        //Debug.Log((rectTransform.sizeDelta.x - initialXSize));
         rectTransform.position = new Vector3(initialX + (rectTransform.sizeDelta.x - initialXSize), rectTransform.position.y, rectTransform.position.z);
         lastUpdatedText = textComponent.text;
     }
