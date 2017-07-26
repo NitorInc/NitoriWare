@@ -1,17 +1,18 @@
 generic
 	name=Bahasa Indonesia
 	gamename=NitorInc.
-	incomplete=PERHATIAN: Bahasa ini tidak sepenuhnya diterjemahkan. Beberapa teks mungkin masih dalam bahasa Inggris.
+	incomplete=PERHATIAN: Bahasa ini tidak sepenuhnya diterjemahkan. Beberapa teks mungkin masih dalam Bahasa Inggris.
 stage
 	control
-		key=GUNAKAN KEYBOARD
-		mouse=GUNAKAN MOUSE
-	speedup=LEBIH CEPAT!
-	boss=STAGE BOSS
+		key=PAKE KIBOTZ BOZ!
+		mouse=PAKE MOZ BOZ!
+	speedup=CEPETAN BOZ!
+	boss=STAGE BOZZ!
 	levelup=NAIK LEVEL!
-	pause=Permainan Dijeda
+	pause=Jeda Boz
 		resume=Kembali {0}
 	quit=Keluar {0}
+	retry=Ulangi {0}
 	gameover=Tamat
 		score=Skor kamu: {0}
 		highscore=Skor tertinggi: {0}
@@ -22,21 +23,23 @@ menu
 	ok=OK
 	back=Kembali
 	backalt=Kembali
-	confirm=Konfrimasi
+	confirm=Ya
 	cancel=Batalkan
 	on=On
 	off=Off
 	play=Main
 	main
 		story=Mode Cerita
+			description=Mainkan cerita tanpa akhir! Seberapa tinggi skor yang bisa kamu capai?
 		compilation=Mode Arcade
 		practice=Latihan Permainan
+			description=Latih kemampuan microgame-mu, capai nilai tertinggi untuk dipamerkan ke temanmu!
 		quit=Keluar Permainan
 			prompt=Yakin ingin keluar {0}?
 		settings=Pengaturan
 	gamemode=Pilih mode permainan!
 		locked1=Terkunci! Selesaikan {0} untuk membuka.
-		locked2=Terkunci! Capai skor {0} atau lebih dalam {1} untuk membuka.
+		locked2=Terkunci! Capai skor {0} atau lebih {1} untuk membuka.
 		highscore=Skor Tertinggi: {0}
 		compilationmode
 			description=Tantang sebanyak-banyaknya microgames yang kamu bisa! Tidak ada stage boss.
@@ -45,7 +48,7 @@ menu
 		compilationfast=Kappasitas Penuh
 			description=SANGAT AMAT CEPAT!!
 		compilationmystery=(Butuh Dokumentasi)
-			description=Ups, kami tidak tahu blueprint itu. Tidak ada perintah atau input kontrol!
+			description=Ups, cetak biru yang satu ini hilang. Tidak ada perintah atau input kontrol!
 		compilationhard=Neraka Timun
 			description=Semua permainan tersulit! Hanya satu nyawa! Seberapa lama kamu bisa tahan?
 	settings
@@ -62,73 +65,74 @@ menu
 		volume=Volume
 			master=Master
 			music=Musik
-			sfx=Spesial Efek
+			sfx=Efek Spesial
 			voice=Suara
 	microgamecredits
 		art=Ilustrasi: {0}
 		code=Coding: {0}
 		music=Musik: {0}
 	splash
-		introa=Demo ini adalah permainan turunan dari Touhou Project (東方Project) yang dibuat oleh ZUN.
+		introa=Demo ini adalah karya derivatif dari serial Touhou Project (東方Project) yang dibuat oleh ZUN.
 		introb=Banyak fans dari seri ini berkolaborasi dan berkontribusi dalam coding, musik, ilustrasi, dan berbagai hal lainnya demi membuat koleksi microgames ini.
-		introc=Jika kamu bisa berbahasa Inggris dan kamu mau berkontribusi dalam permainan ini, silahkan kunjungi {0} atau bisa juga dengan membagikan berita ini!
-		webglwarning=Jika web player bermasalah, cobakan unduh di tautan dibawah.
+		introc=Jika kamu bisa berbahasa Inggris dan mau berkontribusi dalam permainan ini, silakan kunjungi {0} atau kamu bisa menyebarkan permainan ini!
+		webglwarning=Jika web player bermasalah, coba unduh lewat tautan dibawah.
 nitori
-	storyintro=Sepertinya kita kedatangan pelanggan baru. Mari kita lihat bagaimana kamu memainkan permainan aku. Dan jangan berkedip!
-	storyfinished=Kerja bagus, gan. Mungkin kamu memang bukan ingin cuci mata saja. Sekarang coba {0} untuk tantangan yang sesungguhnya!
-	compilationfinished=Astaganaga, kamu benar-benar hebat! Tapi tunggu sampai versi full, {0} hanya pemanasan saja!
+	storyintro=Sepertinya kita kedatangan pelanggan baru.\nCoba kita lihat bagaimana kau memainkan permainan buatanku.\nJangan meleng!
+	storyfinished=Kerja bagus, gan.\nRupanya kamu nggak sekedar lihat-lihat.\nSekarang coba {0} untuk tantangan yang sesungguhnya!
+	compilationfinished=Mantab jiwa! Kamu benar-benar hebat!\nTapi tunggu sampai versi full.\n{0} baru saja dimulai!
 microgame
 	FreezeFrogs
 		command=Bekukan!
 		igname=Kodok Beku
 	Slingshot
 		command=Lemparkan!
-		igname=Lempar Burung
+		igname=Sabung Burung
 	ChenFood
 		command=Jangan sampai dimakan!
+		igname=Kucing Kabur
 	Spider
 		command=Suapi!
 		igname=Beri Makan Laba-laba
 	Donation
 		command=Tangkap 3!
-		igname=Tangkap Koin
+		igname=Penangkap Koin
 	Wrench
 		command=Kencangkan!
-		igname=Kunci Inggris Kappa
+		igname=Kunci Kappa
 	Potion
-		command=Masukan!
+		command=Masukkan!
 		ingredients=Bahan-bahan
-		igname=Masalah Meramu
+		igname=Meramu Masalah
 	GhostFood
 		command=Makan dan kunyah!
-		igname=Suguhan Hantu: Setan Pelahap
+		igname=Hantu Kelaparan
 	Spaceship
-		command=Terbangkan!
+		command=Luncurkan!
 		igname=Program Luar Angkasa Youkai
 	CupShuffle
-		command=Hati-hati!
+		command=Perhatikan!
 		commandb=Pilih!
 		igname=Sei-mbunyi
 	TraceShape
 		command=Isi!
-		igname=Sikat Gigi
+		igname=Brushing Up
 	RockBand
-		command=Dansa!
-		igname=Subwoofer
+		command=Tampil!
+		igname=Pentas Seni
 	ChenBike
 		command=Klakson!
 		igname=Klakson Dhonk
 	MasterSparkCode
-		command=Aktifkan Sihir!
+		command=Ajikan Mantra!
 		igname=Latihan Menembak
 	OkuuFire
 		command=Atur!
 		igname=Aman Terkendali
 	YukariCake
 		command=Curi!
-		igname=Patroli Dessert
+		igname=Patroli Manisan
 	RemiCover
-		command=Tutupi!
+		command=Berteduh!
 		igname=Bisnis Terselubung
 	SuikaShake
 		command=Lepaskan!
@@ -138,21 +142,32 @@ microgame
 		hat=tutup kepala
 		wing=tipe sayap
 		ear=telinga
-		igname=Touhou Sortir
+		igname=Touhou Beraneka Ragam
 	FlanGrab
 		command=Lindungi!
-		igname=Penjaga Vila
+		igname=Pertahanan Mansion
 	PaperThief
-		command=Capai Tujuan Akhir!
+		command=Larilah sampai tujuan!
 		commandb=Awas!
 		commandc=Tembak!
 		commandd=Kalahkan dia!
 		igname=Pengejaran Timun
 credits
 	intro=Terima kasih kepada para fans yang membuat {0}!
-	localization=Lokalisasi
+	kapptain=Direktur Kreatif, Programmer, "Kapptain" tim
+	leadart=Lead Artist, Desain Karakter
+	UI=Grafis Menu dan Stage
+	menumusic=Musik Menu Utama
+	stagemusic=Musik Stage
+	microgame
+		management=Manajemen Microgame
+		managementalt=Manajemen Kolaborasi
+	localization=Alih Bahasa
+		management=Manajemen Alih Bahasa
+	sfx=Efek Suara
+	socialmedia=Promosi/Sosial Media
 	touhou=Fangame ini berbasis dari Touhou Project, dibuat oleh ZUN
-	thanks
+	thanks=Ucapan Terima Kasih
 		discord=Server Touhou Discord
 		playtesters=Semua Playtester
 		fans=Dan semua fans yang menyebarkan kabar gembira ini!
