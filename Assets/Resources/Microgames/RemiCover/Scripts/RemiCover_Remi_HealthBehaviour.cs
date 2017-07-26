@@ -21,6 +21,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     void Start() {
         smokeInstance = (ParticleSystem)Instantiate(smokeParticles, transform.position, smokeParticles.transform.rotation);
         sprite = transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>(true);
+        burningSFX.pitch = Time.deltaTime;
     }
 
 
@@ -69,6 +70,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
             burningSFX.volume = 0;
         else
             burningSFX.volume = (1 - HP) * 1.5f;
+
+        burningSFX.volume *= PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
     }
 
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
