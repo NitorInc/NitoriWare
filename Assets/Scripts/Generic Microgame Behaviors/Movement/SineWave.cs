@@ -50,4 +50,25 @@ public class SineWave : MonoBehaviour
 		}
 		transform.localPosition = new Vector3(x, y, 0f) + positionOffset;
 	}
+
+    /// <summary>
+    /// Change speed. Only works when X and Y speed remain the same proportions
+    /// </summary>
+    /// <param name="speed"></param>
+    public void setSpeed(Vector2 newSpeed)
+    {
+        float mult;
+        if (xSpeed > 0f)
+            mult = newSpeed.x / xSpeed;
+        else if (ySpeed > 0f)
+            mult = newSpeed.y / ySpeed;
+        else
+            return;
+        float timeSinceStart = Time.time - startTime;
+        timeSinceStart /= mult;
+        startTime = Time.time - timeSinceStart;
+        xSpeed = newSpeed.x;
+        ySpeed = newSpeed.y;
+        Debug.Log(xSpeed);
+    }
 }
