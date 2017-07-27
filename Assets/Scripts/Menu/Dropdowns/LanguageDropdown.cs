@@ -23,7 +23,9 @@ public class LanguageDropdown : MonoBehaviour
         }
 
         LocalizationManager.Language[] languages = LocalizationManager.instance.getAllLanguages();
-        languageFilenames = (from language in languages select language.filename).ToArray();
+        languages = (from language in languages where !language.disableSelect select language).ToArray();   //Narrow down to selectable languages
+
+        languageFilenames = (from language in languages select language.getLanguageID()).ToArray();
         dropdown.ClearOptions();
         dropdown.AddOptions((from language in languages select new Dropdown.OptionData(language.languageName)).ToList());
 
@@ -35,7 +37,7 @@ public class LanguageDropdown : MonoBehaviour
         var languages = LocalizationManager.instance.getAllLanguages();
         for (int i = 0; i < languages.Length; i++)
         {
-            if (languages[i].filename == fileName)
+            if (languages[i].getLanguageID() == fileName)
                 return i;
         }
         return 0;
