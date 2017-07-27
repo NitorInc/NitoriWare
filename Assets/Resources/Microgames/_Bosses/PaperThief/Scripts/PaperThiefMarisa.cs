@@ -37,6 +37,7 @@ public class PaperThiefMarisa : MonoBehaviour
     private bool flashingRed, _blackened;
     private float starFireTimer, defeatSpinTimer, explodeCoolTimer, moveCenterSpeed;
     private int health;
+    private Vector2 sineSpeeds;
 
     public bool blackened
     {
@@ -76,6 +77,8 @@ public class PaperThiefMarisa : MonoBehaviour
         defeated = false;
 
         _sineWave = GetComponent<SineWave>();
+        sineSpeeds = new Vector2(_sineWave.xSpeed, _sineWave.ySpeed);
+
         _spriteRenderers = new List<SpriteRenderer>();
         addSpriteRenderers(transform);
     }
@@ -304,12 +307,13 @@ public class PaperThiefMarisa : MonoBehaviour
             sfxSource.pitch = Time.timeScale;
             sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
             sfxSource.PlayOneShot(hitClip);
-            if (health == moveHealth)
+            if (!_sineWave.enabled)
             {
                 _sineWave.enabled = true;
                 _sineWave.resetCycle();
             }
-            else if (health <= 0)
+            _sineWave.setSpeed(Vector2.Lerp(sineSpeeds, Vector2.zero, (float)health / (float)maxHealth));
+            if (health <= 0)
                 ChangeState(State.Defeat);
         }
     }
