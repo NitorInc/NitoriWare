@@ -109,7 +109,7 @@ public class LocalizationManager : MonoBehaviour
         localizedText = SerializedNestedStrings.deserialize(languageString);
 
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
-        Debug.Log("Language " + language.getLanguageID() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
+        Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
         PrefsHelper.setPreferredLanguage(language.getLanguageID());
 
         loadedLanguage = language;
