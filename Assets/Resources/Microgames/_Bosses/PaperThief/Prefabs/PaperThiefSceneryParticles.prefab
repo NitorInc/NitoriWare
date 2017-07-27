@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 198306745386998296}
   - component: {fileID: 199954424807028212}
   - component: {fileID: 114311910624257416}
+  - component: {fileID: 114718402809929308}
   m_Layer: 0
   m_Name: Bushes
   m_TagString: Untagged
@@ -117,6 +118,19 @@ MonoBehaviour:
   sinewave: {fileID: 0}
   particleSystems:
   - {fileID: 198306745386998296}
+--- !u!114 &114718402809929308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1930448055630032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0122e31c2c78f2b498a87dc6c30cfc4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 198306745386998296}
+  timer: 50
 --- !u!114 &114793303725586776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,11 +156,11 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
-    scalar: 60
+    scalar: 0
     maxCurve:
       serializedVersion: 2
       m_Curve:
