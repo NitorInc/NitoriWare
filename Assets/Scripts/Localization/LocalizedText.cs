@@ -59,6 +59,7 @@ public class LocalizedText : MonoBehaviour
     {
         if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID())
         {
+            bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage.getLanguageID());
             loadedLanguage = TextHelper.getLoadedLanguage();
             if (applyToTextString)
             {
@@ -67,6 +68,9 @@ public class LocalizedText : MonoBehaviour
             }
             if (applyToFont)
                 updateFont();
+
+            if (updateAttributes)
+                updateTextEffects();
         }
     }
 
@@ -154,4 +158,32 @@ public class LocalizedText : MonoBehaviour
 				return key;
 		}
 	}
+
+    void updateTextEffects()
+    {
+        //TODO Save me TextMesh Pro
+
+        if (textComponent != null)
+        {
+            //var fitter = GetComponent<CanvasTextLimitSize>();
+            //if (fitter != null)
+            //    fitter.updateScale();
+            var outline = GetComponent<CanvasTextOutline>();
+            if (outline != null)
+            {
+                outline.updateAttributes = true;
+                outline.LateUpdate();
+            }
+        }
+        if (textMesh != null)
+        {
+            var fitter = GetComponent<TextMeshLimitSize>();
+            if (fitter != null)
+                fitter.updateScale();
+            var outline = GetComponent<TextOutline>();
+         //   if (outline != null)
+         //       outline.LateUpdate();
+        }
+
+    }
 }
