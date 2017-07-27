@@ -20,11 +20,12 @@ public class TouhouSortSorter : MonoBehaviour
     public TouhouSortSortable touhouTemplate;
 
     public ParticleSystem confettiParticles;
+    public AudioClip victoryClip;
     
-	TouhouSortSortable[] touhous;
-	Vector3[] slots;
+    TouhouSortSortable[] touhous;
+    Vector3[] slots;
 
-	bool sorted;
+    bool sorted;
     
     [System.Serializable]
     public struct Category
@@ -211,6 +212,7 @@ public class TouhouSortSorter : MonoBehaviour
             
             confettiParticles.gameObject.SetActive(true);
             confettiParticles.Play();
+            MicrogameController.instance.playSFX(victoryClip, 0f, 1f, .75f);
 
             MicrogameController.instance.setVictory(true, true);
         }
