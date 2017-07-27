@@ -49,7 +49,7 @@ public class LanguageDropdown : MonoBehaviour
             return;
 
         string language = languageFilenames[item];
-        if (language != TextHelper.getLoadedLanguage())
+        if (language != TextHelper.getLoadedLanguageID())
         {
             LocalizationManager.instance.setLanguage(language);
         }

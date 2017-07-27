@@ -121,10 +121,15 @@ public class LocalizationManager : MonoBehaviour
         return languages;
     }
 
-    public string getLoadedLanguage()
+    public string getLoadedLanguageID()
 	{
 		return string.IsNullOrEmpty(loadedLanguage.getFileName()) ? "" : loadedLanguage.getFileName();
 	}
+
+    public Language getLoadedLanguage()
+    {
+        return loadedLanguage;
+    }
 
 	public string getLocalizedValue(string key)
 	{
@@ -139,7 +144,7 @@ public class LocalizationManager : MonoBehaviour
 		if (string.IsNullOrEmpty(value))
 		{
             if (!loadedLanguage.incomplete)
-			Debug.LogWarning("Language " + getLoadedLanguage() + " is not marked as incomplete but does not have a value for key " + key);
+			Debug.LogWarning("Language " + getLoadedLanguageID() + " is not marked as incomplete but does not have a value for key " + key);
 			    return defaultString;
 		}
 		value = value.Replace("\\n", "\n");
