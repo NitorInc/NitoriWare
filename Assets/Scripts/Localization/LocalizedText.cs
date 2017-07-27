@@ -6,7 +6,11 @@ using UnityEngine.UI;
 public class LocalizedText : MonoBehaviour
 {
 	[SerializeField]
-	private Prefix keyPrefix;
+    private Prefix keyPrefix;
+    [SerializeField]
+    private bool applyToTextString = true;
+    [SerializeField]
+    private bool applyToFont = true;
 	[SerializeField]
 	private string _key;
     [SerializeField]
@@ -30,7 +34,9 @@ public class LocalizedText : MonoBehaviour
 
     private Text textComponent;
 	private TextMesh textMesh;
-    private string initialText, loadedLanguage;
+    private LocalizationManager.Language loadedLanguage;
+    private string initialText;
+    private Font initialFont;
 
 	private enum Prefix
 	{
@@ -43,18 +49,28 @@ public class LocalizedText : MonoBehaviour
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
         limitSize = GetComponent<TextLimitSize>();
-        loadedLanguage = "";
+        loadedLanguage = new LocalizationManager.Language();
         initialText = getText();
         updateText();
+        initialFont = getFont();
     }
 
     private void LateUpdate()
     {
-        
-        if (loadedLanguage != TextHelper.getLoadedLanguage())
+        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID())
         {
-            setText(initialText);
-            updateText();
+            bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage.getLanguageID());
+            loadedLanguage = TextHelper.getLoadedLanguage();
+            if (applyToTextString)
+            {
+                setText(initialText);
+                updateText();
+            }
+            if (applyToFont)
+                updateFont();
+
+            if (updateAttributes)
+                updateTextEffects();
         }
     }
 
@@ -70,8 +86,7 @@ public class LocalizedText : MonoBehaviour
 
 	public void updateText()
 	{
-        loadedLanguage = TextHelper.getLoadedLanguage();
-        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage))
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage.getLanguageID()))
             return;
 
 		string value;
@@ -93,6 +108,11 @@ public class LocalizedText : MonoBehaviour
         //}
     }
 
+    public void updateFont()
+    {
+        setFont(loadedLanguage.overrideFont == null ? initialFont : loadedLanguage.overrideFont);
+    }
+
 	private void setText(string text)
 	{
 		if (textComponent != null)
@@ -108,7 +128,24 @@ public class LocalizedText : MonoBehaviour
 		if (textMesh != null)
 			return textMesh.text;
 		return "";
-	}
+    }
+
+    private void setFont(Font font)
+    {
+        if (textComponent != null)
+            textComponent.font = font;
+        else if (textMesh != null)
+            textMesh.font = font;
+    }
+
+    private Font getFont()
+    {
+        if (textComponent != null)
+            return textComponent.font;
+        if (textMesh != null)
+            return textMesh.font;
+        return null;
+    }
 
 	string getPrefixedKey()
 	{
@@ -121,4 +158,32 @@ public class LocalizedText : MonoBehaviour
 				return key;
 		}
 	}
+
+    void updateTextEffects()
+    {
+        //TODO Save me TextMesh Pro
+
+        if (textComponent != null)
+        {
+            //var fitter = GetComponent<CanvasTextLimitSize>();
+            //if (fitter != null)
+            //    fitter.updateScale();
+            var outline = GetComponent<CanvasTextOutline>();
+            if (outline != null)
+            {
+                outline.updateAttributes = true;
+                outline.LateUpdate();
+            }
+        }
+        if (textMesh != null)
+        {
+            var fitter = GetComponent<TextMeshLimitSize>();
+            if (fitter != null)
+                fitter.updateScale();
+            var outline = GetComponent<TextOutline>();
+         //   if (outline != null)
+         //       outline.LateUpdate();
+        }
+
+    }
 }

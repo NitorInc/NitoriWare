@@ -22,8 +22,23 @@ public class LocalizationManager : MonoBehaviour
     [System.Serializable]
     public struct Language
     {
-        public string filename, languageName;
+        [SerializeField]
+        private string languageID;
+        public string languageName;
         public bool incomplete;
+        public bool disableSelect;
+        public string overrideFileName;
+        public Font overrideFont;
+
+        public string getFileName()
+        {
+            return string.IsNullOrEmpty(overrideFileName) ? languageID : overrideFileName;
+        }
+
+        public string getLanguageID()
+        {
+            return languageID;
+        }
     }
 
 	public void Awake ()
@@ -65,7 +80,7 @@ public class LocalizationManager : MonoBehaviour
     {
         foreach (Language checklanguage in languages)
         {
-            if (checklanguage.filename.Equals(language, System.StringComparison.OrdinalIgnoreCase))
+            if (checklanguage.getLanguageID().Equals(language, System.StringComparison.OrdinalIgnoreCase))
                 return checklanguage;
         }
         Debug.Log("Language " + language + " not found. Using English");
@@ -80,7 +95,7 @@ public class LocalizationManager : MonoBehaviour
     IEnumerator loadLanguage(Language language)
     {
         System.DateTime started = System.DateTime.Now;
-        string filePath = Path.Combine(Application.streamingAssetsPath, "Languages/" + language.filename);
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Languages/" + language.getFileName());
         languageString = "";
         if (filePath.Contains("://"))
         {
@@ -94,8 +109,8 @@ public class LocalizationManager : MonoBehaviour
         localizedText = SerializedNestedStrings.deserialize(languageString);
 
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
-        Debug.Log("Language " + language.filename + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
-        PrefsHelper.setPreferredLanguage(language.filename);
+        Debug.Log("Language " + language.getLanguageID() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
+        PrefsHelper.setPreferredLanguage(language.getLanguageID());
 
         loadedLanguage = language;
         languageString = "";
@@ -106,10 +121,15 @@ public class LocalizationManager : MonoBehaviour
         return languages;
     }
 
-    public string getLoadedLanguage()
+    public string getLoadedLanguageID()
 	{
-		return string.IsNullOrEmpty(loadedLanguage.filename) ? "" : loadedLanguage.filename;
+		return string.IsNullOrEmpty(loadedLanguage.getFileName()) ? "" : loadedLanguage.getFileName();
 	}
+
+    public Language getLoadedLanguage()
+    {
+        return loadedLanguage;
+    }
 
 	public string getLocalizedValue(string key)
 	{
@@ -124,7 +144,7 @@ public class LocalizationManager : MonoBehaviour
 		if (string.IsNullOrEmpty(value))
 		{
             if (!loadedLanguage.incomplete)
-			Debug.LogWarning("Language " + getLoadedLanguage() + " is not marked as incomplete but does not have a value for key " + key);
+			Debug.LogWarning("Language " + getLoadedLanguageID() + " is not marked as incomplete but does not have a value for key " + key);
 			    return defaultString;
 		}
 		value = value.Replace("\\n", "\n");

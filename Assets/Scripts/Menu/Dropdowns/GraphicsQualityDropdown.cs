@@ -18,7 +18,7 @@ public class GraphicsQualityDropdown : MonoBehaviour
 
     void Start()
     {
-        if (!string.IsNullOrEmpty(TextHelper.getLoadedLanguage()))
+        if (!string.IsNullOrEmpty(TextHelper.getLoadedLanguageID()))
             setOptionText();
 
         dropdown.value = QualitySettings.GetQualityLevel();
