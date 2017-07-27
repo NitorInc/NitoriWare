@@ -24,6 +24,8 @@ public class LocalizationManager : MonoBehaviour
     {
         public string filename, languageName;
         public bool incomplete;
+        public string overrideFileName;
+        public Font overrideFont;
     }
 
 	public void Awake ()
