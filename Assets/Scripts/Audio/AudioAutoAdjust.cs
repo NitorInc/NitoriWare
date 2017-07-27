@@ -33,7 +33,7 @@ public class AudioAutoAdjust : MonoBehaviour
 	void Update()
 	{
         if (tieToTimescale && Time.timeScale != instanceTimeScale)
-		updatePitch();
+		    updatePitch();
         if (tieToVolumeSettings && PrefsHelper.getVolume(volumeType) != instanceVolumeSetting)
             updateVolume();
 	}
