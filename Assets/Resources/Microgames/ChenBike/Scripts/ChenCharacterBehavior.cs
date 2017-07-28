@@ -20,6 +20,8 @@ public class ChenCharacterBehavior : MonoBehaviour {
     public bool istewi;
     public bool isreisen;
     public bool isnazrin;
+    public bool iskyouko;
+    public bool issuika;
     public bool hasShadow;
     public string bushjumpanim;
     public ChenBikePlayerFail ifdead;
@@ -36,6 +38,8 @@ public class ChenCharacterBehavior : MonoBehaviour {
         charAnimator.SetBool("isTewi", istewi);
         charAnimator.SetBool("isReisen", isreisen);
         charAnimator.SetBool("isNazrin", isnazrin);
+        charAnimator.SetBool("isKyouko", iskyouko);
+        charAnimator.SetBool("isSuika", issuika);
     }
 	
 	// Update is called once per frame
