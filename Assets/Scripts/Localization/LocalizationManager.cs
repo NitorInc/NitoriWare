@@ -73,10 +73,10 @@ public class LocalizationManager : MonoBehaviour
     
 	public void setLanguage(string language)
 	{
-        StartCoroutine(loadLanguage(checkForLanguage(language)));
+        StartCoroutine(loadLanguage(FindLanguage(language)));
     }
 
-    Language checkForLanguage(string language)
+    public Language FindLanguage(string language)
     {
         foreach (Language checklanguage in languages)
         {
@@ -89,7 +89,7 @@ public class LocalizationManager : MonoBehaviour
 
     public string getInLanguageName(string language)
     {
-        return checkForLanguage(language).languageName;
+        return FindLanguage(language).languageName;
     }
 
     IEnumerator loadLanguage(Language language)
