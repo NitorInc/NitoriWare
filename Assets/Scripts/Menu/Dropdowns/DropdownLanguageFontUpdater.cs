@@ -10,9 +10,13 @@ public class DropdownLanguageFontUpdater : MonoBehaviour
 
 	void Start ()
     {
-        Font overrideFont = LocalizationManager.instance.getAllLanguages()[transform.GetSiblingIndex() - 1].overrideFont;
-        if (overrideFont != null)
-            textComponent.font = overrideFont;
+        var language = LocalizationManager.instance.getAllLanguages()[transform.GetSiblingIndex() - 1];
+        if (language.overrideFont != null)
+        {
+            textComponent.font = language.overrideFont;
+            if (language.forceUnbold)
+                textComponent.fontStyle = FontStyle.Normal;
+        }
 	}
 	
 	void Update ()
