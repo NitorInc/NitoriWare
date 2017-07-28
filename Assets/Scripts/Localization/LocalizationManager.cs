@@ -29,6 +29,7 @@ public class LocalizationManager : MonoBehaviour
         public bool disableSelect;
         public string overrideFileName;
         public Font overrideFont;
+        public bool forceUnbold;
 
         public string getFileName()
         {

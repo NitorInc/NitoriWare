@@ -37,6 +37,7 @@ public class LocalizedText : MonoBehaviour
     private LocalizationManager.Language loadedLanguage;
     private string initialText;
     private Font initialFont;
+    private FontStyle initialStyle;
 
 	private enum Prefix
 	{
@@ -52,6 +53,7 @@ public class LocalizedText : MonoBehaviour
         loadedLanguage = new LocalizationManager.Language();
         initialText = getText();
         updateText();
+        initialStyle = getStyle();
         initialFont = getFont();
     }
 
@@ -67,7 +69,10 @@ public class LocalizedText : MonoBehaviour
                 updateText();
             }
             if (applyToFont)
+            {
+                updateStyle();
                 updateFont();
+            }
 
             if (updateAttributes)
                 updateTextEffects();
@@ -113,6 +118,15 @@ public class LocalizedText : MonoBehaviour
         setFont(loadedLanguage.overrideFont == null ? initialFont : loadedLanguage.overrideFont);
     }
 
+    public void updateStyle()
+    {
+        if (loadedLanguage.forceUnbold)
+        {
+            bool italicized = initialStyle == FontStyle.Italic || initialStyle == FontStyle.BoldAndItalic;
+            setStyle(italicized ? FontStyle.Italic : FontStyle.Normal);
+        }
+    }
+
 	private void setText(string text)
 	{
 		if (textComponent != null)
@@ -145,6 +159,23 @@ public class LocalizedText : MonoBehaviour
         if (textMesh != null)
             return textMesh.font;
         return null;
+    }
+
+    public FontStyle getStyle()
+    {
+        if (textComponent != null)
+            return textComponent.fontStyle;
+        if (textMesh != null)
+            return textMesh.fontStyle;
+        return FontStyle.Normal;
+    }
+
+    public void setStyle(FontStyle style)
+    {
+        if (textComponent != null)
+            textComponent.fontStyle = style;
+        else if (textMesh != null)
+            textMesh.fontStyle = style;
     }
 
 	string getPrefixedKey()
