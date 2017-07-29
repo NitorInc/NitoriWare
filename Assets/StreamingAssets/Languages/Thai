@@ -30,8 +30,10 @@ menu
 	play=เริ่มเล่น
 	main
 		story=โหมดเนื้อเรื่อง
+			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
 		compilation=โหมดอาร์เคด
 		practice=ฝึกเล่น
+			description=เตรียมทักษะการเล่นเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
 		quit=ออกจากเกม
 			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
 		settings=ตั้งค่า
@@ -72,13 +74,13 @@ menu
 		music=เพลง : {0}
 	splash
 		introa=เวอร์ชั่นทดลองนี้เป็นเกมที่ได้รับแรงบันดาลใจมาจากโทโฮโปรเจกต์ สร้างโดยท่าน ZUN
-		introb=แฟน ๆ ของซีรี่ยส์นี่ได้ช่วยกันเขียนโค้ด แต่งเพลง วาดรูป และใช้ความสามรถต่าง ๆ นา ๆ ในการทำเกมนี้
+		introb=แฟน ๆ ของซีรี่ยส์นี่ได้ช่วยกันเขียนโค้ด แต่งเพลง วาดรูป และใช้ความสามารถต่าง ๆ นา ๆ ในการทำเกมนี้
 		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และคุณอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้
 		webglwarning=ถ้าตัวเกมในเว็บไซต์เล่นไม่ได้ ลองดาวน์โหลดจากลิ้งค์พวกนี้ดูสิ
 nitori
 	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
 	storyfinished=เยี่ยมมากนายเนิร์ด\nนายไม่น่าจะเป็นแค่นักช็อปเล่น ๆ สินะ\nลอง {0} ดูสิ!
-	compilationfinished=เฮ้ ไม่เลวนี่!\nนายรอเกมตัวเต็มออกมาก่อนนะ\n{0} มันเพิ่งจะเริ่มต้นเอง!
+	compilationfinished=เฮ้ ไม่เลวนี่! \nนายรอเกมตัวเต็มออกมาก่อนนะ\n{0} มันเพิ่งจะเริ่มต้นเอง!
 microgame
 	FreezeFrogs
 		command=ทำให้แข็ง!
@@ -87,23 +89,27 @@ microgame
 		command=ยิง!
 		igname=หนังสติ๊กยิงหัว
 	ChenFood
-		command=ระวังถูกกิน!
+		command=อย่าถูกกิน!
 		igname=วิ่ง หนี ตาย
 	Spider
 		command=ให้อาหาร!
 		igname=แมงมุมลายตัวนั้น
 	Donation
 		command=เก็บ 3 อัน!
+		igname=ตกสิบหยิบล้าน
 	Wrench
 		command=ไข!
+		igname=กัปป(ร)ะแจ
 	Potion
 		command=ใส่!
 		ingredients=ส่วนผสม
+		igname=ยาเจ้าปัญหา
 	GhostFood
 		command=กินและเคี้ยว!
 		igname=ผีฝากถุงข้าวสาร(?)
 	Spaceship
 		command=ปล่อย!
+		igname=โครงการส่งโยไคสู่อวกาศ
 	CupShuffle
 		command=จับตาดู!
 		commandb=เลือก!
@@ -112,12 +118,14 @@ microgame
 		command=ระบายสี!
 		igname=ต่อเติมไม่หยุด
 	RockBand
-		command=แสดง
+		command=แสดง!
+		igname=ไมค์หอน
 	ChenBike
 		command=บีบแตร!
 		igname=บีบแตรวนปายย
 	MasterSparkCode
 		command=ร่าย!
+		igname=ฝึกซ้อมยิงเป้า
 	OkuuFire
 		command=ควบคุม!
 		igname=ส่งโอคูวไป
@@ -126,20 +134,25 @@ microgame
 		igname=โหยหาความหวาน
 	RemiCover
 		command=ปกป้อง!
+		igname=จุดอ่อนของแวมไพร์
 	SuikaShake
 		command=เขย่า!
+		igname=โอนิขี้เมา
 	TouhouSort
 		command=แบ่งตาม {0}!
 		hat=ส่วนหัว
 		wing=ปีก
 		ear=หู
+		igname=แยกประเภทโทโฮ
 	FlanGrab
 		command=ปกป้อง!
+		igname=ปกป้องคฤหาศน์
 	PaperThief
 		command=ไปให้ถึงจุดหมาย!
 		commandb=อันตราย!
 		commandc=ยิง!
 		commandd=เอาชนะเธอซะ!
+		igname=ไล่ล่าแตงกวา
 credits
 	intro={0} จะเกิดขึ้นไม่ได้หากขาดเขาพวกนี้!
 	kapptain=ผู้บริหารงาน โปรแกรมเมอร์ กัปตันทีม
