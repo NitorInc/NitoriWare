@@ -16,7 +16,7 @@ public class PaperThiefStar : MonoBehaviour
     [SerializeField]
     private bool displayDodgeCommand;
 	[SerializeField]
-	private Vector2 seekAngleBounds;
+	private Vector2 seekAngleBounds, sizeOverSpeedBounds;
 	[SerializeField]
 	private SpriteRenderer flash;
 	[SerializeField]
@@ -37,12 +37,20 @@ public class PaperThiefStar : MonoBehaviour
 		Seeking
 	}
 
+    private bool _canBeShot;
+    public bool canBeShot
+    {
+        get { return _canBeShot; }
+        set { _canBeShot = value; }
+    }
+
 	private Vector2 velocity;
 	private ParticleSystem.MainModule trailParticleModule, explosionParticleModule;
 	private bool flashing, dead;
 
 	void Start()
 	{
+        canBeShot = false;
 		dead = outOfShootingRange = false;
 		transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
 
@@ -161,6 +169,12 @@ public class PaperThiefStar : MonoBehaviour
         }
 
         updateKnockBack();
+
+        if (canBeShot)
+        {
+            float scale = Mathf.Lerp(sizeOverSpeedBounds.x, sizeOverSpeedBounds.y, Mathf.Pow(velocity.magnitude / seekMoveSpeed, .5f));
+            transform.localScale = new Vector3(scale, scale, transform.localScale.x);
+        }
 	}
 
 	void updateKnockBack()

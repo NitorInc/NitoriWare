@@ -55,12 +55,11 @@ public class CanvasTextOutline : MonoBehaviour
             outlineTransform.pivot = rectTransform.pivot;
             updateAttributes = true;
         }
-        Transform parent = transform.parent;
+        //Transform parent = transform.parent;
 
-        Vector3 holdPosition = transform.localPosition;
-        rectTransform.SetParent(null);
-        rectTransform.SetParent(parent);
-        transform.localPosition = holdPosition;
+        //Vector3 holdPosition = transform.localPosition;
+        rectTransform.SetAsLastSibling();
+        //transform.localPosition = holdPosition;
     }
 
     public void LateUpdate()
@@ -133,7 +132,7 @@ public class CanvasTextOutline : MonoBehaviour
     {
         if (squareAlign)
         {
-            Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
+            //Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
             return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
         }
         else

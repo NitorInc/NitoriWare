@@ -10,13 +10,17 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
     public float stabilizeSpeed = 1;
     [HideInInspector]
     public float destabilizeSpeed = 1;
-    
+
+    [Header("How much the fire can rise")]
+    public float fireGrowRate = 1;
+
     [Header("Stage settings")]
     public Transform start;
     public float height;
 
     public Transform indicator;
     public SpriteRenderer targetZone;
+    public ParticleSystem fire;
 
     public GameObject[] victoryObjects;
 
@@ -25,6 +29,10 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
     private float targetStartLevel;
     private float targetLevel;
     private float stability;
+
+    // Cosmetic
+    private float minFireHeight;
+
     private bool victory;
 
 	void Awake()
@@ -38,12 +46,14 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         }
 
         // Randomly determine a target temperature
-        float targetLevel = 0.4F + UnityEngine.Random.Range(0F, 0.4F);
+        float targetLevel = 0.5F - UnityEngine.Random.Range(0F, 0.38F);
         this.SetTarget(targetLevel);
         this.targetStartLevel = targetLevel;
-	}
-	
-	void Update()
+
+        this.minFireHeight = fire.main.gravityModifierMultiplier;
+    }
+    
+    void Update()
     {
         if (!this.victory)
         {
@@ -82,6 +92,10 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         {
             this.SetLevel(completion);
         }
+
+        // Set flame height
+        ParticleSystem.MainModule fireSettings = fire.main;
+        fireSettings.gravityModifierMultiplier = this.minFireHeight - ((1 - completion) * this.fireGrowRate);
     }
 
     public float GetTargetOffset()
