@@ -5874,6 +5874,8 @@ GameObject:
   - component: {fileID: 2247}
   - component: {fileID: 2246}
   - component: {fileID: 2248}
+  - component: {fileID: 1649}
+  - component: {fileID: 1541}
   m_Layer: 13
   m_Name: Dropdowns
   m_TagString: Untagged
@@ -27379,6 +27381,21 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 0
+  tieToVolumeSettings: 1
+  volumeType: 2
 --- !u!224 &1542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28975,6 +28992,8 @@ MonoBehaviour:
   dropdown: {fileID: 1616}
   animator: {fileID: 658}
   clickCollider: {fileID: 578}
+  sfxSource: {fileID: 0}
+  soundClip: {fileID: 0}
 --- !u!114 &1618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29672,6 +29691,86 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!82 &1649
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 311}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &1650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40572,6 +40671,8 @@ MonoBehaviour:
   dropdown: {fileID: 2120}
   animator: {fileID: 687}
   clickCollider: {fileID: 600}
+  sfxSource: {fileID: 1649}
+  soundClip: {fileID: 8300000, guid: 47d1c9986efbb9248bf5b3ab59ed4daf, type: 3}
 --- !u!114 &2122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45456,6 +45557,8 @@ MonoBehaviour:
   dropdown: {fileID: 2319}
   animator: {fileID: 702}
   clickCollider: {fileID: 610}
+  sfxSource: {fileID: 1649}
+  soundClip: {fileID: 8300000, guid: 47d1c9986efbb9248bf5b3ab59ed4daf, type: 3}
 --- !u!114 &2321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46619,6 +46722,8 @@ MonoBehaviour:
   dropdown: {fileID: 2366}
   animator: {fileID: 706}
   clickCollider: {fileID: 614}
+  sfxSource: {fileID: 1649}
+  soundClip: {fileID: 8300000, guid: 47d1c9986efbb9248bf5b3ab59ed4daf, type: 3}
 --- !u!114 &2369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46753,6 +46858,8 @@ MonoBehaviour:
   dropdown: {fileID: 2370}
   animator: {fileID: 707}
   clickCollider: {fileID: 615}
+  sfxSource: {fileID: 1649}
+  soundClip: {fileID: 8300000, guid: 47d1c9986efbb9248bf5b3ab59ed4daf, type: 3}
 --- !u!114 &2373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47454,6 +47561,8 @@ MonoBehaviour:
   dropdown: {fileID: 2401}
   animator: {fileID: 709}
   clickCollider: {fileID: 617}
+  sfxSource: {fileID: 0}
+  soundClip: {fileID: 0}
 --- !u!114 &2403
 MonoBehaviour:
   m_ObjectHideFlags: 0
