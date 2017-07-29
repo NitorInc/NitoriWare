@@ -48,7 +48,9 @@ public class ChenBikePlayerFail : MonoBehaviour
                 }
                 if (audiocheck == true)
                 {
-                    honkSource.PlayOneShot(FailSound, 1F);
+                    float volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+                    if (volume > 0f)
+                        honkSource.PlayOneShot(FailSound, volume);
                     audiocheck = false;
                 }
             }
