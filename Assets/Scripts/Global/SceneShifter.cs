@@ -8,7 +8,7 @@ public class SceneShifter : MonoBehaviour
 {
     private const string QuitString = "QUITGAME";
 
-    private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .25f;
+    private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .5f;
     private const float MinBlackScreenTime = .5f;
 
 #pragma warning disable 0649   //Serialized Fields
