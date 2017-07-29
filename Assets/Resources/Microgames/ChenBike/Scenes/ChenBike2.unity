@@ -4444,10 +4444,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chenAnimator: {fileID: 0}
   dead: 0
+  audiocheck: 1
   chenspeed: {fileID: 962599954}
   camera_darken: {fileID: 0}
   alt_light: {fileID: 0}
   light_system: {fileID: 0}
+  honkSource: {fileID: 0}
+  FailSound: {fileID: 0}
   disablecounter: {fileID: 0}
   chenshadowobject: {fileID: 0}
   check_for_light: 0
@@ -4642,6 +4645,8 @@ MonoBehaviour:
   istewi: 0
   isreisen: 0
   isnazrin: 1
+  iskyouko: 0
+  issuika: 0
   hasShadow: 0
   bushjumpanim: NazrinBushJump
   ifdead: {fileID: 1326758390}
@@ -5356,6 +5361,8 @@ MonoBehaviour:
   istewi: 0
   isreisen: 1
   isnazrin: 0
+  iskyouko: 0
+  issuika: 0
   hasShadow: 1
   bushjumpanim: ReisenBushJump
   ifdead: {fileID: 1326758390}
@@ -5430,6 +5437,7 @@ GameObject:
   - component: {fileID: 1326758388}
   - component: {fileID: 1326758389}
   - component: {fileID: 1326758390}
+  - component: {fileID: 1326758391}
   m_Layer: 0
   m_Name: ChenBody
   m_TagString: Untagged
@@ -5613,14 +5621,97 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chenAnimator: {fileID: 0}
   dead: 0
+  audiocheck: 1
   chenspeed: {fileID: 962599954}
   camera_darken: {fileID: 0}
   alt_light: {fileID: 0}
   light_system: {fileID: 0}
+  honkSource: {fileID: 0}
+  FailSound: {fileID: 8300000, guid: cafd3f9032cb5eb4595b61f7042f4225, type: 3}
   disablecounter: {fileID: 2084426123}
   chenshadowobject: {fileID: 0}
   check_for_light: 0
   isChenshadow: 0
+--- !u!82 &1326758391
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1326758384}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: cafd3f9032cb5eb4595b61f7042f4225, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &1363772442
 GameObject:
   m_ObjectHideFlags: 0
@@ -6104,6 +6195,8 @@ MonoBehaviour:
   istewi: 1
   isreisen: 0
   isnazrin: 0
+  iskyouko: 0
+  issuika: 0
   hasShadow: 0
   bushjumpanim: TewiBushJump
   ifdead: {fileID: 1326758390}
@@ -6693,10 +6786,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chenAnimator: {fileID: 0}
   dead: 0
+  audiocheck: 1
   chenspeed: {fileID: 962599954}
   camera_darken: {fileID: 0}
   alt_light: {fileID: 0}
   light_system: {fileID: 0}
+  honkSource: {fileID: 0}
+  FailSound: {fileID: 0}
   disablecounter: {fileID: 2084426123}
   chenshadowobject: {fileID: 2128932797}
   check_for_light: 0

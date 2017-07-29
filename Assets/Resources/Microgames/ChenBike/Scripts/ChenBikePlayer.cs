@@ -52,7 +52,8 @@ public class ChenBikePlayer : MonoBehaviour
         // it's too easy if for the whole duration of the sound
         // and unfair if player can honk only when characters are in range
         // thanks to this the player can honk prematurely a bit and win
-        if (honkSource.isPlaying && honkSource.time < BikeHorn.length/2f)
+        // update: according to feedback, changed to third of the duration
+        if (honkSource.isPlaying && honkSource.time < BikeHorn.length/3f)
             honking = true;
         else
             honking = false;
