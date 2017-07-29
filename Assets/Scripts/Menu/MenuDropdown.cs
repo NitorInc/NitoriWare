@@ -12,6 +12,10 @@ public class MenuDropdown : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private Collider2D clickCollider;
+    [SerializeField]
+    private AudioSource sfxSource;
+    [SerializeField]
+    private AudioClip soundClip;
 #pragma warning restore 0649
 
     private int closedChildCount;
@@ -53,6 +57,8 @@ public class MenuDropdown : MonoBehaviour
         else if (!areAnyNeighborsOpen(true) && Input.GetMouseButtonUp(0) && CameraHelper.isMouseOver(clickCollider))
         {
             dropdown.Show();
+            //sfxSource.pitch = .8f;
+            //sfxSource.PlayOneShot(soundClip);
         }
 
         if (isOpen() && !wasOpenLastFrame)
@@ -67,7 +73,11 @@ public class MenuDropdown : MonoBehaviour
     public void press(int value)
     {
         if (Time.frameCount > startFrame)
+        {
             animator.Play("UpdateValue");
+            sfxSource.pitch = 1f;
+            sfxSource.PlayOneShot(soundClip);
+        }
     }
 
     bool areAnyNeighborsOpen(bool includeSelf)

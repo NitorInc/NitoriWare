@@ -68,7 +68,7 @@ public class LocalizedText : MonoBehaviour
                 setText(initialText);
                 updateText();
             }
-            if (applyToFont)
+            if (applyToFont && shouldChangeFont())
             {
                 updateStyle();
                 updateFont();
@@ -77,6 +77,14 @@ public class LocalizedText : MonoBehaviour
             if (updateAttributes)
                 updateTextEffects();
         }
+    }
+
+    bool shouldChangeFont()
+    {
+        if (!applyToTextString)
+            return true;
+        else
+            return !getText().Equals(initialText);
     }
 
     /// <summary>

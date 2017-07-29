@@ -55,12 +55,11 @@ public class CanvasTextOutline : MonoBehaviour
             outlineTransform.pivot = rectTransform.pivot;
             updateAttributes = true;
         }
-        Transform parent = transform.parent;
+        //Transform parent = transform.parent;
 
-        Vector3 holdPosition = transform.localPosition;
-        rectTransform.SetParent(null);
-        rectTransform.SetParent(parent);
-        transform.localPosition = holdPosition;
+        //Vector3 holdPosition = transform.localPosition;
+        rectTransform.SetAsLastSibling();
+        //transform.localPosition = holdPosition;
     }
 
     public void LateUpdate()

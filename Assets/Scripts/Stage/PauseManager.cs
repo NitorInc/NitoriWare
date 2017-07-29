@@ -25,6 +25,10 @@ public class PauseManager : MonoBehaviour
 	private Transform menu;
     [SerializeField]
     private Canvas menuCanvas;
+    [SerializeField]
+    private AudioSource sfxSource;
+    [SerializeField]
+    private AudioClip pauseClip;
 
 	private bool paused;
 
@@ -46,6 +50,7 @@ public class PauseManager : MonoBehaviour
         transform.position = Vector3.zero;
 		paused = false;
         menuCanvas.worldCamera = Camera.main;
+        sfxSource.ignoreListenerPause = true;
         if (transform.root != transform)
             Debug.LogWarning("Pause Controller should be put in hierachy root!");
     }
@@ -76,6 +81,7 @@ public class PauseManager : MonoBehaviour
         if (disablePause)
             return;
 
+        sfxSource.PlayOneShot(pauseClip);
 		pauseData.timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 		AudioListener.pause = true;
