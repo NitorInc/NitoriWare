@@ -167,6 +167,7 @@ public class StageController : MonoBehaviour
 		}
 
         instance.isBeingUnloaded = true;
+        Debug.Log(instance.microgame.microgameId + instance.difficulty.ToString());
         instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
         while (instance.asyncOperation == null)
         {
@@ -217,7 +218,7 @@ public class StageController : MonoBehaviour
 
         invokeAtBeat("updateToOutro", -4f);
 
-        invokeAtBeat("unloadMicrogame", -2f);
+        invokeAtBeat("unloadMicrogame", 2f);
 
         invokeAtBeat("updateMicrogameTraits", -2f);
     }
