@@ -737,13 +737,62 @@ MonoBehaviour:
   maxHeatSpeed: 0.3
   stabilizeSpeed: 1
   destabilizeSpeed: 1
+  fireGrowRate: 4.5
   start: {fileID: 334584423}
   height: 8.5
   indicator: {fileID: 2138903427}
   targetZone: {fileID: 1195841861}
+  fire: {fileID: 673677223}
   victoryObjects:
   - {fileID: 1594514296}
   - {fileID: 1412682818}
+--- !u!1001 &673677222
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185029473462850, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f3f38abcc8bb84143858a972f0084813, type: 2}
+  m_IsPrefabParent: 0
+--- !u!198 &673677223 stripped
+ParticleSystem:
+  m_PrefabParentObject: {fileID: 198972241790273412, guid: f3f38abcc8bb84143858a972f0084813,
+    type: 2}
+  m_PrefabInternal: {fileID: 673677222}
 --- !u!1001 &842934020
 Prefab:
   m_ObjectHideFlags: 0
@@ -1657,7 +1706,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

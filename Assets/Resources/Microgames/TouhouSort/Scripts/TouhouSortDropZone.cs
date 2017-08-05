@@ -48,7 +48,8 @@ public class TouhouSortDropZone : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         TouhouSortSortable sortable = other.GetComponentInParent<TouhouSortSortable>();
-        sortable.ExitZone(gameObject.GetComponent<TouhouSortDropZone>());
+        if (sortable != null)
+            sortable.ExitZone(gameObject.GetComponent<TouhouSortDropZone>());
     }
 
 }

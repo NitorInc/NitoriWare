@@ -15,15 +15,15 @@ public class DropdownLanguageUpdater : MonoBehaviour
 
 	void Start()
 	{
-        currentLanguage = TextHelper.getLoadedLanguage();
+        currentLanguage = TextHelper.getLoadedLanguageID();
 	}
 	
 	void Update()
 	{
-		if (currentLanguage != TextHelper.getLoadedLanguage())
+		if (currentLanguage != TextHelper.getLoadedLanguageID())
         {
             onLanguageChanged.Invoke();
-            currentLanguage = TextHelper.getLoadedLanguage();
+            currentLanguage = TextHelper.getLoadedLanguageID();
         }
 	}
 }

@@ -3,9 +3,16 @@ generic
 	gamename=NitorInc.
 	incomplete=PERHATIAN: Terjemahan bahasa ini masih belum sempurna. Sesetengah teks mungkin masih dalam Bahasa Inggeris.
 stage
+	control
+		key=GUNAKAN KEKUNCI
+		mouse=GUNAKAN TETIKUS
+	speedup=LAJU LAGI!
+	boss=PERINGKAT BOS
+	levelup=NAIK TARAF!
 	pause=Rehat
-		resume=Sambung
-	quit=Keluar
+		resume=Sambung {0}
+	quit=Keluar {0}
+	retry=Cuba lagi {0}
 	gameover=Tamat!
 		score=Skor: {0}
 		highscore=Skor tertinggi: {0}
@@ -21,33 +28,149 @@ menu
 	on=On
 	off=Off
 	play=Main
-	gamemode
-		highscore=Rekod tertinggi
+	main
+		story=Mod Cerita
+			description=Main mod cerita tanpa henti! Berapa tinggi skor kamu boleh dapat?
+		compilation=Mod Arked
+		practice=Berlatih permainan mikro
+		quit=Berhenti bermain
+			prompt=Anda pasti ke nak tutup {0}?
+		settings=Tetapan
+		credits=Kredit
+	gamemode=Pilih mod permainan!
+		locked1=Terkunci! Habiskan {0} untuk membukanya.
+		locked2=Terkunci! Dapatkan {0} atau lebih dalam {1} untuk membukanya.
+		highscore=Rekod tertinggi {0}
+		compilationmode
+			description=Cabar sebanyak mana yang kamu boleh. Tiada bos.
+		compilation=Kompendium Kappa
+			description=Mod Arked Biasa: semua permainan akan diputarkan.
+		compilationfast=Kappasiti Penuh
+			description=PALING LAJU SEKALI!!
+		compilationmystery=(Dokumen Diperlukan)
+			description=Alamak! Kita dah kehilangan pelan kerja. Tiada arahan akan diberi!
+		compilationhard=Neraka Timun
+			description=Semua susah! Satu nyawa sahaja! Berapa lama awak boleh bertahan?
 	settings
 		resolution=Resolusi Skrin
+		fullscreen=Skrin penuh
 		language=Bahasa
 		graphics=Kualiti Grafik
 			0=Paling Laju
 			1=Laju
-		volume
+			2=Biasa
+			3=Bagus
+			4=Cantik
+			5=Paling Cantik
+		volume=Bunyi
+			master=Master
 			music=Musik
+			sfx=Efek Bunyi
 			voice=Suara
 	microgamecredits
+		art=Seni
+		code=Kod
 		music=Musik
 	splash
-		introc=Jika anda boleh berbahasa Inggeris dan anda ingin menyumbang tenaga untuk permainan ini,
+		introa=Demo permainan ini adalah hasil daripada siri Touhou Project (東方Project) yang dibuat oleh ZUN
+		introb=Para peminat siri ini telah memberi sumbangan dari segi kod, muzik, seni, dan bakat yang lain untuk membuat sebuah koleksi permainan mikro.
+		introc=Jika anda boleh berbahasa Inggeris dan anda ingin menyumbang tenaga untuk permainan ini, sila layari {0} atau tolong sebarkan berita ini.
+		webglwarning=Jika pemain web memberi sebarang masalah, sila cuba salah satu link yang tertera di bawah.
+nitori
+	storyintro=Nampaknya kita ada pelanggan baru lah.\nMari tengok bagaimana kau mencuba permainan ciptaanku.\nJangan termenung saja!
+	storyfinished=Bagus, budak skema.\nRasanya engkau bukannya datang untuk melihat saja.\nSekarang, cubalah {0} untuk cabaran yang sebenar!
+	compilationfinished=Amboi! Kagumnya aku.\nTapi tunggulah apabila permainan ini sudah lengkap.\n{0} baru sahaja bermula!
 microgame
+	FreezeFrogs
+		command=Bekukan!
+		igname=Katak Beku
+	Slingshot
+		command=Lontarkan!
+		igname=Lastik Burung
+	ChenFood
+		command=Jangan dimakan!
+		igname=Kucing Terlepas
+	Spider
+		command=Suapkan!
+	Donation
+		command=Kutip 3!
+		igname=Tabung Derma
+	Wrench
+		command=Ketatkan!
+		igname=Bengkel Kappa
 	Potion
+		command=Masukkan!
 		ingredients=Bahan-bahan
+		igname=Sediakan Ubat
+	GhostFood
+		command=Makan & kunyah!
+		igname=Hidangan Si Hantu
+	Spaceship
+		command=Berlepas!
+		igname=Program Angkasa Si Youkai
 	CupShuffle
+		command=Perhatikan!
 		commandb=Pilih!
+		igname=Youkai Dalam Cawan
+	TraceShape
+		command=Isikan!
+		igname=Isi Tempat Kosong
+	RockBand
+		command=Beraksi!
+	ChenBike
+		command=Honk!
+		igname=Honk! Honk!
+	MasterSparkCode
+		command=Santau!
+		igname=Latihan Sasaran
+	OkuuFire
+		command=Selaraskan!
+		igname=Tenangkan Diri
+	YukariCake
+		command=Curi!
+		igname=Kuih Manis
+	RemiCover
+		command=Berteduh!
+		igname=Kelawar Berjalan
+	SuikaShake
+		command=Goncang!
+		igname=Oni Ber-arak
 	TouhouSort
-		hat=Aksesori kepala
-		wing=Jenis sayap
-		ear=Telinga
+		command=Susun ikut {0}!
+		hat=aksesori kepala
+		wing=jenis sayap
+		ear=telinga
+		igname=Touhou Susun
+	FlanGrab
+		command=Lindungi!
+		igname=Pelindung Rumah
 	PaperThief
+		command=Lari ke penamat!
 		commandb=Hati-hati!
 		commandc=Tembak!
 		commandd=Tewaskan dia!
-	FreezeFrogs
-		igname=Katak Beku
+		igname=Ke Arah Timun
+credits
+	intro=Para peminat telah menjadikan {0} sebuah kenyataan
+	kapptain=Pengarah Kreatif, Programmer, "Kappten" Kumpulan
+	leadart=Lead Artist, Reka Bentuk Karakter
+	UI=Menu dan Grafik Pentas
+	menumusic=Muzik Menu
+	stagemusic=Muzik Pentas
+	microgame
+		management=Pengurusan Permainan Mikro
+		managementalt=Pengurusan Kolaborasi
+		code=Kod Permainan Mikro
+		art=Seni Permainan Mikro
+		music=Muzik Permainan Mikro
+	localization=Penyetempatan
+		management=Pengurus Penyetempatan
+	sfx=Efek Bunyi
+	voice=Suara Nitori
+	trailer=Trailer Demo
+	socialmedia=Promosi/Media Sosial
+	touhou=Permainan ini adalah berasal daripada Touhou Project yang dibuat oleh ZUN
+	thanks=Ucapan Terima Kasih
+		discord=Server Discord Touhou Project
+		playtesters=Kepada semua penguji
+		fans=Dan para peminat yang telah membantu kami menyebarkan berita!

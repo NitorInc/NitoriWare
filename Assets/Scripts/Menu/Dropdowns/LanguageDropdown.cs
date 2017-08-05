@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
@@ -12,7 +10,8 @@ public class LanguageDropdown : MonoBehaviour
     private Dropdown dropdown;
 #pragma warning restore 0649
 
-    string[] languageFilenames;
+    private LocalizationManager.Language[] languages;
+    private string[] languageFilenames;
 
     void Start()
     {
@@ -22,8 +21,10 @@ public class LanguageDropdown : MonoBehaviour
             return;
         }
 
-        LocalizationManager.Language[] languages = LocalizationManager.instance.getAllLanguages();
-        languageFilenames = (from language in languages select language.filename).ToArray();
+        languages = LocalizationManager.instance.getAllLanguages();
+        languages = (from language in languages where !language.disableSelect select language).ToArray();   //Narrow down to selectable languages and sort alphabetically
+
+        languageFilenames = (from language in languages select language.getLanguageID()).ToArray();
         dropdown.ClearOptions();
         dropdown.AddOptions((from language in languages select new Dropdown.OptionData(language.languageName)).ToList());
 
@@ -32,10 +33,25 @@ public class LanguageDropdown : MonoBehaviour
 
     int findLanguageIndex(string fileName)
     {
-        var languages = LocalizationManager.instance.getAllLanguages();
+        //TODO Clean this shit up, better way of handling non-selectable languages
+        var currentLanguage = LocalizationManager.instance.FindLanguage(fileName);
+        if (currentLanguage.disableSelect && !string.IsNullOrEmpty(currentLanguage.getLanguageID()))
+        {
+            for (int i = 0; i < languages.Length; i++)
+            {
+                if (languages[i].overrideFileName.Equals(currentLanguage.getLanguageID()))
+                {
+                    Debug.Log(languages[i].getLanguageID());
+                    currentLanguage = languages[i];
+                    break;
+                }
+            }
+        }
+
+        //var languages = LocalizationManager.instance.getAllLanguages().OrderBy(a => a.languageName).ToArray();
         for (int i = 0; i < languages.Length; i++)
         {
-            if (languages[i].filename == fileName)
+            if (languages[i].getLanguageID() == currentLanguage.getLanguageID())
                 return i;
         }
         return 0;
@@ -47,7 +63,7 @@ public class LanguageDropdown : MonoBehaviour
             return;
 
         string language = languageFilenames[item];
-        if (language != TextHelper.getLoadedLanguage())
+        if (language != TextHelper.getLoadedLanguageID())
         {
             LocalizationManager.instance.setLanguage(language);
         }

@@ -547,10 +547,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chenAnimator: {fileID: 0}
   dead: 0
+  audiocheck: 1
   chenspeed: {fileID: 0}
   camera_darken: {fileID: 0}
   alt_light: {fileID: 0}
   light_system: {fileID: 0}
+  honkSource: {fileID: 0}
+  FailSound: {fileID: 0}
   disablecounter: {fileID: 0}
   chenshadowobject: {fileID: 314803759}
   check_for_light: 0
@@ -711,6 +714,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114021563981217374, guid: cb438fb533a387743a4af2374a535b2b,
+        type: 2}
+      propertyPath: FailSound
+      value: 
+      objectReference: {fileID: 8300000, guid: cafd3f9032cb5eb4595b61f7042f4225, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cb438fb533a387743a4af2374a535b2b, type: 2}
   m_IsPrefabParent: 0
@@ -1555,6 +1563,8 @@ MonoBehaviour:
   istewi: 0
   isreisen: 0
   isnazrin: 0
+  iskyouko: 0
+  issuika: 0
   hasShadow: 1
   bushjumpanim: RenBushJump
   ifdead: {fileID: 1326758389}
@@ -1981,3 +1991,88 @@ SpriteRenderer:
   m_Size: {x: 4.02, y: 1.4066666}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+--- !u!1 &2103745110 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1455975096078702, guid: cb438fb533a387743a4af2374a535b2b,
+    type: 2}
+  m_PrefabInternal: {fileID: 423379032}
+--- !u!82 &2103745112
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2103745110}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: cafd3f9032cb5eb4595b61f7042f4225, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0

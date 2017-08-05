@@ -61,11 +61,20 @@ public class TextHelper
     }
 
     /// <summary>
+    /// Shortcut to LocalizationManager.instance.getLanguageID() with null check
+    /// </summary>
+    /// <returns></returns>
+    public static string getLoadedLanguageID()
+    {
+        return LocalizationManager.instance == null ? "" : LocalizationManager.instance.getLoadedLanguageID();
+    }
+
+    /// <summary>
     /// Shortcut to LocalizationManager.instance.getLanguage() with null check
     /// </summary>
     /// <returns></returns>
-    public static string getLoadedLanguage()
+    public static LocalizationManager.Language getLoadedLanguage()
     {
-        return LocalizationManager.instance == null ? "" : LocalizationManager.instance.getLoadedLanguage();
+        return LocalizationManager.instance == null ? new LocalizationManager.Language() : LocalizationManager.instance.getLoadedLanguage();
     }
 }

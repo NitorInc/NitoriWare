@@ -77,12 +77,12 @@ public class MenuGameMode : MonoBehaviour
     {
         highScoreText.text = string.Format(TextHelper.getLocalizedText("menu.gamemode.highscore", highScoreText.text),
             PrefsHelper.getHighScore(modeName).ToString("D3"));
-        formattedLanguage = TextHelper.getLoadedLanguage();
+        formattedLanguage = TextHelper.getLoadedLanguageID();
     }
 
     void Update()
 	{
-        if (TextHelper.getLoadedLanguage() != formattedLanguage)
+        if (TextHelper.getLoadedLanguageID() != formattedLanguage)
         {
             highScoreText.text = initialString;
             formatText();

@@ -38,7 +38,7 @@ public class GameSplash : MonoBehaviour
         switch(state)
         {
             case(State.WaitForLocalization):
-                if (!string.IsNullOrEmpty(TextHelper.getLoadedLanguage()))
+                if (!string.IsNullOrEmpty(TextHelper.getLoadedLanguageID()))
                     state = State.FadeIn;
                 break;
             case (State.FadeIn):
