@@ -13,8 +13,6 @@ public class SceneShifter : MonoBehaviour
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
-    private bool useRealTime = true;
-    [SerializeField]
     private Image blocker;
 #pragma warning restore 0649
 
@@ -22,8 +20,8 @@ public class SceneShifter : MonoBehaviour
     private float shiftDuration;
     private float fadeDuration;
     private bool leavingScene;
-    private float shiftStartTime;
-    private float sceneLoadedTime;
+    private float shiftStartGameTime, shiftStartRealTime;
+    private float sceneLoadedGameTime, sceneLoadedRealTime;
 
     private AsyncOperation operation;
 	
@@ -31,7 +29,7 @@ public class SceneShifter : MonoBehaviour
 	{
         if (leavingScene)
         {
-            float timeLeft = shiftStartTime + shiftDuration - getCurrentTime();
+            float timeLeft = getShiftStartTime() + shiftDuration - getCurrentTime();
             if (timeLeft < fadeDuration)
             {
                 setBlockerAlpha(Mathf.Lerp(1f, 0f, timeLeft / fadeDuration));
@@ -42,7 +40,7 @@ public class SceneShifter : MonoBehaviour
                     {
                         SceneManager.LoadScene(goalScene);
                         operation.allowSceneActivation = true;
-                        sceneLoadedTime = -1f;
+                        sceneLoadedGameTime = sceneLoadedRealTime = -1f;
                         leavingScene = false;
                     }
                     else
@@ -54,14 +52,15 @@ public class SceneShifter : MonoBehaviour
         }
         else
         {
-            if (sceneLoadedTime < 0f)
+            if (sceneLoadedGameTime < 0f)
             {
-                sceneLoadedTime = getCurrentTime();
+                sceneLoadedGameTime = Time.time;
+                sceneLoadedRealTime = Time.realtimeSinceStartup;
                 operation = null;
             }
 
 
-            float timeSinceLoaded = getCurrentTime() - sceneLoadedTime;
+            float timeSinceLoaded = getCurrentTime() - getSceneLoadedTime();
             float alpha = Mathf.Lerp(1f, 0f, timeSinceLoaded / fadeDuration);
             setBlockerAlpha(alpha);
             if (alpha <= 0f)
@@ -83,7 +82,8 @@ public class SceneShifter : MonoBehaviour
         this.fadeDuration = fadeDuration;
         this.goalScene = goalScene;
         leavingScene = true;
-        shiftStartTime = getCurrentTime();
+        shiftStartGameTime = Time.time;
+        shiftStartRealTime = Time.realtimeSinceStartup;
         setBlockerAlpha(0f);
 
         if (!goalScene.Equals(QuitString))
@@ -120,7 +120,17 @@ public class SceneShifter : MonoBehaviour
 
     float getCurrentTime()
     {
-        return useRealTime ? Time.realtimeSinceStartup : Time.time;
+        return Time.timeScale > 0f ? Time.time : Time.realtimeSinceStartup;
+    }
+
+    float getShiftStartTime()
+    {
+        return Time.timeScale > 0f ? shiftStartGameTime : shiftStartRealTime;
+    }
+    
+    float getSceneLoadedTime()
+    {
+        return Time.timeScale > 0f ? sceneLoadedGameTime : sceneLoadedRealTime;
     }
 
     void setBlockerAlpha(float alpha)
