@@ -167,7 +167,6 @@ public class StageController : MonoBehaviour
 		}
 
         instance.isBeingUnloaded = true;
-        Debug.Log(instance.microgame.microgameId + instance.difficulty.ToString());
         instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
         while (instance.asyncOperation == null)
         {
