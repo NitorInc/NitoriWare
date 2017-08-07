@@ -304,7 +304,6 @@ GameObject:
   - component: {fileID: 114016751865828008}
   - component: {fileID: 114418280414951834}
   - component: {fileID: 95147659445661118}
-  - component: {fileID: 60160501194961180}
   - component: {fileID: 114121635471039822}
   m_Layer: 0
   m_Name: Retry
@@ -385,7 +384,6 @@ GameObject:
   - component: {fileID: 114483395454364860}
   - component: {fileID: 114573379886387742}
   - component: {fileID: 95626894260432126}
-  - component: {fileID: 60041094753862578}
   - component: {fileID: 114851749323745764}
   m_Layer: 0
   m_Name: Quit
@@ -544,76 +542,6 @@ Transform:
   m_Father: {fileID: 4097222014742594}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &60041094753862578
-PolygonCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1581484499708616}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -63.223995, y: 13.852905}
-      - {x: -68.68084, y: 11.974625}
-      - {x: -73.555115, y: 5.569565}
-      - {x: -74.21137, y: -3.8183136}
-      - {x: -71.15768, y: -9.533249}
-      - {x: -64.41418, y: -13.633255}
-      - {x: 65.59342, y: -13.04364}
-      - {x: 71.39942, y: -8.382278}
-      - {x: 73.61857, y: 5.000656}
-      - {x: 70.427025, y: 10.431427}
-      - {x: 64.18783, y: 14.1651}
---- !u!60 &60160501194961180
-PolygonCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439784263816798}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -63.223995, y: 13.852905}
-      - {x: -68.68084, y: 11.974625}
-      - {x: -73.555115, y: 5.569565}
-      - {x: -74.21137, y: -3.8183136}
-      - {x: -71.15768, y: -9.533249}
-      - {x: -64.41418, y: -13.633255}
-      - {x: 65.59342, y: -13.04364}
-      - {x: 71.39942, y: -8.382278}
-      - {x: 73.61857, y: 5.000656}
-      - {x: 70.427025, y: 10.431427}
-      - {x: 64.18783, y: 14.1651}
 --- !u!82 &82148874935698106
 AudioSource:
   m_ObjectHideFlags: 1
@@ -838,10 +766,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 114418280414951834}
   buttonAnimator: {fileID: 95147659445661118}
-  backupCollider: {fileID: 60160501194961180}
+  backupCollider: {fileID: 0}
   playPressAnimation: 1
   SFXIgnoreListenerPause: 0
-  checkMouseOverCollider: 1
+  checkMouseOverCollider: 0
   sfxSource: {fileID: 82306185498758882}
   pressClip: {fileID: 8300000, guid: 65e725e633088044885cb929fa4e5278, type: 3}
   pressKey: 114
@@ -953,6 +881,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.gameover
   parameters: []
 --- !u!114 &114133894810168110
@@ -1163,6 +1093,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.retry
   parameters:
   - value: (R)
@@ -1180,6 +1112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.gameover.highscore
   parameters:
   - value: 
@@ -1219,6 +1153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: 
   parameters: []
 --- !u!114 &114321756567883404
@@ -1233,6 +1169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.gameover.highscore
   parameters:
   - value: 
@@ -1336,6 +1274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.gameover.score
   parameters:
   - value: 
@@ -1353,6 +1293,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: 
   parameters: []
 --- !u!114 &114359773011953322
@@ -1367,6 +1309,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: 
   parameters: []
 --- !u!114 &114363863153021020
@@ -1657,10 +1601,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 114573379886387742}
   buttonAnimator: {fileID: 95626894260432126}
-  backupCollider: {fileID: 60041094753862578}
+  backupCollider: {fileID: 0}
   playPressAnimation: 1
   SFXIgnoreListenerPause: 0
-  checkMouseOverCollider: 1
+  checkMouseOverCollider: 0
   sfxSource: {fileID: 82306185498758882}
   pressClip: {fileID: 8300000, guid: 65e725e633088044885cb929fa4e5278, type: 3}
   pressKey: 113
@@ -1901,6 +1845,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: 
   parameters: []
 --- !u!114 &114721050046413878
@@ -1915,6 +1861,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: 
   parameters: []
 --- !u!114 &114736160966331932
@@ -2339,6 +2287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.gameover.highscore
   parameters:
   - value: 
@@ -2356,6 +2306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
   _key: stage.quit
   parameters:
   - value: (Q)

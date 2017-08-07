@@ -16,6 +16,7 @@ public class ResolutionDropdown : MonoBehaviour
 	void Start()
 	{
         List<Resolution> resolutions = new List<Resolution>(Screen.resolutions);
+        addCurrentResolutionIfNeeded(resolutions);
         IEnumerable<string> resolutionStrings = (from resolution
                                           in resolutions.OrderBy(a => a.width).ThenBy(a => a.height)
                                           select resolution.width.ToString() + ResolutionDelimiter + resolution.height.ToString())
@@ -27,6 +28,19 @@ public class ResolutionDropdown : MonoBehaviour
         dropdown.ClearOptions();
         dropdown.AddOptions(dropList);
         dropdown.value = findCurrentSelection();
+    }
+
+    void addCurrentResolutionIfNeeded(List<Resolution> resolutions)
+    {
+        Resolution currentResolution = Screen.currentResolution;
+        int resolutionCheckThreshold = 3;
+        foreach (Resolution resolution in resolutions)
+        {
+            if (MathHelper.Approximately(resolution.width, currentResolution.width, resolutionCheckThreshold)
+                && MathHelper.Approximately(resolution.height, currentResolution.height, resolutionCheckThreshold))
+                return;
+        }
+        resolutions.Add(currentResolution);
     }
 
     public void select(int item)

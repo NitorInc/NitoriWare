@@ -10,7 +10,27 @@ public class DropdownLanguageFontUpdater : MonoBehaviour
 
 	void Start ()
     {
-        var language = LocalizationManager.instance.getAllLanguages()[transform.GetSiblingIndex() - 1];
+        var languages = LocalizationManager.instance.getAllLanguages();
+        LocalizationManager.Language language = languages[0];
+
+        //Determine langauge index based on sibling position and selectable languages
+        int index = 0;
+        int objectIndex = transform.GetSiblingIndex() - 1;
+        for (int i = 0; i < languages.Length; i++)
+        {
+            if (!languages[i].disableSelect)
+            {
+                if (index >= objectIndex)
+                {
+                    language = languages[i];
+                    Debug.Log(textComponent.text + " is " + language.getLanguageID());
+                    break;
+                }
+                index++;
+            }
+
+        }
+
         if (language.overrideFont != null)
         {
             textComponent.font = language.overrideFont;
