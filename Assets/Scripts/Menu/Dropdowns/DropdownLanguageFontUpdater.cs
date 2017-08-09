@@ -23,7 +23,6 @@ public class DropdownLanguageFontUpdater : MonoBehaviour
                 if (index >= objectIndex)
                 {
                     language = languages[i];
-                    Debug.Log(textComponent.text + " is " + language.getLanguageID());
                     break;
                 }
                 index++;
