@@ -43,6 +43,10 @@ public class MicrogameTraits : MonoBehaviour
 	[SerializeField]
 	private bool _isStageReady;
 	public virtual bool isStageReady { get { return _isStageReady; } set { } }
+
+    [SerializeField]
+    private string[] _credits;
+    public virtual string[] credits { get { return _credits; } set { } }
 #pragma warning restore 0649
 
     private string _microgameId;

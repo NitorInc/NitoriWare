@@ -114,7 +114,6 @@ GameObject:
   - component: {fileID: 114805809149208558}
   - component: {fileID: 114226164575347710}
   - component: {fileID: 95157720263054390}
-  - component: {fileID: 60168475151762158}
   - component: {fileID: 114234728870965036}
   m_Layer: 0
   m_Name: Quit
@@ -265,7 +264,6 @@ GameObject:
   - component: {fileID: 114658369930069342}
   - component: {fileID: 114931811322384850}
   - component: {fileID: 95839950609838274}
-  - component: {fileID: 60843764218241426}
   - component: {fileID: 114948516949980614}
   m_Layer: 0
   m_Name: Resume
@@ -382,76 +380,6 @@ Transform:
   m_Father: {fileID: 4133273526685928}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &60168475151762158
-PolygonCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1201329001287190}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -63.223995, y: 13.852905}
-      - {x: -68.68084, y: 11.974625}
-      - {x: -73.555115, y: 5.569565}
-      - {x: -74.21137, y: -3.8183136}
-      - {x: -71.15768, y: -9.533249}
-      - {x: -64.41418, y: -13.633255}
-      - {x: 65.59342, y: -13.04364}
-      - {x: 71.39942, y: -8.382278}
-      - {x: 73.61857, y: 5.000656}
-      - {x: 70.427025, y: 10.431427}
-      - {x: 64.18783, y: 14.1651}
---- !u!60 &60843764218241426
-PolygonCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1652536555042306}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -63.223995, y: 13.852905}
-      - {x: -68.68084, y: 11.974625}
-      - {x: -73.555115, y: 5.569565}
-      - {x: -74.21137, y: -3.8183136}
-      - {x: -71.15768, y: -9.533249}
-      - {x: -64.41418, y: -13.633255}
-      - {x: 65.59342, y: -13.04364}
-      - {x: 71.39942, y: -8.382278}
-      - {x: 73.61857, y: 5.000656}
-      - {x: 70.427025, y: 10.431427}
-      - {x: 64.18783, y: 14.1651}
 --- !u!82 &82493303505704374
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1241,7 +1169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 114931811322384850}
   buttonAnimator: {fileID: 95839950609838274}
-  backupCollider: {fileID: 60843764218241426}
+  backupCollider: {fileID: 0}
   playPressAnimation: 0
   SFXIgnoreListenerPause: 1
   checkMouseOverCollider: 0
@@ -1417,7 +1345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 114226164575347710}
   buttonAnimator: {fileID: 95157720263054390}
-  backupCollider: {fileID: 60168475151762158}
+  backupCollider: {fileID: 0}
   playPressAnimation: 1
   SFXIgnoreListenerPause: 1
   checkMouseOverCollider: 0

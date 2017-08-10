@@ -47,15 +47,28 @@ public class GameController : MonoBehaviour
 		Cursor.visible = !disableCursor;
         Cursor.lockState = CursorLockMode.Confined;
         Application.targetFrameRate = 60;
+        forceResolutionAspect();
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.G))
-    //        PlayerPrefs.DeleteAll();
-    //}
+    void forceResolutionAspect()
+    {
+        int height = Screen.currentResolution.height;
+        if (!MathHelper.Approximately((float)height, (float) Screen.currentResolution.width * 3f / 4f, .01f))
+            Screen.SetResolution((int)((float)Screen.currentResolution.width * 3f / 4f), height, Screen.fullScreen);
+    }
+
+    private void Update()
+    {
+        //Debug features
+        if (Debug.isDebugBuild)
+        {
+            //Shift+R to reset all prefs
+            if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.R))
+                PlayerPrefs.DeleteAll();
+        }
+    }
 
     void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {

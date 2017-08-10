@@ -52,9 +52,9 @@ public class LocalizedText : MonoBehaviour
         limitSize = GetComponent<TextLimitSize>();
         loadedLanguage = new LocalizationManager.Language();
         initialText = getText();
-        updateText();
         initialStyle = getStyle();
         initialFont = getFont();
+        updateText();
     }
 
     private void LateUpdate()
@@ -68,10 +68,18 @@ public class LocalizedText : MonoBehaviour
                 setText(initialText);
                 updateText();
             }
-            if (applyToFont && shouldChangeFont())
+            if (applyToFont)
             {
-                updateStyle();
-                updateFont();
+                if (shouldChangeFont())
+                {
+                    updateStyle();
+                    updateFont();
+                }
+                else
+                {
+                    setStyle(initialStyle);
+                    setFont(initialFont);
+                }
             }
 
             if (updateAttributes)

@@ -9,6 +9,8 @@ public class LoopingMusic : MonoBehaviour
     [SerializeField]
     private float loopStartTime, loopEndTime;
     [SerializeField]
+    private bool startAtLoopPoint;
+    [SerializeField]
     private bool testLoopPoint;
 #pragma warning restore 0649
 
@@ -19,7 +21,9 @@ public class LoopingMusic : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         if (testLoopPoint)
             _audioSource.time = loopEndTime - 5f;
-	}
+        else if (startAtLoopPoint)
+            _audioSource.time =  loopStartTime;
+    }
 	
 	void Update()
 	{
