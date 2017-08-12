@@ -3,13 +3,13 @@ using System.Collections;
 
 public class FPSDisplay : MonoBehaviour
 {
-    private static bool DisableGlobally = true;
 
 	float deltaTime = 0.0f;
 
     void Start()
     {
-        if (DisableGlobally)
+        //Disable on release builds
+        if (!Debug.isDebugBuild)
         {
             enabled = false;
             return;
