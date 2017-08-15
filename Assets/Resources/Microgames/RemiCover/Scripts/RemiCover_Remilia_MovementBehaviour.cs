@@ -54,11 +54,15 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     {
         if (!MicrogameController.instance.getVictoryDetermined() && MicrogameTimer.instance.beatsLeft >= .5f)
             moveCharacter();
-        else if (MicrogameTimer.instance.beatsLeft < .5f)
-            animator.SetInteger("MovementAnimation", (int)movements.STAND);
+        else if (MicrogameTimer.instance.beatsLeft < .5f) { 
+            Debug.Log(animator.GetInteger("MovementAnimation"));
+            if (animator.GetInteger("MovementAnimation") != 4) // If not Teleport
+                animator.SetInteger("MovementAnimation", (int)movements.STAND);
 
-
+        }
     }
+
+
 
     // Perform the current movement selected. If no movement is selected, then choose randomly a movement to perform.
     private void moveCharacter()
@@ -191,6 +195,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
 
         resetMovementSelectionParameters();
         this.currentSpeed = 0;
+
 
     }
 
@@ -428,6 +433,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     {
         previousMovementSelection = currentMovementSelection;
         currentMovementSelection = (int)movements.NONE;
+        animator.SetInteger("MovementAnimation", 2); // Standing animation
         movementTimer = 0;
     }
 
