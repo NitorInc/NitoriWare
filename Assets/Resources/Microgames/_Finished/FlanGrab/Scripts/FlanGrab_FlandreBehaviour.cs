@@ -33,10 +33,10 @@ public class FlanGrab_FlandreBehaviour : MonoBehaviour {
         var mouseOnScreen = CameraHelper.getCursorPosition();
         var positionOnScreen = rightArmObject.transform.position;
         float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
-        if (-90 <= angle && angle <= 90)
+        if (Mathf.Abs(angle) <= 90f)
         {
-            rightArmObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle * bodyRotationMult));
+            rightArmObject.transform.rotation = Quaternion.Euler(Vector3.forward * angle));
+			transform.rotation = Quaternion.Euler(Vector3.forward * angle * bodyRotationMult));
         }
     }
     

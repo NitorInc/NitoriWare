@@ -5,27 +5,30 @@ public class SpaceshipBar : MonoBehaviour
 {
 	public float speed, threshold, maxScale, arrowMinY, arrowMaxY;
 	public Transform arrow;
-
-	private float progress;
-	private bool goingUp;
-
+	private sbyte goingUp;
+	private float progress_;
+	private float progress{
+	get{
+	return progress_;
+	}
+	set{
+	progress_ = value;
+	if (progress_ != Mathf.Clamp01(progress)){
+	progress = Mathf.Clamp01(progress);
+	goingUp *= -1;
+	}
+	}
+	}
 	void Start()
 	{
 		progress = 0f;
-		goingUp = true;
+		goingUp = 1;
 		updatePosition();
 	}
 
 	void Update()
 	{
-		progress += speed * Time.deltaTime * (goingUp ? 1f : -1f);
-		
-		if (progress > 1f || progress < 0f)
-		{
-			progress = Mathf.Clamp(progress, 0f, 1f);
-			goingUp = !goingUp;
-		}
-
+		progress = progress + (speed * Time.deltaTime * (float)goingUp);
 		updatePosition();
 
 	}
