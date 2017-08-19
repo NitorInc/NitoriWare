@@ -17,8 +17,9 @@ public class KnifeDodgeController : MonoBehaviour {
 	// Spawns several knives above the player.
 	void SpawnKnives() {
 		knifeList = new List<GameObject> ();
-		Instantiate (knifePrefab, GetRandomLocation(), Quaternion.identity);
-
+		for (int i = 0; i < 10; i++) {
+			Instantiate (knifePrefab, GetRandomLocation (), Quaternion.identity);
+		}
 	}
 
 	Vector3 GetRandomLocation() {
