@@ -69,6 +69,8 @@ GameObject:
   - component: {fileID: 4040725447008452}
   - component: {fileID: 114959205636098904}
   - component: {fileID: 114624773163601668}
+  - component: {fileID: 54118923026172186}
+  - component: {fileID: 65546751121770620}
   m_Layer: 0
   m_Name: NitoriLookNitori
   m_TagString: Untagged
@@ -131,6 +133,33 @@ Transform:
   m_Father: {fileID: 4040725447008452}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54118923026172186
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680256835213496}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65546751121770620
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680256835213496}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95200429599626586
 Animator:
   serializedVersion: 3
@@ -178,7 +207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd8a4758cc7ec34f9d74b49578c783a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinSpeed: 0
+  lookCollider: {fileID: 0}
+  rigAnimator: {fileID: 95200429599626586}
+  stillLookTime: 0.05
+  movingLookTime: 0.75
 --- !u!212 &212508001451979986
 SpriteRenderer:
   m_ObjectHideFlags: 1

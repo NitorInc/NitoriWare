@@ -5,44 +5,90 @@ using UnityEngine;
 public class NitoriLookTarget : MonoBehaviour
 {
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649   //Serialized Fields
     [SerializeField]
-    private float spinSpeed;
+    private Collider lookCollider;
+    [SerializeField]
+    private Animator rigAnimator;
+    [SerializeField]
+    private float stillLookTime;
+    [SerializeField]
+    private float movingLookTime;
 #pragma warning restore 0649
 
-    private float floorDistance;
-    private float floorAngle;
+    private float stillLookTimer;
+    private float movingLookTimer;
 
-	void Start()
+    private bool targetInSight;
+
+    void Start()
 	{
-        Vector2 fromNitori = new Vector2(transform.position.x, transform.position.z);
-        floorDistance = fromNitori.magnitude;
-        floorAngle = fromNitori.getAngle();
-
+        targetInSight = false;
     }
-	
-	void Update()
-	{
-        updateAngle();
-        if (spinSpeed > 0f)
-            updateSpin();
-	}
 
-    void updateSpin()
+    void LateUpdate()
     {
-        //Vector2 fromNitori = new Vector2(transform.position.x, transform.position.z);
-        floorAngle += spinSpeed * Time.deltaTime;
-        Vector2 fromNitori = MathHelper.getVector2FromAngle(floorAngle, floorDistance);
-        transform.position = new Vector3(fromNitori.x, transform.position.y, fromNitori.y);
+        transform.rotation = Camera.main.transform.rotation;
+        updateVictoryLogic();
     }
 
-    void updateAngle()
+    void updateVictoryLogic()
     {
-        Transform camTransform = Camera.main.transform;
-        transform.rotation = camTransform.rotation;
-        //Vector3 cameraEulers = Camera.rotation.eulerAngles;
-        //cameraEulers.Scale(new Vector3(.5f, 1f, 1f));
-        //cameraEulers = new Vector3(cameraEulers.x * .5f, cameraEulers.y, cameraEulers.z);
-        //transform.rotation = Quaternion.Euler(cameraEulers);
+        if (targetInSight)
+        {
+            if (!isMouseMoving())
+            {
+                stillLookTimer -= Time.deltaTime;
+                if (stillLookTimer <= 0f)
+                {
+                    victory();
+                    return;
+                }
+            }
+            else
+                stillLookTimer = stillLookTime;
+
+            movingLookTimer -= Time.deltaTime;
+            if (movingLookTimer <= 0f)
+            {
+                victory();
+                return;
+            }
+        }
+        else
+        {
+            stillLookTimer = stillLookTime;
+            movingLookTimer = movingLookTime;
+        }
     }
+
+    void victory()
+    {
+        MicrogameController.instance.setVictory(true, true);
+        enabled = false;
+    }
+
+    bool isMouseMoving()
+    {
+        return Input.GetAxis("Mouse Y") != 0f || Input.GetAxis("Mouse X") != 0f;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other == lookCollider)
+            targetInSight = true;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other == lookCollider)
+            targetInSight = true;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other == lookCollider)
+            targetInSight = false;
+    }
+
 }
