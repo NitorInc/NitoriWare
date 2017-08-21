@@ -17,6 +17,12 @@ public class NitoriLookMovement : MonoBehaviour
 	
 	void Update()
     {
+        if (MicrogameController.instance.getVictoryDetermined())
+        {
+            enabled = false;
+            return;
+        }
+
         Vector3 eulerRotation = transform.rotation.eulerAngles;
 
         float x = eulerRotation.x;
