@@ -17,6 +17,12 @@ public class NitoriLookMovement : MonoBehaviour
 	
 	void Update()
     {
+        if (MicrogameController.instance.getVictoryDetermined())
+        {
+            enabled = false;
+            return;
+        }
+
         Vector3 eulerRotation = transform.rotation.eulerAngles;
 
         float x = eulerRotation.x;
@@ -25,11 +31,11 @@ public class NitoriLookMovement : MonoBehaviour
             x -= 360f;
         }
         x -= Input.GetAxis("Mouse Y") * mouseRotateVelocity.y;
-        x = Mathf.Clamp(x, -90f, 90f);
+        x = Mathf.Clamp(x, -80f, 15f);
 
         float y = eulerRotation.y;
-        y += Input.GetAxis("Mouse X") * mouseRotateVelocity.x;
-
+		y += Input.GetAxis("Mouse X") * mouseRotateVelocity.x;
+		
         transform.rotation = Quaternion.Euler(new Vector3(x, y, 0f));
     }
 }
