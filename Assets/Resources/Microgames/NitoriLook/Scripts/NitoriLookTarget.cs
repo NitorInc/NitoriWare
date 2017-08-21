@@ -65,6 +65,7 @@ public class NitoriLookTarget : MonoBehaviour
     void victory()
     {
         MicrogameController.instance.setVictory(true, true);
+        rigAnimator.Play("Victory");
         enabled = false;
     }
 
