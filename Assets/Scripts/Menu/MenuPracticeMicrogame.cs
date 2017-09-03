@@ -12,6 +12,10 @@ public class MenuPracticeMicrogame : MonoBehaviour
     [SerializeField]
     private Text nameText;
     [SerializeField]
+    private Text[] creditsTexts;
+    [SerializeField]
+    private string[] creditsKeys;
+    [SerializeField]
     private Image icon;
     [SerializeField]
     private Vector3 scaleAtCenter;
@@ -108,5 +112,13 @@ public class MenuPracticeMicrogame : MonoBehaviour
         MicrogameStage.microgameId = microgame.microgameId;
 
         nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", microgame.microgameId);
+        for (int i = 0; i < creditsTexts.Length; i++)
+        {
+            string creditsString = creditsTexts[i].text;
+            creditsString= TextHelper.getLocalizedText(creditsKeys[i], creditsString);
+            creditsString = string.Format(creditsString, microgame.difficultyTraits[0].credits[i]);
+            creditsTexts[i].text = creditsString;
+        }
+
     }
 }

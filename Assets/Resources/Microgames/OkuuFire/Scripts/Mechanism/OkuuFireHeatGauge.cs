@@ -24,6 +24,8 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
 
     public GameObject[] victoryObjects;
 
+    public SpriteRenderer indicatorHighlight;
+
     private float heatSpeed;
     private float heatLevel;
     private float targetStartLevel;
@@ -46,7 +48,7 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         }
 
         // Randomly determine a target temperature
-        float targetLevel = 0.5F - UnityEngine.Random.Range(0F, 0.38F);
+        float targetLevel = 0.5F - UnityEngine.Random.Range(0F, 0.4F);
         this.SetTarget(targetLevel);
         this.targetStartLevel = targetLevel;
 
@@ -67,14 +69,23 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
                     float newHeat = this.heatLevel + (Time.deltaTime * this.heatSpeed);
                     this.SetLevel(newHeat);
                 }
-                
+
                 // Stabilize when in target zone
                 if (this.InTargetZone())
+                {
                     stability += Time.deltaTime * this.stabilizeSpeed;
-                else if (stability > 0)
-                    stability -= Time.deltaTime * this.destabilizeSpeed;
+
+                    this.indicatorHighlight.enabled = true;
+                }
                 else
-                    stability = 0;
+                {
+                    this.indicatorHighlight.enabled = false;
+
+                    if (stability > 0)
+                        stability -= Time.deltaTime * this.destabilizeSpeed;
+                    else
+                        stability = 0;
+                }
             }
         }
     }
