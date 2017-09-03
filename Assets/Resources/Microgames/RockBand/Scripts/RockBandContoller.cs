@@ -7,7 +7,7 @@ public class RockBandContoller : MonoBehaviour
 	public static RockBandContoller instance;
 
 	public RockBandNote[] notes;
-	public Animator kyoani, mystiaAnimator;
+	public Animator[] animators;
 	public RockBandLight[] lights;
 	public AudioClip victoryClip, failureClip;
 	public AudioClip[] noteHitClips;
@@ -77,8 +77,8 @@ public class RockBandContoller : MonoBehaviour
 
 		if ((state == State.Default || state == State.Hit) && MicrogameTimer.instance.beatsLeft < 7f)
 			checkForInput();
-
-	}
+        updateAnimators();
+    }
 
 	void checkForInput()
 	{
@@ -112,11 +112,21 @@ public class RockBandContoller : MonoBehaviour
 		}
 	}
 
+    void updateAnimators()
+    {
+        foreach (Animator animator in animators)
+        {
+            animator.SetFloat("beatFraction", 1f - (MicrogameTimer.instance.beatsLeft % 1f));
+        }
+    }
+
 	void setState(State state)
 	{
 		this.state = state;
-		kyoani.SetInteger("state", (int)state);
-		mystiaAnimator.SetInteger("state", (int)state);
+        foreach (Animator animator in animators)
+        {
+            animator.SetInteger("state", (int)state);
+        }
 
 	}
 }
