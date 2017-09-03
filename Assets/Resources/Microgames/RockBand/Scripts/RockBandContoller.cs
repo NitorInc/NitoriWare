@@ -77,8 +77,8 @@ public class RockBandContoller : MonoBehaviour
 
 		if ((state == State.Default || state == State.Hit) && MicrogameTimer.instance.beatsLeft < 7f)
 			checkForInput();
-
-	}
+        updateAnimators();
+    }
 
 	void checkForInput()
 	{
@@ -111,6 +111,14 @@ public class RockBandContoller : MonoBehaviour
 			failure();
 		}
 	}
+
+    void updateAnimators()
+    {
+        foreach (Animator animator in animators)
+        {
+            animator.SetFloat("beatFraction", 1f - (MicrogameTimer.instance.beatsLeft % 1f));
+        }
+    }
 
 	void setState(State state)
 	{
