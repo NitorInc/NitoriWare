@@ -12,6 +12,7 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     public float downMovementLimit;
 
     public float horizontalMovementSpeed, verticalMovementSpeed;
+    public Transform legTransform;
 
 	// Use this for initialization
 	void Start () {
@@ -29,9 +30,12 @@ public class RuukotoSweep_Movement : MonoBehaviour {
         Vector3 holdPosition = transform.position;
         manageVerticalMovement();
         manageHorizontalMovement();
-        bool walking = transform.position != holdPosition;
-        rigAnimator.SetBool("Walk", walking);
-        rigAnimator.SetFloat("WalkSpeed", walking ? 1f: 0f);
+
+        rigAnimator.SetInteger("Walk", transform.position.x != holdPosition.x ? 1 : (transform.position != holdPosition ? 2 : 0));
+        rigAnimator.SetFloat("WalkSpeed", transform.position != holdPosition ? 1f: 0f);
+
+        if (transform.position.x != holdPosition.x)
+            legTransform.localScale = new Vector3(transform.position.x > holdPosition.x ? 1f : -1f, 1f, 1f);
     }
 
     void manageVerticalMovement()
