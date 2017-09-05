@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RuukotoSweep_Movement : MonoBehaviour {
 
+    public Animator rigAnimator;
+
     public float leftMovementLimit;
     public float rightMovementLimit;
     public float upMovementLimit;
@@ -24,8 +26,12 @@ public class RuukotoSweep_Movement : MonoBehaviour {
 
     void moveCharacter()
     {
+        Vector3 holdPosition = transform.position;
         manageVerticalMovement();
         manageHorizontalMovement();
+        bool walking = transform.position != holdPosition;
+        rigAnimator.SetBool("Walk", walking);
+        rigAnimator.SetFloat("WalkSpeed", walking ? 1f: 0f);
     }
 
     void manageVerticalMovement()
