@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class RuukotoSweep_Movement : MonoBehaviour {
 
+    public Animator rigAnimator;
+
     public float leftMovementLimit;
     public float rightMovementLimit;
     public float upMovementLimit;
     public float downMovementLimit;
 
-    public float movementSpeed;
+    public float horizontalMovementSpeed, verticalMovementSpeed;
+    public Transform legTransform;
 
 	// Use this for initialization
 	void Start () {
@@ -24,17 +27,24 @@ public class RuukotoSweep_Movement : MonoBehaviour {
 
     void moveCharacter()
     {
+        Vector3 holdPosition = transform.position;
         manageVerticalMovement();
         manageHorizontalMovement();
+
+        rigAnimator.SetInteger("Walk", transform.position.x != holdPosition.x ? 1 : (transform.position != holdPosition ? 2 : 0));
+        rigAnimator.SetFloat("WalkSpeed", transform.position != holdPosition ? 1f: 0f);
+
+        if (transform.position.x != holdPosition.x)
+            legTransform.localScale = new Vector3(transform.position.x > holdPosition.x ? 1f : -1f, 1f, 1f);
     }
 
     void manageVerticalMovement()
     {
         float newPosition = float.NaN;
         if (Input.GetKey(KeyCode.DownArrow))
-            newPosition = transform.position.y - movementSpeed * Time.deltaTime;
+            newPosition = transform.position.y - verticalMovementSpeed * Time.deltaTime;
         else if (Input.GetKey(KeyCode.UpArrow))
-            newPosition = transform.position.y + movementSpeed * Time.deltaTime;
+            newPosition = transform.position.y + verticalMovementSpeed * Time.deltaTime;
         if (!float.IsNaN(newPosition))
         {
             var clampedPosition = Mathf.Clamp(newPosition, downMovementLimit, upMovementLimit);
@@ -46,9 +56,9 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     {
         float newPosition = float.NaN;
         if (Input.GetKey(KeyCode.LeftArrow))
-            newPosition = transform.position.x - movementSpeed * Time.deltaTime;
+            newPosition = transform.position.x - horizontalMovementSpeed * Time.deltaTime;
         else if (Input.GetKey(KeyCode.RightArrow))
-            newPosition = transform.position.x + movementSpeed * Time.deltaTime;
+            newPosition = transform.position.x + horizontalMovementSpeed * Time.deltaTime;
         if (!float.IsNaN(newPosition))
         {
             var clampedPosition = Mathf.Clamp(newPosition, leftMovementLimit, rightMovementLimit);
