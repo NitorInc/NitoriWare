@@ -16,13 +16,24 @@ public class RuukotoSweepPatch : MonoBehaviour
 	
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            collide();
 	}
 
-    void collide()
+    void collide(Collider2D other)
     {
-        var leafModule = leafParticles.main;
-        leafModule.simulationSpeed = 1f;
+        if (other.name.Contains("Player"))
+        {
+            var leafModule = leafParticles.main;
+            leafModule.simulationSpeed = 1f;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        collide(other);
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        collide(other);
     }
 }
