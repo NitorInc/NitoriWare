@@ -19,8 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4899354022817664}
-  - component: {fileID: 198387681142332240}
+  - component: {fileID: 114286035640124970}
   - component: {fileID: 199538850036958634}
+  - component: {fileID: 198387681142332240}
   m_Layer: 0
   m_Name: RuukotoSweepPatch
   m_TagString: Untagged
@@ -41,6 +42,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114286035640124970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1078010193726268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c9226673b593e41b5df013439b77e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leafParticles: {fileID: 198387681142332240}
+  spawnCountMin: 10
+  spawnCountMax: 30
 --- !u!198 &198387681142332240
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -98,7 +113,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1743005759
+  randomSeed: -475174368
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -734,13 +749,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 1
-    m_Bursts:
-    - time: 0
-      minCount: 10
-      maxCount: 20
-      cycleCount: 1
-      repeatInterval: 0.01
+    m_BurstCount: 0
+    m_Bursts: []
   SizeModule:
     enabled: 1
     curve:
