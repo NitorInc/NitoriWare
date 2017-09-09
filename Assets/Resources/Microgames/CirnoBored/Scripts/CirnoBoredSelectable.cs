@@ -10,6 +10,7 @@ public class CirnoBoredSelectable : MonoBehaviour
     public Animator cirnoAnimator;
     public Transform selectGoalAnchor;
     public float selectMoveSpeed;
+    public float idleAnimationOffset;
 
     private float defaultScale;
 
@@ -26,6 +27,7 @@ public class CirnoBoredSelectable : MonoBehaviour
     {
         defaultScale = transform.localScale.x;
         state = State.Default;
+        itemAnimator.Play("Idle", 0, idleAnimationOffset);
 	}
 	
 	void Update ()
