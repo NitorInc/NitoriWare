@@ -52,27 +52,26 @@ public class CirnoBoredSelectable : MonoBehaviour
 
     void select()
     {
+        state = victoryItem ? State.Victory : State.Loss;
         MicrogameController.instance.setVictory(victoryItem, true);
-        transform.parent = null;
+        //transform.parent = null;
         itemAnimator.SetBool("hovering", false);
+        itemAnimator.SetInteger("state", (int)state);
     }
 
     void playResultAnimation()
     {
-        int victoryStatus = victoryItem ? (int)State.Victory : (int)State.Loss;
-        cirnoAnimator.SetInteger("state", victoryStatus);
-        itemAnimator.SetInteger("state", victoryStatus);
+        cirnoAnimator.SetInteger("state", (int)state);
+        itemAnimator.SetBool("inPlace", true);
     }
 
     void updateSelectedMovement()
     {
         if (transform.moveTowards(selectGoalAnchor.position, selectMoveSpeed))
         {
-            int victoryStatus = victoryItem ? (int)State.Victory : (int)State.Loss;
             playResultAnimation();
             enabled = false;
         }
     }
-
-
+    
 }
