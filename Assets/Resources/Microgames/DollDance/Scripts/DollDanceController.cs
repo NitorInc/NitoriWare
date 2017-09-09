@@ -1,16 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DollDance : MonoBehaviour {
+public class DollDanceController: MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [Header("A random sequence of moves")]
+    [SerializeField]
+    DollDanceSequence sequence;
+    
+    [Header("Scene objects")]
+
+    [SerializeField]
+    GameObject victoryEffects;
+
+    [SerializeField]
+    GameObject defeatEffects;
+
+    DollDancePerformance performance;
+    
+
+    void Start()
+    {
+        this.performance = FindObjectOfType<DollDancePerformance>();
+        this.performance.StartSequence(this.sequence);
+    }
+    
+    public void Victory()
+    {
+        this.victoryEffects.SetActive(true);
+    }
+
+    public void Defeat()
+    {
+        this.defeatEffects.SetActive(true);
+    }
+
 }
