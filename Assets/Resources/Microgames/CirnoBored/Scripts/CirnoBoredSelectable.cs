@@ -11,6 +11,8 @@ public class CirnoBoredSelectable : MonoBehaviour
     public Transform selectGoalAnchor;
     public float selectMoveSpeed;
     public float idleAnimationOffset;
+    public AudioClip victoryClip;
+    public AudioClip lossClip;
 
     private float defaultScale;
 
@@ -65,6 +67,7 @@ public class CirnoBoredSelectable : MonoBehaviour
     {
         cirnoAnimator.SetInteger("state", (int)state);
         itemAnimator.SetBool("inPlace", true);
+        MicrogameController.instance.playSFX(victoryItem ? victoryClip : lossClip);
     }
 
     void updateSelectedMovement()
