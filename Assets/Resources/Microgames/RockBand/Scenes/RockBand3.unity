@@ -801,7 +801,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4881819381820226, guid: 589143a0b5a5d4b428d7f6badc05fa13, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.21387982
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4881819381820226, guid: 589143a0b5a5d4b428d7f6badc05fa13, type: 2}
       propertyPath: m_LocalPosition.y
@@ -861,7 +861,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1084796461}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3, y: -1, z: 0}
+  m_LocalPosition: {x: -3.1, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 986161025}
@@ -967,6 +967,16 @@ Prefab:
       propertyPath: failureVoiceDelay
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.playMusic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.timerTick
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -1021,7 +1031,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.21387976
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1148,7 +1158,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.21387976
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1286,8 +1296,11 @@ MonoBehaviour:
   - {fileID: 2108394988}
   - {fileID: 1463174519}
   - {fileID: 1770580649}
-  kyoani: {fileID: 1835584887}
-  mystiaAnimator: {fileID: 471078306}
+  animators:
+  - {fileID: 1835584887}
+  - {fileID: 471078306}
+  - {fileID: 1736088384}
+  - {fileID: 1736088383}
   lights:
   - {fileID: 896946948}
   - {fileID: 896946947}
@@ -1448,6 +1461,16 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d204d29cd988eb4428f05cdc686d5fb1, type: 2}
   m_IsPrefabParent: 0
+--- !u!95 &1736088383 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95762637764951092, guid: d204d29cd988eb4428f05cdc686d5fb1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1736088382}
+--- !u!95 &1736088384 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95278205362815974, guid: d204d29cd988eb4428f05cdc686d5fb1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1736088382}
 --- !u!1001 &1770580647
 Prefab:
   m_ObjectHideFlags: 0
@@ -1457,7 +1480,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.21387982
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1653,7 +1676,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1878562650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.7861202, y: 4.1446133, z: 0}
+  m_LocalPosition: {x: -1.9999998, y: 4.1446133, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1084796462}
@@ -1693,7 +1716,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.21387976
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4498651136538056, guid: d31f6609a00d7474aa0f6ee30bb20ddb, type: 2}
       propertyPath: m_LocalPosition.y
