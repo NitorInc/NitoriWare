@@ -32,7 +32,7 @@ public class DollDancePerformance : MonoBehaviour
             yield return new WaitForSeconds(moveLength * 2);// this.animator.GetNextAnimatorStateInfo(POINT_LAYER).length);
         }
 
-        //yield return new WaitForSeconds(moveLength * 2);
+        this.animator.Play("Settle");
         this.OnPreviewComplete();
     }
     
