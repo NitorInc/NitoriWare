@@ -30,6 +30,8 @@ public class DollDanceController: MonoBehaviour
     public void Defeat()
     {
         this.defeatEffects.SetActive(true);
+
+        MicrogameController.instance.setVictory(false, true);
     }
 
 }
