@@ -2,10 +2,6 @@
 
 public class DollDanceController: MonoBehaviour
 {
-
-    [Header("A random sequence of moves")]
-    [SerializeField]
-    DollDanceSequence sequence;
     
     [Header("Scene objects")]
 
@@ -21,12 +17,14 @@ public class DollDanceController: MonoBehaviour
     void Start()
     {
         this.performance = FindObjectOfType<DollDancePerformance>();
-        this.performance.StartSequence(this.sequence);
+        this.performance.StartSequence(this.GetComponent<DollDanceSequence>());
     }
     
     public void Victory()
     {
         this.victoryEffects.SetActive(true);
+
+        MicrogameController.instance.setVictory(true, true);
     }
 
     public void Defeat()

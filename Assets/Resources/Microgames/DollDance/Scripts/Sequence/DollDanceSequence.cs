@@ -8,7 +8,7 @@ public class DollDanceSequence : MonoBehaviour
 {
 
     public enum Move { Idle, Up, Down, Left, Right }
-
+    
     [SerializeField]
     int moveCount;
 
