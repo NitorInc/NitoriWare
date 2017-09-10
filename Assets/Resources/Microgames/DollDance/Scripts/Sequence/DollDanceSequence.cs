@@ -45,7 +45,7 @@ public class DollDanceSequence : MonoBehaviour
             previousMove = newMove;
         }
     }
-
+    
     public List<Move> CopySequence()
     {
         return new List<Move>(this.sequence);

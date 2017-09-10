@@ -27,12 +27,15 @@ public class DollDanceSequenceListener : MonoBehaviour
         {
             foreach (KeyValuePair<KeyCode, DollDanceSequence.Move> entry in this.inputMap)
             {
-                if (Input.GetKeyDown(entry.Key))
+                KeyCode input = entry.Key;
+                DollDanceSequence.Move selectedMove = entry.Value;
+
+                if (Input.GetKeyDown(input))
                 {
-                    DollDanceSequence.Move move = this.performance.GetSequence().Process(entry.Value);
+                    DollDanceSequence.Move move = this.performance.GetSequence().Process(selectedMove);
                     if (move == DollDanceSequence.Move.Wrong)
                     {
-                        Destroy(this);
+                        this.performance.Perform(selectedMove);
                         this.performance.Fail();
                     }
                     else
@@ -40,11 +43,15 @@ public class DollDanceSequenceListener : MonoBehaviour
                         this.performance.Perform(move);
                     }
                 }
+
+                if (Input.GetKeyUp(input))
+                {
+                    this.performance.Release(selectedMove);
+                }
             }
         }
         else
         {
-            Destroy(this);
             this.performance.Succeed();
         }
     }
