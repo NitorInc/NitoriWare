@@ -7,7 +7,7 @@ using UnityEngine;
 public class DollDanceSequence : MonoBehaviour
 {
 
-    public enum Move { Wrong, Up, Down, Left, Right }
+    public enum Move { Idle, Up, Down, Left, Right }
 
     [SerializeField]
     int moveCount;
@@ -23,7 +23,7 @@ public class DollDanceSequence : MonoBehaviour
         this.sequence = new Stack<Move>();
 
         this.validMoves = Enum.GetValues(typeof(Move)).Cast<Move>().ToList();
-        this.validMoves.Remove(Move.Wrong);
+        this.validMoves.Remove(Move.Idle);
 
         ResetSlots(this.moveCount);
     }
@@ -34,7 +34,7 @@ public class DollDanceSequence : MonoBehaviour
         sequence.Clear();
 
         System.Random random = new System.Random();
-        Move previousMove = Move.Wrong;
+        Move previousMove = Move.Idle;
         for (int i = 0; i < this.moveCount; i++)
         {
             List<Move> available = new List<Move>(this.validMoves);
@@ -56,7 +56,7 @@ public class DollDanceSequence : MonoBehaviour
         if (move == sequence.Peek())
             return sequence.Pop();
         else
-            return Move.Wrong;
+            return Move.Idle;
     }
 
     public bool IsComplete()

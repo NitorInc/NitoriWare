@@ -33,7 +33,7 @@ public class DollDanceSequenceListener : MonoBehaviour
                 if (Input.GetKeyDown(input))
                 {
                     DollDanceSequence.Move move = this.performance.GetSequence().Process(selectedMove);
-                    if (move == DollDanceSequence.Move.Wrong)
+                    if (move == DollDanceSequence.Move.Idle)
                     {
                         this.performance.Perform(selectedMove);
                         this.performance.Fail();

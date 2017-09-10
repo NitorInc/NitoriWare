@@ -10,9 +10,7 @@ public class DollDancePerformance : MonoBehaviour
     Animator animator;
     DollDanceController controller;
     DollDanceSequenceListener sequenceListener;
-
-    DollDanceSequence.Move lastMove;
-
+    
     void Awake()
     {
         this.animator = this.GetComponentInChildren<Animator>();
@@ -23,7 +21,6 @@ public class DollDancePerformance : MonoBehaviour
     {
         foreach (DollDanceSequence.Move move in moves)
         {
-            print(move.ToString());
             this.animator.Play(move.ToString(), 1);
             yield return new WaitForSeconds(this.animator.GetCurrentAnimatorStateInfo(1).length);
         }
@@ -39,15 +36,13 @@ public class DollDancePerformance : MonoBehaviour
     
     public void Perform(DollDanceSequence.Move move)
     {
-        animator.SetInteger("CurrentMove", (int)move);
-
-        this.lastMove = move;
+        this.animator.SetTrigger(move.ToString());
     }
 
     public void Release(DollDanceSequence.Move move)
     {
-        if (move == this.lastMove)
-            animator.SetInteger("CurrentMove", 0);
+        if (this.animator.GetCurrentAnimatorStateInfo(2).IsName(move.ToString()))
+            this.animator.SetTrigger(DollDanceSequence.Move.Idle.ToString());
     }
 
     public void StartSequence(DollDanceSequence sequence)
