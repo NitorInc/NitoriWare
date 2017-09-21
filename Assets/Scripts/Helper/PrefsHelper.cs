@@ -40,7 +40,7 @@ public static class PrefsHelper
         //setProgress(1); //Debug purposes;
 
         StoredPrefs newPrefs = new StoredPrefs();
-        newPrefs.preferredLanguage = PlayerPrefs.GetString(PreferredLanguageKey, LocalizationManager.DefaultLanguage);
+        newPrefs.preferredLanguage = PlayerPrefs.GetString(PreferredLanguageKey, "");
         newPrefs.volumes = new float[volumeTypeCount];
         for (int i = 0; i < volumeTypeCount; i++)
         {

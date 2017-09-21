@@ -59,8 +59,6 @@ public abstract class TextLimitSize : MonoBehaviour
         }
         else
         {
-            if (name.Contains("Description"))
-                Debug.Log("why?");
             setFontSize(defaultFontSize);
         }
 

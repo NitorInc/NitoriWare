@@ -1,7 +1,7 @@
 generic
 	name=Deutsch
 	gamename=NitorInc.
-	incomplete=Achtung: Das Spiel ist noch nicht komplett übersetzt worden, deshalb kann es sein dass ein paar Dinge noch in Englisch sind
+	incomplete=Achtung: Das Spiel ist noch nicht komplett übersetzt worden. Deshalb kann es sein, dass ein paar Dinge noch in Englisch sind.
 stage
 	control
 		key=BENUTZE DIE TASTATUR
@@ -12,6 +12,7 @@ stage
 	pause=Spiel pausiert
 		resume=Fortsetzen {0}
 	quit=Verlassen {0}
+	retry=Erneut versuchen {0}
 	gameover=Spiel vorbei!
 		score=Deine Punktzahl: {0}
 		highscore=Höchstpunktzahl: {0}
@@ -24,7 +25,7 @@ menu
 	backalt=Zurück
 	confirm=Bestätigen
 	cancel=Abbrechen
-	on=An
+	on=Ein
 	off=Aus
 	play=Spielen
 	main
@@ -32,26 +33,26 @@ menu
 		compilation=Arkade Modus
 		practice=Übungsraum
 		quit=Spiel Verlassen
-			prompt=Bist du dir sicher dass du das Spiel verlassen möchtest?
+			prompt=Bist du dir sicher, dass du {0} verlassen möchtest?
 		settings=Optionen
 		credits=Mitwirkende
 	gamemode=Wähle einen Spielmodus!
-		locked1=Gesperrt! Schließe {0} ab um das Spiel freizuschalten!
-		locked2=Gesperrt! Erreiche {0} oder mehr Punkte um {1} freizuschalten!
+		locked1=Gesperrt! Schließe {0} ab, um das Spiel freizuschalten!
+		locked2=Gesperrt! Erreiche {0} oder mehr Punkte in {1} zum Freischalten
 		highscore=Höchstpunktzahl: {0}
 		compilationmode
-			description=Versuche so viele Minigames wie möglich zu absolvieren! (Keine Boss level)
+			description=Versuche so viele Minispiele wie möglich zu absolvieren (Keine Boss Level)!
 		compilation=Kappa Handbuch
-			description=Normaler Arkade Modus in welcher du Minispiele in zufälliger Reihenfolge spielst.
+			description=Normaler Arcade Modus, in welchem du Minispiele in zufälliger Reihenfolge spielst.
 		compilationfast=Maximale Kappazität
-			description=SUPER DUPER SCHNELL!!
+			description=SUPER DUPER SCHNELL! Alle Minispiele in zufälliger Reihenfolge auf höchster Schwierigkeitsstufe.
 		compilationmystery=(Dokumentation wird benötigt)
-			description=Ups, wir haben die Blaupausen hierfür verloren! Kein Kommando oder kKntrollbefehl!
+			description=Ups, wir haben die Blaupausen hierfür verloren! Kein Kommando oder Kontrollbefehl!
 		compilationhard=Gurken Hölle
-			description=Alle Spiele auf der schwersten Stufe und du nur ein Versuch! Wie lange kannst du es aushalten?
+			description=Alle Spiele auf der schwersten Stufe! Nur ein Leben! Wie lange kannst du es aushalten?
 	settings
 		resolution=Bildgröße
-		fullscreen=Vollbild
+		fullscreen=Vollbildmodus
 		language=Sprache
 		graphics=Grafikqualität
 			0=Am schnellsten
@@ -65,15 +66,19 @@ menu
 			music=Musik
 			sfx=Spezialeffekte
 			voice=Sprecherlautstärke
+	microgamecredits
+		art=Künstler: {0}
+		code=Code: {0}
+		music=Musik: {0}
 	splash
-		introa=Diese Spiel Demo ist von dem Touhou Project (東方Project) abgeleitet welches von ZUN kreiert worden ist.
-		introb=Viele Fans der Spielereihe haben sich zusammen getan um Code, Grafiken und vieles weitere um diese Minispiele Kollektion zusammen zu stellen.
-		introc=Wenn du Englisch sprechen kannst und zu dem vollständigen Spiel etwas beitragen möchtest dann besuche bitte {0} oder erzähle anderen von uns!
-		webglwarning=Sollte der Web Player dir Probleme bereiten versuche einen der Downloads die etwas weiter unten verlinkt sind.
+		introa=Diese Spieldemo basiert auf dem von ZUN geschaffenen Touhou Project (東方Project).
+		introb=Viele Fans der Spielereihe haben sich zusammengetan und Code, Grafiken sowie vieles weitere beigesteuert, um diese Minispiel-Kollektion zusammen zu stellen.
+		introc=Wenn du Englisch sprechen kannst und zu der Vollversion etwas beitragen möchtest, besuche bitte {0} oder erzähle anderen von uns!
+		webglwarning=Sollte der Web Player dir Probleme bereiten, versuche einen der etwas weiter unten verlinkten Downloads.
 nitori
-	storyintro=Sieht so aus als wir einen  Kunden haben.\nMal schauen wie du meinen Marken-Spielen umgehen kannst.\nHalt die Augen offen!
-	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal {0} um wirklich herausgefordert zu werden!
-	compilationfinished=Verdammt, ich bin beeindruckt!\nWarte nur auf die Vollversion des Spieles,\n{0} hat gerade erst angefangen!
+	storyintro=Sieht so aus als ob wir einen neuen Kunden haben.\nMal schauen, ob du meine Marken-Spiele bewältigen kannst.\nHalt die Augen offen!
+	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal den {0}, um wirklich herausgefordert zu werden!
+	compilationfinished=Verdammt, ich bin beeindruckt!\nWarte nur auf die Vollversion des Spiels,\n{0} hat gerade erst angefangen!
 microgame
 	FreezeFrogs
 		command=Friere ein!
@@ -83,7 +88,7 @@ microgame
 		igname=Kopf hoch
 	ChenFood
 		command=Werde nicht gegessen!
-		igname=Katzenflucht
+		igname=Katzenjagd
 	Spider
 		command=Füttere!
 		igname=Spinnenfütterung
@@ -92,11 +97,11 @@ microgame
 		igname=Ka-Tschingko
 	Wrench
 		command=Mache Fest!
-		igname=Kappa Schraubenzieher
+		igname=Kapparateur
 	Potion
 		command=Reinwerfen!
 		ingredients=Zutaten
-		igname=Problematische Alchemie
+		igname=Verzwickte Alchemie
 	GhostFood
 		command=Essen und kauen!
 		igname=Geisterspeisung
@@ -109,19 +114,19 @@ microgame
 		igname=Hütchenspiel
 	TraceShape
 		command=Ausmalen!
-		igname=Formen ausfüllen
+		igname=Dingen neuen Anstrich verpassen
 	RockBand
 		command=Rocke!
 		igname=Subwoofer
 	ChenBike
-		command=Honk!
+		command=Hupe!
 		igname=Weggehupt
 	MasterSparkCode
 		command=Entfessele!
 		igname=Zielübung
 	OkuuFire
 		command=Regeln!
-		igname=Cool bleiben
+		igname=Alles unter Okuuntrolle
 	YukariCake
 		command=Klaue!
 		igname=Dessert Patrouille
@@ -136,7 +141,7 @@ microgame
 		hat=Kopfbedeckung
 		wing=Flügeltyp
 		ear=Ohren
-		igname=Touhou Sortierer
+		igname=Mädchen aller art
 	FlanGrab
 		command=Beschütze!
 		igname=Villa Wachdienst
@@ -149,21 +154,24 @@ microgame
 credits
 	intro={0} wurde durch folgende Fans möglich gemacht!
 	kapptain=Kreativdirektor, Programmierer, Team "Kappitän"
-	leadart=Hauptkünstler, Character Designer
+	leadart=Lead Artist, Character Designer
 	UI=Menü und Hintergrund Grafiken
-	menumusic=Titel und Hauptmenü musik
+	menumusic=Titel und Hauptmenü Musik
+	stagemusic=Spielemusik
 	microgame
 		management=Minispiel Management
 		managementalt=Kollaboration Management
 		code=Minispiel Code
-		art=Minispiel Künstler
+		art=Minispiel Artist
 		music=Minispiel Musik
 	localization=Übersetzer
-		management=Übersetzungs Management
+		management=Lokalisierungs Management
 	sfx=Soundeffekte
+	voice=Nitoris Synchronsprecherin
+	trailer=Demo Trailer
 	socialmedia=Social Media
-	touhou=Basierend auf Touhou Project von ZUN
+	touhou=Basierend auf dem Touhou Project von ZUN
 	thanks=Besonderer Dank
 		discord=Der Touhou Project Discord Server
 		playtesters=Unsere Spieletester
-		fans=Und alle Fans die uns dabei geholfen haben, das Wort zu verbreiten!
+		fans=Und alle Fans, die uns dabei geholfen haben das Wort zu verbreiten!

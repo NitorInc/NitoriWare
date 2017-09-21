@@ -16,6 +16,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     public int runningProbabilty;
     public int teleportProbability;
     private int totalProbabilityValue;
+    public float teleportImmunityDelay;
 
     // Movement actions
     private enum movements { NONE, WALK, STAND, RUN, TELEPORT }     // Movements available
@@ -36,6 +37,8 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     private Animator animator;
     private RemiCover_Remi_HealthBehaviour healthScript;
 
+    public AudioClip teleportSFX_reappear;
+    public AudioClip teleportSFX_disappear;
 
     void Start()
     {
@@ -140,6 +143,16 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
             healthScript.setInmunnity(true);
     }
 
+    private void playReappearTeleportSound()
+    {
+        MicrogameController.instance.playSFX(teleportSFX_reappear);
+    }
+
+    private void playDisappearTeleportSound()
+    {
+        MicrogameController.instance.playSFX(teleportSFX_disappear);
+    }
+
     // Change the position of the character randomly. If the new position is near the previous position, then the new position is moved a little.
     // Used by animator to change gameobject position.
     private void changePosition()
@@ -174,10 +187,16 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     public void endTeleportMovement()
     {
         if (healthScript.isActiveAndEnabled)
-            healthScript.setInmunnity(false);
+            Invoke("stopImmunity", teleportImmunityDelay);
 
         resetMovementSelectionParameters();
         this.currentSpeed = 0;
+
+    }
+
+    void stopImmunity()
+    {
+        healthScript.setInmunnity(false);
     }
 
     // Check if gameobject needs to be fliped in order to face the current movement direction.

@@ -217,9 +217,9 @@ public class StageController : MonoBehaviour
 
         invokeAtBeat("updateToOutro", -4f);
 
-        invokeAtBeat("updateMicrogameTraits", -2f);
+        invokeAtBeat("unloadMicrogame", -2f);
 
-        invokeAtBeat("unloadMicrogame", 2f);
+        invokeAtBeat("updateMicrogameTraits", -2f);
     }
 
 	void invokeInterruptions()

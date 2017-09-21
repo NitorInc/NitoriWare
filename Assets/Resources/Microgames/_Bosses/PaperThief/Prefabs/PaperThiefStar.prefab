@@ -138,6 +138,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 114825991089295420}
+        m_MethodName: set_canBeShot
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   goalScale: 0.75
@@ -168,11 +179,14 @@ MonoBehaviour:
   killStarCount: 50
   displayDodgeCommand: 0
   seekAngleBounds: {x: 30, y: 120}
+  sizeOverSpeedBounds: {x: 0.3, y: 0.75}
   flash: {fileID: 212257645521003042}
   trailParticles: {fileID: 198065674680180748}
   explosionParticles: {fileID: 198350544119051388}
   hitClip: {fileID: 8300000, guid: 89449a912cf875548859b23200052868, type: 3}
   deathClip: {fileID: 8300000, guid: da73241c2db08d445b758541e4cb873a, type: 3}
+  appearClip: {fileID: 0}
+  makeAppearSound: 0
   forceAngleDirection: 0
   movementType: 1
 --- !u!198 &198065674680180748

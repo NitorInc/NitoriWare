@@ -1,5 +1,6 @@
 generic
 	name=Polski
+	gamename=NitorInc.
 	incomplete=UWAGA: Gra nie została całkowicie przetłumaczona na język polski. Część tekstu może być po angielsku.
 stage
 	control
@@ -11,6 +12,7 @@ stage
 	pause=Pauza
 		resume=Kontynuuj {0}
 	quit=Wyjdź {0}
+	retry=Ponów {0}
 	gameover=Koniec gry!
 		score=Twój wynik: {0}
 		highscore=Najlepszy wynik: {0}
@@ -28,8 +30,10 @@ menu
 	play=Graj
 	main
 		story=Tryb fabularny
+			description=Graj w tryb fabularny bez końca! Uzyskaj najlepszy wynik!
 		compilation=Tryb arcade
 		practice=Trening mikro gier
+			description=Wyostrz swoje umiejętności w mikrograch i uzyskaj jak najwyższy wynik żeby popisać się kolegom!
 		quit=Zakończ grę
 			prompt=Czy na pewno chcesz zakończyć {0}?
 		settings=Ustawienia
@@ -64,6 +68,10 @@ menu
 			music=Muzyka
 			sfx=Efekty dźwiękowe
 			voice=Głos
+	microgamecredits
+		art=Grafika: {0}
+		code=Kod gry: {0}
+		music=Muzyka: {0}
 	splash
 		introa=To demo gry jest pochodnym dziełem Touhou Project (東方Project), stworzonym przez ZUN.
 		introb=Wiele fanów tej serii razem pracowało nad kodowaniem, muzyką, grafiką i innymi aspektami wszystkich mikrogier.
@@ -149,9 +157,9 @@ credits
 	intro={0} powstało dzięki niżej wymienionym fanom!
 	kapptain=Kierunek twórczy, Programista, "Kappitan" drużyny
 	leadart=Głowny artysta, Projektant postaci
-	UI=Grafika w menu i etapach gry
+	UI=Grafika w menu i między mikrogrami
 	menumusic=Muzyka na ekranie startowym/w menu
-	stagemusic=Muzyka w etapach gry
+	stagemusic=Muzyka między mikrogrami
 	microgame
 		management=Zarządzanie mikro grami
 		managementalt=Zarządzanie kolaboracją
