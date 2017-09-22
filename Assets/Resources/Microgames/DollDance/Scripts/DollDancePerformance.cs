@@ -33,12 +33,14 @@ public class DollDancePerformance : MonoBehaviour
         }
 
         this.animator.Play("Settle");
+        yield return new WaitForSeconds(moveLength);
         this.OnPreviewComplete();
     }
     
     void OnPreviewComplete()
     {
         this.animator.SetBool("Preview", false);
+        this.animator.Play("GetReady");
 
         // Start listening for sequence input
         this.sequenceListener = this.gameObject.AddComponent<DollDanceSequenceListener>();
@@ -51,8 +53,10 @@ public class DollDancePerformance : MonoBehaviour
 
     public void Release(DollDanceSequence.Move move)
     {
-        if (this.animator.GetCurrentAnimatorStateInfo(DOLL_LAYER).IsName(move.ToString()))
-            this.animator.SetTrigger(DollDanceSequence.Move.Idle.ToString());
+        //if (this.animator.GetCurrentAnimatorStateInfo(DOLL_LAYER).IsName(move.ToString()))
+        //{
+        //    this.animator.SetTrigger(DollDanceSequence.Move.Idle.ToString());
+        //}
     }
 
     public void StartSequence(DollDanceSequence sequence)
@@ -60,11 +64,15 @@ public class DollDancePerformance : MonoBehaviour
         this.sequence = sequence;
 
         this.StartCoroutine(RunPreview(this.sequence.CopySequence()));
+        
+        //this.OnPreviewComplete();
     }
 
     public void Succeed()
     {
         Destroy(this.sequenceListener);
+        this.animator.SetBool("Succeed", true);
+        this.animator.Play("ThumbsUp");
 
         controller.Victory();
     }
@@ -72,6 +80,9 @@ public class DollDancePerformance : MonoBehaviour
     public void Fail()
     {
         Destroy(this.sequenceListener);
+        this.animator.SetBool("Fail", true);
+        this.animator.Play("Frown");
+        this.animator.Play("ThumbsDown");
 
         controller.Defeat();
     }

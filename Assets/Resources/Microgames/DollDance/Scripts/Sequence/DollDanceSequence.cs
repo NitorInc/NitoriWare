@@ -32,7 +32,7 @@ public class DollDanceSequence : MonoBehaviour
     {
         this.moveCount = moveCount;
         sequence.Clear();
-
+        
         System.Random random = new System.Random();
         Move previousMove = Move.Idle;
         for (int i = 0; i < this.moveCount; i++)
