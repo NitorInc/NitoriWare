@@ -19,6 +19,7 @@ public class OkuuFireHandle : MonoBehaviour
     public OkuuFireHeatGauge gauge;
     public SpriteRenderer clockwiseArrow;
     public SpriteRenderer anticlockwiseArrow;
+    public SineWave indicatorMovement;
 
     // List of transforms which include a IOkuuFireMechanism component.
     public List<Transform> mechanisms;
@@ -123,6 +124,11 @@ public class OkuuFireHandle : MonoBehaviour
             // Make sure the guide remains on the handle when not in use.
             this.ResetGuide();
         }
+
+        if (this.canMove && !this.guide.grabbed)
+            this.indicatorMovement.enabled = true;
+        else
+            this.indicatorMovement.enabled = false;
 
         // Play sound
         float speed = Mathf.Abs(deltaCompletion / Time.deltaTime);
