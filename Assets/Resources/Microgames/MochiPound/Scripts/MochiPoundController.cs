@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scripts : MonoBehaviour {
+public class MochiPoundController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
