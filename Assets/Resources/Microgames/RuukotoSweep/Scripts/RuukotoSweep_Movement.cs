@@ -14,15 +14,40 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     public float horizontalMovementSpeed, verticalMovementSpeed;
     public Transform legTransform;
 
+    private bool isInVictoryPose;
+
 	// Use this for initialization
 	void Start () {
-		
+        isInVictoryPose = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //if (!MicrogameController.instance.getVictoryDetermined() && MicrogameTimer.instance.beatsLeft >= .5f)
+        if (!isInVictoryPose && MicrogameTimer.instance.beatsLeft >= .5f)
             moveCharacter();
+        else
+            disable();
+    }
+
+    void disable()
+    {
+        rigAnimator.SetInteger("Walk", 0);
+        rigAnimator.SetFloat("WalkSpeed", 0f);
+        enabled = false;
+    }
+
+    public void victory()
+    {
+        MicrogameController.instance.setVictory(true, true);
+        Invoke("victoryPose", .1f);
+    }
+
+    void victoryPose()
+    {
+        rigAnimator.SetInteger("State", 1);
+        isInVictoryPose = true;
+
+        disable();
     }
 
     void moveCharacter()

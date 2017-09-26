@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RuukotoSweepPatch : MonoBehaviour
 {
+    public RuukotoSweep_Movement playerMovement;
     public ParticleSystem leafParticles;
     public int spawnCountMin, spawnCountMax;
     
@@ -20,10 +21,17 @@ public class RuukotoSweepPatch : MonoBehaviour
 
     void collide(Collider2D other)
     {
-        if (other.name.Contains("Player"))
+        if (transform.parent != null && other.name.Contains("Player"))
         {
             var leafModule = leafParticles.main;
             leafModule.simulationSpeed = 1f;
+
+            Transform leafParent = transform.parent;
+            transform.parent = null;
+            if (leafParent.childCount == 0)
+            {
+                playerMovement.victory();
+            }
         }
     }
 
