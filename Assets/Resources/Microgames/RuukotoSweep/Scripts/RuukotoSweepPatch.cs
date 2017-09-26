@@ -8,6 +8,7 @@ public class RuukotoSweepPatch : MonoBehaviour
     public ParticleSystem leafParticles;
     public int spawnCountMin, spawnCountMax;
     public Vector2 xSpawnBounds, ySpawnBounds;
+    public float minLeafSeparation;
     
 	void Start ()
     {
@@ -33,7 +34,7 @@ public class RuukotoSweepPatch : MonoBehaviour
         {
             //Debug.Log(((Vector2)(transform.parent.GetChild(i).position - transform.position)).magnitude);
             Transform childTransform = transform.parent.GetChild(i);
-            if (childTransform != transform && ((Vector2)(childTransform.position - transform.position)).magnitude < 1f)
+            if (childTransform != transform && ((Vector2)(childTransform.position - transform.position)).magnitude < minLeafSeparation)
                 return true;
         }
         return ((Vector2)(transform.position - playerMovement.transform.position)).magnitude < 2f;
