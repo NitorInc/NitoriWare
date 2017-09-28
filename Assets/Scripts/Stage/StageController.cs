@@ -110,8 +110,8 @@ public class StageController : MonoBehaviour
 	{
 		instance = this;
         sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
-        commandDisplay = transform.parent.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
-        controlDisplay = transform.parent.FindChild("UI").FindChild("Control Display").GetComponent<ControlDisplay>();
+        commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
+        controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
     }
 
 	void updateMicrogameQueue(int maxQueueSize)

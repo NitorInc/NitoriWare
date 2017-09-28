@@ -78,7 +78,7 @@ public class MicrogameController : MonoBehaviour
 			if (traits.hideCursor)
 				Cursor.visible = false;
 
-			commandDisplay = StageController.instance.transform.root.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
+			commandDisplay = StageController.instance.transform.root.Find("UI").Find("Command").GetComponent<CommandDisplay>();
 
 			StageController.instance.resetVictory();
 			StageController.instance.onMicrogameAwake();
@@ -100,7 +100,7 @@ public class MicrogameController : MonoBehaviour
                 
                 if (debugSettings.localizeText)
                 {
-                    LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
+                    LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
                     if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
                         manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
                     manager.gameObject.SetActive(true);
