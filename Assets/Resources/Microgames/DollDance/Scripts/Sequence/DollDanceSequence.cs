@@ -8,13 +8,11 @@ public class DollDanceSequence : MonoBehaviour
 {
 
     public enum Move { Idle, Up, Down, Left, Right }
-    
+
+    [Header("Number of sequential dance moves")]
     [SerializeField]
     int moveCount;
-
-    [SerializeField]
-    int repeats;
-
+    
     List<Move> validMoves;
     Stack<Move> sequence;
 
@@ -30,9 +28,11 @@ public class DollDanceSequence : MonoBehaviour
 
     void ResetSlots(int moveCount)
     {
+        // Clear slots
         this.moveCount = moveCount;
         sequence.Clear();
-        
+
+        // Fill all of the sequence slots randomly
         System.Random random = new System.Random();
         Move previousMove = Move.Idle;
         for (int i = 0; i < this.moveCount; i++)
@@ -58,7 +58,7 @@ public class DollDanceSequence : MonoBehaviour
         else
             return Move.Idle;
     }
-
+    
     public bool IsComplete()
     {
         return sequence.Count == 0;
