@@ -6,8 +6,8 @@ public class DollDancePerformance : MonoBehaviour
 {
 
     const int POINT_LAYER = 1;
-    const int DOLL_LAYER = 2;
-    
+    const int EYE_LAYER = 2;
+
     DollDanceSequence sequence;
 
     [SerializeField]
@@ -41,6 +41,7 @@ public class DollDancePerformance : MonoBehaviour
         }
 
         this.animator.Play("Settle");
+        this.animator.Play("Forward", EYE_LAYER);
 
         // Delay until user input is allowed
         yield return new WaitForSeconds(pointDelay);
@@ -50,7 +51,8 @@ public class DollDancePerformance : MonoBehaviour
 
     void Point(DollDanceSequence.Move move)
     {
-        this.animator.Play(move.ToString());
+        this.animator.Play(move.ToString(), POINT_LAYER);
+        this.animator.Play(move.ToString(), EYE_LAYER);
         this.whipSound.Play();
     }
 
@@ -73,8 +75,6 @@ public class DollDancePerformance : MonoBehaviour
         this.sequence = sequence;
 
         this.StartCoroutine(RunPreview(this.sequence.CopySequence()));
-        
-        //this.OnPreviewComplete();
     }
 
     public void Succeed()
