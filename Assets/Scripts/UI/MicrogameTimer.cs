@@ -26,14 +26,14 @@ public class MicrogameTimer : MonoBehaviour
 		instance = this;
 
 		chain = new Transform[8];
-		Transform hold = transform.FindChild("Chain");
+		Transform hold = transform.Find("Chain");
 		for (int i = 0; i < chain.Length; i++)
 		{
-			chain[i] = hold.FindChild("Chain " + i.ToString());
+			chain[i] = hold.Find("Chain " + i.ToString());
 		}
-		key = hold.FindChild("Key");
-		gear = transform.FindChild("Gear").GetComponent<SpriteRenderer>();
-		countdown = transform.FindChild("Countdown").GetComponent<SpriteRenderer>();
+		key = hold.Find("Key");
+		gear = transform.Find("Gear").GetComponent<SpriteRenderer>();
+		countdown = transform.Find("Countdown").GetComponent<SpriteRenderer>();
 	}
 
 	public void invokeTick()
