@@ -7,8 +7,11 @@ public class DollDancePerformance : MonoBehaviour
 
     const int POINT_LAYER = 1;
     const int DOLL_LAYER = 2;
-
+    
     DollDanceSequence sequence;
+
+    [SerializeField]
+    AudioSource whipSound;
 
     Animator animator;
     DollDanceController controller;
@@ -29,6 +32,7 @@ public class DollDancePerformance : MonoBehaviour
         foreach (DollDanceSequence.Move move in moves)
         {
             this.animator.Play(move.ToString());
+            this.whipSound.Play();
             yield return new WaitForSeconds(moveLength * 2);// this.animator.GetNextAnimatorStateInfo(POINT_LAYER).length);
         }
 
