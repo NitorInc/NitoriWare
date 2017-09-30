@@ -26,21 +26,34 @@ public class DollDancePerformance : MonoBehaviour
     IEnumerator RunPreview(List<DollDanceSequence.Move> moves)
     {
         this.animator.SetBool("Preview", true);
-        float moveLength = this.animator.GetCurrentAnimatorStateInfo(POINT_LAYER).length;
-        yield return new WaitForSeconds(moveLength);// this.animator.GetCurrentAnimatorStateInfo(POINT_LAYER).length);
+        float initialDelay = StageController.beatLength;
+        float pointDelay = StageController.beatLength;
+
+        // Pointing delay
+        yield return new WaitForSeconds(initialDelay);
 
         foreach (DollDanceSequence.Move move in moves)
         {
-            this.animator.Play(move.ToString());
-            this.whipSound.Play();
-            yield return new WaitForSeconds(moveLength * 2);// this.animator.GetNextAnimatorStateInfo(POINT_LAYER).length);
+            this.Point(move);
+
+            // Delay until next point
+            yield return new WaitForSeconds(pointDelay);
         }
 
         this.animator.Play("Settle");
-        yield return new WaitForSeconds(moveLength);
+
+        // Delay until user input is allowed
+        yield return new WaitForSeconds(pointDelay);
+
         this.OnPreviewComplete();
     }
-    
+
+    void Point(DollDanceSequence.Move move)
+    {
+        this.animator.Play(move.ToString());
+        this.whipSound.Play();
+    }
+
     void OnPreviewComplete()
     {
         this.animator.SetBool("Preview", false);
@@ -49,20 +62,12 @@ public class DollDancePerformance : MonoBehaviour
         // Start listening for sequence input
         this.sequenceListener = this.gameObject.AddComponent<DollDanceSequenceListener>();
     }
-    
+
     public void Perform(DollDanceSequence.Move move)
     {
         this.animator.SetTrigger(move.ToString());
     }
-
-    public void Release(DollDanceSequence.Move move)
-    {
-        //if (this.animator.GetCurrentAnimatorStateInfo(DOLL_LAYER).IsName(move.ToString()))
-        //{
-        //    this.animator.SetTrigger(DollDanceSequence.Move.Idle.ToString());
-        //}
-    }
-
+    
     public void StartSequence(DollDanceSequence sequence)
     {
         this.sequence = sequence;
