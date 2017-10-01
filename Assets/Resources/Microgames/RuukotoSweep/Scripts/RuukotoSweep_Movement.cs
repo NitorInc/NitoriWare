@@ -56,7 +56,7 @@ public class RuukotoSweep_Movement : MonoBehaviour {
         manageVerticalMovement();
         manageHorizontalMovement();
 
-        rigAnimator.SetInteger("Walk", transform.position.x != holdPosition.x ? 1 : (transform.position != holdPosition ? 2 : 0));
+        rigAnimator.SetInteger("Walk", transform.position.y != holdPosition.y ? 2 : (transform.position != holdPosition ? 1 : 0));
         rigAnimator.SetFloat("WalkSpeed", transform.position != holdPosition ? 1f: 0f);
 
         if (transform.position.x != holdPosition.x)
