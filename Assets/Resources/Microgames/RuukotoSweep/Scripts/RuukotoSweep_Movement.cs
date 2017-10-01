@@ -23,7 +23,7 @@ public class RuukotoSweep_Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!isInVictoryPose && MicrogameTimer.instance.beatsLeft >= .5f)
+        if (!isInVictoryPose && MicrogameTimer.instance.beatsLeft >= .25f)
             moveCharacter();
         else
             disable();
