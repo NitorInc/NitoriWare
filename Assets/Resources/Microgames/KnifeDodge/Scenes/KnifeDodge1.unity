@@ -108,48 +108,6 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &34692988
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4157176338124410, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 99308dd615e322d4c85c3838f6bed543, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &36294763
 Prefab:
   m_ObjectHideFlags: 0
@@ -197,49 +155,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &135674691
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 135674693}
-  - component: {fileID: 135674692}
-  m_Layer: 0
-  m_Name: KnifeDodge Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &135674692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 135674691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a85c4705b6c34d9aa7df030f93666eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knifePrefab: {fileID: 1945709599916788, guid: afd5216d0426e4b0a88ba7bd772be2b3,
-    type: 2}
-  reimuPrefab: {fileID: 0}
---- !u!4 &135674693
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 135674691}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &952016501 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000013824944864, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
@@ -256,8 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a85c4705b6c34d9aa7df030f93666eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knifePrefab: {fileID: 0}
-  reimuPrefab: {fileID: 0}
+  knifePrefab: {fileID: 1250108437216684, guid: 99308dd615e322d4c85c3838f6bed543,
+    type: 2}
+  reimuPrefab: {fileID: 1598946489508220, guid: c88b4b98692d61d4584ec0f958a8f9b8,
+    type: 2}
 --- !u!1001 &1054889066
 Prefab:
   m_ObjectHideFlags: 0
@@ -295,7 +212,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4427694764721950, guid: c88b4b98692d61d4584ec0f958a8f9b8, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c88b4b98692d61d4584ec0f958a8f9b8, type: 2}
