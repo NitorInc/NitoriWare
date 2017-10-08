@@ -14,15 +14,40 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     public float horizontalMovementSpeed, verticalMovementSpeed;
     public Transform legTransform;
 
+    private bool isInVictoryPose;
+
 	// Use this for initialization
 	void Start () {
-		
+        isInVictoryPose = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //if (!MicrogameController.instance.getVictoryDetermined() && MicrogameTimer.instance.beatsLeft >= .5f)
+        if (!isInVictoryPose && MicrogameTimer.instance.beatsLeft >= .25f)
             moveCharacter();
+        else
+            disable();
+    }
+
+    void disable()
+    {
+        rigAnimator.SetInteger("Walk", 0);
+        rigAnimator.SetFloat("WalkSpeed", 0f);
+        enabled = false;
+    }
+
+    public void victory()
+    {
+        MicrogameController.instance.setVictory(true, true);
+        Invoke("victoryPose", .1f);
+    }
+
+    void victoryPose()
+    {
+        rigAnimator.SetInteger("State", 1);
+        isInVictoryPose = true;
+
+        disable();
     }
 
     void moveCharacter()
@@ -31,7 +56,7 @@ public class RuukotoSweep_Movement : MonoBehaviour {
         manageVerticalMovement();
         manageHorizontalMovement();
 
-        rigAnimator.SetInteger("Walk", transform.position.x != holdPosition.x ? 1 : (transform.position != holdPosition ? 2 : 0));
+        rigAnimator.SetInteger("Walk", transform.position.y != holdPosition.y ? 2 : (transform.position != holdPosition ? 1 : 0));
         rigAnimator.SetFloat("WalkSpeed", transform.position != holdPosition ? 1f: 0f);
 
         if (transform.position.x != holdPosition.x)
