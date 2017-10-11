@@ -38,14 +38,22 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         if (spriteRenderer.sprite == stillSprite)
         {
-            if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
-                direction = -1;
-            else if (direction == 1 && Input.GetKey(KeyCode.RightArrow))
-                direction = 1;
-            else
+            //if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
+            //    direction = -1;
+            //else if (direction == 1 && Input.GetKey(KeyCode.RightArrow))
+            //    direction = 1;
+            //else
                 direction = Input.GetKey(KeyCode.LeftArrow) ? -1 : (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
 
         }
+        else if (!(Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)))
+        {
+            if (direction == -1 && Input.GetKey(KeyCode.RightArrow))
+                direction = 1;
+            else if (direction == 1 && Input.GetKey(KeyCode.LeftArrow))
+                direction = -1;
+        }
+
         transform.position += Vector3.right * (float)direction * moveSpeed * Time.deltaTime;
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, maxposXleft, maxposXright), transform.position.y, transform.position.z);
 
