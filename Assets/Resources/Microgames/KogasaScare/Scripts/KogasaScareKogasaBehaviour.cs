@@ -39,22 +39,26 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         bool leftPressed = Input.GetKey(KeyCode.LeftArrow);
         bool rightPressed = Input.GetKey(KeyCode.RightArrow);
-        if (kogasaSpriteRenderer.sprite == stillSprite)
+
+        if (!(leftPressed && rightPressed))
         {
-            //if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
-            //    direction = -1;
-            //else if (direction == 1 && Input.GetKey(KeyCode.RightArrow))
-            //    direction = 1;
-            //else
+            if (kogasaSpriteRenderer.sprite == stillSprite)
+            {
+                //if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
+                //    direction = -1;
+                //else if (direction == 1 && Input.GetKey(KeyCode.RightArrow))
+                //    direction = 1;
+                //else
                 direction = leftPressed ? -1 : (rightPressed ? 1 : 0);
 
-        }
-        else if (!(leftPressed && rightPressed))
-        {
-            if (direction == -1 && rightPressed)
-                direction = 1;
-            else if (direction == 1 && leftPressed)
-                direction = -1;
+            }
+            else
+            {
+                if (direction == -1 && rightPressed)
+                    direction = 1;
+                else if (direction == 1 && leftPressed)
+                    direction = -1;
+            }
         }
 
         kogasaAnimator.speed = (leftPressed || rightPressed) ? 1f : 1.5f;
