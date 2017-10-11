@@ -36,6 +36,9 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
             //TODO scare
         }
 
+
+        bool leftPressed = Input.GetKey(KeyCode.LeftArrow);
+        bool rightPressed = Input.GetKey(KeyCode.RightArrow);
         if (spriteRenderer.sprite == stillSprite)
         {
             //if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
@@ -43,18 +46,19 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
             //else if (direction == 1 && Input.GetKey(KeyCode.RightArrow))
             //    direction = 1;
             //else
-                direction = Input.GetKey(KeyCode.LeftArrow) ? -1 : (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
+                direction = leftPressed ? -1 : (rightPressed ? 1 : 0);
 
         }
-        else if (!(Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)))
+        else if (!(leftPressed && rightPressed))
         {
-            if (direction == -1 && Input.GetKey(KeyCode.RightArrow))
+            if (direction == -1 && rightPressed)
                 direction = 1;
-            else if (direction == 1 && Input.GetKey(KeyCode.LeftArrow))
+            else if (direction == 1 && leftPressed)
                 direction = -1;
         }
 
-        transform.position += Vector3.right * (float)direction * moveSpeed * Time.deltaTime;
+        kogasaAnimator.speed = (leftPressed || rightPressed) ? 1f : 1.5f;
+        transform.position += Vector3.right * (float)direction * moveSpeed * Time.deltaTime;// * ((leftPressed || rightPressed) ? 1f : .5f);
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, maxposXleft, maxposXright), transform.position.y, transform.position.z);
 
         kogasaAnimator.SetInteger("direction", direction);
