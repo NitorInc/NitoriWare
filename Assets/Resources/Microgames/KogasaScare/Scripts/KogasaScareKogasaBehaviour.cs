@@ -6,23 +6,23 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 {
 
     public Animator kogasaAnimator;
+    public SpriteRenderer kogasaSpriteRenderer;
     public bool iswalking = false;
     public string kogasawalkanim;
     public string kogasawalkanimreverse;
-    public Transform kogasaTransform;
+    //public Transform kogasaTransform;
     public Sprite stillSprite;
     public float moveSpeed;
     public float maxposXleft;
     public float maxposXright;
 
-    private SpriteRenderer spriteRenderer;
     private int direction;
 
     // Use this for initialization
     void Start()
     {
-        kogasaAnimator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //kogasaAnimator = GetComponent<Animator>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         //maxposXleft = -5.214749; //set in inspector
         //maxposXright = 6.21187;  //set in inspector
     }
@@ -39,7 +39,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         bool leftPressed = Input.GetKey(KeyCode.LeftArrow);
         bool rightPressed = Input.GetKey(KeyCode.RightArrow);
-        if (spriteRenderer.sprite == stillSprite)
+        if (kogasaSpriteRenderer.sprite == stillSprite)
         {
             //if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
             //    direction = -1;
