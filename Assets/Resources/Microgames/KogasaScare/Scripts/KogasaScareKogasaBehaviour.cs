@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KogasaBehaviour : MonoBehaviour {
+public class KogasaScareKogasaBehaviour : MonoBehaviour {
 
     public Animator kogasaAnimator;
     public bool iswalking = false;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VictimBehavior : MonoBehaviour {
+public class KogasaScareVictimBehavior : MonoBehaviour {
 
     public Transform victimTransform;
     public float minvictimspawnx; //-4.64
@@ -35,7 +35,7 @@ public class VictimBehavior : MonoBehaviour {
 
     void collide(Collider2D other)
     {
-        if (KogasaBehaviour.isscaring == true && other.name == "KogasaObject")
+        if (KogasaScareKogasaBehaviour.isscaring == true && other.name == "KogasaObject")
         {
             Destroy(gameObject);
         }
