@@ -7,16 +7,16 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     public Animator kogasaAnimator;
     public bool iswalking = false;
-    public static bool isscaring = false;
     public string kogasawalkanim;
     public string kogasawalkanimreverse;
     public Transform kogasaTransform;
-    public Sprite[] kogasaMovementSprites;
+    public Sprite stillSprite;
     public float moveSpeed;
-    public float movesped;
     public float maxposXleft;
     public float maxposXright;
+
     private SpriteRenderer spriteRenderer;
+    private int direction;
 
     // Use this for initialization
     void Start()
@@ -31,53 +31,72 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     void Update()
     {
 
-        isscaring = Input.GetKeyDown("space");
-
-        if (Input.GetKey("left") && !Input.GetKey("right"))
+        if (Input.GetKeyDown("space"))
         {
-            if (kogasaTransform.position.x >= maxposXleft)
-            {
-                kogasaAnimator.Play(kogasawalkanim);
-                //kogasaAnimator.SetFloat("Direction", 1.0f);
-                if (isOnMovementSprite())
-                {
-                    kogasaTransform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
-                }
-            }
-        }
-        if (Input.GetKeyUp("left"))
-        {
-            kogasaAnimator.Play("idle");
-        }
-        if (Input.GetKey("right") && !Input.GetKey("left"))
-        {
-            if (kogasaTransform.position.x <= maxposXright)
-            {
-                kogasaAnimator.Play(kogasawalkanimreverse);
-
-                //kogasaAnimator.SetFloat("Direction", -1.0f); //for some reason, there's a weird stutter at the start of the animation. i'm going with two animations instead
-                if (isOnMovementSprite())
-                    kogasaTransform.Translate(Vector2.left * -moveSpeed * Time.deltaTime);
-            }
-        }
-        if (Input.GetKeyUp("right"))
-        {
-            kogasaAnimator.Play("idle");
+            //TODO scare
         }
 
-        if (Input.GetKey("left") && Input.GetKey("right"))
+        if (spriteRenderer.sprite == stillSprite)
         {
-            kogasaAnimator.Play("idle");
+            if (direction == -1 && Input.GetKey(KeyCode.LeftArrow))
+                direction = -1;
+            else if (direction == 1 && Input.GetKey(KeyCode.RightArrow))
+                direction = 1;
+            else
+                direction = Input.GetKey(KeyCode.LeftArrow) ? -1 : (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
+
         }
+        transform.position += Vector3.right * (float)direction * moveSpeed * Time.deltaTime;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, maxposXleft, maxposXright), transform.position.y, transform.position.z);
+
+        kogasaAnimator.SetInteger("direction", direction);
+        
+
+        //if (Input.GetKey("left") && !Input.GetKey("right"))
+        //{
+        //    if (kogasaTransform.position.x >= maxposXleft)
+        //    {
+        //        kogasaAnimator.Play(kogasawalkanim);
+        //        //kogasaAnimator.SetFloat("Direction", 1.0f);
+        //        if (isOnMovementSprite())
+        //        {
+        //            kogasaTransform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
+        //        }
+        //    }
+        //}
+        //if (Input.GetKeyUp("left"))
+        //{
+        //    kogasaAnimator.Play("idle");
+        //}
+        //if (Input.GetKey("right") && !Input.GetKey("left"))
+        //{
+        //    if (kogasaTransform.position.x <= maxposXright)
+        //    {
+        //        kogasaAnimator.Play(kogasawalkanimreverse);
+
+        //        //kogasaAnimator.SetFloat("Direction", -1.0f); //for some reason, there's a weird stutter at the start of the animation. i'm going with two animations instead
+        //        if (isOnMovementSprite())
+        //            kogasaTransform.Translate(Vector2.left * -moveSpeed * Time.deltaTime);
+        //    }
+        //}
+        //if (Input.GetKeyUp("right"))
+        //{
+        //    kogasaAnimator.Play("idle");
+        //}
+
+        //if (Input.GetKey("left") && Input.GetKey("right"))
+        //{
+        //    kogasaAnimator.Play("idle");
+        //}
     }
 
-    bool isOnMovementSprite()
-    {
-        foreach (Sprite sprite in kogasaMovementSprites)
-        {
-            if (spriteRenderer.sprite == sprite)
-                return true;
-        }
-        return false;
-    }
+    //bool isOnMovementSprite()
+    //{
+    //    foreach (Sprite sprite in kogasaMovementSprites)
+    //    {
+    //        if (spriteRenderer.sprite == sprite)
+    //            return true;
+    //    }
+    //    return false;
+    //}
 }

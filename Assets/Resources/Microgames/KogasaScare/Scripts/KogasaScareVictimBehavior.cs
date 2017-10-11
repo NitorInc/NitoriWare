@@ -35,10 +35,10 @@ public class KogasaScareVictimBehavior : MonoBehaviour {
 
     void collide(Collider2D other)
     {
-        if (KogasaScareKogasaBehaviour.isscaring == true && other.name == "KogasaObject")
-        {
-            Destroy(gameObject);
-        }
+        //if (KogasaScareKogasaBehaviour.isScaring == true && other.name == "KogasaObject")
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
 }
