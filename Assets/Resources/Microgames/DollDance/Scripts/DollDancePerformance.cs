@@ -13,22 +13,35 @@ public class DollDancePerformance : MonoBehaviour
 
     [Header("Sound made when pointing")]
     [SerializeField]
-    AudioSource pointSound;
+    AudioClip pointClip;
 
     [Header("Sound made when doll moves")]
     [SerializeField]
-    AudioSource dollSound;
+    AudioClip dollClip;
 
     Animator animator;
     DollDanceController controller;
     DollDanceSequenceListener sequenceListener;
-    
+
+    Dictionary<DollDanceSequence.Move, float> pitchMap;
+
     void Awake()
     {
         this.animator = this.GetComponentInChildren<Animator>();
         this.controller = FindObjectOfType<DollDanceController>();
     }
-    
+
+    void Start()
+    {
+        this.pitchMap = new Dictionary<DollDanceSequence.Move, float>()
+        {
+            { DollDanceSequence.Move.Up, 1F },
+            { DollDanceSequence.Move.Down, 0.9F },
+            { DollDanceSequence.Move.Left, 0.8F },
+            { DollDanceSequence.Move.Right, 0.7F },
+        };
+    }
+
     IEnumerator RunPreview(List<DollDanceSequence.Move> moves)
     {
         // Play a preview of the sequence so the player knows what to copy
@@ -74,7 +87,8 @@ public class DollDancePerformance : MonoBehaviour
         // Point, look, play a sound
         this.animator.Play(move.ToString(), POINT_LAYER);
         this.animator.Play(move.ToString(), EYE_LAYER);
-        this.pointSound.Play();
+
+        MicrogameController.instance.playSFX(this.pointClip);
     }
 
     void OnPreviewComplete()
@@ -94,7 +108,8 @@ public class DollDancePerformance : MonoBehaviour
     {
         // Doll does a move
         this.animator.SetTrigger(move.ToString());
-        this.dollSound.Play();
+
+        MicrogameController.instance.playSFX(this.dollClip, pitchMult: this.pitchMap[move]);
     }
 
     public void Succeed()
