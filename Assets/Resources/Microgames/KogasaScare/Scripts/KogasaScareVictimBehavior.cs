@@ -23,22 +23,23 @@ public class KogasaScareVictimBehavior : MonoBehaviour {
 		
 	}
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        collide(other);
-    }
+    //void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    collide(other);
+    //}
 
-    void OnTriggerStay2D(Collider2D other)
-    {
-        collide(other);
-    }
+    //void OnTriggerStay2D(Collider2D other)
+    //{
+    //    collide(other);
+    //}
 
-    void collide(Collider2D other)
-    {
-        //if (KogasaScareKogasaBehaviour.isScaring == true && other.name == "KogasaObject")
-        //{
-        //    Destroy(gameObject);
-        //}
-    }
+    //void collide(Collider2D other)
+    //{
+    //    var kogasaBehavior = other.GetComponent<KogasaScareKogasaBehaviour>();
+    //    //if ( == true && other.name == "KogasaObject")
+    //    //{
+    //    //    destroy(gameobject);
+    //    //}
+    //}
 
 }

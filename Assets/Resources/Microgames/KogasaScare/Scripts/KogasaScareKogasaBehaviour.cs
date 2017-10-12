@@ -7,7 +7,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     public Animator kogasaAnimator;
     public SpriteRenderer kogasaSpriteRenderer;
-    public bool iswalking = false;
+    public KogasaScareVictimBehavior victimInSight;
     public string kogasawalkanim;
     public string kogasawalkanimreverse;
     public Sprite stillSprite;
@@ -17,11 +17,10 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     private int direction;
 
-    // Use this for initialization
-    //void Start()
-    //{
-        
-    //}
+    void Start()
+    {
+        victimInSight = null;
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,12 +28,28 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
-            //TODO scare
+            if (victimInSight == null)
+                loss();
+            else
+                victory();
+
+            enabled = false;
         }
         else
             updateMovement();
 
 
+    }
+
+    void victory()
+    {
+        MicrogameController.instance.setVictory(true, true);
+        Destroy(victimInSight.gameObject);
+    }
+    
+    void loss()
+    {
+        MicrogameController.instance.setVictory(false, true);
     }
 
     void updateMovement()
@@ -73,4 +88,27 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     //    }
     //    return false;
     //}
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        collide(other);
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        collide(other);
+    }
+
+    void collide(Collider2D other)
+    {
+        if (victimInSight == null && other.name.ToLower().Contains("victim"))
+            victimInSight = other.GetComponent<KogasaScareVictimBehavior>();
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (victimInSight != null && other.name.ToLower().Contains("victim"))
+            victimInSight = null;
+    }
 }
