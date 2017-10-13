@@ -17,6 +17,8 @@ public class DollDanceController: MonoBehaviour
     void Start()
     {
         this.performance = FindObjectOfType<DollDancePerformance>();
+
+        // Find sequence object and begin the performance
         this.performance.StartSequence(this.GetComponent<DollDanceSequence>());
     }
     
