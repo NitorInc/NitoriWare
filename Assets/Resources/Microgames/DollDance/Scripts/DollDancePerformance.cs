@@ -11,6 +11,12 @@ public class DollDancePerformance : MonoBehaviour
 
     DollDanceSequence sequence;
 
+    [Header("Timing for sequences in beats")]
+    public float cueStartDelay = 1f;
+    public float cuePointDelay = 1f;
+    public float cueSettleDelay = 1f;
+    public float dollInputStartDelay = .5f;
+
     [Header("Sound made when pointing")]
     [SerializeField]
     AudioClip pointClip;
@@ -29,6 +35,10 @@ public class DollDancePerformance : MonoBehaviour
     {
         this.animator = this.GetComponentInChildren<Animator>();
         this.controller = FindObjectOfType<DollDanceController>();
+
+        cueStartDelay *= StageController.beatLength;
+        cuePointDelay *= StageController.beatLength;
+        cueSettleDelay *= StageController.beatLength;
     }
 
     void Start()
@@ -46,25 +56,26 @@ public class DollDancePerformance : MonoBehaviour
     {
         // Play a preview of the sequence so the player knows what to copy
         this.animator.SetBool("Preview", true);
-        float initialDelay = StageController.beatLength;
-        float pointDelay = StageController.beatLength;
 
         // Pointing delay
-        yield return new WaitForSeconds(initialDelay);
+        yield return new WaitForSeconds(cueStartDelay);
 
-        foreach (DollDanceSequence.Move move in moves)
+        for (int i = 0; i < moves.Count; i++)
         {
-            this.Point(move);
+            this.Point(moves[i]);
 
-            // Delay until next point
-            yield return new WaitForSeconds(pointDelay);
+            //Delay until next point, unless this is the final point
+            if (i < moves.Count - 1)
+                yield return new WaitForSeconds(cuePointDelay);
         }
+
+        yield return new WaitForSeconds(cueSettleDelay);
 
         this.animator.Play("Settle");
         this.animator.Play("Forward", EYE_LAYER);
 
         // Delay until user input is allowed
-        yield return new WaitForSeconds(pointDelay);
+        yield return new WaitForSeconds(dollInputStartDelay);
 
         this.animator.Play("GetReady");
 
