@@ -29,7 +29,8 @@ public class DollDancePerformance : MonoBehaviour
 
     [Header("Victory particles")]
     [SerializeField]
-    ParticleSystem[] roseParticles;
+    GameObject roseEffect;
+    //ParticleSystem[] roseParticles;
     
     [Header("Color shade scripts for each character")]
     [SerializeField]
@@ -112,10 +113,7 @@ public class DollDancePerformance : MonoBehaviour
         // After a short delay, give a thumbs up
         yield return new WaitForSeconds(dollResultThumbDelay);
         this.animator.Play("ThumbsUp");
-        foreach (var particles in roseParticles)
-        {
-            particles.Play();
-        }
+        roseEffect.SetActive(true);
         aliceShadeComponent.setShaded(false);
     }
 
