@@ -100,7 +100,8 @@ public class DollDancePerformance : MonoBehaviour
         yield return new WaitForSeconds(cueSettleDelay);
 
         this.animator.Play("Settle");
-        this.animator.Play("Forward", EYE_LAYER);
+        //this.animator.Play("Forward", EYE_LAYER);
+        playEyeAnimation("LookDoll");
 
         // Delay until user input is allowed
         yield return new WaitForSeconds(dollInputStartDelay);
@@ -125,6 +126,8 @@ public class DollDancePerformance : MonoBehaviour
         // After a short delay, give a thumbs up
         yield return new WaitForSeconds(dollResultVictoryDelay);
         this.animator.Play("ThumbsUp");
+        playEyeAnimation("LookBack");
+
         roseEffect.SetActive(true);
         aliceShadeComponent.setShaded(false);
     }
@@ -133,7 +136,9 @@ public class DollDancePerformance : MonoBehaviour
     {
         // Point, look, play a sound
         this.animator.Play(move.ToString(), POINT_LAYER);
-        this.animator.Play(move.ToString(), EYE_LAYER);
+        //this.animator.Play(move.ToString(), EYE_LAYER);
+
+        playEyeAnimation(move.ToString());
 
         MicrogameController.instance.playSFX(this.pointClip, pitchMult: this.pitchMap[move] + .15f);
     }
@@ -189,8 +194,17 @@ public class DollDancePerformance : MonoBehaviour
         this.animator.SetBool("Fail", true);
         this.animator.Play("Frown");
         this.animator.Play("ThumbsDown");
+        playEyeAnimation("LookBack");
         MicrogameController.instance.playSFX(failClip);
         aliceShadeComponent.setShaded(false);
+    }
+
+    void playEyeAnimation(string animation)
+    {
+        foreach (Animator eyeAnimator in eyeAnimators)
+        {
+            eyeAnimator.Play(animation);
+        }
     }
 
     public DollDanceSequence GetSequence()
