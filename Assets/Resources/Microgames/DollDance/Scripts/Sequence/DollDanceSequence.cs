@@ -9,6 +9,10 @@ public class DollDanceSequence : MonoBehaviour
 
     public enum Move { Idle, Up, Down, Left, Right }
 
+    [Header("Debug fields")]
+    [SerializeField]
+    bool pointAllDirections;
+
     [Header("Number of sequential dance moves")]
     [SerializeField]
     int moveCount;
@@ -22,6 +26,9 @@ public class DollDanceSequence : MonoBehaviour
 
         this.validMoves = Enum.GetValues(typeof(Move)).Cast<Move>().ToList();
         this.validMoves.Remove(Move.Idle);
+
+        if (pointAllDirections)
+            moveCount = 4;
 
         ResetSlots(this.moveCount);
     }
@@ -40,7 +47,11 @@ public class DollDanceSequence : MonoBehaviour
             List<Move> available = new List<Move>(this.validMoves);
             available.Remove(previousMove);
 
-            Move newMove = available[random.Next(available.Count)];
+            Move newMove;
+            if (pointAllDirections)
+                newMove = validMoves[i];
+            else
+                newMove = available[random.Next(available.Count)];
             sequence.Push(newMove);
             previousMove = newMove;
         }
