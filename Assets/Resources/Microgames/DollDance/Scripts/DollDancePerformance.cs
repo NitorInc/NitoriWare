@@ -26,6 +26,10 @@ public class DollDancePerformance : MonoBehaviour
     [Header("Sound made when doll moves")]
     [SerializeField]
     AudioClip dollClip;
+
+    [Header("Victory particles")]
+    [SerializeField]
+    ParticleSystem[] roseParticles;
     
     [Header("Color shade scripts for each character")]
     [SerializeField]
@@ -108,6 +112,10 @@ public class DollDancePerformance : MonoBehaviour
         // After a short delay, give a thumbs up
         yield return new WaitForSeconds(dollResultThumbDelay);
         this.animator.Play("ThumbsUp");
+        foreach (var particles in roseParticles)
+        {
+            particles.Play();
+        }
         aliceShadeComponent.setShaded(false);
     }
 
