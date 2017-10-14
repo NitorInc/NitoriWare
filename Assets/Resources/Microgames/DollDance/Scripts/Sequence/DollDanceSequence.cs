@@ -11,7 +11,9 @@ public class DollDanceSequence : MonoBehaviour
 
     [Header("Debug fields")]
     [SerializeField]
-    bool pointAllDirections;
+    bool enableOverrideMoves;
+    [SerializeField]
+    Move[] overrideMoves;
 
     [Header("Number of sequential dance moves")]
     [SerializeField]
@@ -27,8 +29,8 @@ public class DollDanceSequence : MonoBehaviour
         this.validMoves = Enum.GetValues(typeof(Move)).Cast<Move>().ToList();
         this.validMoves.Remove(Move.Idle);
 
-        if (pointAllDirections)
-            moveCount = 4;
+        if (enableOverrideMoves)
+            this.moveCount = overrideMoves.Length;
 
         ResetSlots(this.moveCount);
     }
@@ -48,8 +50,8 @@ public class DollDanceSequence : MonoBehaviour
             available.Remove(previousMove);
 
             Move newMove;
-            if (pointAllDirections)
-                newMove = validMoves[i];
+            if (enableOverrideMoves)
+                newMove = overrideMoves[this.moveCount - 1 - i];
             else
                 newMove = available[random.Next(available.Count)];
             sequence.Push(newMove);
