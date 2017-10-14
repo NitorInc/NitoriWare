@@ -123,7 +123,7 @@ public class DollDancePerformance : MonoBehaviour
         this.animator.Play(move.ToString(), POINT_LAYER);
         this.animator.Play(move.ToString(), EYE_LAYER);
 
-        MicrogameController.instance.playSFX(this.pointClip);
+        MicrogameController.instance.playSFX(this.pointClip, pitchMult: this.pitchMap[move] + .15f);
     }
 
     void OnPreviewComplete()
