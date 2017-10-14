@@ -17,6 +17,7 @@ public class DollDancePerformance : MonoBehaviour
     public float cueSettleDelay = 1f;
     public float dollInputStartDelay = .5f;
     public float dollResultThumbDelay = 1f;
+    public float aliceUnshadeDelay = 1f;
 
     [Header("Sound made when pointing")]
     [SerializeField]
@@ -25,6 +26,12 @@ public class DollDancePerformance : MonoBehaviour
     [Header("Sound made when doll moves")]
     [SerializeField]
     AudioClip dollClip;
+    
+    [Header("Color shade scripts for each character")]
+    [SerializeField]
+    public DollDanceColorShade aliceShadeComponent;
+    [SerializeField]
+    public DollDanceColorShade dollShadeComponent;
 
     Animator animator;
     DollDanceController controller;
@@ -42,6 +49,7 @@ public class DollDancePerformance : MonoBehaviour
         cueSettleDelay *= StageController.beatLength;
         dollInputStartDelay *= StageController.beatLength;
         dollResultThumbDelay *= StageController.beatLength;
+        aliceUnshadeDelay *= StageController.beatLength;
     }
 
     void Start()
@@ -63,6 +71,8 @@ public class DollDancePerformance : MonoBehaviour
         // Pointing delay
         yield return new WaitForSeconds(cueStartDelay);
 
+        dollShadeComponent.setShaded(true);
+
         for (int i = 0; i < moves.Count; i++)
         {
             this.Point(moves[i]);
@@ -80,6 +90,10 @@ public class DollDancePerformance : MonoBehaviour
         // Delay until user input is allowed
         yield return new WaitForSeconds(dollInputStartDelay);
 
+
+        aliceShadeComponent.setShaded(true);
+        dollShadeComponent.setShaded(false);
+
         this.animator.Play("GetReady");
 
         this.animator.SetBool("Preview", false);
@@ -94,6 +108,7 @@ public class DollDancePerformance : MonoBehaviour
         // After a short delay, give a thumbs up
         yield return new WaitForSeconds(dollResultThumbDelay);
         this.animator.Play("ThumbsUp");
+        aliceShadeComponent.setShaded(false);
     }
 
     void Point(DollDanceSequence.Move move)
@@ -142,19 +157,36 @@ public class DollDancePerformance : MonoBehaviour
     {
         // Stop listening for sequence input
         Destroy(this.sequenceListener);
-
-        // Do failure animations
-        this.animator.SetBool("Fail", true);
-        this.animator.Play("Frown");
-        this.animator.Play("ThumbsDown");
+        
+        this.StartCoroutine(this.FailAnimation());
 
         // Tell the game that we failed
         controller.Defeat();
     }
 
+    IEnumerator FailAnimation()
+    {
+        // Do failure animations
+        yield return new WaitForSeconds(dollResultThumbDelay);
+        this.animator.SetBool("Fail", true);
+        this.animator.Play("Frown");
+        this.animator.Play("ThumbsDown");
+        aliceShadeComponent.setShaded(false);
+    }
+
     public DollDanceSequence GetSequence()
     {
         return this.sequence;
+    }
+
+    public DollDanceColorShade getAliceShadeComponent()
+    {
+        return aliceShadeComponent;
+    }
+
+    public DollDanceColorShade getDollShadeComponent()
+    {
+        return aliceShadeComponent;
     }
 
 }

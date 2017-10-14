@@ -16,7 +16,7 @@ public class DollDanceSequence : MonoBehaviour
     [Header("Number of sequential dance moves")]
     [SerializeField]
     int moveCount;
-    
+
     List<Move> validMoves;
     Stack<Move> sequence;
 
