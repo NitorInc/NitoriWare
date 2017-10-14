@@ -16,6 +16,7 @@ public class DollDancePerformance : MonoBehaviour
     public float cuePointDelay = 1f;
     public float cueSettleDelay = 1f;
     public float dollInputStartDelay = .5f;
+    public float dollResultThumbDelay = 1f;
 
     [Header("Sound made when pointing")]
     [SerializeField]
@@ -39,6 +40,8 @@ public class DollDancePerformance : MonoBehaviour
         cueStartDelay *= StageController.beatLength;
         cuePointDelay *= StageController.beatLength;
         cueSettleDelay *= StageController.beatLength;
+        dollInputStartDelay *= StageController.beatLength;
+        dollResultThumbDelay *= StageController.beatLength;
     }
 
     void Start()
@@ -89,7 +92,7 @@ public class DollDancePerformance : MonoBehaviour
         this.animator.SetBool("Succeed", true);
 
         // After a short delay, give a thumbs up
-        yield return new WaitForSeconds(StageController.beatLength);
+        yield return new WaitForSeconds(dollResultThumbDelay);
         this.animator.Play("ThumbsUp");
     }
 
