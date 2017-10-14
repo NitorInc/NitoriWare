@@ -74,7 +74,7 @@ public class DollDancePerformance : MonoBehaviour
         this.animator.SetBool("Preview", true);
 
         // Pointing delay
-        yield return new WaitForSeconds(cueStartDelay);
+        yield return new WaitForSeconds(cueStartDelay);// + MicrogameTimer.instance.beatsLeft);
 
         dollShadeComponent.setShaded(true);
 
