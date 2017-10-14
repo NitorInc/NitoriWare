@@ -16,12 +16,17 @@ public class DollDancePerformance : MonoBehaviour
     public float cuePointDelay = 1f;
     public float cueSettleDelay = 1f;
     public float dollInputStartDelay = .5f;
-    public float dollResultThumbDelay = 1f;
+    public float dollResultVictoryDelay = 1f;
+    public float dollResultFailDelay = 1f;
     public float aliceUnshadeDelay = 1f;
 
-    [Header("Sound made when pointing")]
+    [Header("Sound effects")]
     [SerializeField]
     AudioClip pointClip;
+    [SerializeField]
+    AudioClip victoryClip;
+    [SerializeField]
+    AudioClip failClip;
 
     [Header("Sound made when doll moves")]
     [SerializeField]
@@ -38,6 +43,10 @@ public class DollDancePerformance : MonoBehaviour
     [SerializeField]
     public DollDanceColorShade dollShadeComponent;
 
+    [Header("Additional animators")]
+    [SerializeField]
+    private Animator[] eyeAnimators;
+
     Animator animator;
     DollDanceController controller;
     DollDanceSequenceListener sequenceListener;
@@ -53,7 +62,8 @@ public class DollDancePerformance : MonoBehaviour
         cuePointDelay *= StageController.beatLength;
         cueSettleDelay *= StageController.beatLength;
         dollInputStartDelay *= StageController.beatLength;
-        dollResultThumbDelay *= StageController.beatLength;
+        dollResultVictoryDelay *= StageController.beatLength;
+        dollResultFailDelay *= StageController.beatLength;
         aliceUnshadeDelay *= StageController.beatLength;
     }
 
@@ -110,8 +120,10 @@ public class DollDancePerformance : MonoBehaviour
         // Make the doll transition to a victory pose
         this.animator.SetBool("Succeed", true);
 
+        MicrogameController.instance.playSFX(victoryClip);
+
         // After a short delay, give a thumbs up
-        yield return new WaitForSeconds(dollResultThumbDelay);
+        yield return new WaitForSeconds(dollResultVictoryDelay);
         this.animator.Play("ThumbsUp");
         roseEffect.SetActive(true);
         aliceShadeComponent.setShaded(false);
@@ -173,10 +185,11 @@ public class DollDancePerformance : MonoBehaviour
     IEnumerator FailAnimation()
     {
         // Do failure animations
-        yield return new WaitForSeconds(dollResultThumbDelay);
+        yield return new WaitForSeconds(dollResultFailDelay);
         this.animator.SetBool("Fail", true);
         this.animator.Play("Frown");
         this.animator.Play("ThumbsDown");
+        MicrogameController.instance.playSFX(failClip);
         aliceShadeComponent.setShaded(false);
     }
 
