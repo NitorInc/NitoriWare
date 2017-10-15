@@ -20,6 +20,7 @@ public class DollDancePerformance : MonoBehaviour
     public float dollResultFailDelay = 1f;
     public float aliceUnshadeDelay = 1f;
 
+
     [Header("Sound effects")]
     [SerializeField]
     AudioClip pointClip;
@@ -27,15 +28,18 @@ public class DollDancePerformance : MonoBehaviour
     AudioClip victoryClip;
     [SerializeField]
     AudioClip failClip;
-
-    [Header("Sound made when doll moves")]
     [SerializeField]
     AudioClip dollClip;
 
-    [Header("Victory particles")]
+    [Header("Sound sources")]
+    [SerializeField]
+    AudioSource pointSource;
+    [SerializeField]
+    AudioSource dollSource;
+
+    [Header("Result effects")]
     [SerializeField]
     GameObject roseEffect;
-    //ParticleSystem[] roseParticles;
     
     [Header("Color shade scripts for each character")]
     [SerializeField]
@@ -121,14 +125,34 @@ public class DollDancePerformance : MonoBehaviour
         // Make the doll transition to a victory pose
         this.animator.SetBool("Succeed", true);
 
+        //Play cheering before delay
         MicrogameController.instance.playSFX(victoryClip);
 
-        // After a short delay, give a thumbs up
+        // After a short delay, play appropriate animations
         yield return new WaitForSeconds(dollResultVictoryDelay);
         this.animator.Play("ThumbsUp");
         playEyeAnimation("LookBack");
 
+        //Start rose effect
         roseEffect.SetActive(true);
+        aliceShadeComponent.setShaded(false);
+    }
+
+    IEnumerator FailAnimation()
+    {
+        //Wait for failure delay
+        yield return new WaitForSeconds(dollResultFailDelay);
+
+        //Do failure animations
+        this.animator.SetBool("Fail", true);
+        this.animator.Play("Frown");
+        this.animator.Play("ThumbsDown");
+        playEyeAnimation("LookBack");
+
+        //Play failure sound
+        MicrogameController.instance.playSFX(failClip);
+
+        //Set Alice to unshaded
         aliceShadeComponent.setShaded(false);
     }
 
@@ -140,7 +164,8 @@ public class DollDancePerformance : MonoBehaviour
 
         playEyeAnimation(move.ToString());
 
-        MicrogameController.instance.playSFX(this.pointClip, pitchMult: this.pitchMap[move] + .15f);
+        pointSource.pitch = this.pitchMap[move];
+        pointSource.PlayOneShot(pointClip);
     }
 
     void OnPreviewComplete()
@@ -161,7 +186,9 @@ public class DollDancePerformance : MonoBehaviour
         // Doll does a move
         this.animator.SetTrigger(move.ToString());
 
-        MicrogameController.instance.playSFX(this.dollClip, pitchMult: this.pitchMap[move]);
+        dollSource.Stop();
+        dollSource.pitch = this.pitchMap[move];
+        dollSource.PlayOneShot(dollClip);
     }
 
     public void Succeed()
@@ -185,18 +212,6 @@ public class DollDancePerformance : MonoBehaviour
 
         // Tell the game that we failed
         controller.Defeat();
-    }
-
-    IEnumerator FailAnimation()
-    {
-        // Do failure animations
-        yield return new WaitForSeconds(dollResultFailDelay);
-        this.animator.SetBool("Fail", true);
-        this.animator.Play("Frown");
-        this.animator.Play("ThumbsDown");
-        playEyeAnimation("LookBack");
-        MicrogameController.instance.playSFX(failClip);
-        aliceShadeComponent.setShaded(false);
     }
 
     void playEyeAnimation(string animation)
