@@ -342,7 +342,7 @@ GameObject:
   m_PrefabParentObject: {fileID: 1486756282461064, guid: 63785a3890835e54fbd1c821289ce421,
     type: 2}
   m_PrefabInternal: {fileID: 952757947}
---- !u!82 &506301809
+--- !u!82 &506301810
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -432,7 +432,28 @@ GameObject:
   m_PrefabParentObject: {fileID: 1439900285563456, guid: 63785a3890835e54fbd1c821289ce421,
     type: 2}
   m_PrefabInternal: {fileID: 952757947}
---- !u!82 &564324111
+--- !u!212 &564324112 stripped
+SpriteRenderer:
+  m_PrefabParentObject: {fileID: 212199231567666698, guid: 63785a3890835e54fbd1c821289ce421,
+    type: 2}
+  m_PrefabInternal: {fileID: 952757947}
+--- !u!114 &564324113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 564324110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98eddd698d9288e448f544108ad142ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaded: 1
+  spriteRenderers:
+  - {fileID: 564324112}
+  defaultColor: {r: 1, g: 0.92156863, b: 1, a: 1}
+  shadedColor: {r: 0.7058824, g: 0.6505191, b: 0.7058824, a: 1}
+--- !u!82 &564324114
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -512,27 +533,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!212 &564324112 stripped
-SpriteRenderer:
-  m_PrefabParentObject: {fileID: 212199231567666698, guid: 63785a3890835e54fbd1c821289ce421,
-    type: 2}
-  m_PrefabInternal: {fileID: 952757947}
---- !u!114 &564324113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 564324110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98eddd698d9288e448f544108ad142ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shaded: 1
-  spriteRenderers:
-  - {fileID: 564324112}
-  defaultColor: {r: 1, g: 0.92156863, b: 1, a: 1}
-  shadedColor: {r: 0.7058824, g: 0.6505191, b: 0.7058824, a: 1}
 --- !u!198 &573940896 stripped
 ParticleSystem:
   m_PrefabParentObject: {fileID: 198752330621200378, guid: 2e539e115a46ad14699714ce30084f52,
@@ -630,7 +630,7 @@ Prefab:
     - target: {fileID: 114401595045107164, guid: 63785a3890835e54fbd1c821289ce421,
         type: 2}
       propertyPath: cueSettleDelay
-      value: 2.25
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 114401595045107164, guid: 63785a3890835e54fbd1c821289ce421,
         type: 2}
@@ -640,7 +640,7 @@ Prefab:
     - target: {fileID: 114401595045107164, guid: 63785a3890835e54fbd1c821289ce421,
         type: 2}
       propertyPath: cueStartDelay
-      value: 4.9
+      value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 114401595045107164, guid: 63785a3890835e54fbd1c821289ce421,
         type: 2}
@@ -1044,12 +1044,12 @@ Prefab:
         type: 2}
       propertyPath: pointSource
       value: 
-      objectReference: {fileID: 506301809}
+      objectReference: {fileID: 506301810}
     - target: {fileID: 114401595045107164, guid: 63785a3890835e54fbd1c821289ce421,
         type: 2}
       propertyPath: dollSource
       value: 
-      objectReference: {fileID: 564324111}
+      objectReference: {fileID: 564324114}
     m_RemovedComponents:
     - {fileID: 95976301206368614, guid: 63785a3890835e54fbd1c821289ce421, type: 2}
     - {fileID: 95093739941513642, guid: 63785a3890835e54fbd1c821289ce421, type: 2}
@@ -1217,6 +1217,15 @@ Prefab:
         type: 2}
       propertyPath: defeatEffects
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114245355393315174, guid: 2e539e115a46ad14699714ce30084f52,
+        type: 2}
+      propertyPath: victoryEffects
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172640074589672, guid: 2e539e115a46ad14699714ce30084f52, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e539e115a46ad14699714ce30084f52, type: 2}
