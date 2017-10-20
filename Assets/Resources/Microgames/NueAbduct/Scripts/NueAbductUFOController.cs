@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UFOController : MonoBehaviour {
+public class NueAbductUFOController : MonoBehaviour {
 
     public Transform[] spawnPoints;
 

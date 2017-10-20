@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NitorInc.Utility;
 
-public class VictimBehavior : MonoBehaviour {
+public class NueAbductVictimBehavior : MonoBehaviour {
 
     
     Vector2 targetPos;
     Animator anim;
     Vibrate vib;
 
-    public UFOController ufo;
+    public NueAbductUFOController ufo;
 
     public float wanderRadius = 0.3f;
     public float wanderSpeed = 0.5f;
@@ -123,7 +124,7 @@ public class VictimBehavior : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.GetComponentInChildren<VictimBehavior>() == null) {
+        if (other.GetComponentInChildren<NueAbductVictimBehavior>() == null) {
             if (currState == State.Sucked) {
                 Destroy(this.gameObject);
             } else if (!other.name.Contains("Succ")) {
@@ -133,7 +134,7 @@ public class VictimBehavior : MonoBehaviour {
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if (other.GetComponentInChildren<VictimBehavior>() == null) {
+        if (other.GetComponentInChildren<NueAbductVictimBehavior>() == null) {
             if (currState == State.Sucking) {
                 if (!other.name.Contains("Succ")) {
                     graceTimer.Restart();
