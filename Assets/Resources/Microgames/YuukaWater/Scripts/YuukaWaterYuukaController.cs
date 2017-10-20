@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace NitorInc.YuukaWater {
 
-    public class YuukaController : MonoBehaviour {
+    public class YuukaWaterYuukaController : MonoBehaviour {
 
         public float moveSpeed = 1.0f;
         public Animator yuukaAnim;
-        public YuukaWaterLauncher launcher;
+        public YuukaWaterWaterLauncher launcher;
         public SpriteRenderer yuukaSprite;
         public Sprite yuukaSmile;
         public float idleAnimSpeed = 0.3f;
@@ -18,7 +18,7 @@ namespace NitorInc.YuukaWater {
 
         // Use this for initialization
         void Start() {
-            launcher = GetComponentInChildren<YuukaWaterLauncher>();
+            launcher = GetComponentInChildren<YuukaWaterWaterLauncher>();
             moveAnimSpeed = yuukaAnim.speed;
             YuukaWaterController.OnVictory += YuukaSmile;
         }

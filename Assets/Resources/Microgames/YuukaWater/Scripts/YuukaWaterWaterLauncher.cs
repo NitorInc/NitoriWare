@@ -6,7 +6,7 @@ using NitorInc.Utility;
 
 namespace NitorInc.YuukaWater {
 
-    public class YuukaWaterLauncher : MonoBehaviour {
+    public class YuukaWaterWaterLauncher : MonoBehaviour {
 
         public GameObject[] waterDrops;
         public float spawnRadius = 0.15f;
@@ -40,7 +40,7 @@ namespace NitorInc.YuukaWater {
         void Spawn() {
             Vector3 fuzz = Random.insideUnitCircle * spawnRadius;
             Vector3 pos = direction > 0.0f ? rightSpawnPoint.position : leftSpawnPoint.position + fuzz;
-            var drop = Instantiate(waterDrops[Random.Range(0, waterDrops.Length)], pos, Quaternion.identity).GetComponent<YuukaWaterdrop>();
+            var drop = Instantiate(waterDrops[Random.Range(0, waterDrops.Length)], pos, Quaternion.identity).GetComponent<YuukaWaterWaterdrop>();
             Vector2 vel = new Vector2(Random.Range(dropVelMin, dropVelMax), 0.0f) * direction;
             vel.x += yuukaVel;
             drop.SetInitialForce(vel);

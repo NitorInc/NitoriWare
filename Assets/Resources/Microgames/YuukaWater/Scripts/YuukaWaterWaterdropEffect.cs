@@ -1,13 +1,12 @@
-﻿
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NitorInc.Utility;
 
 namespace NitorInc.YuukaWater {
 
-    public class YuukaWaterdrop : MonoBehaviour {
+
+    public class YuukaWaterWaterdropEffect : MonoBehaviour {
 
         public float scaleSpeed = 1.0f;
         Rigidbody2D rigid;
@@ -34,12 +33,6 @@ namespace NitorInc.YuukaWater {
         void Update() {
             transform.up = rigid.velocity * -1.0f;
             transform.localScale += transform.localScale * scaleSpeed * Time.deltaTime;
-        }
-
-        void OnTriggerEnter2D(Collider2D other) {
-            if (other.GetComponentInParent<YuukaWaterdrop>() == null) {
-                Destroy(gameObject);
-            }
         }
     }
 }

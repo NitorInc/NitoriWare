@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NitorInc.YuukaWater {
 
-    public class YuukaFlower : MonoBehaviour {
+    public class YuukaWaterFlower : MonoBehaviour {
 
         Animator anim;
         Collider2D[] cols;
