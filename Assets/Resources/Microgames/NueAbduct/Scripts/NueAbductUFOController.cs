@@ -2,61 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NueAbductUFOController : MonoBehaviour {
+namespace NitorInc.NueAbduct {
+    public class NueAbductUFOController : MonoBehaviour {
 
-    public Transform[] spawnPoints;
+        public Transform[] spawnPoints;
 
-    [SerializeField]
-    Transform suckPoint;
-    public Transform SuckPoint {
-        get {
-            return suckPoint;
+        [SerializeField]
+        Transform suckPoint;
+        public Transform SuckPoint {
+            get {
+                return suckPoint;
+            }
         }
-    }
 
-    [SerializeField]
-    float gracePeriod = 0.2f;
-    public float GracePeriod {
-        get {
-            return gracePeriod;
+        [SerializeField]
+        float gracePeriod = 0.2f;
+        public float GracePeriod {
+            get {
+                return gracePeriod;
+            }
         }
-    }
-    [SerializeField]
-    float suckTime = 0.5f;
-    public float SuckTime {
-        get {
-            return suckTime;
+        [SerializeField]
+        float suckTime = 0.5f;
+        public float SuckTime {
+            get {
+                return suckTime;
+            }
         }
-    }
-    [SerializeField]
-    float suckSpeed = 1.0f;
-    public float SuckSpeed {
-        get {
-            return suckSpeed;
+        [SerializeField]
+        float suckSpeed = 1.0f;
+        public float SuckSpeed {
+            get {
+                return suckSpeed;
+            }
         }
-    }
 
-    public Animator[] anims;
+        public Animator[] anims;
 
-    // Use this for initialization
-    void Start () {
-        Cursor.visible = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public void PlaySuckAnimation() {
-        for (int i = 0; i < anims.Length; i++) {
-            anims[i].Play("Intensify");
+        // Use this for initialization
+        void Start() {
+            Cursor.visible = true;
         }
-    }
 
-    public void PlayIdleAnimation() {
-        for (int i = 0; i < anims.Length; i++) {
-            anims[i].Play("Idle");
+        // Update is called once per frame
+        void Update() {
+
+        }
+
+        public void PlaySuckAnimation() {
+            for (int i = 0; i < anims.Length; i++) {
+                anims[i].Play("Intensify");
+            }
+        }
+
+        public void PlayIdleAnimation() {
+            for (int i = 0; i < anims.Length; i++) {
+                anims[i].Play("Idle");
+            }
         }
     }
 }
