@@ -8,7 +8,7 @@ public class RemiCover_UmbrellaBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     // Update is called once per frame
