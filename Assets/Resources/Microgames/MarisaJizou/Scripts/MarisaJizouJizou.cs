@@ -2,41 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MarisaJizouJizou : MonoBehaviour {
+namespace NitorInc.MarisaJizou {
 
-    MarisaJizouController controller;
-    bool hasTouched = false;
+    public class MarisaJizouJizou : MonoBehaviour {
 
-    
-    public GameObject happyExp;
-    public GameObject sadExp;
-    public GameObject hat;
-    Collider2D col;
+        MarisaJizouController controller;
+        bool hasTouched = false;
 
-    public void Register(MarisaJizouController controller) {
-        this.controller = controller;
-        col = GetComponentInChildren<Collider2D>();
-    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public GameObject happyExp;
+        public GameObject sadExp;
+        public GameObject hat;
+        Collider2D col;
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (!hasTouched) {
-            controller.Notify(true);
-            hasTouched = true;
-            happyExp.SetActive(true);
-            sadExp.SetActive(false);
-            hat.SetActive(true);
-            col.enabled = false;
-            Destroy(collision.gameObject);
+        public void Register(MarisaJizouController controller) {
+            this.controller = controller;
+            col = GetComponentInChildren<Collider2D>();
+        }
+
+        // Use this for initialization
+        void Start() {
+
+        }
+
+        // Update is called once per frame
+        void Update() {
+
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (!hasTouched) {
+                controller.Notify(true);
+                hasTouched = true;
+                happyExp.SetActive(true);
+                sadExp.SetActive(false);
+                hat.SetActive(true);
+                col.enabled = false;
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

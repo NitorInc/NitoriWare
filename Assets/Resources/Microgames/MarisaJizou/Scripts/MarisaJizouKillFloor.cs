@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MarisaJizouKillFloor : MonoBehaviour {
+namespace NitorInc.MarisaJizou {
 
-    MarisaJizouController controller;
-	// Use this for initialization
-	void Start () {
-        controller = FindObjectOfType<MarisaJizouController>();
-	}
+    public class MarisaJizouKillFloor : MonoBehaviour {
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        controller.Notify(false);
+        MarisaJizouController controller;
+        // Use this for initialization
+        void Start() {
+            controller = FindObjectOfType<MarisaJizouController>();
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision) {
+            controller.Notify(false);
+        }
     }
 }
