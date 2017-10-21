@@ -16,6 +16,20 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		moveDir.z = Input.GetAxis("Vertical"); // get result of WS keys in Z
 		// move this object at frame rate independent speed:
 		transform.position += moveDir * speed * Time.deltaTime;
+
+		// if (Input.GetButtonDown ("Fire1")) Kill();
 	}
 
+	void OnCollisionEnter2D(Collision2D coll) {
+		if (coll.gameObject.tag == "Hazard") {
+			Kill ();
+			MicrogameController.instance.setVictory(false, true);
+		}
+	}
+
+	public void Kill() {
+		GetComponent<BoxCollider2D> ().size = new Vector2(0,0);
+		transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 10.0f);
+		transform.GetComponent<Rigidbody2D> ().angularVelocity = 90.0f;
+	}
 }
