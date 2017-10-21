@@ -8,9 +8,9 @@ public class KnifeDodgeController : MonoBehaviour {
 	public GameObject knifePrefab;
 	public GameObject reimuPrefab;
 	public GameObject knifeTargetPrefab;
-	public int cols = 14;
+	public int numKnives = 14;
 	public float spawnDistance = 10.0f;
-	public int targetsRemoved = 4;
+	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
 	public bool tiltedKnives;
 	// Use this for initialization
@@ -22,9 +22,9 @@ public class KnifeDodgeController : MonoBehaviour {
 
 	void SpawnTargets() {
 		knifeTargetsList = new List<GameObject> ();
-		Vector3 offset = new Vector3(-cols / 2.0f + 0.5f, -1.0f / 2.0f  + 0.5f, 0.0f);
+		Vector3 offset = new Vector3(-numKnives / 2.0f + 0.5f, -1.0f / 2.0f  + 0.5f, 0.0f);
 
-		for (int j = 0; j < cols; j++) {
+		for (int j = 0; j < numKnives; j++) {
 			GameObject target = Instantiate(knifeTargetPrefab, new Vector3(j, -5.0f, 0.0f) + offset, Quaternion.identity);
 			knifeTargetsList.Add(target);
 		}
@@ -58,8 +58,8 @@ public class KnifeDodgeController : MonoBehaviour {
 
 	// Deletes targets to create a safe zone.
 	void CreateSafeZone() {
-		int startingIndex = Random.Range (0,knifeTargetsList.Count - targetsRemoved);
-		for (int i = startingIndex; i < startingIndex + targetsRemoved; i++) {
+		int startingIndex = Random.Range (0,knifeTargetsList.Count - knivesRemoved);
+		for (int i = startingIndex; i < startingIndex + knivesRemoved; i++) {
 			knifeTargetsList.RemoveAt (startingIndex);
 		}
 	}
