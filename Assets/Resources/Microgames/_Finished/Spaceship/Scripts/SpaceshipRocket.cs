@@ -27,6 +27,15 @@ public class SpaceshipRocket : MonoBehaviour
 
 	void Update()
 	{
+		if (!MicrogameController.instance.getVictoryDetermined() && Input.GetKeyDown(KeyCode.Space))
+		{
+			if (bar.isWithinThreshold())
+				liftoff();
+			else
+				explode();
+
+			bar.enabled = false;
+		}
 	}
 
 	void liftoff()
