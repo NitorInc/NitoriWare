@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class KyoukoEchoKyouko : MonoBehaviour
 {
-
-    [SerializeField]
-    float speed = 10F;
-
+    
     [SerializeField]
     float boundTop;
     [SerializeField]
@@ -18,7 +15,6 @@ public class KyoukoEchoKyouko : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.rigidBody = this.GetComponent<Rigidbody2D>();
         this.animator = this.GetComponent<Animator>();
     }
     
