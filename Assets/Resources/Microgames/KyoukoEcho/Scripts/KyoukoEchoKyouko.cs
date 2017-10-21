@@ -21,25 +21,11 @@ public class KyoukoEchoKyouko : MonoBehaviour
         this.rigidBody = this.GetComponent<Rigidbody2D>();
         this.animator = this.GetComponent<Animator>();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    void LateUpdate()
     {
-        Vector2 velocity = new Vector2();
-        if (Input.GetKey(KeyCode.UpArrow))
-            velocity.y = speed;
-        else if (Input.GetKey(KeyCode.DownArrow))
-            velocity.y = -speed;
-
-        rigidBody.velocity = velocity;
-
-        Vector2 currentPosition = this.transform.position;
-        if (currentPosition.y > boundTop)
-            currentPosition.y = boundTop;
-        else if (currentPosition.y < boundBottom)
-            currentPosition.y = boundBottom;
-        
-        transform.position = currentPosition;
+        Vector3 cursorPosition = CameraHelper.getCursorPosition();
+        this.transform.position = new Vector2(this.transform.position.x, cursorPosition.y);
     }
 
     public void Hit(string partName)
