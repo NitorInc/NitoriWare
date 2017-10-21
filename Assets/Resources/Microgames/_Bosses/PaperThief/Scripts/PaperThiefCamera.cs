@@ -113,7 +113,7 @@ public class PaperThiefCamera : MonoBehaviour
 
 	void updateShift()
 	{
-		if (transform.moveTowardsLocal((Vector2)goalPosition, shiftSpeed))
+		if (transform.moveTowardsLocal2D((Vector2)goalPosition, shiftSpeed))
 		{
 			Camera.main.orthographicSize = goalSize;
 			mustShift = false;

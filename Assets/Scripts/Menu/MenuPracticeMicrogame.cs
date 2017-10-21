@@ -73,7 +73,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
                 float moveSpeed = ((Vector2)initialPosition).magnitude / timeToCenter;
                 if (GameMenu.subMenu == GameMenu.SubMenu.PracticeSelect)    //Moving towards center
                 {
-                    if (transform.moveTowardsLocal(Vector2.zero, moveSpeed))
+                    if (transform.moveTowardsLocal2D(Vector2.zero, moveSpeed))
                     {
                         //menuAnimator.SetBool("Shifting", false);
                         GameMenu.shifting = false;
@@ -81,7 +81,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
                 }
                 else                                                        //Moving away from center
                 {
-                    if (transform.moveTowardsLocal(initialPosition, moveSpeed))
+                    if (transform.moveTowardsLocal2D(initialPosition, moveSpeed))
                     {
                         transform.SetSiblingIndex(initialSiblingIndex);
                         GameMenu.shifting = false;
