@@ -187,7 +187,7 @@ public class PaperThiefMarisa : MonoBehaviour
             defeatSpinTimer = defeatSpinFrequency;
         }
 
-        if (transform.moveTowardsLocal(Vector2.zero, moveCenterSpeed))
+        if (transform.moveTowardsLocal2D(Vector2.zero, moveCenterSpeed))
         {
             spin.facingRight = false;
             defeatedParticles.Stop();

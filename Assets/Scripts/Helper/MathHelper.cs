@@ -215,14 +215,14 @@ public static class MathHelper
 		}
 	}
 
-	/// <summary>
-	/// (2D) Moves an object (frame by frame) to a certain point, will return true if the point is reached that frame
-	/// </summary>
-	/// <param name="transform"></param>
-	/// <param name="goalPosition"></param>
-	/// <param name="speed"></param>
-	/// <returns></returns>
-	public static bool moveTowards(this Transform transform, Vector2 goalPosition, float speed)
+    /// <summary>
+    /// (2D) Moves an object (frame by frame) to a certain point in 2D space, will return true if the point is reached that frame
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="goalPosition"></param>
+    /// <param name="speed"></param>
+    /// <returns></returns>
+    public static bool moveTowards2D(this Transform transform, Vector2 goalPosition, float speed)
 	{
 		return moveTowards(transform, new Vector3(goalPosition.x, goalPosition.y, transform.position.z), speed);
 	}
@@ -251,14 +251,14 @@ public static class MathHelper
 			return false;
 		}
 	}
-	/// <summary>
-	/// (2D) Moves an object (frame by frame) to a certain point, will return true if the point is reached that frame
-	/// </summary>
-	/// <param name="transform"></param>
-	/// <param name="goalPosition"></param>
-	/// <param name="speed"></param>
-	/// <returns></returns>
-	public static bool moveTowardsLocal(this Transform transform, Vector2 goalPosition, float speed)
+    /// <summary>
+    /// (2D) Moves an object (frame by frame) to a certain point in 2D space, will return true if the point is reached that frame
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="goalPosition"></param>
+    /// <param name="speed"></param>
+    /// <returns></returns>
+    public static bool moveTowardsLocal2D(this Transform transform, Vector2 goalPosition, float speed)
 	{
 		return moveTowardsLocal(transform, new Vector3(goalPosition.x, goalPosition.y, transform.localPosition.z), speed);
 	}
