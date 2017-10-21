@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class KyoukoEchoKyouko : MonoBehaviour
 {
@@ -12,11 +13,13 @@ public class KyoukoEchoKyouko : MonoBehaviour
     float boundBottom;
 
     Rigidbody2D rigidBody;
-
+    Animator animator;
+    
     // Use this for initialization
     void Start()
     {
         this.rigidBody = this.GetComponent<Rigidbody2D>();
+        this.animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,6 +40,17 @@ public class KyoukoEchoKyouko : MonoBehaviour
             currentPosition.y = boundBottom;
         
         transform.position = currentPosition;
+    }
+
+    public void Hit(string partName)
+    {
+        // Body parts share names with animations
+        this.animator.SetTrigger(partName);
+    }
+
+    public void Miss()
+    {
+        this.animator.SetTrigger("Miss");
     }
 
     public float BoundTop

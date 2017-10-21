@@ -16,6 +16,8 @@ public class KyoukoEchoNoise : MonoBehaviour
     Rigidbody2D rigidBody;
     Animator animator;
 
+    bool canEcho = true;
+
     // Use this for initialization
     void Start()
     {
@@ -43,11 +45,11 @@ public class KyoukoEchoNoise : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         // Only trigger on player
-        if (other.CompareTag("Player"))
+        if (this.canEcho && other.CompareTag("Player"))
         {
             // Modify new direction based on what part of Kyouko was hit
-            float hitOffset = this.transform.position.y - other.transform.position.y;
-            float hitLocation = hitOffset / other.bounds.size.y;
+            KyoukoEchoBodyPart bodyPart = other.GetComponent<KyoukoEchoBodyPart>();
+            float hitLocation = bodyPart.CalculateBodyHitLocationY(this.transform.position.y);
 
             // Bounce
             Vector2 direction = new Vector2(1, -hitLocation).normalized;
@@ -55,8 +57,7 @@ public class KyoukoEchoNoise : MonoBehaviour
             StartCoroutine(SetDirection(direction, this.hitDelay));
 
             // Animate
-
-            // Notify Kyouko
+            Echo();
         }
     }
 
@@ -65,6 +66,14 @@ public class KyoukoEchoNoise : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         this.rigidBody.velocity = -direction * this.speed;
+    }
+
+    void Echo()
+    {
+        this.animator.Play("Reflect");
+
+        // Prevent further interactions
+        this.canEcho = false;
     }
 
 }
