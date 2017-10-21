@@ -6,6 +6,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	Vector3 facingDirection;
 	public bool isMoving;
 	public bool isRotating;
+	public float knifeSpeed = 20.0f;
 	// Use this for initialization
 	void Start () {
 		isMoving = false;
@@ -20,7 +21,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 		}
 
 		if (isMoving) {
-			GetComponent<Rigidbody2D> ().AddForce (-1.0f * transform.up * 10.0f);
+			GetComponent<Rigidbody2D> ().AddForce (-1.0f * transform.up * knifeSpeed);
 		}
 	}
 
