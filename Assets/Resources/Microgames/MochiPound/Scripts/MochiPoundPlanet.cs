@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MochiPoundPlanet : MonoBehaviour {
 
-    public MochiPoundController controller;
     public float bumpTime = 0.3f;
     public float bumpForce = 1.0f;
     public float angularRange = 30.0f;
@@ -18,7 +17,6 @@ public class MochiPoundPlanet : MonoBehaviour {
 	void Start () {
         bumpTimer = -1.0f;
         rigid = GetComponent<Rigidbody2D>();
-        controller.onHit += Shake;
 	}
 
     void Shake() {
