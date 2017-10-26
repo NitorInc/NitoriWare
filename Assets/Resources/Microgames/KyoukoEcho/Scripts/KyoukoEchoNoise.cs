@@ -34,7 +34,7 @@ public class KyoukoEchoNoise : MonoBehaviour
 
         // Pick a target which will intersect with Kyouko's area of effect
         KyoukoEchoKyouko kyouko = FindObjectOfType<KyoukoEchoKyouko>();
-        float targetY = Random.Range(kyouko.BoundBottom, kyouko.BoundTop);
+        float targetY = Random.Range(kyouko.UpperBoundY, kyouko.LowerBoundY);
         Vector2 target = new Vector2(kyouko.transform.position.x, targetY);
 
         // Set velocity

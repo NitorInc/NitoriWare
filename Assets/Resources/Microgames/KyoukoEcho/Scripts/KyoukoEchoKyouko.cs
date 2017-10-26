@@ -9,21 +9,18 @@ public class KyoukoEchoKyouko : MonoBehaviour
     int missLimit = 1;
     int misses;
     int hits;
-
-    [SerializeField]
-    float boundTop;
-    [SerializeField]
-    float boundBottom;
-
+    
     bool willEcho = true;
 
     Rigidbody2D rigidBody;
     Animator animator;
-    
-    // Use this for initialization
+
+    KyoukoEchoFlyZone flyZone;
+
     void Start()
     {
-        this.animator = this.GetComponent<Animator>();
+        this.animator = GetComponent<Animator>();
+        this.flyZone = FindObjectOfType<KyoukoEchoFlyZone>();
     }
     
     void LateUpdate()
@@ -68,14 +65,14 @@ public class KyoukoEchoKyouko : MonoBehaviour
         get { return this.willEcho; }
     }
 
-    public float BoundTop
+    public float UpperBoundY
     {
-        get { return this.boundTop; }
+        get { return this.flyZone.UpperBoundY; }
     }
 
-    public float BoundBottom
+    public float LowerBoundY
     {
-        get { return this.boundBottom; }
+        get { return this.flyZone.LowerBoundY; }
     }
 
 }
