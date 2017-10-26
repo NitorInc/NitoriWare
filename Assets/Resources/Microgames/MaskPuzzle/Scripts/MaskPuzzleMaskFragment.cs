@@ -46,7 +46,12 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             print("Snapped " + name + " to " + otherFragment2.name + " and became its parent");
         }
 
-        // TODO: Check victory
+        // Check victory
+        if (Vector2.Distance(transform.position, otherFragment1.transform.position) == 0 &&
+            Vector2.Distance(transform.position, otherFragment2.transform.position) == 0)
+        {
+            MicrogameController.instance.setVictory(victory: true, final: true);
+        }
     }
 
     // To be called when grabbing a mask
