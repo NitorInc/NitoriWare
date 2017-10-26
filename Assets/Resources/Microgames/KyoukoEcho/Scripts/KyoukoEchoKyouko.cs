@@ -17,7 +17,7 @@ public class KyoukoEchoKyouko : MonoBehaviour
 
     KyoukoEchoFlyZone flyZone;
 
-    void Start()
+    void Awake()
     {
         this.animator = GetComponent<Animator>();
         this.flyZone = FindObjectOfType<KyoukoEchoFlyZone>();
