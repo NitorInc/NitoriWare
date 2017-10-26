@@ -2,7 +2,7 @@
 
 public class KyoukoEchoMissZone : MonoBehaviour
 {
-    
+
     KyoukoEchoKyouko kyouko;
 
     void Start()
@@ -12,7 +12,11 @@ public class KyoukoEchoMissZone : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        this.kyouko.Miss();
+        KyoukoEchoNoise noise = other.GetComponent<KyoukoEchoNoise>();
+        if (noise && noise.CanEcho())
+        {
+            this.kyouko.Miss();
+        }
     }
 
 }
