@@ -9,8 +9,6 @@ public class KyoukoEchoNoise : MonoBehaviour
 
     [Header("Timings")]
     [SerializeField]
-    float startDelay;
-    [SerializeField]
     float hitDelay;
     
     Rigidbody2D rigidBody;
@@ -23,23 +21,16 @@ public class KyoukoEchoNoise : MonoBehaviour
     {
         this.rigidBody = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
+    }
 
-        // Calculate random start position
-        Bounds bounds = this.transform.parent.GetComponent<Collider2D>().bounds;
-        Vector2 startPosition = new Vector2(
-            Random.Range(bounds.min.x, bounds.max.x),
-            Random.Range(bounds.min.y, bounds.max.y));
-        // Set start position
-        this.transform.position = startPosition;
-
-        // Pick a target which will intersect with Kyouko's area of effect
-        KyoukoEchoKyouko kyouko = FindObjectOfType<KyoukoEchoKyouko>();
-        float targetY = Random.Range(kyouko.UpperBoundY, kyouko.LowerBoundY);
-        Vector2 target = new Vector2(kyouko.transform.position.x, targetY);
+    public void Fire(float targetX, float upperBoundY, float lowerBoundY, float delay)
+    {
+        float targetY = Random.Range(lowerBoundY, upperBoundY);
+        Vector2 target = new Vector2(targetX, targetY);
 
         // Set velocity
         Vector2 direction = ((Vector2)this.transform.position - target).normalized;
-        StartCoroutine(SetDirection(direction, this.startDelay));
+        StartCoroutine(SetDirection(direction, delay));
     }
 
     public bool CanEcho()

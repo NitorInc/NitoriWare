@@ -3,13 +3,11 @@
 public class KyoukoEchoKyouko : MonoBehaviour
 {
     [SerializeField]
-    int echoCount;
-
-    [SerializeField]
     int missLimit = 1;
+
     int misses;
     int hits;
-    
+    int echoCount;
     bool willEcho = true;
 
     Rigidbody2D rigidBody;
@@ -58,6 +56,11 @@ public class KyoukoEchoKyouko : MonoBehaviour
 
             this.animator.SetBool("Lose", true);
         }
+    }
+    
+    public void IncrementEchoCount()
+    {
+        this.echoCount++;
     }
 
     public bool WillEcho
