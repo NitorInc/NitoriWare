@@ -9,7 +9,9 @@ public class KyoukoEchoNoiseZone : MonoBehaviour
     Collider2D zone;
     KyoukoEchoKyouko kyouko;
 
+	[SerializeField]
     int noiseCount = 3;
+	[SerializeField]
     float delay = 1;
 
     void Start()
