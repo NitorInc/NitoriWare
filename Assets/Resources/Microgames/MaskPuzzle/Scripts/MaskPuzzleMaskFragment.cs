@@ -6,11 +6,23 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
     public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
 
+    // Callbacks for drag and drop events
+    public void OnGrab()
+    {
+        SwapParents();
+    }
+
+    public void OnRelease()
+    {
+        SnapToOtherFragments();
+        CheckVictory();
+    }
+
     // To be called when dropping a mask
     // Checks whether any other fragments are near the drop position
     // If yes, snaps this fragment to the other one(s) by making their positions equal
     // and becoming their parent so they are moved together in the future
-    public void SnapToOtherFragments()
+    void SnapToOtherFragments()
     {
         for (int i=0; i<fragmentsManager.fragments.Count; i++)
         {
@@ -25,8 +37,6 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
                 print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
             }
         }
-
-        CheckVictory();
     }
 
     // To be called when grabbing a mask
@@ -35,7 +45,7 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     // This is done to ensure that both linked masks are moved together regardless of which one is grabbed
     // FIXME: Children aren't brought up to the front layer when grabbing the group (only the parent is),
     //        so they can be behind other fragments while being moved around
-    public void SwapParents()
+    void SwapParents()
     {
         if (transform.parent != fragmentsManager.transform)
         {

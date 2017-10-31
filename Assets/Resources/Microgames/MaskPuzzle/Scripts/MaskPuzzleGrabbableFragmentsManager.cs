@@ -42,10 +42,10 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
             // Add hooks to drag and drop
             UnityEvent grabEvent = new UnityEvent();
-            grabEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().SwapParents);
+            grabEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().OnGrab);
             currentFragment.GetComponent<MouseGrabbable>().onGrab = grabEvent;
             UnityEvent releaseEvent = new UnityEvent();
-            releaseEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().SnapToOtherFragments);
+            releaseEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().OnRelease);
             currentFragment.GetComponent<MouseGrabbable>().onRelease = releaseEvent;
 
             // Add the fragment to list
