@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class MaskPuzzleMaskFragment : MonoBehaviour {
 
-    // TODO: Find them automagically; also, use a list
-    [Header("The other mask fragments")]
-    [SerializeField]
-    private GameObject otherFragment1, otherFragment2;
-
-    [Header("Mouse Grabbable Group")]
-    [SerializeField]
-    private GameObject mouseGrabbableGroup;
+    //[Header("Fragments Manager")]
+    //[SerializeField]
+    public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
 
     // TODO: This setting should be somewhere else (so it doesn't have to be set for each fragment)
     [Header("How close the fragments need to be to snap together?")]
@@ -24,34 +19,20 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     // and becoming their parent so they are moved together in the future
     public void SnapToOtherFragments()
     {
-        // debug stuff
-        print("Positions for " + name);
-        print("own: " + (Vector2)transform.position);
-        print("other1: " + (Vector2)otherFragment1.transform.position);
-        print("other2: " + (Vector2)otherFragment2.transform.position);
-
-        // TODO: Use a list (to support variable number of fragments and get rid of duplicate code)
-        if (Vector2.Distance(transform.position, otherFragment1.transform.position) <= maxSnapDistance)
+        for (int i=0; i<fragmentsManager.fragments.Count; i++)
         {
-            transform.position = (Vector2)otherFragment1.transform.position;
-            transform.parent = mouseGrabbableGroup.transform;
-            otherFragment1.transform.parent = transform;
-            print("Snapped " + name + " to " + otherFragment1.name + " and became its parent");
-        }
-        if (Vector2.Distance(transform.position, otherFragment2.transform.position) <= maxSnapDistance)
-        {
-            transform.position = (Vector2)otherFragment2.transform.position;
-            transform.parent = mouseGrabbableGroup.transform;
-            otherFragment2.transform.parent = transform;
-            print("Snapped " + name + " to " + otherFragment2.name + " and became its parent");
+            if (fragmentsManager.fragments[i] == this)
+                continue;
+            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position) <= maxSnapDistance)
+            {
+                transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
+                transform.parent = fragmentsManager.transform;
+                fragmentsManager.fragments[i].transform.parent = transform;
+                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
+            }
         }
 
-        // Check victory
-        if (Vector2.Distance(transform.position, otherFragment1.transform.position) == 0 &&
-            Vector2.Distance(transform.position, otherFragment2.transform.position) == 0)
-        {
-            MicrogameController.instance.setVictory(victory: true, final: true);
-        }
+        CheckVictory();
     }
 
     // To be called when grabbing a mask
@@ -62,11 +43,22 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     //        so they can be behind other fragments while being moved around
     public void SwapParents()
     {
-        if (transform.parent != mouseGrabbableGroup.transform)
+        if (transform.parent != fragmentsManager.transform)
         {
             Transform otherMask = transform.parent;
-            transform.parent = mouseGrabbableGroup.transform;
+            transform.parent = fragmentsManager.transform;
             otherMask.parent = transform;
         }
+    }
+
+    // To be called after dropping a fragment and snapping to other fragments
+    // Check if victory condition has been achieved
+    // If distance to each other mask is 0, we have won
+    void CheckVictory()
+    {
+        for (int i=0; i<fragmentsManager.fragments.Count; i++)
+            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position) > 0)
+                return;
+        MicrogameController.instance.setVictory(victory: true, final: true);
     }
 }
