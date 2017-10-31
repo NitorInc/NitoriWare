@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class MaskPuzzleMaskFragment : MonoBehaviour {
 
-    //[Header("Fragments Manager")]
-    //[SerializeField]
     public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
-
-    // TODO: This setting should be somewhere else (so it doesn't have to be set for each fragment)
-    [Header("How close the fragments need to be to snap together?")]
-    [SerializeField]
-    private float maxSnapDistance = 1f;
 
     // To be called when dropping a mask
     // Checks whether any other fragments are near the drop position
@@ -23,7 +16,8 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         {
             if (fragmentsManager.fragments[i] == this)
                 continue;
-            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position) <= maxSnapDistance)
+            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
+                <= fragmentsManager.maxSnapDistance)
             {
                 transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
                 transform.parent = fragmentsManager.transform;

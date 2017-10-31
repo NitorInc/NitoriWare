@@ -9,6 +9,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [SerializeField]
     private GameObject maskLibrary;
 
+    [Header("Fragments snap when closer than:")]
+    public float maxSnapDistance = 1f;
+
     public List<GameObject> fragments;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
