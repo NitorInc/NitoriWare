@@ -8,23 +8,23 @@ public class Vibrate : MonoBehaviour
 	//Attach to a parent object, because it will directly edit localPosition
 
 	[SerializeField]
-	private bool _vibrateOn;
-
+	private bool _vibrateOn = true;
 	public bool vibrateOn
 	{
 		get { return _vibrateOn; }
 		set
-		{
-			if (!value && resetOnStop)
+        {
+
+            if (!value && resetOnStop)
 				resetPosition();
-			else if (!value && resetOnStart)
+			else if (value && resetOnStart)
 				resetVibrateGoal();
 			_vibrateOn = value;
 		}
 	}
 	public float vibrateSpeed, vibrateMaxX, vibrateMaxY;
 	private Vector2 vibrateGoal, offset;
-	public bool relativeToStartPosition, resetOnStop, resetOnStart;
+	public bool relativeToStartPosition = true, resetOnStop, resetOnStart;
 
 
 	void Awake()
@@ -33,10 +33,10 @@ public class Vibrate : MonoBehaviour
 		resetVibrateGoal();
 	}
 
-	void resetOffset()
+	public void resetOffset()
 	{
 		offset = relativeToStartPosition ? (Vector2)transform.localPosition : Vector2.zero;
-	}
+    }
 
 	void setOffset(Vector3 position)
 	{

@@ -30,6 +30,8 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         {
             kogasaAnimator.SetTrigger("scare");
             kogasaAnimator.speed = 1f;
+            //Time.timeScale = .15f;
+
             if (victimInSight == null)
                 loss();
             else
@@ -45,7 +47,11 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void victory()
     {
+        if (victimInSight.transform.position.x > transform.position.x)
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         MicrogameController.instance.setVictory(true, true);
+
+        victimInSight.scare();
         //Destroy(victimInSight.gameObject);
     }
     

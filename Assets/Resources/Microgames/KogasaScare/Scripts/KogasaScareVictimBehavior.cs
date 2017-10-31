@@ -8,20 +8,33 @@ public class KogasaScareVictimBehavior : MonoBehaviour {
     public float minvictimspawnx; //-4.64
     public float maxvictimspawnx; // 4.64
     public float xspawn;
-    Vector2 pos;
+
+    public Animator rigAnimator;
+    public Vibrate vibrate;
+    
 
     // Use this for initialization
-    void Start () {
-        victimTransform = GetComponent<Transform>();
-        xspawn = Random.Range(minvictimspawnx, maxvictimspawnx);
-        pos = new Vector2(xspawn, -0.55f);
-        victimTransform.position = pos;
+    void Start ()
+    {
+        transform.position = new Vector3(Random.Range(minvictimspawnx, maxvictimspawnx), transform.position.y, transform.position.z);
+
+        //victimTransform = GetComponent<Transform>();
+        //xspawn = Random.Range(minvictimspawnx, maxvictimspawnx);
+        //Vector2 pos = new Vector2(xspawn, -0.55f);
+        //victimTransform.position = pos;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
+
+    public void scare()
+    {
+        vibrate.vibrateOn = true;
+        rigAnimator.SetTrigger("scare");
+    }
 
     //void OnTriggerEnter2D(Collider2D other)
     //{
