@@ -28,6 +28,8 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
+            kogasaAnimator.SetTrigger("scare");
+            kogasaAnimator.speed = 1f;
             if (victimInSight == null)
                 loss();
             else
@@ -44,7 +46,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     void victory()
     {
         MicrogameController.instance.setVictory(true, true);
-        Destroy(victimInSight.gameObject);
+        //Destroy(victimInSight.gameObject);
     }
     
     void loss()
