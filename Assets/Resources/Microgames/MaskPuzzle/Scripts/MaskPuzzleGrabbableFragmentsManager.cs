@@ -12,6 +12,17 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Fragments snap when closer than:")]
     public float maxSnapDistance = 1f;
 
+    [Header("On victory move mask to:")]
+    public Vector2 victoryGoal;
+
+    [Header("On victory rotate the mask by:")]
+    public float victoryRotation;
+
+    [Header("Time to move to victory position")]
+    public float victoryMoveTime = 1f;
+
+    public float victoryMoveSpeed, victoryRotationSpeed;
+
     public List<GameObject> fragments;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
