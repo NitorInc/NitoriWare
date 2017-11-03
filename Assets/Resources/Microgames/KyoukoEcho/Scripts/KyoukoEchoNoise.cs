@@ -31,6 +31,10 @@ public class KyoukoEchoNoise : MonoBehaviour
         // Set velocity
         Vector2 direction = ((Vector2)this.transform.position - target).normalized;
         StartCoroutine(SetDirection(direction, delay));
+
+        // Rotate
+        float angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+        this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     public bool CanEcho()
@@ -49,6 +53,10 @@ public class KyoukoEchoNoise : MonoBehaviour
             Vector2 direction = new Vector2(1, -hitLocation).normalized;
             this.rigidBody.velocity = this.rigidBody.velocity * 0.5F;
             StartCoroutine(SetDirection(direction, this.hitDelay));
+
+            // Rotate
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Animate
             AnimateEcho();
