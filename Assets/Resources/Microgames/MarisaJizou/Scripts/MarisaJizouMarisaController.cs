@@ -25,6 +25,8 @@ namespace NitorInc.MarisaJizou {
         int dropCounter = 0;
         public float dropInterval = 0.24f;
 
+        public float upMagnitude = 1.7f;
+
         public Animator tiltAnim;
 
         Timer dropTimer;
@@ -59,6 +61,7 @@ namespace NitorInc.MarisaJizou {
                 }
             } else {
                 var dir = transform.position.z <= 0.0f ? Vector3.right : Vector3.left;
+                dir.y = upMagnitude;
                 transform.Translate(dir * finishSpeed * Time.deltaTime);
             }
 
