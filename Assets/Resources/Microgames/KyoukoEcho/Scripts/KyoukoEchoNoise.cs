@@ -6,6 +6,8 @@ public class KyoukoEchoNoise : MonoBehaviour
     
     [SerializeField]
     float speed = 10F;
+    [SerializeField]
+    float rotationTime = 0.5F;
 
     [Header("Timings")]
     [SerializeField]
@@ -33,8 +35,7 @@ public class KyoukoEchoNoise : MonoBehaviour
         StartCoroutine(SetDirection(direction, delay));
 
         // Rotate
-        float angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
-        this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        StartCoroutine(Rotate(direction, false));
     }
 
     public bool CanEcho()
@@ -55,8 +56,7 @@ public class KyoukoEchoNoise : MonoBehaviour
             StartCoroutine(SetDirection(direction, this.hitDelay));
 
             // Rotate
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            StartCoroutine(Rotate(direction, true, this.rotationTime));
 
             // Animate
             AnimateEcho();
@@ -68,6 +68,29 @@ public class KyoukoEchoNoise : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         this.rigidBody.velocity = -direction * this.speed;
+    }
+
+    IEnumerator Rotate(Vector2 direction, bool flip, float duration = 0)
+    {
+        if (!flip)
+            direction = -direction;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        Quaternion start = this.transform.rotation;
+        Quaternion target = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        if (duration == 0)
+        {
+            this.transform.rotation = target;
+        }
+        else
+        {
+            for (float elapsed = 0; elapsed < 1; elapsed += Time.deltaTime / duration)
+            {
+                this.transform.rotation = Quaternion.Lerp(start, target, elapsed);
+                yield return null;
+            }
+        }
     }
 
     void AnimateEcho()
