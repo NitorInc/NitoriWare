@@ -14,12 +14,4 @@ public class KyoukoEchoKyoukoStates : StateMachineBehaviour
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (!animator.GetBool("Pose"))
-        {
-            animator.SetBool("Pose", true);
-        }
-    }
-
 }

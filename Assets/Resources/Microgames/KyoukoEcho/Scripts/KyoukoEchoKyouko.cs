@@ -40,6 +40,8 @@ public class KyoukoEchoKyouko : MonoBehaviour
             // Win
             this.willEcho = false;
             MicrogameController.instance.setVictory(true, true);
+
+            this.animator.SetTrigger("Win");
         }
     }
 
@@ -54,7 +56,7 @@ public class KyoukoEchoKyouko : MonoBehaviour
             this.willEcho = false;
             MicrogameController.instance.setVictory(false, true);
 
-            this.animator.SetBool("Lose", true);
+            this.animator.SetTrigger("Lose");
         }
     }
     
