@@ -9,7 +9,9 @@ namespace NitorInc.MarisaJizou {
 
         public float leftBound;
         public float rightBound;
+        float speed;
         public float moveSpeed = 5.0f;
+        public float dropMoveSpeed = 1.75f;
         public float finishSpeed = 10.0f;
 
         public Transform kasaSnapPoint;
@@ -23,14 +25,18 @@ namespace NitorInc.MarisaJizou {
         int dropCounter = 0;
         public float dropInterval = 0.24f;
 
+        public Animator tiltAnim;
+
         Timer dropTimer;
 
         // Use this for initialization
         void Start() {
             dropTimer = TimerManager.NewTimer(dropInterval, ResetKasa, 0, false, false);
+            speed = moveSpeed;
         }
 
         void ResetKasa() {
+            speed = moveSpeed;
             if (dropCounter < dropLimit) {
                 kasaDummy.SetActive(true);
                 kasaStack[dropCounter - 1].SetActive(false);
@@ -41,7 +47,7 @@ namespace NitorInc.MarisaJizou {
         void Update() {
             if (!MicrogameController.instance.getVictoryDetermined()) {
 
-                transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+                transform.Translate(Vector3.right * speed * Time.deltaTime);
 
                 if (transform.position.x <= leftBound || transform.position.x >= rightBound) {
                     if (!hasTurned) {
@@ -52,7 +58,8 @@ namespace NitorInc.MarisaJizou {
                     hasTurned = false;
                 }
             } else {
-                transform.Translate(Vector3.right * finishSpeed * Time.deltaTime);
+                var dir = transform.position.z <= 0.0f ? Vector3.right : Vector3.left;
+                transform.Translate(dir * finishSpeed * Time.deltaTime);
             }
 
             if (kasaDummy.activeSelf) {
@@ -62,6 +69,8 @@ namespace NitorInc.MarisaJizou {
                         dropCounter++;
                         kasaDummy.SetActive(false);
                         dropTimer.Start();
+                        speed = dropMoveSpeed;
+                        tiltAnim.Play("Tilt", 0, 0.0f);
                     }
                 }
             }
