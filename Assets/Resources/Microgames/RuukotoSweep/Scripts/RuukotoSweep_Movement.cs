@@ -14,6 +14,8 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     public float horizontalMovementSpeed, verticalMovementSpeed;
     public Transform legTransform;
 
+    public AudioClip victoryClip;
+
     private bool isInVictoryPose;
 
 	// Use this for initialization
@@ -40,6 +42,7 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     {
         MicrogameController.instance.setVictory(true, true);
         Invoke("victoryPose", .1f);
+        MicrogameController.instance.playSFX(victoryClip, panStero: 0f);
     }
 
     void victoryPose()
