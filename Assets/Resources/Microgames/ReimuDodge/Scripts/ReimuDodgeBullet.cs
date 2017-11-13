@@ -15,12 +15,15 @@ public class ReimuDodgeBullet : MonoBehaviour {
 
     //declare private variables
     private Vector2 trajectory;
+    private Rigidbody2D r2bd;
     private int currentFrames = 0;
 
     // Use this for initialization
     void Start () {
         // Invoke the setTrajectory method after the delay
         Invoke("SetTrajectory", delay);
+
+        r2bd = GetComponent<Rigidbody2D>();
     }
 	
 	// Update is called once per frame
