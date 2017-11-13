@@ -28,6 +28,8 @@ public class ReimuDodgePlayerScript : MonoBehaviour {
         // Kill Reimu
         alive = false;
 
+        MicrogameController.instance.setVictory(victory: false, final: true);
+
         // Get a reference to the player's sprite
         //GameObject rig = GameObject.Find("rig");
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
