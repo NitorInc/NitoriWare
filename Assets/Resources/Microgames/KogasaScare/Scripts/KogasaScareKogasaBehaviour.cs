@@ -12,35 +12,62 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     public string kogasawalkanimreverse;
     public Sprite stillSprite;
     public float moveSpeed;
+
+    [Header("Walk constraints")]
     public float maxposXleft;
     public float maxposXright;
 
+    [Header("Auto-snaps to an X disance away from the victim afte scaring")]
+    public float minScareDistance;
+    public float scareShiftSpeed;
+
     private int direction;
+    private State state;
+    private enum State
+    {
+        Default,
+        Victory,
+        Loss
+    }
+
 
     void Start()
     {
         victimInSight = null;
+        state = State.Default;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown("space"))
+        switch(state)
         {
-            kogasaAnimator.SetTrigger("scare");
-            kogasaAnimator.speed = 1f;
-            //Time.timeScale = .15f;
+            case (State.Default):
+                if (Input.GetKeyDown("space"))
+                {
+                    kogasaAnimator.SetTrigger("scare");
+                    kogasaAnimator.speed = 1f;
+                    //Time.timeScale = .15f;
 
-            if (victimInSight == null)
-                loss();
-            else
-                victory();
-
-            enabled = false;
+                    if (victimInSight == null)
+                        loss();
+                    else
+                        victory();
+                }
+                else
+                    updateMovement();
+                break;
+            case (State.Victory):
+                if (Mathf.Abs(transform.position.x - victimInSight.transform.position.x) < minScareDistance)
+                {
+                    float snapDirection = Mathf.Sign(transform.position.x - victimInSight.transform.position.x);
+                    //transform.moveTowards2D((Vector2)victimInSight.transform.position + (Vector2.right * snapDirection * minScareDistance), scareShiftSpeed);
+                    transform.position += Vector3.right * snapDirection * scareShiftSpeed * Time.deltaTime;
+                }
+                break;
+            default:
+                break;
         }
-        else
-            updateMovement();
 
 
     }
@@ -50,6 +77,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         if (victimInSight.transform.position.x > transform.position.x)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         MicrogameController.instance.setVictory(true, true);
+        state = State.Victory;
 
         victimInSight.scare();
         //Destroy(victimInSight.gameObject);
@@ -58,6 +86,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     void loss()
     {
         MicrogameController.instance.setVictory(false, true);
+        state = State.Loss;
     }
 
     void updateMovement()
@@ -110,13 +139,13 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void collide(Collider2D other)
     {
-        if (victimInSight == null && other.name.ToLower().Contains("victim"))
+        if (state == State.Default && victimInSight == null && other.name.ToLower().Contains("victim"))
             victimInSight = other.GetComponent<KogasaScareVictimBehavior>();
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (victimInSight != null && other.name.ToLower().Contains("victim"))
+        if (state == State.Default && victimInSight != null && other.name.ToLower().Contains("victim"))
             victimInSight = null;
     }
 }
