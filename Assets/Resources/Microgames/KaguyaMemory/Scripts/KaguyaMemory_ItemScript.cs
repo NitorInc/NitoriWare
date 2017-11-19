@@ -57,7 +57,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         {
             timer1++;
         }
-        if (timer1 == 130)
+        if (timer1 == 135)
         {
             transform.position = startingPosition;
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
