@@ -21,7 +21,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        GetComponent<SpriteRenderer>().enabled = false;
         startingPosition = transform.position;
 
         Invoke("appearSelectable", 2.3f);
@@ -56,7 +56,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     void appearSelectable()
     {
         transform.position = startingPosition;
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         GetComponent<Rigidbody2D>().gravityScale = 0;
         isSelectable = true;

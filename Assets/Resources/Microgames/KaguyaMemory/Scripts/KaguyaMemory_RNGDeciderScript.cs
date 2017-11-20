@@ -29,7 +29,7 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
     void ShowItem()
     {
         chosenItem.transform.position = new Vector3(-4, -1, 0);
-        chosenItem.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        chosenItem.GetComponent<SpriteRenderer>().enabled = true;
         chosenItem.GetComponent<Rigidbody2D>().velocity = new Vector2(10 * speedMultiplier, 8);
         chosenItem.GetComponent<Rigidbody2D>().gravityScale = 2 * speedMultiplier;
 
