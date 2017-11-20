@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class KaguyaMemory_ItemScript : MonoBehaviour {
 
+    public GameObject rngMaster;
+    public GameObject correctIndicator;
+    public GameObject wrongIndicator;
+    public bool isMoving = false;
+    public bool isCorrect = false;
+
+    private Vector3 startingPosition;
+    private bool isSelectable = false;
+
     [SerializeField]
     private AudioClip correctSound;
 
     [SerializeField]
     private AudioClip wrongSound;
 
-    public GameObject rngMaster;
-    private Vector3 startingPosition;
-    private int timer1 = 1;
-    public bool isMoving = false;
-    public bool isCorrect = false;
-    public GameObject correctIndicator;
-    public GameObject wrongIndicator;
-    public bool isClicked = false;
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         startingPosition = transform.position;
-	}
+
+        Invoke("appearSelectable", 2.3f);
+    }
 
     void OnMouseDown()
     {
-        if(isClicked == false)
+        if(rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == false && isSelectable == true)
         {
             GameObject theIndicator;
             if (isCorrect == true)
@@ -46,23 +48,17 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
             }
             theIndicator.transform.position = transform.position;
             rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished = true;
-            isClicked = true;
+            isSelectable = false;
         }
         
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (timer1 > 0)
-        {
-            timer1++;
-        }
-        if (timer1 == 135)
-        {
-            transform.position = startingPosition;
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-        }
-	}
+    void appearSelectable()
+    {
+        transform.position = startingPosition;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        isSelectable = true;
+    }
 }

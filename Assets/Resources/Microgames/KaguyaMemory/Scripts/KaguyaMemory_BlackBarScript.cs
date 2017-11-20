@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class KaguyaMemory_BlackBarScript : MonoBehaviour {
 
+    public int myDirection = 1;                 //right is 1 and left is -1
+    public float stopPoint = 0;
+    public float movementSpeed = 4.0f;
+
+    private int phase = 0;
+    private bool exiting = false;
+    private Rigidbody2D rb2d;
+
     [SerializeField]
     private AudioClip clapSound;
 
-    public int myDirection = 1;                 //right is 1 and left is -1
-    public float stopPoint = 0;
-    private int timer1 = 0;
-    private int timer2 = 0;
-    public float movementSpeed = 4.0f;
-    private Rigidbody2D rb2d;
-    private bool exiting = false;
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         rb2d = GetComponent<Rigidbody2D>();
 
         //move based on direction given
@@ -24,52 +24,45 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
         rb2d.velocity = new Vector2(movementSpeed, 0f);
     }
 	
-	// Update is called once per frame
-	void Update () {
-        if (myDirection == 1 && transform.position.x > -stopPoint && timer2 == 0)
+    void closeBars()
+    {
+        rb2d.velocity = new Vector2(movementSpeed, 0f);
+    }
+    void openBars()
+    {
+        rb2d.velocity = new Vector2(-movementSpeed, 0f);
+    }
+
+    // Update is called once per frame
+    void Update () {
+        //Stop where the unity editor says
+        if (myDirection == 1 && transform.position.x > -stopPoint && phase == 0)
         {
             rb2d.velocity = new Vector2(0f, 0f);
-            timer2 = 1;
+            phase = 1;
+            Invoke("closeBars", 1.6f);
         }
-        if (myDirection == -1 && transform.position.x < stopPoint && timer2 == 0)
+        if (myDirection == -1 && transform.position.x < stopPoint && phase == 0)
         {
             rb2d.velocity = new Vector2(0f, 0f);
-            timer2 = 1;
-        }
-        if (timer2 > 0)
-        {
-            timer2++;
-        }
-        if (timer2 > 100)
-        {
-            rb2d.velocity = new Vector2(movementSpeed, 0f);
-            timer2 = -1;
+            phase = 1;
+            Invoke("closeBars", 1.6f);
         }
 
-
-
-        if(myDirection == 1 && transform.position.x > 0 && timer1 == 0)
+        //Stay shut shortly when both bars meet the center of the screen
+        if(myDirection == 1 && transform.position.x > 0 && phase == 1)
         {
-            timer1 = 1;
             rb2d.velocity = new Vector2(0f, 0f);
+            phase = 2;
             MicrogameController.instance.playSFX(clapSound, volume: 0.5f,
             panStero: AudioHelper.getAudioPan(transform.position.x));
+            Invoke("openBars", 0.3f);
         }
-        if(myDirection == -1 && transform.position.x < 0 && timer1 == 0)
+        if(myDirection == -1 && transform.position.x < 0 && phase == 1)
         {
-            timer1 = 1;
             rb2d.velocity = new Vector2(0f, 0f);
+            phase = 2;
+            Invoke("openBars", 0.3f);
         }
-
-        if(timer1 > 0)
-        {
-            timer1++;
-        }
-        if(timer1 > 20)
-        {
-            timer1 = -1;
-            rb2d.velocity = new Vector2(-movementSpeed, 0f);
-        }
-        
 	}
 }
