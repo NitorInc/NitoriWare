@@ -22,6 +22,10 @@ public class MicrogameController : MonoBehaviour
 
 
 	public UnityEvent onPause, onUnPause;
+    [Header("--NOTE--")]
+    [Header("Please don't touch anything below here in this GameObject.")]
+    [Header("--------")]
+
     [SerializeField]
     private AudioSource sfxSource;
 
