@@ -9,7 +9,14 @@ public class MicrogameStage : Stage
 	[SerializeField]
 	private string forceMicrogame;
 
-	public override Microgame getMicrogame(int num)
+    public override void onStageStart()
+    {
+        //Update collection if microgame is forced, in case it's in the project but hasn't been added to the collection
+        if (!string.IsNullOrEmpty(forceMicrogame))
+            GameController.instance.microgameCollection.updateMicrogames();
+    }
+
+    public override Microgame getMicrogame(int num)
 	{
 		Microgame microgame = new Microgame(microgameId);
 		microgame.microgameId = !string.IsNullOrEmpty(forceMicrogame) ? forceMicrogame : microgameId;
