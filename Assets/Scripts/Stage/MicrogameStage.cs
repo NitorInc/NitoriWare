@@ -6,8 +6,15 @@ public class MicrogameStage : Stage
 {
 	public static string microgameId;
 
+    [Header("Override settings for debugging")]
+    [Header("Force Microgame must be changed when played from this scene")]
+    [Header("DO NOT COMMIT CHANGES TO THESE!")]
 	[SerializeField]
 	private string forceMicrogame;
+    [SerializeField]
+    private int forceDifficulty;
+    [SerializeField]
+    private bool speedUpEveryCycle = false;
 
     public override void onStageStart()
     {
@@ -25,12 +32,12 @@ public class MicrogameStage : Stage
 
 	public override int getMicrogameDifficulty(Microgame microgame, int num)
 	{
-		return (num % 3) + 1;
+		return forceDifficulty < 1 ? ((num % 3) + 1) : forceDifficulty;
 	}
 
 	public override Interruption[] getInterruptions(int num)
 	{
-		if (num == 0 || num % 3 > 0)
+		if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
 			return new Interruption[0];
 
 		return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
