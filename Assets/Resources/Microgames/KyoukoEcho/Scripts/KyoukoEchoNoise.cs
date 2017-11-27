@@ -1,5 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+
+[Serializable]
+public struct KyoukoEchoNoisePair
+{
+    [SerializeField]
+    public Sprite front;
+    [SerializeField]
+    public Sprite back;
+}
 
 public class KyoukoEchoNoise : MonoBehaviour
 {
@@ -12,7 +22,12 @@ public class KyoukoEchoNoise : MonoBehaviour
     [Header("Timings")]
     [SerializeField]
     float hitDelay;
-    
+
+    [SerializeField]
+    SpriteRenderer front;
+    [SerializeField]
+    SpriteRenderer back;
+
     Rigidbody2D rigidBody;
     Animator animator;
 
@@ -25,9 +40,15 @@ public class KyoukoEchoNoise : MonoBehaviour
         this.animator = GetComponent<Animator>();
     }
 
+    public void SetNoise(KyoukoEchoNoisePair noisePair)
+    {
+        this.front.sprite = noisePair.front;
+        this.back.sprite = noisePair.back;
+    }
+
     public void Fire(float targetX, float upperBoundY, float lowerBoundY, float delay)
     {
-        float targetY = Random.Range(lowerBoundY, upperBoundY);
+        float targetY = UnityEngine.Random.Range(lowerBoundY, upperBoundY);
         Vector2 target = new Vector2(targetX, targetY);
 
         // Set velocity
