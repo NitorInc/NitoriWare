@@ -57,7 +57,7 @@ public class RuukotoSweepPatch : MonoBehaviour
             //MicrogameController.instance.getSFXSource().Stop();
             MicrogameController.instance.playSFX(sweepClip, pitchMult: MathHelper.randomRangeFromVector(sweepPitchRange),
                 volume: (MicrogameController.instance.getSFXSource().isPlaying ? interruptSweepVolume : 1f),
-                panStero: AudioHelper.getAudioPan(transform.position.x / 2f));
+                panStereo: AudioHelper.getAudioPan(transform.position.x / 2f));
 
             Transform leafParent = transform.parent;
             transform.parent = null;

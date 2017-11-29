@@ -42,7 +42,7 @@ public class RuukotoSweep_Movement : MonoBehaviour {
     {
         MicrogameController.instance.setVictory(true, true);
         Invoke("victoryPose", .1f);
-        MicrogameController.instance.playSFX(victoryClip, panStero: 0f);
+        MicrogameController.instance.playSFX(victoryClip, panStereo: 0f);
     }
 
     void victoryPose()
