@@ -12,6 +12,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     public string kogasawalkanimreverse;
     public Sprite stillSprite;
     public float moveSpeed;
+    public float screenShakeFailureMult = .5f;
 
     [Header("Walk constraints")]
     public float maxposXleft;
@@ -97,6 +98,17 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         state = State.Loss;
 
         victim.scare(false, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
+    }
+
+    public void shakeScreen(float shakeAmount)
+    {
+        if (state == State.Loss)
+        {
+            shakeAmount *= screenShakeFailureMult;
+            //CameraShake.instance.shakeCoolRate *= screenShakeFailureMult;
+            CameraShake.instance.shakeSpeed *= screenShakeFailureMult;
+        }
+        CameraShake.instance.setScreenShake(shakeAmount);
     }
 
     void updateMovement()
