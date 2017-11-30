@@ -44,16 +44,23 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         switch(state)
         {
             case (State.Default):
+                //Handle scare
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    //Reset animator speed
                     kogasaAnimator.speed = 1f;
-                    //Time.timeScale = .15f;
 
+                    //Handle victory/loss
                     if (victimInSight)
                         victory();
                     else
                         loss();
 
+                    //Make sure player faces victim
+                    if (victim.transform.position.x > transform.position.x)
+                        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+                    //Set animation triggers
                     kogasaAnimator.SetTrigger("scare");
                     kogasaAnimator.SetInteger("state", (int)state);
                 }
@@ -77,8 +84,6 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void victory()
     {
-        if (victim.transform.position.x > transform.position.x)
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         MicrogameController.instance.setVictory(true, true);
         state = State.Victory;
 
@@ -101,12 +106,15 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         if (!(leftPressed && rightPressed))
         {
+            //Only allow transitions to idle from one particular sprite, that way the animation isn't janky
             if (kogasaSpriteRenderer.sprite == stillSprite)
             {
+                //If we're on the "still sprite", any of the three directions are allowed
                 direction = leftPressed ? -1 : (rightPressed ? 1 : 0);
             }
             else
             {
+                //We can transition from left to right movement (or vice-versa) without having to go to idle
                 if (direction == -1 && rightPressed)
                     direction = 1;
                 else if (direction == 1 && leftPressed)
