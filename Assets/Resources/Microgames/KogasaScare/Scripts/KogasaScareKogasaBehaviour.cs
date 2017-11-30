@@ -7,7 +7,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     public Animator kogasaAnimator;
     public SpriteRenderer kogasaSpriteRenderer;
-    public KogasaScareVictimBehavior victimInSight;
+    public KogasaScareVictimBehavior victim;
     public string kogasawalkanim;
     public string kogasawalkanimreverse;
     public Sprite stillSprite;
@@ -21,9 +21,10 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     public float minScareDistance;
     public float scareShiftSpeed;
 
+    private bool victimInSight;
     private int direction;
     private State state;
-    private enum State
+    public enum State
     {
         Default,
         Victory,
@@ -33,7 +34,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void Start()
     {
-        victimInSight = null;
+        victimInSight = false;
         state = State.Default;
     }
 
@@ -43,24 +44,26 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         switch(state)
         {
             case (State.Default):
-                if (Input.GetKeyDown("space"))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    kogasaAnimator.SetTrigger("scare");
                     kogasaAnimator.speed = 1f;
                     //Time.timeScale = .15f;
 
-                    if (victimInSight == null)
-                        loss();
-                    else
+                    if (victimInSight)
                         victory();
+                    else
+                        loss();
+
+                    kogasaAnimator.SetTrigger("scare");
+                    kogasaAnimator.SetInteger("state", (int)state);
                 }
                 else
                     updateMovement();
                 break;
             case (State.Victory):
-                if (Mathf.Abs(transform.position.x - victimInSight.transform.position.x) < minScareDistance)
+                if (Mathf.Abs(transform.position.x - victim.transform.position.x) < minScareDistance)
                 {
-                    float snapDirection = Mathf.Sign(transform.position.x - victimInSight.transform.position.x);
+                    float snapDirection = Mathf.Sign(transform.position.x - victim.transform.position.x);
                     //transform.moveTowards2D((Vector2)victimInSight.transform.position + (Vector2.right * snapDirection * minScareDistance), scareShiftSpeed);
                     transform.position += Vector3.right * snapDirection * scareShiftSpeed * Time.deltaTime;
                 }
@@ -74,12 +77,12 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void victory()
     {
-        if (victimInSight.transform.position.x > transform.position.x)
+        if (victim.transform.position.x > transform.position.x)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         MicrogameController.instance.setVictory(true, true);
         state = State.Victory;
 
-        victimInSight.scare();
+        victim.scare(true);
         //Destroy(victimInSight.gameObject);
     }
     
@@ -87,6 +90,8 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     {
         MicrogameController.instance.setVictory(false, true);
         state = State.Loss;
+
+        victim.scare(false);
     }
 
     void updateMovement()
@@ -139,13 +144,13 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void collide(Collider2D other)
     {
-        if (state == State.Default && victimInSight == null && other.name.ToLower().Contains("victim"))
-            victimInSight = other.GetComponent<KogasaScareVictimBehavior>();
+        if (state == State.Default && !victimInSight && other.name.ToLower().Contains("victim"))
+            victimInSight = true;
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (state == State.Default && victimInSight != null && other.name.ToLower().Contains("victim"))
-            victimInSight = null;
+        if (state == State.Default && victimInSight && other.name.ToLower().Contains("victim"))
+            victimInSight = false;
     }
 }
