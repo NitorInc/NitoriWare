@@ -87,7 +87,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         MicrogameController.instance.setVictory(true, true);
         state = State.Victory;
 
-        victim.scare(true);
+        victim.scare(true, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
         //Destroy(victimInSight.gameObject);
     }
     
@@ -96,7 +96,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         MicrogameController.instance.setVictory(false, true);
         state = State.Loss;
 
-        victim.scare(false);
+        victim.scare(false, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
     }
 
     void updateMovement()

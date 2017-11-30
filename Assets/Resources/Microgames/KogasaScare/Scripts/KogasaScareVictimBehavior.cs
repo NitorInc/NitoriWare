@@ -34,13 +34,14 @@ public class KogasaScareVictimBehavior : MonoBehaviour {
 		
 	}
 
-    public void scare(bool successful)
+    public void scare(bool successful, int direction)
     {
         vibrate.vibrateOn = true;
         state = successful ? KogasaScareKogasaBehaviour.State.Victory : KogasaScareKogasaBehaviour.State.Loss;
 
         rigAnimator.SetTrigger("scare");
         rigAnimator.SetInteger("state", (int)state);
+        rigAnimator.SetInteger("direction", direction);
     }
 
     //void OnTriggerEnter2D(Collider2D other)
