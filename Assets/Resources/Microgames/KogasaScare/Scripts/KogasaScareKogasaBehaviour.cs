@@ -7,57 +7,108 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     public Animator kogasaAnimator;
     public SpriteRenderer kogasaSpriteRenderer;
-    public KogasaScareVictimBehavior victimInSight;
+    public KogasaScareVictimBehavior victim;
     public string kogasawalkanim;
     public string kogasawalkanimreverse;
     public Sprite stillSprite;
     public float moveSpeed;
+    public float screenShakeFailureMult = .5f;
+
+    [Header("Walk constraints")]
     public float maxposXleft;
     public float maxposXright;
 
+    [Header("Auto-snaps to an X disance away from the victim afte scaring")]
+    public float minScareDistance;
+    public float scareShiftSpeed;
+
+    private bool victimInSight;
     private int direction;
+    private State state;
+    public enum State
+    {
+        Default,
+        Victory,
+        Loss
+    }
+
 
     void Start()
     {
-        victimInSight = null;
+        victimInSight = false;
+        state = State.Default;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown("space"))
+        switch(state)
         {
-            kogasaAnimator.SetTrigger("scare");
-            kogasaAnimator.speed = 1f;
-            //Time.timeScale = .15f;
+            case (State.Default):
+                //Handle scare
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    //Reset animator speed
+                    kogasaAnimator.speed = 1f;
 
-            if (victimInSight == null)
-                loss();
-            else
-                victory();
+                    //Handle victory/loss
+                    if (victimInSight)
+                        victory();
+                    else
+                        loss();
 
-            enabled = false;
+                    //Make sure player faces victim
+                    if (victim.transform.position.x > transform.position.x)
+                        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+                    //Set animation triggers
+                    kogasaAnimator.SetTrigger("scare");
+                    kogasaAnimator.SetInteger("state", (int)state);
+                }
+                else
+                    updateMovement();
+                break;
+            case (State.Victory):
+                if (Mathf.Abs(transform.position.x - victim.transform.position.x) < minScareDistance)
+                {
+                    float snapDirection = Mathf.Sign(transform.position.x - victim.transform.position.x);
+                    //transform.moveTowards2D((Vector2)victimInSight.transform.position + (Vector2.right * snapDirection * minScareDistance), scareShiftSpeed);
+                    transform.position += Vector3.right * snapDirection * scareShiftSpeed * Time.deltaTime;
+                }
+                break;
+            default:
+                break;
         }
-        else
-            updateMovement();
 
 
     }
 
     void victory()
     {
-        if (victimInSight.transform.position.x > transform.position.x)
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         MicrogameController.instance.setVictory(true, true);
+        state = State.Victory;
 
-        victimInSight.scare();
+        victim.scare(true, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
         //Destroy(victimInSight.gameObject);
     }
     
     void loss()
     {
         MicrogameController.instance.setVictory(false, true);
+        state = State.Loss;
+
+        victim.scare(false, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
+    }
+
+    public void shakeScreen(float shakeAmount)
+    {
+        if (state == State.Loss)
+        {
+            shakeAmount *= screenShakeFailureMult;
+            //CameraShake.instance.shakeCoolRate *= screenShakeFailureMult;
+            CameraShake.instance.shakeSpeed *= screenShakeFailureMult;
+        }
+        CameraShake.instance.setScreenShake(shakeAmount);
     }
 
     void updateMovement()
@@ -67,12 +118,15 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         if (!(leftPressed && rightPressed))
         {
+            //Only allow transitions to idle from one particular sprite, that way the animation isn't janky
             if (kogasaSpriteRenderer.sprite == stillSprite)
             {
+                //If we're on the "still sprite", any of the three directions are allowed
                 direction = leftPressed ? -1 : (rightPressed ? 1 : 0);
             }
             else
             {
+                //We can transition from left to right movement (or vice-versa) without having to go to idle
                 if (direction == -1 && rightPressed)
                     direction = 1;
                 else if (direction == 1 && leftPressed)
@@ -110,13 +164,13 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
     void collide(Collider2D other)
     {
-        if (victimInSight == null && other.name.ToLower().Contains("victim"))
-            victimInSight = other.GetComponent<KogasaScareVictimBehavior>();
+        if (state == State.Default && !victimInSight && other.name.ToLower().Contains("victim"))
+            victimInSight = true;
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (victimInSight != null && other.name.ToLower().Contains("victim"))
-            victimInSight = null;
+        if (state == State.Default && victimInSight && other.name.ToLower().Contains("victim"))
+            victimInSight = false;
     }
 }
