@@ -62,8 +62,5 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             // Add the fragment to list
             fragments.Add(currentFragment);
         }
-
-        // Disable the mask library - we won't need the other masks
-        maskLibrary.SetActive(false);
 	}
 }
