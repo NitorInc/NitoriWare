@@ -10,6 +10,7 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     public void OnGrab()
     {
         SwapParents();
+        MoveChildrenToFront();
     }
 
     public void OnRelease()
@@ -43,8 +44,6 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     // Checks whether this mask is a child of another mask
     // If yes, it reverses the relationship so it becomes the other mask's parent instead
     // This is done to ensure that both linked masks are moved together regardless of which one is grabbed
-    // FIXME: Children aren't brought up to the front layer when grabbing the group (only the parent is),
-    //        so they can be behind other fragments while being moved around
     void SwapParents()
     {
         if (transform.parent != fragmentsManager.transform)
@@ -52,6 +51,19 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             Transform otherMask = transform.parent;
             transform.parent = fragmentsManager.transform;
             otherMask.parent = transform;
+        }
+    }
+
+    // To be called when grabbing a mask, after SwapParents()
+    // The grabbed fragment is brought up to the front layer automatically by MouseGrabbableGroup,
+    // but the other linked fragments need to be brought to the front manually - this method does this
+    void MoveChildrenToFront()
+    {
+        Transform[] children = GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)
+        {
+            print("MoveChildrenToFront(): " + child.gameObject + " moved to the front.");
+            fragmentsManager.GetComponent<MouseGrabbableGroup>().moveToFront(child.gameObject.GetComponent<MouseGrabbable>());
         }
     }
 
