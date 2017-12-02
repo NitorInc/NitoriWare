@@ -30,19 +30,21 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             if (fragmentsManager.fragments[i] == this)
                 continue;
 
+            // Check distance
+            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
+                > fragmentsManager.maxSnapDistance)
+                continue;
+
+            // Check if the grabbed fragment or any of its children can be connected to the i-th fragment
             Transform[] children = GetComponentsInChildren<Transform>();
             foreach (Transform child in children)
             {
                 if (fragmentsManager.edges.areConnectable(child.transform, fragmentsManager.fragments[i].transform))
                 {
-                    if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
-                        <= fragmentsManager.maxSnapDistance)
-                    {
-                        transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
-                        transform.parent = fragmentsManager.transform;
-                        fragmentsManager.fragments[i].transform.parent = transform;
-                        print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
-                    }
+                    transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
+                    transform.parent = fragmentsManager.transform;
+                    fragmentsManager.fragments[i].transform.parent = transform;
+                    print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
                     break;
                 }
             }
