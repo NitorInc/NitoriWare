@@ -16,4 +16,19 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
         public Transform fragment1;
         public Transform fragment2;
     }
+
+    public bool areConnectable(Transform fragment1, Transform fragment2)
+    {
+        if (overrideEdgeCheck)
+            return true;
+        foreach (Edge edge in connectableEdges)
+        {
+            if ((fragment1 == edge.fragment1 && fragment2 == edge.fragment2) ||
+                (fragment1 == edge.fragment2 && fragment2 == edge.fragment1))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
