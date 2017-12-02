@@ -29,13 +29,22 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         {
             if (fragmentsManager.fragments[i] == this)
                 continue;
-            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
-                <= fragmentsManager.maxSnapDistance)
+
+            Transform[] children = GetComponentsInChildren<Transform>();
+            foreach (Transform child in children)
             {
-                transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
-                transform.parent = fragmentsManager.transform;
-                fragmentsManager.fragments[i].transform.parent = transform;
-                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
+                if (fragmentsManager.edges.areConnectable(child.transform, fragmentsManager.fragments[i].transform))
+                {
+                    if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
+                        <= fragmentsManager.maxSnapDistance)
+                    {
+                        transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
+                        transform.parent = fragmentsManager.transform;
+                        fragmentsManager.fragments[i].transform.parent = transform;
+                        print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
+                    }
+                    break;
+                }
             }
         }
     }

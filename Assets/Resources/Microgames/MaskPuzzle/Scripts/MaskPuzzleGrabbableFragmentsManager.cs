@@ -24,6 +24,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     public float victoryMoveSpeed, victoryRotationSpeed;
 
     public List<GameObject> fragments;
+    public MaskPuzzleMaskEdges edges;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
     void Start ()
@@ -31,6 +32,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         // Choose a random mask from the library
         GameObject chosenMask = maskLibrary.transform.GetChild(Random.Range(0, maskLibrary.transform.childCount)).gameObject;
         print("Chosen " + chosenMask.name + ". It has " + chosenMask.transform.childCount + " fragments.");
+
+        // Get info about the edges that should be connected
+        edges = chosenMask.GetComponent<MaskPuzzleMaskEdges>();
 
         // Initialize all fragments of the chosen mask
         while (chosenMask.transform.childCount > 0)
