@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4841482985131780}
+  - component: {fileID: 114878937172384262}
   - component: {fileID: 212653817912944622}
   - component: {fileID: 60453343105402912}
   m_Layer: 0
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886033255619810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 3.4, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -68,6 +69,18 @@ PolygonCollider2D:
     - - {x: -1.559849, y: 1.2561917}
       - {x: -0.004830599, y: -1.4325843}
       - {x: 1.5111032, y: 1.2608013}
+--- !u!114 &114878937172384262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886033255619810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95cf36dda394ad74bb3ca83588cf6653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shape: 3
 --- !u!212 &212653817912944622
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -99,7 +112,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 23
   m_Sprite: {fileID: 21300002, guid: 8a5f20177cf85c64982b653be1945cd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
