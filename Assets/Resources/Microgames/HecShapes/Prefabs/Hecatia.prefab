@@ -52,7 +52,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4635301782581288}
   - component: {fileID: 58278556874131466}
-  - component: {fileID: 58462446490858722}
   m_Layer: 0
   m_Name: PlanetPoint
   m_TagString: Untagged
@@ -68,7 +67,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4913663778436348}
+  - component: {fileID: 114948638192437772}
   - component: {fileID: 212111986375187648}
+  - component: {fileID: 95711277327477160}
   m_Layer: 0
   m_Name: Hecatia
   m_TagString: Untagged
@@ -132,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1712222606094150}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.12, y: 2.77, z: 0}
+  m_LocalPosition: {x: -0.1, y: 2.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4421383148691034}
@@ -147,7 +148,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1563353041324832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.27, y: 1.081, z: 0}
+  m_LocalPosition: {x: -2.01, y: 0.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4913663778436348}
@@ -160,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1148209936019734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.235, z: 0}
+  m_LocalPosition: {x: 0.011, y: -0.213, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4913663778436348}
@@ -199,7 +200,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209765225406988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.09, y: 0.98, z: 0}
+  m_LocalPosition: {x: 0.09, y: 0.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4235736070402598}
@@ -212,7 +213,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1257566991033198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0.03, y: -2.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4469171292862364}
@@ -237,21 +238,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!58 &58462446490858722
-CircleCollider2D:
+--- !u!95 &95711277327477160
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1209765225406988}
+  m_GameObject: {fileID: 1257566991033198}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 76f043a6c97ddde4a8ac8b373560745a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114176481283559638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -263,9 +266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5acadd2dbebf2468d299bd9ea503ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hair: {fileID: 212931149181896076}
-  eyes: {fileID: 212935054646426740}
-  color: {r: 0.7882353, g: 0.67058825, b: 0.23137255, a: 1}
+  hecatia: {fileID: 114948638192437772}
+  filled: 0
+--- !u!114 &114948638192437772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1257566991033198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3affa6cfd7cd79643ae939c57bdb3281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212111986375187648
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -463,7 +476,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 1b6508a12e629da41b581ded89105178, type: 3}
-  m_Color: {r: 0.78676474, g: 0.67142, b: 0.23140138, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -504,7 +517,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300002, guid: 1b6508a12e629da41b581ded89105178, type: 3}
-  m_Color: {r: 0.78676474, g: 0.67142, b: 0.23140138, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
