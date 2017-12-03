@@ -46,6 +46,8 @@ namespace NitorInc.MarisaJizou {
                 successCounter++;
                 if (successCounter >= requiredJizou) {
                     MicrogameController.instance.setVictory(true, true);
+                    if (onVictory != null)
+                        onVictory();
                 }
             } else {
                 MicrogameController.instance.setVictory(false, true);
