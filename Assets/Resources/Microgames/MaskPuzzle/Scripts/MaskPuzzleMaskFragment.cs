@@ -6,6 +6,8 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
     public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
 
+    public List<GameObject> connectedTo = new List<GameObject>();
+
     // Callbacks for drag and drop events
     public void OnGrab()
     {
@@ -19,6 +21,28 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         CheckVictory();
     }
 
+    public void ConnectTo(GameObject otherFragment)
+    {
+        connectedTo.Add(otherFragment);
+        otherFragment.GetComponent<MaskPuzzleMaskFragment>().connectedTo.Add(this.gameObject);
+    }
+
+    public List<GameObject> GetAllConnected()
+    {
+        List<GameObject> connected = new List<GameObject>();
+        AddAllConnected(connected);
+        return connected;
+    }
+
+    public void AddAllConnected(List<GameObject> connected)
+    {
+        if (connected.Contains(gameObject))
+            return;
+        connected.Add(gameObject);
+        foreach (GameObject node in connectedTo)
+            node.GetComponent<MaskPuzzleMaskFragment>().AddAllConnected(connected);
+    }
+
     // To be called when dropping a mask
     // Checks whether any other fragments are near the drop position
     // If yes, snaps this fragment to the other one(s) by making their positions equal
@@ -27,7 +51,8 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     {
         for (int i=0; i<fragmentsManager.fragments.Count; i++)
         {
-            if (fragmentsManager.fragments[i] == this)
+            // Check if already connected
+            if (GetAllConnected().Contains(fragmentsManager.fragments[i]))
                 continue;
 
             // Check distance
@@ -35,33 +60,33 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
                 > fragmentsManager.maxSnapDistance)
                 continue;
 
-            // Check if the grabbed fragment or any of its children can be connected to the i-th fragment
-            Transform[] children = GetComponentsInChildren<Transform>();
-            foreach (Transform child in children)
+            // Check if the grabbed fragment can be connected to the i-th fragment,
+            // directly or through other already connected fragments
+            print("Checking connectability; grabbed group count: " + GetAllConnected().Count + "; checked group count: "
+                + fragmentsManager.fragments[i].GetComponent<MaskPuzzleMaskFragment>().GetAllConnected().Count);
+            if (fragmentsManager.edges.areConnectable(
+                GetAllConnected(), fragmentsManager.fragments[i].GetComponent<MaskPuzzleMaskFragment>().GetAllConnected()))
             {
-                if (fragmentsManager.edges.areConnectable(child.transform, fragmentsManager.fragments[i].transform))
-                {
-                    transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
-                    transform.parent = fragmentsManager.transform;
-                    fragmentsManager.fragments[i].transform.parent = transform;
-                    print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
-                    break;
-                }
+                transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
+                ConnectTo(fragmentsManager.fragments[i]);
+                // Become the parent of the newly joined fragments
+                SwapParents();
+                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name);
+                print("Now the group contains " + GetAllConnected().Count + " fragments.");
             }
         }
     }
 
-    // To be called when grabbing a mask
-    // Checks whether this mask is a child of another mask
-    // If yes, it reverses the relationship so it becomes the other mask's parent instead
-    // This is done to ensure that both linked masks are moved together regardless of which one is grabbed
+    // To be called when grabbing a mask fragment and when joining new fragments
+    // Make all connected fragments children of this fragment so they are moved together
     void SwapParents()
     {
-        if (transform.parent != fragmentsManager.transform)
+        transform.parent = fragmentsManager.transform;
+        foreach (GameObject otherFragment in GetAllConnected())
         {
-            Transform otherMask = transform.parent;
-            transform.parent = fragmentsManager.transform;
-            otherMask.parent = transform;
+            if (otherFragment == gameObject)
+                continue;
+            otherFragment.transform.parent = transform;
         }
     }
 

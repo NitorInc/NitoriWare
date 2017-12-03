@@ -17,6 +17,7 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
         public Transform fragment2;
     }
 
+    // Check if two fragments can be connected directly
     public bool areConnectable(Transform fragment1, Transform fragment2)
     {
         if (overrideEdgeCheck)
@@ -29,6 +30,17 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
                 return true;
             }
         }
+        return false;
+    }
+
+    // Check if any fragment from the first group can be connected to any fragment from the second group
+    public bool areConnectable(List<GameObject> fragmentGroup1, List<GameObject> fragmentGroup2)
+    {
+        foreach (GameObject fragment1 in fragmentGroup1)
+            foreach (GameObject fragment2 in fragmentGroup2)
+                if (areConnectable(fragment1.transform, fragment2.transform))
+                    return true;
+
         return false;
     }
 }
