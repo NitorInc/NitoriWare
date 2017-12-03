@@ -14,9 +14,9 @@ public class HecShapesHolder : MonoBehaviour
         {
             this.filled = true;
             if (correct)
-                hecatia.Win();
+                this.hecatia.Win();
             else
-                hecatia.Lose();
+                this.hecatia.Lose();
         }
     }
 

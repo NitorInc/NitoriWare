@@ -3,11 +3,16 @@
 public class HecShapesHecatia : MonoBehaviour
 {
 
+    [SerializeField]
+    HecShapesPool pool;
+
     Animator animator;
-    
+
     void Start()
     {
         this.animator = GetComponent<Animator>();
+
+        this.animator.SetInteger("Style", (int)this.pool.GetCorrectShape());
     }
 
     public void SetStyle(HecShapesSlottable.Shape style)

@@ -11,7 +11,7 @@ public class HecShapesSlottable : MonoBehaviour
     [SerializeField]
     float snapSpeed = 10;
     
-    HecShapesHolder snapTarget;
+    Transform snapTarget;
     
     void Update()
     {
@@ -20,7 +20,7 @@ public class HecShapesSlottable : MonoBehaviour
             float distance = Time.deltaTime * this.snapSpeed;
             this.transform.position = Vector2.MoveTowards(
                 this.transform.position,
-                this.snapTarget.transform.position,
+                this.snapTarget.position,
                 distance);
         }
     }
@@ -29,7 +29,7 @@ public class HecShapesSlottable : MonoBehaviour
     {
         HecShapesHolder holder = collision.GetComponentInParent<HecShapesHolder>();
         if (holder)
-            this.snapTarget = holder;
+            this.snapTarget = collision.transform;
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -38,6 +38,12 @@ public class HecShapesSlottable : MonoBehaviour
             this.snapTarget = null;
     }
     
+    public void SetShape(HecShapesCelestialBody shape)
+    {
+        var shapeCollider = Instantiate(shape, this.transform).GetComponent<Collider2D>();
+        GetComponent<MouseGrabbable>()._collider2D = shapeCollider;
+    }
+
     public void OnGrab()
     {
         
@@ -45,10 +51,11 @@ public class HecShapesSlottable : MonoBehaviour
 
     public void OnRelease()
     {
-        if (snapTarget)
+        if (this.snapTarget)
         {
             // Send message to Holder
-            snapTarget.SendMessage("FillSlot", this.correct);
+            var holder = this.snapTarget.GetComponentInParent<HecShapesHolder>();
+            holder.SendMessage("FillSlot", this.correct);
         }
     }
 
