@@ -4,17 +4,20 @@ public class HecShapesHolder : MonoBehaviour
 {
 
     [SerializeField]
-    SpriteRenderer hair;
-    [SerializeField]
-    SpriteRenderer eyes;
+    HecShapesHecatia hecatia;
 
-    [SerializeField]
-    Color color;
+    public bool filled = false;
 
-    void Update()
+    public void FillSlot(bool correct)
     {
-        this.hair.color = this.color;
-        this.eyes.color = this.color;
+        if (!this.filled)
+        {
+            this.filled = true;
+            if (correct)
+                hecatia.Win();
+            else
+                hecatia.Lose();
+        }
     }
 
 }
