@@ -4,53 +4,38 @@ using UnityEngine;
 
 public class MaskPuzzleMaskFragment : MonoBehaviour {
 
-    // TODO: Find them automagically; also, use a list
-    [Header("The other mask fragments")]
-    [SerializeField]
-    private GameObject otherFragment1, otherFragment2;
+    public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
 
-    [Header("Mouse Grabbable Group")]
-    [SerializeField]
-    private GameObject mouseGrabbableGroup;
+    // Callbacks for drag and drop events
+    public void OnGrab()
+    {
+        SwapParents();
+    }
 
-    // TODO: This setting should be somewhere else (so it doesn't have to be set for each fragment)
-    [Header("How close the fragments need to be to snap together?")]
-    [SerializeField]
-    private float maxSnapDistance = 1f;
+    public void OnRelease()
+    {
+        SnapToOtherFragments();
+        CheckVictory();
+    }
 
     // To be called when dropping a mask
     // Checks whether any other fragments are near the drop position
     // If yes, snaps this fragment to the other one(s) by making their positions equal
     // and becoming their parent so they are moved together in the future
-    public void SnapToOtherFragments()
+    void SnapToOtherFragments()
     {
-        // debug stuff
-        print("Positions for " + name);
-        print("own: " + (Vector2)transform.position);
-        print("other1: " + (Vector2)otherFragment1.transform.position);
-        print("other2: " + (Vector2)otherFragment2.transform.position);
-
-        // TODO: Use a list (to support variable number of fragments and get rid of duplicate code)
-        if (Vector2.Distance(transform.position, otherFragment1.transform.position) <= maxSnapDistance)
+        for (int i=0; i<fragmentsManager.fragments.Count; i++)
         {
-            transform.position = (Vector2)otherFragment1.transform.position;
-            transform.parent = mouseGrabbableGroup.transform;
-            otherFragment1.transform.parent = transform;
-            print("Snapped " + name + " to " + otherFragment1.name + " and became its parent");
-        }
-        if (Vector2.Distance(transform.position, otherFragment2.transform.position) <= maxSnapDistance)
-        {
-            transform.position = (Vector2)otherFragment2.transform.position;
-            transform.parent = mouseGrabbableGroup.transform;
-            otherFragment2.transform.parent = transform;
-            print("Snapped " + name + " to " + otherFragment2.name + " and became its parent");
-        }
-
-        // Check victory
-        if (Vector2.Distance(transform.position, otherFragment1.transform.position) == 0 &&
-            Vector2.Distance(transform.position, otherFragment2.transform.position) == 0)
-        {
-            MicrogameController.instance.setVictory(victory: true, final: true);
+            if (fragmentsManager.fragments[i] == this)
+                continue;
+            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
+                <= fragmentsManager.maxSnapDistance)
+            {
+                transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
+                transform.parent = fragmentsManager.transform;
+                fragmentsManager.fragments[i].transform.parent = transform;
+                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
+            }
         }
     }
 
@@ -60,13 +45,53 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     // This is done to ensure that both linked masks are moved together regardless of which one is grabbed
     // FIXME: Children aren't brought up to the front layer when grabbing the group (only the parent is),
     //        so they can be behind other fragments while being moved around
-    public void SwapParents()
+    void SwapParents()
     {
-        if (transform.parent != mouseGrabbableGroup.transform)
+        if (transform.parent != fragmentsManager.transform)
         {
             Transform otherMask = transform.parent;
-            transform.parent = mouseGrabbableGroup.transform;
+            transform.parent = fragmentsManager.transform;
             otherMask.parent = transform;
+        }
+    }
+
+    // To be called after dropping a fragment and snapping to other fragments
+    // Check and handle victory condition
+    void CheckVictory()
+    {
+        // If the distance to any of the other masks > 0, we haven't won yet
+        for (int i=0; i<fragmentsManager.fragments.Count; i++)
+            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position) > 0)
+                return;
+
+        // Victory!
+        MicrogameController.instance.setVictory(victory: true, final: true);
+        // Calculate speed values for the final mask movement
+        // Time must be positive or Bad Things will happen
+        if (fragmentsManager.victoryMoveTime <= 0)
+            fragmentsManager.victoryMoveTime = 0.001f;
+        fragmentsManager.victoryMoveSpeed = Vector2.Distance(transform.position, fragmentsManager.victoryGoal) / fragmentsManager.victoryMoveTime;
+        fragmentsManager.victoryRotationSpeed = (transform.rotation.z - fragmentsManager.victoryRotation) / fragmentsManager.victoryMoveTime;
+    }
+
+    // Called every frame
+    // Move and rotate the mask when victory achieved
+    void Update()
+    {
+        // Only the direct children of the manager need to be moved
+        if (MicrogameController.instance.getVictory() && transform.parent == fragmentsManager.transform)
+        {
+            if (MathHelper.moveTowards2D(transform, fragmentsManager.victoryGoal, fragmentsManager.victoryMoveSpeed))
+            {
+                // Arrived at the final location, set rotation to the final value too
+                Vector3 rotation = transform.eulerAngles;
+                rotation.z = fragmentsManager.victoryRotation;
+                transform.eulerAngles = -rotation;
+            }
+            else
+            {
+                transform.Rotate(0f, 0f, fragmentsManager.victoryRotationSpeed * Time.deltaTime);
+            }
         }
     }
 }

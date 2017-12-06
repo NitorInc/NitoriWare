@@ -1,21 +1,24 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class KyoukoEchoKyouko : MonoBehaviour
 {
-    
     [SerializeField]
-    float boundTop;
-    [SerializeField]
-    float boundBottom;
+    int missLimit = 1;
+
+    int misses;
+    int hits;
+    int echoCount;
+    bool willEcho = true;
 
     Rigidbody2D rigidBody;
     Animator animator;
-    
-    // Use this for initialization
-    void Start()
+
+    KyoukoEchoFlyZone flyZone;
+
+    void Awake()
     {
-        this.animator = this.GetComponent<Animator>();
+        this.animator = GetComponent<Animator>();
+        this.flyZone = FindObjectOfType<KyoukoEchoFlyZone>();
     }
     
     void LateUpdate()
@@ -28,27 +31,53 @@ public class KyoukoEchoKyouko : MonoBehaviour
     {
         // Body parts share names with animations
         this.animator.SetTrigger(partName);
+
+        this.hits += 1;
+        bool win = (this.hits + this.misses) >= echoCount;
+
+        if (win)
+        {
+            // Win
+            this.willEcho = false;
+            MicrogameController.instance.setVictory(true, true);
+
+            this.animator.SetTrigger("Win");
+        }
     }
 
     public void Miss()
     {
-        this.animator.SetTrigger("Miss");
-    }
+        this.misses += 1;
+        bool lose = this.misses >= missLimit;
 
-    public float BoundTop
-    {
-        get
+        if (lose)
         {
-            return this.boundTop;
+            // Lose
+            this.willEcho = false;
+            MicrogameController.instance.setVictory(false, true);
+
+            this.animator.SetTrigger("Lose");
         }
     }
-
-    public float BoundBottom
+    
+    public void IncrementEchoCount()
     {
-        get
-        {
-            return this.boundBottom;
-        }
+        this.echoCount++;
+    }
+
+    public bool WillEcho
+    {
+        get { return this.willEcho; }
+    }
+
+    public float UpperBoundY
+    {
+        get { return this.flyZone.UpperBoundY; }
+    }
+
+    public float LowerBoundY
+    {
+        get { return this.flyZone.LowerBoundY; }
     }
 
 }

@@ -1,18 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+
+[Serializable]
+public struct KyoukoEchoNoisePair
+{
+    [SerializeField]
+    public Sprite front;
+    [SerializeField]
+    public Sprite back;
+}
 
 public class KyoukoEchoNoise : MonoBehaviour
 {
     
     [SerializeField]
     float speed = 10F;
+    [SerializeField]
+    float rotationTime = 0.5F;
 
     [Header("Timings")]
     [SerializeField]
-    float startDelay;
-    [SerializeField]
     float hitDelay;
-    
+
+    [SerializeField]
+    SpriteRenderer front;
+    [SerializeField]
+    SpriteRenderer back;
+
     Rigidbody2D rigidBody;
     Animator animator;
 
@@ -23,41 +38,49 @@ public class KyoukoEchoNoise : MonoBehaviour
     {
         this.rigidBody = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
+    }
 
-        // Calculate random start position
-        Bounds bounds = this.transform.parent.GetComponent<Collider2D>().bounds;
-        Vector2 startPosition = new Vector2(
-            Random.Range(bounds.min.x, bounds.max.x),
-            Random.Range(bounds.min.y, bounds.max.y));
-        // Set start position
-        this.transform.position = startPosition;
+    public void SetNoise(KyoukoEchoNoisePair noisePair)
+    {
+        this.front.sprite = noisePair.front;
+        this.back.sprite = noisePair.back;
+    }
 
-        // Pick a target which will intersect with Kyouko's area of effect
-        KyoukoEchoKyouko kyouko = FindObjectOfType<KyoukoEchoKyouko>();
-        float targetY = Random.Range(kyouko.BoundBottom, kyouko.BoundTop);
-        Vector2 target = new Vector2(kyouko.transform.position.x, targetY);
+    public void Fire(float targetX, float upperBoundY, float lowerBoundY, float delay)
+    {
+        float targetY = UnityEngine.Random.Range(lowerBoundY, upperBoundY);
+        Vector2 target = new Vector2(targetX, targetY);
 
         // Set velocity
         Vector2 direction = ((Vector2)this.transform.position - target).normalized;
-        StartCoroutine(SetDirection(direction, this.startDelay));
+        StartCoroutine(SetDirection(direction, delay));
+
+        // Rotate
+        StartCoroutine(Rotate(direction, false));
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public bool CanEcho()
     {
-        // Only trigger on player
-        if (this.canEcho && other.CompareTag("Player"))
-        {
-            // Modify new direction based on what part of Kyouko was hit
-            KyoukoEchoBodyPart bodyPart = other.GetComponent<KyoukoEchoBodyPart>();
-            float hitLocation = bodyPart.CalculateBodyHitLocationY(this.transform.position.y);
+        return this.canEcho;
+    }
 
+    public void Echo(float hitLocation)
+    {
+        if (this.canEcho)
+        {
+            // Prevent further interactions
+            this.canEcho = false;
+            
             // Bounce
             Vector2 direction = new Vector2(1, -hitLocation).normalized;
             this.rigidBody.velocity = this.rigidBody.velocity * 0.5F;
             StartCoroutine(SetDirection(direction, this.hitDelay));
 
+            // Rotate
+            StartCoroutine(Rotate(direction, true, this.rotationTime));
+
             // Animate
-            Echo();
+            AnimateEcho();
         }
     }
 
@@ -68,12 +91,32 @@ public class KyoukoEchoNoise : MonoBehaviour
         this.rigidBody.velocity = -direction * this.speed;
     }
 
-    void Echo()
+    IEnumerator Rotate(Vector2 direction, bool flip, float duration = 0)
+    {
+        if (!flip)
+            direction = -direction;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        Quaternion start = this.transform.rotation;
+        Quaternion target = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        if (duration == 0)
+        {
+            this.transform.rotation = target;
+        }
+        else
+        {
+            for (float elapsed = 0; elapsed < 1; elapsed += Time.deltaTime / duration)
+            {
+                this.transform.rotation = Quaternion.Lerp(start, target, elapsed);
+                yield return null;
+            }
+        }
+    }
+
+    void AnimateEcho()
     {
         this.animator.Play("Reflect");
-
-        // Prevent further interactions
-        this.canEcho = false;
     }
 
 }

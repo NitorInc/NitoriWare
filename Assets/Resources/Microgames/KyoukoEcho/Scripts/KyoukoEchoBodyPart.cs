@@ -5,7 +5,7 @@ public class KyoukoEchoBodyPart : MonoBehaviour
     
     KyoukoEchoKyouko kyouko;
     Bounds bodyBounds;
-
+    
     void Start()
     {
         this.kyouko = GetComponentInParent<KyoukoEchoKyouko>();
@@ -14,7 +14,13 @@ public class KyoukoEchoBodyPart : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        this.kyouko.Hit(this.name);
+        KyoukoEchoNoise noise = other.GetComponent<KyoukoEchoNoise>();
+        if (noise && noise.CanEcho() && this.kyouko.WillEcho)
+        {
+            noise.Echo(CalculateBodyHitLocationY(noise.transform.position.y));
+
+            this.kyouko.Hit(this.name);
+        }
     }
 
     // Get a hit location relative to the main body

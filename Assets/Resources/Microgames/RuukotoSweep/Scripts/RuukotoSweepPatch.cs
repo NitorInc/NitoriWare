@@ -9,6 +9,9 @@ public class RuukotoSweepPatch : MonoBehaviour
     public int spawnCountMin, spawnCountMax;
     public Vector2 xSpawnBounds, ySpawnBounds;
     public float minLeafSeparation;
+    public AudioClip sweepClip;
+    public Vector2 sweepPitchRange;
+    public float interruptSweepVolume = .5f;
     
 	void Start ()
     {
@@ -46,10 +49,15 @@ public class RuukotoSweepPatch : MonoBehaviour
 
     void collide(Collider2D other)
     {
+        //Patch is hit
         if (transform.parent != null && other.name.Contains("Player"))
         {
             var leafModule = leafParticles.main;
             leafModule.simulationSpeed = 1f;
+            //MicrogameController.instance.getSFXSource().Stop();
+            MicrogameController.instance.playSFX(sweepClip, pitchMult: MathHelper.randomRangeFromVector(sweepPitchRange),
+                volume: (MicrogameController.instance.getSFXSource().isPlaying ? interruptSweepVolume : 1f),
+                panStereo: AudioHelper.getAudioPan(transform.position.x / 2f));
 
             Transform leafParent = transform.parent;
             transform.parent = null;
