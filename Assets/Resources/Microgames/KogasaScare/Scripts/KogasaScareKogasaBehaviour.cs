@@ -22,6 +22,9 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     public float minScareDistance;
     public float scareShiftSpeed;
 
+    [Header("Looping sound for walking")]
+    public AudioSource walkSource;
+
     private bool victimInSight;
     private int direction;
     private State state;
@@ -50,6 +53,9 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                 {
                     //Reset animator speed
                     kogasaAnimator.speed = 1f;
+
+                    //Stop step sound
+                    walkSource.loop = false;
 
                     //Handle victory/loss
                     if (victimInSight)
@@ -132,6 +138,18 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                 else if (direction == 1 && leftPressed)
                     direction = -1;
             }
+        }
+
+        //Loop walkSource if walk animation is playing, don't if it's not
+        if (direction != 0)
+        {
+            if (!walkSource.isPlaying)
+                walkSource.Play();
+            walkSource.loop = true;
+        }
+        else
+        {
+            walkSource.loop = false;
         }
 
         kogasaAnimator.speed = (leftPressed || rightPressed) ? 1f : 1.5f;
