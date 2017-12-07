@@ -13,12 +13,12 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
     [System.Serializable]
     public class Edge
     {
-        public Transform fragment1;
-        public Transform fragment2;
+        public MaskPuzzleMaskFragment fragment1;
+        public MaskPuzzleMaskFragment fragment2;
     }
 
     // Check if two fragments can be connected directly
-    public bool areConnectable(Transform fragment1, Transform fragment2)
+    public bool areConnectable(MaskPuzzleMaskFragment fragment1, MaskPuzzleMaskFragment fragment2)
     {
         if (overrideEdgeCheck)
             return true;
@@ -34,11 +34,11 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
     }
 
     // Check if any fragment from the first group can be connected to any fragment from the second group
-    public bool areConnectable(List<GameObject> fragmentGroup1, List<GameObject> fragmentGroup2)
+    public bool areConnectable(List<MaskPuzzleMaskFragment> fragmentGroup1, List<MaskPuzzleMaskFragment> fragmentGroup2)
     {
-        foreach (GameObject fragment1 in fragmentGroup1)
-            foreach (GameObject fragment2 in fragmentGroup2)
-                if (areConnectable(fragment1.transform, fragment2.transform))
+        foreach (MaskPuzzleMaskFragment fragment1 in fragmentGroup1)
+            foreach (MaskPuzzleMaskFragment fragment2 in fragmentGroup2)
+                if (areConnectable(fragment1, fragment2))
                     return true;
 
         return false;

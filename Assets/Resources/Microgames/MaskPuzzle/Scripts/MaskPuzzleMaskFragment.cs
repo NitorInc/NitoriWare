@@ -6,8 +6,6 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
     public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
 
-    public List<GameObject> connectedTo = new List<GameObject>();
-
     public FragmentGroup fragmentGroup;
 
     //Class to keep track of which fragments are connected and determine a fragment's group in constant time
@@ -15,9 +13,10 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     {
         public List<MaskPuzzleMaskFragment> fragments;
 
-        public FragmentGroup()
+        public FragmentGroup(MaskPuzzleMaskFragment initialFragment)
         {
             fragments = new List<MaskPuzzleMaskFragment>();
+            fragments.Add(initialFragment);
         }
 
         //Connect this group to another fragment group
@@ -36,7 +35,7 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
     void Start()
     {
-        fragmentGroup = new FragmentGroup();
+        fragmentGroup = new FragmentGroup(this);
     }
 
     // Callbacks for drag and drop events
@@ -52,26 +51,14 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         CheckVictory();
     }
 
-    public void ConnectTo(GameObject otherFragment)
+    public void ConnectTo(MaskPuzzleMaskFragment otherFragment)
     {
-        connectedTo.Add(otherFragment);
-        otherFragment.GetComponent<MaskPuzzleMaskFragment>().connectedTo.Add(this.gameObject);
+        fragmentGroup.connectTo(otherFragment.fragmentGroup);
     }
 
-    public List<GameObject> GetAllConnected()
+    public List<MaskPuzzleMaskFragment> GetAllConnected()
     {
-        List<GameObject> connected = new List<GameObject>();
-        AddAllConnected(connected);
-        return connected;
-    }
-
-    public void AddAllConnected(List<GameObject> connected)
-    {
-        if (connected.Contains(gameObject))
-            return;
-        connected.Add(gameObject);
-        foreach (GameObject node in connectedTo)
-            node.GetComponent<MaskPuzzleMaskFragment>().AddAllConnected(connected);
+        return fragmentGroup.fragments;
     }
 
     // To be called when dropping a mask
@@ -94,9 +81,9 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             // Check if the grabbed fragment can be connected to the i-th fragment,
             // directly or through other already connected fragments
             print("Checking connectability; grabbed group count: " + GetAllConnected().Count + "; checked group count: "
-                + fragmentsManager.fragments[i].GetComponent<MaskPuzzleMaskFragment>().GetAllConnected().Count);
+                + fragmentsManager.fragments[i].GetAllConnected().Count);
             if (fragmentsManager.edges.areConnectable(
-                GetAllConnected(), fragmentsManager.fragments[i].GetComponent<MaskPuzzleMaskFragment>().GetAllConnected()))
+                GetAllConnected(), fragmentsManager.fragments[i].GetAllConnected()))
             {
                 transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
                 ConnectTo(fragmentsManager.fragments[i]);
@@ -113,9 +100,9 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     void SwapParents()
     {
         transform.parent = fragmentsManager.transform;
-        foreach (GameObject otherFragment in GetAllConnected())
+        foreach (MaskPuzzleMaskFragment otherFragment in GetAllConnected())
         {
-            if (otherFragment == gameObject)
+            if (otherFragment == this)
                 continue;
             otherFragment.transform.parent = transform;
         }

@@ -23,7 +23,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
     public float victoryMoveSpeed, victoryRotationSpeed;
 
-    public List<GameObject> fragments;
+    public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
@@ -46,7 +46,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             currentFragment.transform.parent = transform;
 
             // Add script to the fragment
-            currentFragment.AddComponent<MaskPuzzleMaskFragment>();
+            //currentFragment.AddComponent<MaskPuzzleMaskFragment>();
             currentFragment.GetComponent<MaskPuzzleMaskFragment>().fragmentsManager = this;
 
             // Setup drag and drop
@@ -64,7 +64,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             currentFragment.GetComponent<MouseGrabbable>().onRelease = releaseEvent;
 
             // Add the fragment to list
-            fragments.Add(currentFragment);
+            fragments.Add(currentFragment.GetComponent<MaskPuzzleMaskFragment>());
         }
 	}
 }
