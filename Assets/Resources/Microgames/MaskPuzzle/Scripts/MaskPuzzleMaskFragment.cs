@@ -8,6 +8,37 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
     public List<GameObject> connectedTo = new List<GameObject>();
 
+    public FragmentGroup fragmentGroup;
+
+    //Class to keep track of which fragments are connected and determine a fragment's group in constant time
+    public class FragmentGroup
+    {
+        public List<MaskPuzzleMaskFragment> fragments;
+
+        public FragmentGroup()
+        {
+            fragments = new List<MaskPuzzleMaskFragment>();
+        }
+
+        //Connect this group to another fragment group
+        public void connectTo(FragmentGroup group)
+        {
+            if (group == this)
+                return;
+
+            fragments.AddRange(group.fragments);
+            foreach (var fragment in group.fragments)
+            {
+                fragment.fragmentGroup = this;
+            }
+        }
+    }
+
+    void Start()
+    {
+        fragmentGroup = new FragmentGroup();
+    }
+
     // Callbacks for drag and drop events
     public void OnGrab()
     {
