@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4731701024690010}
   - component: {fileID: 212713761859032200}
+  - component: {fileID: 114381941181458512}
   m_Layer: 0
   m_Name: Mask2Fragment3
   m_TagString: Untagged
@@ -36,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4625352997579606}
   - component: {fileID: 212662377771849562}
+  - component: {fileID: 114040941143219904}
   m_Layer: 0
   m_Name: Mask2Fragment1
   m_TagString: Untagged
@@ -52,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4652468109532446}
   - component: {fileID: 212975955650378620}
+  - component: {fileID: 114825532725832252}
   m_Layer: 0
   m_Name: Mask2Fragment4
   m_TagString: Untagged
@@ -68,6 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4484300142051332}
   - component: {fileID: 212695375205222542}
+  - component: {fileID: 114427228296547778}
   m_Layer: 0
   m_Name: Mask2Fragment2
   m_TagString: Untagged
@@ -160,6 +164,18 @@ Transform:
   m_Father: {fileID: 4321061707562658}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114040941143219904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1050508890848280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4562e7059b5c8e49b8c20c36a15d5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentsManager: {fileID: 0}
 --- !u!114 &114200805521757978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,16 +189,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overrideEdgeCheck: 0
   connectableEdges:
-  - fragment1: {fileID: 4625352997579606}
-    fragment2: {fileID: 4484300142051332}
-  - fragment1: {fileID: 4625352997579606}
-    fragment2: {fileID: 4731701024690010}
-  - fragment1: {fileID: 4625352997579606}
-    fragment2: {fileID: 4652468109532446}
-  - fragment1: {fileID: 4484300142051332}
-    fragment2: {fileID: 4652468109532446}
-  - fragment1: {fileID: 4731701024690010}
-    fragment2: {fileID: 4652468109532446}
+  - fragment1: {fileID: 114040941143219904}
+    fragment2: {fileID: 114427228296547778}
+  - fragment1: {fileID: 114040941143219904}
+    fragment2: {fileID: 114381941181458512}
+  - fragment1: {fileID: 114040941143219904}
+    fragment2: {fileID: 114825532725832252}
+  - fragment1: {fileID: 114427228296547778}
+    fragment2: {fileID: 114825532725832252}
+  - fragment1: {fileID: 114381941181458512}
+    fragment2: {fileID: 114825532725832252}
+--- !u!114 &114381941181458512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044125396063500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4562e7059b5c8e49b8c20c36a15d5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentsManager: {fileID: 0}
+--- !u!114 &114427228296547778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1503243270866250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4562e7059b5c8e49b8c20c36a15d5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentsManager: {fileID: 0}
+--- !u!114 &114825532725832252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1473924024156336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4562e7059b5c8e49b8c20c36a15d5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentsManager: {fileID: 0}
 --- !u!212 &212662377771849562
 SpriteRenderer:
   m_ObjectHideFlags: 1
