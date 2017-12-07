@@ -18,14 +18,14 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
     }
 
     // Check if two fragments can be connected directly
-    public bool areConnectable(MaskPuzzleMaskFragment fragment1, MaskPuzzleMaskFragment fragment2)
+    public bool areConnectable(MaskPuzzleMaskFragment.FragmentGroup group1, MaskPuzzleMaskFragment.FragmentGroup group2)
     {
         if (overrideEdgeCheck)
             return true;
         foreach (Edge edge in connectableEdges)
         {
-            if ((fragment1 == edge.fragment1 && fragment2 == edge.fragment2) ||
-                (fragment1 == edge.fragment2 && fragment2 == edge.fragment1))
+            if ((group1 == edge.fragment1.fragmentGroup && group2 == edge.fragment2.fragmentGroup) ||
+                (group1 == edge.fragment2.fragmentGroup && group2 == edge.fragment1.fragmentGroup))
             {
                 return true;
             }
@@ -33,14 +33,14 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
         return false;
     }
 
-    // Check if any fragment from the first group can be connected to any fragment from the second group
-    public bool areConnectable(List<MaskPuzzleMaskFragment> fragmentGroup1, List<MaskPuzzleMaskFragment> fragmentGroup2)
-    {
-        foreach (MaskPuzzleMaskFragment fragment1 in fragmentGroup1)
-            foreach (MaskPuzzleMaskFragment fragment2 in fragmentGroup2)
-                if (areConnectable(fragment1, fragment2))
-                    return true;
+    //// Check if any fragment from the first group can be connected to any fragment from the second group
+    //public bool areConnectable(List<MaskPuzzleMaskFragment> fragmentGroup1, List<MaskPuzzleMaskFragment> fragmentGroup2)
+    //{
+    //    foreach (MaskPuzzleMaskFragment fragment1 in fragmentGroup1)
+    //        foreach (MaskPuzzleMaskFragment fragment2 in fragmentGroup2)
+    //            if (areConnectable(fragment1, fragment2))
+    //                return true;
 
-        return false;
-    }
+    //    return false;
+    //}
 }

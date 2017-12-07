@@ -83,7 +83,7 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             print("Checking connectability; grabbed group count: " + GetAllConnected().Count + "; checked group count: "
                 + fragmentsManager.fragments[i].GetAllConnected().Count);
             if (fragmentsManager.edges.areConnectable(
-                GetAllConnected(), fragmentsManager.fragments[i].GetAllConnected()))
+                fragmentGroup, fragmentsManager.fragments[i].fragmentGroup))
             {
                 transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
                 ConnectTo(fragmentsManager.fragments[i]);
