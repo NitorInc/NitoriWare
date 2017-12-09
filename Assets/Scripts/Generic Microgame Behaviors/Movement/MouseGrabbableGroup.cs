@@ -73,6 +73,16 @@ public class MouseGrabbableGroup : MonoBehaviour
 		updateOrderInLayer();
 	}
 
+    //Moves the given grabbable to the front, displaying it in front of the other grabbables in the group. Grabbable must be in the group.
+    public void moveToFront(MouseGrabbable grabbable)
+    {
+        if (grabbables.Contains(grabbable))
+            moveToFront(grabbables.IndexOf(grabbable));
+        else
+            Debug.LogError("Grabbable to move to front not found in group!");
+    }
+
+    //Adds a new grabbable to the group, bringing it to the front if specified
 	public void addGrabbable(MouseGrabbable grabbable, bool toFront)
 	{
 		grabbables.Add(grabbable);
