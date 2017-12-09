@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Manages a collection of objects with MouseGrabbable and SpriteRenderer attached
+//Manages a collection of MouseGrabbables that have a Renderer attached (or have one in its children)
 //When one is grabbed, the order in layer is adjusted to be in front of the other ones
 
 public class MouseGrabbableGroup : MonoBehaviour
@@ -41,7 +41,7 @@ public class MouseGrabbableGroup : MonoBehaviour
 	{
 		for (int i = 0; i < grabbables.Count; i++)
 		{
-			grabbables[i].getSpriteRenderer().sortingOrder = lowestOrderInLayer + (grabbables.Count - 1 - i);
+			grabbables[i].getRenderer().sortingOrder = lowestOrderInLayer + (grabbables.Count - 1 - i);
 		}
 	}
 
