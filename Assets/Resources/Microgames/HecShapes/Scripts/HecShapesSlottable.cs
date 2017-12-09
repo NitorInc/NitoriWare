@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class HecShapesSlottable : MonoBehaviour
 {
@@ -12,7 +13,24 @@ public class HecShapesSlottable : MonoBehaviour
     float snapSpeed = 10;
     
     Transform snapTarget;
-    
+    MouseGrabbable grabbable;
+
+    void Start()
+    {
+        this.grabbable = GetComponent<MouseGrabbable>();
+
+        if (grabbable)
+        {
+            var grabEvent = new UnityEvent();
+            grabEvent.AddListener(OnGrab);
+            grabbable.onGrab = grabEvent;
+
+            var releaseEvent = new UnityEvent();
+            releaseEvent.AddListener(OnRelease);
+            grabbable.onRelease = releaseEvent;
+        }
+    }
+
     void Update()
     {
         if (this.snapTarget != null)
@@ -38,12 +56,6 @@ public class HecShapesSlottable : MonoBehaviour
             this.snapTarget = null;
     }
     
-    public void SetShape(HecShapesCelestialBody shape)
-    {
-        var shapeCollider = Instantiate(shape, this.transform).GetComponent<Collider2D>();
-        GetComponent<MouseGrabbable>()._collider2D = shapeCollider;
-    }
-
     public void OnGrab()
     {
         

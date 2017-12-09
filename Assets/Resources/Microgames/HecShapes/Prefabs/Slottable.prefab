@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4064352859278636}
   - component: {fileID: 114707991988636770}
-  - component: {fileID: 114734331266234200}
   - component: {fileID: 58398601677449588}
   - component: {fileID: 50391026260979738}
   m_Layer: 0
@@ -91,53 +90,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correct: 0
   snapSpeed: 10
---- !u!114 &114734331266234200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1553156318755578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d977e5c76213c0546ac50657f5f9a407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerOnCursor: 0
-  disableOnVictory: 1
-  disableOnLoss: 1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 4294967291
-  onGrab:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114707991988636770}
-        m_MethodName: OnGrab
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  onRelease:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114707991988636770}
-        m_MethodName: OnRelease
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  _collider2D: {fileID: 0}

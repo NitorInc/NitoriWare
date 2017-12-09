@@ -12,11 +12,15 @@ public class HecShapesPool : MonoBehaviour
     [SerializeField]
     List<Transform> startPositions;
 
+    MouseGrabbableGroup grabGroup;
+
     List<HecShapesCelestialBody> shapes;
     int correctIndex;
 
     void Awake()
     {
+        this.grabGroup = GetComponent<MouseGrabbableGroup>();
+
         this.shapes = new List<HecShapesCelestialBody>();
         while (availableShapes.Count > 0)
         {
@@ -33,18 +37,29 @@ public class HecShapesPool : MonoBehaviour
 
     void Start()
     {
+        // Make the planets
         for (int i = 0; i < this.shapes.Count; i++)
         {
+            // This is the planet's generic object
             HecShapesSlottable slottable = Instantiate(
                     this.slottableTemplate,
                     this.startPositions[i]);
 
             if (i == this.correctIndex)
-            {
                 slottable.correct = true;
-            }
 
-            slottable.SetShape(this.shapes[i]);
+            // Instantiate the planet's sprite and collider holding object as a child
+            var shape = Instantiate(this.shapes[i], slottable.transform);
+
+            // Make the planet grabbable
+            var grabbable = slottable.gameObject.AddComponent<MouseGrabbable>();
+            grabbable.disableOnLoss = true;
+            grabbable.disableOnVictory = true;
+
+            grabbable._collider2D = shape.GetComponent<Collider2D>();
+
+            // Add to grabbable group
+            this.grabGroup.addGrabbable(grabbable, false);
         }
     }
 
