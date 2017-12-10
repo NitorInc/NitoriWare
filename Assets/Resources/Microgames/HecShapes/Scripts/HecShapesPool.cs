@@ -4,18 +4,20 @@ using UnityEngine;
 public class HecShapesPool : MonoBehaviour
 {
 
-    [Header("Desired space between random shape locations")]
+    [Header("Hecatia prefab settings")]
+    public HecShapesHecatia hecatiaTemplate;
+    public int headCount = 1;
+    public Transform hecatiaStart;
+    public float hecatiaSpacing = 2;
+
+    [Header("Available shapes")]
+    public List<HecShapesCelestialBody> availableShapes;
+
+    [Header("Shape prefab settings")]
+    public HecShapesSlottable slottableTemplate;
     public float startSpacing;
-    [Header("Number of times to attempt shape positioning")]
     public int spaceAttempts = 1;
 
-    [Header("Generic slottable prefab")]
-    [SerializeField]
-    HecShapesSlottable slottableTemplate;
-    [Header("Styled shape prefab")]
-    [SerializeField]
-    List<HecShapesCelestialBody> availableShapes;
-    
     MouseGrabbableGroup grabGroup;
     Collider2D zone;
     
@@ -32,10 +34,19 @@ public class HecShapesPool : MonoBehaviour
 
     void Start()
     {
-        // Make the planets
+        // Make the planets and Hecatias
         List<Vector2> takenPositions = new List<Vector2>();
         for (int i = 0; i < this.shapes.Count; i++)
         {
+            if (i < this.headCount)
+            {
+                // Make a Hecatia
+                HecShapesHecatia hecatia = Instantiate(
+                    this.hecatiaTemplate,
+                    this.hecatiaStart);
+                hecatia.SetStyle(this.shapes[i].shape);
+            }
+
             // Calculate random start position
             Vector2 start = FindSpace(this.zone.bounds, takenPositions);
             takenPositions.Add(start);

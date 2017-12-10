@@ -2,22 +2,18 @@
 
 public class HecShapesHecatia : MonoBehaviour
 {
-
-    [SerializeField]
-    HecShapesPool pool;
-
+    
     Animator animator;
 
-    void Start()
+    void Awake()
     {
         this.animator = GetComponent<Animator>();
-
-        this.animator.SetInteger("Style", (int)this.pool.GetCorrectShape());
     }
 
-    public void SetStyle(HecShapesSlottable.Shape style)
+    public void SetStyle(HecShapesSlottable.Shape shape)
     {
-        this.animator.SetTrigger(style.ToString());
+        this.animator.SetInteger("Style", (int)shape);
+        BroadcastMessage("SetShape", shape);
     }
 
     public void Win()

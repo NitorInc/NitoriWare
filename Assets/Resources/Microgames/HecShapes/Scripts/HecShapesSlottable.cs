@@ -14,10 +14,12 @@ public class HecShapesSlottable : MonoBehaviour
     
     Transform snapTarget;
     MouseGrabbable grabbable;
+    HecShapesCelestialBody celestialBody;
 
     void Start()
     {
         this.grabbable = GetComponent<MouseGrabbable>();
+        this.celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
 
         if (grabbable)
         {
@@ -67,7 +69,7 @@ public class HecShapesSlottable : MonoBehaviour
         {
             // Send message to Holder
             var holder = this.snapTarget.GetComponentInParent<HecShapesHolder>();
-            holder.SendMessage("FillSlot", this.correct);
+            holder.SendMessage("FillSlot", this.celestialBody.shape);
         }
     }
 
