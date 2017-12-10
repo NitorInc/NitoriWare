@@ -4,11 +4,8 @@ using UnityEngine;
 public class HecShapesPool : MonoBehaviour
 {
 
-    [Header("Hecatia prefab settings")]
-    public HecShapesHecatia hecatiaTemplate;
-    public int headCount = 1;
-    public Transform hecatiaStart;
-    public float hecatiaSpacing = 2;
+    [Header("Hecatia heads")]
+    public List<HecShapesHecatia> heads;
 
     [Header("Available shapes")]
     public List<HecShapesCelestialBody> availableShapes;
@@ -38,13 +35,9 @@ public class HecShapesPool : MonoBehaviour
         List<Vector2> takenPositions = new List<Vector2>();
         for (int i = 0; i < this.shapes.Count; i++)
         {
-            if (i < this.headCount)
+            if (i < this.heads.Count)
             {
-                // Make a Hecatia
-                HecShapesHecatia hecatia = Instantiate(
-                    this.hecatiaTemplate,
-                    this.hecatiaStart);
-                hecatia.SetStyle(this.shapes[i].shape);
+                this.heads[i].SetStyle(this.shapes[i].shape);
             }
 
             // Calculate random start position
