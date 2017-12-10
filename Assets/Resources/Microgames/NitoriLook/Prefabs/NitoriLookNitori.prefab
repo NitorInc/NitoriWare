@@ -68,6 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4040725447008452}
   - component: {fileID: 114959205636098904}
+  - component: {fileID: 114939007680534592}
   - component: {fileID: 114624773163601668}
   - component: {fileID: 54118923026172186}
   - component: {fileID: 65546751121770620}
@@ -144,7 +145,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -196,6 +197,22 @@ MonoBehaviour:
   yOffset: 0
   relativeToStartPosition: 1
   positionOffset: {x: -2.15, y: 2.395, z: -2.8}
+--- !u!114 &114939007680534592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680256835213496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52de86ecf177c2347bed53c96454c2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorSpawnAngleBounds: {x: 90, y: 270}
+  floorSpawnAngleOffset: 90
+  floorSpawnDistanceBounds: {x: 3, y: 4.5}
+  heightSpawnBounds: {x: 1, y: 5.5}
+  sineWave: {fileID: 114624773163601668}
 --- !u!114 &114959205636098904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,7 +227,7 @@ MonoBehaviour:
   lookCollider: {fileID: 0}
   rigAnimator: {fileID: 95200429599626586}
   stillLookTime: 0.05
-  movingLookTime: 0.75
+  movingLookTime: 0.5
 --- !u!212 &212508001451979986
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -242,7 +259,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 22
   m_Sprite: {fileID: 21300000, guid: b9c9cbe9c1c3bc14f88111bc582d10b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -283,7 +300,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 21
   m_Sprite: {fileID: 21300000, guid: 5c94bdbb909541d4f80da7c9f88ee222, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
