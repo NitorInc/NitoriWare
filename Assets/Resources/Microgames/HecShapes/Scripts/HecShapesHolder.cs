@@ -1,29 +1,46 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class HecShapesHolder : MonoBehaviour
 {
 
-    [SerializeField]
-    HecShapesHecatia hecatia;
+    public UnityEvent onFill;
 
-    public HecShapesSlottable.Shape slotShape;
-    public bool filled = false;
+    public Transform snapPoint;
 
-    public void FillSlot(HecShapesSlottable.Shape shape)
+    HecShapesSlottable.Shape slotShape;
+    HecShapesSlottable.Shape shapeInSlot;
+
+    public HecShapesSlottable.Shape SlotShape
     {
-        if (!this.filled)
+        set { this.slotShape = value; }
+    }
+
+    public HecShapesSlottable.Shape ShapeInSlot
+    {
+        get { return this.shapeInSlot; }
+
+        set
         {
-            this.filled = true;
-            if (shape == this.slotShape)
-                this.hecatia.Win();
-            else
-                this.hecatia.Lose();
+            this.shapeInSlot = value;
+            if (value != HecShapesSlottable.Shape.none)
+                onFill.Invoke();
         }
     }
 
-    public void SetShape(HecShapesSlottable.Shape shape)
+    public Vector2 SnapPosition
     {
-        this.slotShape = shape;
+        get { return this.snapPoint.transform.position; }
+    }
+
+    public bool Filled
+    {
+        get { return this.shapeInSlot != HecShapesSlottable.Shape.none; }
+    }
+
+    public bool Valid
+    {
+        get { return this.shapeInSlot == this.slotShape; }
     }
 
 }

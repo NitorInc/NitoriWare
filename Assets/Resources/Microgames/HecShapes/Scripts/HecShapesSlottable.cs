@@ -4,15 +4,15 @@ using UnityEngine.Events;
 public class HecShapesSlottable : MonoBehaviour
 {
 
-    public enum Shape { circle=1, square=2, triangle=3 }
-
-    public bool correct = false;
-
+    public enum Shape { none=0, circle=1, square=2, triangle=3 }
+    
     [Header("How quickly the planet snaps into the holder")]
     [SerializeField]
     float snapSpeed = 10;
     
-    Transform snapTarget;
+    public HecShapesHolder snapTarget;
+    public bool snap;
+
     MouseGrabbable grabbable;
     HecShapesCelestialBody celestialBody;
 
@@ -35,21 +35,25 @@ public class HecShapesSlottable : MonoBehaviour
 
     void Update()
     {
-        if (this.snapTarget != null)
+        if (this.snap)
         {
             float distance = Time.deltaTime * this.snapSpeed;
             this.transform.position = Vector2.MoveTowards(
                 this.transform.position,
-                this.snapTarget.position,
+                this.snapTarget.SnapPosition,
                 distance);
+            
+            if ((Vector2)this.transform.position == this.snapTarget.SnapPosition)
+            {
+                this.snapTarget.ShapeInSlot = this.celestialBody.shape;
+                this.snap = false;
+            }
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        HecShapesHolder holder = collision.GetComponentInParent<HecShapesHolder>();
-        if (holder)
-            this.snapTarget = collision.transform;
+        AcquireTarget(collision);
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -57,20 +61,25 @@ public class HecShapesSlottable : MonoBehaviour
         if (collision.GetComponentInParent<HecShapesHolder>())
             this.snapTarget = null;
     }
+
+    void AcquireTarget(Collider2D collision)
+    {
+        HecShapesHolder holder = collision.GetComponentInParent<HecShapesHolder>();
+        if (holder && !holder.Filled)
+            this.snapTarget = holder;
+    }
     
     public void OnGrab()
     {
-        
+        this.snap = false;
+        if (this.snapTarget && this.snapTarget.ShapeInSlot == this.celestialBody.shape)
+            this.snapTarget.ShapeInSlot = Shape.none;
     }
 
     public void OnRelease()
     {
         if (this.snapTarget)
-        {
-            // Send message to Holder
-            var holder = this.snapTarget.GetComponentInParent<HecShapesHolder>();
-            holder.SendMessage("FillSlot", this.celestialBody.shape);
-        }
+            this.snap = true;
     }
 
 }

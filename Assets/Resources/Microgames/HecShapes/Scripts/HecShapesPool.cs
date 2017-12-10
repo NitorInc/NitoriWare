@@ -19,7 +19,6 @@ public class HecShapesPool : MonoBehaviour
     Collider2D zone;
     
     List<HecShapesCelestialBody> shapes;
-    int correctIndex;
 
     void Awake()
     {
@@ -31,6 +30,10 @@ public class HecShapesPool : MonoBehaviour
 
     void Start()
     {
+        // Set victory checking for each head
+        foreach (HecShapesHecatia head in this.heads)
+            head.AddOnFillAction(CheckWin);
+        
         // Make the planets and Hecatias
         List<Vector2> takenPositions = new List<Vector2>();
         for (int i = 0; i < this.shapes.Count; i++)
@@ -44,7 +47,7 @@ public class HecShapesPool : MonoBehaviour
             Vector2 start = FindSpace(this.zone.bounds, takenPositions);
             takenPositions.Add(start);
 
-            InstantiateShape(this.shapes[i], start, i == this.correctIndex);
+            InstantiateShape(this.shapes[i], start);
         }
     }
 
@@ -57,9 +60,6 @@ public class HecShapesPool : MonoBehaviour
             this.shapes.Add(availableShapes[index]);
             availableShapes.RemoveAt(index);
         }
-
-        // Choose the correct shape at random
-        this.correctIndex = Random.Range(0, this.shapes.Count);
     }
 
     Vector2 FindSpace(Bounds bounds, List<Vector2> takenPositions)
@@ -89,7 +89,7 @@ public class HecShapesPool : MonoBehaviour
         return space;
     }
     
-    void InstantiateShape(HecShapesCelestialBody shapeTemplate, Vector2 start, bool correct)
+    void InstantiateShape(HecShapesCelestialBody shapeTemplate, Vector2 start)
     {
         // This is the planet's generic object
         HecShapesSlottable slottable = Instantiate(
@@ -97,7 +97,6 @@ public class HecShapesPool : MonoBehaviour
                 start,
                 new Quaternion(),
                 this.transform);
-        slottable.correct = correct;
 
         // Instantiate the planet's sprite and collider holding object as a child
         var shape = Instantiate(shapeTemplate, slottable.transform);
@@ -112,10 +111,26 @@ public class HecShapesPool : MonoBehaviour
         // Add to grabbable group
         this.grabGroup.addGrabbable(grabbable, false);
     }
-
-    public HecShapesSlottable.Shape GetCorrectShape()
+    
+    public void CheckWin()
     {
-        return this.shapes[this.correctIndex].shape;
+        bool win = true;
+        foreach (HecShapesHecatia head in this.heads)
+        {
+            if (!head.IsFilled())
+            {
+                win = false;
+                break;
+            }
+        }
+
+        if (win)
+        {
+            MicrogameController.instance.setVictory(true, true);
+
+            foreach (HecShapesHecatia head in this.heads)
+                head.Win();
+        }
     }
     
 }
