@@ -22,6 +22,10 @@ public class MicrogameController : MonoBehaviour
 
 
 	public UnityEvent onPause, onUnPause;
+    [Header("--NOTE--")]
+    [Header("Please don't touch anything below here in this GameObject.")]
+    [Header("--------")]
+
     [SerializeField]
     private AudioSource sfxSource;
 
@@ -78,7 +82,7 @@ public class MicrogameController : MonoBehaviour
 			if (traits.hideCursor)
 				Cursor.visible = false;
 
-			commandDisplay = StageController.instance.transform.root.FindChild("UI").FindChild("Command").GetComponent<CommandDisplay>();
+			commandDisplay = StageController.instance.transform.root.Find("UI").Find("Command").GetComponent<CommandDisplay>();
 
 			StageController.instance.resetVictory();
 			StageController.instance.onMicrogameAwake();
@@ -100,7 +104,7 @@ public class MicrogameController : MonoBehaviour
                 
                 if (debugSettings.localizeText)
                 {
-                    LocalizationManager manager = GameController.instance.transform.FindChild("Localization").GetComponent<LocalizationManager>();
+                    LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
                     if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
                         manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
                     manager.gameObject.SetActive(true);
@@ -287,12 +291,12 @@ public class MicrogameController : MonoBehaviour
     /// Plays sound effect and scales it with current speed. use this for most microgame sounds.
     /// </summary>
     /// <param name="clip"></param>
-    /// <param name="panStero"></param>
+    /// <param name="panStereo"></param>
     /// <param name="pitchMult"></param>
     /// <param name="volume"></param>
-    public void playSFX(AudioClip clip, float panStero = 0f, float pitchMult = 1f, float volume = 1f)
+    public void playSFX(AudioClip clip, float panStereo = 0f, float pitchMult = 1f, float volume = 1f)
     {
-        playSFXUnscaled(clip, panStero, pitchMult * Time.timeScale, volume);
+        playSFXUnscaled(clip, panStereo, pitchMult * Time.timeScale, volume);
     }
 
 	void Update ()
