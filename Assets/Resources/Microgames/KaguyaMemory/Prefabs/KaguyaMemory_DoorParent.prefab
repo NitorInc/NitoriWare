@@ -9,75 +9,75 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1995598736500968}
+  m_RootGameObject: {fileID: 1916144839733426}
   m_IsPrefabParent: 1
---- !u!1 &1722206775997158
+--- !u!1 &1749963816347614
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4263775906237906}
-  - component: {fileID: 212386677021670496}
+  - component: {fileID: 4430757712089608}
+  - component: {fileID: 212489128504667978}
   m_Layer: 0
-  m_Name: KaguyaMemory_BlackBars
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1995598736500968
+--- !u!1 &1916144839733426
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4629503163347358}
-  - component: {fileID: 50071577983106798}
-  - component: {fileID: 114995031707325028}
+  - component: {fileID: 4440545253114144}
+  - component: {fileID: 50656592159926236}
+  - component: {fileID: 114869077190157486}
   m_Layer: 0
-  m_Name: KaguyaMemory_BlackBarsParent
+  m_Name: KaguyaMemory_DoorParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4263775906237906
+--- !u!4 &4430757712089608
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722206775997158}
+  m_GameObject: {fileID: 1749963816347614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.65, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4629503163347358}
+  m_Father: {fileID: 4440545253114144}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4629503163347358
+--- !u!4 &4440545253114144
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995598736500968}
+  m_GameObject: {fileID: 1916144839733426}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.87, y: 0, z: 0}
+  m_LocalPosition: {x: -8, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
-  - {fileID: 4263775906237906}
+  - {fileID: 4430757712089608}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50071577983106798
+--- !u!50 &50656592159926236
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995598736500968}
+  m_GameObject: {fileID: 1916144839733426}
   m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -91,27 +91,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &114995031707325028
+--- !u!114 &114869077190157486
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995598736500968}
+  m_GameObject: {fileID: 1916144839733426}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccdef459fd9a1d248a89c7d7cc7b2a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clapSound: {fileID: 8300000, guid: 1798d1476581d7147a8ee4c45c2cd380, type: 3}
   myDirection: 1
   stopPoint: 2
   movementSpeed: 12
---- !u!212 &212386677021670496
+  clapSound: {fileID: 8300000, guid: 1798d1476581d7147a8ee4c45c2cd380, type: 3}
+--- !u!212 &212489128504667978
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722206775997158}
+  m_GameObject: {fileID: 1749963816347614}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -137,7 +137,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: c7e553a5c42c13c4595f4ffbda6d588f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
