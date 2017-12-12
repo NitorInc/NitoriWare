@@ -54,6 +54,6 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
         chosenItem.GetComponent<Rigidbody2D>().gravityScale = 2 * speedMultiplier;
 
         MicrogameController.instance.playSFX(whooshSound, volume: 0.5f,
-        panStero: AudioHelper.getAudioPan(transform.position.x));
+        panStereo: AudioHelper.getAudioPan(transform.position.x));
     }
 }

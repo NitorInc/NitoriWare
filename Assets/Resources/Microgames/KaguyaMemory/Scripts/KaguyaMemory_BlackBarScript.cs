@@ -55,7 +55,7 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 2;
             MicrogameController.instance.playSFX(clapSound, volume: 0.5f,
-            panStero: AudioHelper.getAudioPan(transform.position.x));
+            panStereo: AudioHelper.getAudioPan(transform.position.x));
             Invoke("openBars", 0.3f);
         }
         if(myDirection == -1 && transform.position.x < 0 && phase == 1)

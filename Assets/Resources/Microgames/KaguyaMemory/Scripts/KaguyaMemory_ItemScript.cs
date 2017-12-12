@@ -57,7 +57,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
                 MicrogameController.instance.setVictory(true, true);
                 KaguyaChan.GetComponent<KaguyaMemory_KaguyaEndAnimation>().isWin = true;
                 MicrogameController.instance.playSFX(correctSound, volume: 0.5f,
-                panStero: AudioHelper.getAudioPan(0));
+                panStereo: AudioHelper.getAudioPan(0));
             }
             else
             {
@@ -65,7 +65,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
                 MicrogameController.instance.setVictory(false, true);
                 KaguyaChan.GetComponent<KaguyaMemory_KaguyaEndAnimation>().isLose = true;
                 MicrogameController.instance.playSFX(wrongSound, volume: 0.5f,
-                panStero: AudioHelper.getAudioPan(0));
+                panStereo: AudioHelper.getAudioPan(0));
             }
             theIndicator.transform.position = transform.position;
             rb2d.velocity = new Vector2(0, 0);
