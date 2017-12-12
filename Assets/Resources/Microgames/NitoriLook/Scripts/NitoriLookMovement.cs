@@ -8,6 +8,8 @@ public class NitoriLookMovement : MonoBehaviour
 #pragma warning disable 0649	//Serialized Fields
     [SerializeField]
     private Vector2 mouseRotateVelocity;
+    [SerializeField]
+    private Vector2 yRotateBounds;
 #pragma warning restore 0649
 
 	void Start()
@@ -31,7 +33,7 @@ public class NitoriLookMovement : MonoBehaviour
             x -= 360f;
         }
         x -= Input.GetAxis("Mouse Y") * mouseRotateVelocity.y;
-        x = Mathf.Clamp(x, -80f, 15f);
+        x = Mathf.Clamp(x, yRotateBounds.x, yRotateBounds.y);
 
         float y = eulerRotation.y;
 		y += Input.GetAxis("Mouse X") * mouseRotateVelocity.x;
