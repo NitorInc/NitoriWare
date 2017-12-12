@@ -25,7 +25,7 @@ public class BugSwat_CursorScript : MonoBehaviour {
             Invoke("createHitbox", 0.09f);
             Invoke("swingReady", 0.18f);
             MicrogameController.instance.playSFX(hitSound, volume: 0.5f,
-                panStero: AudioHelper.getAudioPan(0));
+            panStereo: AudioHelper.getAudioPan(0));
             anim.SetBool("Swing", true);
         }
     }
