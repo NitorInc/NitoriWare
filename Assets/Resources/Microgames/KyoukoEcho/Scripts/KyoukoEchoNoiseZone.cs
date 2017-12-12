@@ -5,6 +5,8 @@ public class KyoukoEchoNoiseZone : MonoBehaviour
 
     [SerializeField]
     KyoukoEchoNoise noise;
+    [SerializeField]
+    KyoukoEchoNoisePair[] noisePairs;
 
     Collider2D zone;
     KyoukoEchoKyouko kyouko;
@@ -34,7 +36,10 @@ public class KyoukoEchoNoiseZone : MonoBehaviour
             Random.Range(bounds.min.x, bounds.max.x),
             Random.Range(bounds.min.y, bounds.max.y));
 
+        KyoukoEchoNoisePair noisePair = noisePairs[Random.Range(0, noisePairs.Length)];
+        
         KyoukoEchoNoise noise = Instantiate(this.noise, noisePosition, this.transform.rotation);
+        noise.SetNoise(noisePair);
         noise.Fire(this.kyouko.transform.position.x, this.kyouko.UpperBoundY, this.kyouko.LowerBoundY, delay);
     }
 

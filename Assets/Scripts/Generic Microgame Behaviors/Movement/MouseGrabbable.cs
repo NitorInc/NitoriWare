@@ -10,7 +10,7 @@ public class MouseGrabbable : MonoBehaviour
 	public Collider2D _collider2D;
 
 	private Vector2 grabOffset;
-	private SpriteRenderer _spriteRenderer;
+	private Renderer _renderer;
 	private bool _grabbed = false;
 
 	public bool grabbed
@@ -33,7 +33,7 @@ public class MouseGrabbable : MonoBehaviour
     {
         if (_collider2D == null)
             _collider2D = GetComponent<Collider2D>();
-		_spriteRenderer = GetComponent<SpriteRenderer>();
+		_renderer = GetComponentInChildren<Renderer>();
 	}
 	
 	void Update ()
@@ -80,8 +80,8 @@ public class MouseGrabbable : MonoBehaviour
 		
 	}
 
-	public SpriteRenderer getSpriteRenderer()
+	public Renderer getRenderer()
 	{
-		return _spriteRenderer;
+		return _renderer;
 	}
 }

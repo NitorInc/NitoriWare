@@ -6,16 +6,59 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
     public MaskPuzzleGrabbableFragmentsManager fragmentsManager;
 
+    public FragmentGroup fragmentGroup;
+
+    //Class to keep track of which fragments are connected and determine a fragment's group in constant time
+    public class FragmentGroup
+    {
+        public List<MaskPuzzleMaskFragment> fragments;
+
+        public FragmentGroup(MaskPuzzleMaskFragment initialFragment)
+        {
+            fragments = new List<MaskPuzzleMaskFragment>();
+            fragments.Add(initialFragment);
+        }
+
+        //Connect this group to another fragment group
+        public void connectTo(FragmentGroup group)
+        {
+            if (group == this)
+                return;
+
+            fragments.AddRange(group.fragments);
+            foreach (var fragment in group.fragments)
+            {
+                fragment.fragmentGroup = this;
+            }
+        }
+    }
+
+    void Start()
+    {
+        fragmentGroup = new FragmentGroup(this);
+    }
+
     // Callbacks for drag and drop events
     public void OnGrab()
     {
         SwapParents();
+        MoveChildrenToFront();
     }
 
     public void OnRelease()
     {
         SnapToOtherFragments();
         CheckVictory();
+    }
+
+    public void ConnectTo(MaskPuzzleMaskFragment otherFragment)
+    {
+        fragmentGroup.connectTo(otherFragment.fragmentGroup);
+    }
+
+    public List<MaskPuzzleMaskFragment> GetAllConnected()
+    {
+        return fragmentGroup.fragments;
     }
 
     // To be called when dropping a mask
@@ -26,32 +69,55 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     {
         for (int i=0; i<fragmentsManager.fragments.Count; i++)
         {
-            if (fragmentsManager.fragments[i] == this)
+            // Check if already connected
+            if (GetAllConnected().Contains(fragmentsManager.fragments[i]))
                 continue;
+
+            // Check distance
             if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
-                <= fragmentsManager.maxSnapDistance)
+                > fragmentsManager.maxSnapDistance)
+                continue;
+
+            // Check if the grabbed fragment can be connected to the i-th fragment,
+            // directly or through other already connected fragments
+            print("Checking connectability; grabbed group count: " + GetAllConnected().Count + "; checked group count: "
+                + fragmentsManager.fragments[i].GetAllConnected().Count);
+            if (fragmentsManager.edges.areConnectable(
+                fragmentGroup, fragmentsManager.fragments[i].fragmentGroup))
             {
                 transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
-                transform.parent = fragmentsManager.transform;
-                fragmentsManager.fragments[i].transform.parent = transform;
-                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name + " and became its parent");
+                ConnectTo(fragmentsManager.fragments[i]);
+                // Become the parent of the newly joined fragments
+                SwapParents();
+                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name);
+                print("Now the group contains " + GetAllConnected().Count + " fragments.");
             }
         }
     }
 
-    // To be called when grabbing a mask
-    // Checks whether this mask is a child of another mask
-    // If yes, it reverses the relationship so it becomes the other mask's parent instead
-    // This is done to ensure that both linked masks are moved together regardless of which one is grabbed
-    // FIXME: Children aren't brought up to the front layer when grabbing the group (only the parent is),
-    //        so they can be behind other fragments while being moved around
+    // To be called when grabbing a mask fragment and when joining new fragments
+    // Make all connected fragments children of this fragment so they are moved together
     void SwapParents()
     {
-        if (transform.parent != fragmentsManager.transform)
+        transform.parent = fragmentsManager.transform;
+        foreach (MaskPuzzleMaskFragment otherFragment in GetAllConnected())
         {
-            Transform otherMask = transform.parent;
-            transform.parent = fragmentsManager.transform;
-            otherMask.parent = transform;
+            if (otherFragment == this)
+                continue;
+            otherFragment.transform.parent = transform;
+        }
+    }
+
+    // To be called when grabbing a mask, after SwapParents()
+    // The grabbed fragment is brought up to the front layer automatically by MouseGrabbableGroup,
+    // but the other linked fragments need to be brought to the front manually - this method does this
+    void MoveChildrenToFront()
+    {
+        Transform[] children = GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)
+        {
+            print("MoveChildrenToFront(): " + child.gameObject + " moved to the front.");
+            fragmentsManager.GetComponent<MouseGrabbableGroup>().moveToFront(child.gameObject.GetComponent<MouseGrabbable>());
         }
     }
 

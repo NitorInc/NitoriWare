@@ -23,7 +23,8 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
     public float victoryMoveSpeed, victoryRotationSpeed;
 
-    public List<GameObject> fragments;
+    public List<MaskPuzzleMaskFragment> fragments;
+    public MaskPuzzleMaskEdges edges;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
     void Start ()
@@ -31,6 +32,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         // Choose a random mask from the library
         GameObject chosenMask = maskLibrary.transform.GetChild(Random.Range(0, maskLibrary.transform.childCount)).gameObject;
         print("Chosen " + chosenMask.name + ". It has " + chosenMask.transform.childCount + " fragments.");
+
+        // Get info about the edges that should be connected
+        edges = chosenMask.GetComponent<MaskPuzzleMaskEdges>();
 
         // Initialize all fragments of the chosen mask
         while (chosenMask.transform.childCount > 0)
@@ -42,7 +46,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             currentFragment.transform.parent = transform;
 
             // Add script to the fragment
-            currentFragment.AddComponent<MaskPuzzleMaskFragment>();
+            //currentFragment.AddComponent<MaskPuzzleMaskFragment>();
             currentFragment.GetComponent<MaskPuzzleMaskFragment>().fragmentsManager = this;
 
             // Setup drag and drop
@@ -60,10 +64,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             currentFragment.GetComponent<MouseGrabbable>().onRelease = releaseEvent;
 
             // Add the fragment to list
-            fragments.Add(currentFragment);
+            fragments.Add(currentFragment.GetComponent<MaskPuzzleMaskFragment>());
         }
-
-        // Disable the mask library - we won't need the other masks
-        maskLibrary.SetActive(false);
 	}
 }
