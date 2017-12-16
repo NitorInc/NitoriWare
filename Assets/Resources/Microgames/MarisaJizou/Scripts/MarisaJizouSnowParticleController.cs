@@ -16,7 +16,7 @@ namespace NitorInc.MarisaJizou {
             rightHash = Animator.StringToHash("ToRight");
             anim = GetComponent<Animator>();
             ps = GetComponentInChildren<ParticleSystem>();
-            MarisaJizouMarisaController.onTurning += Turn;
+            //MarisaJizouMarisaController.onTurning += Turn;
             MarisaJizouController.onVictory += Stop;
         }
 
