@@ -4,35 +4,75 @@ using UnityEngine;
 
 namespace NitorInc.MochiPound {
 
-    using FSM;
-
     public class MochiPoundRabbitController : MonoBehaviour {
 
         Animator anim;
         public float poundNormalizedTime = 0.55f;
-        FSM fsm;
         public bool isLeft;
-        State readyState;
-        State poundingState;
+        KeyCode key = KeyCode.RightArrow;
+        KeyCode opposingKey = KeyCode.LeftArrow;
+        bool hasPounded = false;
+        bool hasHit = true;
+        bool hasWon = false;
+
         public Animator mochiAnim;
         CameraShake shake;
         public float xShake = 0.1f;
         public float shakeSpeed = 1.0f;
         MochiPoundPlanet[] planets;
+        MochiPoundController ctrler;
+
+        public string poundAnimName = "Pounding";
+        int poundAnimNameHash;
+
         // Use this for initialization
         void Start() {
             anim = GetComponent<Animator>();
             shake = FindObjectOfType<CameraShake>();
             planets = FindObjectsOfType<MochiPoundPlanet>();
-            poundingState = new PoundingState(this);
-            readyState = new IdleState().AddTransition(new KeyPressTransition(poundingState, isLeft ? KeyCode.RightArrow : KeyCode.LeftArrow));
-            poundingState.AddTransition(new AnimatorTimeTransition(readyState, anim, "Pounding", poundNormalizedTime));
-            fsm = new FSM(readyState);
+            ctrler = FindObjectOfType<MochiPoundController>();
+            poundAnimNameHash = Animator.StringToHash(poundAnimName);
+            if (isLeft) {
+                key = KeyCode.LeftArrow;
+                opposingKey = KeyCode.RightArrow;
+            }
+
+            MochiPoundController.OnVictory += OnVictory;
         }
 
         // Update is called once per frame
         void Update() {
-            fsm.Update();
+            if (!hasWon) {
+                if (Input.GetKeyDown(key) && !hasPounded) {
+                    PlayPoundAnim();
+                    hasHit = false;
+                    hasPounded = true;
+                }
+
+                if (hasPounded && !hasHit) {
+                    var animState = anim.GetCurrentAnimatorStateInfo(0);
+                    if (animState.shortNameHash == poundAnimNameHash) {
+                        if (animState.normalizedTime >= poundNormalizedTime) {
+                            OnMochiHit();
+                            hasHit = true;
+                        }
+                    }
+                }
+
+                if (Input.GetKeyDown(opposingKey)) {
+                    hasPounded = false;
+                    if (!hasHit) {
+                        anim.Play(poundAnimNameHash, 0, poundNormalizedTime);
+                        OnMochiHit();
+                        hasHit = true;
+                    }
+                }
+            }
+        }
+
+        void OnVictory() {
+            hasWon = true;
+            PlayPoundAnim();
         }
 
         void OnMochiHit() {
@@ -41,29 +81,12 @@ namespace NitorInc.MochiPound {
             for (int i = 0; i < planets.Length; i++) {
                 planets[i].Shake();
             }
+            ctrler.OnHit();
         }
 
         void PlayPoundAnim() {
-            anim.Play("Pounding", 0, 0.0f);
+            anim.Play(poundAnimNameHash, 0, 0.0f);
         }
 
-        public class PoundingState : State {
-
-            MochiPoundRabbitController agent;
-            public PoundingState(MochiPoundRabbitController agent) : base() {
-                this.agent = agent;
-            }
-
-            public override void OnEnter() {
-                agent.PlayPoundAnim();
-            }
-
-            public override void OnExit() {
-                agent.OnMochiHit();
-            }
-
-            public override void Update() {
-            }
-        }
     }
 }
