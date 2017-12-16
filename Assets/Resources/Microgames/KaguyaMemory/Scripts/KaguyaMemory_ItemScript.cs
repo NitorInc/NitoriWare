@@ -10,7 +10,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     public GameObject wrongIndicator;
     public bool isMoving = false;
     public bool isCorrect = false;
-    public float movementSpeed = 0;
 
     private Vector3 startingPosition;
     private bool isSelectable = false;
@@ -68,7 +67,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
                 panStereo: AudioHelper.getAudioPan(0));
             }
             theIndicator.transform.position = transform.position;
-            rb2d.velocity = new Vector2(0, 0);
             rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished = true;
             isFinished = true;
             isSelectable = false;
@@ -78,55 +76,9 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     void Update()
     {
-        transform.rotation = defaultRotation;
-        rb2d.angularVelocity = 0;
-        if (isFinished == true)
-        {
-            rb2d.velocity = new Vector2(0, 0);
-            return;
-        }
-        if(rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == true)
-        {
-            isFinished = true;
-            rb2d.velocity = new Vector2(0, 0);
-            return;
-        }
-        //prevent objects from moving out of bounds
-        if (transform.position.x > 5f)
-        {
-            rb2d.velocity = new Vector2(-movementSpeed, rb2d.velocity.y);
-        }
-        if (transform.position.x < -5.8f)
-        {
-            rb2d.velocity = new Vector2(movementSpeed, rb2d.velocity.y);
-        }
-        if (transform.position.y > 3.5f)
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, -movementSpeed);
-        }
-        if (transform.position.y < -3.8f)
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, movementSpeed);
-        }
         
-        //fix speed after bounces
-        if (rb2d.velocity.x > 0 && rb2d.velocity.x < movementSpeed)
-        {
-            rb2d.velocity = new Vector2(movementSpeed, rb2d.velocity.y);
-        }
-        if (rb2d.velocity.x < 0 && rb2d.velocity.x > -movementSpeed)
-        {
-            rb2d.velocity = new Vector2(-movementSpeed, rb2d.velocity.y);
-        }
-        if (rb2d.velocity.y > 0 && rb2d.velocity.y < movementSpeed)
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, movementSpeed);
-        }
-        if (rb2d.velocity.y < 0 && rb2d.velocity.y > -movementSpeed)
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, -movementSpeed);
-        }
     }
+
     void appearSelectable()
     {
         if (GetComponent<CapsuleCollider2D>() != null)
@@ -138,26 +90,12 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
             GetComponent<CircleCollider2D>().enabled = true;
         }
 
+        transform.rotation = defaultRotation;
+        rb2d.angularVelocity = 0;
         transform.position = startingPosition;
         GetComponent<SpriteRenderer>().enabled = true;
+        rb2d.velocity = new Vector2(0, 0);
 
-        float vSpeed = movementSpeed;
-        float hSpeed = movementSpeed;
-        int randomNumber = Random.Range(0, 100);
-
-        if(randomNumber < 50)
-        {
-            hSpeed *= -1;
-        }
-
-        randomNumber = Random.Range(0, 100);
-
-        if (randomNumber < 50)
-        {
-            vSpeed *= -1;
-        }
-
-        rb2d.velocity = new Vector2(hSpeed, vSpeed);
         GetComponent<Rigidbody2D>().gravityScale = 0;
         isSelectable = true;
     }

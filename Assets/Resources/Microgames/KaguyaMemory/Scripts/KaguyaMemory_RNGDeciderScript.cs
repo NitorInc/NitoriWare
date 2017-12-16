@@ -29,7 +29,7 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
         int randomLoops = Random.Range(50, 100);
         for (int i = 0; i < randomLoops; i++)
         {
-            for (int j = 0; j < maxItems; j++)
+            for (int j = 0; j < maxItems - 1; j++)
             {
                 int randomChance = Random.Range(0, 100);
                 if (randomChance < 50)
