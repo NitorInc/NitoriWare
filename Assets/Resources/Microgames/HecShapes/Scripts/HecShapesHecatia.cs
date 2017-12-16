@@ -21,7 +21,12 @@ public class HecShapesHecatia : MonoBehaviour
         this.holder.SlotShape = shape;
     }
 
-    public void AddOnFillAction(UnityAction fillAction)
+    public void MakeGray()
+    {
+        this.animator.SetTrigger("Gray");
+    }
+
+        public void AddOnFillAction(UnityAction fillAction)
     {
         this.holder.onFill.AddListener(fillAction);
     }

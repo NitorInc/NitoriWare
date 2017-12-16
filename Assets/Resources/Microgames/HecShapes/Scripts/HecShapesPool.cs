@@ -15,6 +15,9 @@ public class HecShapesPool : MonoBehaviour
     public float startSpacing;
     public int spaceAttempts = 1;
 
+    [Header("Remove colors to make the game harder")]
+    public bool noir;
+
     MouseGrabbableGroup grabGroup;
     Collider2D zone;
     
@@ -32,16 +35,19 @@ public class HecShapesPool : MonoBehaviour
     {
         // Set victory checking for each head
         foreach (HecShapesHecatia head in this.heads)
+        {
             head.AddOnFillAction(CheckWin);
+
+            if (this.noir)
+                head.MakeGray();
+        }
         
         // Make the planets and Hecatias
         List<Vector2> takenPositions = new List<Vector2>();
         for (int i = 0; i < this.shapes.Count; i++)
         {
             if (i < this.heads.Count)
-            {
                 this.heads[i].SetStyle(this.shapes[i].shape);
-            }
 
             // Calculate random start position
             Vector2 start = FindSpace(this.zone.bounds, takenPositions);
@@ -100,6 +106,9 @@ public class HecShapesPool : MonoBehaviour
 
         // Instantiate the planet's sprite and collider holding object as a child
         var shape = Instantiate(shapeTemplate, slottable.transform);
+
+        if (this.noir)
+            shape.MakeGray();
 
         // Make the planet grabbable
         var grabbable = slottable.gameObject.AddComponent<MouseGrabbable>();
