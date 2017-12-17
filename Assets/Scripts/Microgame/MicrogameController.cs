@@ -42,7 +42,7 @@ public class MicrogameController : MonoBehaviour
 
         //Find traits
 		string microgameID = gameObject.scene.name;
-        int difficultyIndex = int.Parse(microgameID.Substring(microgameID.Length - 1, 1));
+        int difficulty = int.Parse(microgameID.Substring(microgameID.Length - 1, 1));
 
         if (microgameID.Equals("Template"))
 			microgameID = "_Template1";
@@ -54,12 +54,12 @@ public class MicrogameController : MonoBehaviour
             var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
                 .FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
-                traits = collectionMicrogame.difficultyTraits[difficultyIndex];
+                traits = collectionMicrogame.difficultyTraits[difficulty - 1];
         }
 
         //Get traits from project file if necessary
         if (traits == null)
-            traits = MicrogameTraits.findMicrogameTraits(microgameID, difficultyIndex);
+            traits = MicrogameTraits.findMicrogameTraits(microgameID, difficulty);
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 
