@@ -86,16 +86,17 @@ public class MicrogameTraits : MonoBehaviour
 
         if (!skipFinishedFolder)
 		{
-			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
+			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
+            print("Assets" + MicrogameCollection.MicrogameAssetPath + "/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 			if (traits != null)
 				return traits.GetComponent<MicrogameTraits>();
 		}
 
-		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
-		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/_Bosses/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Bosses/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
