@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4635301782581288}
   - component: {fileID: 58278556874131466}
   m_Layer: 0
-  m_Name: ShapePoint
+  m_Name: SnapPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1712222606094150}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 2.43, z: 0}
+  m_LocalPosition: {x: -0.1, y: 1.716, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4421383148691034}
@@ -148,7 +148,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1563353041324832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.01, y: 0.85, z: 0}
+  m_LocalPosition: {x: -1.428, y: 0.583, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4913663778436348}
@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1148209936019734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.011, y: -0.213, z: 0}
+  m_LocalPosition: {x: 0.011, y: -0.145, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4913663778436348}
@@ -200,7 +200,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209765225406988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: 0.86, z: 0}
+  m_LocalPosition: {x: 0.055, y: 0.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4235736070402598}
@@ -213,7 +213,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1257566991033198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -2.58, z: 0}
+  m_LocalPosition: {x: 0, y: -2.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4469171292862364}
@@ -266,8 +266,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5acadd2dbebf2468d299bd9ea503ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hecatia: {fileID: 114948638192437772}
-  filled: 0
+  onFill:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  snapPoint: {fileID: 4635301782581288}
 --- !u!114 &114948638192437772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3affa6cfd7cd79643ae939c57bdb3281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pool: {fileID: 0}
+  holder: {fileID: 114176481283559638}
 --- !u!212 &212111986375187648
 SpriteRenderer:
   m_ObjectHideFlags: 1

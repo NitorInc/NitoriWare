@@ -1,35 +1,49 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class HecShapesHecatia : MonoBehaviour
 {
 
     [SerializeField]
-    HecShapesPool pool;
+    HecShapesHolder holder;
 
     Animator animator;
 
-    void Start()
+    void Awake()
     {
         this.animator = GetComponent<Animator>();
-
-        this.animator.SetInteger("Style", (int)this.pool.GetCorrectShape());
+        this.holder.onFill = new UnityEvent();
     }
 
-    public void SetStyle(HecShapesSlottable.Shape style)
+    public void SetStyle(HecShapesSlottable.Shape shape)
     {
-        this.animator.SetTrigger(style.ToString());
+        this.animator.SetInteger("Style", (int)shape);
+        this.holder.SlotShape = shape;
+    }
+
+    public void MakeGray()
+    {
+        this.animator.SetTrigger("Gray");
+    }
+
+        public void AddOnFillAction(UnityAction fillAction)
+    {
+        this.holder.onFill.AddListener(fillAction);
+    }
+
+    public bool IsFilled()
+    {
+        return this.holder.Filled && this.holder.Valid;
     }
 
     public void Win()
     {
         this.animator.SetTrigger("Win");
-        MicrogameController.instance.setVictory(true, true);
     }
 
     public void Lose()
     {
         this.animator.SetTrigger("Lose");
-        MicrogameController.instance.setVictory(false, true);
     }
 
 }
