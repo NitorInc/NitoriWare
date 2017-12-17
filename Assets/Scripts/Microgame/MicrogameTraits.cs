@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Events;
 
 public class MicrogameTraits : MonoBehaviour
@@ -77,19 +78,20 @@ public class MicrogameTraits : MonoBehaviour
 	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
 	{
 		GameObject traits;
+        
 
 		if (!skipFinishedFolder)
 		{
-			traits = Resources.Load<GameObject>("Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString());
+			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 			if (traits != null)
 				return traits.GetComponent<MicrogameTraits>();
 		}
 
-		traits = Resources.Load<GameObject>("Microgames/" + microgameId + "/Traits" + difficulty.ToString());
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
-		traits = Resources.Load<GameObject>("Microgames/_Bosses/" + microgameId + "/Traits" + difficulty.ToString());
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/_Bosses/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
