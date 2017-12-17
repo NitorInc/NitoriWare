@@ -92,7 +92,7 @@ public class MicrogameCollection : MonoBehaviour
     
     Sprite getSprite(string microgameId)
     {
-        return Resources.Load<Sprite>("Sprites/MicrogameIcons/" + microgameId + "Icon");
+        return Resources.Load<Sprite>("MicrogameIcons/" + microgameId + "Icon");
     }
 
     //public List<Microgame> getMicrogames(Restriction restriction)
