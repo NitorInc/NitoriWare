@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Events;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MicrogameTraits : MonoBehaviour
 {
@@ -76,11 +79,12 @@ public class MicrogameTraits : MonoBehaviour
 	}
 
 	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
-	{
-		GameObject traits;
-        
+    {
+#if UNITY_EDITOR
+        GameObject traits;
 
-		if (!skipFinishedFolder)
+
+        if (!skipFinishedFolder)
 		{
 			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 			if (traits != null)
@@ -97,5 +101,9 @@ public class MicrogameTraits : MonoBehaviour
 
 		Debug.LogError("Can't find Traits prefab for " + microgameId + difficulty.ToString());
 		return null;
-	}
+#else
+        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
+        return null;
+#endif
+    }
 }
