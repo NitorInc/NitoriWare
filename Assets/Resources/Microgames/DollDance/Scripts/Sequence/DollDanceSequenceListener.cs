@@ -43,11 +43,6 @@ public class DollDanceSequenceListener : MonoBehaviour
                         this.performance.Perform(move);
                     }
                 }
-
-                if (Input.GetKeyUp(input))
-                {
-                    this.performance.Release(selectedMove);
-                }
             }
         }
         else

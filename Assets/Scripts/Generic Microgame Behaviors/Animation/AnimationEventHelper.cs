@@ -123,6 +123,8 @@ public class AnimationEventHelper : MonoBehaviour
     //Plays a pitch-scaled sound effect via MicrogameController auto-panned to object's position, asset parameter is the soundClip, float parameter is pan Mult
     public void playPannedMicrogameSFX(AnimationEvent values)
     {
+        if (values.floatParameter <= 0f)
+            values.floatParameter = 1f;
         MicrogameController.instance.playSFX((AudioClip)values.objectReferenceParameter, AudioHelper.getAudioPan(transform.position.x) * values.floatParameter);
     }
 

@@ -17,21 +17,25 @@ public class DollDanceController: MonoBehaviour
     void Start()
     {
         this.performance = FindObjectOfType<DollDancePerformance>();
+
+        // Find sequence object and begin the performance
         this.performance.StartSequence(this.GetComponent<DollDanceSequence>());
     }
     
     public void Victory()
     {
-        this.victoryEffects.SetActive(true);
-
         MicrogameController.instance.setVictory(true, true);
+
+        if (victoryEffects != null)
+            this.victoryEffects.SetActive(true);
     }
 
     public void Defeat()
     {
-        this.defeatEffects.SetActive(true);
-
         MicrogameController.instance.setVictory(false, true);
+
+        if (defeatEffects != null)
+            this.defeatEffects.SetActive(true);
     }
 
 }
