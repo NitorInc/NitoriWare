@@ -8,11 +8,7 @@ namespace NitorInc.MochiPound {
 
         Animator anim;
         public float poundNormalizedTime = 0.55f;
-        public bool isLeft;
-        KeyCode key = KeyCode.RightArrow;
-        KeyCode opposingKey = KeyCode.LeftArrow;
-        bool hasPounded = false;
-        bool hasHit = true;
+        bool hasHit = false;
         bool hasWon = false;
 
         public Animator mochiAnim;
@@ -21,6 +17,8 @@ namespace NitorInc.MochiPound {
         public float shakeSpeed = 1.0f;
         MochiPoundPlanet[] planets;
         MochiPoundController ctrler;
+
+        public MochiPoundArrowKey button;
 
         public string poundAnimName = "Pounding";
         int poundAnimNameHash;
@@ -32,37 +30,20 @@ namespace NitorInc.MochiPound {
             planets = FindObjectsOfType<MochiPoundPlanet>();
             ctrler = FindObjectOfType<MochiPoundController>();
             poundAnimNameHash = Animator.StringToHash(poundAnimName);
-            if (isLeft) {
-                key = KeyCode.LeftArrow;
-                opposingKey = KeyCode.RightArrow;
-            }
-
-            MochiPoundController.OnVictory += OnVictory;
         }
 
         // Update is called once per frame
         void Update() {
             if (!hasWon) {
-                if (Input.GetKeyDown(key) && !hasPounded) {
-                    PlayPoundAnim();
-                    hasHit = false;
-                    hasPounded = true;
-                }
+                UpdateHit();
+            }
+        }
 
-                if (hasPounded && !hasHit) {
-                    var animState = anim.GetCurrentAnimatorStateInfo(0);
-                    if (animState.shortNameHash == poundAnimNameHash) {
-                        if (animState.normalizedTime >= poundNormalizedTime) {
-                            OnMochiHit();
-                            hasHit = true;
-                        }
-                    }
-                }
-
-                if (Input.GetKeyDown(opposingKey)) {
-                    hasPounded = false;
-                    if (!hasHit) {
-                        anim.Play(poundAnimNameHash, 0, poundNormalizedTime);
+        void UpdateHit() {
+            if (!hasHit) {
+                var animState = anim.GetCurrentAnimatorStateInfo(0);
+                if (animState.shortNameHash == poundAnimNameHash) {
+                    if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime < 1.0f) {
                         OnMochiHit();
                         hasHit = true;
                     }
@@ -70,9 +51,37 @@ namespace NitorInc.MochiPound {
             }
         }
 
-        void OnVictory() {
+        public void ResetStatus() {
+            hasHit = false;
+        }
+
+        public void ShowButton(bool active) {
+            button.SetActive(active);
+        }
+
+        public bool IsAnimationFinished {
+            get {
+                var animState = anim.GetCurrentAnimatorStateInfo(0);
+                if (animState.shortNameHash == poundAnimNameHash) {
+                    if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime < 1.0f) {
+                        return true;
+                    }
+                }
+                else {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public void Pound() {
+            PlayPoundImmediate();
+        }
+
+        public void OnVictory() {
             hasWon = true;
             PlayPoundAnim();
+            ShowButton(false);
         }
 
         void OnMochiHit() {
@@ -86,6 +95,10 @@ namespace NitorInc.MochiPound {
 
         void PlayPoundAnim() {
             anim.Play(poundAnimNameHash, 0, 0.0f);
+        }
+
+        void PlayPoundImmediate() {
+            anim.Play(poundAnimNameHash, 0, poundNormalizedTime);
         }
 
     }
