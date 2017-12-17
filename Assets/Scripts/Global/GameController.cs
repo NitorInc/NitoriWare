@@ -47,10 +47,7 @@ public class GameController : MonoBehaviour
 		Cursor.visible = !disableCursor;
         Cursor.lockState = CursorLockMode.Confined;
         Application.targetFrameRate = 60;
-
-        if (Application.platform != RuntimePlatform.WebGLPlayer)
-            forceResolutionAspect();
-
+        forceResolutionAspect();
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
     }
