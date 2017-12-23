@@ -231,7 +231,7 @@ public class PaperThiefNitori : MonoBehaviour
 
 	float updateGunTilt()
 	{
-        PaperThiefCamera.instance.LateUpdate();
+        PaperThiefCamera.instance.Update();
 		Vector2 toCursor = (Vector2)(CameraHelper.getCursorPosition() - coreTransform.position);
 		float degrees = MathHelper.trueMod(toCursor.getAngle(), 360f);
 
