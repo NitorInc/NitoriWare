@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
 		instance = this;
 
 		Cursor.visible = !disableCursor;
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         Application.targetFrameRate = 60;
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
