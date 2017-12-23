@@ -53,6 +53,9 @@ public class MicrogameController : MonoBehaviour
         {
             var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
                 .FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            if (collectionMicrogame == null)
+                collectionMicrogame = GameController.instance.microgameCollection.getCollectionBossMicrogames()
+                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
                 traits = collectionMicrogame.difficultyTraits[difficulty - 1];
         }
