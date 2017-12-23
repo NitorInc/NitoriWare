@@ -92,7 +92,7 @@ public class MicrogameTraits : MonoBehaviour
 				return traits.GetComponent<MicrogameTraits>();
 		}
 
-		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + microgameId + "Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
