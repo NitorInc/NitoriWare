@@ -8,6 +8,8 @@ public class RockPaperSatoriButton : MonoBehaviour
     private RockPaperSatoriController.Move move;
     [SerializeField]
     private Collider2D clickCollider;
+    [SerializeField]
+    private RockPaperSatoriController controller;
 
     [Header("Hover scaling values")]
     [SerializeField]
@@ -46,5 +48,6 @@ public class RockPaperSatoriButton : MonoBehaviour
     {
         //TODO victory decision
         transform.parent.gameObject.SetActive(false);
+        controller.makeMove(move);
     }
 }
