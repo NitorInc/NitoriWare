@@ -46,6 +46,8 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     {
         rigAnimator.SetInteger("State", victory ? 1 : 2);
         handRenderer.sprite = moveHands[(int)move];
+        thoughtRenderer.sprite = null;
+        CancelInvoke();
     }
 	
 	void invokeShuffleRound()
