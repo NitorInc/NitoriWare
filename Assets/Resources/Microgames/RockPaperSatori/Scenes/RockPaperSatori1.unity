@@ -147,6 +147,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.simulateStartDelay
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -214,7 +219,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 290800618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.98, y: -0.763, z: 0}
+  m_LocalPosition: {x: -4.46, y: -0.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 744355162}
@@ -230,6 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 473749493}
   - component: {fileID: 473749494}
+  - component: {fileID: 473749495}
   m_Layer: 0
   m_Name: Opponent
   m_TagString: Untagged
@@ -244,7 +250,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 473749492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.44, y: -0.65, z: 0}
+  m_LocalPosition: {x: 4.44, y: -0.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1953789384}
@@ -293,6 +299,37 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &473749495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 473749492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cf04b128d0b9d4f8cd6aa2f46f8a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: 0
+  handRenderer: {fileID: 1953789385}
+  moveHands:
+  - {fileID: 21300004, guid: e678c608afa480d479e6700ba35764ca, type: 3}
+  - {fileID: 21300006, guid: e678c608afa480d479e6700ba35764ca, type: 3}
+  - {fileID: 21300008, guid: e678c608afa480d479e6700ba35764ca, type: 3}
+  thoughtRenderer: {fileID: 1842147948}
+  moveThoughts:
+  - {fileID: 21300004, guid: 1446f5ccd03216142a6b8f069a26e1e3, type: 3}
+  - {fileID: 21300000, guid: 1446f5ccd03216142a6b8f069a26e1e3, type: 3}
+  - {fileID: 21300002, guid: 1446f5ccd03216142a6b8f069a26e1e3, type: 3}
+  fakeThoughts:
+  - {fileID: 21300000, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
+  - {fileID: 21300002, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
+  - {fileID: 21300004, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
+  - {fileID: 21300006, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
+  startDelay: 0.5
+  fakeShuffleAmountRange: {x: 3, y: 4}
+  fakeShuffleDuration: 0.25
+  realShuffleDuration: 5
 --- !u!1 &744355161
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +518,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -489,7 +526,7 @@ SpriteRenderer:
   m_Size: {x: 3.0208333, y: 2.4479165}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
 --- !u!1 &1870405572
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52437ee26f65b40488e3ee7d518f171b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  opponentMove: 0
 --- !u!4 &2045076049
 Transform:
   m_ObjectHideFlags: 0
