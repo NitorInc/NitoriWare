@@ -26,6 +26,10 @@ public class RockPaperSatoriButton : MonoBehaviour
 	
 	void Update ()
     {
+        //Do nothing if game hasn't started
+        if (!controller.isGameStarted())
+            return;
+
         //Hover scaling
         bool hovering = CameraHelper.isMouseOver(clickCollider);
         float diff = scaleLerpSpeed * Time.deltaTime;

@@ -8,6 +8,8 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     private RockPaperSatoriController.Move move;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private GameObject thoughtBubble;
 
     [Header("Character sprites")]
     [SerializeField]
@@ -44,6 +46,7 @@ public class RockPaperSatoriOpponent : MonoBehaviour
 
     public void throwHand(bool victory)
     {
+        thoughtBubble.SetActive(false);
         rigAnimator.SetInteger("State", victory ? 1 : 2);
         handRenderer.sprite = moveHands[(int)move];
         thoughtRenderer.sprite = null;
@@ -52,6 +55,8 @@ public class RockPaperSatoriOpponent : MonoBehaviour
 	
 	void invokeShuffleRound()
     {
+        thoughtBubble.SetActive(true);
+
         //Fake shufles
         int fakeShuffleAmount = Random.Range((int)fakeShuffleAmountRange.x, (int)fakeShuffleAmountRange.y + 1);
         for (int i = 0; i < fakeShuffleAmount; i++)

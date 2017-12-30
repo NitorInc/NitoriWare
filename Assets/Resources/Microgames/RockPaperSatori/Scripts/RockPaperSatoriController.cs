@@ -11,7 +11,8 @@ public class RockPaperSatoriController : MonoBehaviour
     private RockPaperSatoriPlayer player;
     [SerializeField]
     private RockPaperSatoriOpponent opponent;
-    
+
+    private bool gameStarted;
 
     public enum Move
     {
@@ -22,6 +23,7 @@ public class RockPaperSatoriController : MonoBehaviour
 
     void Start()
     {
+        gameStarted = false;
         Invoke("startGame", startDelay);
     }
 
@@ -29,6 +31,7 @@ public class RockPaperSatoriController : MonoBehaviour
     {
         player.startGame();
         opponent.startGame();
+        gameStarted = true;
     }
 
     public void makeMove(Move move)
@@ -46,6 +49,11 @@ public class RockPaperSatoriController : MonoBehaviour
         MicrogameController.instance.setVictory(playerVictory, true);
         player.throwHand(move, playerVictory);
         opponent.throwHand(!playerVictory); //Opposite
+    }
+
+    public bool isGameStarted()
+    {
+        return gameStarted;
     }
     
 
