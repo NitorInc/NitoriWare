@@ -46,7 +46,6 @@ public class RockPaperSatoriButton : MonoBehaviour
 
     void click()
     {
-        //TODO victory decision
         transform.parent.gameObject.SetActive(false);
         controller.makeMove(move);
     }

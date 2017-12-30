@@ -41,6 +41,12 @@ public class RockPaperSatoriOpponent : MonoBehaviour
         rigAnimator.enabled = true;
         invokeShuffleRound();
     }
+
+    public void throwHand(bool victory)
+    {
+        rigAnimator.SetInteger("State", victory ? 1 : 2);
+        handRenderer.sprite = moveHands[(int)move];
+    }
 	
 	void invokeShuffleRound()
     {

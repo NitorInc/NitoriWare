@@ -12,6 +12,7 @@ public class RockPaperSatoriController : MonoBehaviour
     [SerializeField]
     private RockPaperSatoriOpponent opponent;
     
+
     public enum Move
     {
         Rock,
@@ -32,22 +33,24 @@ public class RockPaperSatoriController : MonoBehaviour
 
     public void makeMove(Move move)
     {
+        //Decide if player won
+        bool playerVictory;
         if (move == opponent.getMove())
-            handleTie();
+            playerVictory = handleTie();
         else if (MathHelper.trueMod(((int)move - 1), 3) == (int)opponent.getMove())
-            setVictory(true);
+            playerVictory = true;
         else
-            setVictory(false);
+            playerVictory = false;
+
+        //Set victory
+        MicrogameController.instance.setVictory(playerVictory, true);
+        player.throwHand(move, playerVictory);
+        opponent.throwHand(!playerVictory); //Opposite
     }
     
 
-    void handleTie()
+    bool handleTie()
     {
-        setVictory(false);
-    }
-
-    void setVictory(bool victory)
-    {
-        MicrogameController.instance.setVictory(victory, true);
+        return false;
     }
 }
