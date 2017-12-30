@@ -5,7 +5,9 @@ using UnityEngine;
 public class RockPaperSatoriOpponent : MonoBehaviour
 {
     [SerializeField]
-    private RockPaperSatoriRNGController.Move move;
+    private RockPaperSatoriController.Move move;
+    [SerializeField]
+    private Animator rigAnimator;
 
     [Header("Character sprites")]
     [SerializeField]
@@ -21,8 +23,6 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     
     [Header("Timing fields")]
     [SerializeField]
-    private float startDelay;
-    [SerializeField]
     private Vector2 fakeShuffleAmountRange;
     [SerializeField]
     private float fakeShuffleDuration;
@@ -32,13 +32,13 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     
 	void Start ()
     {
-        move = (RockPaperSatoriRNGController.Move)Random.Range(0, 3);
-        Invoke("startGame", startDelay);
+        move = (RockPaperSatoriController.Move)Random.Range(0, 3);
 	}
 
-    void startGame()
+    public void startGame()
     {
         //TODO make thought bubble appear?
+        rigAnimator.enabled = true;
         invokeShuffleRound();
     }
 	
@@ -75,7 +75,7 @@ public class RockPaperSatoriOpponent : MonoBehaviour
         thoughtRenderer.sprite = moveThoughts[(int)move];
     }
 
-    public RockPaperSatoriRNGController.Move getMove()
+    public RockPaperSatoriController.Move getMove()
     {
         return move;
     }

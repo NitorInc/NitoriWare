@@ -259,8 +259,9 @@ GameObject:
   m_Component:
   - component: {fileID: 290800620}
   - component: {fileID: 290800619}
+  - component: {fileID: 290800621}
   m_Layer: 0
-  m_Name: Satori
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,8 +320,20 @@ Transform:
   m_Children:
   - {fileID: 577903222}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &290800621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 290800618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca09f53fe8f9f04682848f6c39c92f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigAnimator: {fileID: 577903223}
 --- !u!1 &473749492
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: 0
+  rigAnimator: {fileID: 599098795}
   handRenderer: {fileID: 1953789385}
   moveHands:
   - {fileID: 21300004, guid: e678c608afa480d479e6700ba35764ca, type: 3}
@@ -420,7 +434,6 @@ MonoBehaviour:
   - {fileID: 21300002, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
   - {fileID: 21300004, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
   - {fileID: 21300006, guid: b85967c6874b2c54c8536bb5e8958b12, type: 3}
-  startDelay: 0.5
   fakeShuffleAmountRange: {x: 3, y: 4}
   fakeShuffleDuration: 0.25
   realShuffleDuration: 5
@@ -551,7 +564,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577903221}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a56cedd98e5c70e44bb16f071bfe22c4, type: 2}
   m_CullingMode: 0
@@ -599,7 +612,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 599098793}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: dd05fc9f63c363a4c95bc3c7d5db22a8, type: 2}
   m_CullingMode: 0
@@ -670,7 +683,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ad94b0bec8165e04c99f10168ef13511, type: 3}
+  m_Sprite: {fileID: 21300002, guid: ad94b0bec8165e04c99f10168ef13511, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1078,7 +1091,7 @@ GameObject:
   - component: {fileID: 2045076049}
   - component: {fileID: 2045076048}
   m_Layer: 0
-  m_Name: RNG Controller
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1095,6 +1108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52437ee26f65b40488e3ee7d518f171b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startDelay: 0.5
+  player: {fileID: 290800621}
+  opponent: {fileID: 473749495}
 --- !u!4 &2045076049
 Transform:
   m_ObjectHideFlags: 0
@@ -1106,5 +1122,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
