@@ -11,15 +11,16 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     [SerializeField]
     private GameObject thoughtBubble;
 
-    [Header("Character sprites")]
     [SerializeField]
     private SpriteRenderer handRenderer;
-    [SerializeField]
-    private Sprite[] moveHands;
     [SerializeField]
     private SpriteRenderer thoughtRenderer;
     [SerializeField]
     private Sprite[] moveThoughts;
+
+    [Header("Character sprites")]
+    [SerializeField]
+    private Sprite[] moveHands;
     [SerializeField]
     private Sprite[] fakeThoughts;
     
