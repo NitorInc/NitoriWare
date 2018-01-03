@@ -6,6 +6,9 @@ public class MamiPoserCharacter : MonoBehaviour {
     [Header("Character features with regular/disguised variants")]
     public CharacterFeature[] characterFeatures;
 
+    [SerializeField]
+    private Collider2D clickCollider;
+
     public bool isDisguised { get; private set; }
 
     [System.Serializable]
@@ -38,6 +41,25 @@ public class MamiPoserCharacter : MonoBehaviour {
                 feature.regular.SetActive(false);
             if (feature.disguised)
                 feature.disguised.SetActive(true);
+        }
+    }
+
+    void Update()
+    {
+        print("clickCollider: " + clickCollider);
+        if (clickCollider && Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
+            Click();
+    }
+
+    void Click()
+    {
+        if (isDisguised)
+        {
+            MicrogameController.instance.setVictory(victory: true, final: true);
+        }
+        else
+        {
+            MicrogameController.instance.setVictory(victory: false, final: true);
         }
     }
 }
