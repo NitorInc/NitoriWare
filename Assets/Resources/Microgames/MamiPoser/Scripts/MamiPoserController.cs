@@ -43,7 +43,12 @@ public class MamiPoserController : MonoBehaviour {
         createdCharacters = new List<MamiPoserCharacter>();
         for (int i = 0; i < characterSpawnNumber; i++)
         {
-            createdCharacters.Add(Instantiate(chosenCharacterPrefab, CharacterPosition(i), Quaternion.identity));
+            MamiPoserCharacter newCharacter = Instantiate(chosenCharacterPrefab, CharacterPosition(i), Quaternion.identity);
+            createdCharacters.Add(newCharacter);
+            if (i == mamizouIndex)
+                newCharacter.SetDisguised();
+            else
+                newCharacter.SetRegular();
         }
     }
 }
