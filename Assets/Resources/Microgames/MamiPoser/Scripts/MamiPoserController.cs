@@ -68,8 +68,11 @@ public class MamiPoserController : MonoBehaviour {
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
         }
+        // Make the other characters (except the one clicked) look at Mamizou
         for (int i = 0; i < characterSpawnNumber; i++)
         {
+            if (createdCharacters[i] == clickedCharacter)
+                continue;
             if (i < mamizouIndex)
                 createdCharacters[i].LookRight();
             else if (i > mamizouIndex)

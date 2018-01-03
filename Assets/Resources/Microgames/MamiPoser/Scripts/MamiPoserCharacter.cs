@@ -73,6 +73,13 @@ public class MamiPoserCharacter : MonoBehaviour {
             regularSprite.SetActive(false);
         if (wrongSprite)
             wrongSprite.SetActive(true);
+        // Also remove the face
+        if (lookingStraightSprite)
+            lookingStraightSprite.SetActive(false);
+        if (lookingLeftSprite)
+            lookingLeftSprite.SetActive(false);
+        if (lookingRightSprite)
+            lookingRightSprite.SetActive(false);
     }
 
     // Make the character look left
