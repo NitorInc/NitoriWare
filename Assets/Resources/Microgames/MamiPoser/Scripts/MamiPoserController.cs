@@ -45,10 +45,27 @@ public class MamiPoserController : MonoBehaviour {
         {
             MamiPoserCharacter newCharacter = Instantiate(chosenCharacterPrefab, CharacterPosition(i), Quaternion.identity);
             createdCharacters.Add(newCharacter);
+            newCharacter.controller = this;
             if (i == mamizouIndex)
                 newCharacter.SetDisguised();
             else
                 newCharacter.SetRegular();
+        }
+    }
+
+    public void CharacterClicked(MamiPoserCharacter clickedCharacter)
+    {
+        createdCharacters[mamizouIndex].gameObject.SetActive(false);
+        MamiPoserMamizou mamizou = Instantiate(mamizouPrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        if (clickedCharacter.isDisguised)
+        {
+            MicrogameController.instance.setVictory(victory: true, final: true);
+            mamizou.ChoseRight();
+        }
+        else
+        {
+            MicrogameController.instance.setVictory(victory: false, final: true);
+            mamizou.ChoseWrong();
         }
     }
 }

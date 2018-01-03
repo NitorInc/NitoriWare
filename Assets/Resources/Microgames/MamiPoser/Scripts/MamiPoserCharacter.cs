@@ -9,6 +9,8 @@ public class MamiPoserCharacter : MonoBehaviour {
     [SerializeField]
     private Collider2D clickCollider;
 
+    public MamiPoserController controller;
+
     public bool isDisguised { get; private set; }
 
     [System.Serializable]
@@ -46,20 +48,16 @@ public class MamiPoserCharacter : MonoBehaviour {
 
     void Update()
     {
-        print("clickCollider: " + clickCollider);
-        if (clickCollider && Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
+        if (!clickCollider)
+            print("ERROR: MamiPoserCharacter: No clickCollider set!");
+        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
             Click();
     }
 
     void Click()
     {
-        if (isDisguised)
-        {
-            MicrogameController.instance.setVictory(victory: true, final: true);
-        }
-        else
-        {
-            MicrogameController.instance.setVictory(victory: false, final: true);
-        }
+        if (!controller)
+            print("ERROR: MamiPoserCharacter: No controller set!");
+        controller.CharacterClicked(this);
     }
 }
