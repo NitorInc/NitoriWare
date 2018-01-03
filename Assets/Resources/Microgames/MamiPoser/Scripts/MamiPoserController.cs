@@ -15,9 +15,21 @@ public class MamiPoserController : MonoBehaviour {
     [Header("Number of character copies to be spawned")]
     public int characterSpawnNumber;
 
+    [Header("X coordinate bounds for spawned characters")]
+    public float leftBound = -20.0f/3, rightBound = 20.0f/3;
+
+    [Header("Y coordinate for spawned characters")]
+    public float yCoordinate = -5f;
+
     private MamiPoserCharacter chosenCharacterPrefab;
     private int mamizouIndex;
     private List<MamiPoserCharacter> createdCharacters;
+
+    private Vector2 CharacterPosition(int index)
+    {
+        print("X position for clone number " + index + ": " + (leftBound + (1 + 2 * index) * (rightBound - leftBound) / (2 * characterSpawnNumber)));
+        return new Vector2(leftBound + (1 + 2 * index) * (rightBound - leftBound) / (2 * characterSpawnNumber), yCoordinate);
+    }
 
     void Start()
     {
@@ -31,7 +43,7 @@ public class MamiPoserController : MonoBehaviour {
         createdCharacters = new List<MamiPoserCharacter>();
         for (int i = 0; i < characterSpawnNumber; i++)
         {
-            createdCharacters.Add(Instantiate(chosenCharacterPrefab));
+            createdCharacters.Add(Instantiate(chosenCharacterPrefab, CharacterPosition(i), Quaternion.identity));
         }
     }
 }
