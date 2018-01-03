@@ -68,5 +68,12 @@ public class MamiPoserController : MonoBehaviour {
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
         }
+        for (int i = 0; i < characterSpawnNumber; i++)
+        {
+            if (i < mamizouIndex)
+                createdCharacters[i].LookRight();
+            else if (i > mamizouIndex)
+                createdCharacters[i].LookLeft();
+        }
     }
 }
