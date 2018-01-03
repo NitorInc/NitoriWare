@@ -65,6 +65,8 @@ public class MamiPoserCharacter : MonoBehaviour {
 
     void Update()
     {
+        if (MicrogameController.instance.getVictoryDetermined())
+            return;
         if (!clickCollider)
             print("ERROR: MamiPoserCharacter: No clickCollider set!");
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
