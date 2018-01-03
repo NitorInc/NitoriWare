@@ -66,6 +66,7 @@ public class MamiPoserController : MonoBehaviour {
         {
             MicrogameController.instance.setVictory(victory: false, final: true);
             mamizou.ChoseWrong();
+            clickedCharacter.ChoseWrong();
         }
     }
 }

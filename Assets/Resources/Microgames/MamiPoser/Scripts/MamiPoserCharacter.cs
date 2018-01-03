@@ -6,6 +6,14 @@ public class MamiPoserCharacter : MonoBehaviour {
     [Header("Character features with regular/disguised variants")]
     public CharacterFeature[] characterFeatures;
 
+    [Header("Sprite to hide when player chose wrong")]
+    [SerializeField]
+    private GameObject regularSprite;
+
+    [Header("Sprite to display when player chose wrong")]
+    [SerializeField]
+    private GameObject wrongSprite;
+
     [SerializeField]
     private Collider2D clickCollider;
 
@@ -44,6 +52,15 @@ public class MamiPoserCharacter : MonoBehaviour {
             if (feature.disguised)
                 feature.disguised.SetActive(true);
         }
+    }
+
+    // Change the sprite into "chose wrong" expression
+    public void ChoseWrong()
+    {
+        if (regularSprite)
+            regularSprite.SetActive(false);
+        if (wrongSprite)
+            wrongSprite.SetActive(true);
     }
 
     void Update()
