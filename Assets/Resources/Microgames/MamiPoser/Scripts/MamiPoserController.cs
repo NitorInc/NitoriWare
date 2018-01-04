@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NitorInc.Utility;
 
 public class MamiPoserController : MonoBehaviour {
     //[Header("The object containing the characters")]
@@ -12,6 +13,9 @@ public class MamiPoserController : MonoBehaviour {
     [Header("Other characters prefabs")]
     public MamiPoserCharacter[] characterPrefabs;
 
+    [Header("Smoke effect prefab")]
+    public GameObject smokePrefab;
+
     [Header("Number of character copies to be spawned")]
     public int characterSpawnNumber;
 
@@ -21,9 +25,14 @@ public class MamiPoserController : MonoBehaviour {
     [Header("Y coordinate for spawned characters")]
     public float yCoordinate = -5f;
 
+    [Header("Delay before Mamizou's sprite appears after clicking")]
+    public float mamizouAppearDelay = 0f;
+
     private MamiPoserCharacter chosenCharacterPrefab;
     private int mamizouIndex;
     private List<MamiPoserCharacter> createdCharacters;
+    private Timer mamizouAppearTimer;
+    private MamiPoserMamizou mamizou;
 
     private Vector2 CharacterPosition(int index)
     {
@@ -55,8 +64,9 @@ public class MamiPoserController : MonoBehaviour {
 
     public void CharacterClicked(MamiPoserCharacter clickedCharacter)
     {
-        createdCharacters[mamizouIndex].gameObject.SetActive(false);
-        MamiPoserMamizou mamizou = Instantiate(mamizouPrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        Instantiate(smokePrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        mamizou = Instantiate(mamizouPrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        mamizou.gameObject.SetActive(false);
         if (clickedCharacter.isDisguised)
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
@@ -78,5 +88,12 @@ public class MamiPoserController : MonoBehaviour {
             else if (i > mamizouIndex)
                 createdCharacters[i].LookLeft();
         }
+        mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
+    }
+
+    private void SwitchSpriteToMamizou()
+    {
+        createdCharacters[mamizouIndex].gameObject.SetActive(false);
+        mamizou.gameObject.SetActive(true);
     }
 }
