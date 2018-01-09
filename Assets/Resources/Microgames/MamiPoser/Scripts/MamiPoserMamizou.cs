@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MamiPoserMamizou : MonoBehaviour {
+    // This class is used for the true form Mamizou
+    // The disguised form is handled by the MamiPoserCharacter class
+
     [Header("Sprite when player chooses right")]
-    public GameObject choseRightSprite;
+    [SerializeField]
+    private GameObject choseRightSprite;
 
     [Header("Sprite when player chooses wrong")]
-    public GameObject choseWrongSprite;
+    [SerializeField]
+    private GameObject choseWrongSprite;
 
     // Change Mamizou's look - player chose right (Mamizou)
     public void ChoseRight()

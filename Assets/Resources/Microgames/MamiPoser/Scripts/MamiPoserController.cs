@@ -8,38 +8,57 @@ public class MamiPoserController : MonoBehaviour {
     //public GameObject characterLibrary;
 
     [Header("Mamizou prefab")]
-    public MamiPoserMamizou mamizouPrefab;
+    [SerializeField]
+    private MamiPoserMamizou mamizouPrefab;
 
     [Header("Other characters prefabs")]
-    public MamiPoserCharacter[] characterPrefabs;
+    [SerializeField]
+    private MamiPoserCharacter[] characterPrefabs;
 
     [Header("Smoke effect prefab")]
-    public GameObject smokePrefab;
+    [SerializeField]
+    private GameObject smokePrefab;
 
     [Header("Number of character copies to be spawned")]
-    public int characterSpawnNumber;
+    [SerializeField]
+    private int characterSpawnNumber;
 
     [Header("X coordinate bounds for spawned characters")]
-    public float leftBound = -20.0f/3, rightBound = 20.0f/3;
+    [SerializeField]
+    private float leftBound = -20.0f/3, rightBound = 20.0f/3;
 
     [Header("Y coordinate for spawned characters")]
-    public float yCoordinate = -5f;
+    [SerializeField]
+    private float yCoordinate = -5f;
 
     [Header("Delay before Mamizou's sprite appears after clicking")]
-    public float mamizouAppearDelay = 0f;
+    [SerializeField]
+    private float mamizouAppearDelay = 0f;
 
+    // Randomly chosen character to be cloned
     private MamiPoserCharacter chosenCharacterPrefab;
+
+    // Which of the clones is Mamizou?
     private int mamizouIndex;
+
+    // All created cloned characters
     private List<MamiPoserCharacter> createdCharacters;
+
+    // Used for delayed Mamizou (true form) appearance
     private Timer mamizouAppearTimer;
+
+    // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
 
+    // Returns coordinates where the character with the given index should appear
+    // Positions are on a horizontal line with equal distance between them
     private Vector2 CharacterPosition(int index)
     {
         print("X position for clone number " + index + ": " + (leftBound + (1 + 2 * index) * (rightBound - leftBound) / (2 * characterSpawnNumber)));
         return new Vector2(leftBound + (1 + 2 * index) * (rightBound - leftBound) / (2 * characterSpawnNumber), yCoordinate);
     }
 
+    // Setup the microgame
     void Start()
     {
         // Determine which character to use and which of the copies is Mamizou
@@ -56,17 +75,26 @@ public class MamiPoserController : MonoBehaviour {
             createdCharacters.Add(newCharacter);
             newCharacter.controller = this;
             if (i == mamizouIndex)
+                // This one is disguised Mamizou
                 newCharacter.SetDisguised();
             else
+                // This one is not Mamizou
                 newCharacter.SetRegular();
         }
     }
 
+    // Handles a character being clicked
     public void CharacterClicked(MamiPoserCharacter clickedCharacter)
     {
+        // Play the smoke effect
         Instantiate(smokePrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        // Spawn the real Mamizou - hidden for now
         mamizou = Instantiate(mamizouPrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
         mamizou.gameObject.SetActive(false);
+        // Delay the sprite switch so it happens when the sprite is covered in smoke
+        mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
+
+        // Determine if the player chose correctly
         if (clickedCharacter.isDisguised)
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
@@ -78,6 +106,7 @@ public class MamiPoserController : MonoBehaviour {
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
         }
+
         // Make the other characters (except the one clicked) look at Mamizou
         for (int i = 0; i < characterSpawnNumber; i++)
         {
@@ -88,9 +117,9 @@ public class MamiPoserController : MonoBehaviour {
             else if (i > mamizouIndex)
                 createdCharacters[i].LookLeft();
         }
-        mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
     }
 
+    // Hide the disguised form Mamizou and show the true form Mamizou
     private void SwitchSpriteToMamizou()
     {
         createdCharacters[mamizouIndex].gameObject.SetActive(false);

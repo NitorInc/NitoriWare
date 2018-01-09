@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MamiPoserCharacter : MonoBehaviour {
+    // This class is used for the initially spawned characters
+    // (both the regular clones and the disguised Mamizou)
+    // True form Mamizou is handled by the MamiPoserMamizou class
+
     [Header("Character features with regular/disguised variants")]
     public CharacterFeature[] characterFeatures;
 
@@ -73,7 +77,7 @@ public class MamiPoserCharacter : MonoBehaviour {
             regularSprite.SetActive(false);
         if (wrongSprite)
             wrongSprite.SetActive(true);
-        // Also remove the face
+        // Also remove the eyes
         if (lookingStraightSprite)
             lookingStraightSprite.SetActive(false);
         if (lookingLeftSprite)
@@ -104,6 +108,7 @@ public class MamiPoserCharacter : MonoBehaviour {
             lookingRightSprite.SetActive(true);
     }
 
+    // Check every frame if this character was clicked
     void Update()
     {
         if (MicrogameController.instance.getVictoryDetermined())
@@ -114,6 +119,7 @@ public class MamiPoserCharacter : MonoBehaviour {
             Click();
     }
 
+    // Handle clicks
     void Click()
     {
         if (!controller)
