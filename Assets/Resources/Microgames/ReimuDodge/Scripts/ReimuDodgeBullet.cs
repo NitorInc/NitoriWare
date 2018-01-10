@@ -20,7 +20,7 @@ public class ReimuDodgeBullet : MonoBehaviour
 
     void Update()
     {
-        transform.position = (Vector2)transform.position + (trajectory * Time.deltaTime);
+        transform.position = (Vector2)transform.position + (trajectory * speed * Time.deltaTime * Time.timeScale);
     }
 
     void SetTrajectory()
