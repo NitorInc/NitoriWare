@@ -4,11 +4,11 @@ public class ReimuDodgeBullet : MonoBehaviour
 {
     [Header("How fast the bullet goes")]
     [SerializeField]
-    private float speed = 1f;
+    public float speed = 1f;
 
     [Header("Firing delay in seconds")]
     [SerializeField]
-    private float delay = 1f;
+    public float delay = 1f;
 
     private Vector2 trajectory = new Vector2(0, 0);
     private GameObject player;
