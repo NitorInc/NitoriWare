@@ -14,7 +14,9 @@ public class ReimuDodgePlayer : MonoBehaviour
 	{
 		// Test that this works
 		print("Player was hit!");
-		Kill ();
+		if (alive) {
+			Kill ();
+		}
 	}
 
 	void Kill()
