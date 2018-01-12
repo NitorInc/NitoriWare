@@ -78,7 +78,7 @@ public class HecShapesSlottable : MonoBehaviour
 
     public void OnRelease()
     {
-        if (this.snapTarget)
+        if (this.snapTarget && this.snapTarget.SlotShape == this.celestialBody.shape)
             this.snap = true;
     }
 

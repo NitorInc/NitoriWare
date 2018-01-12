@@ -13,6 +13,7 @@ public class HecShapesHolder : MonoBehaviour
 
     public HecShapesSlottable.Shape SlotShape
     {
+        get { return this.slotShape; }
         set { this.slotShape = value; }
     }
 
