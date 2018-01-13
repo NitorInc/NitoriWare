@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4532215781286600}
   - component: {fileID: 50032488691399804}
   - component: {fileID: 114483742512729444}
+  - component: {fileID: 114376329174356386}
   m_Layer: 0
   m_Name: Waterdrop_2
   m_TagString: Untagged
@@ -94,7 +95,7 @@ Transform:
   m_GameObject: {fileID: 1360820678213194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.75194204, y: 0.6000319, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4404794659787552}
   - {fileID: 4059304927823834}
@@ -136,6 +137,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.15
+--- !u!114 &114376329174356386
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360820678213194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72310672bc99d9245bbc0147afcdd459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMaxSize:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  goalScale: 1
+  growSpeed: 5
+  disableOnMaxSize: 0
 --- !u!114 &114483742512729444
 MonoBehaviour:
   m_ObjectHideFlags: 1
