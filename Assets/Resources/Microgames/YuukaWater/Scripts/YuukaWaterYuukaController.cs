@@ -48,7 +48,7 @@ namespace NitorInc.YuukaWater {
             }
 
             float vel = x * moveSpeed;
-            //launcher.UpdateYuukaVel(vel);
+            launcher.UpdateYuukaVel(vel);
             transform.Translate(new Vector3(vel, 0.0f, 0.0f) * Time.deltaTime, Space.World);
         }
 

@@ -16,6 +16,7 @@ namespace NitorInc.YuukaWater {
         public float waterInterval = 0.1f;
         public float dropVelMin = 0.15f;
         public float dropVelMax = 2.0f;
+        public float yuukaVelMult = .5f;
         float yuukaVel = 0.0f;
 
         Timer spawnTimer;
@@ -59,7 +60,7 @@ namespace NitorInc.YuukaWater {
         }
 
         public void UpdateYuukaVel (float vel) {
-            yuukaVel = vel;
+            yuukaVel = vel * yuukaVelMult;
         }
     }
 }
