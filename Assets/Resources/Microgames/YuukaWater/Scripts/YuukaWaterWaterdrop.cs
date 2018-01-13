@@ -12,16 +12,21 @@ namespace NitorInc.YuukaWater {
         public float scaleSpeed = 1.0f;
         Rigidbody2D rigid;
 
+        private Vector2 yuukaVel;
+
         void Start() {
             rigid = GetComponent<Rigidbody2D>();
             TimerManager.NewTimer(2.0f, SelfDestruct, 0);
         }
 
-        public void SetInitialForce(Vector2 vel) {
+        public void SetInitialForce(Vector2 vel, Vector2 yuukaVel)
+        {
+            this.yuukaVel = yuukaVel;
             if (rigid == null)
                 rigid = GetComponent<Rigidbody2D>();
-            rigid.velocity = vel;
-            transform.up = vel * -1.0f;
+            rigid.velocity = vel + yuukaVel;
+
+            Update();
         }
 
         void SelfDestruct() {
@@ -32,7 +37,7 @@ namespace NitorInc.YuukaWater {
 
         // Update is called once per frame
         void Update() {
-            transform.up = rigid.velocity * -1.0f;
+            transform.up = (rigid.velocity - yuukaVel) * -1.0f;
             transform.localScale += transform.localScale * scaleSpeed * Time.deltaTime;
         }
 
