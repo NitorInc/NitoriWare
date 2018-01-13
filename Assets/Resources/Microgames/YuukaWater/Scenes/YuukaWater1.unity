@@ -159,7 +159,7 @@ Prefab:
     - target: {fileID: 114815653357125038, guid: f49d5204c0b59e64cb88c492ff6f8bf1,
         type: 2}
       propertyPath: totalWaterRequired
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f49d5204c0b59e64cb88c492ff6f8bf1, type: 2}
@@ -270,16 +270,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 613686732}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.034899585, w: 0.99939084}
   m_LocalPosition: {x: -1.9, y: -4.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2058792916}
-  - {fileID: 1301477535}
-  - {fileID: 1870704819}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4}
 --- !u!114 &613686734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +320,7 @@ MonoBehaviour:
   waterInterval: 0.06
   dropVelMin: 0.15
   dropVelMax: 2
+  yuukaVelMult: 0.5
 --- !u!1 &718447612
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +348,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2058792916}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &718447614
 SpriteRenderer:
@@ -513,7 +512,7 @@ Prefab:
     - target: {fileID: 114815653357125038, guid: f49d5204c0b59e64cb88c492ff6f8bf1,
         type: 2}
       propertyPath: totalWaterRequired
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f49d5204c0b59e64cb88c492ff6f8bf1, type: 2}
@@ -545,7 +544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2058792916}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1089473211
 SpriteRenderer:
@@ -615,7 +614,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2058792916}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1150158104
 SpriteRenderer:
@@ -685,7 +684,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2058792916}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1166575726
 SpriteRenderer:
@@ -749,12 +748,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1301477534}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.49, y: 4.05, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.4999999, y: 3.9929998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 613686733}
-  m_RootOrder: 1
+  m_Father: {fileID: 2058792916}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1662555962
 Prefab:
@@ -798,7 +797,7 @@ Prefab:
     - target: {fileID: 114815653357125038, guid: f49d5204c0b59e64cb88c492ff6f8bf1,
         type: 2}
       propertyPath: totalWaterRequired
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f49d5204c0b59e64cb88c492ff6f8bf1, type: 2}
@@ -867,11 +866,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1870704818}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -1.49, y: 4.05, z: 0}
+  m_LocalPosition: {x: -1.48, y: 3.993, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 613686733}
-  m_RootOrder: 2
+  m_Father: {fileID: 2058792916}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2058792915
 GameObject:
@@ -899,6 +898,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1301477535}
+  - {fileID: 1870704819}
   - {fileID: 2071757625}
   - {fileID: 1150158103}
   - {fileID: 1089473210}
@@ -951,7 +952,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2058792916}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2071757626
 SpriteRenderer:
