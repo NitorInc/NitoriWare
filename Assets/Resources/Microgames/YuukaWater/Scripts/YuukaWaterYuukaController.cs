@@ -30,10 +30,14 @@ namespace NitorInc.YuukaWater {
         void Update() {
             //var x = Input.GetAxis("Horizontal");
             float goalVel = 0f;
-            if (Input.GetKey(KeyCode.LeftArrow))
-                goalVel -= moveSpeed;
-            if (Input.GetKey(KeyCode.RightArrow))
-                goalVel += moveSpeed;
+
+            if (!MicrogameController.instance.getVictoryDetermined())
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                    goalVel -= moveSpeed;
+                if (Input.GetKey(KeyCode.RightArrow))
+                    goalVel += moveSpeed;
+            }
             
             //Accelerate to goal velocity
             if (vel != goalVel)
