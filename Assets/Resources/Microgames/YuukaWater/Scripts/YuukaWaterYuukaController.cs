@@ -16,6 +16,8 @@ namespace NitorInc.YuukaWater {
         public ParticleSystem heartParticles;
         public float idleAnimSpeed = 0.3f;
         public float moveAnimSpeed = 1.0f;
+        public float leftXBound;
+        public float rightXBound;
 
         float lastDirection = 1.0f;
         float vel = 0f;
@@ -76,6 +78,16 @@ namespace NitorInc.YuukaWater {
             
             launcher.UpdateYuukaVel(vel);
             transform.Translate(new Vector3(vel, 0.0f, 0.0f) * Time.deltaTime, Space.World);
+            if (transform.position.x < leftXBound)
+            {
+                transform.Translate(Vector2.right * (leftXBound - transform.position.x));
+                vel = 0f;
+            }
+            else if (transform.position.x > rightXBound)
+            {
+                transform.Translate(Vector2.right * (rightXBound - transform.position.x));
+                vel = 0f;
+            }
         }
 
         void YuukaSmile() {
