@@ -12,6 +12,7 @@ namespace NitorInc.YuukaWater {
         int[] fullIds;
         public int flowerIndex;
         public float secondStageThreshold = 0.2f;
+        public ParticleSystem heartParticles;
         YuukaWaterController ctrl;
 
         private void Start() {
@@ -52,6 +53,7 @@ namespace NitorInc.YuukaWater {
                     anim.Play("PlantFlip2");
                     cols[1].enabled = false;
                     ctrl.Notify();
+                    heartParticles.Play();
                     break;
                 case State.finished:
                     break;
