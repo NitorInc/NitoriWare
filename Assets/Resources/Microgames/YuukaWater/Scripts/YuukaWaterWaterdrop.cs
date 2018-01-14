@@ -10,6 +10,7 @@ namespace NitorInc.YuukaWater {
     public class YuukaWaterWaterdrop : MonoBehaviour {
 
         public float scaleSpeed = 1.0f;
+        public GameObject sprayEffect;
         Rigidbody2D rigid;
 
         private Vector2 yuukaVel;
@@ -40,9 +41,10 @@ namespace NitorInc.YuukaWater {
             transform.up = (rigid.velocity - yuukaVel) * -1.0f;
             transform.localScale += transform.localScale * scaleSpeed * Time.deltaTime;
         }
-
-        void OnTriggerEnter2D(Collider2D other) {
-            if (other.GetComponentInParent<YuukaWaterWaterdrop>() == null) {
+        
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (collision.gameObject.GetComponentInParent<YuukaWaterWaterdrop>() == null) {
+                Instantiate(sprayEffect, collision.contacts[0].point, Quaternion.identity);
                 Destroy(gameObject);
             }
         }

@@ -107,15 +107,18 @@ namespace NitorInc.YuukaWater {
         }
         float waterCounter = 0;
 
-        void OnTriggerEnter2D(Collider2D other) {
+        private void OnCollisionEnter2D(Collision2D other)
+        {
             waterCounter += 1.0f;
-            if (waterCounter >= totalWaterRequired) {
+            if (waterCounter >= totalWaterRequired)
+            {
                 SetState(State.stage3);
             }
-            else if (waterCounter >= SecondStage) {
+            else if (waterCounter >= SecondStage)
+            {
                 SetState(State.stage2);
             }
-            
+
         }
     }
 }
