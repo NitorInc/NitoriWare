@@ -13,11 +13,14 @@ namespace NitorInc.YuukaWater {
         public YuukaWaterWaterLauncher launcher;
         public SpriteRenderer yuukaSprite;
         public Sprite yuukaSmile;
+        public ParticleSystem heartParticles;
         public float idleAnimSpeed = 0.3f;
         public float moveAnimSpeed = 1.0f;
 
         float lastDirection = 1.0f;
         float vel = 0f;
+
+        bool movementEnabled = true;
 
         // Use this for initialization
         void Start() {
@@ -31,7 +34,7 @@ namespace NitorInc.YuukaWater {
             //var x = Input.GetAxis("Horizontal");
             float goalVel = 0f;
 
-            if (!MicrogameController.instance.getVictoryDetermined())
+            if (movementEnabled)
             {
                 if (Input.GetKey(KeyCode.LeftArrow))
                     goalVel -= moveSpeed;
@@ -77,6 +80,14 @@ namespace NitorInc.YuukaWater {
 
         void YuukaSmile() {
             yuukaSprite.sprite = yuukaSmile;
+            heartParticles.Play();
+
+            Invoke("disableMovement", .25f);
+        }
+
+        void disableMovement()
+        {
+            movementEnabled = false;
         }
     }
 
