@@ -100,6 +100,7 @@ namespace NitorInc.YuukaWater {
         void disableMovement()
         {
             movementEnabled = false;
+            yuukaAnim.SetTrigger("victory");
         }
     }
 
