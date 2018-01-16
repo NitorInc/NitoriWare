@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 212587543884276840}
   - component: {fileID: 50537124351085278}
   - component: {fileID: 114717978497805004}
+  - component: {fileID: 114790447396353864}
   m_Layer: 0
   m_Name: Waterdrop_1
   m_TagString: Untagged
@@ -82,7 +83,7 @@ Transform:
   m_GameObject: {fileID: 1837180314404124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4546115, y: 1.4903165, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4304751971286720}
   - {fileID: 4709128896361644}
@@ -116,7 +117,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -131,7 +132,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -149,6 +150,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleSpeed: 0.2
+  sprayEffect: {fileID: 1838825953271348, guid: 46d43daeba8dfb54da0e41c4103bbc9f,
+    type: 2}
+--- !u!114 &114790447396353864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1837180314404124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72310672bc99d9245bbc0147afcdd459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMaxSize:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  goalScale: 1
+  growSpeed: 5
+  disableOnMaxSize: 0
 --- !u!212 &212265006234825962
 SpriteRenderer:
   m_ObjectHideFlags: 1

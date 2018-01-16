@@ -12,6 +12,7 @@ namespace NitorInc.YuukaWater {
         int[] fullIds;
         public int flowerIndex;
         public float secondStageThreshold = 0.2f;
+        public ParticleSystem heartParticles;
         YuukaWaterController ctrl;
 
         private void Start() {
@@ -52,6 +53,7 @@ namespace NitorInc.YuukaWater {
                     anim.Play("PlantFlip2");
                     cols[1].enabled = false;
                     ctrl.Notify();
+                    heartParticles.Play();
                     break;
                 case State.finished:
                     break;
@@ -107,15 +109,18 @@ namespace NitorInc.YuukaWater {
         }
         float waterCounter = 0;
 
-        void OnTriggerEnter2D(Collider2D other) {
+        private void OnCollisionEnter2D(Collision2D other)
+        {
             waterCounter += 1.0f;
-            if (waterCounter >= totalWaterRequired) {
+            if (waterCounter >= totalWaterRequired)
+            {
                 SetState(State.stage3);
             }
-            else if (waterCounter >= SecondStage) {
+            else if (waterCounter >= SecondStage)
+            {
                 SetState(State.stage2);
             }
-            
+
         }
     }
 }
