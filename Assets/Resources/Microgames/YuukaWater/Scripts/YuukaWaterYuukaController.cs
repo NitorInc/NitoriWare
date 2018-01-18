@@ -91,7 +91,6 @@ namespace NitorInc.YuukaWater {
         }
 
         void YuukaSmile() {
-            yuukaSprite.sprite = yuukaSmile;
             heartParticles.Play();
 
             Invoke("disableMovement", .25f);
@@ -101,6 +100,7 @@ namespace NitorInc.YuukaWater {
         {
             movementEnabled = false;
             yuukaAnim.SetTrigger("victory");
+            yuukaSprite.sprite = yuukaSmile;
         }
     }
 
