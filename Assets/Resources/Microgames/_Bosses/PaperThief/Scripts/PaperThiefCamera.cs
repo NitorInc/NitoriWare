@@ -81,7 +81,7 @@ public class PaperThiefCamera : MonoBehaviour
         return velocityOverTime.Evaluate(Time.time - startTime);
     }
 	
-	public void LateUpdate()
+	public void Update()
 	{
         if (followNitori)
             updateNitoriShiftGoal();
