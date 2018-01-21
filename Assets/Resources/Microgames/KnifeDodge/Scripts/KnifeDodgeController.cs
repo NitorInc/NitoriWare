@@ -14,10 +14,11 @@ public class KnifeDodgeController : MonoBehaviour {
 	public bool tiltedKnives = true;
 	public bool tiltedKnivesRandomAngle = true;
 	public float tiltedKnivesAngle = 0;
+	public int tiltedKnivesNumZeroTilt = 4;
+
 
 	public enum KnifeDirections {
 		MINUS_ANGLE,
-		ZERO,
 		POSITIVE_ANGLES,
 		NUM_DIRECTIONS
 	}
@@ -53,10 +54,13 @@ public class KnifeDodgeController : MonoBehaviour {
 			}
 		}			
 
+
 		if (tiltedKnives) {
 
 			if (tiltedKnivesRandomAngle) {
 				// Set a random position on the ground instead of a fixed one
+
+				// A really hacky way to shuffle
 				knifeTargetsList.Sort ((a, b) => 1 - 2 * Random.Range (0, 1));
 				for (int i = 0; i < knifeList.Count; i++) {
 					Vector3 pos = knifeTargetsList [i].transform.position;
@@ -64,6 +68,9 @@ public class KnifeDodgeController : MonoBehaviour {
 				} 
 			} else {
 				// Set a fixed one.
+				// A really hacky way to shuffle
+				knifeList.Sort ((a, b) => 1 - 2 * Random.Range (0, 1));
+
 				for (int i = 0; i < knifeList.Count; i++) {
 					int directionChoice = (int) Random.Range(0, (int)KnifeDirections.NUM_DIRECTIONS);
 					float angle = 180;
@@ -72,14 +79,13 @@ public class KnifeDodgeController : MonoBehaviour {
 					case (int)KnifeDirections.MINUS_ANGLE:
 						angle = 360 - tiltedKnivesAngle;
 						break;
-					case (int)KnifeDirections.ZERO:
-						angle = 0;
-
-						break;
 					case (int)KnifeDirections.POSITIVE_ANGLES:
 						angle = tiltedKnivesAngle;
-
 						break;
+					}
+
+					if (i < tiltedKnivesNumZeroTilt) {
+						angle = 0;
 					}
 
 					Vector3 lDirection = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.down;
@@ -112,7 +118,7 @@ public class KnifeDodgeController : MonoBehaviour {
 		timeUntilStrike -= Time.deltaTime;
 		if (timeUntilStrike <= 0) {
 			foreach (GameObject knife in knifeList) {
-				knife.GetComponent<KnifeDodgeKnife> ().isMoving = true;
+				knife.GetComponent<KnifeDodgeKnife> ().SetMoving(true);
 			}
 		}
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class KnifeDodgeKnife : MonoBehaviour {
 	Vector3 facingDirection;
-	public bool isMoving;
-	public bool isRotating;
+	bool isMoving;
+	bool isRotating;
 	public float knifeSpeed = 20.0f;
 	public float knifeRotationSpeed = 1.0f;
 	// Use this for initialization
@@ -36,5 +36,9 @@ public class KnifeDodgeKnife : MonoBehaviour {
 
 	public void SetFacing(Vector3 vec) {
 		facingDirection = vec;
+	}
+
+	public void SetMoving(bool moving) {
+		isMoving = moving;
 	}
 }
