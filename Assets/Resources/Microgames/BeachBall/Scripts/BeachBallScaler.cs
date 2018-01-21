@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Scales until reaches DesiredScale
+/// </summary>
 public class BeachBallScaler : MonoBehaviour
 {
     public float DesiredScale = 0.5f;

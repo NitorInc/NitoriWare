@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Observes ball params. Switches z index and triggers win if requirements are met
+/// </summary>
 public class BeachBallCollisionObserver : MonoBehaviour
 {
     protected Collider2D innerArea;

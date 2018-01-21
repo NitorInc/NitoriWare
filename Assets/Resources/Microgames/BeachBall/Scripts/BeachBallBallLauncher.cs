@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Observes ball params. Launches the ball backwards and triggers loss if requirements are met
+/// </summary>
 public class BeachBallBallLauncher : MonoBehaviour
 {
     public float ThrowForce = 500f;
@@ -10,6 +13,16 @@ public class BeachBallBallLauncher : MonoBehaviour
     private BeachBallScaler scaleMultiplier;
 
     private BoxCollider2D ballStandCollider;
+
+    public bool Launched
+    {
+        get
+        {
+            return launched;
+        }
+        set
+        { }
+    }
 
     void Start()
     {
@@ -23,8 +36,11 @@ public class BeachBallBallLauncher : MonoBehaviour
         if (!launched && Input.GetKeyDown(KeyCode.Space))
         {
             launched = true;
+            //start scaling
             scaleMultiplier.Started = true;
+            //throw the ball
             physicsModel.AddForce(ThrowDirection.normalized * ThrowForce);
+            //set triggerMode to prevent collisions when the ball falls
             ballStandCollider.isTrigger = true; 
         }
     }

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Randomizes hoop animation
+/// </summary>
 public class BeachBallHoopParamsRandomizer : MonoBehaviour
 {
     void Start()
