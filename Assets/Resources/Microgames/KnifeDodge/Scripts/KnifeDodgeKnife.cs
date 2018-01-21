@@ -7,6 +7,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	public bool isMoving;
 	public bool isRotating;
 	public float knifeSpeed = 20.0f;
+	public float knifeRotationSpeed = 1.0f;
 	// Use this for initialization
 	void Start () {
 		isMoving = false;
@@ -17,7 +18,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	void Update () {
 
 		if (isRotating) {
-			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (Vector3.forward, transform.position - facingDirection), Time.deltaTime);
+			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (Vector3.forward, transform.position - facingDirection), knifeRotationSpeed * Time.deltaTime);
 		}
 
 		if (isMoving) {
