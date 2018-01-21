@@ -22,6 +22,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 		}
 
 		if (isMoving) {
+			isRotating = false;
 			GetComponent<Rigidbody2D> ().AddForce (-1.0f * transform.up * knifeSpeed);
 		}
 	}
