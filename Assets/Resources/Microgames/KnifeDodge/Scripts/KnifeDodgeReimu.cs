@@ -34,7 +34,7 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "Hazard") {
+		if (coll.gameObject.tag == "KnifeDodgeHazard") {
 			Kill ();
 			MicrogameController.instance.setVictory(false, true);
 		}
