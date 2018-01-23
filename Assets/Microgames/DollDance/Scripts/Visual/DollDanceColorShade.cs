@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class DollDanceColorShade : MonoBehaviour
 {
-    [SerializeField]
-    private bool shaded;
+    //[SerializeField]
+    //private bool shaded;
     [SerializeField]
     private SpriteRenderer[] spriteRenderers;
-    [SerializeField]
-    private Color defaultColor;
-    [SerializeField]
-    private Color shadedColor;
+    public float lightness = 1f;
+
+    private float lastLightness;
 
     void Start ()
     {
-        setShaded(shaded);
+        updateColor();
 	}
 
     //private void Update()
@@ -24,13 +23,20 @@ public class DollDanceColorShade : MonoBehaviour
     //    spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
     //}
 
-    public void setShaded(bool shaded)
+    private void LateUpdate()
     {
-        this.shaded = shaded;
+        if (lightness != lastLightness)
+            updateColor();
+    }
 
+    public void updateColor()
+    {
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
         {
-            spriteRenderer.color = shaded ? shadedColor : defaultColor;
+            var color = spriteRenderer.color;
+            color.r = color.g = color.b = lightness;
+            spriteRenderer.color = color;
         }
+        lastLightness = lightness;
     }
 }

@@ -90,7 +90,7 @@ public class DollDancePerformance : MonoBehaviour
         // Pointing delay
         yield return new WaitForSeconds(cueStartDelay);// + MicrogameTimer.instance.beatsLeft);
 
-        dollShadeComponent.setShaded(true);
+        //dollShadeComponent.setShaded(true);
 
         for (int i = 0; i < moves.Count; i++)
         {
@@ -111,8 +111,8 @@ public class DollDancePerformance : MonoBehaviour
         yield return new WaitForSeconds(dollInputStartDelay);
 
 
-        aliceShadeComponent.setShaded(true);
-        dollShadeComponent.setShaded(false);
+        //aliceShadeComponent.setShaded(true);
+        //dollShadeComponent.setShaded(false);
 
         this.animator.Play("GetReady");
 
@@ -135,7 +135,7 @@ public class DollDancePerformance : MonoBehaviour
 
         //Start rose effect
         roseEffect.SetActive(true);
-        aliceShadeComponent.setShaded(false);
+        //aliceShadeComponent.setShaded(false);
     }
 
     IEnumerator FailAnimation()
@@ -153,7 +153,7 @@ public class DollDancePerformance : MonoBehaviour
         MicrogameController.instance.playSFX(failClip);
 
         //Set Alice to unshaded
-        aliceShadeComponent.setShaded(false);
+        //aliceShadeComponent.setShaded(false);
     }
 
     void Point(DollDanceSequence.Move move)
