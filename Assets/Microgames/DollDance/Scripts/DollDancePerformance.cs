@@ -104,7 +104,6 @@ public class DollDancePerformance : MonoBehaviour
         yield return new WaitForSeconds(cueSettleDelay);
 
         this.animator.Play("Settle");
-        this.animator.Play("LightDoll");
         //this.animator.Play("Forward", EYE_LAYER);
         playEyeAnimation("LookDoll");
 
