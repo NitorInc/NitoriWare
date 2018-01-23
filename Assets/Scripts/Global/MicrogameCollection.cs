@@ -6,7 +6,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class MicrogameCollection : MonoBehaviour
 {
-    public const string MicrogameAssetPath = "/Resources/Microgames/";
+    public const string MicrogameAssetPath = "/Microgames/";
 
     [SerializeField]
     private List<Microgame> finishedMicrogames, stageReadyMicrogames, unfinishedMicrogames, bossMicrogames;
