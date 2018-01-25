@@ -12,49 +12,52 @@ public class MicrogameTraits : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
 	private ControlScheme _controlScheme;
-	public virtual ControlScheme controlScheme { get { return _controlScheme; } set { } }
+	public virtual ControlScheme controlScheme =>  _controlScheme;
 
 	[SerializeField]
 	private bool _hideCursor;
-	public virtual bool hideCursor { get { return _hideCursor; } set { } }
+	public virtual bool hideCursor =>  _hideCursor;
 
 	[SerializeField]
 	private Duration _duration;
-	public virtual Duration duration { get { return _duration; } set { } }
+	public virtual Duration duration => _duration;
 
 	[SerializeField]
 	private bool _canEndEarly;
-	public virtual bool canEndEarly { get { return _canEndEarly; } set { } }
+	public virtual bool canEndEarly => _canEndEarly;
 
 	[SerializeField]
 	private string _command;
-	public virtual string command { get { return _command; } set { } }
-	public virtual string localizedCommand { get { return TextHelper.getLocalizedText("microgame." + microgameId + ".command", command); } set { } }
+	public virtual string command => _command;
+	public virtual string localizedCommand =>  TextHelper.getLocalizedText($"microgame.{microgameId}.command", command);
 
 	[SerializeField]
 	private bool _defaultVictory;
-	public virtual bool defaultVictory { get { return _defaultVictory; } set { } }
+	public virtual bool defaultVictory => _defaultVictory;
 
 	[SerializeField]
 	private float _victoryVoiceDelay, _failureVoiceDelay;
-	public virtual float victoryVoiceDelay { get { return _victoryVoiceDelay; } set { } }
-	public virtual float failureVoiceDelay { get { return _failureVoiceDelay; } set { } }
+	public virtual float victoryVoiceDelay => _victoryVoiceDelay;
+	public virtual float failureVoiceDelay {
+    get { return _failureVoiceDelay; }
+    set { _failureVoiceDelay = value; }
+  }
 
 	[SerializeField]
 	private AudioClip _musicClip;
-	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
+	public virtual AudioClip musicClip => _musicClip;
 
 	[SerializeField]
 	private bool _isStageReady;
-	public virtual bool isStageReady { get { return _isStageReady; } set { } }
+	public virtual bool isStageReady => _isStageReady;
 
     [SerializeField]
     private string[] _credits;
-    public virtual string[] credits { get { return _credits; } set { } }
+    public virtual string[] credits => _credits;
 #pragma warning restore 0649
 
     private string _microgameId;
-	public string microgameId { get { return _microgameId; } set { } }
+	public string microgameId => _microgameId;
 
 	public enum ControlScheme
 	{

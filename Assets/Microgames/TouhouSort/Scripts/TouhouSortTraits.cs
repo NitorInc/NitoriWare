@@ -9,9 +9,12 @@ public class TouhouSortTraits : MicrogameTraits
 	public TouhouSortSorter.Category category;
 
 	public override string localizedCommand { 
-		get { return string.Format(TextHelper.getLocalizedText("microgame." + microgameId + ".command", command),
-			TextHelper.getLocalizedText("microgame.TouhouSort." + category.name, category.name)); }
-		set { } }
+		get { 
+      var format = TextHelper.getLocalizedText("microgame." + microgameId + ".command", command);
+      var localizedText = TextHelper.getLocalizedText("microgame.TouhouSort." + category.name, category.name);
+      return string.Format(format, localizedText);
+    }
+  }
 
 	public override void onAccessInStage(string microgameId)
 	{
