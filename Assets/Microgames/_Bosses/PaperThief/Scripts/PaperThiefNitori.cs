@@ -84,7 +84,7 @@ shotCooldown, shotSpeed, minGunCursorDistance, deathMusicDelay;
     }
   }
 
-  public State getState() => return state;
+  public State getState() => state;
 
   void Update()
   {
