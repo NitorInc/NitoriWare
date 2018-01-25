@@ -36,14 +36,14 @@ public class KyoukoEchoNoise : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.rigidBody = GetComponent<Rigidbody2D>();
-        this.animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     public void SetNoise(KyoukoEchoNoisePair noisePair)
     {
-        this.front.sprite = noisePair.front;
-        this.back.sprite = noisePair.back;
+        front.sprite = noisePair.front;
+        back.sprite = noisePair.back;
     }
 
     public void Fire(float targetX, float upperBoundY, float lowerBoundY, float delay)
@@ -52,7 +52,7 @@ public class KyoukoEchoNoise : MonoBehaviour
         Vector2 target = new Vector2(targetX, targetY);
 
         // Set velocity
-        Vector2 direction = ((Vector2)this.transform.position - target).normalized;
+        Vector2 direction = ((Vector2)transform.position - target).normalized;
         StartCoroutine(SetDirection(direction, delay));
 
         // Rotate
@@ -61,23 +61,23 @@ public class KyoukoEchoNoise : MonoBehaviour
 
     public bool CanEcho()
     {
-        return this.canEcho;
+        return canEcho;
     }
 
     public void Echo(float hitLocation)
     {
-        if (this.canEcho)
+        if (canEcho)
         {
             // Prevent further interactions
-            this.canEcho = false;
+            canEcho = false;
             
             // Bounce
             Vector2 direction = new Vector2(1, -hitLocation).normalized;
-            this.rigidBody.velocity = this.rigidBody.velocity * 0.5F;
-            StartCoroutine(SetDirection(direction, this.hitDelay));
+            rigidBody.velocity = rigidBody.velocity * 0.5F;
+            StartCoroutine(SetDirection(direction, hitDelay));
 
             // Rotate
-            StartCoroutine(Rotate(direction, true, this.rotationTime));
+            StartCoroutine(Rotate(direction, true, rotationTime));
 
             // Animate
             AnimateEcho();
@@ -88,7 +88,7 @@ public class KyoukoEchoNoise : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        this.rigidBody.velocity = -direction * this.speed;
+        rigidBody.velocity = -direction * speed;
     }
 
     IEnumerator Rotate(Vector2 direction, bool flip, float duration = 0)
@@ -97,18 +97,18 @@ public class KyoukoEchoNoise : MonoBehaviour
             direction = -direction;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        Quaternion start = this.transform.rotation;
+        Quaternion start = transform.rotation;
         Quaternion target = Quaternion.AngleAxis(angle, Vector3.forward);
 
         if (duration == 0)
         {
-            this.transform.rotation = target;
+            transform.rotation = target;
         }
         else
         {
             for (float elapsed = 0; elapsed < 1; elapsed += Time.deltaTime / duration)
             {
-                this.transform.rotation = Quaternion.Lerp(start, target, elapsed);
+                transform.rotation = Quaternion.Lerp(start, target, elapsed);
                 yield return null;
             }
         }
@@ -116,7 +116,7 @@ public class KyoukoEchoNoise : MonoBehaviour
 
     void AnimateEcho()
     {
-        this.animator.Play("Reflect");
+        animator.Play("Reflect");
     }
 
 }

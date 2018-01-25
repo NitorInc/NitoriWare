@@ -165,7 +165,7 @@ public class PaperThiefNitori : MonoBehaviour
 			default:
 				break;
 		}
-        if (this.state == State.Gun && state != State.Gun)
+        if (state == State.Gun && state != State.Gun)
         {
             Instantiate(gunDiscardPrefab, gunTransform.position, Quaternion.Euler(0f, 0f, updateGunTilt()));
             gunTransform.gameObject.SetActive(false);

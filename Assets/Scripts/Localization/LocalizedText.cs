@@ -98,7 +98,7 @@ public class LocalizedText : MonoBehaviour
     /// <param name="key"></param>
     public void setKey(string key)
 	{
-		this._key = key;
+		_key = key;
 		updateText();
 	}
 

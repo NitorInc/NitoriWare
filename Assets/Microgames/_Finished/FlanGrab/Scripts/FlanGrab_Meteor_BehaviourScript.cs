@@ -34,10 +34,10 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        this.particleTrail = GetComponentInChildren<ParticleSystem>();
-        this.meteorSprite = GetComponentInChildren<SpriteRenderer>();
-        this.meteorSprite.transform.Rotate(0f, 0f, Random.Range(0f, 360f));
-        this.microgameBehaviour = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
+        particleTrail = GetComponentInChildren<ParticleSystem>();
+        meteorSprite = GetComponentInChildren<SpriteRenderer>();
+        meteorSprite.transform.Rotate(0f, 0f, Random.Range(0f, 360f));
+        microgameBehaviour = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
         selectEndingPoint();
 
     }
@@ -61,10 +61,10 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
             
         }
 
-        if (hasBeenDestroyed && !this.particleTrail.IsAlive())
+        if (hasBeenDestroyed && !particleTrail.IsAlive())
         {
             // Destroy meteor's gameobject when smoke trail is no longer active
-            Destroy(this.transform.gameObject);
+            Destroy(transform.gameObject);
 
         }
 
@@ -77,27 +77,27 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 
         if (waveMovementIsOn)
         {
-            this.originalPosition = this.transform.position;
-            this.phase = Random.Range(0, Mathf.PI / 2);
-            this.endingPosition = new Vector2(Random.Range(xLeftLimit + amplitude, xRightLimit - amplitude), yLowerLimit);
+            originalPosition = transform.position;
+            phase = Random.Range(0, Mathf.PI / 2);
+            endingPosition = new Vector2(Random.Range(xLeftLimit + amplitude, xRightLimit - amplitude), yLowerLimit);
         }
 
         else if (diagonalMovementIsOn)
         {
-            if (this.transform.position.x < midPosition)
+            if (transform.position.x < midPosition)
             {
-                this.endingPosition = new Vector2(Random.Range(midPosition, xRightLimit), yLowerLimit);
+                endingPosition = new Vector2(Random.Range(midPosition, xRightLimit), yLowerLimit);
             }
 
             else
             {
-                this.endingPosition = new Vector2(Random.Range(xLeftLimit, midPosition), yLowerLimit);
+                endingPosition = new Vector2(Random.Range(xLeftLimit, midPosition), yLowerLimit);
             }
         }
 
         else
         {
-            this.endingPosition = new Vector2(this.transform.position.x, yLowerLimit);
+            endingPosition = new Vector2(transform.position.x, yLowerLimit);
         }
 
     }
@@ -117,7 +117,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
             originalPosition = Vector2.MoveTowards(originalPosition, endingPosition, movementSpeed * Time.deltaTime);
             var omegaComponent = (Time.time * frequency + phase) % (2.0f * Mathf.PI);
             var xPosition = amplitude * Mathf.Sin(omegaComponent) + originalPosition.x;
-            this.transform.position = new Vector2(xPosition, originalPosition.y);
+            transform.position = new Vector2(xPosition, originalPosition.y);
         }
 
         else
@@ -132,7 +132,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
         // If meteor lands on ground, set the defeat.
         MicrogameController.instance.setVictory(false, true);
         MicrogameController.instance.playSFX(lossClip);
-        this.hasLanded = true;
+        hasLanded = true;
 
         // Shake camera
         microgameBehaviour.hitShake.enabled = false;
@@ -145,8 +145,8 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
     public void destroyMeteor()
     {
         // Destroy Meteor's sprite but not the gameObject. When the ParticleSystem associated is no longer active, meteor's gameObject will be destroyed in Update().
-        this.hasBeenDestroyed = true;
-        this.GetComponent<Collider2D>().enabled = false;
+        hasBeenDestroyed = true;
+        GetComponent<Collider2D>().enabled = false;
 		ParticleSystem particles = GetComponentInChildren<ParticleSystem>();
 		ParticleSystem.EmissionModule emission = particles.emission;
 		emission.enabled = false;
@@ -155,7 +155,7 @@ public class FlanGrab_Meteor_BehaviourScript : MonoBehaviour {
 		particles.Emit(5);
         Instantiate(explosionEffect, meteorSprite.transform.position, Quaternion.identity);
         Destroy(meteorSprite.gameObject);
-        this.microgameBehaviour.increaseDestructionCounter();
+        microgameBehaviour.increaseDestructionCounter();
 
         // Shake camera
         if (!(MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory()))

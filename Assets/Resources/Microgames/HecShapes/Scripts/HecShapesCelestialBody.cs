@@ -11,18 +11,18 @@ public class HecShapesCelestialBody : MonoBehaviour
 
     void Start()
     {
-        this.spriteRenderer = GetComponent<SpriteRenderer>();
-        this.defaultSprite = this.spriteRenderer.sprite;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        defaultSprite = spriteRenderer.sprite;
     }
 
     public void MakeGray()
     {
-        GetComponent<SpriteRenderer>().sprite = this.graySprite;
+        GetComponent<SpriteRenderer>().sprite = graySprite;
     }
 
     public void ResetSprite()
     {
-        GetComponent<SpriteRenderer>().sprite = this.defaultSprite;
+        GetComponent<SpriteRenderer>().sprite = defaultSprite;
     }
 
 }

@@ -17,43 +17,43 @@ public class OkuuFirePulsate : MonoBehaviour
     {
         get
         {
-            return this.pulse;
+            return pulse;
         }
         set
         {
-            this.pulse = value;
-            this.Reset();
+            pulse = value;
+            Reset();
         }
     }
 
     void Start()
     {
-        this.Reset();
+        Reset();
     }
 
 	void Update()
     {
-		if (this.pulse)
+		if (pulse)
         {
-            this.DoPulse();
+            DoPulse();
         }
 	}
 
     void Reset()
     {
-        this.startTime = Time.time;
-        this.DoPulse();
+        startTime = Time.time;
+        DoPulse();
     }
 
     void DoPulse()
     {
-        float pulseAmount = Mathf.Sin(((Time.time - this.startTime) * this.pulseSpeed) + Mathf.PI);
+        float pulseAmount = Mathf.Sin(((Time.time - startTime) * pulseSpeed) + Mathf.PI);
         pulseAmount = (pulseAmount + 1) / 2;
 
-        float newScaleWidth = 1 + (pulseAmount * (this.maxWidthScale - 1));
-        float newScaleHeight = 1 + (pulseAmount * (this.maxHeightScale - 1));
+        float newScaleWidth = 1 + (pulseAmount * (maxWidthScale - 1));
+        float newScaleHeight = 1 + (pulseAmount * (maxHeightScale - 1));
 
-        this.transform.localScale = new Vector3(newScaleWidth, newScaleHeight);
+        transform.localScale = new Vector3(newScaleWidth, newScaleHeight);
     }
 
 }

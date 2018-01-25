@@ -16,7 +16,7 @@ public class RemiCover_UmbrellaBehaviour : MonoBehaviour {
 		if (!MicrogameController.instance.getVictory())
 			return;
         Vector2 mousePosition = CameraHelper.getCursorPosition();
-        this.transform.position = new Vector2(mousePosition.x, verticalPosition);
+        transform.position = new Vector2(mousePosition.x, verticalPosition);
     }
 
 }

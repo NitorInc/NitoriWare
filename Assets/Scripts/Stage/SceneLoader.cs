@@ -22,7 +22,7 @@ public class SceneLoader : MonoBehaviour
 
 	//	public MicrogameLoadOperation(StageController.Microgame microgame)
 	//	{
-	//		this.microgame = microgame;
+	//		microgame = microgame;
 	//		resourceQueue = new List<QueuedResource>();
 	//		requests = new List<ResourceRequest>();
 	//		finished = false;
@@ -42,8 +42,8 @@ public class SceneLoader : MonoBehaviour
 
 	//	public QueuedResource(string path, ResourceType type)
 	//	{
-	//		this.path = path;
-	//		this.type = type;
+	//		path = path;
+	//		type = type;
 	//	}
 	//}
 

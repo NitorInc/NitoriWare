@@ -18,8 +18,8 @@ public class HecShapesSlottable : MonoBehaviour
 
     void Start()
     {
-        this.grabbable = GetComponent<MouseGrabbable>();
-        this.celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
+        grabbable = GetComponent<MouseGrabbable>();
+        celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
 
         if (grabbable)
         {
@@ -35,18 +35,18 @@ public class HecShapesSlottable : MonoBehaviour
 
     void Update()
     {
-        if (this.snap)
+        if (snap)
         {
-            float distance = Time.deltaTime * this.snapSpeed;
-            this.transform.position = Vector2.MoveTowards(
-                this.transform.position,
-                this.snapTarget.SnapPosition,
+            float distance = Time.deltaTime * snapSpeed;
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                snapTarget.SnapPosition,
                 distance);
             
-            if ((Vector2)this.transform.position == this.snapTarget.SnapPosition)
+            if ((Vector2)transform.position == snapTarget.SnapPosition)
             {
-                this.snapTarget.ShapeInSlot = this.celestialBody.shape;
-                this.snap = false;
+                snapTarget.ShapeInSlot = celestialBody.shape;
+                snap = false;
             }
         }
     }
@@ -59,27 +59,27 @@ public class HecShapesSlottable : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponentInParent<HecShapesHolder>())
-            this.snapTarget = null;
+            snapTarget = null;
     }
 
     void AcquireTarget(Collider2D collision)
     {
         HecShapesHolder holder = collision.GetComponentInParent<HecShapesHolder>();
         if (holder && !holder.Filled)
-            this.snapTarget = holder;
+            snapTarget = holder;
     }
     
     public void OnGrab()
     {
-        this.snap = false;
-        if (this.snapTarget && this.snapTarget.ShapeInSlot == this.celestialBody.shape)
-            this.snapTarget.ShapeInSlot = Shape.none;
+        snap = false;
+        if (snapTarget && snapTarget.ShapeInSlot == celestialBody.shape)
+            snapTarget.ShapeInSlot = Shape.none;
     }
 
     public void OnRelease()
     {
-        if (this.snapTarget)
-            this.snap = true;
+        if (snapTarget)
+            snap = true;
     }
 
 }
