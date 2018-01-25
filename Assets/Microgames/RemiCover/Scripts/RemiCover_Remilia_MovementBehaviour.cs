@@ -62,8 +62,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         }
     }
 
-
-
     // Perform the current movement selected. If no movement is selected, then choose randomly a movement to perform.
     private void moveCharacter()
     {
@@ -84,7 +82,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Perform the currently selected movement
     private void performMovement()
     {
-
         updateMovementAnimation();
 
         switch (currentMovementSelection)
@@ -107,7 +104,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         }
 
         updateMovementTimer();
-
     }
 
     /// Perform Walking Movement
@@ -117,7 +113,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         transform.position = transform.position + (move * walkingSpeed * Time.deltaTime);
         currentSpeed = walkingSpeed;
         changeDirectionOnLimit();
-
     }
 
     // Perform Standing Movement

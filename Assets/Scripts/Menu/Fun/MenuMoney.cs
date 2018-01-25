@@ -5,7 +5,7 @@ using UnityEngine;
 public class MenuMoney : MonoBehaviour
 {
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649	
 	
 #pragma warning restore 0649
 

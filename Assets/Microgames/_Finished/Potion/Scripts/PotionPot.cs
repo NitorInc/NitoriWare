@@ -71,7 +71,6 @@ public class PotionPot : MonoBehaviour
 		}
 		else if (!bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)
 		{
-			//bubbleSource.pitch = Time.timeScale;
 			bubbleSource.Play();
 		}
 	}

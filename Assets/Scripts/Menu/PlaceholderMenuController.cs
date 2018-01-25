@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlaceholderMenuController : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private bool dontEnableCursor;
 #pragma warning restore 0649

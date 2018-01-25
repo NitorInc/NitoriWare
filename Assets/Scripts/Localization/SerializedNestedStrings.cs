@@ -118,10 +118,6 @@ class SerializedNestedStrings
             existingStrings = new SerializedNestedStrings();
 
         deserializeData(existingStrings.rootData, serializedData.Split('\n'), 0, 0);
-
-        //debugDisplay(existingStrings.rootData, "");
-        //Debug.Log(existingStrings["name"]);
-
         return existingStrings;
     }
 

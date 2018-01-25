@@ -7,7 +7,7 @@ using System.Linq;
 public class GraphicsQualityDropdown : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Dropdown dropdown;
     [SerializeField]

@@ -28,7 +28,6 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         colliders = GetComponents<BoxCollider2D>();
     }
 
-
     // Update is called once per frame
     void Update() {
 

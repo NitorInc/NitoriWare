@@ -30,7 +30,6 @@ public class ChenFoodFish : MonoBehaviour
 
 		updatePosition();
 
-		//Vector2 diff = (Vector2)transform.position - lastPosition;
 		Vector2 diff = Vector2.zero;
 		if (diff.magnitude >= spriteSwitchIn)
 		{
@@ -45,13 +44,6 @@ public class ChenFoodFish : MonoBehaviour
 			spriteSwitchIn -= diff.magnitude + (spriteSwitchSpeed * Time.deltaTime);
 		}
 
-
-
-		//if (lastPosition.x < transform.position.x)
-		//	transform.localScale = new Vector3(-1f, 1f, 1f);
-		//else if (lastPosition.x > transform.position.x)
-		//	transform.localScale = new Vector3(1f, 1f, 1f);
-
 		lastPosition = (Vector2)transform.position;
 	}
 
@@ -65,11 +57,6 @@ public class ChenFoodFish : MonoBehaviour
 
 		Vector3 cursorPosition = CameraHelper.getCursorPosition();
 		transform.position = new Vector3(cursorPosition.x, cursorPosition.y, transform.position.z);
-
-		//Cursor.visible = CameraHelper.isPointOffscreen(CameraHelper.getCursorPositionAbsolute());
-
-
-
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

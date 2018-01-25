@@ -106,7 +106,6 @@ public class StageGameOverMenu : MonoBehaviour
             {
                 setBGAlpha(0f);
                 PauseManager.disablePause = false;
-                //gameObject.SetActive(false);
             }
             else
                 setBGAlpha(alpha - diff);

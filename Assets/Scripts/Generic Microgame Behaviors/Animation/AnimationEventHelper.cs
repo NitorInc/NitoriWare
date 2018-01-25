@@ -68,11 +68,6 @@ public class AnimationEventHelper : MonoBehaviour
         audioSources[index].GetComponent<FadingMusic>().startFade();
     }
 
-	//public void setParticleSpeed(int index, float speed)
-	//{
-
-	//}
-
 	//All shake functions below require an instance of CameraController!
 
 	public void setShakeSpeed(float shakeSpeed)

@@ -90,8 +90,6 @@ public class DollDancePerformance : MonoBehaviour
         // Pointing delay
         yield return new WaitForSeconds(cueStartDelay);// + MicrogameTimer.instance.beatsLeft);
 
-        //dollShadeComponent.setShaded(true);
-
         for (int i = 0; i < moves.Count; i++)
         {
             Point(moves[i]);
@@ -104,15 +102,10 @@ public class DollDancePerformance : MonoBehaviour
         yield return new WaitForSeconds(cueSettleDelay);
 
         animator.Play("Settle");
-        //animator.Play("Forward", EYE_LAYER);
         playEyeAnimation("LookDoll");
 
         // Delay until user input is allowed
         yield return new WaitForSeconds(dollInputStartDelay);
-
-
-        //aliceShadeComponent.setShaded(true);
-        //dollShadeComponent.setShaded(false);
 
         animator.Play("GetReady");
 
@@ -135,7 +128,6 @@ public class DollDancePerformance : MonoBehaviour
 
         //Start rose effect
         roseEffect.SetActive(true);
-        //aliceShadeComponent.setShaded(false);
     }
 
     IEnumerator FailAnimation()
@@ -151,16 +143,12 @@ public class DollDancePerformance : MonoBehaviour
 
         //Play failure sound
         MicrogameController.instance.playSFX(failClip);
-
-        //Set Alice to unshaded
-        //aliceShadeComponent.setShaded(false);
     }
 
     void Point(DollDanceSequence.Move move)
     {
         // Point, look, play a sound
         animator.Play(move.ToString(), POINT_LAYER);
-        //animator.Play(move.ToString(), EYE_LAYER);
 
         playEyeAnimation(move.ToString());
 

@@ -1,6 +1,4 @@
-﻿//Found this online, modified it
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class TextOutline : MonoBehaviour

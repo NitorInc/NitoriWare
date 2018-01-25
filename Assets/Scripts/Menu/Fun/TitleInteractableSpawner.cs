@@ -6,7 +6,7 @@ public class TitleInteractableSpawner : MonoBehaviour
 {
     public BoxCollider2D[] wallColliders;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Vector2 spawnTimeBounds, spawnExtents;
     [SerializeField]
@@ -94,7 +94,6 @@ public class TitleInteractableSpawner : MonoBehaviour
         newObject.GetComponent<TitleFloatingInteractive>().spawner = this;
     }
 
-    //0-3 are cardinal directions, starting at 
     Vector2 getSpawnOffset(int direction)
     {
         switch (direction)

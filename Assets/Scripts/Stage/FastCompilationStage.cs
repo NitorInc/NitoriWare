@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FastCompilationStage : CompilationStage
 {
+
 	[SerializeField]
 	private int startSpeed;
 
@@ -22,11 +23,4 @@ public class FastCompilationStage : CompilationStage
 		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}
 
-	//public override Stage.Interruption[] getInterruptions(int num)
-	//{
-	//	num -= roundStartIndex;
-	//	if (num % microgamesPerRound == 0)
-	//		return new Interruption[0].add(nextRound);
-	//	return new Interruption[0];
-	//}
 }

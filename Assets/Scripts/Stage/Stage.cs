@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Stage : MonoBehaviour
 {
 
-#pragma warning disable 0649    //Serialized Fields
+#pragma warning disable 0649 
     [SerializeField]
 	private VoicePlayer.VoiceSet voiceSet;
 #pragma warning restore 0649

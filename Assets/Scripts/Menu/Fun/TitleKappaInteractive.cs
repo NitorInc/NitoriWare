@@ -5,7 +5,7 @@ using UnityEngine;
 public class TitleKappaInteractive : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Collider2D _collider2D;
     [SerializeField]

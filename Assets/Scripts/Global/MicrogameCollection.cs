@@ -97,18 +97,6 @@ public class MicrogameCollection : MonoBehaviour
         return Resources.Load<Sprite>("MicrogameIcons/" + microgameId + "Icon");
     }
 
-    //public List<Microgame> getMicrogames(Restriction restriction)
-    //{
-    //    List<CollectionBase> returnList = convertToStageMicrogameList(finishedMicrogames);
-    //    if (restriction != Restriction.Finished)
-    //    {
-    //        returnList.AddRange(convertToStageMicrogameList(stageReadyMicrogames));
-    //        if (restriction == Restriction.All)
-    //            returnList.AddRange(convertToStageMicrogameList(unfinishedMicrogames));
-    //    }
-    //    return returnList;
-    //}
-
     /// <summary>
     /// Returns all microgames in the game (with given restriction) in Stage.Microgame type (used for determining what will play in the stage)
     /// </summary>

@@ -78,7 +78,6 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                 if (Mathf.Abs(transform.position.x - victim.transform.position.x) < minScareDistance)
                 {
                     float snapDirection = Mathf.Sign(transform.position.x - victim.transform.position.x);
-                    //transform.moveTowards2D((Vector2)victimInSight.transform.position + (Vector2.right * snapDirection * minScareDistance), scareShiftSpeed);
                     transform.position += Vector3.right * snapDirection * scareShiftSpeed * Time.deltaTime;
                 }
                 break;
@@ -95,7 +94,6 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         state = State.Victory;
 
         victim.scare(true, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
-        //Destroy(victimInSight.gameObject);
     }
     
     void loss()
@@ -111,7 +109,6 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         if (state == State.Loss)
         {
             shakeAmount *= screenShakeFailureMult;
-            //CameraShake.instance.shakeCoolRate *= screenShakeFailureMult;
             CameraShake.instance.shakeSpeed *= screenShakeFailureMult;
         }
         CameraShake.instance.setScreenShake(shakeAmount);
@@ -158,17 +155,6 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         kogasaAnimator.SetInteger("direction", direction);
     }
-
-    //bool isOnMovementSprite()
-    //{
-    //    foreach (Sprite sprite in kogasaMovementSprites)
-    //    {
-    //        if (spriteRenderer.sprite == sprite)
-    //            return true;
-    //    }
-    //    return false;
-    //}
-
 
     void OnTriggerEnter2D(Collider2D other)
     {

@@ -24,8 +24,6 @@ public class CharacterStage : Stage
         roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
-
-        //revisiting = false;
         revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
     }
 

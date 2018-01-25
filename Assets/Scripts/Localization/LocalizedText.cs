@@ -98,7 +98,7 @@ public class LocalizedText : MonoBehaviour
     /// <param name="key"></param>
     public void setKey(string key)
 	{
-		_key = key;
+		this._key = key;
 		updateText();
 	}
 
@@ -114,16 +114,6 @@ public class LocalizedText : MonoBehaviour
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
 		setText(value);
-
-        //if (limitSize != null)
-        //{
-        //    var component = GetComponent<TextLimitSize>();
-        //    component.updateScale();
-        //    //if (textComponent != null)
-        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
-        //    //else if (textMesh != null)
-        //    //    ((TextMeshLimitSize)limitSize).updateScale();
-        //}
     }
 
     public void updateFont()

@@ -156,14 +156,8 @@ public class WrenchTighten : MonoBehaviour
 
 	void snapWrench()
 	{
-
 		float increment = Mathf.PI / 3f, diff = ((getBoltRotation() % increment) - (getRotation() % increment));
-
-		//if (diff < 0f)
-		//	diff += increment;
-
 		setRotation(getRotation() + diff);
-
 	}
 
 	void updateScale()

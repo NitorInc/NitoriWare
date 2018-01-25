@@ -44,8 +44,6 @@ public class MasterSparkCodeCommandSequence : MonoBehaviour
     {
         InputSequence.Dequeue().SetPressed();
         Audio.Play();
-        //foreach (var c in InputSequence.ToList())
-        //    c.MoveSelf(-1.25f);
         if (!IsEmpty())
             InputSequence.Peek().ScaleSelf();
     }

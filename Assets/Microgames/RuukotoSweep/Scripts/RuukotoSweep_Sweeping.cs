@@ -15,7 +15,6 @@ public class RuukotoSweep_Sweeping : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         manageSweepMovement();
-
     }
 
     void manageSweepMovement()

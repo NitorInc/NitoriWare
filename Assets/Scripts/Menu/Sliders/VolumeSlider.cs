@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class VolumeSlider : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Slider slider;
     [SerializeField]

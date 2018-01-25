@@ -37,8 +37,6 @@ public static class PrefsHelper
 
     private static StoredPrefs loadPrefs()
     {
-        //setProgress(1); //Debug purposes;
-
         StoredPrefs newPrefs = new StoredPrefs();
         newPrefs.preferredLanguage = PlayerPrefs.GetString(PreferredLanguageKey, "");
         newPrefs.volumes = new float[volumeTypeCount];

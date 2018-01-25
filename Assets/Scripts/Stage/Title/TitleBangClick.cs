@@ -22,9 +22,6 @@ public class TitleBangClick : MonoBehaviour
 		animator = GetComponent<Animator>();
         if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
             activationTime = .01f;
-
-		//Camera.main.GetComponent<AudioSource>().time = 40f;
-
 	}
 
 	void Update ()
@@ -39,9 +36,7 @@ public class TitleBangClick : MonoBehaviour
             return;
 
 
-		float startTime = 3f / 60f,
-			duration = 15f / 60f;
-
+		float startTime = 3f / 60f, duration = 15f / 60f;
 		if (Input.GetMouseButtonDown(0))
 		{
 			if (CameraHelper.isMouseOver(_collider))

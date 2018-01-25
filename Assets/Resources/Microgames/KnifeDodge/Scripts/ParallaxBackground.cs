@@ -6,11 +6,6 @@ public class ParallaxBackground : MonoBehaviour {
 
 	public float speed = 1; // speed in meters per second
 
-	// Use this for initialization
-	void Start () {
-
-	}
-
 	void Update(){
 		// move this object at frame rate independent speed:
 		transform.position += new Vector3(1,0,0) * speed * Time.deltaTime;

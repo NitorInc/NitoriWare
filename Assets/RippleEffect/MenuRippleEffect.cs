@@ -53,8 +53,6 @@ public class MenuRippleEffect : MonoBehaviour
 
 		public void Reset(bool mousePosition)
 		{
-			//position = new Vector2(Random.value, Random.value);
-
             if (mousePosition)
             {
                 position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -72,8 +70,6 @@ public class MenuRippleEffect : MonoBehaviour
             position.x /= (Camera.main.orthographicSize * 8f / 3f);
             position.y += Camera.main.orthographicSize;
             position.y /= (Camera.main.orthographicSize * 2f);
-			//position.y = 1f - position.y;
-
 			time = 0;
 		}
 
@@ -134,7 +130,6 @@ public class MenuRippleEffect : MonoBehaviour
         if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
         {
             effectTime = .01f;
-            //dropTimer = dropInterval;
         }
     }
 

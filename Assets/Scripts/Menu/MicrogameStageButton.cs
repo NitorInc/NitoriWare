@@ -6,7 +6,7 @@ using UnityEngine;
 public class MicrogameStageButton : SceneButton
 {
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649	
     [SerializeField]
     private bool getIdFromName;
     [SerializeField]

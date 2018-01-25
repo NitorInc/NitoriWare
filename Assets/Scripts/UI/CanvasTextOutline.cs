@@ -1,6 +1,4 @@
-﻿//Found this online, modified it
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -35,15 +33,6 @@ public class CanvasTextOutline : MonoBehaviour
         {
             GameObject outline = new GameObject("Text Outline", typeof(Text));
 
-            //Renderer otherMeshRenderer = outline.GetComponent<Renderer>();
-            //otherMeshRenderer.material = new Material(textRenderer.material);
-            //otherMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            //otherMeshRenderer.receiveShadows = false;
-            //otherMeshRenderer.sortingLayerID = textRenderer.sortingLayerID;
-            //otherMeshRenderer.sortingLayerName = textRenderer.sortingLayerName;
-            //otherMeshRenderer.sortingOrder = textRenderer.sortingOrder;
-            //childMeshRenderers[i] = otherMeshRenderer;
-
             childTexts[i] = outline.GetComponent<Text>();
             RectTransform outlineTransform = outline.GetComponent<RectTransform>();
             outlineTransform.SetParent(transform.parent == null ? transform : transform.parent);
@@ -55,11 +44,7 @@ public class CanvasTextOutline : MonoBehaviour
             outlineTransform.pivot = rectTransform.pivot;
             updateAttributes = true;
         }
-        //Transform parent = transform.parent;
-
-        //Vector3 holdPosition = transform.localPosition;
         rectTransform.SetAsLastSibling();
-        //transform.localPosition = holdPosition;
     }
 
     public void LateUpdate()
@@ -107,7 +92,7 @@ public class CanvasTextOutline : MonoBehaviour
 
     float getFunctionalPixelSize()
     {
-        return pixelSize;// * 5f / Camera.main.orthographicSize;
+        return pixelSize;
     }
 
     Vector3 GetOffset(int i)

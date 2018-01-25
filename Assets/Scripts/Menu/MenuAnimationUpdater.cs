@@ -5,7 +5,7 @@ using UnityEngine;
 public class MenuAnimationUpdater : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Animator animator;
     [SerializeField]

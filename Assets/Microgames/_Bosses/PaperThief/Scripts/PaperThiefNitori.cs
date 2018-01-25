@@ -62,11 +62,11 @@ public class PaperThiefNitori : MonoBehaviour
 
 	public enum QueueAnimation
 	{
-		Idle,			//0
-		GetCucumber,	//1
-		GunRecoil,		//2
-		Shock,			//3
-		Confused		//4
+		Idle = 0,			
+		GetCucumber,	
+		GunRecoil,		
+		Shock,			
+		Confused		
 	}
 
 	void Awake()
@@ -112,24 +112,12 @@ public class PaperThiefNitori : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.G))
             {
                 MicrogameController.instance.displayCommand("send nudes");
-                //changeState(state == State.Gun ? State.Platforming : State.Gun);
             }
 
             if (Input.GetKeyDown(KeyCode.S))
                 Time.timeScale *= 4f;
             if (Input.GetKeyUp(KeyCode.S))
                 Time.timeScale /= 4f;
-            //else if (Input.GetKeyDown(KeyCode.T))
-            //{
-            //	//rigAnimator.Play("Hop");
-            //	queueAnimation(QueueAnimation.Confused);
-            //	//queueAnimation(QueueAnimation.Shock);
-            //	//queueAnimation(QueueAnimation.GetCucumber);
-            //}
-            //else if (Input.GetKeyDown(KeyCode.I))
-            //{
-            //	queueAnimation(QueueAnimation.Idle);
-            //}
         }
 
     }
@@ -139,7 +127,6 @@ public class PaperThiefNitori : MonoBehaviour
 		switch (state)
 		{
 			case (State.Platforming):
-				//PaperThiefCamera.instance.transform.parent = null;
 				PaperThiefCamera.instance.setGoalPosition(new Vector3(20f, 20f, 0f));
                 PaperThiefCamera.instance.setGoalSize(Camera.main.orthographicSize);
                 gunCursor.gameObject.SetActive(false);
@@ -152,15 +139,8 @@ public class PaperThiefNitori : MonoBehaviour
 
                 PaperThiefCamera.instance.startChase();
 
-                //sfxSource.volume = 1f;
                 sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-                //sfxSource.pitch = 1.25f * Time.timeScale;
                 sfxSource.PlayOneShot(gunEquipClip);
-                //PaperThiefCamera.instance.transform.parent = transform;
-                //PaperThiefCamera.instance.setFollow(null);
-                //PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
-                //PaperThiefCamera.instance.setGoalSize(6.5f);
-                //gunCursor.gameObject.SetActive(true);
                 break;
 			default:
 				break;

@@ -13,11 +13,6 @@ public class MasterSparkCode : MonoBehaviour {
     public GameObject MasterSparkFailure;
     public List<AudioSource> AudioSources;
 
-    void Start () {
-        //foreach (var a in AudioSources)
-        //    a.pitch = Time.timeScale;
-    }
-	
 	// Update is called once per frame
 	void Update () {
         if (!(MicrogameController.instance.getVictoryDetermined()))
@@ -46,8 +41,6 @@ public class MasterSparkCode : MonoBehaviour {
         }
         else
             SetFailure();
-
-
     }
 
     void SetVictory()

@@ -137,12 +137,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	private float getGearAngle(int beat)
 	{
-		//return beat == 0 ? 0 : (float)(7 - beat) * Mathf.PI * 3f / 8f;
-
 		float angle = Mathf.Lerp(0f, Mathf.PI * 24f * 8f / 7f, (float)beat / 8f);
-		//angle *= Mathf.PI / 8f;
-		//angle = Mathf.Floor(angle);
-		//angle /= Mathf.PI / 8f;
 		return angle;
 	}
 

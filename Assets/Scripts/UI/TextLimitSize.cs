@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public abstract class TextLimitSize : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Vector2 maxSize;
     [SerializeField]
@@ -52,7 +52,6 @@ public abstract class TextLimitSize : MonoBehaviour
             {
                 float mult = Mathf.Min(maxSize.x / resizedSize.x, maxSize.y / resizedSize.y);
                 setFontSize(Mathf.FloorToInt((float)getFontSize() * mult));
-                //Debug.Log(name + " fit");
                 resizedSize *= mult;
             }
             while (resizedSize.x > maxSize.x + .001f || resizedSize.y > maxSize.y + .001f);

@@ -30,18 +30,13 @@ public class Spider : MonoBehaviour
 		transform.localScale = Vector3.one;
 		food.GetComponent<ParticleSystem>().SetParticles(new ParticleSystem.Particle[0], 0);
 
-		//food.GetComponent<ParticleSystem>().emissionRate = 0f;
-
-
 		int tries = 100;
-
 		do
 		{
 			transform.parent.position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f), 0f);
 			tries--;
 		}
 		while (isInCenter(transform.position) && tries > 0);
-
 
 		if (tries <= 0)
 			Debug.Log("IT SIMPLY CANNOT BE DONE");
@@ -50,14 +45,9 @@ public class Spider : MonoBehaviour
 		{
 			tries--;
 			food.transform.position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f), food.transform.position.z);
-
-
-			//Debug.Log(((Vector2)transform.position - (Vector2)food.transform.position).magnitude);
 		}
 		while ((isInCenter(food.transform.position) || ((Vector2)transform.position - (Vector2)food.transform.position).magnitude < 4f)
 			&& tries > 0);
-
-
 
 		if (tries <= 0)
 			Debug.Log("IT SIMPLY CANNOT BE DONE");
@@ -77,7 +67,6 @@ public class Spider : MonoBehaviour
 			munch();
 		else
 			lookAtFood();
-
 	}
 
 	void munch()
@@ -123,17 +112,9 @@ public class Spider : MonoBehaviour
 
 			ParticleHelper.setEmissionRate(food.GetComponent<ParticleSystem>(), food.particleRate);
 
-			//food.GetComponent<ParticleSystem>().emission.rate = new ParticleSystem.MinMaxCurve(food.particleRate);
-
 			MicrogameController.instance.setVictory(true, true);
             confettiParticles.Play();
-
-            //feedSound.pitch = 1.1f * Time.timeScale;
-            //feedSound.Play();
             MicrogameController.instance.playSFX(victoryClip, 0f, 1f, .75f);
-
-			//CameraController.instance.setShakeCoolRate(0f);
-			//CameraController.instance.setScreenShake(1f);
 		}
 	}
 

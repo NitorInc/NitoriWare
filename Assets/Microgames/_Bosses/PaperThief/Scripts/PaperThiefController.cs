@@ -6,7 +6,7 @@ public class PaperThiefController : MonoBehaviour
 {
     public static PaperThiefController instance;
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649	
     [SerializeField]
     private Animator sceneAnimator;
     [SerializeField]
@@ -17,12 +17,12 @@ public class PaperThiefController : MonoBehaviour
 
     public enum Scene
     {
-        Idle,               //0
-        CucumberSteal,      //1
-        BeginChase,         //2
-        BeginFight,         //3
-        MarisaDeath,        //4
-        Victory             //5
+        Idle = 0,               
+        CucumberSteal,      
+        BeginChase,         
+        BeginFight,         
+        MarisaDeath,        
+        Victory             
     }
 
     void Awake()
@@ -65,8 +65,6 @@ public class PaperThiefController : MonoBehaviour
     public void zoomOutCamera()
     {
         PaperThiefCamera.instance.followNitori = false;
-
-        //PaperThiefCamera.instance.transform.parent = PaperThiefNitori.instance.transform;
         PaperThiefCamera.instance.setFollow(null);
         PaperThiefCamera.instance.setGoalPosition(PaperThiefNitori.instance.transform.position + new Vector3(5f, 6f, 0f));
         PaperThiefCamera.instance.setGoalSize(6.5f);

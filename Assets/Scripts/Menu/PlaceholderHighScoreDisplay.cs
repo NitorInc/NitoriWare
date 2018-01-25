@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlaceholderHighScoreDisplay : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Text scoreText;
 #pragma warning restore 0649

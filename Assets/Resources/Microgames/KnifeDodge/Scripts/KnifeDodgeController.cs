@@ -48,10 +48,8 @@ public class KnifeDodgeController : MonoBehaviour {
 			knifeTargetsList.Sort ((a, b) => 1 - 2 * Random.Range (0, 1));
 		}
 
-		//Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		for (int i = 0; i < knifeList.Count; i++) {
 			Vector3 pos = knifeTargetsList [i].transform.position;
-				//GetClosestTarget (knifeList [i].transform.position).transform.position;
 			knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
 		} 
 	}

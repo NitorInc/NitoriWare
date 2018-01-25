@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharacterSplashText : MonoBehaviour
 {
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649	
     [SerializeField]
     private Text[] lineTexts;
     [SerializeField]

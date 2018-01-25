@@ -5,7 +5,7 @@ using UnityEngine;
 public class RockBandAudienceMember : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private AnimationCurve hopCurve;
     [SerializeField]
@@ -92,8 +92,6 @@ public class RockBandAudienceMember : MonoBehaviour
                 hopHeightRandomBounds *= 1.5f;
                 flipCooldownBounds /= 2f;
                 flipCooldown /= 2f;
-                //if (Time.time - hopStartTime >= hopDuration)
-                //    resetHop();
                 victoryStatus = 1;
             }
             else

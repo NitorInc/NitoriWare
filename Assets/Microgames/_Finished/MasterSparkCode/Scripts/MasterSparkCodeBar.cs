@@ -6,7 +6,7 @@ using UnityEngine;
 public class MasterSparkCodeBar : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Camera _camera;
 #pragma warning restore 0649
@@ -17,18 +17,12 @@ public class MasterSparkCodeBar : MonoBehaviour
 	{
         if (_camera == null)
             _camera = transform.parent.GetComponent<Camera>();
-
-
-        //transform.position = _camera.transform.position;
-        //transform.rotation = _camera.transform.rotation;
         scaleMultVector = transform.lossyScale / _camera.orthographicSize;
 	}
 	
 	void LateUpdate()
 	{
         transform.localScale = scaleMultVector * _camera.orthographicSize;
-        //Debug.Log(transform.localScale);
-
     }
 
     float getScale()

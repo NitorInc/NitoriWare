@@ -32,7 +32,6 @@ namespace NitorInc.YuukaWater {
 
         // Update is called once per frame
         void Update() {
-            //var x = Input.GetAxis("Horizontal");
             float goalVel = 0f;
 
             if (movementEnabled)

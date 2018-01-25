@@ -63,17 +63,7 @@ public class PauseManager : MonoBehaviour
 		{
 			if (!paused)
 				pause();
-            //else
-            //	unPause();
-            //pauseTimer = Random.Range(.1f, .2f);
-        }
-        //else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
-        //{
-        //    //TODO make this a button function
-        //    if (paused)
-        //        quit();
-        //    SceneManager.LoadScene("Title");
-        //}
+      }
 	}
 
 	public void pause()
@@ -112,7 +102,6 @@ public class PauseManager : MonoBehaviour
 			pauseData.camColor = Camera.main.backgroundColor;
 			Camera.main.cullingMask = 0;
 			Camera.main.backgroundColor = Color.black;
-			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
 		}
         if (MicrogameTimer.instance != null)
 		    MicrogameTimer.instance.gameObject.SetActive(false);
@@ -164,7 +153,6 @@ public class PauseManager : MonoBehaviour
 			Camera.main.cullingMask = pauseData.camCullingMask;
 			Camera.main.backgroundColor = pauseData.camColor;
 			MicrogameController.instance.onUnPause.Invoke();
-			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)
             MicrogameTimer.instance.gameObject.SetActive(true);
