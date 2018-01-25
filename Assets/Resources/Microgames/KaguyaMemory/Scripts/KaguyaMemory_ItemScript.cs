@@ -10,12 +10,14 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     public GameObject wrongIndicator;
     public bool isMoving = false;
     public bool isCorrect = false;
+    public float initialScale;
 
     private Vector3 startingPosition;
     private bool isSelectable = false;
     private Rigidbody2D rb2d;
     private Quaternion defaultRotation;
     private bool isFinished = false;
+    private float appearDelay = 2.3f;
 
     [SerializeField]
     private AudioClip correctSound;
@@ -37,12 +39,17 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         {
             GetComponent<CircleCollider2D>().enabled = false;
         }
+        if (rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>() != null)
+        {
+            appearDelay = rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>().showDelay + 1.3f;
+        }
 
         defaultRotation = transform.rotation;
         GetComponent<Rigidbody2D>().gravityScale = 0;
+        initialScale = transform.localScale.x;
 
-        Invoke("obtainStartingPosition", 0.5f);
-        Invoke("appearSelectable", 2.3f);
+        Invoke("obtainStartingPosition", 0.01f);
+        Invoke("appearSelectable", appearDelay);
     }
 
     void OnMouseDown()
@@ -76,7 +83,11 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     void Update()
     {
-        
+        if (isSelectable && rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == false)
+        {
+            float scale = (1f + (Mathf.Sin(Time.time * 8f) / 5f)) * initialScale;
+            transform.localScale = new Vector3(scale, scale, 1f);
+        }
     }
 
     void appearSelectable()
