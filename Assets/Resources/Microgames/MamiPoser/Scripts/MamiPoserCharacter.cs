@@ -35,7 +35,16 @@ public class MamiPoserCharacter : MonoBehaviour {
 
     public MamiPoserController controller;
 
+    // Is this character Mamizou in disguise?
     public bool isDisguised { get; private set; }
+
+    // Is this character showing an expression for being clicked incorrectly?
+    public bool isChoseWrongExpression { get; private set; }
+
+    void Start()
+    {
+        isChoseWrongExpression = false;
+    }
 
     [System.Serializable]
     public class CharacterFeature
@@ -73,6 +82,8 @@ public class MamiPoserCharacter : MonoBehaviour {
     // Change the sprite into "chose wrong" expression
     public void ChoseWrong()
     {
+        isChoseWrongExpression = true;
+
         if (regularSprite)
             regularSprite.SetActive(false);
         if (wrongSprite)
