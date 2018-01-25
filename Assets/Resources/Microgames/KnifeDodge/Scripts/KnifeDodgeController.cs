@@ -6,13 +6,23 @@ public class KnifeDodgeController : MonoBehaviour {
 	List<GameObject> knifeList;
 	List<GameObject> knifeTargetsList;
 	public GameObject knifePrefab;
-	public GameObject reimuPrefab;
 	public GameObject knifeTargetPrefab;
 	public int numKnives = 14;
 	public float spawnDistance = 10.0f;
 	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
-	public bool tiltedKnives;
+	public bool tiltedKnives = true;
+	public bool tiltedKnivesRandomAngle = true;
+	public float tiltedKnivesAngle = 0;
+	public int tiltedKnivesNumZeroTilt = 4;
+
+
+	public enum KnifeDirections {
+		MINUS_ANGLE,
+		POSITIVE_ANGLES,
+		NUM_DIRECTIONS
+	}
+
 	// Use this for initialization
 	void Start () {
 		SpawnTargets ();
@@ -44,16 +54,46 @@ public class KnifeDodgeController : MonoBehaviour {
 			}
 		}			
 
-		if (tiltedKnives) {
-			knifeTargetsList.Sort ((a, b) => 1 - 2 * Random.Range (0, 1));
-		}
 
-		//Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		for (int i = 0; i < knifeList.Count; i++) {
-			Vector3 pos = knifeTargetsList [i].transform.position;
-				//GetClosestTarget (knifeList [i].transform.position).transform.position;
-			knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
-		} 
+		if (tiltedKnives) {
+
+			if (tiltedKnivesRandomAngle) {
+				// Set a random position on the ground instead of a fixed one
+
+				// A really hacky way to shuffle
+				knifeTargetsList.Sort ((a, b) => 1 - 2 * Random.Range (0, 1));
+				for (int i = 0; i < knifeList.Count; i++) {
+					Vector3 pos = knifeTargetsList [i].transform.position;
+					knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
+				} 
+			} else {
+				// Set a fixed one.
+				// A really hacky way to shuffle
+				knifeList.Sort ((a, b) => 1 - 2 * Random.Range (0, 1));
+
+				for (int i = 0; i < knifeList.Count; i++) {
+					int directionChoice = (int) Random.Range(0, (int)KnifeDirections.NUM_DIRECTIONS);
+					float angle = 180;
+
+					switch (directionChoice) {
+					case (int)KnifeDirections.MINUS_ANGLE:
+						angle = 360 - tiltedKnivesAngle;
+						break;
+					case (int)KnifeDirections.POSITIVE_ANGLES:
+						angle = tiltedKnivesAngle;
+						break;
+					}
+
+					if (i < tiltedKnivesNumZeroTilt) {
+						angle = 0;
+					}
+
+					Vector3 lDirection = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.down;
+					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection;
+					knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
+				} 
+			}
+		}
 	}
 
 	// Deletes targets to create a safe zone.
@@ -78,7 +118,7 @@ public class KnifeDodgeController : MonoBehaviour {
 		timeUntilStrike -= Time.deltaTime;
 		if (timeUntilStrike <= 0) {
 			foreach (GameObject knife in knifeList) {
-				knife.GetComponent<KnifeDodgeKnife> ().isMoving = true;
+				knife.GetComponent<KnifeDodgeKnife> ().SetMoving(true);
 			}
 		}
 
