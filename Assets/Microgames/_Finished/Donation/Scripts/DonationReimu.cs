@@ -3,93 +3,71 @@ using System.Collections;
 
 public class DonationReimu : MonoBehaviour
 {
-	public static int coinsInPlay;
+  public static int coinsInPlay;
 
-	public int position, minPosition, maxPosition;
-	public float minX, maxX, moveSpeed;
+  public int position, minPosition, maxPosition;
+  public float minX, maxX, moveSpeed;
 
-	private Rigidbody2D body;
+  private Rigidbody2D body;
 
-	public float progress;
+  public float progress;
 
-	public ObjectPool textPool;
+  public ObjectPool textPool;
 
-	void Awake()
-	{
-		body = GetComponent<Rigidbody2D>();
+  void Awake()
+  {
+    body = GetComponent<Rigidbody2D>();
+    textPool.addToPool(6, true);
+    reset();
+    coinsInPlay = 0;
+  }
 
-		textPool.addToPool(6, true);
+  public void reset()
+  {
+    position = 0;
+    updatePosition();
+    progress = 0;
+  }
 
-		reset();
-		coinsInPlay = 0;
+  void Update()
+  {
+    if (!MicrogameController.instance.getVictoryDetermined() && coinsInPlay == 0)
+      MicrogameController.instance.setVictory(false, true);
+    updateMovement();
+  }
 
-	}
+  public void grabCoin(Transform coin)
+  {
+    progress++;
+    coinsInPlay--;
+    if (progress == 3)
+    {
+      MicrogameController.instance.setVictory(true, true);
+    }
 
-	public void reset ()
-	{
-		//transform.position = new Vector3(0f, transform.position.y, transform.position.z);
-		position = 0;
-		updatePosition();
-		progress = 0;
-	}
+    DonationChing ching = textPool.getObjectFromPool().GetComponent<DonationChing>();
+    ching.pool = textPool;
+    ching.reset(coin.position);
+    ching.GetComponent<TextMesh>().text = progress.ToString();
+  }
 
-	void endEarly()
-	{
-		//ScenarioController.instance.setVictoryDetermined();
-	}
-	
-	void Update ()
-	{
-		//if (MicrogameTimer.beatsLeft <= 9.5f)
-		//{
-		//	//Debug.Log(MicrogameTimer.beatsLeft);
-		//	ScenarioController.instance.setMicrogameVictory(true, true);
-		//}
-		if (!MicrogameController.instance.getVictoryDetermined() && coinsInPlay == 0)
-			MicrogameController.instance.setVictory(false, true);
-		updateMovement();
-	}
+  void updateMovement()
+  {
+    if ((Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) || Input.GetKeyDown(KeyCode.RightArrow) && position < maxPosition)
+    {
+      position += (Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) ? -1 : 1;
+      updatePosition();
+    }
+    else
+    {
+      body.velocity = Vector2.zero;
+    }
+  }
 
-	public void grabCoin(Transform coin)
-	{
-		progress++;
-		coinsInPlay--;
-		if (progress == 3)
-		{
-			MicrogameController.instance.setVictory(true, true);
-		}
+  void updatePosition() => transform.position = new Vector3(position * 2f, transform.position.y, transform.position.z);
 
-		DonationChing ching = textPool.getObjectFromPool().GetComponent<DonationChing>();
-		ching.pool = textPool;
-		//ching.reset(transform.position + new Vector3(0f, .3f, 0f));
-		ching.reset(coin.position);
-		ching.GetComponent<TextMesh>().text = progress.ToString();
-	}
-
-	void updateMovement()
-	{
-		if ((Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) || Input.GetKeyDown(KeyCode.RightArrow) && position < maxPosition)
-		{
-			position+= (Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) ? -1 : 1;
-			updatePosition();
-			//if (transform.position.x < minX)
-			//	transform.position = new Vector3(minX, transform.position.y, transform.position.z);
-			//setFacingRight(false);
-			//body.velocity = new Vector2(-1f * moveSpeed, 0f);
-		}
-		else
-		{
-			body.velocity = Vector2.zero;
-		}
-	}
-
-	void updatePosition()
-	{
-		transform.position = new Vector3(position * 2f, transform.position.y, transform.position.z);
-	}
-
-	void setFacingRight(bool facingRight)
-	{
-			transform.localScale = new Vector3(facingRight ? Mathf.Abs(transform.localScale.x) : -Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-	}
+  void setFacingRight(bool facingRight)
+  {
+    transform.localScale = new Vector3(facingRight ? Mathf.Abs(transform.localScale.x) : -Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+  }
 }

@@ -19,8 +19,7 @@ namespace NitorInc.YuukaWater {
         public float leftXBound;
         public float rightXBound;
 
-        float lastDirection = 1.0f;
-        float vel = 0f;
+        float vel;
 
         bool movementEnabled = true;
 
@@ -33,7 +32,6 @@ namespace NitorInc.YuukaWater {
 
         // Update is called once per frame
         void Update() {
-            //var x = Input.GetAxis("Horizontal");
             float goalVel = 0f;
 
             if (movementEnabled)

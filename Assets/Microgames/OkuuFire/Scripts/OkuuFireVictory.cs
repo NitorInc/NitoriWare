@@ -7,8 +7,8 @@ public class OkuuFireVictory : MonoBehaviour
 
     void Start()
     {
-        this.victoryImage = this.GetComponent<SpriteRenderer>();
-        this.victoryImage.enabled = false;
+        victoryImage = GetComponent<SpriteRenderer>();
+        victoryImage.enabled = false;
         victorySource = GetComponent<AudioSource>();
     }
     

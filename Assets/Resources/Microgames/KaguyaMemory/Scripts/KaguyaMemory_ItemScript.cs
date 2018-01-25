@@ -15,7 +15,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     private bool isSelectable = false;
     private Rigidbody2D rb2d;
     private Quaternion defaultRotation;
-    private bool isFinished = false;
 
     [SerializeField]
     private AudioClip correctSound;
@@ -68,14 +67,8 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
             }
             theIndicator.transform.position = transform.position;
             rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished = true;
-            isFinished = true;
             isSelectable = false;
         }
-        
-    }
-
-    void Update()
-    {
         
     }
 

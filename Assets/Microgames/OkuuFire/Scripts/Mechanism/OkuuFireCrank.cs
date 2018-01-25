@@ -10,13 +10,13 @@ public class OkuuFireCrank : MonoBehaviour, IOkuuFireMechanism
 
     void Start()
     {
-        this.reach = 360 * this.rotations;
+        reach = 360 * rotations;
     }
     
     public void Move(float completion)
     {
-        float angle = this.reach * completion;
+        float angle = reach * completion;
         
-        this.transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

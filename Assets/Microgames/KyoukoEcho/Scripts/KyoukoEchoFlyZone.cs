@@ -10,12 +10,12 @@ public class KyoukoEchoFlyZone : MonoBehaviour
     
     public float UpperBoundY
     {
-        get { return this.upperBound.position.y; }
+        get { return upperBound.position.y; }
     }
 
     public float LowerBoundY
     {
-        get { return this.lowerBound.position.y; }
+        get { return lowerBound.position.y; }
     }
 
 }

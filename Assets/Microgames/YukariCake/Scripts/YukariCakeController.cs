@@ -15,12 +15,6 @@ public class YukariCakeController : MonoBehaviour {
     // Game Variables
     public bool IsVulnerable = false;
 
-	// Use this for initialization
-	void Start () {
-        //foreach (var a in AudioSources)
-        //    a.pitch = Time.timeScale;
-	}
-	
 	// Update is called once per frame
 	void Update () {
         
@@ -37,7 +31,6 @@ public class YukariCakeController : MonoBehaviour {
                 // Here comes the snatch sequence. Better not get caught.
 
                 YukariAnimator.SetBool("snatch", true);
-                //YukariAnimator.Play("YukariCakeYukariSnatch");
             }
         }
 	}
@@ -85,12 +78,10 @@ public class YukariCakeController : MonoBehaviour {
     public void PlayVictorySound()
     {
         YukariSource.PlayOneShot(YukariSoundVictory);
-        //Debug.Log("Woo!");
     }
 
     public void PlayFailureSound()
     {
         YukariSource.PlayOneShot(YukariSoundFail);
-        //Debug.Log(":(");
     }
 }

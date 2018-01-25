@@ -51,11 +51,6 @@ public class SuikaShakeSuika : MonoBehaviour
         vibrate.vibrateSpeed *= Random.Range(.5f, 1.5f);
     }
 
- //   void Update ()
-	//{
-		
-	//}
-
 	public void setHealth(float health, Vector2 velocity)
 	{
 		this.health = health;
@@ -76,9 +71,6 @@ public class SuikaShakeSuika : MonoBehaviour
             _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
 
 
-        //if (MathHelper.randomBool())
-        //    _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
-
 		_spriteRenderer.GetComponent<Vibrate>().vibrateOn = false;
 
         spriteRenderer.sprite = fallSprite;
@@ -86,13 +78,11 @@ public class SuikaShakeSuika : MonoBehaviour
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(15f, 30f));
-            //_rigidBody.AddTorque(Random.Range(50f, 150f));
         }
         else
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             transform.localRotation = Quaternion.Euler(0f, 0f, -Random.Range(15f, 30f));
-            //_rigidBody.AddTorque(-Random.Range(50f, 150f));
         }
         _rigidBody.AddTorque(15f + (30f * -_rigidBody.velocity.x * Random.Range(.5f, 1f)));
 

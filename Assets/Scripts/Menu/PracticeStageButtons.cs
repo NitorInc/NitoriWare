@@ -5,30 +5,31 @@ using UnityEngine;
 public class PracticeStageButtons : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
-    [SerializeField]
-    private MicrogameCollection.Restriction restriction;
-    [SerializeField]
-    private GameObject buttonPrefab;
-    [SerializeField]
-    private Vector2 topLeftPosition;
-    [SerializeField]
-    private float xSeparation, ySeparation;
-    [SerializeField]
-    private int buttonsPerRow;
+#pragma warning disable 0649
+  [SerializeField]
+  private MicrogameCollection.Restriction restriction;
+  [SerializeField]
+  private GameObject buttonPrefab;
+  [SerializeField]
+  private Vector2 topLeftPosition;
+  [SerializeField]
+  private float xSeparation, ySeparation;
+  [SerializeField]
+  private int buttonsPerRow;
 #pragma warning restore 0649
 
-	void Start()
-	{
-        List<Stage.Microgame> microgames = MicrogameHelper.getMicrogames(restriction);
-		for (int i = 0; i < microgames.Count; i++)
-        {
-            int column = i % buttonsPerRow, row = (i - column) / buttonsPerRow;
-            Vector2 position = topLeftPosition + new Vector2(column * xSeparation, row * -ySeparation);
+  void Start()
+  {
+    List<Stage.Microgame> microgames = MicrogameHelper.getMicrogames(restriction);
+    for (int i = 0; i < microgames.Count; i++)
+    {
+      int column = i % buttonsPerRow, row = (i - column) / buttonsPerRow;
+      Vector2 position = topLeftPosition + new Vector2(column * xSeparation, row * -ySeparation);
 
-            RectTransform rectTransform = Instantiate(buttonPrefab, transform).GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = position;
-            rectTransform.name = microgames[i].microgameId;
-        }
-	}
+      RectTransform rectTransform = Instantiate(buttonPrefab, transform).GetComponent<RectTransform>();
+      rectTransform.anchoredPosition = position;
+      rectTransform.name = microgames[i].microgameId;
+    }
+  }
+
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 /// YukariCakeReimu.cs
 /// The logic that facilitates Reimu's AI and movement...
 /// </summary>
-
 public class YukariCakeReimu : MonoBehaviour {
 
     public Animator Animator;
@@ -67,7 +66,6 @@ public class YukariCakeReimu : MonoBehaviour {
 
     public void ChangeState()
     {
-        //Debug.Log(string.Format("We're going to change state at {0}", MicrogameTimer.instance.beatsLeft));
         Animator.SetTrigger("changeState");
     }
 

@@ -16,10 +16,9 @@ public class DollDanceController: MonoBehaviour
 
     void Start()
     {
-        this.performance = FindObjectOfType<DollDancePerformance>();
-
+        performance = FindObjectOfType<DollDancePerformance>();
         // Find sequence object and begin the performance
-        this.performance.StartSequence(this.GetComponent<DollDanceSequence>());
+        performance.StartSequence(GetComponent<DollDanceSequence>());
     }
     
     public void Victory()
@@ -27,7 +26,7 @@ public class DollDanceController: MonoBehaviour
         MicrogameController.instance.setVictory(true, true);
 
         if (victoryEffects != null)
-            this.victoryEffects.SetActive(true);
+            victoryEffects.SetActive(true);
     }
 
     public void Defeat()
@@ -35,7 +34,7 @@ public class DollDanceController: MonoBehaviour
         MicrogameController.instance.setVictory(false, true);
 
         if (defeatEffects != null)
-            this.defeatEffects.SetActive(true);
+            defeatEffects.SetActive(true);
     }
 
 }

@@ -4,70 +4,58 @@ using System.Collections;
 public class DonationChing : MonoBehaviour
 {
 
-	public ObjectPool pool;
+  public ObjectPool pool;
 
-	new public AudioSource audio;
+  new public AudioSource audio;
 
-	public float initialScale, growSpeed, maxScale, fadeStartTime, fadeSpeed, ySpeed;
+  public float initialScale, growSpeed, maxScale, fadeStartTime, fadeSpeed, ySpeed;
 
-	public Vector2 xBounds, yBounds;
+  public Vector2 xBounds, yBounds;
 
-	private float scale, time, alpha;
-	private TextMesh mesh;
+  private float scale, time, alpha;
+  private TextMesh mesh;
 
-	void Start ()
-	{
-		mesh = GetComponent<TextMesh>();
-	}
+  void Start() => mesh = GetComponent<TextMesh>();
 
-	public void reset(Vector3 position)
-	{
+  public void reset(Vector3 position)
+  {
+    position += new Vector3(Random.Range(xBounds.x, xBounds.y), Random.Range(yBounds.x, yBounds.y), pool.prefab.transform.position.z);
+    transform.position = position;
 
-		position += new Vector3(Random.Range(xBounds.x, xBounds.y), Random.Range(yBounds.x, yBounds.y), pool.prefab.transform.position.z);
-		transform.position = position;
+    time = 0f;
+    alpha = 1f;
+    scale = initialScale;
 
-		//audio.pitch = Time.timeScale;
-		//audio.Play();
+    transform.position = new Vector3(transform.position.x, transform.position.y, -5f);
+  }
 
-		time = 0f;
-		alpha = 1f;
-		scale = initialScale;
+  void Update()
+  {
+    time += Time.deltaTime;
+    if (scale < maxScale)
+    {
+      scale += growSpeed * Time.deltaTime;
+    }
+    scale = Mathf.Min(scale, maxScale);
 
-		transform.position = new Vector3(transform.position.x, transform.position.y, -5f);
-	}
+    if (time >= fadeStartTime)
+    {
+      alpha -= fadeSpeed * Time.deltaTime;
+      if (alpha <= 0f)
+      {
+        pool.poolObject(gameObject);
+      }
+    }
+    updateAppearance();
+    transform.position += new Vector3(0f, ySpeed, .05f) * Time.deltaTime;
+  }
 
-	
-	void Update ()
-	{
-		time += Time.deltaTime;
-
-		if (scale < maxScale)
-		{
-			scale += growSpeed * Time.deltaTime;
-		}
-		scale = Mathf.Min(scale, maxScale);
-
-		if (time >= fadeStartTime)
-		{
-			alpha -= fadeSpeed * Time.deltaTime;
-			if (alpha <= 0f)
-			{
-				pool.poolObject(gameObject);
-			}
-		}
-
-		updateAppearance();
-
-		transform.position += new Vector3(0f, ySpeed , .05f) * Time.deltaTime;
-
-	}
-
-	void updateAppearance()
-	{
-		transform.localScale = new Vector3(scale, scale, transform.localScale.z);
-		Color color = mesh.color;
-		color.a = alpha;
-		mesh.color = color;
-	}
+  void updateAppearance()
+  {
+    transform.localScale = new Vector3(scale, scale, transform.localScale.z);
+    Color color = mesh.color;
+    color.a = alpha;
+    mesh.color = color;
+  }
 
 }

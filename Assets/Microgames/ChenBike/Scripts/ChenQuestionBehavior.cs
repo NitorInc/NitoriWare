@@ -2,38 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChenQuestionBehavior : MonoBehaviour {
+public class ChenQuestionBehavior : MonoBehaviour
+{
 
-    public Animator questionAnimator;
+  public Animator questionAnimator;
 
-	// Use this for initialization
-	void Start () {
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        questionAnimator = GetComponent<Animator>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+  // Use this for initialization
+  void Start()
+  {
+    gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    questionAnimator = GetComponent<Animator>();
+  }
 
-    void OnTriggerEnter2D(Collider2D other)
+  void OnTriggerEnter2D(Collider2D other) => collide(other);
+
+  void OnTriggerStay2D(Collider2D other) => collide(other);
+
+  void collide(Collider2D other)
+  {
+    if (other.name == "ChenHonk")
     {
-        collide(other);
+      gameObject.GetComponent<SpriteRenderer>().enabled = true;
+      questionAnimator.enabled = true;
+      questionAnimator.Play("QuestionAnimation");
     }
+  }
 
-    void OnTriggerStay2D(Collider2D other)
-    {
-        collide(other);
-    }
-
-    void collide(Collider2D other)
-    {
-        if (other.name == "ChenHonk")
-        {
-            gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            questionAnimator.enabled = true;
-            questionAnimator.Play("QuestionAnimation");
-        }
-    }
 }

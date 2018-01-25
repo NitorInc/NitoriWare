@@ -5,21 +5,18 @@ using UnityEngine.UI;
 
 public class SplashLanguageWarning : MonoBehaviour
 {
-    private Text textComponent;
+  private Text textComponent;
 
-	void Awake()
+  void Awake() => textComponent = GetComponent<Text>();
+
+  void Update()
+  {
+    var language = TextHelper.getLoadedLanguage();
+    if (!string.IsNullOrEmpty(language.getLanguageID()) && language.incomplete)
     {
-        textComponent = GetComponent<Text>();
-	}
-	
-	void Update()
-    {
-        var language = TextHelper.getLoadedLanguage();
-        if (!string.IsNullOrEmpty(language.getLanguageID()) && language.incomplete)
-        {
-            textComponent.enabled = true;
-            enabled = false;
-        }
-            
-	}
+      textComponent.enabled = true;
+      enabled = false;
+    }
+  }
+
 }

@@ -44,7 +44,6 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void Awake()
 	{
-        //faceRenderer = face.GetComponent<SpriteRenderer>();
         burpParticlesModule = burpParticles.main;
         particlesModule = particles.main;
 	}
@@ -83,8 +82,6 @@ public class GhostFoodYuyuko : MonoBehaviour
 		}
 		setFacingRight(transform.position.x < 0f);
 		body.transform.rotation = transform.position.x < 0f ? Quaternion.Euler(0f, 0f, -0.5f * Mathf.Rad2Deg) : Quaternion.Euler(0f, 0f, 0.5f * Mathf.Rad2Deg);
-		//animator.playbackTime = 1f;
-		//animator.enabled = false;
 
 		headVibrate.vibrateOn = false;
 		setScale(initialScale);
@@ -156,11 +153,9 @@ public class GhostFoodYuyuko : MonoBehaviour
 		MicrogameController.instance.setVictory(true, true);
 		state = State.Full;
 
-        //animator.SetBool("victory", true);
         sweatAnimator.SetInteger("state", 2);
         animator.enabled = false;
         face.transform.parent.localScale = Vector3.one;
-		//joint.useMotor = false;
 		headVibrate.vibrateOn = true;
 		distanceToCenter = ((Vector2)transform.position).magnitude;
 
@@ -190,11 +185,8 @@ public class GhostFoodYuyuko : MonoBehaviour
 				{
                     CancelInvoke();
                     sweatAnimator.SetInteger("state", 0);
-                    //Debug.Log(animator.GetTime());
-                    //animator.SetTime(0f);
                     animator.Rebind();
 					animator.Play("Chew", -1, 0f);
-					//Debug.Log(animator.GetTime());
 					chewsLeft--;
 					audioSource.PlayOneShot(chewClip);
 					audioSource.pitch = Time.timeScale * Random.Range(.9f, 1f);
@@ -205,7 +197,6 @@ public class GhostFoodYuyuko : MonoBehaviour
 					}
 					else
 					{
-						//Invoke("spitParticles", 1f / 12f);
                         Invoke("sweat", sweatStartTime);
                     }
 				}
@@ -253,21 +244,11 @@ public class GhostFoodYuyuko : MonoBehaviour
 		{
 			setFacingRight(true);
 		}
-
-
-		//updateBodyRotation();
-
-
 	}
 
 	void updateBodyRotation()
 	{
 		float speed = (transform.position.x - lastMousePosition.x) / Time.deltaTime;
-		//	, angle = body.localRotation.eulerAngles.z;
-		//if (angle > 180f)
-		//	angle -= 360f;
-		//angle *= -1f;
-
 		float zRotation = body.transform.eulerAngles.z + (-1f * speed * motorSpeedMult * Time.deltaTime);
 		if (zRotation > 180f)
 			zRotation -= 360f;
@@ -286,16 +267,9 @@ public class GhostFoodYuyuko : MonoBehaviour
 	{
 		Vector3 scale = new Vector3(facingRight ? -1f : 1f, 1f, 1f);
 		body.transform.localScale = scale;
-		//Debug.Log(chewsLeft);
 		face.transform.localScale = scale * Mathf.Lerp(1f, 1.3f, (float)chewsLeft / 9f);
-
-        //burp.transform.localRotation = Quaternion.EulerAngles(0f, facingRight ? 0f : 180f, 0f);
-        //burp.transform.localScale = new Vector3(facingRight ? 1f : -1f, 1f, 1f);
-
         sweatAnimator.transform.localScale = new Vector3(facingRight ? -1f : 1f, 1f, 1f);
 		burpParticlesModule.startRotation = facingRight ? 0f : Mathf.PI;
-		//Debug.Log((float)chewsLeft / 6f);
-		//Debug.Log(face.transform.localScale);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

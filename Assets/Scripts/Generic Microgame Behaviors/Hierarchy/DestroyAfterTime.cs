@@ -4,13 +4,13 @@ using System.Collections;
 public class DestroyAfterTime : MonoBehaviour
 {
 
-	public float lifetime;
-	
-	void Update ()
-	{
+  public float lifetime;
 
-		lifetime -= Time.deltaTime;
-		if (lifetime <= 0f)
-			Destroy(gameObject);
-	}
+  void Update()
+  {
+    lifetime -= Time.deltaTime;
+    if (lifetime <= 0f)
+      Destroy(gameObject);
+  }
+
 }

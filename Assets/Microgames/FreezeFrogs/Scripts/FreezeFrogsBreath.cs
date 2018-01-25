@@ -17,39 +17,14 @@ public class FreezeFrogsBreath : MonoBehaviour
 
 	private float fireTime;
 
-	void Awake()
-	{
-		//createPool();
-
-	}
-
 	void Start()
 	{
 		reset();
 	}
 
-	//public void createPool()
-	//{
-
-	//	//Debug.Log("FreezeFrogs Awakening");
-	//	if ((pool.parentObject != null && pool.parentObject.childCount == 0) || pool.transform.childCount == 0)
-	//	{
-	//		for (int i = 0; i < poolSize; i++)
-	//		{
-	//			GameObject ice = GameObject.Instantiate((Object)prefab, transform.position, Quaternion.identity) as GameObject;
-	//			pool.poolObject(ice);
-	//		}
-	//		//Debug.Log("FreezeFrogs pool created");
-	//	}
-	//}
-
 	public void reset()
 	{
 		fireTime = 0f;
-
-		//particles.Stop();
-		//particles.Play();
-		//particles.SetParticles(new ParticleSystem.Particle[0], 0);
 
 		int tries = 100;
 		while (parentObject.childCount > 0 && tries > 0)
@@ -99,9 +74,7 @@ public class FreezeFrogsBreath : MonoBehaviour
 		breathParticle.transform.Translate(spawnOffset, transform);
 		breathParticle.name = "Breath";
 		breathParticle.GetComponent<Rigidbody2D>().velocity = MathHelper.getVector2FromAngle(getAngle(), fireSpeed);
-		//breathParticle.GetComponent<PoolAfterTime>().initiate(lifetime, pool);
 		breathParticle.transform.parent = parentObject;
-
 	}
 
 	public float getAngle()

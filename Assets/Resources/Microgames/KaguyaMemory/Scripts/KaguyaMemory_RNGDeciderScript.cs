@@ -16,7 +16,6 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
     private AudioClip whooshSound;
 
     private GameObject chosenItem;
-    private int timer1 = 0;
 
     void Start()
     {

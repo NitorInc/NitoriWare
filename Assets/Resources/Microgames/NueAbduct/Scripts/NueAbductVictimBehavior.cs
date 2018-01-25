@@ -128,7 +128,7 @@ namespace NitorInc.NueAbduct {
         void OnTriggerEnter2D(Collider2D other) {
             if (other.GetComponentInChildren<NueAbductVictimBehavior>() == null) {
                 if (currState == State.Sucked) {
-                    Destroy(this.gameObject);
+                    Destroy(gameObject);
                 } else if (!other.name.Contains("Succ")) {
                     SetState(State.Sucking);
                 }

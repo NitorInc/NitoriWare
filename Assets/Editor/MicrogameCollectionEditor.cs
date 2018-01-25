@@ -6,14 +6,15 @@ using UnityEditor;
 [CustomEditor(typeof(MicrogameCollection))]
 public class MicrogameCollectionEditor : Editor
 {
-	public override void OnInspectorGUI()
-	{
-		MicrogameCollection collection = (MicrogameCollection)target;
-		if (GUILayout.Button("Update Microgames"))
-		{
-			collection.updateMicrogames();
-		}
-		DrawDefaultInspector();
-	}
+
+  public override void OnInspectorGUI()
+  {
+    MicrogameCollection collection = (MicrogameCollection)target;
+    if (GUILayout.Button("Update Microgames"))
+    {
+      collection.updateMicrogames();
+    }
+    DrawDefaultInspector();
+  }
 
 }

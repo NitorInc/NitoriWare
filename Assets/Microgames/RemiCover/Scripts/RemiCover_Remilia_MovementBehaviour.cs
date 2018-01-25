@@ -42,9 +42,9 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
 
     void Start()
     {
-        this.totalProbabilityValue = standProbability + walkProbability + runningProbabilty + teleportProbability;
-        this.animator = GetComponent<Animator>();
-        this.healthScript = GetComponent<RemiCover_Remi_HealthBehaviour>();
+        totalProbabilityValue = standProbability + walkProbability + runningProbabilty + teleportProbability;
+        animator = GetComponent<Animator>();
+        healthScript = GetComponent<RemiCover_Remi_HealthBehaviour>();
         setInitialPosition();
         setInitialMovement((int)movements.STAND, initialMovementDuration);
     }
@@ -61,8 +61,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
 
         }
     }
-
-
 
     // Perform the current movement selected. If no movement is selected, then choose randomly a movement to perform.
     private void moveCharacter()
@@ -84,7 +82,6 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Perform the currently selected movement
     private void performMovement()
     {
-
         updateMovementAnimation();
 
         switch (currentMovementSelection)
@@ -107,23 +104,21 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         }
 
         updateMovementTimer();
-
     }
 
     /// Perform Walking Movement
     private void performWalkMovement()
     {
         var move = obtainMovementVector3();
-        this.transform.position = this.transform.position + (move * this.walkingSpeed * Time.deltaTime);
-        this.currentSpeed = walkingSpeed;
+        transform.position = transform.position + (move * walkingSpeed * Time.deltaTime);
+        currentSpeed = walkingSpeed;
         changeDirectionOnLimit();
-
     }
 
     // Perform Standing Movement
     private void performStandingMovement()
     {
-        this.currentSpeed = 0;
+        currentSpeed = 0;
     }
 
     // Perform Running movement
@@ -132,10 +127,10 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
         var move = obtainMovementVector3();
 
         if (currentSpeed == 0)
-            this.currentSpeed = walkingSpeed;
+            currentSpeed = walkingSpeed;
         else if (currentSpeed < runningSpeed)
-            this.currentSpeed += accelerationFactor;
-        this.transform.position = transform.position + (move * currentSpeed * Time.deltaTime);
+            currentSpeed += accelerationFactor;
+        transform.position = transform.position + (move * currentSpeed * Time.deltaTime);
 
         changeDirectionOnLimit();
     }
@@ -194,7 +189,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
             Invoke("stopImmunity", teleportImmunityDelay);
 
         resetMovementSelectionParameters();
-        this.currentSpeed = 0;
+        currentSpeed = 0;
 
 
     }
@@ -207,16 +202,16 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Check if gameobject needs to be fliped in order to face the current movement direction.
     private bool DoesItNeedsToFlip()
     {
-        return (this.currentMovementDirection == (int)movementDirections.RIGHT && facingRight == false) || (this.currentMovementDirection == (int)movementDirections.LEFT && facingRight == true);
+        return (currentMovementDirection == (int)movementDirections.RIGHT && facingRight == false) || (currentMovementDirection == (int)movementDirections.LEFT && facingRight == true);
     }
 
     // Change movement direction if object reachs the left or right limits.
     private void changeDirectionOnLimit()
     {
-        if (this.transform.position.x <= leftLimit)
-            this.currentMovementDirection = (int)movementDirections.RIGHT;
-        else if (this.transform.position.x >= rightLimit)
-            this.currentMovementDirection = (int)movementDirections.LEFT;
+        if (transform.position.x <= leftLimit)
+            currentMovementDirection = (int)movementDirections.RIGHT;
+        else if (transform.position.x >= rightLimit)
+            currentMovementDirection = (int)movementDirections.LEFT;
         if (DoesItNeedsToFlip()) flipHorizontally();
     }
 
@@ -224,7 +219,7 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     private Vector3 obtainMovementVector3()
     {
         var move = new Vector3(0, 0, 0);
-        switch (this.currentMovementDirection)
+        switch (currentMovementDirection)
         {
             case (int)movementDirections.LEFT:
                 move = new Vector3(-1, 0, 0);
@@ -240,14 +235,14 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Flip gameobject Horizontally
     private void flipHorizontally()
     {
-        this.transform.Rotate(new Vector3(0, 180, 0));
+        transform.Rotate(new Vector3(0, 180, 0));
         facingRight = !facingRight;
     }
 
     // Limit character´s movement according to left and right limit
     private void limitMovement()
     {
-        this.transform.position = new Vector2(Mathf.Clamp(leftLimit, this.transform.position.x, rightLimit), this.transform.position.y);
+        transform.position = new Vector2(Mathf.Clamp(leftLimit, transform.position.x, rightLimit), transform.position.y);
     }
 
     // Generate a random movement direction selection ( 0 -> LEFT, 1 -> RIGHT )
@@ -316,9 +311,9 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Set the initial movement and the time for which is going to make that movement
     private void setInitialMovement(int movement, float timer)
     {
-        this.currentMovementSelection = movement;
-        this.movementTimer = timer;
-        this.previousMovementSelection = (int)movements.NONE;
+        currentMovementSelection = movement;
+        movementTimer = timer;
+        previousMovementSelection = (int)movements.NONE;
     }
 
     // Check if Walk movement has been selected. 

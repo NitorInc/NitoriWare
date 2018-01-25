@@ -6,38 +6,26 @@ using UnityEngine;
 public class MasterSparkCodeBar : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
-    [SerializeField]
-    private Camera _camera;
+#pragma warning disable 0649
+  [SerializeField]
+  private Camera _camera;
 #pragma warning restore 0649
 
-    private Vector3 scaleMultVector;
+  private Vector3 scaleMultVector;
 
-	void Start()
-	{
-        if (_camera == null)
-            _camera = transform.parent.GetComponent<Camera>();
+  void Start()
+  {
+    if (_camera == null)
+      _camera = transform.parent.GetComponent<Camera>();
+    scaleMultVector = transform.lossyScale / _camera.orthographicSize;
+  }
 
+  void LateUpdate() => transform.localScale = scaleMultVector * _camera.orthographicSize;
 
-        //transform.position = _camera.transform.position;
-        //transform.rotation = _camera.transform.rotation;
-        scaleMultVector = transform.lossyScale / _camera.orthographicSize;
-	}
-	
-	void LateUpdate()
-	{
-        transform.localScale = scaleMultVector * _camera.orthographicSize;
-        //Debug.Log(transform.localScale);
+  float getScale() => transform.position.x;
 
-    }
+  void setScale(float scale)
+  {
 
-    float getScale()
-    {
-        return transform.position.x;
-    }
-
-    void setScale(float scale)
-    {
-
-    }
+  }
 }

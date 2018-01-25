@@ -5,25 +5,25 @@ using UnityEngine;
 public class MenuController : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
-    [SerializeField]
-    private Animator[] animators;
+#pragma warning disable 0649
+  [SerializeField]
+  private Animator[] animators;
 #pragma warning restore 0649
 
-    [SerializeField]
-    private bool _transitioning;
-    public bool transitioning
+  [SerializeField]
+  private bool _transitioning;
+  public bool transitioning
+  {
+    get { return _transitioning; }
+    set { _transitioning = value; }
+  }
+
+  public void shiftMenu(int menu)
+  {
+    foreach (Animator animator in animators)
     {
-        get {return _transitioning; }
-        set { _transitioning = value; }
+      animator.SetInteger("menu", menu);
     }
-	
-    public void shiftMenu(int menu)
-    {
-        foreach (Animator animator in animators)
-        {
-            animator.SetInteger("menu", menu);
-        }
-        _transitioning = true;
-    }
+    _transitioning = true;
+  }
 }

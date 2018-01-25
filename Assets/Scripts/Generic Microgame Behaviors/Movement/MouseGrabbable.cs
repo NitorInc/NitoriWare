@@ -4,84 +4,81 @@ using System.Collections;
 
 public class MouseGrabbable : MonoBehaviour
 {
-	public bool centerOnCursor, disableOnVictory, disableOnLoss;
-    public LayerMask layerMask = Physics2D.DefaultRaycastLayers;
-    public UnityEvent onGrab, onRelease;
-	public Collider2D _collider2D;
+  public bool centerOnCursor, disableOnVictory, disableOnLoss;
+  public LayerMask layerMask = Physics2D.DefaultRaycastLayers;
+  public UnityEvent onGrab, onRelease;
+  public Collider2D _collider2D;
 
-	private Vector2 grabOffset;
-	private Renderer _renderer;
-	private bool _grabbed = false;
+  private Vector2 grabOffset;
+  private Renderer _renderer;
+  private bool _grabbed = false;
 
-	public bool grabbed
-	{
-		get { return _grabbed; }
-		set
-		{
-			_grabbed = value;
-			if (_grabbed)
-			{
-				grabOffset = (Vector2)transform.position - (Vector2)CameraHelper.getCursorPosition();
-				onGrab.Invoke();
-			}
-			else
-				onRelease.Invoke();
-		}
-	}
-
-	void Awake ()
+  public bool grabbed
+  {
+    get { return _grabbed; }
+    set
     {
-        if (_collider2D == null)
-            _collider2D = GetComponent<Collider2D>();
-		_renderer = GetComponentInChildren<Renderer>();
-	}
-	
-	void Update ()
-	{
-		if (MicrogameController.instance != null && MicrogameController.instance.getVictoryDetermined())
-		{
-			if ((disableOnVictory && MicrogameController.instance.getVictory()) || (disableOnLoss && !MicrogameController.instance.getVictory()))
-			{
-				enabled = false;
-				return;
-			}
-		}
+      _grabbed = value;
+      if (_grabbed)
+      {
+        grabOffset = (Vector2)transform.position - (Vector2)CameraHelper.getCursorPosition();
+        onGrab.Invoke();
+      }
+      else
+        onRelease.Invoke();
+    }
+  }
 
-		if (_collider2D == null)
-			return;
+  void Awake()
+  {
+    if (_collider2D == null)
+      _collider2D = GetComponent<Collider2D>();
+    _renderer = GetComponentInChildren<Renderer>();
+  }
 
-		updateStatus();
+  void Update()
+  {
+    if (MicrogameController.instance != null && MicrogameController.instance.getVictoryDetermined())
+    {
+      if ((disableOnVictory && MicrogameController.instance.getVictory()) || (disableOnLoss && !MicrogameController.instance.getVictory()))
+      {
+        enabled = false;
+        return;
+      }
+    }
 
-		if (grabbed)
-			updateGrab();
-	}
+    if (_collider2D == null)
+      return;
 
-	void updateGrab()
-	{
-		Vector3 position = CameraHelper.getCursorPosition();
-		if (!centerOnCursor)
-			position += (Vector3)grabOffset;
-		position.z = transform.position.z;
-		transform.position = position;
-	}
+    updateStatus();
 
-	void updateStatus()
-	{
-		if (!grabbed)
-		{
-			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, float.PositiveInfinity, layerMask))
-				grabbed = true;
-		}
-		else
-		{
-			if (!Input.GetMouseButton(0))
-				grabbed = false;
-		}
-		
-	}
+    if (grabbed)
+      updateGrab();
+  }
 
-	public Renderer getRenderer()
-	{
-		return _renderer;
-	}
+  void updateGrab()
+  {
+    Vector3 position = CameraHelper.getCursorPosition();
+    if (!centerOnCursor)
+      position += (Vector3)grabOffset;
+    position.z = transform.position.z;
+    transform.position = position;
+  }
+
+  void updateStatus()
+  {
+    if (!grabbed)
+    {
+      if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, float.PositiveInfinity, layerMask))
+        grabbed = true;
+    }
+    else
+    {
+      if (!Input.GetMouseButton(0))
+        grabbed = false;
+    }
+
+  }
+
+  public Renderer getRenderer() => _renderer;
 }

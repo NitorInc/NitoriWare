@@ -9,7 +9,6 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
     public float movementSpeed = 4.0f;
 
     private int phase = 0;
-    private bool exiting = false;
     private Rigidbody2D rb2d;
 
     [SerializeField]

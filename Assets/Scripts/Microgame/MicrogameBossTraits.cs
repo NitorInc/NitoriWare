@@ -6,15 +6,13 @@ public class MicrogameBossTraits : MicrogameTraits
 {
 
 #pragma warning disable 0649
-    [SerializeField]
-	private float _victoryEndBeats, _failureEndBeats;
+  [SerializeField]
+  private float _victoryEndBeats, _failureEndBeats;
 #pragma warning disable 0649
 
-    public override float getDurationInBeats()
-	{
-		return float.PositiveInfinity;
-	}
+  public override float getDurationInBeats() => float.PositiveInfinity;
 
-	public float victoryEndBeats{ get { return _victoryEndBeats; } set { } }
-	public float failureEndBeats { get { return _failureEndBeats; } set { } }
+  public float victoryEndBeats => _victoryEndBeats;
+  public float failureEndBeats => _failureEndBeats;
+
 }

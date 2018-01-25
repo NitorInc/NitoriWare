@@ -13,16 +13,16 @@ public class HecShapesHolder : MonoBehaviour
 
     public HecShapesSlottable.Shape SlotShape
     {
-        set { this.slotShape = value; }
+        set { slotShape = value; }
     }
 
     public HecShapesSlottable.Shape ShapeInSlot
     {
-        get { return this.shapeInSlot; }
+        get { return shapeInSlot; }
 
         set
         {
-            this.shapeInSlot = value;
+            shapeInSlot = value;
             if (value != HecShapesSlottable.Shape.none)
                 onFill.Invoke();
         }
@@ -30,17 +30,17 @@ public class HecShapesHolder : MonoBehaviour
 
     public Vector2 SnapPosition
     {
-        get { return this.snapPoint.transform.position; }
+        get { return snapPoint.transform.position; }
     }
 
     public bool Filled
     {
-        get { return this.shapeInSlot != HecShapesSlottable.Shape.none; }
+        get { return shapeInSlot != HecShapesSlottable.Shape.none; }
     }
 
     public bool Valid
     {
-        get { return this.shapeInSlot == this.slotShape; }
+        get { return shapeInSlot == slotShape; }
     }
 
 }
