@@ -19,27 +19,25 @@ public class MamiPoserController : MonoBehaviour {
     [SerializeField]
     private GameObject smokePrefab;
 
-    [Header("Number of character copies to be spawned")]
+    [Header("Spawners to spawn characters in")]
     [SerializeField]
-    private int characterSpawnNumber;
-
-    [Header("X coordinate bounds for spawned characters")]
-    [SerializeField]
-    private float leftBound = -20.0f/3, rightBound = 20.0f/3;
-
-    [Header("Y coordinate for spawned characters")]
-    [SerializeField]
-    private float yCoordinate = -5f;
+    private MamiPoserSpawner[] spawners;
 
     [Header("Delay before Mamizou's sprite appears after clicking")]
     [SerializeField]
     private float mamizouAppearDelay = 0f;
+
+    // Number of character copies to be spawned
+    private int characterSpawnNumber = 0;
 
     // Randomly chosen character to be cloned
     private MamiPoserCharacter chosenCharacterPrefab;
 
     // Which of the clones is Mamizou?
     private int mamizouIndex;
+
+    // Parent objects for created characters (used for positioning)
+    private List<Transform> characterSlots;
 
     // All created cloned characters
     private List<MamiPoserCharacter> createdCharacters;
@@ -50,17 +48,18 @@ public class MamiPoserController : MonoBehaviour {
     // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
 
-    // Returns coordinates where the character with the given index should appear
-    // Positions are on a horizontal line with equal distance between them
-    private Vector2 CharacterPosition(int index)
-    {
-        print("X position for clone number " + index + ": " + (leftBound + (1 + 2 * index) * (rightBound - leftBound) / (2 * characterSpawnNumber)));
-        return new Vector2(leftBound + (1 + 2 * index) * (rightBound - leftBound) / (2 * characterSpawnNumber), yCoordinate);
-    }
-
     // Setup the microgame
     void Start()
     {
+        // Calculate how many characters to spawn by adding numbers from spawners
+        // and create slots to spawn them in
+        characterSlots = new List<Transform>();
+        foreach (MamiPoserSpawner spawner in spawners)
+        {
+            characterSpawnNumber += spawner.characterSpawnNumber;
+            characterSlots.AddRange(spawner.CreateSlots());
+        }
+
         // Determine which character to use and which of the copies is Mamizou
         chosenCharacterPrefab = characterPrefabs[Random.Range(0, characterPrefabs.Length)];
         print("Chosen character prefab: " + chosenCharacterPrefab);
@@ -71,7 +70,8 @@ public class MamiPoserController : MonoBehaviour {
         createdCharacters = new List<MamiPoserCharacter>();
         for (int i = 0; i < characterSpawnNumber; i++)
         {
-            MamiPoserCharacter newCharacter = Instantiate(chosenCharacterPrefab, CharacterPosition(i), Quaternion.identity);
+            MamiPoserCharacter newCharacter = Instantiate(chosenCharacterPrefab, Vector2.zero, Quaternion.identity);
+            newCharacter.GetComponent<Transform>().SetParent(characterSlots[i], false);
             createdCharacters.Add(newCharacter);
             newCharacter.controller = this;
             if (i == mamizouIndex)
@@ -87,9 +87,11 @@ public class MamiPoserController : MonoBehaviour {
     public void CharacterClicked(MamiPoserCharacter clickedCharacter)
     {
         // Play the smoke effect
-        Instantiate(smokePrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        GameObject smoke = Instantiate(smokePrefab, Vector2.zero, Quaternion.identity);
+        smoke.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
         // Spawn the real Mamizou - hidden for now
-        mamizou = Instantiate(mamizouPrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
+        mamizou = Instantiate(mamizouPrefab, Vector2.zero, Quaternion.identity);
+        mamizou.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
         mamizou.gameObject.SetActive(false);
         // Delay the sprite switch so it happens when the sprite is covered in smoke
         mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
