@@ -7,7 +7,7 @@ public class TitleCucumber : MonoBehaviour
 
 #pragma warning disable 0649   //Serialized Fields
     [SerializeField]
-    private float collideTime, lifeTime;
+    private float lifeTime;
     [SerializeField]
     private float minSpeed, maxSpeed, slowDownAcc, speedUpAcc;
     [SerializeField]
@@ -28,7 +28,6 @@ public class TitleCucumber : MonoBehaviour
     {
         grabbed = false;
         initialScale = transform.localScale;
-        //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
 	
 	void Update()
@@ -44,12 +43,6 @@ public class TitleCucumber : MonoBehaviour
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Max(speed - diff, minSpeed));
             else if (speed < minSpeed)
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(speed + diff, minSpeed));
-            
-
-            //if (_rigidBody.velocity == Vector2.zero)
-            //    _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
-            //else
-            //    _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Clamp(_rigidBody.velocity.magnitude - diff, minVelocity, maxVelocity));
         }
         else
         {
@@ -68,11 +61,9 @@ public class TitleCucumber : MonoBehaviour
         if (GameMenu.shifting)
             return;
 
-        //_rigidBody.bodyType = RigidbodyType2D.Kinematic;
         flingVelocity = _rigidBody.velocity;
         grabbed = true;
         _rigidBody.freezeRotation = true;
-        collideTime = 0f;
         lastMousePosition = CameraHelper.getCursorPosition();
         
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, 1f);

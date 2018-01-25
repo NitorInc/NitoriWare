@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class FlanGrab_SightBehaviour : MonoBehaviour {
 
+#pragma warning disable 0649
     private GameObject sightSprite;
     [SerializeField]
     private GameObject meteorInSight;
     [SerializeField]
     private AudioClip hitClip, missClip;
+#pragma warning restore 0649
 
 	// Use this for initialization
 	void Start () {

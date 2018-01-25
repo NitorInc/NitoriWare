@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TraceShapeCursor : MonoBehaviour
 {
+#pragma warning disable 0649
 	public int inBoundsNeeded, outOfBoundsLeft;
     public float particleDisappearStartTime, particleDisappearDuration, particleDisappearResumeTime;
 	public Collider2D[] essentialColliders;
@@ -16,6 +17,7 @@ public class TraceShapeCursor : MonoBehaviour
 	private AudioClip victoryClip, buzzerClip;
     [SerializeField]
     private VictoryColor[] victoryColors;
+#pragma warning restore 0649
 
 	private ParticleSystem traceParticles;
     private bool failed;

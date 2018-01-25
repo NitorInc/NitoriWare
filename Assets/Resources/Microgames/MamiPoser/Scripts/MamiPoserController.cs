@@ -31,10 +31,6 @@ public class MamiPoserController : MonoBehaviour {
     [SerializeField]
     private float yCoordinate = -5f;
 
-    [Header("Delay before Mamizou's sprite appears after clicking")]
-    [SerializeField]
-    private float mamizouAppearDelay = 0f;
-
     // Randomly chosen character to be cloned
     private MamiPoserCharacter chosenCharacterPrefab;
 
@@ -43,9 +39,6 @@ public class MamiPoserController : MonoBehaviour {
 
     // All created cloned characters
     private List<MamiPoserCharacter> createdCharacters;
-
-    // Used for delayed Mamizou (true form) appearance
-    private Timer mamizouAppearTimer;
 
     // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
@@ -91,8 +84,6 @@ public class MamiPoserController : MonoBehaviour {
         // Spawn the real Mamizou - hidden for now
         mamizou = Instantiate(mamizouPrefab, CharacterPosition(mamizouIndex), Quaternion.identity);
         mamizou.gameObject.SetActive(false);
-        // Delay the sprite switch so it happens when the sprite is covered in smoke
-        mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
 
         // Determine if the player chose correctly
         if (clickedCharacter.isDisguised)

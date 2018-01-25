@@ -25,8 +25,6 @@ public class TouhouSortSorter : MonoBehaviour
     TouhouSortSortable[] touhous;
     Vector3[] slots;
 
-    bool sorted;
-    
     [System.Serializable]
     public struct Category
     {
@@ -34,7 +32,6 @@ public class TouhouSortSorter : MonoBehaviour
         public Sprite leftIcon, rightIcon;
         public Sprite[] leftPool, rightPool;
     }
-	//public Category[] categories;
     
     public struct Style
     {
@@ -52,8 +49,6 @@ public class TouhouSortSorter : MonoBehaviour
         touhous = LoadTouhous (category, slotCount);
         
         slotCount = touhous.Length;
-
-		sorted = false;
 
 		// Fill starting slots with touhous
 		CreateSlots ();
@@ -207,9 +202,6 @@ public class TouhouSortSorter : MonoBehaviour
 
 		if (allSorted)
         {
-			// Sorted
-			sorted = true;
-            
             confettiParticles.gameObject.SetActive(true);
             confettiParticles.Play();
             MicrogameController.instance.playSFX(victoryClip, 0f, 1f, .75f);

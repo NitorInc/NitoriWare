@@ -6,9 +6,6 @@ namespace NitorInc.MarisaJizou {
 
     public class MarisaJizouController : MonoBehaviour {
 
-        public delegate void Action();
-        public static event Action onVictory;
-
         public int requiredJizou = 3;
         int totalJizou {
             get {
@@ -24,7 +21,6 @@ namespace NitorInc.MarisaJizou {
         List<GameObject> jizouList;
         // Use this for initialization
         void Start() {
-
             spawnLocations.Shuffle();
 
             jizouList = new List<GameObject>();
@@ -52,10 +48,6 @@ namespace NitorInc.MarisaJizou {
             }
         }
 
-        // Update is called once per frame
-        void Update() {
-
-        }
     }
 
     public static class ListExtension {

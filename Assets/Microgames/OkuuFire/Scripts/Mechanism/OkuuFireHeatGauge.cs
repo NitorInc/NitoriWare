@@ -28,8 +28,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
 
     private float heatSpeed;
     private float heatLevel;
-    private float targetStartLevel;
-    private float targetLevel;
     private float stability;
 
     // Cosmetic
@@ -50,7 +48,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
         // Randomly determine a target temperature
         float targetLevel = 0.5F - UnityEngine.Random.Range(0F, 0.4F);
         this.SetTarget(targetLevel);
-        this.targetStartLevel = targetLevel;
 
         this.minFireHeight = fire.main.gravityModifierMultiplier;
     }
@@ -162,7 +159,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
             wave.resetStartPosition();
             wave.yOffset = Random.Range(0f, 1f);
         }
-        this.targetLevel = level;
     }
 
     void DoVictory()

@@ -67,8 +67,6 @@ public class CanvasTextOutline : MonoBehaviour
         if (text == null)
             return;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-
         outlineColor.a = text.color.a * text.color.a;
 
         for (int i = 0; i < childTexts.Length; i++)
@@ -81,29 +79,17 @@ public class CanvasTextOutline : MonoBehaviour
             {
                 other.color = outlineColor;
                 other.alignment = text.alignment;
-                //other.anchor = text.anchor;
-                //other.characterSize = text.characterSize;
                 other.font = text.font;
                 other.fontStyle = text.fontStyle;
-                //other.richText = text.richText;
-                //other.tabSize = text.tabSize;
                 other.lineSpacing = text.lineSpacing;
-                //other.offsetZ = text.offsetZ;
                 other.gameObject.layer = gameObject.layer;
             }
 
             RectTransform childTransform = childRectTransforms[i];
             childTransform.sizeDelta = rectTransform.sizeDelta;
 
-            //bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
-            //Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
-            //Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
-            //    (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
-
             float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
             Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
-            //if (scaleLocally)
-            //    worldPoint.Scale(transform.parent.lossyScale);
             
             worldPoint += transform.position;
 
@@ -111,10 +97,6 @@ public class CanvasTextOutline : MonoBehaviour
 
             other.transform.localScale = transform.localScale;
             other.transform.rotation = transform.rotation;
-
-            //Renderer otherMeshRenderer = childMeshRenderers[i];
-            //otherMeshRenderer.sortingLayerID = textRenderer.sortingLayerID;
-            //otherMeshRenderer.sortingLayerName = textRenderer.sortingLayerName;
         }
     }
 
@@ -132,7 +114,6 @@ public class CanvasTextOutline : MonoBehaviour
     {
         if (squareAlign)
         {
-            //Debug.Log(i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
             return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
         }
         else

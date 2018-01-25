@@ -10,13 +10,6 @@ public class TitleMaskBGTiler : MonoBehaviour
     private float moveSpeed, wrapAt, wrapTo;
 #pragma warning restore 0649
 
-    private float initialY;
-
-	void Start()
-	{
-        initialY = transform.localPosition.y;
-	}
-	
 	void Update()
     {
         float y = transform.localPosition.y;
