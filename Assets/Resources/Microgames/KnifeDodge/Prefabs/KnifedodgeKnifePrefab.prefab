@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4812414934324104}
   - component: {fileID: 212186452077326056}
+  - component: {fileID: 114613956717077612}
   m_Layer: 0
   m_Name: KnifedodgeKnifeHilt
   m_TagString: Untagged
@@ -41,7 +42,7 @@ GameObject:
   - component: {fileID: 114417939690767666}
   m_Layer: 0
   m_Name: KnifedodgeKnifePrefab
-  m_TagString: Hazard
+  m_TagString: KnifeDodgeHazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,9 +130,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c380f03e930a62b4fa639471ae988b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
-  isRotating: 0
   knifeSpeed: 100
+  knifeRotationSpeed: 2
+--- !u!114 &114613956717077612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006438439719992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d941400ca598d3747b1f11e8f21e64f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212186452077326056
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -163,7 +174,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300002, guid: 34a7d94b33e74c5408a5f6a6c41ff172, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -172,6 +183,7 @@ SpriteRenderer:
   m_Size: {x: 8.14, y: 21.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212469624458076114
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -212,3 +224,4 @@ SpriteRenderer:
   m_Size: {x: 8.14, y: 21.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
