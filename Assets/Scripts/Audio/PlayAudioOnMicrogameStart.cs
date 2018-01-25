@@ -5,12 +5,6 @@ using UnityEngine;
 public class PlayAudioOnMicrogameStart : MonoBehaviour
 {
 
-	void Start()
-	{
-        AudioHelper.playScheduled(GetComponent<AudioSource>(), StageController.beatLength);
-	}
-	
-	void play()
-	{
-	}
+  void Start() => AudioHelper.playScheduled(GetComponent<AudioSource>(), StageController.beatLength);
+
 }

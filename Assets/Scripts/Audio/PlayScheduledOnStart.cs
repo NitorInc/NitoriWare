@@ -4,26 +4,24 @@ using UnityEngine;
 
 public class PlayScheduledOnStart : MonoBehaviour
 {
-    [SerializeField]
-    private float playTime;
-    [SerializeField]
-    private int frameBuffer = 1;
+  [SerializeField]
+  private float playTime;
+  [SerializeField]
+  private int frameBuffer = 1;
 
-    private AudioSource _audioSource;
+  private AudioSource _audioSource;
 
-	void Start ()
+  void Start() => _audioSource = GetComponent<AudioSource>();
+
+  void Update()
+  {
+    if (frameBuffer > 0)
     {
-        _audioSource = GetComponent<AudioSource>();
-	}
-
-    void Update()
-    {
-        if (frameBuffer > 0)
-        {
-            frameBuffer--;
-            return;
-        }
-        AudioHelper.playScheduled(_audioSource, playTime);
-        enabled = false;
+      frameBuffer--;
+      return;
     }
+    AudioHelper.playScheduled(_audioSource, playTime);
+    enabled = false;
+  }
+
 }

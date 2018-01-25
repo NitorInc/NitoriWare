@@ -5,161 +5,144 @@ using System.IO;
 
 public class LocalizationManager : MonoBehaviour
 {
-	private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
-    public const string DefaultLanguage = "English";
+  private const string NotFoundString = "LOCALIZED TEXT NOT FOUND";
+  public const string DefaultLanguage = "English";
 
-	public static LocalizationManager instance;
+  public static LocalizationManager instance;
 
+  [SerializeField]
+  private Language[] languages;
+  [SerializeField]
+  private string forceLanguage;
+
+  private Language loadedLanguage;
+  private SerializedNestedStrings localizedText;
+  private string languageString;
+
+  [System.Serializable]
+  public struct Language
+  {
     [SerializeField]
-    private Language[] languages;
-    [SerializeField]
-    private string forceLanguage;
-    
-    private Language loadedLanguage;
-	private SerializedNestedStrings localizedText;
-    private string languageString;
+    private string languageID;
+    public string languageName;
+    public bool incomplete;
+    public bool disableSelect;
+    public string overrideFileName;
+    public Font overrideFont;
+    public bool forceUnbold;
 
-    [System.Serializable]
-    public struct Language
+    public string getFileName() => string.IsNullOrEmpty(overrideFileName) ? languageID : overrideFileName;
+
+    public string getLanguageID() => languageID;
+  }
+
+  public void Awake()
+  {
+    loadedLanguage = new Language();
+    if (instance != null)
     {
-        [SerializeField]
-        private string languageID;
-        public string languageName;
-        public bool incomplete;
-        public bool disableSelect;
-        public string overrideFileName;
-        public Font overrideFont;
-        public bool forceUnbold;
-
-        public string getFileName()
-        {
-            return string.IsNullOrEmpty(overrideFileName) ? languageID : overrideFileName;
-        }
-
-        public string getLanguageID()
-        {
-            return languageID;
-        }
+      if (instance != this)
+        Destroy(gameObject);
+      return;
     }
+    else
+      instance = this;
+    if (transform.parent == null)
+      DontDestroyOnLoad(gameObject);
 
-	public void Awake ()
+    string languageToLoad;
+    string preferredLanguage = PrefsHelper.getPreferredLanguage();
+    if (!string.IsNullOrEmpty(forceLanguage))
+      languageToLoad = forceLanguage;
+    else if (!string.IsNullOrEmpty(preferredLanguage))
+      languageToLoad = preferredLanguage;
+    else
+      languageToLoad = Application.systemLanguage.ToString();
+    setLanguage(languageToLoad);
+  }
+
+  public void setForcedLanguage(string language) => forceLanguage = language;
+
+  public void setLanguage(string language)
+  {
+    StartCoroutine(loadLanguage(FindLanguage(language)));
+  }
+
+  public Language FindLanguage(string language)
+  {
+    foreach (Language checklanguage in languages)
     {
-        loadedLanguage = new Language();
-		if (instance != null)
-		{
-			if (instance != this)
-				Destroy(gameObject);
-			return;
-		}
-		else
-			instance = this;
-		if (transform.parent == null)
-			DontDestroyOnLoad(gameObject);
+      if (checklanguage.getLanguageID().Equals(language, System.StringComparison.OrdinalIgnoreCase))
+        return checklanguage;
+    }
+    Debug.Log("Language " + language + " not found. Using English");
+    return languages[0];
+  }
 
-        string languageToLoad;
-        string preferredLanguage = PrefsHelper.getPreferredLanguage();
-        if (!string.IsNullOrEmpty(forceLanguage))
-            languageToLoad = forceLanguage;
-        else if (!string.IsNullOrEmpty(preferredLanguage))
-            languageToLoad = preferredLanguage;
-        else
-            languageToLoad = Application.systemLanguage.ToString();
-		setLanguage(languageToLoad);
-	}
+  public string getInLanguageName(string language) => FindLanguage(language).languageName;
 
-    public void setForcedLanguage(string language)
+  IEnumerator loadLanguage(Language language)
+  {
+    System.DateTime started = System.DateTime.Now;
+    string filePath = Path.Combine(Application.streamingAssetsPath, "Languages/" + language.getFileName());
+    languageString = "";
+    if (filePath.Contains("://"))
     {
-        forceLanguage = language;
+      WWW www = new WWW(filePath);
+      yield return www;
+      languageString = www.text;
     }
-    
-	public void setLanguage(string language)
-	{
-        StartCoroutine(loadLanguage(FindLanguage(language)));
-    }
+    else
+      languageString = File.ReadAllText(filePath);
 
-    public Language FindLanguage(string language)
+    localizedText = SerializedNestedStrings.deserialize(languageString);
+
+    System.TimeSpan timeElapsed = System.DateTime.Now - started;
+    Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
+    PrefsHelper.setPreferredLanguage(language.getLanguageID());
+
+    loadedLanguage = language;
+    languageString = "";
+  }
+
+  public Language[] getAllLanguages() => languages;
+
+  public string getLoadedLanguageID()
+  {
+    return string.IsNullOrEmpty(loadedLanguage.getFileName()) ? "" : loadedLanguage.getFileName();
+  }
+
+  public Language getLoadedLanguage() => loadedLanguage;
+
+  public string getLocalizedValue(string key)
+  {
+    return (localizedText == null) ? "No language set" : getLocalizedValue(key, NotFoundString);
+  }
+
+  public string getLocalizedValue(string key, string defaultString)
+  {
+    if (localizedText == null)
+      return defaultString;
+    string value = (string)localizedText[key];
+    if (string.IsNullOrEmpty(value))
     {
-        foreach (Language checklanguage in languages)
-        {
-            if (checklanguage.getLanguageID().Equals(language, System.StringComparison.OrdinalIgnoreCase))
-                return checklanguage;
-        }
-        Debug.Log("Language " + language + " not found. Using English");
-        return languages[0];
+      if (!loadedLanguage.incomplete)
+        Debug.LogWarning("Language " + getLoadedLanguageID() + " is not marked as incomplete but does not have a value for key " + key);
+      return defaultString;
     }
+    value = value.Replace("\\n", "\n");
+    return value;
+  }
 
-    public string getInLanguageName(string language)
-    {
-        return FindLanguage(language).languageName;
-    }
+  public string getLocalizedValueNoWarnings(string key, string defaultString)
+  {
+    if (localizedText == null)
+      return defaultString;
+    string value = (string)localizedText[key];
+    if (string.IsNullOrEmpty(value))
+      return defaultString;
+    value = value.Replace("\\n", "\n");
+    return value;
+  }
 
-    IEnumerator loadLanguage(Language language)
-    {
-        System.DateTime started = System.DateTime.Now;
-        string filePath = Path.Combine(Application.streamingAssetsPath, "Languages/" + language.getFileName());
-        languageString = "";
-        if (filePath.Contains("://"))
-        {
-            WWW www = new WWW(filePath);
-            yield return www;
-            languageString = www.text;
-        }
-        else
-            languageString = File.ReadAllText(filePath);
-
-        localizedText = SerializedNestedStrings.deserialize(languageString);
-
-        System.TimeSpan timeElapsed = System.DateTime.Now - started;
-        Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
-        PrefsHelper.setPreferredLanguage(language.getLanguageID());
-
-        loadedLanguage = language;
-        languageString = "";
-    }
-
-    public Language[] getAllLanguages()
-    {
-        return languages;
-    }
-
-    public string getLoadedLanguageID()
-	{
-		return string.IsNullOrEmpty(loadedLanguage.getFileName()) ? "" : loadedLanguage.getFileName();
-	}
-
-    public Language getLoadedLanguage()
-    {
-        return loadedLanguage;
-    }
-
-	public string getLocalizedValue(string key)
-	{
-		return (localizedText == null) ? "No language set" : getLocalizedValue(key, NotFoundString);
-	}
-
-	public string getLocalizedValue(string key, string defaultString)
-	{
-		if (localizedText == null) 
-			return defaultString;
-		string value = (string)localizedText[key];
-		if (string.IsNullOrEmpty(value))
-		{
-            if (!loadedLanguage.incomplete)
-			Debug.LogWarning("Language " + getLoadedLanguageID() + " is not marked as incomplete but does not have a value for key " + key);
-			    return defaultString;
-		}
-		value = value.Replace("\\n", "\n");
-		return value;
-	}
-
-	public string getLocalizedValueNoWarnings(string key, string defaultString)
-	{
-		if (localizedText == null)
-			return defaultString;
-		string value = (string)localizedText[key];
-		if (string.IsNullOrEmpty(value))
-			return defaultString;
-        value = value.Replace("\\n", "\n");
-		return value;
-	}
 }

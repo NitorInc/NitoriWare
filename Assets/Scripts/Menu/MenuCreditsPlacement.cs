@@ -6,36 +6,33 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class MenuCreditsPlacement : MonoBehaviour
 {
-    
+
 #pragma warning disable 0649
-    [SerializeField]
-    private int distanceBetweenCells, distancePerCreditLine;
+  [SerializeField]
+  private int distanceBetweenCells, distancePerCreditLine;
 #pragma warning restore 0649
 
-	void Start()
-	{
-		if (Application.isPlaying)
-        {
-            enabled = false;
-            return;
-        }
-	}
-	
-	void Update()
-	{
-        int currentY = 0;
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            RectTransform cell = (RectTransform)transform.GetChild(i);
-            cell.anchoredPosition = Vector2.down * currentY;
-
-            currentY += distanceBetweenCells;
-            currentY += ((getLineCount(cell.GetChild(1)) - 1) * distancePerCreditLine);
-        }
-	}
-
-    int getLineCount(Transform transform)
+  void Start()
+  {
+    if (Application.isPlaying)
     {
-        return transform.GetComponent<Text>().text.Split('\n').Length;
+      enabled = false;
+      return;
     }
+  }
+
+  void Update()
+  {
+    int currentY = 0;
+    for (int i = 0; i < transform.childCount; i++)
+    {
+      RectTransform cell = (RectTransform)transform.GetChild(i);
+      cell.anchoredPosition = Vector2.down * currentY;
+
+      currentY += distanceBetweenCells;
+      currentY += ((getLineCount(cell.GetChild(1)) - 1) * distancePerCreditLine);
+    }
+  }
+
+  int getLineCount(Transform transform) => transform.GetComponent<Text>().text.Split('\n').Length;
 }

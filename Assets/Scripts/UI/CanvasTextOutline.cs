@@ -5,103 +5,97 @@ using System.Collections;
 public class CanvasTextOutline : MonoBehaviour
 {
 
-    public float pixelSize = 1, sortingOrder;
-    public int cloneCount = 8;
-    public Color outlineColor = Color.black;
-    public bool scaleLocally = false;
-    public int doubleResolution = 1024;
-    public bool squareAlign = false;
+  public float pixelSize = 1, sortingOrder;
+  public int cloneCount = 8;
+  public Color outlineColor = Color.black;
+  public bool scaleLocally = false;
+  public int doubleResolution = 1024;
+  public bool squareAlign = false;
 
-    public bool updateAttributes;
+  public bool updateAttributes;
 
-    private Text text;
-    private RectTransform rectTransform;
-    private Text[] childTexts;
-    private RectTransform[] childRectTransforms;
+  private Text text;
+  private RectTransform rectTransform;
+  private Text[] childTexts;
+  private RectTransform[] childRectTransforms;
 
-    void Start()
+  void Start()
+  {
+    text = GetComponent<Text>();
+    rectTransform = GetComponent<RectTransform>();
+
+    if (cloneCount != 8)
+      squareAlign = false;
+
+    childTexts = new Text[cloneCount];
+    childRectTransforms = new RectTransform[cloneCount];
+    for (int i = 0; i < cloneCount; i++)
     {
-        text = GetComponent<Text>();
-        rectTransform = GetComponent<RectTransform>();
+      GameObject outline = new GameObject("Text Outline", typeof(Text));
 
-        if (cloneCount != 8)
-            squareAlign = false;
-
-        childTexts = new Text[cloneCount];
-        childRectTransforms = new RectTransform[cloneCount];
-        for (int i = 0; i < cloneCount; i++)
-        {
-            GameObject outline = new GameObject("Text Outline", typeof(Text));
-
-            childTexts[i] = outline.GetComponent<Text>();
-            RectTransform outlineTransform = outline.GetComponent<RectTransform>();
-            outlineTransform.SetParent(transform.parent == null ? transform : transform.parent);
-            outlineTransform.sizeDelta = rectTransform.sizeDelta;
-            outlineTransform.transform.localScale = transform.localScale;
-            childRectTransforms[i] = outlineTransform;
-            outlineTransform.anchorMax = rectTransform.anchorMax;
-            outlineTransform.anchorMin = rectTransform.anchorMax;
-            outlineTransform.pivot = rectTransform.pivot;
-            updateAttributes = true;
-        }
-        rectTransform.SetAsLastSibling();
+      childTexts[i] = outline.GetComponent<Text>();
+      RectTransform outlineTransform = outline.GetComponent<RectTransform>();
+      outlineTransform.SetParent(transform.parent == null ? transform : transform.parent);
+      outlineTransform.sizeDelta = rectTransform.sizeDelta;
+      outlineTransform.transform.localScale = transform.localScale;
+      childRectTransforms[i] = outlineTransform;
+      outlineTransform.anchorMax = rectTransform.anchorMax;
+      outlineTransform.anchorMin = rectTransform.anchorMax;
+      outlineTransform.pivot = rectTransform.pivot;
+      updateAttributes = true;
     }
+    rectTransform.SetAsLastSibling();
+  }
 
-    public void LateUpdate()
+  public void LateUpdate()
+  {
+    if (text == null)
+      return;
+
+    outlineColor.a = text.color.a * text.color.a;
+
+    for (int i = 0; i < childTexts.Length; i++)
     {
-        if (text == null)
-            return;
+      Text other = childTexts[i];
+      other.text = text.text;
+      other.fontSize = text.fontSize;
 
-        outlineColor.a = text.color.a * text.color.a;
+      if (updateAttributes)
+      {
+        other.color = outlineColor;
+        other.alignment = text.alignment;
+        other.font = text.font;
+        other.fontStyle = text.fontStyle;
+        other.lineSpacing = text.lineSpacing;
+        other.gameObject.layer = gameObject.layer;
+      }
 
-        for (int i = 0; i < childTexts.Length; i++)
-        {
-            Text other = childTexts[i];
-            other.text = text.text;
-            other.fontSize = text.fontSize;
+      RectTransform childTransform = childRectTransforms[i];
+      childTransform.sizeDelta = rectTransform.sizeDelta;
 
-            if (updateAttributes)
-            {
-                other.color = outlineColor;
-                other.alignment = text.alignment;
-                other.font = text.font;
-                other.fontStyle = text.fontStyle;
-                other.lineSpacing = text.lineSpacing;
-                other.gameObject.layer = gameObject.layer;
-            }
+      float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
+      Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
 
-            RectTransform childTransform = childRectTransforms[i];
-            childTransform.sizeDelta = rectTransform.sizeDelta;
+      worldPoint += transform.position;
 
-            float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
-            Vector3 worldPoint = (GetOffset(i) * getFunctionalPixelSize() * fixedPixelWorldSize);
-            
-            worldPoint += transform.position;
+      other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
-            other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
-
-            other.transform.localScale = transform.localScale;
-            other.transform.rotation = transform.rotation;
-        }
+      other.transform.localScale = transform.localScale;
+      other.transform.rotation = transform.rotation;
     }
+  }
 
-    public Text[] getChildTexts()
+  public Text[] getChildTexts() => childTexts;
+
+  float getFunctionalPixelSize() => pixelSize;
+
+  Vector3 GetOffset(int i)
+  {
+    if (squareAlign)
     {
-        return childTexts;
+      return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
     }
-
-    float getFunctionalPixelSize()
-    {
-        return pixelSize;
-    }
-
-    Vector3 GetOffset(int i)
-    {
-        if (squareAlign)
-        {
-            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), i % 2 == 0 ? 1f : Mathf.Sqrt(2f));
-        }
-        else
-            return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
-    }
+    else
+      return MathHelper.getVector2FromAngle(360f * ((float)i / (float)cloneCount), 1f);
+  }
 }

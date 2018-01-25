@@ -6,12 +6,10 @@ public class MenuCredits : MonoBehaviour
 {
 
 #pragma warning disable 0649
-    [SerializeField]
-    private Animator animator;
+  [SerializeField]
+  private Animator animator;
 #pragma warning restore 0649
 
-	void Update()
-	{
-        animator.SetFloat("Speed", GameMenu.shifting ? 0f : 1f);
-	}
+  void Update() => animator.SetFloat("Speed", GameMenu.shifting ? 0f : 1f);
+
 }

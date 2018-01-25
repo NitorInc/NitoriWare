@@ -3,66 +3,62 @@ using System.Collections;
 
 public class TitleInteractive : MonoBehaviour
 {
-    public float effectTime;
+  public float effectTime;
 
-	public Animator animator, animatorToDisable;
-    public int altAnimationFrequency = 3;
+  public Animator animator, animatorToDisable;
+  public int altAnimationFrequency = 3;
 
-    private int currentAnimation;
+  private int currentAnimation;
 
-    void Start ()
-	{
-        currentAnimation = 0;
-        if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
-            effectTime = .01f;
-	}
-	
-	void Update ()
-	{
+  void Start()
+  {
+    currentAnimation = 0;
+    if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
+      effectTime = .01f;
+  }
 
-		if (effectTime <= 0f)
-			checkForInteraction();
-		else
-		{
-			effectTime -= Time.deltaTime;
-			if (effectTime <= 0f)
-			{
-				effectTime = 0f;
+  void Update()
+  {
+    if (effectTime <= 0f)
+      checkForInteraction();
+    else
+    {
+      effectTime -= Time.deltaTime;
+      if (effectTime <= 0f)
+      {
+        effectTime = 0f;
 
-                if (animator != null)
-                {
-                    animator.enabled = true;
-                }
-            }
-		}
-	}
+        if (animator != null)
+        {
+          animator.enabled = true;
+        }
+      }
+    }
+  }
 
-	void checkForInteraction()
-	{
-		if (!GameMenu.shifting && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
-			checkCollision();
-	}
+  void checkForInteraction()
+  {
+    if (!GameMenu.shifting && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
+      checkCollision();
+  }
 
-	public void checkCollision()
-	{
-		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
+  public void checkCollision()
+  {
+    Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+    RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
 
-		if (hit && hit.collider.name == name)
-		{
-			if (animator != null)
-			{
-                animator.SetInteger("animation", (currentAnimation % altAnimationFrequency == altAnimationFrequency - 1) ? 2 : 1);
-				Invoke("resetAnimation", .1f);
-                currentAnimation++;
-			}
+    if (hit && hit.collider.name == name)
+    {
+      if (animator != null)
+      {
+        animator.SetInteger("animation", (currentAnimation % altAnimationFrequency == altAnimationFrequency - 1) ? 2 : 1);
+        Invoke("resetAnimation", .1f);
+        currentAnimation++;
+      }
 
-		}
+    }
 
-	}
+  }
 
-	void resetAnimation()
-	{
-		animator.SetInteger("animation", 0);
-	}
+  void resetAnimation() => animator.SetInteger("animation", 0);
 }

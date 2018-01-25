@@ -5,22 +5,16 @@ using UnityEngine;
 public class FastCompilationStage : CompilationStage
 {
 
-	[SerializeField]
-	private int startSpeed;
+  [SerializeField]
+  private int startSpeed;
 
-	public override int getStartSpeed()
-	{
-		return startSpeed;
-	}
+  public override int getStartSpeed() => startSpeed;
 
-	public override int getCustomSpeed(int microgame, Interruption interruption)
-	{
-		return startSpeed + getRoundSpeedOffset();
-	}
+  public override int getCustomSpeed(int microgame, Interruption interruption)
+  {
+    return startSpeed + getRoundSpeedOffset();
+  }
 
-	int getRoundSpeedOffset()
-	{
-		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
-	}
+  int getRoundSpeedOffset() => (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 
 }
