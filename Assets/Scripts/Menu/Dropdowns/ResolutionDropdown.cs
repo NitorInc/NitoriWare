@@ -51,7 +51,7 @@ public class ResolutionDropdown : MonoBehaviour
 
     int findCurrentSelection()
     {
-        string resolution = Screen.currentResolution.width.ToString() + ResolutionDelimiter + Screen.currentResolution.height.ToString();
+        string resolution = Screen.width.ToString() + ResolutionDelimiter + Screen.height.ToString();
         var options = dropdown.options;
         for (int i = 0; i < options.Count; i++)
         {
