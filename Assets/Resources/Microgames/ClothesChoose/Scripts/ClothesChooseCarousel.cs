@@ -4,16 +4,35 @@ using UnityEngine;
 
 public class ClothesChooseCarousel : MonoBehaviour
 {
-    public ClothesChooseClothing[] items;
+    public ClothesChooseClothing itemTemplate;
+    public Sprite[] itemSprites;
+    public Transform mountPoint;
 
+    public GameObject[] arrows;
+
+    public int layerOrder;
     public float spacing;
+    public float yOffset;
     public float minScale;
+
+    ClothesChooseClothing[] items;
 
     int currentIndex;
     bool listen;
 
     void Start()
     {
+        transform.localPosition = mountPoint.localPosition;
+
+        items = new ClothesChooseClothing[itemSprites.Length];
+        for (int i = 0; i < items.Length; i++)
+        {
+            ClothesChooseClothing item = Instantiate(itemTemplate, mountPoint);
+            item.SetSprite(itemSprites[i], layerOrder);
+            items[i] = item;
+        }
+
+        currentIndex = UnityEngine.Random.Range(0, items.Length);
         ArrangeItems();
     }
 
@@ -29,6 +48,8 @@ public class ClothesChooseCarousel : MonoBehaviour
             {
                 Reposition(1);
             }
+
+            SendMessageUpwards("CheckWin");
         }
     }
 
@@ -58,14 +79,17 @@ public class ClothesChooseCarousel : MonoBehaviour
         
         foreach (int i in Enumerable.Range(-1, 3))
         {
-            float itemPosition = spacing * i;
+            float itemXPosition = spacing * i;
+            float itemYPosition = 0;
             float itemScale = minScale * Math.Abs(i);
             if (itemScale == 0)
                 itemScale = 1;
+            else
+                itemYPosition = yOffset;
 
             ClothesChooseClothing item = items[GetIndex(currentIndex, i)];
             item.gameObject.SetActive(true);
-            item.transform.localPosition = new Vector2(itemPosition, 0);
+            item.transform.localPosition = new Vector2(itemXPosition, itemYPosition);
             item.transform.localScale = new Vector2(itemScale, itemScale);
         }
     }
@@ -73,15 +97,25 @@ public class ClothesChooseCarousel : MonoBehaviour
     public void Deactivate()
     {
         listen = false;
+
+        foreach (GameObject arrow in arrows)
+        {
+            arrow.SetActive(false);
+        }
     }
 
     public void Activate()
     {
         listen = true;
+
+        foreach (GameObject arrow in arrows)
+        {
+            arrow.SetActive(true);
+        }
     }
 
-    public ClothesChooseClothing GetCurrentItem()
+    public int GetCurrentIndex()
     {
-        return items[currentIndex];
+        return currentIndex;
     }
 }

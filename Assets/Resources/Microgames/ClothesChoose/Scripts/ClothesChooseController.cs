@@ -3,6 +3,7 @@
 public class ClothesChooseController : MonoBehaviour
 {
     public ClothesChooseCarousel[] carousels;
+    public ClothesChooseDoll mannequin;
 
     int currentCarousel;
 
@@ -37,6 +38,27 @@ public class ClothesChooseController : MonoBehaviour
                 else
                     carousels[i].Deactivate();
             }
+        }
+    }
+
+    public void CheckWin()
+    {
+        bool win = true;
+
+        int correctIndex = mannequin.GetOutfitIndex();
+        foreach (ClothesChooseCarousel carousel in carousels)
+        {
+            int itemIndex = carousel.GetCurrentIndex();
+            if (itemIndex != correctIndex)
+            {
+                win = false;
+                break;
+            }
+        }
+
+        if (win)
+        {
+            MicrogameController.instance.setVictory(true, true);
         }
     }
 }
