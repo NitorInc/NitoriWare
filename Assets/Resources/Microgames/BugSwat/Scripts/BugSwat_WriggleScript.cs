@@ -102,7 +102,7 @@ public class BugSwat_WriggleScript : MonoBehaviour {
     void beginMovement()
     {
         isStopped = false;
-        float randomStop = Random.Range(1f, 1.5f);
+        float randomStop = Random.Range(1f, 1.5f) * 5f;
         Invoke("stopMovement", randomStop);
 
         int randomTemp = Random.Range(1, 4);

@@ -17,9 +17,23 @@ public class BugSwat_CursorScript : MonoBehaviour {
         anim = GetComponent<Animator>();
     }
 
-    void OnMouseDown()
+    //void OnMouseDown()
+    //{
+    //    if (swinging == false)
+    //    {
+    //        swinging = true;
+    //        Invoke("createHitbox", 0.09f);
+    //        Invoke("swingReady", 0.3f);
+    //        MicrogameController.instance.playSFX(hitSound, volume: 0.5f,
+    //        panStereo: AudioHelper.getAudioPan(0));
+    //        anim.SetBool("Swing", true);
+    //    }
+    //}
+
+	// Update is called once per frame
+	void Update ()
     {
-        if (swinging == false)
+        if (Input.GetMouseButtonDown(0) && swinging == false)
         {
             swinging = true;
             Invoke("createHitbox", 0.09f);
@@ -28,10 +42,6 @@ public class BugSwat_CursorScript : MonoBehaviour {
             panStereo: AudioHelper.getAudioPan(0));
             anim.SetBool("Swing", true);
         }
-    }
-
-	// Update is called once per frame
-	void Update () {
 		
 	}
 
