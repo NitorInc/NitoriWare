@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Collections;
+using System.Linq;
 
 public class MicrogameController : MonoBehaviour
 {
@@ -39,10 +40,29 @@ public class MicrogameController : MonoBehaviour
 	{
 		instance = this;
 
-		string sceneName = gameObject.scene.name;
-		if (sceneName.Equals("Template"))
-			sceneName = "_Template1";
-		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
+        //Find traits
+		string microgameID = gameObject.scene.name;
+        int difficulty = int.Parse(microgameID.Substring(microgameID.Length - 1, 1));
+
+        if (microgameID.Equals("Template"))
+			microgameID = "_Template1";
+        microgameID = microgameID.Substring(0, microgameID.Length - 1);
+
+        //Get traits from collection if available
+        if (GameController.instance != null)
+        {
+            var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
+                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            if (collectionMicrogame == null)
+                collectionMicrogame = GameController.instance.microgameCollection.getCollectionBossMicrogames()
+                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            if (collectionMicrogame != null)
+                traits = collectionMicrogame.difficultyTraits[difficulty - 1];
+        }
+
+        //Get traits from project file if necessary
+        if (traits == null)
+            traits = MicrogameTraits.findMicrogameTraits(microgameID, difficulty);
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 
@@ -68,7 +88,7 @@ public class MicrogameController : MonoBehaviour
             victory = traits.defaultVictory;
             victoryDetermined = false;
 
-            traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
+            traits.onAccessInStage(microgameID);
         }
 		else if (!isBeingDiscarded())
 		{
