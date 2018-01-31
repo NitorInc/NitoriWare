@@ -10,12 +10,20 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     public GameObject wrongIndicator;
     public bool isMoving = false;
     public bool isCorrect = false;
+    public float initialScale;
+    public float floatFactor = 0.2f;
+
 
     private Vector3 startingPosition;
     private bool isSelectable = false;
     private Rigidbody2D rb2d;
     private Quaternion defaultRotation;
     private bool isFinished = false;
+    private float appearDelay = 2.3f;
+    private float initialY;
+    private int floatDirection = 1;
+    private bool isFloating = false;
+    private float floatStartDelay = 0;
 
     [SerializeField]
     private AudioClip correctSound;
@@ -28,6 +36,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         GetComponent<SpriteRenderer>().enabled = false;
         
         rb2d = GetComponent<Rigidbody2D>();
+        initialY = transform.position.y;
 
         if (GetComponent<CapsuleCollider2D> () != null)
         {
@@ -37,12 +46,17 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         {
             GetComponent<CircleCollider2D>().enabled = false;
         }
+        if (rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>() != null)
+        {
+            appearDelay = rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>().showDelay + 1.3f;
+        }
 
         defaultRotation = transform.rotation;
         GetComponent<Rigidbody2D>().gravityScale = 0;
+        initialScale = transform.localScale.x;
 
-        Invoke("obtainStartingPosition", 0.5f);
-        Invoke("appearSelectable", 2.3f);
+        Invoke("obtainStartingPosition", 0.01f);
+        Invoke("appearSelectable", appearDelay);
     }
 
     void OnMouseDown()
@@ -66,6 +80,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
                 MicrogameController.instance.playSFX(wrongSound, volume: 0.5f,
                 panStereo: AudioHelper.getAudioPan(0));
             }
+            rb2d.velocity = new Vector2(0, 0);
             theIndicator.transform.position = transform.position;
             rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished = true;
             isFinished = true;
@@ -76,7 +91,23 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     void Update()
     {
-        
+        if (isSelectable && rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == false && isFloating == true)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y + (floatFactor * floatDirection));
+            if (rb2d.velocity.y > 3 && floatDirection == 1)
+            {
+                floatDirection = -1;
+            }
+            else if (rb2d.velocity.y < -3 && floatDirection == -1)
+            {
+                floatDirection = 1;
+            }
+        }
+
+        if (rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == true && isFloating == true)
+        {
+            rb2d.velocity = new Vector2(0, 0);
+        }
     }
 
     void appearSelectable()
@@ -98,6 +129,15 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
         GetComponent<Rigidbody2D>().gravityScale = 0;
         isSelectable = true;
+
+        float currentX = transform.position.x + 7;
+        floatStartDelay = currentX / 30;
+        Invoke("beginFloating", floatStartDelay);
+    }
+
+    void beginFloating()
+    {
+        isFloating = true;
     }
 
     void obtainStartingPosition()

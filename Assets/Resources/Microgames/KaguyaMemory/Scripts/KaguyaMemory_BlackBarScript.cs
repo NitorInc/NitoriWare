@@ -7,10 +7,12 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
     public int myDirection = 1;                 //right is 1 and left is -1
     public float stopPoint = 0;
     public float movementSpeed = 4.0f;
+    public GameObject RNGMaster;
 
     private int phase = 0;
     private bool exiting = false;
     private Rigidbody2D rb2d;
+    private float closeDelay = 1.6f;
 
     [SerializeField]
     private AudioClip clapSound;
@@ -22,6 +24,11 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
         //move based on direction given
         movementSpeed *= myDirection;
         rb2d.velocity = new Vector2(movementSpeed, 0f);
+
+        if (RNGMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>() != null)
+        {
+            closeDelay = RNGMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>().showDelay + 0.6f;
+        }
     }
 	
     void closeBars()
@@ -40,13 +47,13 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
         {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 1;
-            Invoke("closeBars", 1.6f);
+            Invoke("closeBars", closeDelay);
         }
         if (myDirection == -1 && transform.position.x < stopPoint && phase == 0)
         {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 1;
-            Invoke("closeBars", 1.6f);
+            Invoke("closeBars", closeDelay);
         }
 
         //Stay shut shortly when both bars meet the center of the screen
