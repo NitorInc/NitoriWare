@@ -13,14 +13,22 @@ public class RockPaperSatoriPlayer : MonoBehaviour
     [SerializeField]
     private Sprite[] moveHands;
 
+    public enum State
+    {
+        Default,
+        Victory,
+        Loss,
+        Tie
+    }
+
     public void startGame()
     {
         rigAnimator.enabled = true;
     }
 
-    public void throwHand(RockPaperSatoriController.Move move, bool victory)
+    public void throwHand(RockPaperSatoriController.Move move, State state)
     {
-        rigAnimator.SetInteger("State", victory ? 1 : 2);
+        rigAnimator.SetInteger("State", (int)state);
         handRenderer.sprite = moveHands[(int)move];
     }
 }

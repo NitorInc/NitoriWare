@@ -32,6 +32,8 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     [Header("Set to high number to stay on first real hand image")]
     [SerializeField]
     private float realShuffleDuration;
+
+
     
 	void Start ()
     {
@@ -45,10 +47,10 @@ public class RockPaperSatoriOpponent : MonoBehaviour
         invokeShuffleRound();
     }
 
-    public void throwHand(bool victory)
+    public void throwHand(RockPaperSatoriPlayer.State playerState)
     {
         thoughtBubble.SetActive(false);
-        rigAnimator.SetInteger("State", victory ? 1 : 2);
+        rigAnimator.SetInteger("State", (int)playerState);
         handRenderer.sprite = moveHands[(int)move];
         thoughtRenderer.sprite = null;
         CancelInvoke();
