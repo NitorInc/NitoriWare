@@ -5,9 +5,11 @@ using UnityEngine;
 public class YuugiBalancePlayer : MonoBehaviour
 {
 
-    private float x = 0, max_horizontal = 5, current_acceleration = 0;
+    private float x = 0, max_horizontal = 5, current_acceleration = 0, vert_amount = 0.1f;
     [SerializeField]
     private float acceleration = 3, speed = 10;
+    [SerializeField]
+    private Vector3 offset;
 
     void Update()
     {
@@ -29,6 +31,7 @@ public class YuugiBalancePlayer : MonoBehaviour
             current_acceleration = 0;
 
         //applying position
-        transform.position = new Vector3(x, 0);
+        //vertical animation was easier to do via code
+        transform.position = new Vector3(x, -vert_amount + Mathf.Sin(Time.time) * vert_amount) + offset;
     }
 }
