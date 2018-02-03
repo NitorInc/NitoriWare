@@ -36,7 +36,7 @@ public class ReimuDodgeBullet : MonoBehaviour
     void SetTrajectory()
     {
         // Find the player object in the scene and calculate a trajectory towards them
-        GameObject player = GameObject.Find("Player");
+        GameObject player = GameObject.Find("ReimuDodgePlayer");
         trajectory = (player.transform.position - transform.position).normalized; 
     }
 }
