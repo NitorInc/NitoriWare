@@ -18,6 +18,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 	public ParticleSystem particles, burpParticles;
 	public Animator animator, sweatAnimator;
 	public Vibrate headVibrate;
+    public Vibrate eatVibrate;
 
 	public Sprite hungryFace, chewingFace1, chewingFace2, happyFace;
 
@@ -162,7 +163,8 @@ public class GhostFoodYuyuko : MonoBehaviour
         face.transform.parent.localScale = Vector3.one;
 		//joint.useMotor = false;
 		headVibrate.vibrateOn = true;
-		distanceToCenter = ((Vector2)transform.position).magnitude;
+        eatVibrate.vibrateOn = false;
+        distanceToCenter = ((Vector2)transform.position).magnitude;
 
 		audioSource.PlayOneShot(victoryClip);
 		audioSource.pitch = Time.timeScale;
@@ -183,10 +185,12 @@ public class GhostFoodYuyuko : MonoBehaviour
 		{
 			case (State.Hungry):
 				faceRenderer.sprite = hungryFace;
+                eatVibrate.vibrateOn = false;
                 break;
 			case (State.Chewing):
 				faceRenderer.sprite = chewingFace1;
-				if (chewsLeft > 0 && Input.GetMouseButtonDown(0))// && animator.playbackTime >= chewTime)
+                eatVibrate.vibrateOn = true;
+                if (chewsLeft > 0 && Input.GetMouseButtonDown(0))// && animator.playbackTime >= chewTime)
 				{
                     CancelInvoke();
                     sweatAnimator.SetInteger("state", 0);
@@ -211,7 +215,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 				}
 				break;
 			case (State.Full):
-				faceRenderer.sprite = happyFace;
+                faceRenderer.sprite = happyFace;
 
 				if ((Vector2)transform.position != Vector2.zero)
 				{
