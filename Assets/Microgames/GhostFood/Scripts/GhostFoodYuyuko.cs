@@ -183,7 +183,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 		{
 			case (State.Hungry):
 				faceRenderer.sprite = hungryFace;
-				break;
+                break;
 			case (State.Chewing):
 				faceRenderer.sprite = chewingFace1;
 				if (chewsLeft > 0 && Input.GetMouseButtonDown(0))// && animator.playbackTime >= chewTime)
@@ -328,6 +328,9 @@ public class GhostFoodYuyuko : MonoBehaviour
             Invoke("sweat", sweatStartTime);
             audioSource.PlayOneShot(chompClip);
             audioSource.pitch = Time.timeScale * Random.Range(.95f, 1.05f);
+
+            animator.Rebind();
+            animator.Play("Chew", -1, 0f);
         }
 	}
 
