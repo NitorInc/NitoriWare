@@ -87,7 +87,6 @@ public class MicrogameTraits : MonoBehaviour
         if (!skipFinishedFolder)
 		{
 			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
-            print("Assets" + MicrogameCollection.MicrogameAssetPath + "/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 			if (traits != null)
 				return traits.GetComponent<MicrogameTraits>();
 		}
