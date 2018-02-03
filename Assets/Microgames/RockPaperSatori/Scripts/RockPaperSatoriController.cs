@@ -37,18 +37,18 @@ public class RockPaperSatoriController : MonoBehaviour
     public void makeMove(Move move)
     {
         //Decide if player won
-        bool playerVictory;
+        RockPaperSatoriPlayer.State playerState;
         if (move == opponent.getMove())
-            playerVictory = handleTie();
+            playerState = RockPaperSatoriPlayer.State.Tie;
         else if (MathHelper.trueMod(((int)move - 1), 3) == (int)opponent.getMove())
-            playerVictory = true;
+            playerState = RockPaperSatoriPlayer.State.Victory;
         else
-            playerVictory = false;
+            playerState = RockPaperSatoriPlayer.State.Loss;
 
         //Set victory
-        MicrogameController.instance.setVictory(playerVictory, true);
-        player.throwHand(move, playerVictory);
-        opponent.throwHand(!playerVictory); //Opposite
+        MicrogameController.instance.setVictory(playerState == RockPaperSatoriPlayer.State.Victory);
+        player.throwHand(move, playerState);
+        opponent.throwHand(playerState);
     }
 
     public bool isGameStarted()
@@ -56,9 +56,5 @@ public class RockPaperSatoriController : MonoBehaviour
         return gameStarted;
     }
     
-
-    bool handleTie()
-    {
-        return false;
-    }
+    
 }
