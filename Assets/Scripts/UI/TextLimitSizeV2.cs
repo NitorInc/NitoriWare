@@ -20,6 +20,7 @@ public class TextLimitSizeV2 : MonoBehaviour
     private bool resetSizeFields;
 
     ContentSizeFitter fitter;
+    private CanvasTextOutline outline;  //Force update when size is changed
 
     private string lastText;
 
@@ -31,6 +32,8 @@ public class TextLimitSizeV2 : MonoBehaviour
             textComponent = GetComponent<Text>();
         if (rectTransform == null)
             rectTransform = (RectTransform)transform;
+        if (outline == null)
+            outline = GetComponent<CanvasTextOutline>();
         if (fitter == null)
             fitter = GetComponent<ContentSizeFitter>();
     }
@@ -48,7 +51,20 @@ public class TextLimitSizeV2 : MonoBehaviour
             resetSizeFields = false;
         }
         if (!onlyUpdateOnTextChange || getText() != lastText)
+        {
             updateScale();
+
+            if (outline != null)
+            {
+                var children = outline.getChildTexts();
+                if (children != null)
+                {
+                    outline.updateAttributes = true;
+                    outline.LateUpdate();
+                }
+            }
+        }
+
     }
 
     public void updateScale()
