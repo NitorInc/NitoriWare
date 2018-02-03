@@ -210,11 +210,11 @@ public class MicrogameController : MonoBehaviour
     }
 
 	/// <summary>
-	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
+	/// Call this to have the player win/lose a microgame, set 'final' to false if the victory status might be changed again before the microgame is up
 	/// </summary>
 	/// <param name="victory"></param>
 	/// <param name="final"></param>
-	public void setVictory(bool victory, bool final)
+	public void setVictory(bool victory, bool final = true)
 	{
 		if (debugMode)
 		{
