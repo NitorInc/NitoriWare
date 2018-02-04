@@ -43,6 +43,16 @@ public class AdvancingText : MonoBehaviour
             onComplete.Invoke();
     }
 
+    public float getAdvanceSpeed()
+    {
+        return advanceSpeed;
+    }
+
+    public void setAdvanceSpeed(float speed)
+    {
+        advanceSpeed = speed;
+    }
+
     void setVisibleChars(int amount)
     {
         textMeshProComponent.maxVisibleCharacters = amount;
