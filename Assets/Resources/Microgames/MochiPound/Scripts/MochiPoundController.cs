@@ -44,11 +44,13 @@ namespace NitorInc.MochiPound {
                     case Hit.Both:
                         if (Input.GetKeyDown(KeyCode.RightArrow)) {
                             rabbits[(int)Hit.Left].Pound();
+                            rabbits[(int)Hit.Right].Windup();
                             rabbits[(int)Hit.Left].ShowButton(false);
                             ++hitCounter;
                             lastHit = Hit.Left;
                         } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                             rabbits[(int)Hit.Right].Pound();
+                            rabbits[(int)Hit.Left].Windup();
                             rabbits[(int)Hit.Right].ShowButton(false);
                             ++hitCounter;
                             lastHit = Hit.Right;
@@ -57,6 +59,7 @@ namespace NitorInc.MochiPound {
                     case Hit.Left:
                         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                             rabbits[(int)Hit.Right].Pound();
+                            rabbits[(int)Hit.Left].Windup();
                             rabbits[(int)Hit.Right].ShowButton(false);
                             rabbits[(int)Hit.Left].ResetStatus();
                             rabbits[(int)Hit.Left].ShowButton(true);
@@ -67,6 +70,7 @@ namespace NitorInc.MochiPound {
                     case Hit.Right:
                         if (Input.GetKeyDown(KeyCode.RightArrow)) {
                             rabbits[(int)Hit.Left].Pound();
+                            rabbits[(int)Hit.Right].Windup();
                             rabbits[(int)Hit.Left].ShowButton(false);
                             rabbits[(int)Hit.Right].ResetStatus();
                             rabbits[(int)Hit.Right].ShowButton(true);

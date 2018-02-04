@@ -22,6 +22,8 @@ namespace NitorInc.MochiPound {
 
         public string poundAnimName = "Pounding";
         int poundAnimNameHash;
+        public string windupAnimName = "Windup";
+        int windupAnimNameHash;
 
         // Use this for initialization
         void Start() {
@@ -30,6 +32,7 @@ namespace NitorInc.MochiPound {
             planets = FindObjectsOfType<MochiPoundPlanet>();
             ctrler = FindObjectOfType<MochiPoundController>();
             poundAnimNameHash = Animator.StringToHash(poundAnimName);
+            windupAnimNameHash = Animator.StringToHash(windupAnimName);
         }
 
         // Update is called once per frame
@@ -78,6 +81,10 @@ namespace NitorInc.MochiPound {
             PlayPoundImmediate();
         }
 
+        public void Windup() {
+            PlayWindup();
+        }
+
         public void OnVictory() {
             hasWon = true;
             PlayPoundAnim();
@@ -91,6 +98,10 @@ namespace NitorInc.MochiPound {
                 planets[i].Shake();
             }
             ctrler.OnHit();
+        }
+
+        void PlayWindup() {
+            anim.Play(windupAnimNameHash, 0, 0.0f);
         }
 
         void PlayPoundAnim() {
