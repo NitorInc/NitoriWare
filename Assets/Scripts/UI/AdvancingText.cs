@@ -8,9 +8,11 @@ public class AdvancingText : MonoBehaviour
 {
     private const string richTextPrefix = "<color=#00000000>";
     private const string richTextSuffix = "</color>";
-
+    
     [SerializeField]
     private float advanceSpeed;
+    [SerializeField]
+    bool dontLocalize;
     [SerializeField]
     private UnityEvent onComplete;
 
@@ -28,8 +30,12 @@ public class AdvancingText : MonoBehaviour
 
     public void resetAdvance()
     {
-        if (localizedText != null)
-            localizedText.enabled = false;
+        if (localizedText != null && !dontLocalize)
+        {
+            textComponent.text = TextHelper.getLocalizedText(localizedText.key, textComponent.text);
+            localizedText.updateText();
+        }
+
         textString = textComponent.text.Replace(richTextPrefix, "").Replace(richTextSuffix, "");
         progress = 0f;
         enabled = true;

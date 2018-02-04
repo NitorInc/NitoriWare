@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224193040092056798}
+  - component: {fileID: 114295728505502918}
   m_Layer: 5
   m_Name: Fitted Advancing Text
   m_TagString: Untagged
@@ -104,6 +105,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114295728505502918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1250702291893546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114349062843812538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,9 +128,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   advanceSpeed: 20
+  dontLocalize: 0
   onComplete:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: setVictory
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114618580572510928
@@ -142,7 +166,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
-    m_FontSize: 137
+    m_FontSize: 103
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -153,7 +177,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: This is the best text ever I cant believe how good it is
+  m_Text: "\t"
 --- !u!114 &114680340822371018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -183,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
-  applyToTextString: 1
+  applyToTextString: 0
   applyToFont: 1
   _key: 
   parameters: []
