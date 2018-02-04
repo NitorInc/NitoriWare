@@ -209,12 +209,22 @@ public class MicrogameController : MonoBehaviour
         return sfxSource;
     }
 
-	/// <summary>
-	/// Call this to have the player win/lose a microgame, set 'final' to false if the victory status might be changed again before the microgame is up
-	/// </summary>
-	/// <param name="victory"></param>
-	/// <param name="final"></param>
-	public void setVictory(bool victory, bool final = true)
+    /// <summary>
+    /// Call this to have the player win/lose a microgame. If victory status may change before the end of the microgame, add a second "false" bool parameter
+    /// </summary>
+    /// <param name="victory"></param>
+    /// <param name="final"></param>
+    public void setVictory(bool victory)
+    {
+        setVictory(victory, true);
+    }
+
+    /// <summary>
+    /// Call this to have the player win/lose a microgame, set 'final' to false if the victory status might be changed again before the microgame is up
+    /// </summary>
+    /// <param name="victory"></param>
+    /// <param name="final"></param>
+    public void setVictory(bool victory, bool final)
 	{
 		if (debugMode)
 		{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LocalizedText : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class LocalizedText : MonoBehaviour
 
     private Text textComponent;
 	private TextMesh textMesh;
+    private TextMeshProUGUI textMeshPro;
     private LocalizationManager.Language loadedLanguage;
     private string initialText;
     private Font initialFont;
@@ -49,6 +51,7 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
+        textMeshPro = GetComponent<TextMeshProUGUI>();
         limitSize = GetComponent<TextLimitSize>();
         loadedLanguage = new LocalizationManager.Language();
         initialText = getText();
@@ -59,7 +62,8 @@ public class LocalizedText : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID())
+        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID()
+            && !(string.IsNullOrEmpty(loadedLanguage.getLanguageID()) && string.IsNullOrEmpty(TextHelper.getLoadedLanguageID())))
         {
             bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage.getLanguageID());
             loadedLanguage = TextHelper.getLoadedLanguage();
@@ -149,7 +153,9 @@ public class LocalizedText : MonoBehaviour
 			textComponent.text = text;
 		else if (textMesh != null)
 			textMesh.text = text;
-	}
+        if (textMeshPro != null)
+            textMeshPro.text = text;
+    }
 
 	private string getText()
 	{
@@ -157,6 +163,8 @@ public class LocalizedText : MonoBehaviour
 			return textComponent.text;
 		if (textMesh != null)
 			return textMesh.text;
+        if (textMeshPro != null)
+            return textMeshPro.text;
 		return "";
     }
 
@@ -166,6 +174,7 @@ public class LocalizedText : MonoBehaviour
             textComponent.font = font;
         else if (textMesh != null)
             textMesh.font = font;
+        //TODO TextMeshPro font support
     }
 
     private Font getFont()
@@ -174,6 +183,7 @@ public class LocalizedText : MonoBehaviour
             return textComponent.font;
         if (textMesh != null)
             return textMesh.font;
+        //TODO TextMeshPro font support
         return null;
     }
 
@@ -183,6 +193,7 @@ public class LocalizedText : MonoBehaviour
             return textComponent.fontStyle;
         if (textMesh != null)
             return textMesh.fontStyle;
+        //TODO TextMeshPro fontstyle support
         return FontStyle.Normal;
     }
 
@@ -192,9 +203,10 @@ public class LocalizedText : MonoBehaviour
             textComponent.fontStyle = style;
         else if (textMesh != null)
             textMesh.fontStyle = style;
+        //TODO TextMeshPro fontstyle support
     }
 
-	string getPrefixedKey()
+    string getPrefixedKey()
 	{
 		switch(keyPrefix)
 		{
