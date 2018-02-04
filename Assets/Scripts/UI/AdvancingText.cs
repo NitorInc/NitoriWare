@@ -7,62 +7,55 @@ using TMPro;
 
 public class AdvancingText : MonoBehaviour
 {
-    private const string richTextPrefix = "<color=#00000000>";
-    private const string richTextSuffix = "</color>";
     
     [SerializeField]
     private float advanceSpeed;
     [SerializeField]
     private UnityEvent onComplete;
 
-    private TextMeshProUGUI textMeshPro;
+    private TMP_Text textMeshProComponent;
     private float progress;
-    private string textString;
     
 	void Start ()
     {
-        textMeshPro = GetComponent<TextMeshProUGUI>();
-        progress = -1f;
+        textMeshProComponent = GetComponent<TMP_Text>();;
         resetAdvance();
 	}
 
     public void resetAdvance()
     {
-        textString = getUnformattedText();
         progress = 0f;
-        enabled = true;
-        textMeshPro.text = getFittedText(textString, 0);
-
+        setVisibleChars(0);
     }
 
     void Update ()
     {
-        if (progress < 0f)
-            resetAdvance();
-        if (progress < textString.Length)
+        if (progress < getTotalVisibleChars())
             updateText();
 	}
 
     void updateText()
     {
-        textString = getUnformattedText();
-        progress = Mathf.MoveTowards(progress, textString.Length, Time.deltaTime * advanceSpeed);
-        textMeshPro.text = getFittedText(textString, (int)Mathf.Floor(progress));
-        if (progress >= textString.Length)
+        progress = Mathf.MoveTowards(progress, getTotalVisibleChars(), Time.deltaTime * advanceSpeed);
+
+        setVisibleChars((int)Mathf.Floor(progress));
+        if (progress >= getTotalVisibleChars())
             onComplete.Invoke();
     }
 
-    public string getFittedText(string textString, int visibleChars)
+    void setVisibleChars(int amount)
     {
-        if (visibleChars >= textString.Length)
-            return textString;
-
-        return textString.Substring(0, visibleChars) + richTextPrefix
-            + textString.Substring(visibleChars, textString.Length - visibleChars) + richTextSuffix;
+        textMeshProComponent.maxVisibleCharacters = amount;
     }
 
-    public string getUnformattedText()
+    public int getVisibleChars()
     {
-        return textMeshPro.text.Replace(richTextPrefix, "").Replace(richTextSuffix, "");
+        return textMeshProComponent.maxVisibleCharacters;
+    }
+
+    public int getTotalVisibleChars()
+    {
+        var textInfo = textMeshProComponent.textInfo;
+        return textInfo.characterCount; 
     }
 }
