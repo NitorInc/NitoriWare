@@ -59,6 +59,9 @@ public class YuugiBalancePlate : MonoBehaviour
         transform.position = player.transform.position + offset;
         transform.eulerAngles = Vector3.forward * z;
 
+        //set bg paralax position
+        background.transform.position = Vector3.right * distance * -0.1f;
+
         //check for failure
         if (Mathf.Abs(distance) > fail_distance)
         {
@@ -84,7 +87,7 @@ public class YuugiBalancePlate : MonoBehaviour
         transform.eulerAngles = Vector3.forward * z;
 
         //falling
-        transform.position += Vector3.down * Time.deltaTime * (fall += Time.deltaTime * 10)
+        transform.position += Vector3.down * Time.deltaTime * (fall += Time.deltaTime * 70)
             - Vector3.right * distance * Time.deltaTime;
 
         //zoom
@@ -94,7 +97,7 @@ public class YuugiBalancePlate : MonoBehaviour
         //shake
         player.transform.position = deathposition
             + new Vector3(Random.value * 2 - 1, Random.value * -1)
-            * Mathf.Clamp((mad += Time.deltaTime) - 0.5f, 0, 1) * 0.2f;
-        background.color = Color.Lerp(Color.white, Color.red, mad);
+            * Mathf.Clamp((mad += Time.deltaTime * 30) - 0.5f, 0, 1) * 0.2f;
+        background.color = Color.Lerp(Color.white, Color.red, mad / 30);
     }
 }
