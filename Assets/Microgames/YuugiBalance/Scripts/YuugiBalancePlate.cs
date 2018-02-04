@@ -12,6 +12,8 @@ public class YuugiBalancePlate : MonoBehaviour
     [SerializeField]
     private Transform player;
     [SerializeField]
+    private YuugiBalancePlayer player_script;
+    [SerializeField]
     private Vector3 offset;
     private float z = 0,
         target_x = 0,
@@ -21,11 +23,14 @@ public class YuugiBalancePlate : MonoBehaviour
         fail_distance = 2,
         fall = 0,
         distance = 0,
-        delay = 0,
         mad = 0;
     [SerializeField]
-    private float difficulty = 1;
+    private float delay = 0, //delay in seconds before start
+        difficulty = 2;
     private Vector3 deathposition;
+    private bool success = false;
+    [SerializeField]
+    private ParticleSystem[] confetti;
     void Start()
     {
         //randomize if plate will start rotating left or right
@@ -42,11 +47,22 @@ public class YuugiBalancePlate : MonoBehaviour
             return;
         }
 
+        if (MicrogameTimer.instance.beatsLeft <= 0)
+        {
+            Succeed();
+            return;
+        }
+
         //update where the plate should be in X (affected by sine function and position difference from player)
         //the delay is used to prevent the plate from falling too fast at the start
-        delay = Mathf.Clamp(delay + Time.deltaTime * difficulty / 2f, 0, 1);
-        target_x += (Mathf.Sin(sin += Time.deltaTime * sine_speed) / 5f
-            - distance * delay * difficulty) * Time.deltaTime;
+        target_x += (Mathf.Sin(sin += Time.deltaTime * sine_speed) / 5f - distance)
+            * Time.deltaTime * difficulty * Mathf.Clamp01(-(delay -= Time.deltaTime) - 1);
+
+        //push if close to edge
+        float max = player_script.max_horizontal - 1;
+        if (Mathf.Abs(player.position.x) > max)
+            target_x -= (player.position.x - max
+                * Mathf.Sign(player.position.x)) * 0.3f;
 
         //calculate distance and rotate plate
         distance = player.position.x - target_x;
@@ -56,7 +72,7 @@ public class YuugiBalancePlate : MonoBehaviour
         anim.SetFloat("emotion", Mathf.Abs(distance / fail_distance));
 
         //set position and rotation
-        transform.position = player.transform.position + offset;
+        transform.position = player.position + offset;
         transform.eulerAngles = Vector3.forward * z;
 
         //set bg paralax position
@@ -71,8 +87,23 @@ public class YuugiBalancePlate : MonoBehaviour
             anim.SetBool("rip", true);
 
             //set death pos
-            deathposition = player.transform.position;
+            deathposition = player.position;
 
+            //remove controls
+            Destroy(player.GetComponent<YuugiBalancePlayer>());
+        }
+    }
+
+    void Succeed()
+    {
+        if (!success)
+        {
+            success = true;
+            //confetti
+            for (int i = 0; i < confetti.Length; i++)
+                confetti[i].Emit(30);
+            //happy animation
+            anim.SetBool("yay", true);
             //remove controls
             Destroy(player.GetComponent<YuugiBalancePlayer>());
         }
@@ -95,7 +126,7 @@ public class YuugiBalancePlate : MonoBehaviour
         //Camera.main.orthographicSize = 5 - Mathf.Clamp((mad += Time.deltaTime) - 1, 0, 3);
 
         //shake
-        player.transform.position = deathposition
+        player.position = deathposition
             + new Vector3(Random.value * 2 - 1, Random.value * -1)
             * Mathf.Clamp((mad += Time.deltaTime * 30) - 0.5f, 0, 1) * 0.2f;
         background.color = Color.Lerp(Color.white, Color.red, mad / 30);
