@@ -59,7 +59,8 @@ public class LocalizedText : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID())
+        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID()
+            && !(string.IsNullOrEmpty(loadedLanguage.getLanguageID()) && string.IsNullOrEmpty(TextHelper.getLoadedLanguageID())))
         {
             bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage.getLanguageID());
             loadedLanguage = TextHelper.getLoadedLanguage();
