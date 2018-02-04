@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 public class AdvancingText : MonoBehaviour
 {
@@ -12,47 +13,41 @@ public class AdvancingText : MonoBehaviour
     [SerializeField]
     private float advanceSpeed;
     [SerializeField]
-    bool dontLocalize;
-    [SerializeField]
     private UnityEvent onComplete;
 
-    private Text textComponent;
-    private LocalizedText localizedText;
+    private TextMeshProUGUI textMeshPro;
     private float progress;
     private string textString;
     
 	void Start ()
     {
-        textComponent = GetComponent<Text>();
-        localizedText = GetComponent<LocalizedText>();
+        textMeshPro = GetComponent<TextMeshProUGUI>();
+        progress = -1f;
         resetAdvance();
 	}
 
     public void resetAdvance()
     {
-        if (localizedText != null && !dontLocalize)
-        {
-            textComponent.text = TextHelper.getLocalizedText(localizedText.key, textComponent.text);
-            localizedText.updateText();
-        }
-
-        textString = textComponent.text.Replace(richTextPrefix, "").Replace(richTextSuffix, "");
+        textString = getUnformattedText();
         progress = 0f;
         enabled = true;
-        textComponent.text = getFittedText(textString, 0);
+        textMeshPro.text = getFittedText(textString, 0);
 
     }
 
     void Update ()
     {
+        if (progress < 0f)
+            resetAdvance();
         if (progress < textString.Length)
             updateText();
 	}
 
     void updateText()
     {
+        textString = getUnformattedText();
         progress = Mathf.MoveTowards(progress, textString.Length, Time.deltaTime * advanceSpeed);
-        textComponent.text = getFittedText(textString, (int)Mathf.Floor(progress));
+        textMeshPro.text = getFittedText(textString, (int)Mathf.Floor(progress));
         if (progress >= textString.Length)
             onComplete.Invoke();
     }
@@ -64,5 +59,10 @@ public class AdvancingText : MonoBehaviour
 
         return textString.Substring(0, visibleChars) + richTextPrefix
             + textString.Substring(visibleChars, textString.Length - visibleChars) + richTextSuffix;
+    }
+
+    public string getUnformattedText()
+    {
+        return textMeshPro.text.Replace(richTextPrefix, "").Replace(richTextSuffix, "");
     }
 }
