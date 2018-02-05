@@ -119,7 +119,7 @@ public class MamiPoserController : MonoBehaviour {
 		// Show the correct/incorrect sign at cursor position
 		print(CameraHelper.getCursorPosition());
 		if (signPrefab)
-			Instantiate(signPrefab, (Vector2)CameraHelper.getCursorPosition(), Quaternion.identity);
+			Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
 		
         // Make the other characters (except the one clicked) look at Mamizou
         for (int i = 0; i < characterSpawnNumber; i++)
