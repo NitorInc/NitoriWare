@@ -29,8 +29,6 @@ public class YuugiBalancePlate : MonoBehaviour
         difficulty = 2;
     private Vector3 deathposition;
     private bool success = false;
-    [SerializeField]
-    private ParticleSystem[] confetti;
     void Start()
     {
         //randomize if plate will start rotating left or right
@@ -99,11 +97,6 @@ public class YuugiBalancePlate : MonoBehaviour
         if (!success)
         {
             success = true;
-            //confetti
-            for (int i = 0; i < confetti.Length; i++)
-                confetti[i].Emit(30);
-            //happy animation
-            anim.SetBool("yay", true);
             //remove controls
             Destroy(player.GetComponent<YuugiBalancePlayer>());
         }
