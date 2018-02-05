@@ -19,6 +19,10 @@ public class MamiPoserController : MonoBehaviour {
     [SerializeField]
     private GameObject smokePrefab;
 
+	[Header("Correct/incorrect sign prefabs")]
+	[SerializeField]
+	private GameObject correctSignPrefab, incorrectSignPrefab;
+
     [Header("Spawners to spawn characters in")]
     [SerializeField]
     private MamiPoserSpawner[] spawners;
@@ -97,18 +101,26 @@ public class MamiPoserController : MonoBehaviour {
         mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
 
         // Determine if the player chose correctly
-        if (clickedCharacter.isDisguised)
+		GameObject signPrefab;
+		if (clickedCharacter.isDisguised)
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
             mamizou.ChoseRight();
+			signPrefab = correctSignPrefab;
         }
         else
         {
             MicrogameController.instance.setVictory(victory: false, final: true);
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
+			signPrefab = incorrectSignPrefab;
         }
 
+		// Show the correct/incorrect sign at cursor position
+		print(CameraHelper.getCursorPosition());
+		if (signPrefab)
+			Instantiate(signPrefab, (Vector2)CameraHelper.getCursorPosition(), Quaternion.identity);
+		
         // Make the other characters (except the one clicked) look at Mamizou
         for (int i = 0; i < characterSpawnNumber; i++)
         {
