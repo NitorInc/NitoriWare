@@ -7,6 +7,9 @@ public class DoorKnockDoor : MonoBehaviour {
     [SerializeField]
     private Collider2D clickCollider;
 	
+    [SerializeField]
+     private bool teleportOnClick;
+
     private float screenWidth;
     private float screenHeight;
     
@@ -20,15 +23,14 @@ public class DoorKnockDoor : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
-        {
-           OnClick(); 
-        } 
+            OnClick(); 
 	}
     
     // When the object is clicked
     void OnClick() {
         print("Clicked.");
-        Teleport();
+        if (teleportOnClick)
+            Teleport();
     }
     
     // Move to a random location
