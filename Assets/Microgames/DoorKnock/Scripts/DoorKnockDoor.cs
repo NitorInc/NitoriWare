@@ -21,10 +21,12 @@ public class DoorKnockDoor : MonoBehaviour {
         // Get the screen dimensions
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
- 	}
+ 	    Teleport();
+    }
 	
 	// Update is called once per frame
 	void Update() {
+        // Test if sprite is clicked
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
             OnClick(); 
 	}
