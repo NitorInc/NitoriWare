@@ -8,7 +8,10 @@ public class DoorKnockDoor : MonoBehaviour {
     private Collider2D clickCollider;
 	
     [SerializeField]
-     private bool teleportOnClick;
+    private bool teleportOnClick;
+
+    [SerializeField]
+    private int clicksToWin;
 
     private float screenWidth;
     private float screenHeight;
@@ -29,6 +32,12 @@ public class DoorKnockDoor : MonoBehaviour {
     // When the object is clicked
     void OnClick() {
         print("Clicked.");
+        clicksToWin--;
+        if (clicksToWin <= 0){
+            // We win
+            MicrogameController.instance.setVictory(victory: true, final: true);
+        }
+
         if (teleportOnClick)
             Teleport();
     }
