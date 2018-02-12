@@ -27,8 +27,9 @@ public class DoorKnockDoor : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
         // Test if sprite is clicked
-        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
+        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider)) {
             OnClick(); 
+        }
 	}
     
     // When the object is clicked
@@ -40,15 +41,27 @@ public class DoorKnockDoor : MonoBehaviour {
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
 
-        if (teleportOnClick)
+        if (teleportOnClick){
             Teleport();
+        }
     }
     
     // Move to a random location
     void Teleport() {
-        print(screenWidth);
         float newx = Random.Range(-screenWidth, screenWidth) / 2;
         float newy = Random.Range(-screenHeight, screenHeight) / 2;
         transform.position = new Vector2(newx, newy);
+        StartCoroutine(Appear());
+    }
+
+    // popping back animation
+    IEnumerator Appear(){
+        Transform rigTransform = transform.Find("Rig").transform;
+        for (float i = 1.0f; i <= 11.0f; i+=0.7f){
+            rigTransform.localScale = new Vector2(i, i);
+            yield return new WaitForFixedUpdate();
+        }
+        rigTransform.localScale = new Vector2(10, 10);
+        yield return null;
     }
 }
