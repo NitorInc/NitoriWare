@@ -83,6 +83,7 @@ public class DatingSimGirl : MonoBehaviour {
         }
         //string result = new string(name);
         //work more on it later
+        // work on now
     }
 	
 	// Update is called once per frame
