@@ -69,8 +69,21 @@ public class DatingSimGirl : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        //read in text from file as string
+        //default it
+        char[] name = new char[30];
+        char[] Dialogue = new char[200];
+        char[] choice1 = new char[100];
+        char[] choice2 = new char[100];
+        char[] choice3 = new char[100];
+        char[] choice4 = new char[100];
+        for (int i = 0; i < 30; i++)
+        {
+            name[i] = 'a';
+        }
+        //string result = new string(name);
+        //work more on it later
+    }
 	
 	// Update is called once per frame
 	void Update () {
