@@ -5,6 +5,8 @@ using TMPro;
 
 public class DialogueController : MonoBehaviour {
 
+    public float introTextDelay;
+
     private TMP_Text textComp;
     private AdvancingText textPlayer;
     DialoguePreset preset;
@@ -20,6 +22,13 @@ public class DialogueController : MonoBehaviour {
         textComp.text = preset.GetStartingDialogue(index);
         textComp.maxVisibleCharacters = 0;
         textPlayer.resetAdvance();
+        textPlayer.enabled = false;
+        Invoke("EnableTextPlayer", introTextDelay);
+    }
+
+    void EnableTextPlayer()
+    {
+        textPlayer.enabled = true;
     }
 
     public void SetDialogue(string str) {

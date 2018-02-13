@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OptionController : MonoBehaviour {
+    
+    public GameObject choiceMenu;
 
     public delegate void OnSelection();
     public static event OnSelection OnWinning;
@@ -39,9 +41,17 @@ public class OptionController : MonoBehaviour {
     public int totalLoseLines = 2;
     public int neededLoseLines = 2;
 
+
     bool enableUserControl = true;
-	// Use this for initialization
-	void Start () {
+
+    private void Awake()
+    {
+        OnWinning = null;
+        OnLosing = null;
+    }
+
+    // Use this for initialization
+    void Start () {
         DialoguePreset.OnCharacterSelection += InitializeOptions;
 	}
 	
@@ -103,7 +113,8 @@ public class OptionController : MonoBehaviour {
             sets.Add(new OptionSet(optionText, responseText, false));
         }
 
-        ShowOptions();
+        gameObject.SetActive(false);
+        //Invoke("ShowOptions", optionDelay);
     }
 
     List<int> SelectAtRandom(int amount, int total) {
@@ -119,6 +130,13 @@ public class OptionController : MonoBehaviour {
             amount = total;
         result.RemoveRange(amount, count);
         return result;
+    }
+
+    public void InvokeOptions(float time)
+    {
+        if (gameObject.activeInHierarchy)
+            return;
+        Invoke("ShowOptions", time);
     }
 
     public void ShowOptions() {
@@ -137,5 +155,8 @@ public class OptionController : MonoBehaviour {
                 lines[i].ShowCursor(true);
             }
         }
+
+        gameObject.SetActive(true);
+        choiceMenu.SetActive(true);
     }
 }

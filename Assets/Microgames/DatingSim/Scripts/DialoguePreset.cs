@@ -65,8 +65,13 @@ public class DialoguePreset : MonoBehaviour {
 
     public int overrideCharacterSelection = -1;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        OnCharacterSelection = null;
+    }
+
+    // Use this for initialization
+    void Start () {
         int index = Random.Range(0, characterKeywords.Length);
         if (overrideCharacterSelection != -1)
             index = overrideCharacterSelection;
