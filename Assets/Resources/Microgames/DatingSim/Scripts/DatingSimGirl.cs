@@ -72,18 +72,41 @@ public class DatingSimGirl : MonoBehaviour {
         //read in text from file as string
         //default it
         char[] name = new char[30];
-        char[] Dialogue = new char[200];
+        char[] Dialogue = new char[300];
         char[] choice1 = new char[100];
         char[] choice2 = new char[100];
         char[] choice3 = new char[100];
         char[] choice4 = new char[100];
+        //probably need 30-50 sized array for choices to save space
+        //replace the loop's instruction with a reader
         for (int i = 0; i < 30; i++)
         {
             name[i] = 'a';
         }
+        for (int i = 0; i < 300; i++)
+        {
+           Dialogue[i] = 'a';
+        }
+        for (int i = 0; i < 100; i++)
+        {
+            choice1[i] = 'a';
+        }
+        for (int i = 0; i < 100; i++)
+        {
+            choice2[i] = 'a';
+        }
+        for (int i = 0; i < 100; i++)
+        {
+            choice3[i] = 'a';
+        }
+        for (int i = 0; i < 100; i++)
+        {
+            choice4[i] = 'a';
+        }
         //string result = new string(name);
         //work more on it later
         // work on now
+
     }
 	
 	// Update is called once per frame
