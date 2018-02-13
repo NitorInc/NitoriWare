@@ -77,6 +77,7 @@ public class DatingSimGirl : MonoBehaviour {
         char[] choice2 = new char[100];
         char[] choice3 = new char[100];
         char[] choice4 = new char[100];
+        int girlindex = 0;
         //probably need 30-50 sized array for choices to save space
         //replace the loop's instruction with a reader
         for (int i = 0; i < 30; i++)
@@ -104,8 +105,9 @@ public class DatingSimGirl : MonoBehaviour {
             choice4[i] = 'a';
         }
         //string result = new string(name);
-        //work more on it later
-        // work on now
+     //Do I make the image change on an integer?
+     //Should I just read from the imported name string?
+     //
 
     }
 	
