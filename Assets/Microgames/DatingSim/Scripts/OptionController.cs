@@ -6,6 +6,7 @@ public class OptionController : MonoBehaviour {
     
     public GameObject choiceMenu;
     public TinyMaterial tinyMaterial;
+    public AudioClip cursorMoveClip;
 
     public delegate void OnSelection();
     public static event OnSelection OnWinning;
@@ -66,13 +67,15 @@ public class OptionController : MonoBehaviour {
                     currentOption = sets.Count - 1;
                 lines[currentOption].ShowCursor(true);
 
+                MicrogameController.instance.playSFX(cursorMoveClip);
             } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
                 lines[currentOption].ShowCursor(false);
                 currentOption++;
                 if (currentOption >= sets.Count)
                     currentOption = 0;
                 lines[currentOption].ShowCursor(true);
-
+                
+                MicrogameController.instance.playSFX(cursorMoveClip);
             } else if (Input.GetKeyDown(KeyCode.Space)) {
 
                 enableUserControl = false;
