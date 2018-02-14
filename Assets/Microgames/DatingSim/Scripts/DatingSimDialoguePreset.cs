@@ -4,9 +4,10 @@ using UnityEngine;
 
 // this is a dummy class that presents a data set similar to localized version,
 // and the game starts here.
-public class DialoguePreset : MonoBehaviour {
+namespace NitorInc.DatingSim {
+    public class DatingSimDialoguePreset : MonoBehaviour {
 
-    Dictionary<string, string> dummyTextCollection = new Dictionary<string, string>() {
+        Dictionary<string, string> dummyTextCollection = new Dictionary<string, string>() {
 
         {"Microgame.DatingSim.SuikaFullName", "Suika Inuki"},
         {"Microgame.DatingSim.SuikaStart", "Heeeeey! You’re free aren’cha? Let’s grab some-thing to eat."},
@@ -52,45 +53,45 @@ public class DialoguePreset : MonoBehaviour {
         {"Microgame.DatingSim.PatchyLoseOption1", "*Trip and spill hot tea everywhere*"},
         {"Microgame.DatingSim.PatchyLoseResponse1", "EEYYAAAAAAAAAAaahh!!"},
     };
-    string dummyPrefix = "Microgame.DatingSim.";
-    string[] characterKeywords = {
+        string dummyPrefix = "Microgame.DatingSim.";
+        string[] characterKeywords = {
         "Suika",
         "Youmu",
         "Yuuka",
         //"Patchy"
     };
 
-    public delegate void OnSelection(int index);
-    public static event OnSelection OnCharacterSelection;
+        public delegate void OnSelection(int index);
+        public static event OnSelection OnCharacterSelection;
 
-    public int overrideCharacterSelection = -1;
+        public int overrideCharacterSelection = -1;
 
-	// Use this for initialization
-	void Start () {
-        int index = Random.Range(0, characterKeywords.Length);
-        if (overrideCharacterSelection != -1)
-            index = overrideCharacterSelection;
-        string currChar = characterKeywords[index];
-        // Game starts on character selection
-        OnCharacterSelection(index);
+        // Use this for initialization
+        void Start() {
+            int index = Random.Range(0, characterKeywords.Length);
+            if (overrideCharacterSelection != -1)
+                index = overrideCharacterSelection;
+            string currChar = characterKeywords[index];
+            // Game starts on character selection
+            OnCharacterSelection(index);
+        }
+
+        public string GetOption(int charIndex, bool isWin, bool isOption, int targetIndex) {
+            string key = dummyPrefix + characterKeywords[charIndex] + (isWin ? "Win" : "Lose") + (isOption ? "Option" : "Response") + targetIndex.ToString();
+            return dummyTextCollection[key];
+        }
+
+        public string GetFullName(int index) {
+            return dummyTextCollection[dummyPrefix + characterKeywords[index] + "FullName"];
+        }
+
+        public string GetStartingDialogue(int index) {
+            return dummyTextCollection[dummyPrefix + characterKeywords[index] + "Start"];
+        }
+        
+        void OnDestroy() {
+            OnCharacterSelection = null;
+        }
+
     }
-
-    public string GetOption(int charIndex, bool isWin, bool isOption, int targetIndex) {
-        string key = dummyPrefix + characterKeywords[charIndex] + (isWin ? "Win" : "Lose") + (isOption ? "Option" : "Response") + targetIndex.ToString();
-        return dummyTextCollection[key]; 
-    }
-
-    public string GetFullName(int index) {
-        return dummyTextCollection[dummyPrefix + characterKeywords[index] + "FullName"];
-    }
-
-    public string GetStartingDialogue(int index) {
-        return dummyTextCollection[dummyPrefix + characterKeywords[index] + "Start"];
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    
 }
