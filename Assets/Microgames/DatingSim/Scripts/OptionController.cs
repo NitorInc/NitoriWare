@@ -113,7 +113,7 @@ public class OptionController : MonoBehaviour {
             sets.Add(new OptionSet(optionText, responseText, false));
         }
 
-        gameObject.SetActive(false);
+        enableUserControl = false;
         //Invoke("ShowOptions", optionDelay);
     }
 
@@ -134,18 +134,26 @@ public class OptionController : MonoBehaviour {
 
     public void InvokeOptions(float time)
     {
-        if (gameObject.activeInHierarchy)
+        if (MicrogameController.instance.getVictoryDetermined())
             return;
-        Invoke("ShowOptions", time);
+
+        Invoke("ShowMenu", time);
     }
 
-    public void ShowOptions() {
+    void ShowMenu()
+    {
+        choiceMenu.SetActive(true);
+    }
+
+    public void ShowOptions()
+    {
         sets.Shuffle();
         currentOption = 0;
         for (int i = 0; i < sets.Count; i++) {
             var pos = startPosition.position;
             pos.y = startPosition.position.y - i * distancePerUnit;
             var go = Instantiate(optionLineProto, pos, Quaternion.identity) as GameObject;
+            go.transform.parent = choiceMenu.transform;
             lines.Add(go.GetComponent<OptionLine>());
             lines[i].SetText(sets[i].optionText);
             if (i > 0) {
@@ -156,7 +164,7 @@ public class OptionController : MonoBehaviour {
             }
         }
 
-        gameObject.SetActive(true);
-        choiceMenu.SetActive(true);
+        enableUserControl = true;
+
     }
 }
