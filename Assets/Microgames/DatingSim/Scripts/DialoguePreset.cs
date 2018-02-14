@@ -8,7 +8,7 @@ public class DialoguePreset : MonoBehaviour {
 
     Dictionary<string, string> dummyTextCollection = new Dictionary<string, string>() {
 
-        {"Microgame.DatingSim.SuikaFullName", "Suika Inuki"},
+        {"Microgame.DatingSim.SuikaFullName", "Suika Ibuki"},
         {"Microgame.DatingSim.SuikaStart", "Heeeeey! You’re free aren’cha? Let’s grab some-thing to eat."},
         {"Microgame.DatingSim.SuikaWinOption0", "Race you to the food stall!"},
         {"Microgame.DatingSim.SuikaWinResponse0", "Loser has to pay!"},
@@ -23,7 +23,7 @@ public class DialoguePreset : MonoBehaviour {
         {"Microgame.DatingSim.YoumuStart", "I grew these flowers for you."},
         {"Microgame.DatingSim.YoumuWinOption0", "They’re beautiful!"},
         {"Microgame.DatingSim.YoumuWinResponse0", "Thank you~"},
-        {"Microgame.DatingSim.YoumuWinOption1", "[Player choice]"},
+        {"Microgame.DatingSim.YoumuWinOption1", "That's so sweet."},
         {"Microgame.DatingSim.YoumuWinResponse1", "[Character Response]"},
         {"Microgame.DatingSim.YoumuLoseOption0", "Aaah, a ghost!"},
         {"Microgame.DatingSim.YoumuLoseResponse0", "You have got to be kidding me."},
