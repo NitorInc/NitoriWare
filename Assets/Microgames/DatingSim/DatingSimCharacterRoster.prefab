@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1823813334131014}
+  m_IsPrefabParent: 1
+--- !u!1 &1823813334131014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4886659358468408}
+  - component: {fileID: 114208012418154290}
+  m_Layer: 0
+  m_Name: DatingSimCharacterRoster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4886659358468408
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1823813334131014}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114208012418154290
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1823813334131014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd58120168a39a42a3270ccf137af66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - idName: Suika
+    fullName: Suika Ibuki
+    introDialogue: "Heeeeey! You\u2019re free aren\u2019cha? Let\u2019s grab something
+      to eat."
+    rightOptions:
+    - optionDialogue: Race you to the food stall!
+      responseDialogue: Loser has to pay!
+    - optionDialogue: "Yeah, let\u2019s get some grub!"
+      responseDialogue: Yay!
+    wrongOptions:
+    - optionDialogue: "Didn\u2019t you just eat?!"
+      responseDialogue: "Boo. It\u2019s no fun eating alone."
+    - optionDialogue: Get lost, fatso!
+      responseDialogue: "Well you\u2019re not the skinniest yourself, jerk!"
+    musicClip: {fileID: 8300000, guid: 35474f2dfea708d4b9435ac1ed7a6932, type: 3}
+    defaultPortait: {fileID: 21300000, guid: 8cecf600a7cf4da4380564e727ed3e1f, type: 3}
+    winPortrait: {fileID: 21300000, guid: 43e39aa33fb6e304f9c4a92cad37eed4, type: 3}
+    lossPortrait: {fileID: 21300000, guid: 14291daf3792057499d66e0d8c32b18b, type: 3}
+    backgroundImage: {fileID: 21300000, guid: 20de6a5a13a81ba4fa439e2f10290470, type: 3}
+    optionBGMaterial: {fileID: 2100000, guid: 809f29fefd1110049a703af85bb0ef05, type: 2}
+  - idName: Youmu
+    fullName: Youmu Konpaku
+    introDialogue: I grew these flowers for you.
+    rightOptions:
+    - optionDialogue: "They\u2019re beautiful!"
+      responseDialogue: Thank you~
+    - optionDialogue: That's so sweet. (NEEDS REACTION)
+      responseDialogue: '[Character Response]'
+    wrongOptions:
+    - optionDialogue: Aaah, a ghost!
+      responseDialogue: You have got to be kidding me.
+    - optionDialogue: I hate flowers!
+      responseDialogue: "You don\u2019t deserve them anyway."
+    musicClip: {fileID: 8300000, guid: eb064754dafaf9445870d43e19426170, type: 3}
+    defaultPortait: {fileID: 21300000, guid: 257b6f03115e10d46916dcff65fe0f40, type: 3}
+    winPortrait: {fileID: 21300000, guid: 396a1616701899e4bba1e87dc4beeef6, type: 3}
+    lossPortrait: {fileID: 21300000, guid: 11a7ebc91ac66f749b0736abf2dc255c, type: 3}
+    backgroundImage: {fileID: 21300000, guid: 6b9062651bafe8d45858d078f7db4638, type: 3}
+    optionBGMaterial: {fileID: 2100000, guid: 3b10a5016d382ce44bac4bd6e82e2533, type: 2}
+  - idName: Yuuka
+    fullName: Yuuka Kazami
+    introDialogue: "You weren\u2019t seeing other girls, were you?"
+    rightOptions:
+    - optionDialogue: Of course not!
+      responseDialogue: Good, you better not be.
+    - optionDialogue: "You\u2019re the only one for me!"
+      responseDialogue: Thought so.
+    wrongOptions:
+    - optionDialogue: Well...
+      responseDialogue: "What do you mean, \u201CWell\u201D?\""
+    - optionDialogue: "I\u2019m in love with Reimu!"
+      responseDialogue: Think again.
+    musicClip: {fileID: 8300000, guid: 68ee7e7bb4ee30d4aaa6e03c4ce9def7, type: 3}
+    defaultPortait: {fileID: 21300000, guid: ef2638c2b2a6cc34c985c5dba2f5fc81, type: 3}
+    winPortrait: {fileID: 21300000, guid: 014234ce60717e3438f9091978ff154d, type: 3}
+    lossPortrait: {fileID: 21300000, guid: e243c720b73239848a0c8c4000a7f1f7, type: 3}
+    backgroundImage: {fileID: 21300000, guid: 17c366725bf4713478b6f9b272e721e2, type: 3}
+    optionBGMaterial: {fileID: 2100000, guid: ff58b2d2027e20f4789800b489a042b8, type: 2}
