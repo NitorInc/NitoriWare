@@ -7,10 +7,11 @@ public class TinyMaterial : MonoBehaviour {
     public Material[] mats;
 	// Use this for initialization
 	void Start () {
-        DialoguePreset.OnCharacterSelection += ChangeMaterial;
+        //DialoguePreset.OnCharacterSelection += ChangeMaterial;
+        //ChangeMaterial(DialoguePreset);
 	}
 
-    void ChangeMaterial(int index) {
+    public void ChangeMaterial(int index) {
         GetComponent<Renderer>().material = new Material(mats[index]);
     }
 	

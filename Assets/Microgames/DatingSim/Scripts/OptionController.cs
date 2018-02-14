@@ -5,6 +5,7 @@ using UnityEngine;
 public class OptionController : MonoBehaviour {
     
     public GameObject choiceMenu;
+    public TinyMaterial tinyMaterial;
 
     public delegate void OnSelection();
     public static event OnSelection OnWinning;
@@ -112,6 +113,8 @@ public class OptionController : MonoBehaviour {
             string responseText = preset.GetOption(charIndex, false, false, i);
             sets.Add(new OptionSet(optionText, responseText, false));
         }
+
+        tinyMaterial.ChangeMaterial(charIndex);
 
         enableUserControl = false;
         //Invoke("ShowOptions", optionDelay);
