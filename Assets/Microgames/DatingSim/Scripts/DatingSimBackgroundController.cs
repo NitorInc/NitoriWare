@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackgroundController : MonoBehaviour {
+public class DatingSimBackgroundController : MonoBehaviour {
 
     SpriteRenderer sr;
     public Sprite[] bgSprites;
 	// Use this for initialization
 	void Start () {
         sr = GetComponent<SpriteRenderer>();
-        DialoguePreset.OnCharacterSelection += SetBackground;
+        DatingSimDialoguePreset.OnCharacterSelection += SetBackground;
 	}
 
     void SetBackground(int index) {

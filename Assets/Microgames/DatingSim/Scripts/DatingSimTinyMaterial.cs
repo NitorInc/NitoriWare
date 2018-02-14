@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TinyMaterial : MonoBehaviour {
+public class DatingSimTinyMaterial : MonoBehaviour {
 
     public Material[] mats;
 	// Use this for initialization

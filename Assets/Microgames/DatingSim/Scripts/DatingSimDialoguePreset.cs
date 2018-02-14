@@ -4,7 +4,7 @@ using UnityEngine;
 
 // this is a dummy class that presents a data set similar to localized version,
 // and the game starts here.
-public class DialoguePreset : MonoBehaviour {
+public class DatingSimDialoguePreset : MonoBehaviour {
 
     Dictionary<string, string> dummyTextCollection = new Dictionary<string, string>() {
 

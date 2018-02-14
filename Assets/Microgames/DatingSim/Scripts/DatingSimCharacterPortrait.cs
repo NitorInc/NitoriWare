@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterPortrait : MonoBehaviour {
+public class DatingSimCharacterPortrait : MonoBehaviour {
 
     SpriteRenderer sr;
 
@@ -15,9 +15,9 @@ public class CharacterPortrait : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         sr = GetComponent<SpriteRenderer>();
-        DialoguePreset.OnCharacterSelection += SelectCharacter;
-        OptionController.OnWinning += SetWinPortrait;
-        OptionController.OnLosing += SetLosePortrait;
+        DatingSimDialoguePreset.OnCharacterSelection += SelectCharacter;
+        DatingSimOptionController.OnWinning += SetWinPortrait;
+        DatingSimOptionController.OnLosing += SetLosePortrait;
 	}
 
     void SelectCharacter(int index) {

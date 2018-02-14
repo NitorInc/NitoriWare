@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CharacterNameText : MonoBehaviour {
+public class DatingSimCharacterNameText : MonoBehaviour {
 
     TMP_Text textComp;
-    DialoguePreset preset;
+    DatingSimDialoguePreset preset;
 	// Use this for initialization
 	void Start () {
         textComp = GetComponent<TMP_Text>();
-        preset = FindObjectOfType<DialoguePreset>();
-        DialoguePreset.OnCharacterSelection += SetText;
+        preset = FindObjectOfType<DatingSimDialoguePreset>();
+        DatingSimDialoguePreset.OnCharacterSelection += SetText;
 	}
 
     void SetText(int index) {

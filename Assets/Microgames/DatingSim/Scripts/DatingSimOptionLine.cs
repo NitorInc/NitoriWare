@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class OptionLine : MonoBehaviour {
+public class DatingSimOptionLine : MonoBehaviour {
 
     TMP_Text textComp;
-    HeartCursor cursor;
+    DatingSimCursor cursor;
     public Color defaultColor;
     public Color greyColor;
 
@@ -19,7 +19,7 @@ public class OptionLine : MonoBehaviour {
         if (textComp == null)
             textComp = GetComponentInChildren<TMP_Text>();
         if (cursor == null) {
-            cursor = GetComponentInChildren<HeartCursor>();
+            cursor = GetComponentInChildren<DatingSimCursor>();
             cursor.gameObject.SetActive(false);
         }
         

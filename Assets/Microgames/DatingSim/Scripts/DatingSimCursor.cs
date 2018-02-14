@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeartCursor : MonoBehaviour {
+public class DatingSimCursor : MonoBehaviour {
 
     Animator anim;
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
-        OptionController.OnLosing += PlayOnFail;
+        DatingSimOptionController.OnLosing += PlayOnFail;
 	}
 
     void PlayOnFail() {

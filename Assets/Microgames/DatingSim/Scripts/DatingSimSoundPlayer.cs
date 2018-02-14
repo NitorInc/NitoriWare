@@ -8,8 +8,8 @@ public class DatingSimSoundPlayer : MonoBehaviour
     
 	void Start ()
     {
-        OptionController.OnWinning += PlayWinSound;
-        OptionController.OnLosing += PlayLossSound;
+        DatingSimOptionController.OnWinning += PlayWinSound;
+        DatingSimOptionController.OnLosing += PlayLossSound;
     }
 	
     void PlayWinSound()

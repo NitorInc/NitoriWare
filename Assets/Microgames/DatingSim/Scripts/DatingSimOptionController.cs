@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OptionController : MonoBehaviour {
+public class DatingSimOptionController : MonoBehaviour {
     
     public GameObject choiceMenu;
-    public TinyMaterial tinyMaterial;
+    public DatingSimTinyMaterial tinyMaterial;
     public AudioClip cursorMoveClip;
 
     public delegate void OnSelection();
@@ -33,7 +33,7 @@ public class OptionController : MonoBehaviour {
         }
     }
     List<OptionSet> sets;
-    List<OptionLine> lines = new List<OptionLine>();
+    List<DatingSimOptionLine> lines = new List<DatingSimOptionLine>();
     int currentOption = 0;
 
     // total number of lines in the entire character data set
@@ -54,7 +54,7 @@ public class OptionController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        DialoguePreset.OnCharacterSelection += InitializeOptions;
+        DatingSimDialoguePreset.OnCharacterSelection += InitializeOptions;
 	}
 	
 	// Update is called once per frame
@@ -86,7 +86,7 @@ public class OptionController : MonoBehaviour {
                 //    }
                 //}
 
-                var dialogueCtrl = FindObjectOfType<DialogueController>();
+                var dialogueCtrl = FindObjectOfType<DatingSimDialogueController>();
                 dialogueCtrl.SetDialogue(sets[currentOption].responseText);
 
                 if (sets[currentOption].isWin) {
@@ -102,7 +102,7 @@ public class OptionController : MonoBehaviour {
 
     void InitializeOptions(int charIndex) {
         sets = new List<OptionSet>();
-        var preset = FindObjectOfType<DialoguePreset>();
+        var preset = FindObjectOfType<DatingSimDialoguePreset>();
         var winList = SelectAtRandom(neededWinLines, totalWinLines);
         for (int i = 0; i < winList.Count; i++) {
             string optionText = preset.GetOption(charIndex, true, true, i);
@@ -160,7 +160,7 @@ public class OptionController : MonoBehaviour {
             pos.y = startPosition.position.y - i * distancePerUnit;
             var go = Instantiate(optionLineProto, pos, Quaternion.identity) as GameObject;
             go.transform.parent = choiceMenu.transform;
-            lines.Add(go.GetComponent<OptionLine>());
+            lines.Add(go.GetComponent<DatingSimOptionLine>());
             lines[i].SetText(sets[i].optionText);
             if (i > 0) {
                 lines[i].ShowCursor(false);

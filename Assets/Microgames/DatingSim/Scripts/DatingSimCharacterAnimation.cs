@@ -9,8 +9,8 @@ public class DatingSimCharacterAnimation : MonoBehaviour
     void Start()
     {
         rigAnimator = GetComponent<Animator>();
-        OptionController.OnWinning += WinAnimation;
-        OptionController.OnLosing += LossAnimation;
+        DatingSimOptionController.OnWinning += WinAnimation;
+        DatingSimOptionController.OnLosing += LossAnimation;
     }
 
     void WinAnimation()

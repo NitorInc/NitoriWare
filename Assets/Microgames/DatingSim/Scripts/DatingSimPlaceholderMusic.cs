@@ -12,7 +12,7 @@ public class DatingSimPlaceholderMusic : MonoBehaviour
 	void Start ()
     {
         audioSource = GetComponent<AudioSource>();
-        DialoguePreset.OnCharacterSelection += SelectTrack;
+        DatingSimDialoguePreset.OnCharacterSelection += SelectTrack;
 	}
 
     void SelectTrack(int index)

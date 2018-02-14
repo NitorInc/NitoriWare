@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ListExtension {
+public static class DatingSimListExtension {
 
     private static System.Random rng = new System.Random();
 

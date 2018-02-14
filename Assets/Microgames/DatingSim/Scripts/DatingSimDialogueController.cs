@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DialogueController : MonoBehaviour {
+public class DatingSimDialogueController : MonoBehaviour {
 
     public float introTextDelay;
 
     private TMP_Text textComp;
     private AdvancingText textPlayer;
-    DialoguePreset preset;
+    DatingSimDialoguePreset preset;
 
     void Start() {
         textComp = GetComponent<TMP_Text>();
         textPlayer = GetComponent<AdvancingText>();
-        preset = FindObjectOfType<DialoguePreset>();
-        DialoguePreset.OnCharacterSelection += SetDialogue;
+        preset = FindObjectOfType<DatingSimDialoguePreset>();
+        DatingSimDialoguePreset.OnCharacterSelection += SetDialogue;
     }
 
     void SetDialogue(int index) {

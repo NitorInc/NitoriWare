@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialAnimation : MonoBehaviour {
+public class DatingSimMaterialAnimation : MonoBehaviour {
 
     Renderer rnd;
     public Vector2 speed;
