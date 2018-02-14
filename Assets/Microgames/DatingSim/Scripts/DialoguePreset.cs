@@ -9,7 +9,7 @@ public class DialoguePreset : MonoBehaviour {
     Dictionary<string, string> dummyTextCollection = new Dictionary<string, string>() {
 
         {"Microgame.DatingSim.SuikaFullName", "Suika Ibuki"},
-        {"Microgame.DatingSim.SuikaStart", "Heeeeey! You’re free aren’cha? Let’s grab some-thing to eat."},
+        {"Microgame.DatingSim.SuikaStart", "Heeeeey! You’re free aren’cha? Let’s grab something to eat."},
         {"Microgame.DatingSim.SuikaWinOption0", "Race you to the food stall!"},
         {"Microgame.DatingSim.SuikaWinResponse0", "Loser has to pay!"},
         {"Microgame.DatingSim.SuikaWinOption1", "Yeah, let’s get some grub!"},
