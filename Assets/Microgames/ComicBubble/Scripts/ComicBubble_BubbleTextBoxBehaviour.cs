@@ -5,7 +5,7 @@ using UnityEngine;
 public class ComicBubble_BubbleTextBoxBehaviour : MonoBehaviour {
 
     [SerializeField]
-    private Vector2 castDirection;
+    private Vector2 castOffset;
 
     [SerializeField]
     private float castWidth;
@@ -13,49 +13,65 @@ public class ComicBubble_BubbleTextBoxBehaviour : MonoBehaviour {
     [SerializeField]
     private float castHeight;
 
+    [SerializeField]
+    private float speechSpeed;  // The speed for the bubblespech to complete if it had only one character
+
+    [SerializeField]
+    private GameObject target;
 
     private AdvancingText aText;
-
-    private float aTextSpeed;
-
-    // This is for shwoing where the square box cast is being placed
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(1, 0, 0, 0.5F);
-        Gizmos.DrawCube(castDirection + (Vector2) transform.position, new Vector3(castWidth, castHeight, 1));
-
-    }
+    private float aSpeed;
 
     // Use this for initialization
     void Start () {
         aText = GetComponentInChildren<AdvancingText>();
-        aTextSpeed = aText.getAdvanceSpeed();
-        aText.setAdvanceSpeed(0);
-
+        aSpeed = speechSpeed * aText.GetComponent<TMPro.TMP_Text>().text.Length;
+        stopSpeechText();
     }
 
+    // This is for showing where the square box cast is being placed
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5F);
+        Gizmos.DrawCube(castOffset + (Vector2)transform.position, new Vector3(castWidth, castHeight, 1));
+    }
 
     // Update is called once per frame
     void Update () {
-        //print(MicrogameTimer.instance.countdownScale);
-        print(MicrogameTimer.instance.beatsLeft);      
-        RaycastHit2D[] result = Physics2D.BoxCastAll(castDirection + (Vector2) transform.position, new Vector3(castWidth, castHeight, 1), 0 , Vector2.zero);
+
+        RaycastHit2D[] result = Physics2D.BoxCastAll(castOffset + (Vector2) transform.position, new Vector3(castWidth, castHeight, 1), 0 , Vector2.zero);
 
         if (result.Length > 0)
         {
             foreach (RaycastHit2D r in result)
             {
-                if (r.collider.name.Contains("Character"))
+                if (r.collider.gameObject == target)
                 {
-                    aText.setAdvanceSpeed(aTextSpeed);
+                    advanceSpeechText();
                 }
 
             }
         }
+
         else
         {
-            aText.setAdvanceSpeed(0);
+            stopSpeechText();
         }
 
 	}
+
+    // Stop text from showing
+    void stopSpeechText()
+    {
+        aText.setAdvanceSpeed(0);
+    }
+
+    // Advance text
+    void advanceSpeechText()
+    {
+        aText.setAdvanceSpeed(aSpeed);
+    }
+
+
+    
 }

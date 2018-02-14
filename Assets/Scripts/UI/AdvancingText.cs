@@ -10,6 +10,7 @@ public class AdvancingText : MonoBehaviour
     
     [SerializeField]
     private float advanceSpeed;
+
     [SerializeField]
     private UnityEvent onComplete;
 
@@ -18,7 +19,7 @@ public class AdvancingText : MonoBehaviour
     
 	void Start ()
     {
-        textMeshProComponent = GetComponent<TMP_Text>();;
+        textMeshProComponent = GetComponent<TMP_Text>();
         resetAdvance();
 	}
 
