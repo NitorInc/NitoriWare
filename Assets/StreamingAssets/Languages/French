@@ -14,15 +14,15 @@ stage
 	quit=Quitter {0}
 	retry=Réessayer {0}
 	gameover=Game Over!
-		score=Ton score {0}
-		highscore=Record {0}
+		score=Ton score : {0}
+		highscore=Record : {0}
 		newhighscore=Nouveau Record!
 menu
 	yes=Oui
 	no=Non
 	ok=OK
 	back=Retour
-	backalt=Retour
+	backalt=Retourner
 	confirm=Confirmer
 	cancel=Annuler
 	on=On
@@ -49,9 +49,9 @@ menu
 		compilationfast=Kappacité Max
 			description=HYPER VITESSE!
 		compilationmystery=(Documentation requise)
-			description=Oups, on a perdu les plans pour celui là. Ni commande ni contrôle ne seront montrés!
+			description=Oups, on a perdu les plans pour celui là. Aucune commande ou contrôle ne seront montrés!
 		compilationhard=Enfer des Concombres
-			description=Les jeux les plus difficiles avec seulement une vie. Combien de temps peux-tu survivre?
+			description=Les jeux les plus difficiles! Seulement une vie. Combien de temps pouvez-vous durer?
 	settings
 		resolution=Résolution de l'écran
 		fullscreen=Plein Écran
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=Remplis !
 		igname=Remplissage de formes
+	KogasaScare
+		command=Effraie !
+		igname=Effrayez le Youkai
 	RockBand
 		command=Chante !
 		igname=Sub-ouaf-er
@@ -168,8 +171,8 @@ microgame
 		command=Renvoie!
 	BugSwat
 		command=Ecrase!
-	KogasaScare
-		igname=Effrayez le Youkai
+	ClownTorch
+		command=Enflamme!
 	KaguyaMemory
 		igname=Souvenirs chéris
 	MochiPound
