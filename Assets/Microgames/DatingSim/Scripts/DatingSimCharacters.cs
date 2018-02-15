@@ -33,7 +33,7 @@ public class DatingSimCharacters : MonoBehaviour
         {
             var option = right ? rightOptions[index] : wrongOptions[index];
             string optionKey = (right ? "right" : "wrong") + index.ToString();
-            return TextHelper.getLocalizedText(fullName + "." + optionKey + "." + (response ? "response" : "option"),
+            return TextHelper.getLocalizedMicrogameText(idName + "." + optionKey + "." + (response ? "response" : "option"),
                 (response ? option.responseDialogue : option.optionDialogue));
         }
     }
