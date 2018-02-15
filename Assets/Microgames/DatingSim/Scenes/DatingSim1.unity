@@ -238,7 +238,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Suika Ibuki
+  m_text: Character Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1464f7c4103b6b448b69449c902edf81, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 1464f7c4103b6b448b69449c902edf81, type: 2}
@@ -268,11 +268,11 @@ MonoBehaviour:
   m_fontSize: 4.5
   m_fontSizeBase: 4.5
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 0
+  m_fontSizeMax: 4.5
   m_fontStyle: 0
-  m_textAlignment: 258
+  m_textAlignment: 514
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 340245285}
-    characterCount: 11
+    characterCount: 14
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
@@ -393,8 +393,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.155, y: 1.961}
-  m_SizeDelta: {x: 5.584, y: 0.578}
+  m_AnchoredPosition: {x: -2.219, y: 1.961}
+  m_SizeDelta: {x: 3.74, y: 0.578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &340245290
 MonoBehaviour:
@@ -824,7 +824,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 20de6a5a13a81ba4fa439e2f10290470, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -832,7 +832,7 @@ SpriteRenderer:
   m_Size: {x: 4, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!4 &1232031643
 Transform:
@@ -1522,7 +1522,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ef2638c2b2a6cc34c985c5dba2f5fc81, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1530,7 +1530,7 @@ SpriteRenderer:
   m_Size: {x: 10.24, y: 7.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!114 &1760700117
 MonoBehaviour:
@@ -1554,9 +1554,9 @@ GameObject:
   - component: {fileID: 1819606782}
   - component: {fileID: 1819606781}
   - component: {fileID: 1819606780}
+  - component: {fileID: 1819606785}
   - component: {fileID: 1819606779}
   - component: {fileID: 1819606784}
-  - component: {fileID: 1819606785}
   m_Layer: 0
   m_Name: Dialogue Text
   m_TagString: Untagged
@@ -1583,8 +1583,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Heeeeey! You\u2019re free aren\u2019cha? Let\u2019s grab some-thing to
-    eat."
+  m_text: Character text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 40fa4cc3a337bd34eb3039c5f78d1b2c, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 40fa4cc3a337bd34eb3039c5f78d1b2c, type: 2}
@@ -1651,12 +1650,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0.03943813, w: -0.02741313}
   m_textInfo:
     textComponent: {fileID: 1819606779}
-    characterCount: 60
+    characterCount: 14
     spriteCount: 0
-    spaceCount: 8
-    wordCount: 9
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -1782,6 +1781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introTextDelay: 0.5
+  introTextForceCompletionTime: 1.25
 --- !u!1 &1890341478
 GameObject:
   m_ObjectHideFlags: 0
