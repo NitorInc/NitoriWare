@@ -3,25 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DatingSimDialogueController : MonoBehaviour {
-
+public class DatingSimDialogueController : MonoBehaviour
+{
     public float introTextDelay;
+    [Tooltip("If set to >0 will slow down or speed up text advance to complete it in this time")]
+    public float introTextForceCompletionTime;
 
     private TMP_Text textComp;
     private AdvancingText textPlayer;
-    DatingSimDialoguePreset preset;
+    private float defaultTextSpeed;
 
-    void Start() {
+    void Start()
+    {
         textComp = GetComponent<TMP_Text>();
         textPlayer = GetComponent<AdvancingText>();
-        preset = FindObjectOfType<DatingSimDialoguePreset>();
-        DatingSimDialoguePreset.OnCharacterSelection += SetDialogue;
-    }
+        defaultTextSpeed = textPlayer.getAdvanceSpeed();
 
-    void SetDialogue(int index) {
-        textComp.text = preset.GetStartingDialogue(index);
-        textComp.maxVisibleCharacters = 0;
-        textPlayer.resetAdvance();
+        SetDialogue(DatingSimHelper.getSelectedCharacter().getLocalizedIntroDialogue());
+
+        if (introTextForceCompletionTime > 0f)
+        {
+            float newSpeed = textPlayer.getTotalVisibleChars() / introTextForceCompletionTime;
+            textPlayer.setAdvanceSpeed(newSpeed);
+        }
+
         textPlayer.enabled = false;
         Invoke("EnableTextPlayer", introTextDelay);
     }
@@ -31,7 +36,13 @@ public class DatingSimDialogueController : MonoBehaviour {
         textPlayer.enabled = true;
     }
 
-    public void SetDialogue(string str) {
+    public void resetDialogueSpeed()
+    {
+        textPlayer.setAdvanceSpeed(defaultTextSpeed);
+    }
+
+    public void SetDialogue(string str)
+    {
         textComp.text = str;
         textComp.maxVisibleCharacters = 0;
         textPlayer.resetAdvance();

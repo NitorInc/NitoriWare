@@ -5,20 +5,9 @@ using UnityEngine;
 public class DatingSimSoundPlayer : MonoBehaviour
 {
     public AudioClip winClip, lossClip;
-    
-	void Start ()
-    {
-        DatingSimOptionController.OnWinning += PlayWinSound;
-        DatingSimOptionController.OnLosing += PlayLossSound;
-    }
-	
-    void PlayWinSound()
-    {
-        MicrogameController.instance.playSFX(winClip);
-    }
 
-    void PlayLossSound()
+    void onResult(bool victory)
     {
-        MicrogameController.instance.playSFX(lossClip);
+        MicrogameController.instance.playSFX(victory ? winClip : lossClip);
     }
 }

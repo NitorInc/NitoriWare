@@ -5,15 +5,11 @@ using UnityEngine;
 public class DatingSimBackgroundController : MonoBehaviour {
 
     SpriteRenderer sr;
-    public Sprite[] bgSprites;
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         sr = GetComponent<SpriteRenderer>();
-        DatingSimDialoguePreset.OnCharacterSelection += SetBackground;
+        sr.sprite = DatingSimHelper.getSelectedCharacter().backgroundImage;
 	}
-
-    void SetBackground(int index) {
-        sr.sprite = bgSprites[index];
-    }
 
 }
