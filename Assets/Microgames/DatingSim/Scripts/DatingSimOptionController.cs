@@ -145,6 +145,7 @@ public class DatingSimOptionController : MonoBehaviour
                 //}
                 
                 MicrogameController.instance.setVictory(lines[currentOption].isRight());
+                dialogueController.resetDialogueSpeed();
                 dialogueController.SetDialogue(lines[currentOption].getLocalizedResponse());
             }
         }
