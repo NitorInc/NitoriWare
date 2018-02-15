@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DatingSimResultListener : MonoBehaviour
 {
-	void LateUpdate ()
+	void Update ()
     {
         //Check for win or loss
         if (MicrogameController.instance.getVictoryDetermined())

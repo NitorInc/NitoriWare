@@ -109,8 +109,7 @@ public class DatingSimOptionController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update ()
+    void LateUpdate ()
     {
         if (enableUserControl) {
             if (Input.GetKeyDown(KeyCode.UpArrow))
