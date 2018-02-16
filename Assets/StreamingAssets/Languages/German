@@ -28,17 +28,12 @@ menu
 	on=Ein
 	off=Aus
 	play=Spielen
-	main
+	gamemode=Wähle einen Spielmodus!
 		story=Story Modus
 			description=Spiele den Story Modus unendlich lang! Wie hoch kannst du punkten?
-		compilation=Arcade Modus
+		arcade=Arcade Modus
 		practice=Übungsraum
 			description=Schleife an deinen Minispiel-Skills und knacke den Highscore, damit du bei deinen Freunden angeben kannst!
-		quit=Spiel Verlassen
-			prompt=Bist du dir sicher, dass du {0} verlassen möchtest?
-		settings=Optionen
-		credits=Mitwirkende
-	gamemode=Wähle einen Spielmodus!
 		locked1=Gesperrt! Schließe {0} ab, um das Spiel freizuschalten!
 		locked2=Gesperrt! Erreiche {0} oder mehr Punkte in {1} zum Freischalten
 		highscore=Höchstpunktzahl: {0}
@@ -52,6 +47,11 @@ menu
 			description=Ups, wir haben die Blaupausen hierfür verloren! Kein Kommando oder Kontrollbefehl!
 		compilationhard=Gurkenhölle
 			description=Alle Spiele auf der schwersten Stufe! Nur ein Leben! Wie lange kannst du es aushalten?
+	main
+		quit=Spiel Verlassen
+			prompt=Bist du dir sicher, dass du {0} verlassen möchtest?
+		settings=Optionen
+		credits=Mitwirkende
 	settings
 		resolution=Bildgröße
 		fullscreen=Vollbildmodus
@@ -82,6 +82,42 @@ nitori
 	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal den {0}, um wirklich herausgefordert zu werden!
 	compilationfinished=Verdammt, ich bin beeindruckt!\nWarte nur auf die Vollversion des Spiels,\n{0} hat gerade erst angefangen!
 microgame
+	DatingSim
+		suika
+			introdialogue=Heeeey! Du hast doch zeit, oder? Lass uns was essen gehen!
+			right0
+				option=Wer als Erster da ist!
+				response=Der Verlierer bezahlt!
+			right1
+				response=Yay!
+			wrong0
+				option=Hast du nicht gerade erst gegessen?!
+				response=Boo. Alleine essen ist langweilig.
+			wrong1
+				option=Verzieh dich, Fettsack!
+				response=Du bist auch nicht der Dünnste, Hohlkopf!
+		youmu
+			introdialogue=Ich habe diese Blumen für dich gezüchtet.
+			right0
+				option=Sie sind wunderschön!
+				response=Dankeschön~
+			wrong0
+				option=Aaah, ein Geist!
+				response=Ist das dein Ernst?
+			wrong1
+				option=Ich hasse Blumen!
+				response=Du hast sie sowieso nicht verdient.
+		yuuka
+			introdialogue=Du hast dich nicht mit anderen Mädchen getroffen, oder?
+			right0
+				option=Natürlich nicht!
+				response=Gut, solltest du auch besser nicht.
+			right1
+				option=Du bist die Einzige für mich!
+				response=Hab ich mir gedacht.
+			wrong1
+				option=Ich liebe Reimu!
+		igname=Um den Finger wickeln
 	FreezeFrogs
 		command=Friere ein!
 		igname=Frostige Frösche
@@ -182,8 +218,6 @@ microgame
 		igname=Lass die Puppen tanzen!
 	RockPaperSatori
 		igname=Satori, Stein, Papier
-	DatingSim
-		igname=Um den Finger wickeln
 credits
 	intro={0} wurde durch folgende Fans möglich gemacht!
 	kapptain=Kreativdirektor, Programmierer, Team "Kappitän"

@@ -28,17 +28,12 @@ menu
 	on=On
 	off=Off
 	play=Jouer
-	main
+	gamemode=Choisissez un mode!
 		story=Mode Histoire
 			description=Fais le mode histoire à l'infini! Quel va être ton meileur score?
-		compilation=Mode Arcade
+		arcade=Mode Arcade
 		practice=Entraînement aux Mini-Jeux
 			description=Affute tes compétences pour obtenir de très bons scores et te vanter auprès de tes amis!
-		quit=Quitter le jeu
-			prompt=Êtes-vous sûr de vouloir quitter? {0}
-		settings=Options
-		credits=Crédits
-	gamemode=Choisissez un mode!
 		locked1=Bloqué! Complètez {0} pour débloquer.
 		locked2=Bloqué! Obtenez un score de {0} ou plus dans {1} pour débloquer.
 		highscore=Record: {0}
@@ -52,6 +47,11 @@ menu
 			description=Oups, on a perdu les plans pour celui là. Aucune commande ou contrôle ne seront montrés!
 		compilationhard=Enfer des Concombres
 			description=Les jeux les plus difficiles! Seulement une vie. Combien de temps pouvez-vous durer?
+	main
+		quit=Quitter le jeu
+			prompt=Êtes-vous sûr de vouloir quitter? {0}
+		settings=Options
+		credits=Crédits
 	settings
 		resolution=Résolution de l'écran
 		fullscreen=Plein Écran
@@ -82,6 +82,46 @@ nitori
 	storyfinished=Bien joué, petit geek.\nTu ne m'as pas l'air d'être un lèche-vitrine.\nMaintenant essaye {0} pour un vrai défi!
 	compilationfinished=Eh bien, je suis impressionnée!\nMais un peu de patience avant que le jeu complet soit terminé.\n{0} a juste commencé!
 microgame
+	DatingSim
+		suika
+			introdialogue=Hééééé! T'es libre non? On se prend un truc à bouffer?
+			right0
+				option=On fait la course jusqu'au snack!
+				response=Le perdant paye!
+			right1
+				option=Ouais, allons acheter à bouffer!
+				response=Yes!
+			wrong0
+				option=Tu viens pas de manger?
+				response=Beuh. C'est pas cool de manger seule.
+			wrong1
+				option=Casse-toi la grosse!
+				response=T'es pas le plus maigre, connard!
+		youmu
+			introdialogue=J'ai fait pousser ces fleurs pour toi.
+			right0
+				option=Elles sont magnifiques!
+				response=Merci
+			wrong0
+				option=Aaah, un fantôme!
+				response=Tu te fous de moi?
+			wrong1
+				option=Je déteste les fleurs!
+				response=Tu ne les mérites pas de toutes façons.
+		yuuka
+			introdialogue=T'étais avec d'autres filles?
+			right0
+				option=Bien sûr que non!
+				response=Bien, tu ferais mieux de rester loin d'elles.
+			right1
+				option=Tu es la seule qui compte pour moi!
+				response=C'est bien ce que je pensais.
+			wrong0
+				option=Bien...
+				response=Qu'est-ce que ce "Bien" veut dire?
+			wrong1
+				option=J'aime Reimu!
+				response=Réfléchis-y à deux fois.
 	FreezeFrogs
 		command=Gèle !
 		igname=Grenouilles gelées
