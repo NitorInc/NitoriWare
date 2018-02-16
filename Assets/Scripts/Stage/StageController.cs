@@ -460,7 +460,8 @@ public class StageController : MonoBehaviour
 	void startMicrogame()
 	{
 		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
-	}
+        stage.onMicrogameStart(microgameCount);
+    }
 
 	public void resetVictory()
 	{

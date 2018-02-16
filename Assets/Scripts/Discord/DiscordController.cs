@@ -10,16 +10,6 @@ public class DiscordController : MonoBehaviour
     // https://github.com/discordapp/discord-rpc/blob/master/examples/button-clicker/Assets/DiscordController.cs
 
     public bool disableInEditor;
-    public List<RichPresenceScene> compatibleScenes;
-
-    [System.Serializable]
-    public class RichPresenceScene
-    {
-        public string name;
-        public string displayKey;
-        public string defaultDisplayName;
-        public bool clearState;
-    }
 
     public string applicationId;
     public string optionalSteamId;
@@ -80,34 +70,6 @@ public class DiscordController : MonoBehaviour
         DiscordRpc.Initialize(applicationId, ref handlers, true, optionalSteamId);
     }
 
-    public void checkSceneForPresence()
-    {
-        if (!gameObject.activeInHierarchy)
-            return;
-
-        StopCoroutine(checkSceneCoroutine());
-        StartCoroutine(checkSceneCoroutine());
-    }
-
-    IEnumerator checkSceneCoroutine()
-    {
-        while (!ready)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
-        string sceneName = SceneManager.GetActiveScene().name;
-        var scene = compatibleScenes.FirstOrDefault(a => a.name.Equals(sceneName, System.StringComparison.OrdinalIgnoreCase));
-        if (scene != null)
-        {
-            string details =
-                    (string.IsNullOrEmpty(scene.displayKey) ? scene.defaultDisplayName :
-                    TextHelper.getLocalizedText(scene.displayKey, scene.defaultDisplayName.ToLower()));
-            if (!details.Equals(presence.details))  //Check if we've already set this scene
-                updatePresence(details, scene.clearState ? "" : presence.state, true);
-        }
-    }
-
     public void updatePresence(string details, string state, bool resetTimestamp)
     {
         if (!gameObject.activeInHierarchy)
@@ -117,10 +79,7 @@ public class DiscordController : MonoBehaviour
         presence.state = state;
         presence.largeImageKey = largeImageKey;
         if (resetTimestamp)
-        {
-            print("time reset");
             presence.startTimestamp = getTimeSinceEpoch();
-        }
         DiscordRpc.UpdatePresence(ref presence);
     }
 

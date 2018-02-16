@@ -5,10 +5,13 @@ using UnityEngine;
 public abstract class Stage : MonoBehaviour
 {
     private const string DiscordStateFormat = "{0} Games";
+    private const string DiscordStateFormatSingular = "{0} Game";
 
 #pragma warning disable 0649    //Serialized Fields
     [SerializeField]
 	private VoicePlayer.VoiceSet voiceSet;
+    [SerializeField]
+    private string displayName;
 #pragma warning restore 0649
 
     [System.Serializable]
@@ -52,19 +55,21 @@ public abstract class Stage : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Called when the stage is first started or the player attempts it again, called before any other method
+	/// Called when the stage is first started or the player attempts it again after game over, called before any other method
 	/// </summary>
 	public virtual void onStageStart()
-	{
+    {
+        updateDiscordDetails();
+        updateDiscordState(0);
         PrefsHelper.setVisitedStage(gameObject.scene.name, true);
-	}
+    }
 
-	/// <summary>
-	/// Get the nth microgame (based on total microgmaes encountered so far, starts at 0)
-	/// </summary>
-	/// <param name="cycleIndex"></param>
-	/// <returns></returns>
-	public abstract Microgame getMicrogame(int num);
+    /// <summary>
+    /// Get the nth microgame (based on total microgmaes encountered so far, starts at 0)
+    /// </summary>
+    /// <param name="cycleIndex"></param>
+    /// <returns></returns>
+    public abstract Microgame getMicrogame(int num);
 
 	/// <summary>
 	/// Gets microgame difficulty for this specific instance
@@ -92,6 +97,15 @@ public abstract class Stage : MonoBehaviour
 		return true;
 	}
 
+    /// <summary>
+    /// Called when a microgame has started gameplay and scene has activated
+    /// </summary>
+    /// <param name="microgame"></param>
+    public virtual void onMicrogameStart(int microgame)
+    {
+        updateDiscordState(microgame);
+    }
+
 	/// <summary>
 	/// Called when a microgame has finished and passes results
 	/// </summary>
@@ -99,24 +113,48 @@ public abstract class Stage : MonoBehaviour
 	/// <param name="victory"></param>
 	public virtual void onMicrogameEnd(int microgame, bool victory)
 	{
-        GameController.instance.discord.updatePresenceState(getDiscordState(microgame + 2), false);
+
     }
 
-    
     /// <summary>
-    /// For display in Discord's rich presence, called from onMicrogameEnd under normal circumstances
+    /// For display in Discord's rich presence (first line), called from onMicrogameEnd under normal circumstances
     /// </summary>
-    /// <param name="score"></param>
-    public virtual string getDiscordState(int score)
+    /// <param name="microgameIndex"></param>
+    public virtual string getDiscordDetails()
     {
-        return string.Format(DiscordStateFormat, score.ToString());
+        return TextHelper.getLocalizedText("menu.gamemode." + gameObject.scene.name.ToLower(), displayName);
+    }
+    
+    void updateDiscordDetails()
+    {
+        GameController.instance.discord.updatePresenceDetails(getDiscordDetails(), true);
     }
 
-	/// <summary>
-	/// Returns max lives in stage, 4 in most cases
-	/// </summary>
-	/// <returns></returns>
-	public virtual int getMaxLife()
+    /// <summary>
+    /// For display in Discord's rich presence (second line), called from onMicrogameEnd under normal circumstances
+    /// </summary>
+    /// <param name="microgameIndex"></param>
+    public virtual string getDiscordState(int microgameIndex)
+    {
+        int score = microgameIndex + 1;
+        string localizedFormat;
+        if (score < 2)
+            localizedFormat = TextHelper.getLocalizedText("discord.scoreformatsingular", DiscordStateFormatSingular);
+        else
+            localizedFormat = TextHelper.getLocalizedText("discord.scoreformat", DiscordStateFormat);
+        return string.Format(localizedFormat, score.ToString());
+    }
+
+    void updateDiscordState(int microgame)
+    {
+        GameController.instance.discord.updatePresenceState(getDiscordState(microgame), false);
+    }
+
+    /// <summary>
+    /// Returns max lives in stage, 4 in most cases
+    /// </summary>
+    /// <returns></returns>
+    public virtual int getMaxLife()
 	{
 		return 4;
 	}
@@ -156,6 +194,11 @@ public abstract class Stage : MonoBehaviour
     public virtual string getExitScene()
     {
         return "Title";
+    }
+
+    public string getDefaultDisplayName()
+    {
+        return displayName;
     }
 
 }
