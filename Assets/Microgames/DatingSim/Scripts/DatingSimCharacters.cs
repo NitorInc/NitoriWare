@@ -29,6 +29,11 @@ public class DatingSimCharacters : MonoBehaviour
             return TextHelper.getLocalizedMicrogameText(idName + ".introdialogue", introDialogue);
         }
 
+        public string getLocalizedDisplayName()
+        {
+            return TextHelper.getLocalizedMicrogameText(idName + ".fullname", fullName);
+        }
+
         public string getLocalizedOptionDialogue(bool right, int index, bool response)
         {
             var option = right ? rightOptions[index] : wrongOptions[index];
