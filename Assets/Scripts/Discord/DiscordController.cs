@@ -1,11 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Linq;
 
 public class DiscordController : MonoBehaviour
 {
     // https://github.com/discordapp/discord-rpc/blob/master/examples/button-clicker/Assets/DiscordController.cs
 
-    public DiscordRpc.RichPresence presence;
+    public List<RichPresenceScene> compatibleScenes;
+
+    [System.Serializable]
+    public class RichPresenceScene
+    {
+        public string name;
+        public string displayKey;
+        public string defaultDisplayName;
+    }
+
     public string applicationId;
     public string optionalSteamId;
     public string details;
@@ -14,12 +25,9 @@ public class DiscordController : MonoBehaviour
     public UnityEngine.Events.UnityEvent onConnect;
     public UnityEngine.Events.UnityEvent onDisconnect;
 
+    DiscordRpc.RichPresence presence;
+
     DiscordRpc.EventHandlers handlers;
-
-    public void OnClick()
-    {
-
-    }
 
     public void ReadyCallback()
     {
@@ -58,10 +66,19 @@ public class DiscordController : MonoBehaviour
         DiscordRpc.Initialize(applicationId, ref handlers, true, optionalSteamId);
     }
 
-    public void setPresence()
+    public void checkSceneForPresence()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        var scene = compatibleScenes.FirstOrDefault(a => a.name.Equals(sceneName, System.StringComparison.OrdinalIgnoreCase));
+        if (scene != null)
+            updatePresence(string.IsNullOrEmpty(scene.displayKey) ? scene.defaultDisplayName :
+                TextHelper.getLocalizedText(scene.displayKey, scene.defaultDisplayName.ToLower())); 
+    }
+
+    public void updatePresence(string sceneName)
     {
         presence.details = details;
-        presence.state = SceneManager.GetActiveScene().name;
+        presence.state = sceneName;
         presence.largeImageKey = largeImageKey;
         DiscordRpc.UpdatePresence(ref presence);
         print("Discord: Presence updated");

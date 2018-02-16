@@ -54,7 +54,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114688254334837976}
-        m_MethodName: setPresence
+        m_MethodName: checkSceneForPresence
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -66,6 +66,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  _discord: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -401,26 +402,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5bd0c7d2b34bf4fb7dbefb42f283f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  presence:
-    state: 
-    details: 
-    startTimestamp: 0
-    endTimestamp: 0
-    largeImageKey: 
-    largeImageText: 
-    smallImageKey: 
-    smallImageText: 
-    partyId: 
-    partySize: 0
-    partyMax: 0
-    matchSecret: 
-    joinSecret: 
-    spectateSecret: 
-    instance: 0
+  compatibleScenes:
+  - name: Title
+    displayKey: 
+    defaultDisplayName: Main Menu
+  - name: Nitori
+    displayKey: menu.main.story
+    defaultDisplayName: Story Mode
+  - name: Compilation
+    displayKey: menu.gamemode.compilation
+    defaultDisplayName: Kappa Compendium
+  - name: CompilationFast
+    displayKey: menu.gamemode.compilationfast
+    defaultDisplayName: Max Kappacity
+  - name: CompilationMystery
+    displayKey: menu.gamemode.compilationmystery
+    defaultDisplayName: (Documentation Needed)
+  - name: CompilationHard
+    displayKey: menu.gamemode.compilationhard
+    defaultDisplayName: Cucumber Hell
+  - name: MicrogamePractice
+    displayKey: menu.main.practice
+    defaultDisplayName: Microgame Practice
   applicationId: 413913473655898122
   optionalSteamId: 
   details: Touhou Microgames!
-  largeImageKey: logo_large
+  largeImageKey: logo_large_transparent
   callbackCalls: 0
   onConnect:
     m_PersistentCalls:

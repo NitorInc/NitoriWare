@@ -5,31 +5,37 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-	public static GameController instance;
-
+    public static GameController instance;
 
 #pragma warning disable 0649
     [SerializeField]
     private bool disableCursor;
     [SerializeField]
-	private MicrogameCollection _microgameCollection;
+    private MicrogameCollection _microgameCollection;
     [SerializeField]
     private SceneShifter _sceneShifter;
     [SerializeField]
     private Sprite[] controlSprites;
     [SerializeField]
     private UnityEvent onSceneLoad;
+    [SerializeField]
+    private DiscordController _discord;
 #pragma warning restore 0649
 
     private string startScene;
 
     public MicrogameCollection microgameCollection
-	{
-		get { return _microgameCollection; }
-	}
+    {
+        get { return _microgameCollection; }
+    }
     public SceneShifter sceneShifter
     {
         get { return _sceneShifter; }
+    }
+
+    public DiscordController discord
+    {
+        get { return _discord; }
     }
 
 	void Awake()
