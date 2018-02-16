@@ -21,6 +21,7 @@ public class DiscordController : MonoBehaviour
 
     DiscordRpc.RichPresence presence;
     DiscordRpc.EventHandlers handlers;
+    bool initialized = false;
     bool ready = false;
 
     public void ReadyCallback()
@@ -51,7 +52,8 @@ public class DiscordController : MonoBehaviour
 
     void Start()
     {
-
+        if (initialized)
+            return;
 #if UNITY_EDITOR
         if (disableInEditor)
         {
@@ -68,6 +70,16 @@ public class DiscordController : MonoBehaviour
         handlers.disconnectedCallback += DisconnectedCallback;
         handlers.errorCallback += ErrorCallback;
         DiscordRpc.Initialize(applicationId, ref handlers, true, optionalSteamId);
+        initialized = true;
+    }
+
+    IEnumerator updatePresenceCoroutine()
+    {
+        while (!ready)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        DiscordRpc.UpdatePresence(ref presence);
     }
 
     public void updatePresence(string details, string state, bool resetTimestamp)
@@ -75,12 +87,13 @@ public class DiscordController : MonoBehaviour
         if (!gameObject.activeInHierarchy)
             return;
 
+        StopCoroutine(updatePresenceCoroutine());
         presence.details = details;
         presence.state = state;
         presence.largeImageKey = largeImageKey;
         if (resetTimestamp)
             presence.startTimestamp = getTimeSinceEpoch();
-        DiscordRpc.UpdatePresence(ref presence);
+        StartCoroutine(updatePresenceCoroutine());
     }
 
     public void updatePresenceDetails(string details, bool resetTimestamp)
