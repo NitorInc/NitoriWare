@@ -9,6 +9,8 @@ public class DiscordController : MonoBehaviour
 {
     // https://github.com/discordapp/discord-rpc/blob/master/examples/button-clicker/Assets/DiscordController.cs
 
+    private const string DefaultStatusString = "default";
+
     public bool disableInEditor;
 
     public string applicationId;
@@ -23,6 +25,14 @@ public class DiscordController : MonoBehaviour
     DiscordRpc.EventHandlers handlers;
     bool initialized = false;
     bool ready = false;
+
+    public enum TimeStampType
+    {
+        Keep,
+        Clear,
+        CurrentTime
+    }
+
 
     public void ReadyCallback()
     {
@@ -82,28 +92,32 @@ public class DiscordController : MonoBehaviour
         DiscordRpc.UpdatePresence(ref presence);
     }
 
-    public void updatePresence(string details, string state, bool resetTimestamp)
+    public void updatePresence(string details = DefaultStatusString, string state = DefaultStatusString, TimeStampType startTimeStamp = TimeStampType.Keep)
     {
         if (!gameObject.activeInHierarchy)
             return;
+
+        if (details.Equals(DefaultStatusString))
+            details = presence.details;
+        if (state.Equals(DefaultStatusString))
+            state = presence.state;
 
         StopCoroutine(updatePresenceCoroutine());
         presence.details = details;
         presence.state = state;
         presence.largeImageKey = largeImageKey;
-        if (resetTimestamp)
-            presence.startTimestamp = getTimeSinceEpoch();
+        switch(startTimeStamp)
+        {
+            case (TimeStampType.Keep):
+                break;
+            case (TimeStampType.CurrentTime):
+                presence.startTimestamp = getTimeSinceEpoch();
+                break;
+            case (TimeStampType.Clear):
+                presence.startTimestamp = 0;
+                break;
+        }
         StartCoroutine(updatePresenceCoroutine());
-    }
-
-    public void updatePresenceDetails(string details, bool resetTimestamp)
-    {
-        updatePresence(details, presence.state, resetTimestamp);
-    }
-
-    public void updatePresenceState(string state, bool resetTimestamp)
-    {
-        updatePresence(presence.details, state, resetTimestamp);
     }
 
     private int getTimeSinceEpoch()

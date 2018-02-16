@@ -59,8 +59,7 @@ public abstract class Stage : MonoBehaviour
 	/// </summary>
 	public virtual void onStageStart()
     {
-        updateDiscordDetails();
-        updateDiscordState(0);
+        updateDiscordStatus(0);
         PrefsHelper.setVisitedStage(gameObject.scene.name, true);
     }
 
@@ -127,7 +126,9 @@ public abstract class Stage : MonoBehaviour
     
     void updateDiscordDetails()
     {
-        GameController.instance.discord.updatePresenceDetails(getDiscordDetails(), true);
+        GameController.instance.discord.updatePresence(
+            details: getDiscordDetails(),
+            startTimeStamp: DiscordController.TimeStampType.CurrentTime);
     }
 
     /// <summary>
@@ -147,7 +148,15 @@ public abstract class Stage : MonoBehaviour
 
     void updateDiscordState(int microgame)
     {
-        GameController.instance.discord.updatePresenceState(getDiscordState(microgame), false);
+        GameController.instance.discord.updatePresence(state: getDiscordState(microgame));
+    }
+
+    void updateDiscordStatus(int microgame)
+    {
+        GameController.instance.discord.updatePresence(
+            getDiscordDetails(),
+            getDiscordState(microgame),
+            DiscordController.TimeStampType.CurrentTime);
     }
 
     /// <summary>
