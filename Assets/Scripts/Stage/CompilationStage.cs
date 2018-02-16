@@ -41,8 +41,9 @@ public class CompilationStage : Stage
 	}
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
-	{
-		if (microgame - roundStartIndex >= microgamesPerRound - 1)
+    {
+        base.onMicrogameEnd(microgame, victoryStatus);
+        if (microgame - roundStartIndex >= microgamesPerRound - 1)
 		{
 			roundsCompleted++;
 			roundStartIndex += microgamesPerRound;

@@ -115,8 +115,9 @@ public class CharacterStage : Stage
 	}
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
-	{
-		if (microgamePool.skipBossMicrogame)
+    {
+        base.onMicrogameEnd(microgame, victoryStatus);
+        if (microgamePool.skipBossMicrogame)
 		{
 			if (getMicrogame(microgame + 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
 			{

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Stage : MonoBehaviour
 {
+    private const string DiscordStateFormat = "{0} Games";
 
 #pragma warning disable 0649    //Serialized Fields
     [SerializeField]
@@ -98,8 +99,18 @@ public abstract class Stage : MonoBehaviour
 	/// <param name="victory"></param>
 	public virtual void onMicrogameEnd(int microgame, bool victory)
 	{
-		
-	}
+        GameController.instance.discord.updatePresenceState(getDiscordState(microgame + 2), false);
+    }
+
+    
+    /// <summary>
+    /// For display in Discord's rich presence, called from onMicrogameEnd under normal circumstances
+    /// </summary>
+    /// <param name="score"></param>
+    public virtual string getDiscordState(int score)
+    {
+        return string.Format(DiscordStateFormat, score.ToString());
+    }
 
 	/// <summary>
 	/// Returns max lives in stage, 4 in most cases

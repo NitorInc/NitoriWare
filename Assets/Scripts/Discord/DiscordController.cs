@@ -10,7 +10,6 @@ public class DiscordController : MonoBehaviour
     // https://github.com/discordapp/discord-rpc/blob/master/examples/button-clicker/Assets/DiscordController.cs
 
     public bool disableInEditor;
-
     public List<RichPresenceScene> compatibleScenes;
 
     [System.Serializable]
@@ -19,6 +18,7 @@ public class DiscordController : MonoBehaviour
         public string name;
         public string displayKey;
         public string defaultDisplayName;
+        public bool clearState;
     }
 
     public string applicationId;
@@ -99,20 +99,39 @@ public class DiscordController : MonoBehaviour
         string sceneName = SceneManager.GetActiveScene().name;
         var scene = compatibleScenes.FirstOrDefault(a => a.name.Equals(sceneName, System.StringComparison.OrdinalIgnoreCase));
         if (scene != null)
-            updatePresence(string.IsNullOrEmpty(scene.displayKey) ? scene.defaultDisplayName :
-                TextHelper.getLocalizedText(scene.displayKey, scene.defaultDisplayName.ToLower()));
+        {
+            string details =
+                    (string.IsNullOrEmpty(scene.displayKey) ? scene.defaultDisplayName :
+                    TextHelper.getLocalizedText(scene.displayKey, scene.defaultDisplayName.ToLower()));
+            if (!details.Equals(presence.details))  //Check if we've already set this scene
+                updatePresence(details, scene.clearState ? "" : presence.state, true);
+        }
     }
 
-    public void updatePresence(string sceneName)
+    public void updatePresence(string details, string state, bool resetTimestamp)
     {
         if (!gameObject.activeInHierarchy)
             return;
 
         presence.details = details;
-        presence.state = sceneName;
+        presence.state = state;
         presence.largeImageKey = largeImageKey;
-        presence.startTimestamp = getTimeSinceEpoch();
+        if (resetTimestamp)
+        {
+            print("time reset");
+            presence.startTimestamp = getTimeSinceEpoch();
+        }
         DiscordRpc.UpdatePresence(ref presence);
+    }
+
+    public void updatePresenceDetails(string details, bool resetTimestamp)
+    {
+        updatePresence(details, presence.state, resetTimestamp);
+    }
+
+    public void updatePresenceState(string state, bool resetTimestamp)
+    {
+        updatePresence(presence.details, state, resetTimestamp);
     }
 
     private int getTimeSinceEpoch()
