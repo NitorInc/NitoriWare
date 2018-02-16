@@ -24,6 +24,8 @@ public class TitleFloatingInteractive : MonoBehaviour
 
     private bool ignoreWalls;
     private float colliderExtent;
+    private int startTrailBuffer = 3;
+    private TrailRenderer trail;
 
     void Start()
 	{
@@ -34,10 +36,24 @@ public class TitleFloatingInteractive : MonoBehaviour
             Random.Range(-floatTowardsBounds.y, floatTowardsBounds.y));
         _rigidBody.velocity = (goal - (Vector2)transform.localPosition).resize(startSpeed);
         lastVelocity = _rigidBody.velocity;
+
+        trail = GetComponentInChildren<TrailRenderer>();
+        if (trail != null)
+            trail.enabled = false;
 	}
 
     void LateUpdate()
     {
+        if (trail != null && startTrailBuffer > 0)
+        {
+            startTrailBuffer--;
+            if (startTrailBuffer <= 0)
+            {
+                trail.enabled = true;
+                trail.Clear();
+            }
+        }
+
         if (!canStayActive())
         {
             _rigidBody.bodyType = RigidbodyType2D.Kinematic;
