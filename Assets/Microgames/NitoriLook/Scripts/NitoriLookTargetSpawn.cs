@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NitoriLookTargetSpawn : MonoBehaviour
 {
+    [SerializeField]
+    private NitoriLookMovement playerMovement;
     [Header("Parameters for what position the target will spawn")]
     [Header("Spawning is via a random angle from the player at a random distance")]
     [SerializeField]
@@ -12,6 +14,8 @@ public class NitoriLookTargetSpawn : MonoBehaviour
     private float floorSpawnAngleOffset;
     [SerializeField]
     private Vector2 floorSpawnDistanceBounds;
+    [SerializeField]
+    private bool relativeToPlayer = true;
 
     [Header("Random spawn height, independent of floor spawn")]
     [SerializeField]
@@ -23,8 +27,12 @@ public class NitoriLookTargetSpawn : MonoBehaviour
 
     void Start ()
     {
+        float spawnAngle = floorSpawnAngleOffset + MathHelper.randomRangeFromVector(floorSpawnAngleBounds);
+        if (relativeToPlayer)
+            spawnAngle += -(playerMovement.transform.eulerAngles.y);
+        spawnAngle = spawnAngle % 360;
         Vector2 floorSpawnVector = MathHelper.getVector2FromAngle(
-            floorSpawnAngleOffset + MathHelper.randomRangeFromVector(floorSpawnAngleBounds), MathHelper.randomRangeFromVector(floorSpawnDistanceBounds));
+            spawnAngle, MathHelper.randomRangeFromVector(floorSpawnDistanceBounds));
         transform.position = new Vector3(floorSpawnVector.x, MathHelper.randomRangeFromVector(heightSpawnBounds),floorSpawnVector.y);
 
         if (sineWave != null)
