@@ -64,6 +64,7 @@ public class DiscordController : MonoBehaviour
         presence.state = SceneManager.GetActiveScene().name;
         presence.largeImageKey = largeImageKey;
         DiscordRpc.UpdatePresence(ref presence);
+        print("Discord: Presence updated");
     }
 
     void OnDisable()
