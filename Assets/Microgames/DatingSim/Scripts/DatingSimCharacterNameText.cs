@@ -10,6 +10,6 @@ public class DatingSimCharacterNameText : MonoBehaviour
 	void Start ()
     {
         textComp = GetComponent<TMP_Text>();
-        textComp.SetText(DatingSimHelper.getSelectedCharacter().fullName);
+        textComp.SetText(DatingSimHelper.getSelectedCharacter().getLocalizedDisplayName());
 	}
 }
