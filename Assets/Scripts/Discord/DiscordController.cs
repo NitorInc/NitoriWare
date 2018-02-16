@@ -46,7 +46,7 @@ public class DiscordController : MonoBehaviour
         DiscordRpc.RunCallbacks();
     }
 
-    void OnEnable()
+    void Start()
     {
         Debug.Log("Discord: init");
         callbackCalls = 0;
@@ -67,11 +67,11 @@ public class DiscordController : MonoBehaviour
         print("Discord: Presence updated");
     }
 
-    void OnDisable()
-    {
-        Debug.Log("Discord: shutdown");
-        DiscordRpc.Shutdown();
-    }
+    //void OnDisable()
+    //{
+    //    Debug.Log("Discord: shutdown");
+    //    DiscordRpc.Shutdown();
+    //}
 
     void OnDestroy()
     {
