@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,8 +81,14 @@ public class DiscordController : MonoBehaviour
         presence.details = details;
         presence.state = sceneName;
         presence.largeImageKey = largeImageKey;
+        presence.startTimestamp = getTimeSinceEpoch();
         DiscordRpc.UpdatePresence(ref presence);
-        print("Discord: Presence updated");
+    }
+
+    private int getTimeSinceEpoch()
+    {
+        TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+        return (int)t.TotalSeconds;
     }
 
     //void OnDisable()
