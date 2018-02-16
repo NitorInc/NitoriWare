@@ -2,11 +2,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 
 public class DiscordController : MonoBehaviour
 {
     // https://github.com/discordapp/discord-rpc/blob/master/examples/button-clicker/Assets/DiscordController.cs
+
+    public bool disableInEditor;
 
     public List<RichPresenceScene> compatibleScenes;
 
@@ -27,14 +30,15 @@ public class DiscordController : MonoBehaviour
     public UnityEngine.Events.UnityEvent onDisconnect;
 
     DiscordRpc.RichPresence presence;
-
     DiscordRpc.EventHandlers handlers;
+    bool ready = false;
 
     public void ReadyCallback()
     {
         ++callbackCalls;
         Debug.Log("Discord: ready");
         onConnect.Invoke();
+        ready = true;
     }
 
     public void DisconnectedCallback(int errorCode, string message)
@@ -57,6 +61,15 @@ public class DiscordController : MonoBehaviour
 
     void Start()
     {
+
+#if UNITY_EDITOR
+        if (disableInEditor)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+#endif
+
         Debug.Log("Discord: init");
         callbackCalls = 0;
 
@@ -69,15 +82,32 @@ public class DiscordController : MonoBehaviour
 
     public void checkSceneForPresence()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        StopCoroutine(checkSceneCoroutine());
+        StartCoroutine(checkSceneCoroutine());
+    }
+
+    IEnumerator checkSceneCoroutine()
+    {
+        while (!ready)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
         string sceneName = SceneManager.GetActiveScene().name;
         var scene = compatibleScenes.FirstOrDefault(a => a.name.Equals(sceneName, System.StringComparison.OrdinalIgnoreCase));
         if (scene != null)
             updatePresence(string.IsNullOrEmpty(scene.displayKey) ? scene.defaultDisplayName :
-                TextHelper.getLocalizedText(scene.displayKey, scene.defaultDisplayName.ToLower())); 
+                TextHelper.getLocalizedText(scene.displayKey, scene.defaultDisplayName.ToLower()));
     }
 
     public void updatePresence(string sceneName)
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         presence.details = details;
         presence.state = sceneName;
         presence.largeImageKey = largeImageKey;
