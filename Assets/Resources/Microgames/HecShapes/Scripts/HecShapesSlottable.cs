@@ -13,6 +13,8 @@ public class HecShapesSlottable : MonoBehaviour
     public HecShapesHolder snapTarget;
     public bool snap;
 
+    public AudioClip pickupSound;
+
     MouseGrabbable grabbable;
     HecShapesCelestialBody celestialBody;
 
@@ -74,12 +76,16 @@ public class HecShapesSlottable : MonoBehaviour
         this.snap = false;
         if (this.snapTarget && this.snapTarget.ShapeInSlot == this.celestialBody.shape)
             this.snapTarget.ShapeInSlot = Shape.none;
+
+        MicrogameController.instance.playSFX(this.pickupSound, pitchMult: 1F, volume: 0.4F);
     }
 
     public void OnRelease()
     {
         if (this.snapTarget && this.snapTarget.SlotShape == this.celestialBody.shape)
             this.snap = true;
+
+        MicrogameController.instance.playSFX(this.pickupSound, pitchMult: 1.2F, volume: 0.4F);
     }
 
 }
