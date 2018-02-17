@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class MicrogameTraits : MonoBehaviour
 {
 #pragma warning disable 0649
@@ -75,25 +79,31 @@ public class MicrogameTraits : MonoBehaviour
 	}
 
 	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
-	{
-		GameObject traits;
+    {
+#if UNITY_EDITOR
+        GameObject traits;
 
-		if (!skipFinishedFolder)
+
+        if (!skipFinishedFolder)
 		{
-			traits = Resources.Load<GameObject>("Microgames/_Finished/" + microgameId + "/Traits" + difficulty.ToString());
+			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 			if (traits != null)
 				return traits.GetComponent<MicrogameTraits>();
 		}
 
-		traits = Resources.Load<GameObject>("Microgames/" + microgameId + "/Traits" + difficulty.ToString());
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
-		traits = Resources.Load<GameObject>("Microgames/_Bosses/" + microgameId + "/Traits" + difficulty.ToString());
+		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Bosses/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
 		if (traits != null)
 			return traits.GetComponent<MicrogameTraits>();
 
 		Debug.LogError("Can't find Traits prefab for " + microgameId + difficulty.ToString());
 		return null;
-	}
+#else
+        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
+        return null;
+#endif
+    }
 }

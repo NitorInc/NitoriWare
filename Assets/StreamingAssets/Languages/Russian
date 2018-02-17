@@ -28,17 +28,12 @@ menu
 	on=Включено
 	off=Выключено
 	play=Играть
-	main
-		story=Сюжетный режим
-			description=Играйте в сюжетный режим сколько захотите! Каков будет ваш рекорд?
-		compilation=Аркадный режим
-		practice=Режим практики
-			description=Отточите навыки игры и установите новые рекорды!
-		quit=Выйти
-			prompt=Вы уверены, что хотите выйти из {0}?
-		settings=Настройки
-		credits=Титры
 	gamemode=Выберите режим игры!
+		nitori=Сюжетный режим
+			description=Играйте в сюжетный режим сколько захотите! Каков будет ваш рекорд?
+		arcade=Аркадный режим
+		microgamepractice=Режим практики
+			description=Отточите навыки игры и установите новые рекорды!
 		locked1=Закрыто! Пройдите {0} для разблокирования.
 		locked2=Закрыто! Наберите {0} и более очков в режиме {1} для разблокирования.
 		highscore=Рекорд: {0}
@@ -52,6 +47,11 @@ menu
 			description=Упс, чертежи к этому режиму потеряны. Подсказок к схеме управления не будет!
 		compilationhard=Огурцовый ад
 			description=Все сложнейшие игры! Только одна жизнь! Сколько сможете продержаться?
+	main
+		quit=Выйти
+			prompt=Вы уверены, что хотите выйти из {0}?
+		settings=Настройки
+		credits=Титры
 	settings
 		resolution=Разрешение экрана
 		fullscreen=Полноэкранный режим
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=Закрась!
 		igname=Раскраски от каппы
+	KogasaScare
+		command=Испугай!
+		igname=Зонтик-пугалка
 	RockBand
 		command=Сыграй!
 		igname=Рок гав-церт
@@ -153,12 +156,30 @@ microgame
 		commandc=Стреляй!
 		commandd=Стреляй в неё!
 		igname=Огурцовая гонка
-	KogasaScare
-		igname=Зонтик-пугалка
+	RuukotoSweep
+		command=Подмети!
+	MarisaJizou
+		command=Сбрось!
+	NueAbduct
+		command=Похить!
+	ReimuDodge
+		command=Увернись!
+	KyoukoEcho
+		command=Отрази!
+	BugSwat
+		command=Прибей!
+	KaguyaMemory
+		igname=Ценная память
+	MaskPuzzle
+		igname=Голово-ломка
+	DollDance
+		igname=Кукольный танец
+	RockPaperSatori
+		igname=Камень-ножницы-Сатори
 credits
 	intro={0} была создана благодаря нашим фанатам!
 	kapptain=Креативный директор, программист, "Каппитан" команды
-	leadart=Ведущий художник, дизайн персонажей
+	leadart=Ведущий художник, дизайн персонажей, Голос Нитори
 	UI=Меню и графика
 	menumusic=Музыка меню
 	stagemusic=Музыка уровней

@@ -460,18 +460,19 @@ public class StageController : MonoBehaviour
 	void startMicrogame()
 	{
 		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
-	}
+        stage.onMicrogameStart(microgameCount);
+    }
 
 	public void resetVictory()
 	{
 		victoryDetermined = false;
-		setMicrogameVictory(MicrogameController.instance.getTraits().defaultVictory, false);
+		setMicrogameVictory(microgameTraits.defaultVictory, false);
 	}
 
 	//Called from MicrogameController on Awake()
 	public void onMicrogameAwake()
 	{
-		animationStartTime += beatLength * (12f + (float)MicrogameController.instance.getTraits().getDurationInBeats());
+		animationStartTime += beatLength * (12f + (float)microgameTraits.getDurationInBeats());
         microgameQueue.Peek().scene = MicrogameController.instance.gameObject.scene;
 
 		MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
@@ -484,7 +485,7 @@ public class StageController : MonoBehaviour
 	{
 		if (!getVictoryDetermined())
 			voicePlayer.playClip(microgameVictoryStatus, 0f);
-				//getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
+				//getMicrogameVictory() ? microgameTraits.victoryVoiceDelay : microgameTraits.failureVoiceDelay);
 		else
 			voicePlayer.forcePlay();
 
@@ -624,17 +625,17 @@ public class StageController : MonoBehaviour
 
 		victoryDetermined = true;
 		voicePlayer.playClip(microgameVictoryStatus,
-			getMicrogameVictory() ? MicrogameController.instance.getTraits().victoryVoiceDelay : MicrogameController.instance.getTraits().failureVoiceDelay);
+			getMicrogameVictory() ? microgameTraits.victoryVoiceDelay : microgameTraits.failureVoiceDelay);
 
-		if (MicrogameController.instance.getTraits().GetType() == typeof(MicrogameBossTraits))
+		if (microgameTraits.GetType() == typeof(MicrogameBossTraits))
 		{
-			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)MicrogameController.instance.getTraits()).victoryEndBeats
-				: ((MicrogameBossTraits)MicrogameController.instance.getTraits()).failureEndBeats;
+			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)microgameTraits).victoryEndBeats
+				: ((MicrogameBossTraits)microgameTraits).failureEndBeats;
 			CancelInvoke();
 			animationStartTime = Time.time + ((endInBeats + 4f) * beatLength);
 			invokeOutroAnimations();
 		}
-		else if (MicrogameController.instance.getTraits().canEndEarly)
+		else if (microgameTraits.canEndEarly)
 		{
 			float beatOffset = MicrogameTimer.instance.beatsLeft - 2f;
 			beatOffset -= beatOffset % 4f;

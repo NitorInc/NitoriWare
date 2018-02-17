@@ -9,10 +9,10 @@ stage
 	speedup=เร็วอีก!
 	boss=ด่านบอส
 	levelup=เลเวลอัพ!
+	pause=หยุดชั่วคราว
+		resume=เล่นต่อ {0}
 	quit=ออกจากเกม {0}
 	retry=เริ่มใหม่ {0}
-	pause
-		resume=เล่นต่อ {0}
 	gameover=จบเกม
 		score=คะแนนที่ได้: {0}
 		highscore=สถิติ: {0}
@@ -28,17 +28,12 @@ menu
 	on=เปิด
 	off=ปิด
 	play=เริ่มเล่น
-	main
-		story=โหมดเนื้อเรื่อง
-			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
-		compilation=โหมดอาร์เคด
-		practice=ฝึกเล่น
-			description=เตรียมทักษะการเล่นไมโครเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
-		quit=ออกจากเกม
-			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
-		settings=ตั้งค่า
-		credits=ผู้จัดทำ
 	gamemode=เลือกโหมดเกม!
+		nitori=โหมดเนื้อเรื่อง
+			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
+		arcade=โหมดอาร์เคด
+		microgamepractice=ฝึกเล่น
+			description=เตรียมทักษะการเล่นไมโครเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
 		locked1=ยังเล่นไม่ได้จ้า! เล่น {0} ให้ผ่านก่อนนะ!
 		locked2=ยังเล่นไม่ได้จ้า! เล่น {1} ให้ได้ {0} คะแนนก่อนนะ!
 		highscore=สถิติ: {0}
@@ -52,6 +47,11 @@ menu
 			description=อุ้ย เราทำพิมพ์เขียวหาย ไม่มีการบอกคำสั่ง!
 		compilationhard=นรกแตงกวา
 			description=ในโหมดนี้ มีแต่เกมระดับยากที่สุดเท่านั้น โอกาสมีแค่ชีวิตเดียว จะทนได้นานแค่ไหนกันนะ?
+	main
+		quit=ออกจากเกม
+			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
+		settings=ตั้งค่า
+		credits=ผู้จัดทำ
 	settings
 		resolution=ขนาดหน้าจอ
 		fullscreen=เต็มจอ
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=ระบายสี!
 		igname=ต่อเติมไม่หยุด
+	KogasaScare
+		command=หลอก!
+		igname=หลอกหลอนโยไค
 	RockBand
 		command=แสดง!
 		igname=ไมค์หอน
@@ -153,12 +156,30 @@ microgame
 		commandc=ยิง!
 		commandd=เอาชนะเธอซะ!
 		igname=ไล่ล่าแตงกวา
-	KogasaScare
-		igname=หลอกหลอนโยไค
+	RuukotoSweep
+		command=กวาด!
+	MarisaJizou
+		command=ขว้าง!
+	NueAbduct
+		command=ลักพาตัว!
+	ReimuDodge
+		command=หลบ!
+	KyoukoEcho
+		command=สะท้อนกลับ!
+	BugSwat
+		command=ตี!
+	ClownTorch
+		command=จุดไฟ!
+	MaskPuzzle
+		igname=ปริศนาหน้ากาก
+	MamiPoser
+		igname=ทานุกิจำแลงกาย
+	RockPaperSatori
+		igname=เป่ายิ้งฉุบ
 credits
 	intro={0} จะเกิดขึ้นไม่ได้หากขาดเขาพวกนี้!
 	kapptain=ผู้บริหารงาน โปรแกรมเมอร์ กัปตันทีม
-	leadart=หัวหน้านักวาด ดีไซน์เนอร์
+	leadart=หัวหน้านักวาด ดีไซน์เนอร์ เสียงนิโตริ
 	UI=เมนู และ กราฟิกต่าง ๆ
 	menumusic=เพลงหน้าหลัก
 	stagemusic=เพลงประจำด่าน
