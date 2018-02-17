@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class YuugiBalancePlayer : MonoBehaviour
 {
-
-    private float x = 0, max_horizontal = 5, current_acceleration = 0, vert_amount = 0.1f;
+    public float max_horizontal = 5;
+    private float x = 0, current_acceleration = 0, vert_amount = 0.1f;
     [SerializeField]
     private float acceleration = 3, speed = 10;
     [SerializeField]
