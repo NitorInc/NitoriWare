@@ -5,31 +5,37 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-	public static GameController instance;
-
+    public static GameController instance;
 
 #pragma warning disable 0649
     [SerializeField]
     private bool disableCursor;
     [SerializeField]
-	private MicrogameCollection _microgameCollection;
+    private MicrogameCollection _microgameCollection;
     [SerializeField]
     private SceneShifter _sceneShifter;
     [SerializeField]
     private Sprite[] controlSprites;
     [SerializeField]
     private UnityEvent onSceneLoad;
+    [SerializeField]
+    private DiscordController _discord;
 #pragma warning restore 0649
 
     private string startScene;
 
     public MicrogameCollection microgameCollection
-	{
-		get { return _microgameCollection; }
-	}
+    {
+        get { return _microgameCollection; }
+    }
     public SceneShifter sceneShifter
     {
         get { return _sceneShifter; }
+    }
+
+    public DiscordController discord
+    {
+        get { return _discord; }
     }
 
 	void Awake()
@@ -45,18 +51,10 @@ public class GameController : MonoBehaviour
 		instance = this;
 
 		Cursor.visible = !disableCursor;
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         Application.targetFrameRate = 60;
-        forceResolutionAspect();
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
-    }
-
-    void forceResolutionAspect()
-    {
-        int height = Screen.currentResolution.height;
-        if (!MathHelper.Approximately((float)height, (float) Screen.currentResolution.width * 3f / 4f, .01f))
-            Screen.SetResolution((int)((float)Screen.currentResolution.width * 3f / 4f), height, Screen.fullScreen);
     }
 
     private void Update()

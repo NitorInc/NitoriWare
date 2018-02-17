@@ -1,5 +1,6 @@
 generic
 	name=Srpski
+	gamename=NitorInc.
 	incomplete=UPOZORENJE: Nije sav tekst preveden na Srpskohrvatski. Neki tekst je ostao u Engleskom.
 stage
 	control
@@ -8,7 +9,7 @@ stage
 	speedup=UBRZAJ!
 	boss=BOSS NIVO
 	levelup=NIVO VIŠE
-	pause=Igra Pauzirana
+	pause=Pauza
 		resume=Nastavi {0}
 	quit=Izadji {0}
 	retry=Ponovi {0}
@@ -16,24 +17,158 @@ stage
 		score=Poeni: {0}
 		highscore=Rekord: {0}
 		newhighscore=Novi rekord!
+menu
+	yes=Da
+	no=Ne
+	ok=OK
+	back=Nazad
+	backalt=Idi nazad
+	confirm=Potvrdi
+	cancel=Otkaži
+	on=Uključeno
+	off=Isključeno
+	play=Igraj
+	gamemode=Izaberi mod igre!
+		nitori=Story mod
+			description=Igraj Story mod beskrajno! Koliko visoko možeš podići rezultat?
+		arcade=Arkadni mod
+		microgamepractice=Vežba Mikroigara
+			description=Uvežbaj svoje vežbe, da bi dobio visoke poene i hvalio se drugarima!
+		locked1=Zaključano! Završi još {0} da bi nastavio.
+		locked2=Zaključano! Povećaj broj bodova na {0} ili više u {1} da bi nastavio.
+		highscore=Najviši rezultat: {0}
+		compilationmode
+			description=Završi najviši mogući broj mikroigara! Bez boss nivoa.
+		compilation=Kappa Kolekcija
+			description=Normalni Arkadni mod: igraj sve mikroigre nasumičnim redosledom.
+		compilationfast=Maksimalni Kappacitet
+			description=SUPER DUPER BRZO!!
+		compilationmystery=(Dokumentacija potrebna!)
+			description=Ju bože, izgubili smo planove za ovo. Nema podataka za komande.
+		compilationhard=Krastavičav pakao
+			description=Sve najteže igre! Samo jedan život! Koliko ćeš izdržati?
+	main
+		quit=Završi igru
+			prompt=Jel' si siguran da hoćeš da izadješ {0}?
+		settings=Podešavanja
+		credits=Osoblje
+	settings
+		resolution=Rezolucija Ekrana
+		fullscreen=Preko Celog Ekrana
+		language=Jezik
+		graphics=Kvalitet Grafike
+			0=Najbrže
+			1=Brzo
+			2=Jednostavno
+			3=Dobro
+			4=Prelepo
+			5=Fantastično
+		volume=Volumen
+			master=Glavni
+			music=Muzika
+			sfx=Zvučni Efekti
+			voice=Glasovi
+	microgamecredits
+		art=Ilustracije: {0}
+		code=Kod: {0}
+		music=Muzika: {0}
+	splash
+		introa=Ovaj demo igre je derivativni proizvod Touhou Projekta (東方Projekat), autora ZUN-a.
+		introb=Mnogi fanovi ovog serijala su pomogli i doprineli kod, muziku, ilustracije i mnoge druge talente za proizvodnju ove kolekcije mikroigara.
+		introc=Ako želite da pomognete u daljem razvoju igre, dodjite na {0}.\nIli samo raširite vesti o igri!
+		webglwarning=Ako vam Web Verzija pravi probleme, probajte jednu od linkova za preuzimanje dole.
+nitori
+	storyintro=Imamo mušteriju!\nHajde da te vidimo kako ćeš se snositi sa mojim igrama.\nNemoj treptati!
+	storyfinished=Bravo štreberčino.\nIzgleda da nisi samo neki čistač prozora sa ulice.\nSad probaj {0} za pravi izazov!
+	compilationfinished=Ju boga ti, impresionirana sam!\nAl samo ti čekaj punu verziju!\n{0} je tek počeo!
 microgame
 	FreezeFrogs
 		command=Zamrzni!
+		igname=Smrzni žabe!
 	Slingshot
 		command=Ispali!
+		igname=Leti gore!
 	Spider
 		command=Nahrani!
+		igname=Narani Pauka!
 	Donation
 		command=Sakupi 3!
+		igname=Zgrabi pare!
 	Wrench
 		command=Pričvrsti!
+		igname=Zavrni
 	Potion
 		command=Ubaci!
+		ingredients=Sastojci
+		igname=Ode napitak!
 	GhostFood
 		command=Ćapi i sažvaći!
+		igname=Duševno jelo.
 	Spaceship
 		command=Ispali!
+		igname=Duhovni Svemirski Program
+	CupShuffle
+		command=Obrati pažnju!
+		commandb=Izaberi!
+		igname=Pogodi gde je.
 	TraceShape
 		command=Ispuni!
+		igname=Popuni oblike.
+	RockBand
+		command=Izvedi!
+		igname=Performansa Uživo
+	ChenBike
+		command=Zatrubi!
+		igname=Zatrubi konjini
 	MasterSparkCode
 		command=Baci čaroliju!
+		igname=TrainYourAim pucanje
+	OkuuFire
+		command=Reguliši!
+		igname=Oladi, sine.
+	YukariCake
+		command=Šćapi!
+	TouhouSort
+		hat=Oprema za glavu
+		wing=Tip Krila
+		ear=Uši
+		igname=Sortiranje....ne, nije u Pascalu
+	PaperThief
+		commandb=Pazi!
+		commandc=Pucaj dok ne crkne!
+		commandd=Ubi je!
+		igname=Vataj lopova
+	ChenFood
+		igname=Beg mačaka!
+	KogasaScare
+		igname=Begaj od duha.
+	RemiCover
+		igname=Vampirova smrt.
+	SuikaShake
+		igname=Pijandura
+	FlanGrab
+		igname=Kad Dete Poludi
+credits
+	intro={0} su omogučili:
+	kapptain=Direktor, Programer, Menadžer, Kappetan Tima
+	leadart=Glavni Umetnik, Dizajner Likova, Nitorin Glas
+	UI=Grafika Nivoa I Menija
+	menumusic=Titl/Meni muzika
+	stagemusic=Muzika Nivoa
+	microgame
+		management=Menadžeri Mikroigara
+		managementalt=Menadžeri Projekta
+		code=Kod Mikroigara
+		art=Ilustracije Mikroigara
+		music=Muzika Mikroigara
+	localization=Lokalizacija
+		management=Menadžeri Lokalizacije
+	sfx=Zvučni Efekti
+	voice=Nitorin Glas
+	trailer=Demo Trailer
+	socialmedia=Reklamiranje/Društvene Mreže
+	touhou=Ova igra je derivativni proizvod Touhou Projekta (東方Projekat), autora ZUN-a.
+	thanks=Posebne Zahvale
+		discord=Touhou Projekat Discord Serveru
+		playtesters=Svim našim testerima
+		fans=I svim fanovima koji su pomogli u širenju vesti!

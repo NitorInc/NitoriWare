@@ -8,6 +8,7 @@ stage
 		mouse=FAREYİ KULLAN
 	speedup=DAHA HIZLI!
 	boss=BÖLÜM PATRONU
+	levelup=SEVİYE ATLANDI!
 	pause=Oyun Durduruldu
 		resume=Devam {0}
 	quit=Çıkış {0}
@@ -27,18 +28,29 @@ menu
 	on=Açık
 	off=Kapalı
 	play=Oyna
+	gamemode=Oyun modu seç!
+		nitori=Hikâye Modu
+			description=Hikâye modunu sonsuz oyna! Ne kadar skorlayabilrsin?
+		arcade=Arcade Modu
+		microgamepractice=Microgame Pratiği
+			description=Becerilerini güçlendir, ve bu skorları o kadar yükseğe götür ki, arkadaşlarına övün!
+		locked1=Kapalı! Açmak için {0} tamamla.
+		highscore=Yüksek Puan: {0}
+		compilationmode
+			description=Yapabildiğin kadar yap! Boss yok.
+		compilation=Kappa Ensiklopedisi
+			description=Normal Arcade Modu: Bütün oyunları karışık oyna.
+		compilationfast=Maksimum Kapasite
+			description=ÇOK ÇOK HIZLI!
+		compilationmystery=(Dokümantasyon Gerekli)
+			description=Hay aksi, bunun planlarını kaybettik. Komut ya da kontrol yok!
+		compilationhard=Hıyar Cehennemi
+			description=En zor oyunlar! Sadece bir can! Ne kadar kalabilirsin?
 	main
-		story=Hikâye Modu
-		compilation=Arcade Modu
-		practice=Microgame Pratiği
 		quit=Oyundan Çık
 			prompt=Oyundan çıkmak istediğine emin misin {0}?
 		settings=Ayarlar
 		credits=Jenerik
-	gamemode=Oyun modu seç!
-		highscore=Yüksek Puan: {0}
-		compilationmystery=(Dokümantasyon Gerekli)
-		compilationhard=Hıyar Cehennemi
 	settings
 		resolution=Ekran Çözünürlüğü
 		fullscreen=Tam Ekran
@@ -59,6 +71,15 @@ menu
 		art=Görseller: {0}
 		code=Kodlama: {0}
 		music=Müzik: {0}
+	splash
+		introa=Bu fangame'in denemesi ZUN tarafından yaratılmış olan Touhou Project'ten esinlenerek yaratılmıştır.
+		introb=Serinin birçok hayranı, bu mikro oyunları yapmak için birlikte çalışıp kod, müzik, resim ve başka yetenekler ile katkıda bulundu.
+		introc=Tam oyun için katkıda bulunmak istiyorsanız, lütfen {0} ziyaret edin \nYada arkadaşlarınıza anlatın!
+		webglwarning=Eğer web oynatıcısı size sorun veriyorsa, aşağıdaki indirme linklerinden birisini deneyin.
+nitori
+	storyintro=Gördüğüm gibi, yeni bir müşterimiz var!\nHadi nasıl benim oyunlarıma başa çıkacağına bakalım.\nGözünü kırmpa!
+	storyfinished=Afferin, inek.\nDemek ki buraya boşa gelmemişsin.\nŞimdi gerçekten meydan okumak istiyorsan, {0} dene!
+	compilationfinished=Vay be, etkileyici!\nAma oyunun tam sürümü için bekle.\n{0} daha yeni başladı!
 microgame
 	FreezeFrogs
 		command=Dondur!
@@ -66,6 +87,9 @@ microgame
 	Slingshot
 		command=Fırlat!
 		igname=Kuş Atmaca
+	ChenFood
+		command=Yenme!
+		igname=Kedi Kaçırmaca
 	Spider
 		command=Besle!
 		igname=Örümcek Beslemece
@@ -81,41 +105,83 @@ microgame
 		igname=İksir Yapmaca
 	GhostFood
 		command=Kap ve çiğne!
+		igname=Hayalet Yemeği
 	Spaceship
 		command=Havalan!
+		igname=Youkai Uzay Programı
 	CupShuffle
 		command=Dikkât et!
 		commandb=Seç!
+		igname=Fincan Oyunu
 	TraceShape
 		command=Doldur!
+		igname=Şekil Doldurma
+	KogasaScare
+		command=Korkut!
+		igname=Youkai'dan Kork
 	RockBand
 		command=Gösteri yap!
+		igname=Canlı Konser
 	ChenBike
 		command=Korna çal!
+		igname=Korna
 	MasterSparkCode
 		command=Büyü yap!
+		igname=Ateş Testi
+	OkuuFire
+		command=Düzenle!
+		igname=Kontrol Altında
 	YukariCake
 		command=Yakala!
+		igname=Tatlıya Kıyamam
 	RemiCover
 		command=Gölgele!
+		igname=Kara İşler
+	SuikaShake
+		command=Salla!
+		igname=Salla, karıştırma
 	TouhouSort
 		command={0}'a göre sırala!
 		hat=şapka
 		wing=kanat türü
 		ear=kulaklar
+		igname=Her Çeşit
 	FlanGrab
 		command=Koru!
+		igname=Köşk Koruma
 	PaperThief
 		command=Hedefe ulaş!
 		commandb=Dikkât et!
 		commandc=Ateş et!
 		commandd=Vur onu!
-	ChenFood
-		igname=Kedi Kaçırmaca
+		igname=Hıyar Kovalamaca
+	RuukotoSweep
+		command=Süpür!
+		igname=Tapınak Süpürme
+	KaguyaMemory
+		igname=Değerli Anılar
+	MochiPound
+		igname=Moçi Vurmaca
+	MaskPuzzle
+		igname=Maske Onarlama
+	YuukaWater
+		igname=Çiçek Sulama
+	NitoriLook
+		igname=Saklanan Nitori
+	MamiPoser
+		igname=Taklitçi
+	DollDance
+		igname=Kukla Gösterisi
+	RockPaperSatori
+		igname=Taş, Kağıt, Makas
+	MarisaJizou
+		igname=Düşen Şapka
+	NueAbduct
+		igname=Uzaylı Kaçırması
 credits
 	intro={0}, aşağıdaki hayranların sayesinde meydana gelebilmiştir!
 	kapptain=Yaratıcı Yönetmen, Programcı, Takım "Kapptanı"
-	leadart=Baş Çizer, Karakter Tasarımcı
+	leadart=Baş Çizer, Karakter Tasarımcı, Nitori'nin Sesi
 	UI=Menü ve Bölüm Grafikleri
 	menumusic=Menü Müziği
 	stagemusic=Bölüm Müzikleri

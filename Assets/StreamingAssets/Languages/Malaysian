@@ -28,17 +28,12 @@ menu
 	on=On
 	off=Off
 	play=Main
-	main
-		story=Mod Cerita
-			description=Main mod cerita tanpa henti! Dapatkan skor tertinggi selagi mampu!
-		compilation=Mod Arked
-		practice=Mod Latihan
-			description=Asah kemahiran permainan mikro anda di sini!
-		quit=Berhenti bermain
-			prompt=Anda pasti nak berhenti {0}?
-		settings=Tetapan
-		credits=Kredit
 	gamemode=Pilih mod permainan!
+		nitori=Mod Cerita
+			description=Main mod cerita tanpa henti! Dapatkan skor tertinggi selagi mampu!
+		arcade=Mod Arked
+		microgamepractice=Mod Latihan
+			description=Asah kemahiran permainan mikro anda di sini!
 		locked1=Terkunci! Habiskan {0} untuk membukanya.
 		locked2=Terkunci! Dapatkan {0} atau lebih dalam {1} untuk membukanya.
 		highscore=Rekod tertinggi {0}
@@ -52,6 +47,11 @@ menu
 			description=Alamak! Kita dah kehilangan pelan kerja. Tiada arahan akan diberi!
 		compilationhard=Neraka Timun
 			description=Semua susah! Satu nyawa sahaja! Berapa lama awak boleh bertahan?
+	main
+		quit=Berhenti bermain
+			prompt=Anda pasti nak berhenti {0}?
+		settings=Tetapan
+		credits=Kredit
 	settings
 		resolution=Resolusi Skrin
 		fullscreen=Skrin penuh
@@ -69,9 +69,9 @@ menu
 			sfx=Efek Bunyi
 			voice=Suara
 	microgamecredits
-		art=Seni
-		code=Kod
-		music=Musik
+		art=Seni: {0}
+		code=Kod: {0}
+		music=Muzik: {0}
 	splash
 		introa=Demo permainan ini adalah hasil daripada siri Touhou Project (東方Project) yang dibuat oleh ZUN
 		introb=Para peminat siri ini telah memberi sumbangan dari segi kod, muzik, seni, dan bakat yang lain untuk membuat sebuah koleksi permainan mikro.
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=Isikan!
 		igname=Isi Tempat Kosong
+	KogasaScare
+		command=Takutkan!
+		igname=Lari dari Youkai
 	RockBand
 		command=Beraksi!
 		igname=Subwoofer
@@ -153,12 +156,41 @@ microgame
 		commandc=Tembak!
 		commandd=Tewaskan dia!
 		igname=Ke Arah Timun
-	KogasaScare
-		igname=Lari dari Youkai
+	RuukotoSweep
+		command=Sapu!
+		igname=Penyucian Kuil
+	MarisaJizou
+		command=Baling!
+		igname=Topi Jizou
+	NueAbduct
+		command=Culik!
+		igname=Diculik Makhluk Asing
+	ReimuDodge
+		command=Elak!
+	KyoukoEcho
+		command=Tepis!
+	BugSwat
+		command=Tampar!
+	ClownTorch
+		command=Nyalakan!
+	KaguyaMemory
+		igname=Peti Minda
+	MochiPound
+		igname=Kuih Mochi
+	MaskPuzzle
+		igname=Baiki Muka
+	NitoriLook
+		igname=Kappa yang Pemalu
+	MamiPoser
+		igname=Penyamaran Tanuki
+	DollDance
+		igname=Pesta Boneka
+	RockPaperSatori
+		igname=Gunting Batu Kertas
 credits
 	intro=Para peminat telah menjadikan {0} sebuah kenyataan
 	kapptain=Pengarah Kreatif, Programmer, "Kappten" Kumpulan
-	leadart=Ketua Artis, Reka Bentuk Karakter
+	leadart=Ketua Artis, Reka Bentuk Karakter, Suara Nitori
 	UI=Menu dan Grafik Pentas
 	menumusic=Muzik Menu
 	stagemusic=Muzik Utama
@@ -172,7 +204,7 @@ credits
 		management=Pengurus Penyetempatan
 	sfx=Efek Bunyi
 	voice=Suara Nitori
-	trailer=Trailer Demo
+	trailer=Demonstrasi
 	socialmedia=Promosi/Media Sosial
 	touhou=Permainan ini adalah karya derivatif untuk siri Touhou Project, direka oleh ZUN
 	thanks=Ucapan Terima Kasih

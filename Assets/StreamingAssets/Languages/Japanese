@@ -1,4 +1,5 @@
 generic
+	name=日本語
 	gamename=NitorInc.
 	incomplete=注意：和訳はまだ完成しておりません。英語のままの場合がありますのでご了承ください。
 stage
@@ -27,17 +28,12 @@ menu
 	on=オン
 	off=オフ
 	play=スタート
-	main
-		story=ストーリーモード
-			description=ハイスコアを目指せ！エンドレスモード！
-		compilation=アーケードモード
-		practice=プラクティスモード
-			description=地力を上げてハイスコアを目指そう！そして自慢ツイートしようぜ！
-		quit=やめる
-			prompt=本当にやめちゃう？
-		settings=オプション
-		credits=スタッフロール
 	gamemode=モードを選べ！
+		nitori=ストーリーモード
+			description=ハイスコアを目指せ！エンドレスモード！
+		arcade=アーケードモード
+		microgamepractice=プラクティスモード
+			description=地力を上げてハイスコアを目指そう！そして自慢ツイートしようぜ！
 		locked1={0}を完走したら開放するよ！
 		locked2={1}で{0}点達成したら開放するよ！
 		highscore=ハイスコア: {0}
@@ -51,6 +47,11 @@ menu
 			description=あぁ、悪いが設計図に不備が合ってな。ガイド機能が無かったりするけど、それでもいいかい？
 		compilationhard=胡瓜地獄
 			description=最狂の難易度！たった一つの残機！どれだけ生きられるかな？
+	main
+		quit=やめる
+			prompt=本当にやめちゃう？
+		settings=オプション
+		credits=スタッフロール
 	settings
 		resolution=解像度
 		fullscreen=フルスクリーン
@@ -116,6 +117,9 @@ microgame
 	TraceShape
 		command=塗れ！
 		igname=ぬりぬりチャレンジ
+	KogasaScare
+		command=脅せ！
+		igname=おどろかさ
 	RockBand
 		command=歌え！
 		igname=鳥獣伎楽
@@ -152,12 +156,20 @@ microgame
 		commandc=打ち砕け！
 		commandd=ぶっ倒せ！
 		igname=キュウリ大戦争
-	KogasaScare
-		igname=おどろかさ
+	MarisaJizou
+		command=投げろ！
+	NueAbduct
+		command=連れ去れ！
+	ReimuDodge
+		command=逸らかせ！
+	KyoukoEcho
+		command=映れ
+	BugSwat
+		command=スァット！
 credits
 	intro={0} の制作に協力してくれた人たち
 	kapptain=製作総指揮、プログラム、チーム・カッパテン
-	leadart=美術監督、キャラクターデザイン
+	leadart=美術監督、キャラクターデザイン, にとり役
 	UI=UIデザイン、ステージグラフィック
 	menumusic=タイトルBGM
 	stagemusic=ステージBGM

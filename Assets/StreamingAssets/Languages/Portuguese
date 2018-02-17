@@ -1,26 +1,25 @@
 generic
-	name=Português
+	name=Português (Brasil)
 	gamename=NitorInc.
-	incomplete=AVISO: Este idioma não está completamente traduzido. Algum texto pode aparecer em inglês.
+	incomplete=AVISO: Este idioma não está completamente traduzido. Certos textos podem aparecer em Inglês.
 stage
 	control
 		key=USE AS TECLAS
 		mouse=USE O MOUSE
 	speedup=MAIS RÁPIDO!
-	boss=FASE DO MESTRE
-	levelup=NÍVEL AUMENTADO!
-	pause=Pausa
+	boss=FASE DO CHEFE
+	pause=Pausado
 		resume=Resumir
 	quit=Sair
-	retry=Tentar de Novo
-	gameover=Fim de Jogo
-		score=Pontuação: {0}
-		highscore=Recorde: {0}
-		newhighscore=Novo Recorde!
+	retry=Tentar novamente
+	gameover=Fim de Jogo!
+		score=Pontuação:
+		highscore=Pontuação mais alta:
+		newhighscore=Novo recorde!
 menu
 	yes=Sim
 	no=Não
-	ok=Ok
+	ok=OK
 	back=Voltar
 	backalt=Retornar
 	confirm=Confirmar
@@ -28,103 +27,152 @@ menu
 	on=Ligado
 	off=Desligado
 	play=Jogar
+	gamemode=Selecione um modo de jogo!
+		nitori=Modo História
+			description=Jogue o Modo História sem fim! Quantos pontos você consegue marcar?
+		arcade=Modo Arcade
+		microgamepractice=Praticar Microgames
+			description=Aperfeiçoe suas habilidades nos microgames e aumente suas melhores pontuações para você se exibir para os seus amigos!
+		locked1=Trancado! Complete {0} para desbloquear.
+		locked2=Trancado! Pontue {0} ou mais em {1} para desbloquear.
+		highscore=Maior Pontuação: {0}
+		compilationmode
+			description=Desafie o máximo de microgames que puder! Sem fase do chefe.
+		compilation=Compêndio Kappa
+			description=Modo Arcade Normal: Jogue todos os microgames embaralhados.
+		compilationfast=Kappacidade Máxima!
+			description=SUPER DUPER RÁPIDO!!
+		compilationmystery=(Documentação necessária)
+			description=Ops, perdemos os planos para este aqui. Jogue sem saber as regras ou os controles!
+		compilationhard=Inferno do Pepino
+			description=Todos os jogos mais dificeis! Só uma vida! Quanto tempo consegue durar?
 	main
-		story=Modo História
-			description=Jogue o Modo História sem parar! Quantos pontos você irá marcar?
-		compilation=Modo Arcade
-		practice=Modo Prática
-			description=Melhore suas habilidades nos jogos, e seja melhor que seus amigos!
 		quit=Sair do Jogo
-			prompt=Tem certeza que quer sair?
+			prompt=Tem certeza que quer sair de {0}?
 		settings=Configurações
 		credits=Créditos
-	gamemode=Escolha um modo de jogo!
-		locked1=Trancado! Complete {0} para liberar.
-		locked2=Trancado! Pontue {0} ou mais em {1} para liberar.
-		highscore=Melhor Pontuação: {0}
-		compilationmode
-			description=Jogue o máximo de jogos que puder! Sem estágios-chefe
-		compilation=Compêndio Kappa
-			description=Modo Arcade Normal: Jogue aleatoriamente!
-		compilationfast=Kappacidade Máxima!
-			description=SUPER ULTRA RÁPIDO!!
-		compilationmystery=(Precisa-se documentação)
-			description=Ops, nós perdemos as informações deste. Jogue sem saber os controles!
-		compilationhard=Inferno do Pepino
-			description=Todos os jogos mais difíceis! Somente uma vida! Quão longe você irá aguentar?
 	settings
 		resolution=Resolução da Tela
 		fullscreen=Tela Cheia
-		language=Idioma
+		language=Linguagem
 		graphics=Qualidade Gráfica
-			0=Mais Rápida
-			1=Rápida
+			0=Mais rápido
+			1=Rápido
 			2=Simples
-			3=Boa
-			4=Bonita
-			5=Fantástica
+			3=Bom
+			4=Bonito
+			5=Fantástico
 		volume=Volume
 			master=Mestre
 			music=Música
 			sfx=Efeitos Sonoros
-			voice=Vozes
+			voice=Voz
 	microgamecredits
 		art=Arte: {0}
 		code=Código: {0}
 		music=Música: {0}
 	splash
-		introa=Este jogo é um trabalho derivado de Touhou Project (東方Project), criado por ZUN
+		introa=Este demo de jogo é um trabalho derivado de Touhou Project (東方Project), criado por ZUN.
 		introb=Muitos fãs da série colaboraram e contribuiram com código, música, arte e vários outros talentos para criar esta coleção de Microgames.
 		introc=Se você gostaria de contribuir com o jogo, por favor visite {0}\nOu ajude a espalhá-lo!
 		webglwarning=Se o web player causar problemas, tente um dos downloads providenciados abaixo.
+nitori
+	storyintro=Parece que temos um novo cliente.\nVamos ver como você aguenta os meus jogos.\nMelhor não piscar!
+	storyfinished=Bom trabalho, nerd.\nVocê não é dos que só olham a vitrine.\nAgora tente {0} por um desafio de verdade!
+	compilationfinished=Caramba, tô impressionada!\nMas espera até você ver o jogo terminado.\n{0} só começou!
 microgame
 	FreezeFrogs
 		command=Congele!
+		igname=Sapinhos Congelados
 	Slingshot
 		command=Arremesse!
+		igname=Lança-Pássaros
 	ChenFood
-		command=Não seja devorado!
+		command=Não seja comido!
 	Spider
 		command=Alimente!
+		igname=Alimente a Aranha
 	Donation
-		command=Colete 3!
+		command=Pegue 3!
+		igname=Caça-Moedas
 	Wrench
-		command=Parafuse!
+		command=Aperte!
+		igname=Tecnologia de Chave-Inglesa Kappa
 	Potion
 		command=Jogue dentro!
 		ingredients=Ingredientes
+		igname=Pote de Poções
 	GhostFood
 		command=Coma e mastigue!
+		igname=Deleite Fantasma: Devorador Espectral
 	Spaceship
 		command=Lance!
+		igname=Programa Espacial Youkai
 	CupShuffle
-		command=Preste Atenção
+		command=Preste Atenção!
 		commandb=Escolha!
+		igname=Jogo dos Copos
 	TraceShape
 		command=Preencha!
+		igname=Pintando as Formas
 	RockBand
 		command=Atue!
+		igname=Performance AUU! Vivo
+	ChenBike
+		command=Buzine!
+		igname=Mas que Buzina!
 	MasterSparkCode
-		command=Atire!
+		command=Lance!
+		igname=Tiro ao Alvo
 	OkuuFire
 		command=Regule!
+		igname=Se Esfrie
 	YukariCake
 		command=Roube!
+		igname=Patrulha da Sobremesa
 	RemiCover
-		command=Faça Sombra!
+		command=Sombreie!
+		igname=Negócio Sombrio
 	SuikaShake
 		command=Sacuda!
+		igname=Batido, Não Mexido
 	TouhouSort
-		command=Organize por {0}
-		hat=Acessório
-		wing=Tipo de Asa
-		ear=Orelhas
+		command=Organize por {0}!
+		hat=chapéu
+		wing=tipo de asa
+		ear=orelhas
+		igname=Garota de Todos os Tipos
 	FlanGrab
 		command=Proteja!
+		igname=Proteção da Mansão
 	PaperThief
-		command=Chegue ao final!
+		command=Chegue até o fim!
 		commandb=Cuidado!
 		commandc=Atire!
-		commandd=Defenda!
+		commandd=Derrote-a!
+		igname=Travessura de Pepino
+	KogasaScare
+		igname=Tema a Youkai!
 credits
-	intro={0} foi possível graças aos seguintes fãs!
+	kapptain=Diretor, Programador, Gerente, "Kapptão" do Time
+	leadart=Artista-Chefe, Designer dos Personagens, Voz da Nitori
+	UI=Gráficos do Menu e das Fases
+	menumusic=Musica do Título/Menu
+	stagemusic=Música das Fases
+	microgame
+		management=Gerenciamento dos Microgames
+		managementalt=Gerenciamento das Colaborações
+		code=Código dos Microgames
+		art=Arte dos Microgames
+		music=Música dos Microgames
+	localization=Localização
+		management=Gerenciamento de Localização
+	sfx=Efeitos Sonoros
+	voice=Voz da Nitori
+	trailer=Trailer do Demo
+	socialmedia=Promoção/Rede Social
+	touhou=Este fangame é um trabalho derivado de Touhou Project, criado por ZUN.
+	thanks=Agradecimentos Especiais
+		discord=O servidor do Discord de Touhou Project
+		playtesters=Todos os nossos playtesters
+		fans=E todos os fãs que ajudaram a espalhar o jogo!
