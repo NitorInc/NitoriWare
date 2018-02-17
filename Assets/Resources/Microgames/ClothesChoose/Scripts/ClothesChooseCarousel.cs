@@ -42,11 +42,11 @@ public class ClothesChooseCarousel : MonoBehaviour
         {
             if (Event.current.Equals(Event.KeyboardEvent("right")))
             {
-                Reposition(-1);
+                Reposition(1);
             }
             else if (Event.current.Equals(Event.KeyboardEvent("left")))
             {
-                Reposition(1);
+                Reposition(-1);
             }
 
             SendMessageUpwards("CheckWin");
