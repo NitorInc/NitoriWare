@@ -5,6 +5,8 @@ public class ClothesChooseController : MonoBehaviour
     public ClothesChooseCarousel[] carousels;
     public ClothesChooseDoll mannequin;
 
+    public Animator[] winAnimators;
+
     int currentCarousel;
 
     void Start()
@@ -58,6 +60,11 @@ public class ClothesChooseController : MonoBehaviour
 
         if (win)
         {
+            foreach (Animator animator in winAnimators)
+            {
+                animator.SetTrigger("Win");
+            }
+
             MicrogameController.instance.setVictory(true, true);
         }
     }
