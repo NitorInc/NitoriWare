@@ -13,6 +13,8 @@ namespace NitorInc.MarisaJizou {
         public GameObject happyExp;
         public GameObject sadExp;
         public GameObject hat;
+        public GameObject onHitEffectProto;
+        public Transform onHitEffectTrans;
         Collider2D col;
 
         public void Register(MarisaJizouController controller) {
@@ -30,15 +32,17 @@ namespace NitorInc.MarisaJizou {
 
         }
 
-        private void OnCollisionEnter2D(Collision2D collision) {
+        public void HatLanding() {
             if (!hasTouched) {
                 controller.Notify(true);
                 hasTouched = true;
                 happyExp.SetActive(true);
                 sadExp.SetActive(false);
                 hat.SetActive(true);
+                var go = Instantiate(onHitEffectProto) as GameObject;
+                go.transform.position = onHitEffectTrans.position;
+                go.SetActive(true);
                 col.enabled = false;
-                Destroy(collision.gameObject);
             }
         }
     }
