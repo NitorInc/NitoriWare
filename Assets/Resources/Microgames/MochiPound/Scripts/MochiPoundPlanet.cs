@@ -24,16 +24,16 @@ namespace NitorInc.MochiPound {
         public void Shake() {
             bumpTimer = 0.0f;
             rigid.gravityScale = gravityScale;
-            rigid.AddForce(new Vector2(0.0f + Random.Range(-bumpXRange, bumpXRange), bumpForce + Random.Range(0.0f, bumpYRange)), ForceMode2D.Impulse);
-            rigid.AddTorque(Random.Range(-angularRange, angularRange), ForceMode2D.Impulse);
+            rigid.velocity += new Vector2(Random.Range(-bumpXRange, bumpXRange), Random.Range(-bumpYRange, bumpYRange));
+            rigid.angularVelocity = Random.Range(0.0f, angularRange);
         }
 
         // Update is called once per frame
         void Update() {
             if (bumpTimer >= 0.0f) {
-
+            
                 bumpTimer += Time.deltaTime;
-
+            
                 if (bumpTimer >= bumpTime) {
                     rigid.gravityScale = 0.0f;
                     rigid.velocity = Vector2.zero;
