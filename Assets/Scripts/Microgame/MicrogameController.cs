@@ -2,7 +2,6 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Collections;
-using System.Linq;
 
 public class MicrogameController : MonoBehaviour
 {
@@ -40,29 +39,10 @@ public class MicrogameController : MonoBehaviour
 	{
 		instance = this;
 
-        //Find traits
-		string microgameID = gameObject.scene.name;
-        int difficulty = int.Parse(microgameID.Substring(microgameID.Length - 1, 1));
-
-        if (microgameID.Equals("Template"))
-			microgameID = "_Template1";
-        microgameID = microgameID.Substring(0, microgameID.Length - 1);
-
-        //Get traits from collection if available
-        if (GameController.instance != null)
-        {
-            var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
-                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
-            if (collectionMicrogame == null)
-                collectionMicrogame = GameController.instance.microgameCollection.getCollectionBossMicrogames()
-                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
-            if (collectionMicrogame != null)
-                traits = collectionMicrogame.difficultyTraits[difficulty - 1];
-        }
-
-        //Get traits from project file if necessary
-        if (traits == null)
-            traits = MicrogameTraits.findMicrogameTraits(microgameID, difficulty);
+		string sceneName = gameObject.scene.name;
+		if (sceneName.Equals("Template"))
+			sceneName = "_Template1";
+		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 
@@ -88,7 +68,7 @@ public class MicrogameController : MonoBehaviour
             victory = traits.defaultVictory;
             victoryDetermined = false;
 
-            traits.onAccessInStage(microgameID);
+            traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
         }
 		else if (!isBeingDiscarded())
 		{
@@ -209,22 +189,12 @@ public class MicrogameController : MonoBehaviour
         return sfxSource;
     }
 
-    /// <summary>
-    /// Call this to have the player win/lose a microgame. If victory status may change before the end of the microgame, add a second "false" bool parameter
-    /// </summary>
-    /// <param name="victory"></param>
-    /// <param name="final"></param>
-    public void setVictory(bool victory)
-    {
-        setVictory(victory, true);
-    }
-
-    /// <summary>
-    /// Call this to have the player win/lose a microgame, set 'final' to false if the victory status might be changed again before the microgame is up
-    /// </summary>
-    /// <param name="victory"></param>
-    /// <param name="final"></param>
-    public void setVictory(bool victory, bool final)
+	/// <summary>
+	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
+	/// </summary>
+	/// <param name="victory"></param>
+	/// <param name="final"></param>
+	public void setVictory(bool victory, bool final)
 	{
 		if (debugMode)
 		{

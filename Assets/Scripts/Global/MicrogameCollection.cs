@@ -6,8 +6,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class MicrogameCollection : MonoBehaviour
 {
-    public const string MicrogameAssetPath = "/Microgames/";
-
     [SerializeField]
     private List<Microgame> finishedMicrogames, stageReadyMicrogames, unfinishedMicrogames, bossMicrogames;
 
@@ -48,7 +46,7 @@ public class MicrogameCollection : MonoBehaviour
 		unfinishedMicrogames = new List<Microgame>();
 		bossMicrogames = new List<Microgame>();
 
-		string[] microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Finished/");
+		string[] microgameDirectories = Directory.GetDirectories(Application.dataPath + "/Resources/Microgames/_Finished/");
 		for (int i = 0; i < microgameDirectories.Length; i++)
 		{
 			string[] dirs = microgameDirectories[i].Split('/');
@@ -57,7 +55,7 @@ public class MicrogameCollection : MonoBehaviour
             finishedMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
 		}
 
-		microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath);
+		microgameDirectories = Directory.GetDirectories(Application.dataPath + "/Resources/Microgames/");
 		for (int i = 0; i < microgameDirectories.Length; i++)
 		{
 			string[] dirs = microgameDirectories[i].Split('/');
@@ -72,8 +70,8 @@ public class MicrogameCollection : MonoBehaviour
 			}
 		}
 
-		microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/");
-        for (int i = 0; i < microgameDirectories.Length; i++)
+		microgameDirectories = Directory.GetDirectories(Application.dataPath + "/Resources/Microgames/_Bosses/");
+		for (int i = 0; i < microgameDirectories.Length; i++)
 		{
 			string[] dirs = microgameDirectories[i].Split('/');
 			string microgameId = dirs[dirs.Length - 1];
@@ -94,7 +92,7 @@ public class MicrogameCollection : MonoBehaviour
     
     Sprite getSprite(string microgameId)
     {
-        return Resources.Load<Sprite>("MicrogameIcons/" + microgameId + "Icon");
+        return Resources.Load<Sprite>("Sprites/MicrogameIcons/" + microgameId + "Icon");
     }
 
     //public List<Microgame> getMicrogames(Restriction restriction)

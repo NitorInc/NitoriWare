@@ -45,10 +45,18 @@ public class GameController : MonoBehaviour
 		instance = this;
 
 		Cursor.visible = !disableCursor;
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
         Application.targetFrameRate = 60;
+        forceResolutionAspect();
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
+    }
+
+    void forceResolutionAspect()
+    {
+        int height = Screen.currentResolution.height;
+        if (!MathHelper.Approximately((float)height, (float) Screen.currentResolution.width * 3f / 4f, .01f))
+            Screen.SetResolution((int)((float)Screen.currentResolution.width * 3f / 4f), height, Screen.fullScreen);
     }
 
     private void Update()
