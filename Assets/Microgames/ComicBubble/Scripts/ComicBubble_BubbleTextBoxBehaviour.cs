@@ -35,11 +35,16 @@ public class ComicBubble_BubbleTextBoxBehaviour : MonoBehaviour {
             RaycastHit2D[] result = Physics2D.BoxCastAll(castOffset + (Vector2)transform.position, new Vector3(castWidth, castHeight, 1), 0, Vector2.zero);
 
             if (result.Length > 0)
+            {
                 foreach (RaycastHit2D r in result)
                     if (r.collider.gameObject == target)
                         advanceSpeechText();
+            }
+
             else
+            {
                 stopSpeechText();
+            }
 
         }
 
