@@ -18,11 +18,11 @@ public class CompilationStage : Stage
 
 	public override void onStageStart()
 	{
-        base.onStageStart();
 		microgamePool = MicrogameHelper.getMicrogames(restriction);
         roundsCompleted = roundStartIndex = 0;
 		shuffleGames();
-	}
+        base.onStageStart();
+    }
 
 	public override bool isMicrogameDetermined(int num)
 	{
@@ -41,14 +41,15 @@ public class CompilationStage : Stage
 	}
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
-	{
-		if (microgame - roundStartIndex >= microgamesPerRound - 1)
+    {
+        if (microgame - roundStartIndex >= microgamesPerRound - 1)
 		{
 			roundsCompleted++;
 			roundStartIndex += microgamesPerRound;
 			shuffleGames();
-		}
-	}
+        }
+        base.onMicrogameEnd(microgame, victoryStatus);
+    }
 
 	void shuffleGames()
 	{

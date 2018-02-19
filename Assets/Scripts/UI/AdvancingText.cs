@@ -16,10 +16,14 @@ public class AdvancingText : MonoBehaviour
 
     private TMP_Text textMeshProComponent;
     private float progress;
-    
-	void Start ()
+
+    void Awake()
     {
         textMeshProComponent = GetComponent<TMP_Text>();
+    }
+
+    void Start ()
+    {
         resetAdvance();
 	}
 
@@ -66,7 +70,8 @@ public class AdvancingText : MonoBehaviour
 
     public int getTotalVisibleChars()
     {
-        var textInfo = textMeshProComponent.textInfo;
-        return textInfo.characterCount; 
+        return textMeshProComponent.text.Length;
+        //var textInfo = textMeshProComponent.textInfo;
+        //return textInfo.characterCount; 
     }
 }

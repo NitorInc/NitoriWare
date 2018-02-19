@@ -28,17 +28,12 @@ menu
 	on=เปิด
 	off=ปิด
 	play=เริ่มเล่น
-	main
-		story=โหมดเนื้อเรื่อง
-			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
-		compilation=โหมดอาร์เคด
-		practice=ฝึกเล่น
-			description=เตรียมทักษะการเล่นไมโครเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
-		quit=ออกจากเกม
-			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
-		settings=ตั้งค่า
-		credits=ผู้จัดทำ
 	gamemode=เลือกโหมดเกม!
+		nitori=โหมดเนื้อเรื่อง
+			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
+		arcade=โหมดอาร์เคด
+		microgamepractice=ฝึกเล่น
+			description=เตรียมทักษะการเล่นไมโครเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
 		locked1=ยังเล่นไม่ได้จ้า! เล่น {0} ให้ผ่านก่อนนะ!
 		locked2=ยังเล่นไม่ได้จ้า! เล่น {1} ให้ได้ {0} คะแนนก่อนนะ!
 		highscore=สถิติ: {0}
@@ -52,6 +47,11 @@ menu
 			description=อุ้ย เราทำพิมพ์เขียวหาย ไม่มีการบอกคำสั่ง!
 		compilationhard=นรกแตงกวา
 			description=ในโหมดนี้ มีแต่เกมระดับยากที่สุดเท่านั้น โอกาสมีแค่ชีวิตเดียว จะทนได้นานแค่ไหนกันนะ?
+	main
+		quit=ออกจากเกม
+			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
+		settings=ตั้งค่า
+		credits=ผู้จัดทำ
 	settings
 		resolution=ขนาดหน้าจอ
 		fullscreen=เต็มจอ
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=ระบายสี!
 		igname=ต่อเติมไม่หยุด
+	KogasaScare
+		command=หลอก!
+		igname=หลอกหลอนโยไค
 	RockBand
 		command=แสดง!
 		igname=ไมค์หอน
@@ -165,8 +168,8 @@ microgame
 		command=สะท้อนกลับ!
 	BugSwat
 		command=ตี!
-	KogasaScare
-		igname=หลอกหลอนโยไค
+	ClownTorch
+		command=จุดไฟ!
 	MaskPuzzle
 		igname=ปริศนาหน้ากาก
 	MamiPoser

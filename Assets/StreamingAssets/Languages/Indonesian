@@ -28,17 +28,12 @@ menu
 	on=On
 	off=Off
 	play=Main
-	main
-		story=Mode Cerita
-			description=Mainkan cerita tanpa akhir! Seberapa tinggi skor yang bisa kamu capai?
-		compilation=Mode Arcade
-		practice=Mode Latihan
-			description=Latih kemampuan microgame-mu, capai nilai tertinggi untuk dipamerkan ke temanmu!
-		quit=Keluar Permainan
-			prompt=Yakin ingin keluar {0}?
-		settings=Pengaturan
-		credits=Para staff
 	gamemode=Pilih mode permainan!
+		nitori=Mode Cerita
+			description=Mainkan cerita tanpa akhir! Seberapa tinggi skor yang bisa kamu capai?
+		arcade=Mode Arcade
+		microgamepractice=Mode Latihan
+			description=Latih kemampuan microgame-mu, capai nilai tertinggi untuk dipamerkan ke temanmu!
 		locked1=Terkunci! Selesaikan {0} untuk membuka.
 		locked2=Terkunci! Capai skor {0} atau lebih {1} untuk membuka.
 		highscore=Skor Tertinggi: {0}
@@ -52,6 +47,11 @@ menu
 			description=Ups, cetak biru yang satu ini hilang. Tidak ada perintah atau input kontrol!
 		compilationhard=Neraka Timun
 			description=Semua permainan tersulit! Hanya satu nyawa! Dapatkah kamu bertahan?
+	main
+		quit=Keluar Permainan
+			prompt=Yakin ingin keluar {0}?
+		settings=Pengaturan
+		credits=Para staff
 	settings
 		resolution=Resolusi Layar
 		fullscreen=Layar Penuh
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=Isi!
 		igname=Isi yang Kosong
+	KogasaScare
+		command=Hantui!
+		igname=BAAyung
 	RockBand
 		command=Tampil!
 		igname=Pentas Seni
@@ -153,18 +156,39 @@ microgame
 		commandc=Tembak!
 		commandd=Kalahkan dia!
 		igname=Timun Timun Lompat
-	KogasaScare
-		igname=BAAyung
+	RuukotoSweep
+		command=Sapu!
+		igname=Bersih-Bersih Kuil
+	MarisaJizou
+		command=Lempar!
+		igname=Topi Jatuh
+	NueAbduct
+		command=Culik!
+		igname=Penculikan Alien
+	ReimuDodge
+		command=Hindari!
+	KyoukoEcho
+		command=Pantulkan!
+	BugSwat
+		command=Pasukan!
+	ClownTorch
+		command=Nyalakan!
 	KaguyaMemory
 		igname=Ingatan Berharga
+	MochiPound
+		igname=Memukul Mochi
+	MaskPuzzle
+		igname=Memperbaiki Topeng
+	YuukaWater
+		igname=Menyiram Bunga
 	NitoriLook
 		igname=Nitorilang
+	MamiPoser
+		igname=Tanuki Peniru
 	DollDance
 		igname=Pentas Boneka
 	RockPaperSatori
 		igname=Batu-Kertas-Satori
-	NueAbduct
-		igname=Penculikan Alien
 credits
 	intro=Terima kasih kepada para fans yang membuat {0}!
 	kapptain=Direktur Kreatif, Programmer, "Kapptain" Tim

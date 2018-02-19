@@ -5,6 +5,7 @@ using UnityEngine;
 public class BugSwat_CursorScript : MonoBehaviour {
 
     public GameObject hitbox;
+    public GameObject dust;
     public static Animator anim;
 
     [SerializeField]
@@ -49,6 +50,8 @@ public class BugSwat_CursorScript : MonoBehaviour {
     {
         GameObject myHitbox = Instantiate(hitbox);
         myHitbox.transform.position = transform.position;
+        GameObject myDust = Instantiate(dust);
+        myDust.transform.position = new Vector3(transform.position.x, transform.position.y, myDust.transform.position.z);
     }
 
     void swingReady()

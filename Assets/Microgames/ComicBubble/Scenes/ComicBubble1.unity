@@ -165,12 +165,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &36294764 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
-    type: 2}
-  m_PrefabInternal: {fileID: 36294763}
-  m_Script: {fileID: 11500000, guid: 52349f5c7886fff41adb82d94ec4e4e7, type: 3}
 --- !u!1 &102614718
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,16 +209,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f047626204d759645a62a29be691ad4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
+  bubbleList:
   - speechBubble: {fileID: 1464540433}
     speechTarget: {fileID: 1115148270}
+    speechStrip: {fileID: 1151686132}
+    speechSpeed: 1.3
     finalPosition: {x: 0, y: 0}
   - speechBubble: {fileID: 621098585}
     speechTarget: {fileID: 2028035937}
+    speechStrip: {fileID: 692026673}
+    speechSpeed: 1.3
     finalPosition: {x: 0, y: 0}
   - speechBubble: {fileID: 0}
     speechTarget: {fileID: 0}
+    speechStrip: {fileID: 1697663921}
+    speechSpeed: 0
     finalPosition: {x: 0, y: 0}
+  deactivatedStripColor: {r: 0.6838235, g: 0.6838235, b: 0.6838235, a: 1}
 --- !u!224 &377684853 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
@@ -327,8 +328,7 @@ MonoBehaviour:
   castOffset: {x: -1.19, y: -0.83}
   castWidth: 1.29
   castHeight: 1.3
-  speechSpeed: 0.5
-  target: {fileID: 2028035937}
+  textSpeed: 0
 --- !u!1 &690026813
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +402,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &690026817
 RectTransform:
@@ -886,17 +886,17 @@ Prefab:
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -907,11 +907,11 @@ Prefab:
         type: 2}
       propertyPath: onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 36294764}
+      objectReference: {fileID: 102614720}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: setVictory
+      value: eventShowNextBubble
       objectReference: {fileID: 0}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -992,14 +992,14 @@ Prefab:
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_text
-      value: 'This youn one inside of me gets excited whenever you come near.
+      value: 'This young one inside of me gets excited whenever you come near.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 64
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -1068,6 +1068,16 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114295728505502918, guid: f8b044744aa7fc14da930b2cd14c8468,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
+        type: 2}
+      propertyPath: advanceSpeed
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8b044744aa7fc14da930b2cd14c8468, type: 2}
@@ -1187,7 +1197,7 @@ Prefab:
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -1198,11 +1208,11 @@ Prefab:
         type: 2}
       propertyPath: onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 36294764}
+      objectReference: {fileID: 102614720}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: setVictory
+      value: eventEndMicrogame
       objectReference: {fileID: 0}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -1356,7 +1366,7 @@ Prefab:
     - target: {fileID: 114295728505502918, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224865861458160814, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -1385,8 +1395,7 @@ MonoBehaviour:
   castOffset: {x: 1.78, y: -0.82}
   castWidth: 1.3
   castHeight: 1.3
-  speechSpeed: 1
-  target: {fileID: 1115148270}
+  textSpeed: 0
 --- !u!1001 &1692840176
 Prefab:
   m_ObjectHideFlags: 0
@@ -1458,23 +1467,6 @@ Transform:
   m_Father: {fileID: 102614719}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1710417432 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013824944864, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
-    type: 2}
-  m_PrefabInternal: {fileID: 36294763}
---- !u!114 &1710417435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1710417432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f047626204d759645a62a29be691ad4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: []
 --- !u!1 &2028035937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,7 +1530,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300002, guid: 2f441d398b1f4674b9390a6928c99007, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

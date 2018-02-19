@@ -4,8 +4,10 @@ using System.Collections;
 public class Vibrate : MonoBehaviour
 {
 
-	//Simulates shaking or vibration by moving randomly within specified parameters
-	//Attach to a parent object, because it will directly edit localPosition
+    //Simulates shaking or vibration by moving randomly within specified parameters
+    //Attach to a parent object, because it will directly edit localPosition
+
+    private float currentSpeed;
 
 	[SerializeField]
 	private bool _vibrateOn = true;
@@ -27,7 +29,7 @@ public class Vibrate : MonoBehaviour
 	public bool relativeToStartPosition = true, resetOnStop, resetOnStart;
 
 
-	void Awake()
+	protected void Awake()
 	{
 		resetOffset();
 		resetVibrateGoal();
@@ -36,6 +38,7 @@ public class Vibrate : MonoBehaviour
 	public void resetOffset()
 	{
 		offset = relativeToStartPosition ? (Vector2)transform.localPosition : Vector2.zero;
+        resetVibrateGoal();
     }
 
 	void setOffset(Vector3 position)
@@ -54,7 +57,7 @@ public class Vibrate : MonoBehaviour
 		transform.localPosition = new Vector3(0f, 0f, transform.localPosition.z);
 	}
 
-	void updateVibrate()
+	protected virtual void updateVibrate()
 	{
 		if (MathHelper.moveTowardsLocal2D(transform, vibrateGoal, vibrateSpeed))
 			resetVibrateGoal();
