@@ -21,6 +21,9 @@ public class ComicBubble_GameController : MonoBehaviour {
     [SerializeField]
     Color deactivatedStripColor;
 
+    [SerializeField]
+    float bubbleMovementSpeed;
+
     int currentBubbleIndex;
 
     // Use this for initialization
@@ -92,10 +95,13 @@ public class ComicBubble_GameController : MonoBehaviour {
         currentBubble.speechBubble.GetComponent<FollowCursor>().enabled = false;
     }
 
+
     // Event for changing to the next bubble
     public void eventShowNextBubble()
     {
         unfollowActualBubble();
+
+        StartCoroutine(moveToFinalPosition(currentBubbleIndex));
 
         currentBubbleIndex++;
 
@@ -107,10 +113,30 @@ public class ComicBubble_GameController : MonoBehaviour {
         }
     }
 
-    // Event 
+
+    IEnumerator moveToFinalPosition(int bubbleIndex)
+    {
+        Vector2 target = bubbleList[bubbleIndex].finalPosition;
+        Transform bubbleTransform = bubbleList[bubbleIndex].speechBubble.transform;
+        float step = bubbleMovementSpeed * Time.deltaTime;
+        
+        while (!Mathf.Approximately(((Vector2) bubbleTransform.position - target).sqrMagnitude, 0))
+        {
+            print("move fucker");
+            bubbleTransform.position = Vector2.MoveTowards(bubbleTransform.position, target, step);
+            yield return null;
+
+        }
+
+
+    }
+
+    // Event for ending the microgame
     public void eventEndMicrogame()
     {
         unfollowActualBubble();
+
+        StartCoroutine(moveToFinalPosition(currentBubbleIndex));
 
         currentBubbleIndex++;
 

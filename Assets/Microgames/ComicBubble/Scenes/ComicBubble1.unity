@@ -218,19 +218,20 @@ MonoBehaviour:
   - speechBubble: {fileID: 1464540433}
     speechTarget: {fileID: 1115148270}
     speechStrip: {fileID: 1151686132}
-    speechSpeed: 1.3
-    finalPosition: {x: 0, y: 0}
+    speechSpeed: 1
+    finalPosition: {x: -4.61, y: 3.18}
   - speechBubble: {fileID: 621098585}
     speechTarget: {fileID: 2028035937}
     speechStrip: {fileID: 692026673}
-    speechSpeed: 1.3
-    finalPosition: {x: 0, y: 0}
+    speechSpeed: 1
+    finalPosition: {x: 3.34, y: 3.65}
   - speechBubble: {fileID: 0}
     speechTarget: {fileID: 0}
     speechStrip: {fileID: 1697663921}
     speechSpeed: 0
     finalPosition: {x: 0, y: 0}
   deactivatedStripColor: {r: 0.6838235, g: 0.6838235, b: 0.6838235, a: 1}
+  bubbleMovementSpeed: 1
 --- !u!224 &377684853 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
@@ -330,10 +331,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e325672b125e345ae3a6c71e55563c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castOffset: {x: -1.19, y: -0.83}
-  castWidth: 1.29
-  castHeight: 1.3
-  textSpeed: 0
+  castOffset: {x: -1.24, y: -0.61}
+  castWidth: 0.25
+  castHeight: 0.25
+  textSpeed: 1
 --- !u!1 &690026813
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,7 +546,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.2330947, y: 2.3853061}
+  m_Offset: {x: -2.1474376, y: 2.3853061}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -556,7 +557,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6993976, y: 3.5278878}
+  m_Size: {x: 2.326375, y: 3.5278878}
   m_EdgeRadius: 0
 --- !u!1 &1140458089
 GameObject:
@@ -851,12 +852,12 @@ Prefab:
     - target: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -3.442315
+      value: -4.61
       objectReference: {fileID: 0}
     - target: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 7.55
+      value: 6.58
       objectReference: {fileID: 0}
     - target: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -901,12 +902,12 @@ Prefab:
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114944263238796340, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -1152,12 +1153,12 @@ Prefab:
     - target: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 3.43
+      value: 3.34
       objectReference: {fileID: 0}
     - target: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 7.49
+      value: 6.59
       objectReference: {fileID: 0}
     - target: {fileID: 224193040092056798, guid: f8b044744aa7fc14da930b2cd14c8468,
         type: 2}
@@ -1388,6 +1389,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.530355
       objectReference: {fileID: 0}
+    - target: {fileID: 114696893402587102, guid: f8b044744aa7fc14da930b2cd14c8468,
+        type: 2}
+      propertyPath: advanceSpeed
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8b044744aa7fc14da930b2cd14c8468, type: 2}
   m_IsPrefabParent: 0
@@ -1407,10 +1413,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e325672b125e345ae3a6c71e55563c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castOffset: {x: 1.7, y: -0.67}
-  castWidth: 0.56
-  castHeight: 0.59
-  textSpeed: 0
+  castOffset: {x: 1.88, y: -0.67}
+  castWidth: 0.25
+  castHeight: 0.25
+  textSpeed: 1
 --- !u!1001 &1692840176
 Prefab:
   m_ObjectHideFlags: 0
