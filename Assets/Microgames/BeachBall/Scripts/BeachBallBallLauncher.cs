@@ -13,6 +13,7 @@ public class BeachBallBallLauncher : MonoBehaviour
     private BeachBallScaler scaleMultiplier;
 
     private BoxCollider2D ballStandCollider;
+    private Animation sealAnimation;
 
     public bool Launched
     {
@@ -29,6 +30,7 @@ public class BeachBallBallLauncher : MonoBehaviour
         physicsModel = GetComponent<Rigidbody2D>();
         scaleMultiplier = GetComponent<BeachBallScaler>();
         ballStandCollider = GameObject.Find("BallStand").GetComponent<BoxCollider2D>();
+        sealAnimation = GameObject.Find("Seal").GetComponent<Animation>();
     }
 
     void Update()
@@ -41,7 +43,9 @@ public class BeachBallBallLauncher : MonoBehaviour
             //throw the ball
             physicsModel.AddForce(ThrowDirection.normalized * ThrowForce);
             //set triggerMode to prevent collisions when the ball falls
-            ballStandCollider.isTrigger = true; 
+            ballStandCollider.isTrigger = true;
+            //animate the seal
+            sealAnimation.Play();
         }
     }
 }
