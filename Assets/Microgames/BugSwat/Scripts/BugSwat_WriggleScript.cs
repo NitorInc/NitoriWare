@@ -7,6 +7,7 @@ public class BugSwat_WriggleScript : MonoBehaviour {
     public GameObject myHitbox;
     public GameObject wriggleCounter;
     public GameObject wriggleDead;
+    public GameObject targetObject;
     public float speedIncrease = 2f;
     public float curveFactor = 0.5f;
     public float maxSpeed = 7f;
@@ -64,6 +65,7 @@ public class BugSwat_WriggleScript : MonoBehaviour {
             return;
         }
 
+        //look left or right based on velocity
         if (rb2d.velocity.x > 0 && transform.localScale.x > 0)
         {
             transform.localScale = new Vector3(-startScalex, transform.localScale.y, transform.localScale.z);
@@ -95,21 +97,21 @@ public class BugSwat_WriggleScript : MonoBehaviour {
 
 
         //simulate curves
-        if (transform.position.x < 0)
+        if (transform.position.x < targetObject.transform.position.x)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x + curveFactor, rb2d.velocity.y);
         }
-        if (transform.position.x > 0)
+        if (transform.position.x > targetObject.transform.position.x)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x - curveFactor, rb2d.velocity.y);
         }
 
-        if (transform.position.y > 0)
+        if (transform.position.y > targetObject.transform.position.y)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y - curveFactor);
         }
 
-        if (transform.position.y < 0)
+        if (transform.position.y < targetObject.transform.position.y)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y + curveFactor);
         }
