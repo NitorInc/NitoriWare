@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BugSwat_DeadWriggle : MonoBehaviour {
 
+    public GameObject particlePrefab;
+
     private int timesLooped = 0;
     private float startX;
     private float twitchX = 0.05f;
@@ -14,7 +16,8 @@ public class BugSwat_DeadWriggle : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.gravityScale = 0;
 
-
+        Instantiate(particlePrefab, transform.position, Quaternion.identity);
+        
         Invoke("startUp", 0.01f);
         Invoke("Twitch", 0.3f);
 	}
