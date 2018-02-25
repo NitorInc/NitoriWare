@@ -36,7 +36,13 @@ public class NitoriLookTargetSpawn : MonoBehaviour
         transform.position = new Vector3(floorSpawnVector.x, MathHelper.randomRangeFromVector(heightSpawnBounds),floorSpawnVector.y);
 
         if (sineWave != null)
+        {
             sineWave.resetStartPosition();
+            sineWave.yOffset = Random.Range(0f, 2f);
+        }
+        var randomizeScale = transform.localScale;
+        randomizeScale.Scale(Random.Range(0, 2) == 0 ? Vector3.one : new Vector3(-1f, 1f, 1));
+        transform.localScale = randomizeScale;
 	}
 	
 	void Update ()
