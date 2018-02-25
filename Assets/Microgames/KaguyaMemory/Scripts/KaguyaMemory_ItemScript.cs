@@ -34,7 +34,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GetComponent<SpriteRenderer>().enabled = false;
-        
+        GetComponent<SineWave>().enabled = false;
         rb2d = GetComponent<Rigidbody2D>();
         initialY = transform.position.y;
 
@@ -61,6 +61,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     void OnMouseDown()
     {
+        
         if(rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == false && isSelectable == true)
         {
             GameObject theIndicator;
@@ -91,6 +92,16 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     void Update()
     {
+        if (transform.rotation != defaultRotation)
+        {
+            transform.rotation = defaultRotation;
+        }
+        if (rb2d.angularVelocity != 0)
+        {
+            rb2d.angularVelocity = 0;
+        }
+        
+
         if (isSelectable && rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == false && isFloating == true)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y + (floatFactor * floatDirection));
@@ -104,14 +115,15 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
             }
         }
 
-        if (rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == true && isFloating == true)
-        {
-            rb2d.velocity = new Vector2(0, 0);
-        }
+        //if (rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == true && isFloating == true)
+        //{
+        //    rb2d.velocity = new Vector2(0, 0);
+        //}
     }
 
     void appearSelectable()
     {
+        GetComponent<SineWave>().enabled = true;
         if (GetComponent<CapsuleCollider2D>() != null)
         {
             GetComponent<CapsuleCollider2D>().enabled = true;

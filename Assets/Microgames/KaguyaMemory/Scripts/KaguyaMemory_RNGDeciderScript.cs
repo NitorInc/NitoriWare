@@ -50,8 +50,8 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
         chosenItem.transform.position = new Vector3(-4, -1, 0);
         chosenItem.GetComponent<SpriteRenderer>().enabled = true;
         KaguyaChan.transform.position -= new Vector3(15, 0, 0);
-        chosenItem.GetComponent<Rigidbody2D>().velocity = new Vector2(10 * speedMultiplier, 8);
-        chosenItem.GetComponent<Rigidbody2D>().gravityScale = 2 * speedMultiplier;
+        chosenItem.GetComponent<Rigidbody2D>().velocity = new Vector2(10 * speedMultiplier, 13);
+        chosenItem.GetComponent<Rigidbody2D>().gravityScale = 3f * speedMultiplier;
 
         MicrogameController.instance.playSFX(whooshSound, volume: 0.5f,
         panStereo: AudioHelper.getAudioPan(transform.position.x));

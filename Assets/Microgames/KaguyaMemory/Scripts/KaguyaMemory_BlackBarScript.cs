@@ -23,7 +23,7 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
 
         //move based on direction given
         movementSpeed *= myDirection;
-        rb2d.velocity = new Vector2(movementSpeed, 0f);
+        Invoke("openBars", 0.4f);
 
         if (RNGMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>() != null)
         {
@@ -41,15 +41,15 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
         //Stop where the unity editor says
-        if (myDirection == 1 && transform.position.x > -stopPoint && phase == 0)
+        if (myDirection == 1 && transform.position.x < -stopPoint && phase == 0)
         {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 1;
             Invoke("closeBars", closeDelay);
         }
-        if (myDirection == -1 && transform.position.x < stopPoint && phase == 0)
+        if (myDirection == -1 && transform.position.x > stopPoint && phase == 0)
         {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 1;
@@ -57,7 +57,7 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
         }
 
         //Stay shut shortly when both bars meet the center of the screen
-        if(myDirection == 1 && transform.position.x > 0 && phase == 1)
+        if(myDirection == 1 && transform.position.x > -0.13 && phase == 1)
         {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 2;
@@ -65,7 +65,7 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
             panStereo: AudioHelper.getAudioPan(transform.position.x));
             Invoke("openBars", 0.3f);
         }
-        if(myDirection == -1 && transform.position.x < 0 && phase == 1)
+        if(myDirection == -1 && transform.position.x < 0.13 && phase == 1)
         {
             rb2d.velocity = new Vector2(0f, 0f);
             phase = 2;
