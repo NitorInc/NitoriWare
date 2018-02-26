@@ -10,28 +10,41 @@ public class NitoriLookTarget_rot : MonoBehaviour
     public Vector3 axis = Vector3.up;
 
 
-    public float radius = 2.0f;
     public float radiusSpeed = 0.5f;
     public float rotationSpeed = 80.0f;
+    public bool randomizeDirection = true;
+
+    private float radius;
 
     void Start()
     {
+        calculateRadius();
         transform.position = (transform.position - center.position).normalized * radius + center.position;
+        if (randomizeDirection)
+            rotationSpeed *= Random.Range(0, 2) == 1 ? 1f : -1f;
     }
 
     void Update()
     {
+        calculateRadius();
         if (MicrogameController.instance.getVictoryDetermined())
         {
             enabled = false;
             sineWave.enabled = true;
+            sineWave.yOffset = 0f;
             sineWave.resetStartPosition();
             sineWave.resetCycle();
             return;
         }
 
         transform.RotateAround(center.position, axis, rotationSpeed * Time.deltaTime);
-        var desiredPosition = (transform.position - center.position).normalized * radius + center.position;
-        transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
+        //var desiredPosition = (transform.position - center.position).normalized * radius + center.position;
+        //transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
+    }
+
+    void calculateRadius()
+    {
+        Vector2 dist = new Vector2(transform.position.x, transform.position.z) - new Vector2(center.position.x, center.position.z);
+        radius = dist.magnitude;
     }
 }

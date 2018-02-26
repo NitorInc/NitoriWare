@@ -21,9 +21,11 @@ public class NitoriLookTargetSpawn : MonoBehaviour
     [SerializeField]
     private Vector2 heightSpawnBounds;
 
-    [Header("Components to reset when repositioned")]
+    [Header("Components to reset or adjust when repositioned")]
     [SerializeField]
     private SineWave sineWave;
+    [SerializeField]
+    private Transform rigTransform;
 
     void Start ()
     {
@@ -40,9 +42,11 @@ public class NitoriLookTargetSpawn : MonoBehaviour
             sineWave.resetStartPosition();
             sineWave.yOffset = Random.Range(0f, 2f);
         }
-        var randomizeScale = transform.localScale;
+
+        var randomizeScale = rigTransform.localScale;
         randomizeScale.Scale(Random.Range(0, 2) == 0 ? Vector3.one : new Vector3(-1f, 1f, 1));
-        transform.localScale = randomizeScale;
+        rigTransform.localScale = randomizeScale;
+        
 	}
 	
 	void Update ()

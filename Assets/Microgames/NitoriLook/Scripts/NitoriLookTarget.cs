@@ -24,6 +24,9 @@ public class NitoriLookTarget : MonoBehaviour
     void Start()
 	{
         targetInSight = false;
+
+        stillLookTimer = stillLookTime;
+        movingLookTimer = movingLookTime;
     }
 
     void LateUpdate()
