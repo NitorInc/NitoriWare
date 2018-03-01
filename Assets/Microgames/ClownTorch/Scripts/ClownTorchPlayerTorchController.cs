@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClownTorchPlayerTorchController : MonoBehaviour {
+namespace NitorInc.ClownTorch {
+    public class ClownTorchPlayerTorchController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        Cursor.visible = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        point.z = 0.0f;
-        transform.position = point;
-	}
+        // Use this for initialization
+        void Start() {
+            Cursor.visible = false;
+        }
+
+        // Update is called once per frame
+        void Update() {
+            var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            point.z = 0.0f;
+            transform.position = point;
+        }
+    }
 }
