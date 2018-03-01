@@ -7,6 +7,8 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	public float animSpeed = 1f;
 	public float animSpeedStopped = 0.25f;
 	public float killLaunchSpeed = 15.0f;
+	public GameObject leftBound;
+	public GameObject rightBound;
 	bool bIsKilled;
 	// Use this for initialization
 	void Start () {
@@ -30,13 +32,22 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		}
 
 		// move this object at frame rate independent speed:
-		transform.position += moveDir * speed * Time.deltaTime;
+		float boundryColliderSize = leftBound.GetComponent<BoxCollider2D>().size.x;
+		if (moveDir.x > 0
+			&& transform.position.x < rightBound.GetComponent<Transform> ().position.x) {
+			transform.position += moveDir * speed * Time.deltaTime;
+		}
+
+		if ((transform.position.x > leftBound.GetComponent<Transform> ().position.x)
+			&& moveDir.x < 0) {
+			transform.position += moveDir * speed * Time.deltaTime;
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "KnifeDodgeHazard") {
 			Kill ();
-			MicrogameController.instance.setVictory(false, true);
+			MicrogameController.instance.setVictory (false, true);
 		}
 	}
 
@@ -46,10 +57,9 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, killLaunchSpeed);
 		transform.GetComponent<Rigidbody2D> ().angularVelocity = 80.0f;
 
-		// transform.GetComponent<Rigidbody2D> ().bodyType = RigidbodyType2D.Kinematic;
-
 		MicrogameController.instance.setVictory (false, true);
-		CameraShake.instance.setScreenShake (.15f);
-		CameraShake.instance.shakeCoolRate = .5f;
+		// To implement later
+		// CameraShake.instance.setScreenShake (.15f);
+		// CameraShake.instance.shakeCoolRate = .5f;
 	}
 }
