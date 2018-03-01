@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KnifeDodgeReimu : MonoBehaviour {
-	public float fSpeed = 1; // speed in meters per second
-	public float fAnimSpeed = 1f;
-	public float fAnimSpeedStopped = 0.25f;
+	public float speed = 1; // speed in meters per second
+	public float animSpeed = 1f;
+	public float animSpeedStopped = 0.25f;
 
 	bool bIsKilled;
 	// Use this for initialization
@@ -22,13 +22,13 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		}
 
 		if (moveDir == Vector3.zero) {
-			GetComponent<Animator> ().speed = fAnimSpeedStopped;
+			GetComponent<Animator> ().speed = animSpeedStopped;
 		} else {
-			GetComponent<Animator> ().speed = fAnimSpeed;
+			GetComponent<Animator> ().speed = animSpeed;
 		}
 
 		// move this object at frame rate independent speed:
-		transform.position += moveDir * fSpeed * Time.deltaTime;
+		transform.position += moveDir * speed * Time.deltaTime;
 
 		// if (Input.GetButtonDown ("Fire1")) Kill();
 	}
