@@ -35,7 +35,7 @@ public class LocalizedText : MonoBehaviour
 
     private Text textComponent;
 	private TextMesh textMesh;
-    private TextMeshProUGUI textMeshPro;
+    private TextMeshPro textMeshPro;
     private LocalizationManager.Language loadedLanguage;
     private string initialText;
     private Font initialFont;
@@ -51,7 +51,7 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        textMeshPro = GetComponent<TextMeshProUGUI>();
+        textMeshPro = GetComponent<TextMeshPro>();
         limitSize = GetComponent<TextLimitSize>();
         loadedLanguage = new LocalizationManager.Language();
         initialText = getText();

@@ -28,17 +28,12 @@ menu
 	on=Be
 	off=Ki
 	play=Játssz
-	main
-		story=Történet Mód
-			description=Játsszd a történetet örökké! Mekkora pontszámot tuddsz elérni?
-		compilation=Arkád Mód
-		practice=Mikrójáték Gyakorlás
-			description=Gyakorold a mikrójáték képességeidet, és szerezd meg azokat a pontokat, hogy hencegni tudd a barátaidnak!
-		quit=Játékból Kilépés
-			prompt=Biztos ki akarsz lépni {0}?
-		settings=Beállítások
-		credits=Kredit
 	gamemode=Válassz egy játékmódot!
+		nitori=Történet Mód
+			description=Játsszd a történetet örökké! Mekkora pontszámot tuddsz elérni?
+		arcade=Arkád Mód
+		microgamepractice=Mikrójáték Gyakorlás
+			description=Gyakorold a mikrójáték képességeidet, és szerezd meg azokat a pontokat, hogy hencegni tudd a barátaidnak!
 		locked1=Zárva! Teljesítsd {0} a kinyitáshoz.
 		locked2=Zárva! Érj el {0} vagy többet a következőben a feloldásért: {1} !
 		highscore=Legnagyobb pont: {0}
@@ -52,6 +47,11 @@ menu
 			description=Hoppá! Elveszítettük a tervrajzot ehhez. Nincs parancs vagy vezérlő utasítás!
 		compilationhard=Uborka Pokol
 			description=Az összes nehéz játék! Egy élet! Meddig bírod?
+	main
+		quit=Játékból Kilépés
+			prompt=Biztos ki akarsz lépni {0}?
+		settings=Beállítások
+		credits=Kredit
 	settings
 		resolution=Képernyőfelbontás
 		fullscreen=Teljes-képernyő
@@ -82,6 +82,28 @@ nitori
 	storyfinished=Szép munka, kockafej.\nTalán nem csak egy kirakatvásárló vagy.\nMost próbáld meg {0} az igazi kihívásért!
 	compilationfinished=Igazán le vagyok nyűgözve!\nDe csak várd ki a teljes játékot.\n{0} csak most kezdődött el!
 microgame
+	DatingSim
+		suika
+			introdialogue=Héé! Most szabad vagy nemde? Kapjunk be valamit (enni).
+			right0
+				option=Verseny a kajás bódéhoz!
+				response=Vesztesnek kell fizetnie!
+			right1
+				option=Jah, szerezünk lárvát!
+				response=Yay!
+			wrong0
+				option=Nem az előbb ettél?!
+				response=Búú. Nem szórakoztató egyedül enni.
+			wrong1
+				option=Vessz el, kövér állat!
+				response=Hát te se vagy a legkarcsúbb magad, faszkalap.
+		youmu
+			introdialogue=Ezeket a virágokat én neveltem számodra.
+			right0
+				option=Gyönyörűek!
+				response=Köszönöm~
+			wrong0
+				option=Áh, egy szellem!
 	FreezeFrogs
 		command=Fagyassz!
 		igname=Fagyos Békák
@@ -153,6 +175,11 @@ microgame
 		commandc=Lödd le!
 		commandd=Győzd le!
 		igname=Uborka vadászat
+	RuukotoSweep
+		command=Söpörj!
+		igname=Szentély Takarítás
+	CirnoBored
+		command=Légy jó!
 	MarisaJizou
 		command=Dobd le!
 		igname=Kalap Ejtés
@@ -165,14 +192,14 @@ microgame
 		command=Tükrözd vissza!
 	BugSwat
 		command=Csapd le!
+	ClownTorch
+		command=Gyújtsd meg!
 	KogasaScare
 		igname=Félj a Youkaitól
 	KaguyaMemory
 		igname=Féltve őrzött Memória
 	MochiPound
 		igname=Mochi Püfölés
-	RuukotoSweep
-		igname=Szentély Takarítás
 	MaskPuzzle
 		igname=Maszk Javítás
 	YuukaWater

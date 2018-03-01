@@ -28,17 +28,12 @@ menu
 	on=On
 	off=Off
 	play=Gioca
-	main
-		story=Modalità Storia
-			description=Gioca la Modalit Storia all'infinito! Quanti punti riuscirai a fare?
-		compilation=Modalità Arcade
-		practice=Allenati ai microgames
-			description=Affila le tua abilità e aumnta i tuoi punteggi, così puoi vantarti con gli amici!
-		quit=Chiudi Gioco
-			prompt=Sei sicuro di volere chiudere{0}?
-		settings=Impostazioni
-		credits=Crediti
 	gamemode=Seleziona una modalità di gioco!
+		nitori=Modalità Storia
+			description=Gioca la Modalit Storia all'infinito! Quanti punti riuscirai a fare?
+		arcade=Modalità Arcade
+		microgamepractice=Allenati ai microgames
+			description=Affila le tua abilità e aumnta i tuoi punteggi, così puoi vantarti con gli amici!
 		locked1=Bloccato! Completa {0} per sbloccare
 		locked2=Bloccato! Raggiungi un punteggio pari o superiore a {0} in {1} per sbloccare
 		highscore=Record : {0}
@@ -52,6 +47,11 @@ menu
 			description=Oops! Pare che abbiamo perso i progetti per questo. Niente comandi!
 		compilationhard=Che inferno di cetrioli
 			description=I giochi più difficili! Una sola vita! Quanto reggerai?
+	main
+		quit=Chiudi Gioco
+			prompt=Sei sicuro di volere chiudere{0}?
+		settings=Impostazioni
+		credits=Crediti
 	settings
 		resolution=Risoluzione dello schermo
 		fullscreen=Schermo Intero
@@ -82,6 +82,47 @@ nitori
 	storyfinished=Bel lavoro, nerdaccione!\nNon sei un cliente qualunque, eh?\nPerchè non provi {0} , se desideri una vera sfida?
 	compilationfinished=Bhe, cavolo, impressionante!\nMa non sarà così facile quando il gioco sarà completo,\n{0} non è che appena cominciato!
 microgame
+	DatingSim
+		suika
+			introdialogue=Eiiii! Hai tempo libero, vero? Andiamo a mangiare qualcosa insieme.
+			right0
+				option=Corriamo al chiosco!
+				response=Paga chi arriva ultimo!
+			right1
+				option=Certo, mangiamo qualcosa!
+				response=Yay!
+			wrong0
+				option=Ma non hai appena mangiato?
+				response=Boo. Non é divertente mangiare da solo.
+			wrong1
+				option=Sparisci, cicciona!
+				response=Beh neanche tu sei magrissimo, stronzo!
+		youmu
+			introdialogue=Ho coltivato questi fiori per te.
+			right0
+				option=Sono bellisismi!
+				response=Grazie~
+			wrong0
+				option=Aaah, un fantasma!
+				response=Mi stai prendendo in giro, vero?
+			wrong1
+				option=Odio i fiori!
+				response=Non te li sei meritati comunque.
+		yuuka
+			introdialogue=Non vai in giro con altre ragazze, vero?
+			right0
+				option=Certo che no!
+				response=Bene, spero che sia veramente cosí.
+			right1
+				option=Sei l'unica per me!
+				response=Lo pensavo.
+			wrong0
+				option=Beh...
+				response=Cosa vuoi dire con "beh"?
+			wrong1
+				option=Io amo Reimu!
+				response=Pensaci su di nuovo.
+		fakeconfig=Salva\nCarica\nAuto\nLog\nConfig
 	FreezeFrogs
 		command=Congela!
 		igname=Ghiaccioli di Rana
@@ -155,6 +196,8 @@ microgame
 		igname=Corsa del Cetriolo
 	RuukotoSweep
 		command=Spazza!
+	CirnoBored
+		command=Sii gentile!
 	MarisaJizou
 		command=Lancia!
 	NueAbduct
@@ -165,6 +208,8 @@ microgame
 		command=Rifletti!
 	BugSwat
 		command=Schiaccia!
+	ClownTorch
+		command=Infiamma!
 	KogasaScare
 		igname=BUH! Occhio all'Ombrello!
 credits

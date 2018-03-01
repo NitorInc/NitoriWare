@@ -1,5 +1,5 @@
 generic
-	name=한국
+	name=한국어
 	gamename=NitorInc.
 	incomplete=경고: 이 번역은 정확하지 않을 수 있습니다. 어떤 글은 영어로 나타날 수 있습니다.
 stage
@@ -28,17 +28,12 @@ menu
 	on=켜짐
 	off=꺼짐
 	play=시작
-	main
-		story=스토리 모드
-			description=끝없는 스토리 모드! 고득점을 노리자!
-		compilation=아케이드 모드
-		practice=마이크로게임 연습
-			description=마이크로게임 실력을 연마하고, 친구들에게 높은 점수를 자랑하자!
-		quit=게임 끝내기
-			prompt=정말 그만둘꺼야 {0}?
-		settings=설정
-		credits=출연진
 	gamemode=게임 모드를 선택하자!
+		nitori=스토리 모드
+			description=끝없는 스토리 모드! 고득점을 노리자!
+		arcade=아케이드 모드
+		microgamepractice=마이크로게임 연습
+			description=마이크로게임 실력을 연마하고, 친구들에게 높은 점수를 자랑하자!
 		locked1=잠겼어! {0} 를 완수하면 열릴 거야.
 		locked2=잠겼어! {1} 에서 {0} 이상의 점수를 기록하면 열릴 거야.
 		highscore=최고 기록: {0}
@@ -52,6 +47,11 @@ menu
 			description=이런, 설계도를 잃어버렸어. 목표나 조작법이 나타나지 않으니 조심해!
 		compilationhard=오이 지옥
 			description=고난이도의 게임 총집합! 목숨은 오직 하나! 얼마나 버틸 수 있을까?
+	main
+		quit=게임 끝내기
+			prompt=정말 그만둘꺼야 {0}?
+		settings=설정
+		credits=출연진
 	settings
 		resolution=화면 해상도
 		fullscreen=전체화면
@@ -117,6 +117,9 @@ microgame
 	TraceShape
 		command=채워라!
 		igname=색칠놀이
+	KogasaScare
+		command=놀래켜라!
+		igname=무서우산
 	RockBand
 		command=연주해라!
 		igname=살아있네
@@ -153,24 +156,39 @@ microgame
 		commandc=쏴라!
 		commandd=쓰러트려라!
 		igname=오이 사냥
+	RuukotoSweep
+		command=쓸어라!
+		igname=신사 쓸기
+	CirnoBored
+		command=친절해라!
 	MarisaJizou
 		command=던져라!
+		igname=모자 씌우기
 	NueAbduct
 		command=납치해라!
+		igname=UFO 납치
 	ReimuDodge
 		command=피해라!
 	KyoukoEcho
 		command=반사해라!
-	KogasaScare
-		igname=무서우산
+	BugSwat
+		command=잡아라!
+	ClownTorch
+		command=태워라!
+	KaguyaMemory
+		igname=난제
 	MochiPound
 		igname=떡방아
-	RuukotoSweep
-		igname=신사 쓸기
 	MaskPuzzle
 		igname=표정이 필요한 포커페이스
+	YuukaWater
+		igname=물주기
+	NitoriLook
+		igname=숨은 니토리 찾기
+	MamiPoser
+		igname=둔갑너구리
 	DollDance
-		igname=인형극
+		igname=광란의 인형극
 	RockPaperSatori
 		igname=가위 바위 사토리
 credits

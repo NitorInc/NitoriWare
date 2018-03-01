@@ -23,7 +23,7 @@ public class BeachBallCollisionObserver : MonoBehaviour
 
     protected virtual void Start()
     {
-        innerArea = GetComponent<CircleCollider2D>();
+        innerArea = GetComponent<Collider2D>();
 
         var ballGo = GameObject.Find("Ball");
         ballCollider = ballGo.GetComponent<CircleCollider2D>();
