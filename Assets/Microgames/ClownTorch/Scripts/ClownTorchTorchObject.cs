@@ -15,7 +15,6 @@ namespace NitorInc.ClownTorch {
         bool countedThisFrame = false;
         // Use this for initialization
         void Start() {
-            Debug.Log(GetComponent<ClownTorchTag>().type);
         }
 
         // Update is called once per frame
