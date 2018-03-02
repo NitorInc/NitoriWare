@@ -26,7 +26,8 @@ public class YuugiBalancePlate : MonoBehaviour
         mad = 0;
     [SerializeField]
     private float delay = 0, //delay in seconds before start
-        difficulty = 2;
+        difficulty = 2,
+        beats_left_to_win = 0.5f;
     private Vector3 deathposition;
     private bool success = false;
     void Start()
@@ -44,8 +45,8 @@ public class YuugiBalancePlate : MonoBehaviour
             Failed();
             return;
         }
-
-        if (MicrogameTimer.instance.beatsLeft <= 0)
+        
+        if (MicrogameTimer.instance.beatsLeft <= beats_left_to_win)
         {
             Succeed();
             return;
