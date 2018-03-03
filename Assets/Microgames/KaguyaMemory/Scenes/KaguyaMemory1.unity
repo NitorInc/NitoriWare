@@ -274,6 +274,31 @@ Prefab:
       propertyPath: KaguyaChan
       value: 
       objectReference: {fileID: 1123194957}
+    - target: {fileID: 114186012240547580, guid: d407b9dee14adeb4d88bcca7f937655d,
+        type: 2}
+      propertyPath: thrownStartPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114186012240547580, guid: d407b9dee14adeb4d88bcca7f937655d,
+        type: 2}
+      propertyPath: thrownStartPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114186012240547580, guid: d407b9dee14adeb4d88bcca7f937655d,
+        type: 2}
+      propertyPath: thrownVelocity.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114186012240547580, guid: d407b9dee14adeb4d88bcca7f937655d,
+        type: 2}
+      propertyPath: thrownVelocity.y
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 114186012240547580, guid: d407b9dee14adeb4d88bcca7f937655d,
+        type: 2}
+      propertyPath: thrownGravity
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d407b9dee14adeb4d88bcca7f937655d, type: 2}
   m_IsPrefabParent: 0
@@ -364,7 +389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RGB: {x: 255, y: 255, z: 255}
   alpha: 1
-  changeDelay: 2.5
+  changeDelay: 1.6
+  RNGMaster: {fileID: 734926324}
 --- !u!4 &169155190 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000011321522988, guid: 72dba666113776b4dbc710553bb6dc53,
@@ -545,6 +571,11 @@ Prefab:
       propertyPath: movementSpeed
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 114869077190157486, guid: 50c4800011ee7054abc899facffd577a,
+        type: 2}
+      propertyPath: initialOpenSpeed
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50c4800011ee7054abc899facffd577a, type: 2}
   m_IsPrefabParent: 0
@@ -599,12 +630,17 @@ Prefab:
     - target: {fileID: 114869077190157486, guid: 50c4800011ee7054abc899facffd577a,
         type: 2}
       propertyPath: stopPoint
-      value: 2
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 114869077190157486, guid: 50c4800011ee7054abc899facffd577a,
         type: 2}
       propertyPath: movementSpeed
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114869077190157486, guid: 50c4800011ee7054abc899facffd577a,
+        type: 2}
+      propertyPath: initialOpenSpeed
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50c4800011ee7054abc899facffd577a, type: 2}
@@ -691,6 +727,11 @@ Prefab:
     - target: {fileID: 114751510828890002, guid: cee213d16dffc2e4388aa584cbaebac6,
         type: 2}
       propertyPath: yOffset
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891026108973032, guid: cee213d16dffc2e4388aa584cbaebac6,
+        type: 2}
+      propertyPath: appearDelay
       value: 1.6
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -1122,6 +1163,11 @@ Prefab:
         type: 2}
       propertyPath: yOffset
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891026108973032, guid: cee213d16dffc2e4388aa584cbaebac6,
+        type: 2}
+      propertyPath: appearDelay
+      value: 1.6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 60429521996552690, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
@@ -2320,6 +2366,11 @@ Prefab:
       propertyPath: yOffset
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 114891026108973032, guid: cee213d16dffc2e4388aa584cbaebac6,
+        type: 2}
+      propertyPath: appearDelay
+      value: 1.6
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 60429521996552690, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
@@ -3145,6 +3196,11 @@ Prefab:
       propertyPath: yOffset
       value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 114891026108973032, guid: cee213d16dffc2e4388aa584cbaebac6,
+        type: 2}
+      propertyPath: appearDelay
+      value: 1.6
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 60429521996552690, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
@@ -3261,7 +3317,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RGB: {x: 0, y: 0, z: 0}
   alpha: 0
-  changeDelay: 2.5
+  changeDelay: 1.6
+  RNGMaster: {fileID: 734926324}
 --- !u!1001 &1966121167
 Prefab:
   m_ObjectHideFlags: 0
@@ -4132,6 +4189,11 @@ Prefab:
       propertyPath: floatFactor
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114891026108973032, guid: cee213d16dffc2e4388aa584cbaebac6,
+        type: 2}
+      propertyPath: appearDelay
+      value: 1.6
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 60429521996552690, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: cee213d16dffc2e4388aa584cbaebac6, type: 2}
@@ -4174,7 +4236,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4025760729017488, guid: 5a8e06b4018f09e4199c39d43606d823, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.51
+      value: -4.9
       objectReference: {fileID: 0}
     - target: {fileID: 4025760729017488, guid: 5a8e06b4018f09e4199c39d43606d823, type: 2}
       propertyPath: m_LocalPosition.z

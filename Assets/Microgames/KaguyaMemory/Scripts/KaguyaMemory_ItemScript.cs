@@ -19,7 +19,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     private Rigidbody2D rb2d;
     private Quaternion defaultRotation;
     private bool isFinished = false;
-    private float appearDelay = 2.3f;
+    
     private float initialY;
     private int floatDirection = 1;
     private bool isFloating = false;
@@ -30,6 +30,9 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     [SerializeField]
     private AudioClip wrongSound;
+
+    [SerializeField]
+    private float appearDelay = 2.3f;
 
     // Use this for initialization
     void Start () {
@@ -48,7 +51,7 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         }
         if (rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>() != null)
         {
-            appearDelay = rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>().showDelay + 1.3f;
+            appearDelay = rngMaster.gameObject.GetComponent<KaguyaMemory_RNGDeciderScript>().showDelay + appearDelay;
         }
 
         defaultRotation = transform.rotation;
@@ -114,11 +117,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
                 floatDirection = 1;
             }
         }
-
-        //if (rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == true && isFloating == true)
-        //{
-        //    rb2d.velocity = new Vector2(0, 0);
-        //}
     }
 
     void appearSelectable()

@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class KaguyaMemory_Scaler : MonoBehaviour {
 
-    private int scaleDirection = 1;
-    private float scaleFactor = 1;
+    [SerializeField]
+    private float scaleFactor = 8;
 
-	// Use this for initialization
-	void Start () {
-        Invoke("scaleFunction", 0f);
-    }
-	
-    void scaleFunction()
-    {
-        scaleDirection *= -1;
-        scaleFactor *= -1;
-        Invoke("scaleFunction", 0.5f);
+    [SerializeField]
+    private float scaleSpeed = 8;
+
+    private float initialScale;
+
+    // Use this for initialization
+    void Start () {
+        initialScale = transform.localScale.x;
     }
 
 	// Update is called once per frame
 	void Update () {
-        transform.localScale += new Vector3(scaleFactor, scaleFactor, 0);
-        scaleFactor = 0.05f * scaleDirection;
+        float newScale = ((1f / scaleFactor) + (Mathf.Sin(Time.time * scaleSpeed) / 5)) * initialScale * scaleFactor;
+        transform.localScale = new Vector3(newScale, newScale, 1f);
     }
 }

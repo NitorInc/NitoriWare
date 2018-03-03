@@ -9,14 +9,15 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
     public GameObject KaguyaChan;
     public int maxItems = 3;
     public float showDelay = 1;
-    public float speedMultiplier = 1;
+    public Vector2 thrownVelocity;
+    public float thrownGravity = 5f;
+    public Vector3 thrownStartPosition;
     public bool finished = false;
 
     [SerializeField]
     private AudioClip whooshSound;
 
     private GameObject chosenItem;
-    private int timer1 = 0;
 
     void Start()
     {
@@ -47,11 +48,11 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
 
     void ShowItem()
     {
-        chosenItem.transform.position = new Vector3(-4, -1, 0);
+        chosenItem.transform.position = thrownStartPosition;
         chosenItem.GetComponent<SpriteRenderer>().enabled = true;
         KaguyaChan.transform.position -= new Vector3(15, 0, 0);
-        chosenItem.GetComponent<Rigidbody2D>().velocity = new Vector2(10 * speedMultiplier, 13);
-        chosenItem.GetComponent<Rigidbody2D>().gravityScale = 3f * speedMultiplier;
+        chosenItem.GetComponent<Rigidbody2D>().velocity = thrownVelocity;
+        chosenItem.GetComponent<Rigidbody2D>().gravityScale = thrownGravity;
 
         MicrogameController.instance.playSFX(whooshSound, volume: 0.5f,
         panStereo: AudioHelper.getAudioPan(transform.position.x));
