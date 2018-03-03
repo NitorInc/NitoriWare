@@ -14,6 +14,8 @@ public class NitoriLookTarget : MonoBehaviour
     private float stillLookTime;
     [SerializeField]
     private float movingLookTime;
+    [SerializeField]
+    private AudioClip victoryClip;
 #pragma warning restore 0649
 
     private float stillLookTimer;
@@ -24,6 +26,9 @@ public class NitoriLookTarget : MonoBehaviour
     void Start()
 	{
         targetInSight = false;
+
+        stillLookTimer = stillLookTime;
+        movingLookTimer = movingLookTime;
     }
 
     void LateUpdate()
@@ -66,6 +71,7 @@ public class NitoriLookTarget : MonoBehaviour
     {
         MicrogameController.instance.setVictory(true, true);
         rigAnimator.Play("Victory");
+        MicrogameController.instance.playSFX(victoryClip);
         enabled = false;
     }
 
