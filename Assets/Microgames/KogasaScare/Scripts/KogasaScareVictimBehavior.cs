@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KogasaScareVictimBehavior : MonoBehaviour {
+public class KogasaScareVictimBehavior : MonoBehaviour
+{
 
     public Transform victimTransform;
-    public float minvictimspawnx; //-4.64
-    public float maxvictimspawnx; // 4.64
-    public float xspawn;
 
     public Animator rigAnimator;
     public Vibrate vibrate;
@@ -19,8 +17,6 @@ public class KogasaScareVictimBehavior : MonoBehaviour {
     void Start ()
     {
         state = KogasaScareKogasaBehaviour.State.Default;
-
-        transform.position = new Vector3(Random.Range(minvictimspawnx, maxvictimspawnx), transform.position.y, transform.position.z);
 
         //victimTransform = GetComponent<Transform>();
         //xspawn = Random.Range(minvictimspawnx, maxvictimspawnx);
@@ -42,6 +38,8 @@ public class KogasaScareVictimBehavior : MonoBehaviour {
         rigAnimator.SetTrigger("scare");
         rigAnimator.SetInteger("state", (int)state);
         rigAnimator.SetInteger("direction", direction);
+
+        SendMessage("onScare", successful, SendMessageOptions.DontRequireReceiver);
     }
 
     //void OnTriggerEnter2D(Collider2D other)
