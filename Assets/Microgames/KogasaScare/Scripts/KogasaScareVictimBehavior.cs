@@ -8,7 +8,6 @@ public class KogasaScareVictimBehavior : MonoBehaviour
     public Transform victimTransform;
 
     public Animator rigAnimator;
-    public Vibrate vibrate;
 
     private KogasaScareKogasaBehaviour.State state;
 
@@ -32,7 +31,6 @@ public class KogasaScareVictimBehavior : MonoBehaviour
 
     public void scare(bool successful, int direction)
     {
-        vibrate.vibrateOn = true;
         state = successful ? KogasaScareKogasaBehaviour.State.Victory : KogasaScareKogasaBehaviour.State.Loss;
 
         rigAnimator.SetTrigger("scare");

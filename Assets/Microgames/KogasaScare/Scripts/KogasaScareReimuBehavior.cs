@@ -12,6 +12,8 @@ public class KogasaScareReimuBehavior : MonoBehaviour
     private float minKogasaDistance;
     [SerializeField]
     private KogasaScareKogasaBehaviour kogasa;
+    [SerializeField]
+    private Vibrate vibrate;
 
     void Start ()
     {
@@ -25,5 +27,10 @@ public class KogasaScareReimuBehavior : MonoBehaviour
                 print("Too many placement tries!");
         }
         while (Mathf.Abs(transform.position.x - kogasa.transform.position.x) < minKogasaDistance);
+    }
+
+    void onScare(bool scared)
+    {
+        vibrate.vibrateOn = true;
     }
 }

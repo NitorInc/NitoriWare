@@ -327,21 +327,6 @@ Prefab:
       propertyPath: victim
       value: 
       objectReference: {fileID: 2079879316}
-    - target: {fileID: 114421074409051274, guid: 9c635619dc10d0747ac0e7e1ac2cbfb4,
-        type: 2}
-      propertyPath: unityEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1226286731}
-    - target: {fileID: 114421074409051274, guid: 9c635619dc10d0747ac0e7e1ac2cbfb4,
-        type: 2}
-      propertyPath: unityEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: shakeScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 114672814685525580, guid: 9c635619dc10d0747ac0e7e1ac2cbfb4,
-        type: 2}
-      propertyPath: screenShakeFailureMult
-      value: 0.6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c635619dc10d0747ac0e7e1ac2cbfb4, type: 2}
   m_IsPrefabParent: 0
@@ -365,6 +350,7 @@ MonoBehaviour:
   maxSpawnX: 4.64
   minKogasaDistance: 4
   kogasa: {fileID: 1226286731}
+  vibrate: {fileID: 2009491989}
 --- !u!1 &1083780950
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +443,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4727699127044880, guid: d867ba5d2f20efa40837f7ff71141c5c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.706
+      value: -0.642
       objectReference: {fileID: 0}
     - target: {fileID: 4727699127044880, guid: d867ba5d2f20efa40837f7ff71141c5c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -631,6 +617,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2009491988 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1053136060207356, guid: d867ba5d2f20efa40837f7ff71141c5c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1302732184}
+--- !u!114 &2009491989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2009491988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2854cd4e7d7a6842bc82f59df5b237e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vibrateOn: 1
+  vibrateSpeed: 15
+  vibrateMaxX: 0
+  vibrateMaxY: 0
+  relativeToStartPosition: 1
+  resetOnStop: 0
+  resetOnStart: 0
 --- !u!114 &2079879316 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114811913220294474, guid: d867ba5d2f20efa40837f7ff71141c5c,
