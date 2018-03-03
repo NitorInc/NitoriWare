@@ -4,33 +4,48 @@ using UnityEngine;
 
 public class KnifeDodgeKnife : MonoBehaviour {
 	Vector3 facingDirection;
-	bool isMoving;
-	bool isRotating;
-	public float knifeSpeed = 20.0f;
+    int state;
+
+    public float knifeSpeed = 20.0f;
 	public float knifeRotationSpeed = 1.0f;
+
+
+    public enum KnifeState
+    {
+        FLYING_IN,
+        STOP_AND_ROTATE,
+        MOVING_TO_GROUND,
+    }
+
 	// Use this for initialization
 	void Start () {
-		isMoving = false;
-		isRotating = true;
-	}
+        state = (int)KnifeState.FLYING_IN;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (isRotating) {
-			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (Vector3.forward, transform.position - facingDirection), knifeRotationSpeed * Time.deltaTime);
-		}
+        switch (state)
+        {
+            case (int)KnifeState.FLYING_IN:
+                GetComponent<Rigidbody2D>().AddForce(-1.0f * transform.up * knifeSpeed);
+                break;
 
-		if (isMoving) {
-			isRotating = false;
-			GetComponent<Rigidbody2D> ().AddForce (-1.0f * transform.up * knifeSpeed);
-		}
+            case (int)KnifeState.STOP_AND_ROTATE:
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, transform.position - facingDirection), knifeRotationSpeed * Time.deltaTime);
+                break;
+
+            case (int)KnifeState.MOVING_TO_GROUND:
+                GetComponent<Rigidbody2D>().AddForce(-1.0f * transform.up * knifeSpeed);
+                break;
+        }
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "KnifeDodgeGround") {
 			GetComponent<Rigidbody2D> ().simulated = false;
-			isMoving = isRotating = false;
+			//isMoving = isRotating = false;
 		}
 	}
 
@@ -38,7 +53,12 @@ public class KnifeDodgeKnife : MonoBehaviour {
 		facingDirection = vec;
 	}
 
-	public void SetMoving(bool moving) {
-		isMoving = moving;
-	}
+	//public void SetMoving(bool moving) {
+	//	isMoving = moving;
+	//}
+
+    public void SetState(int stateNumber)
+    {
+        state = stateNumber;
+    }
 }

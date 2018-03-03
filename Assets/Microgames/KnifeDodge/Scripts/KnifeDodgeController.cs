@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KnifeDodgeController : MonoBehaviour {
+	// Private Stuff
 	List<GameObject> knifeList;
 	List<GameObject> knifeTargetsList;
+
+	// Public Stuff
 	public GameObject knifePrefab;
 	public GameObject knifeTargetPrefab;
 	public int numKnives = 14;
@@ -15,7 +18,9 @@ public class KnifeDodgeController : MonoBehaviour {
 	public bool tiltedKnivesRandomAngle = true;
 	public float tiltedKnivesAngle = 0;
 	public int tiltedKnivesNumZeroTilt = 4;
-
+	public float knifeStopHeight = 2.0f;
+	public float knifeFreezeTime = 1.0f;
+	public float knifeUnfreezeTime = 1.0f;
 
 	public enum KnifeDirections {
 		MINUS_ANGLE,
@@ -23,8 +28,16 @@ public class KnifeDodgeController : MonoBehaviour {
 		NUM_DIRECTIONS
 	}
 
-	// Use this for initialization
-	void Start () {
+    // Todo: how to get enum from KnifeDodgeKnife.cs
+    enum KnifeState
+    {
+        FLYING_IN,
+        STOP_AND_ROTATE,
+        MOVING_TO_GROUND,
+    }
+
+    // Use this for initialization
+    void Start () {
 		SpawnTargets ();
 		CreateSafeZone ();
 		SpawnKnives ();
@@ -116,11 +129,23 @@ public class KnifeDodgeController : MonoBehaviour {
 
 	void Update() {
 		timeUntilStrike -= Time.deltaTime;
-		if (timeUntilStrike <= 0) {
-			foreach (GameObject knife in knifeList) {
-				knife.GetComponent<KnifeDodgeKnife> ().SetMoving(true);
-			}
-		}
+        for (int i = 0; i < knifeList.Count; i++)
+        {
+            if (timeUntilStrike < 0.0f)
+            {
+            
+                    knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int) KnifeState.MOVING_TO_GROUND);
+            
+            } 
+            else if (knifeList[i].transform.position.y > knifeStopHeight)
+            {
+                    knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
+            }
+            else
+            {
+                    knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
 
-	}
+            }
+        }
+    }
 }
