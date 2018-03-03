@@ -18,7 +18,7 @@ public class KnifeDodgeController : MonoBehaviour {
 	public bool tiltedKnivesRandomAngle = true;
 	public float tiltedKnivesAngle = 0;
 	public int tiltedKnivesNumZeroTilt = 4;
-	public float knifeStopHeight = 2.0f;
+	public float knifeStopHeight = 3.0f;
 	public float knifeFreezeTime = 1.0f;
 	public float knifeUnfreezeTime = 1.0f;
 
@@ -102,7 +102,7 @@ public class KnifeDodgeController : MonoBehaviour {
 					}
 
 					Vector3 lDirection = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.down;
-					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection;
+					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection - new Vector3(0.0f, knifeStopHeight, 0.0f);
 					knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
 				} 
 			}
@@ -128,24 +128,27 @@ public class KnifeDodgeController : MonoBehaviour {
 	}
 
 	void Update() {
-		timeUntilStrike -= Time.deltaTime;
         for (int i = 0; i < knifeList.Count; i++)
         {
-            if (timeUntilStrike < 0.0f)
+            Debug.Log(knifeList[i].transform.position.y);
+            Debug.Log(knifeStopHeight);
+
+            if (knifeList[i].transform.position.y > knifeStopHeight)
+            {
+                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
+            }
+            else if (timeUntilStrike < 0.0f)
             {
             
                     knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int) KnifeState.MOVING_TO_GROUND);
             
-            } 
-            else if (knifeList[i].transform.position.y > knifeStopHeight)
-            {
-                    knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
-            }
+            }  
             else
             {
                     knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
-
             }
         }
+
+        timeUntilStrike -= Time.deltaTime;
     }
 }

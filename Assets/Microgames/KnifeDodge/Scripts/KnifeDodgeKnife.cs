@@ -29,10 +29,12 @@ public class KnifeDodgeKnife : MonoBehaviour {
         switch (state)
         {
             case (int)KnifeState.FLYING_IN:
-                GetComponent<Rigidbody2D>().AddForce(-1.0f * transform.up * knifeSpeed);
+                GetComponent<Rigidbody2D>().AddForce(-0.5f * transform.up * knifeSpeed);
                 break;
 
             case (int)KnifeState.STOP_AND_ROTATE:
+                GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, transform.position - facingDirection), knifeRotationSpeed * Time.deltaTime);
                 break;
 
@@ -45,17 +47,12 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "KnifeDodgeGround") {
 			GetComponent<Rigidbody2D> ().simulated = false;
-			//isMoving = isRotating = false;
 		}
 	}
 
 	public void SetFacing(Vector3 vec) {
 		facingDirection = vec;
 	}
-
-	//public void SetMoving(bool moving) {
-	//	isMoving = moving;
-	//}
 
     public void SetState(int stateNumber)
     {
