@@ -37,7 +37,10 @@ public class KogasaScareRinBehavior : MonoBehaviour
             walkingLeft = true;
             rigAnimator.SetInteger("direction", -1);
         }
-        print(walkingLeft);
+    }
 
+    void onScare(bool victory)
+    {
+        enabled = false;
     }
 }
