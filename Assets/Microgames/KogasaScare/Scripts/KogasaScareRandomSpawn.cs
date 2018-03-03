@@ -23,7 +23,10 @@ public class KogasaScareRandomSpawn : MonoBehaviour
 
             tries--;
             if (tries < 0)
+            {
                 print("Too many placement tries!");
+                break;
+            }
         }
         while (Mathf.Abs(transform.position.x - kogasa.transform.position.x) < minKogasaDistance);
 
