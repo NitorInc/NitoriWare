@@ -266,6 +266,7 @@ MonoBehaviour:
   rigAnimator: {fileID: 0}
   stillLookTime: 0
   movingLookTime: 0
+  victoryClip: {fileID: 0}
 --- !u!114 &337208908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +359,70 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &506046603
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796680587}
+    m_Modifications:
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114210932788983530, guid: 45069553ced9c2a46a4722ac0037a711,
+        type: 2}
+      propertyPath: nitori
+      value: 
+      objectReference: {fileID: 796680587}
+    - target: {fileID: 114210932788983530, guid: 45069553ced9c2a46a4722ac0037a711,
+        type: 2}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1905418128}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452850830992358, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 45069553ced9c2a46a4722ac0037a711, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &796680586
 Prefab:
   m_ObjectHideFlags: 0
@@ -435,6 +500,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fbb596b0d0b06074f90dcb0543605f0c, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &796680587 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4040725447008452, guid: fbb596b0d0b06074f90dcb0543605f0c,
+    type: 2}
+  m_PrefabInternal: {fileID: 796680586}
 --- !u!1001 &1064320763
 Prefab:
   m_ObjectHideFlags: 0
@@ -824,5 +894,10 @@ MonoBehaviour:
 --- !u!65 &1905418127 stripped
 BoxCollider:
   m_PrefabParentObject: {fileID: 65289750181558478, guid: 7d853e413c7cb114ba29b3766d1c2a71,
+    type: 2}
+  m_PrefabInternal: {fileID: 1905418125}
+--- !u!4 &1905418128 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4240437217860510, guid: 7d853e413c7cb114ba29b3766d1c2a71,
     type: 2}
   m_PrefabInternal: {fileID: 1905418125}
