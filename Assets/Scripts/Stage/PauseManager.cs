@@ -107,7 +107,7 @@ public class PauseManager : MonoBehaviour
 		onPause.Invoke();
 		if (MicrogameController.instance != null)
 		{
-			MicrogameController.instance.onPause.Invoke();
+            MicrogameController.instance.onPaused();
 			pauseData.camCullingMask = Camera.main.cullingMask;
 			pauseData.camColor = Camera.main.backgroundColor;
 			Camera.main.cullingMask = 0;
@@ -163,7 +163,7 @@ public class PauseManager : MonoBehaviour
 		{
 			Camera.main.cullingMask = pauseData.camCullingMask;
 			Camera.main.backgroundColor = pauseData.camColor;
-			MicrogameController.instance.onUnPause.Invoke();
+            MicrogameController.instance.onUnPaused();
 			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)

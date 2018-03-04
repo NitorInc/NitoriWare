@@ -151,6 +151,7 @@ public class MicrogameController : MonoBehaviour
                     debugObjects.commandDisplay.play(traits.localizedCommand);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
+                Cursor.lockState = getTraits().cursorMode;
                 //Cursor.lockState = CursorLockMode.Confined;
 
                 debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
@@ -159,6 +160,18 @@ public class MicrogameController : MonoBehaviour
             SceneManager.SetActiveScene(gameObject.scene);
         }
 	}
+
+    public void onPaused()
+    {
+        Cursor.lockState = GameController.DefaultCursorMode;
+        onPause.Invoke();
+    }
+
+    public void onUnPaused()
+    {
+        Cursor.lockState = getTraits().cursorMode;
+        onUnPause.Invoke();
+    }
 
 	/// <summary>
 	/// Disables all root objects in microgame
