@@ -41,6 +41,7 @@ public class PauseManager : MonoBehaviour
 		public int camCullingMask;
 		public Color camColor;
 		public bool cursorVisible;
+        public CursorLockMode cursorLockState;
 	}
 
 	private float pauseTimer = 0f;
@@ -119,6 +120,8 @@ public class PauseManager : MonoBehaviour
 
 		pauseData.cursorVisible = Cursor.visible;
 		Cursor.visible = true;
+        pauseData.cursorLockState = Cursor.lockState;
+        Cursor.lockState = GameController.DefaultCursorMode;
 
 		menu.gameObject.SetActive(true);
 		paused = true;
@@ -172,6 +175,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = pauseData.timeScale;
         AudioListener.pause = false;
         Cursor.visible = pauseData.cursorVisible;
+        Cursor.lockState = pauseData.cursorLockState;
         menu.gameObject.SetActive(false);
 
         onUnPause.Invoke();
