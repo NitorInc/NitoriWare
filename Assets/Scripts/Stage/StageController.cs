@@ -20,6 +20,7 @@ public class StageController : MonoBehaviour
 
 	private int microgameCount, life;
 	private bool microgameVictoryStatus, victoryDetermined;
+    private CursorLockMode defaultCursorMode;
 
 	public AnimationPart animationPart = AnimationPart.Intro;
 
@@ -81,6 +82,7 @@ public class StageController : MonoBehaviour
 		setAnimationPart(AnimationPart.Intro);
 		resetStage(Time.time, true);
         Cursor.visible = false;
+        defaultCursorMode = Cursor.lockState;
 	}
 
 	void resetStage(float startTime, bool firstTime)
@@ -476,6 +478,7 @@ public class StageController : MonoBehaviour
         microgameQueue.Peek().scene = MicrogameController.instance.gameObject.scene;
 
         stageCamera.GetComponent<AudioListener>().enabled = false;
+        Cursor.lockState = microgameTraits.cursorMode;
 
         MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
@@ -504,6 +507,7 @@ public class StageController : MonoBehaviour
 		MicrogameTimer.instance.gameObject.SetActive(false);
 
         stageCamera.GetComponent<AudioListener>().enabled = true;
+        Cursor.lockState = defaultCursorMode;
 
         stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
 
@@ -542,13 +546,20 @@ public class StageController : MonoBehaviour
 			introSource.Pause();
 		else if (introSource.isPlaying)
 			introSource.Stop();
-	}
+
+        Cursor.lockState = defaultCursorMode;
+    }
 
 	public void onUnPause()
 	{
 		if (animationPart == AnimationPart.Intro)
 			introSource.UnPause();
-	}
+
+        if (MicrogameController.instance != null)
+        {
+            Cursor.lockState = MicrogameController.instance.getTraits().cursorMode;
+        }
+    }
 
     //void Update()
     //{
