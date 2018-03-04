@@ -95,7 +95,7 @@ public class MicrogameController : MonoBehaviour
 			//Normal Awake
 
 			StageController.instance.stageCamera.tag = "Camera";
-			Camera.main.GetComponent<AudioListener>().enabled = false;
+			//Camera.main.GetComponent<AudioListener>().enabled = false;
 
 			StageController.instance.microgameMusicSource.clip = traits.musicClip;
 

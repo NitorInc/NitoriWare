@@ -475,7 +475,9 @@ public class StageController : MonoBehaviour
 		animationStartTime += beatLength * (12f + (float)microgameTraits.getDurationInBeats());
         microgameQueue.Peek().scene = MicrogameController.instance.gameObject.scene;
 
-		MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
+        stageCamera.GetComponent<AudioListener>().enabled = false;
+
+        MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
 		MicrogameTimer.instance.invokeTick();
 		invokeOutroAnimations();
@@ -501,7 +503,9 @@ public class StageController : MonoBehaviour
 		MicrogameTimer.instance.beatsLeft = 0f;
 		MicrogameTimer.instance.gameObject.SetActive(false);
 
-		stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
+        stageCamera.GetComponent<AudioListener>().enabled = true;
+
+        stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
 
         finishedMicrogame = microgameQueue.Dequeue();
         MicrogameController.instance = null;
