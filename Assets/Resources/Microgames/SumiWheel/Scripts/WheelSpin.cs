@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class WheelSpin : MonoBehaviour
 {
+    public int sumithought1 = 0;
+    public int sumithought2 = 0;
+    public int correctcardschosen = 0;
 
 	// Use this for initialization
 	void Start ()
     {
         //choose cards
-        int sumithought1 = Random.Range(3, 6);
+        sumithought1 = Random.Range(3, 6);
 
-        print(sumithought1); //----debug
-
-        int sumithought2;
+        print("She thought: " + sumithought1); //----debug
 
         if (sumithought1 != 5)
         {
@@ -24,7 +25,7 @@ public class WheelSpin : MonoBehaviour
             sumithought2 = sumithought1 - 3;
         }
          
-        print(sumithought2); //----debug
+        print("and: " + sumithought2); //----debug
 
         /*draw cards
         1=Plus, 2=O, 3=Square, 4=Wave, 5=Star*/
@@ -35,7 +36,7 @@ public class WheelSpin : MonoBehaviour
         //Wheel's starting angle
         int wheelspin = Random.Range(0, 101);
 
-        print(wheelspin); //--------debug
+        print("Wheel angle: " + wheelspin); //--------debug
 
         var rotationVector = transform.rotation.eulerAngles;
         rotationVector.z = wheelspin;
