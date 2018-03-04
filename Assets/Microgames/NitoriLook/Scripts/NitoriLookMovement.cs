@@ -14,7 +14,6 @@ public class NitoriLookMovement : MonoBehaviour
 
 	void Awake()
 	{
-        Cursor.lockState = CursorLockMode.Locked;
         transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(-180f, 180f), 0f));
     }
 	
