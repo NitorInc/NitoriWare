@@ -6,6 +6,17 @@ public class KogasaScareReimuBehavior : MonoBehaviour
 {
     [SerializeField]
     private Vibrate vibrate;
+    [SerializeField]
+    private Animator rigAnimator;
+    [SerializeField]
+    private KogasaScareKogasaBehaviour kogasa;
+
+    void onSpawnSet()
+    {
+        rigAnimator.SetInteger("direction", transform.position.x > kogasa.transform.position.x ? 1 : -1);
+        //rigAnimator.Rebind();
+        //rigAnimator.enabled = true;
+    }
 
     void onScare(bool scared)
     {
