@@ -35,9 +35,10 @@ public class CardClick : MonoBehaviour
             {
                 if (whlspn.safetymeasure != 1)
                 {
-                    print("Are you entering here? Because safetymeasure is set to " + whlspn.safetymeasure);
                     cardclick = 1; //Sets to Plus
                     whlspn.safetymeasure = 1;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
+                    
                 }
                 else
                 {
@@ -48,9 +49,9 @@ public class CardClick : MonoBehaviour
             {
                 if (whlspn.safetymeasure != 2)
                 {
-                    print("Are you entering here? Because safetymeasure is set to " + whlspn.safetymeasure);
                     cardclick = 2; //Sets to O
                     whlspn.safetymeasure = 2;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -61,9 +62,9 @@ public class CardClick : MonoBehaviour
             {
                 if (whlspn.safetymeasure != 3)
                 {
-                    print("Are you entering here? Because safetymeasure is set to " + whlspn.safetymeasure);
                     cardclick = 3; //Sets to Square
                     whlspn.safetymeasure = 3;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -74,9 +75,9 @@ public class CardClick : MonoBehaviour
             {
                 if (whlspn.safetymeasure != 4)
                 {
-                    print("Are you entering here? Because safetymeasure is set to " + whlspn.safetymeasure);
                     cardclick = 4; //Sets to Wave
                     whlspn.safetymeasure = 4;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -87,9 +88,9 @@ public class CardClick : MonoBehaviour
             {
                 if (whlspn.safetymeasure != 5)
                 {
-                    print("Are you entering here? Because safetymeasure is set to " + whlspn.safetymeasure);
                     cardclick = 5; //Sets to Star
                     whlspn.safetymeasure = 5;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -102,6 +103,7 @@ public class CardClick : MonoBehaviour
                 {
                     cardclick = 6; //Sets to Purple Plus
                     whlspn.safetymeasure = 6;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -114,6 +116,7 @@ public class CardClick : MonoBehaviour
                 {
                     cardclick = 7; //Sets to Purple O
                     whlspn.safetymeasure = 7;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -126,6 +129,7 @@ public class CardClick : MonoBehaviour
                 {
                     cardclick = 8; //Sets to Purple Square
                     whlspn.safetymeasure = 8;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -138,6 +142,7 @@ public class CardClick : MonoBehaviour
                 {
                     cardclick = 9; //Sets to Purple Wave
                     whlspn.safetymeasure = 9;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
@@ -150,12 +155,16 @@ public class CardClick : MonoBehaviour
                 {
                     cardclick = 10; //Sets to Purple Star
                     whlspn.safetymeasure = 10;
+                    gameObject.GetComponent<Renderer>().material.color = Color.gray;
                 }
                 else
                 {
                     print("Can't click this card"); //This is here for the sole reason of having something for this else.
                 }
             }
+
+            AudioSource audio1 = gameObject.AddComponent<AudioSource>();
+            audio1.PlayOneShot((AudioClip)Resources.Load("Microgames/SumiWheel/Sounds/click3"));
 
             print("Safety measure is now, after the click: " + whlspn.safetymeasure);
             print("The name of the object you just clicked is " + gameObject.name); //debug
