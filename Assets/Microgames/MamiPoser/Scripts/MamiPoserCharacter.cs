@@ -18,17 +18,9 @@ public class MamiPoserCharacter : MonoBehaviour {
     [SerializeField]
     private GameObject wrongSprite;
 
-    [Header("Sprite for looking straight")]
+    [Header("Eye pupils sprite")]
     [SerializeField]
-    private GameObject lookingStraightSprite;
-
-    [Header("Sprite for looking left")]
-    [SerializeField]
-    private GameObject lookingLeftSprite;
-
-    [Header("Sprite for looking right")]
-    [SerializeField]
-    private GameObject lookingRightSprite;
+    private GameObject pupilsSprite;
 
     [SerializeField]
     private Collider2D clickCollider;
@@ -88,35 +80,6 @@ public class MamiPoserCharacter : MonoBehaviour {
             regularSprite.SetActive(false);
         if (wrongSprite)
             wrongSprite.SetActive(true);
-        // Also remove the eyes
-        if (lookingStraightSprite)
-            lookingStraightSprite.SetActive(false);
-        if (lookingLeftSprite)
-            lookingLeftSprite.SetActive(false);
-        if (lookingRightSprite)
-            lookingRightSprite.SetActive(false);
-    }
-
-    // Make the character look left
-    public void LookLeft()
-    {
-        if (lookingStraightSprite)
-            lookingStraightSprite.SetActive(false);
-        if (lookingLeftSprite)
-            lookingLeftSprite.SetActive(true);
-        if (lookingRightSprite)
-            lookingRightSprite.SetActive(false);
-    }
-
-    // Make the character look right
-    public void LookRight()
-    {
-        if (lookingStraightSprite)
-            lookingStraightSprite.SetActive(false);
-        if (lookingLeftSprite)
-            lookingLeftSprite.SetActive(false);
-        if (lookingRightSprite)
-            lookingRightSprite.SetActive(true);
     }
 
     // Check every frame if this character was clicked

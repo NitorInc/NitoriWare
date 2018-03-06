@@ -120,17 +120,6 @@ public class MamiPoserController : MonoBehaviour {
 		print(CameraHelper.getCursorPosition());
 		if (signPrefab)
 			Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
-		
-        // Make the other characters (except the one clicked) look at Mamizou
-        for (int i = 0; i < characterSpawnNumber; i++)
-        {
-            if (createdCharacters[i] == clickedCharacter)
-                continue;
-            if (i < mamizouIndex)
-                createdCharacters[i].LookRight();
-            else if (i > mamizouIndex)
-                createdCharacters[i].LookLeft();
-        }
     }
 
     // Hide the disguised form Mamizou and show the true form Mamizou
