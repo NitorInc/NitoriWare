@@ -46,6 +46,8 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
                 RNGMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().items[j].GetComponent<KaguyaMemory_ItemScript>().appearSelectable();
             }
         }
+
+        MicrogameController.instance.displayLocalizedCommand("commandb", "Select!");
     }
     void closeBars()
     {
