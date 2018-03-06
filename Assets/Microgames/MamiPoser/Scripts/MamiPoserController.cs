@@ -116,8 +116,7 @@ public class MamiPoserController : MonoBehaviour {
 			signPrefab = incorrectSignPrefab;
         }
 
-		// Show the correct/incorrect sign at cursor position
-		print(CameraHelper.getCursorPosition());
+		// Show the correct/incorrect sign in the middle of the screen
 		if (signPrefab)
 			Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
     }
