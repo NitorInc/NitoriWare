@@ -22,6 +22,10 @@ public class MamiPoserCharacter : MonoBehaviour {
     [SerializeField]
     private GameObject pupilsSprite;
 
+    [Header("Max distance the eye pupils move")]
+    [SerializeField]
+    private float pupilsMoveDistance = 0.03f;
+
     [SerializeField]
     private Collider2D clickCollider;
 
@@ -33,9 +37,15 @@ public class MamiPoserCharacter : MonoBehaviour {
     // Is this character showing an expression for being clicked incorrectly?
     public bool isChoseWrongExpression { get; private set; }
 
+    // The position of the pupils when they're looking straight
+    private Vector2 pupilsCenter;
+
     void Start()
     {
         isChoseWrongExpression = false;
+
+        // Save the starting pupils position
+        pupilsCenter = pupilsSprite.transform.position;
     }
 
     [System.Serializable]
@@ -83,7 +93,7 @@ public class MamiPoserCharacter : MonoBehaviour {
     }
 
     // Check every frame if this character was clicked
-    void Update()
+    void CheckClick()
     {
         if (MicrogameController.instance.getVictoryDetermined())
             return;
@@ -91,6 +101,23 @@ public class MamiPoserCharacter : MonoBehaviour {
             print("ERROR: MamiPoserCharacter: No clickCollider set!");
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
             Click();
+    }
+
+    // Move the pupils in the direction of the cursor
+    void MovePupils()
+    {
+        Vector2 posDelta = (Vector2)CameraHelper.getCursorPosition() - pupilsCenter;
+        if (posDelta.magnitude > pupilsMoveDistance)
+            pupilsSprite.transform.position =
+                pupilsCenter + posDelta.normalized * pupilsMoveDistance;
+        else
+            pupilsSprite.transform.position = pupilsCenter + posDelta;
+    }
+
+    void Update()
+    {
+        CheckClick();
+        MovePupils();
     }
 
     // Handle clicks
