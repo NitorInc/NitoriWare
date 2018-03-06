@@ -7,8 +7,8 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
 
     public GameObject[] items;
     public GameObject KaguyaChan;
+    public GameObject timingMaster;
     public int maxItems = 3;
-    public float showDelay = 1;
     public float speedMultiplier = 1;
     public bool finished = false;
 
@@ -16,6 +16,7 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
     private AudioClip whooshSound;
 
     private GameObject chosenItem;
+    private KaguyaMemory_Timing timeValues;
     private int timer1 = 0;
 
     void Start()
@@ -23,6 +24,7 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
         //select an item
         chosenItem = items[Random.Range(0, maxItems)];
         chosenItem.GetComponent<KaguyaMemory_ItemScript>().isCorrect = true;
+        timeValues = timingMaster.GetComponent<KaguyaMemory_Timing>();
         KaguyaChan.transform.position += new Vector3(15, 0, 0);
 
         //randomize item positions
@@ -42,10 +44,10 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
             }
         }
 
-        Invoke("ShowItem", showDelay);
+        //Invoke("ShowItem", timeValues.throwItemAfterInitialOpen);
     }
 
-    void ShowItem()
+    public void ShowItem()
     {
         chosenItem.transform.position = new Vector3(-4, -1, 0);
         chosenItem.GetComponent<SpriteRenderer>().enabled = true;
