@@ -16,6 +16,8 @@ public class SuikaShakeBottle : MonoBehaviour
     private BoxCollider2D middleCollider, leftCollider, rightCollider;
 	[SerializeField]
 	private GameObject suikaPrefab;
+    [SerializeField]
+    private GameObject sparkleGenerator;
 #pragma warning restore 0649
 
     private bool _pauseBuffer = false;
@@ -74,7 +76,9 @@ public class SuikaShakeBottle : MonoBehaviour
         if (health < 0)
 		{
 			if (transform.moveTowards2D(Vector2.zero, 30f))
-				enabled = false;
+            {
+                enabled = false;
+            }
 			return;
 		}
 		if (pauseBuffer)
@@ -104,9 +108,10 @@ public class SuikaShakeBottle : MonoBehaviour
 		}
 
 		if (health <= 0)
-		{
-			GetComponent<FollowCursor>().enabled = false;
-			MicrogameController.instance.setVictory(true, true);
+        {
+            GetComponent<FollowCursor>().enabled = false;
+            sparkleGenerator.SetActive(true);
+            MicrogameController.instance.setVictory(true, true);
 		}
 	}
 }
