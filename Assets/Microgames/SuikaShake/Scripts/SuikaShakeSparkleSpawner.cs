@@ -38,7 +38,6 @@ public class SuikaShakeSparkleSpawner : MonoBehaviour
 
         float xOffset = spawnCollider.bounds.extents.x;
         float yOffset = spawnCollider.bounds.extents.y;
-        print(newSparkle.transform.position);
         newSparkle.transform.position += (Vector3)spawnCollider.offset + new Vector3(Random.Range(-xOffset, xOffset), Random.Range(-yOffset, yOffset), 0f);
     }
 }
