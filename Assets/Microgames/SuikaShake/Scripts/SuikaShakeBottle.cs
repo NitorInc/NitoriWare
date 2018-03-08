@@ -110,6 +110,12 @@ public class SuikaShakeBottle : MonoBehaviour
 		if (health <= 0)
         {
             GetComponent<FollowCursor>().enabled = false;
+            var sineWave = GetComponent<SineWave>();
+            if (sineWave != null)
+            {
+                sineWave.enabled = true;
+                sineWave.resetCycle();
+            }
             sparkleGenerator.SetActive(true);
             MicrogameController.instance.setVictory(true, true);
 		}

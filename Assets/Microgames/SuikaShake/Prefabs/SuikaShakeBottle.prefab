@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 61109514239809190}
   - component: {fileID: 61893432880810668}
   - component: {fileID: 61727119838020662}
+  - component: {fileID: 114930444278153118}
   m_Layer: 0
   m_Name: SuikaShakeBottle
   m_TagString: Untagged
@@ -263,6 +264,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114930444278153118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1476939842326894}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3467706800869f447a980f1dddc8e13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSpeed: 0
+  xAmplitude: 0
+  xOffset: 0
+  ySpeed: 4
+  yAmplitude: 0.1
+  yOffset: 0
+  relativeToStartPosition: 0
+  positionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &114986902259434790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spanwStartTime: 0.01
-  spawnFrequency: 0.125
+  spawnFrequency: 0.15
   sparklePrefab: {fileID: 1148724436189386, guid: b845c1aeef8d14b4d927f0809a2563ca,
     type: 2}
   spriteCollection: {fileID: 114635880945086518}
