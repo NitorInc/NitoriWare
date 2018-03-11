@@ -19,9 +19,9 @@ public class MamiPoserController : MonoBehaviour {
     [SerializeField]
     private GameObject smokePrefab;
 
-	[Header("Correct/incorrect sign prefabs")]
-	[SerializeField]
-	private GameObject correctSignPrefab, incorrectSignPrefab;
+    [Header("Correct/incorrect sign prefabs")]
+    [SerializeField]
+    private GameObject correctSignPrefab, incorrectSignPrefab;
 
     [Header("Spawners to spawn characters in")]
     [SerializeField]
@@ -30,6 +30,10 @@ public class MamiPoserController : MonoBehaviour {
     [Header("Delay before Mamizou's sprite appears after clicking")]
     [SerializeField]
     private float mamizouAppearDelay = 0f;
+
+    [Header("Delay before playing victory/loss effects after clicking")]
+    [SerializeField]
+    private float resultEffectsDelay = 0f;
 
     [Header("Sound played on loss")]
     [SerializeField]
@@ -60,6 +64,9 @@ public class MamiPoserController : MonoBehaviour {
 
     // Used for delayed Mamizou (true form) appearance
     private Timer mamizouAppearTimer;
+
+    // Used for victory/loss effects
+    private Timer resultTimer;
 
     // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
@@ -106,7 +113,6 @@ public class MamiPoserController : MonoBehaviour {
         GameObject smoke = Instantiate(smokePrefab, Vector2.zero, Quaternion.identity);
         smoke.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
         // Play the poof sound - panned to the smoke's location
-        print(AudioHelper.getAudioPan(smoke.transform.position.x));
         MicrogameController.instance.playSFX(
             smokeSound,
             volume: 1f,
@@ -120,18 +126,15 @@ public class MamiPoserController : MonoBehaviour {
         mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
 
         // Determine if the player chose correctly
-		GameObject signPrefab;
-		if (clickedCharacter.isDisguised)
+        GameObject signPrefab;
+        AudioClip resultSound;
+        if (clickedCharacter.isDisguised)
         {
             // Win
             MicrogameController.instance.setVictory(victory: true, final: true);
             mamizou.ChoseRight();
-			signPrefab = correctSignPrefab;
-            MicrogameController.instance.playSFX(
-                winSound,
-                volume: 0.5f,
-                panStereo: 0
-            );
+            signPrefab = correctSignPrefab;
+            resultSound = winSound;
         }
         else
         {
@@ -139,17 +142,16 @@ public class MamiPoserController : MonoBehaviour {
             MicrogameController.instance.setVictory(victory: false, final: true);
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
-			signPrefab = incorrectSignPrefab;
-            MicrogameController.instance.playSFX(
-                lossSound,
-                volume: 0.5f,
-                panStereo: 0
-            );
+            signPrefab = incorrectSignPrefab;
+            resultSound = lossSound;
         }
 
-		// Show the correct/incorrect sign in the middle of the screen
-		if (signPrefab)
-			Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
+        // Delay the victory/loss effects
+        resultTimer = TimerManager.NewTimer(
+            resultEffectsDelay,
+            () => VictoryLossEffects(signPrefab, resultSound),
+            0
+        );
     }
 
     // Hide the disguised form Mamizou and show the true form Mamizou
@@ -157,5 +159,19 @@ public class MamiPoserController : MonoBehaviour {
     {
         createdCharacters[mamizouIndex].gameObject.SetActive(false);
         mamizou.gameObject.SetActive(true);
+    }
+
+    // Play victory/loss effects
+    private void VictoryLossEffects(GameObject signPrefab, AudioClip sound)
+    {
+        // Show the correct/incorrect sign in the middle of the screen
+        if (signPrefab)
+            Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
+        // Play the victory/loss sound
+        MicrogameController.instance.playSFX(
+            sound,
+            volume: 0.5f,
+            panStereo: 0
+        );
     }
 }
