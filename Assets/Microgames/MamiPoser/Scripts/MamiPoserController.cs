@@ -31,6 +31,18 @@ public class MamiPoserController : MonoBehaviour {
     [SerializeField]
     private float mamizouAppearDelay = 0f;
 
+    [Header("Sound played on loss")]
+    [SerializeField]
+    private AudioClip lossSound;
+
+    [Header("Sound played on victory")]
+    [SerializeField]
+    private AudioClip winSound;
+
+    [Header("The smoke poof sound")]
+    [SerializeField]
+    private AudioClip smokeSound;
+
     // Number of character copies to be spawned
     private int characterSpawnNumber = 0;
 
@@ -93,6 +105,13 @@ public class MamiPoserController : MonoBehaviour {
         // Play the smoke effect
         GameObject smoke = Instantiate(smokePrefab, Vector2.zero, Quaternion.identity);
         smoke.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
+        // Play the poof sound - panned to the smoke's location
+        print(AudioHelper.getAudioPan(smoke.transform.position.x));
+        MicrogameController.instance.playSFX(
+            smokeSound,
+            volume: 1f,
+            panStereo: AudioHelper.getAudioPan(smoke.transform.position.x)
+        );
         // Spawn the real Mamizou - hidden for now
         mamizou = Instantiate(mamizouPrefab, Vector2.zero, Quaternion.identity);
         mamizou.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
@@ -104,16 +123,28 @@ public class MamiPoserController : MonoBehaviour {
 		GameObject signPrefab;
 		if (clickedCharacter.isDisguised)
         {
+            // Win
             MicrogameController.instance.setVictory(victory: true, final: true);
             mamizou.ChoseRight();
 			signPrefab = correctSignPrefab;
+            MicrogameController.instance.playSFX(
+                winSound,
+                volume: 0.5f,
+                panStereo: 0
+            );
         }
         else
         {
+            // Loss
             MicrogameController.instance.setVictory(victory: false, final: true);
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
 			signPrefab = incorrectSignPrefab;
+            MicrogameController.instance.playSFX(
+                lossSound,
+                volume: 0.5f,
+                panStereo: 0
+            );
         }
 
 		// Show the correct/incorrect sign in the middle of the screen
