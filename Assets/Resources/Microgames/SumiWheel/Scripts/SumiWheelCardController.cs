@@ -63,7 +63,7 @@ public class SumiWheelCardController : MonoBehaviour
 
     void handleVictory(bool victory)
     {
-        MicrogameController.instance.setVictory(victory, false);
+        MicrogameController.instance.setVictory(victory, true);
 
         sumiRig.SetTrigger(victory ? "Victory" : "Failure");
         MicrogameController.instance.playSFX(victory ? victoryClip : lossClip);

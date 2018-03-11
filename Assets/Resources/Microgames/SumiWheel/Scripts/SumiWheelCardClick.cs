@@ -33,10 +33,6 @@ public class SumiWheelCardClick : MonoBehaviour
 
     }
 
-    public void setAsCorrect(SumiWheelCardController cardController)
-    {
-    }
-
     public bool isClickable()
     {
         return clickable;
