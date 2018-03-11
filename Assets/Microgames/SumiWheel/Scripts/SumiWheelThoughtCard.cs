@@ -18,6 +18,7 @@ public class SumiWheelThoughtCard : MonoBehaviour
     void copySpriteAttributes()
     {
         GetComponent<SpriteRenderer>().sprite = card.GetComponent<SpriteRenderer>().sprite;
+        GetComponent<SpriteRenderer>().color = card.GetComponent<SpriteRenderer>().color;
         var icon = transform.GetChild(0);
         var cardIcon = card.transform.GetChild(0);
         icon.GetComponent<SpriteRenderer>().color = cardIcon.GetComponent<SpriteRenderer>().color;
