@@ -8,13 +8,23 @@ namespace NitorInc.ClownTorch {
         public GameObject fireEff;
         public ParticleSystem smokeEff;
         public ParticleSystem extinguishEff;
-        public float requiredTime = 0.5f;
+        float requiredTime = 0.5f;
         float timer = 0.0f;
         bool isOnFire = false;
 
         bool countedThisFrame = false;
         // Use this for initialization
         void Start() {
+            var tag = GetComponent<ClownTorchTag>().type;
+            switch (tag) {
+                case ClownTorchTag.Type.ClownTorch:
+                    requiredTime = FindObjectOfType<ClownTorchTorchManager>().ClownTorchRequiredTime;
+                    break;
+                case ClownTorchTag.Type.PlayerTorch:
+                    requiredTime = FindObjectOfType<ClownTorchTorchManager>().PlayerTorchRequiredTime;
+                    break;
+            }
+            
         }
 
         // Update is called once per frame
