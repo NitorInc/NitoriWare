@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ComicBubble_GameController : MonoBehaviour {
 
@@ -11,8 +12,6 @@ public class ComicBubble_GameController : MonoBehaviour {
         public GameObject speechTarget;
         public GameObject speechStrip;
         public float speechSpeed;
-        public Vector2 finalPosition;
-
     }
 
     [SerializeField]
@@ -22,9 +21,20 @@ public class ComicBubble_GameController : MonoBehaviour {
     Color deactivatedStripColor;
 
     [SerializeField]
+    float bubbleMovementDistanceAfterEnding;
+
+    [SerializeField]
     float bubbleMovementSpeed;
 
+
+    [SerializeField]
+    Color bubbleShadowColor;
+
     int currentBubbleIndex;
+
+    GameObject currentBubbleShadow;
+
+
 
     // Use this for initialization
     void Start() {
@@ -71,9 +81,44 @@ public class ComicBubble_GameController : MonoBehaviour {
         }
     }
 
+    void showCurrentBubbleShadow()
+    {
+        // Destroy the current bubble shadow
+        if (currentBubbleShadow != null)
+        {
+            GameObject.Destroy(currentBubbleShadow);
+            currentBubbleShadow = null;
+        }
+
+        // Get the speechbubble image
+        GameObject speechBubble = bubbleList[currentBubbleIndex].speechBubble;
+        GameObject bubbleImage = speechBubble.GetComponentInChildren<Image>().gameObject;
+
+        // Instatiating shadow
+        currentBubbleShadow = Instantiate(speechBubble, this.transform) as GameObject;
+        currentBubbleShadow.transform.position = Vector2.zero;
+        currentBubbleShadow.transform.SetSiblingIndex(0);
+
+        // Delete and add components
+        Image shadowImage = currentBubbleShadow.GetComponentInChildren<Image>();
+        GameObject shadowObject = shadowImage.gameObject;
+        foreach (Transform child in shadowImage.transform) GameObject.Destroy(child.gameObject);
+        Destroy(shadowImage.GetComponent<ComicBubble_BubbleTextBoxBehaviour>());
+        shadowImage.color = bubbleShadowColor;
+
+
+
+
+        print("Bitch");
+    }
+
+
     void showActualPanel()
     {
         var currentBubble = bubbleList[currentBubbleIndex];
+
+        showCurrentBubbleShadow();
+
         foreach (SpriteRenderer sr in currentBubble.speechStrip.GetComponentsInChildren<SpriteRenderer>())
         {
             sr.material.color = Color.white;
@@ -116,7 +161,10 @@ public class ComicBubble_GameController : MonoBehaviour {
 
     IEnumerator moveToFinalPosition(int bubbleIndex)
     {
-        Vector2 target = bubbleList[bubbleIndex].finalPosition;
+        Vector2 target = (Vector2) bubbleList[bubbleIndex].speechBubble.transform.position + new Vector2(0, bubbleMovementDistanceAfterEnding);
+        
+
+
         Transform bubbleTransform = bubbleList[bubbleIndex].speechBubble.transform;
         float step = bubbleMovementSpeed * Time.deltaTime;
         
