@@ -14,6 +14,10 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     public float moveSpeed;
     public float screenShakeFailureMult = .5f;
 
+    [Header("Spawn constraints")]
+    public float minSpawnX;
+    public float maxSpawnX;
+
     [Header("Walk constraints")]
     public float maxposXleft;
     public float maxposXright;
@@ -35,14 +39,14 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         Loss
     }
 
-
-    void Start()
+    private void Awake()
     {
         victimInSight = false;
         state = State.Default;
-    }
 
-    // Update is called once per frame
+        transform.position = new Vector3(Random.Range(minSpawnX, maxSpawnX), transform.position.y, transform.position.z);
+    }
+    
     void Update()
     {
         switch(state)

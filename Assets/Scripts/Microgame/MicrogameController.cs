@@ -95,7 +95,7 @@ public class MicrogameController : MonoBehaviour
 			//Normal Awake
 
 			StageController.instance.stageCamera.tag = "Camera";
-			Camera.main.GetComponent<AudioListener>().enabled = false;
+			//Camera.main.GetComponent<AudioListener>().enabled = false;
 
 			StageController.instance.microgameMusicSource.clip = traits.musicClip;
 
@@ -151,6 +151,7 @@ public class MicrogameController : MonoBehaviour
                     debugObjects.commandDisplay.play(traits.localizedCommand);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
+                Cursor.lockState = getTraits().cursorLockState;
                 //Cursor.lockState = CursorLockMode.Confined;
 
                 debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
@@ -159,6 +160,16 @@ public class MicrogameController : MonoBehaviour
             SceneManager.SetActiveScene(gameObject.scene);
         }
 	}
+
+    public void onPaused()
+    {
+        onPause.Invoke();
+    }
+
+    public void onUnPaused()
+    {
+        onUnPause.Invoke();
+    }
 
 	/// <summary>
 	/// Disables all root objects in microgame
