@@ -13,11 +13,12 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
     [SerializeField]
     private float hopDuration = 1f;
     [SerializeField]
-    private float hopGroundTime = .5f;
-    [SerializeField]
     private float hopHeightMult = 1f;
     [SerializeField]
     private Vector2 hopXRange;
+    [Header("Duration of Hop Idle animation should match Hop Ground Time")]
+    [SerializeField]
+    private float hopGroundTime = .5f;
 
     private bool hopping;
     private float hopStartTime;
