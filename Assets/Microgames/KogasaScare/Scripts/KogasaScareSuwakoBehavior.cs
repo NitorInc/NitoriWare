@@ -7,6 +7,8 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
     [SerializeField]
     private Animator hopAnimator;
     [SerializeField]
+    private Animator victimAnimator;
+    [SerializeField]
     private AnimationCurve hopCurve;
     [SerializeField]
     private float hopDuration = 1f;
@@ -22,8 +24,15 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
     private float hopStartX;
     private float hopEndX;
     private float groundY;
-    
-	void Start ()
+
+    private enum HopState
+    {
+        Grounded = 0,
+        Up = 1,
+        Down = 2
+    }
+
+    void Start ()
     {
         groundY = transform.position.y;
         InvokeRepeating("startHop", hopGroundTime, hopDuration + hopGroundTime);
@@ -35,8 +44,9 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
         hopStartX = transform.position.x;
         hopEndX = MathHelper.randomRangeFromVector(hopXRange);
         //hopEndX = transform.position.x + 3f;
+        victimAnimator.SetInteger("direction", (int)Mathf.Sign(hopEndX - hopStartX));
         hopping = true;
-        hopAnimator.SetInteger("HopState", 1);
+        setHopState(HopState.Up);
     }
 	
 	void Update ()
@@ -48,12 +58,27 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
             {
                 t = 1f;
                 hopping = false;
-                hopAnimator.SetInteger("HopState", 2);
+                setHopState(HopState.Grounded);
             }
+            else if (t >= .5f && getHopState() != HopState.Down)
+            {
+                setHopState(HopState.Down);
+            }
+
             transform.position = new Vector3(
                 Mathf.Lerp(hopStartX, hopEndX, t),
                 groundY + (hopCurve.Evaluate(t) * hopHeightMult),
                 transform.position.z);
         }
 	}
+
+    void setHopState(HopState state)
+    {
+        hopAnimator.SetInteger("hopState", (int)state);
+    }
+
+    HopState getHopState()
+    {
+        return (HopState)hopAnimator.GetInteger("hopState");
+    }
 }
