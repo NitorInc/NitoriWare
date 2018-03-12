@@ -1,39 +1,73 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ClothesChooseDoll : MonoBehaviour
 {
     [System.Serializable]
-    public struct Outfit
+    public struct Category
     {
-        public Sprite hat;
-        public Sprite top;
-        public Sprite bottom;
+        public SpriteRenderer spriteRenderer;
+        public Sprite[] clothes;
     }
     
-    public SpriteRenderer hatRenderer;
-    public SpriteRenderer topRenderer;
-    public SpriteRenderer bottomRenderer;
-
-    public Outfit[] outfits;
-    public bool wearClothes;
-
-    int outfitIndex;
-
-    void Start()
+    public struct ClothingChoice
     {
-        if (wearClothes)
-        {
-            outfitIndex = UnityEngine.Random.Range(0, outfits.Length);
-            Outfit outfit = outfits[outfitIndex];
-
-            hatRenderer.sprite = outfit.hat;
-            topRenderer.sprite = outfit.top;
-            bottomRenderer.sprite = outfit.bottom;
-        }
+        public Sprite chosen;
+        public List<Sprite> alternatives;
     }
 
-    public int GetOutfitIndex()
+    public ClothingChoice[] ClothingChoices
     {
-        return outfitIndex;
+        get { return clothingChoices; }
+    }
+
+    public Category[] categories;
+
+    ClothingChoice[] clothingChoices;
+
+    void Awake()
+    {
+        ChooseOutfit();
+    }
+
+    void ChooseOutfit()
+    {
+        List<ClothingChoice> choices = new List<ClothingChoice>();
+        
+        for (int i = 0; i < categories.Length; i++)
+        {
+            Category category = categories[i];
+
+            if (category.spriteRenderer.enabled)
+            {
+                List<Sprite> clothes = new List<Sprite>(category.clothes);
+
+                // Choose a piece of clothing
+                ClothingChoice choice = new ClothingChoice();
+                int choiceIndex = UnityEngine.Random.Range(0, clothes.Count);
+                choice.chosen = clothes[choiceIndex];
+
+                // Store alternatives
+                clothes.RemoveAt(choiceIndex);
+                choice.alternatives = clothes;
+
+                // Wear
+                category.spriteRenderer.sprite = choice.chosen;
+
+                choices.Add(choice);
+            }
+        }
+
+        this.clothingChoices = choices.ToArray();
+    }
+    
+    public Transform GetCategoryTransform(int i)
+    {
+        return categories[i].spriteRenderer.transform;
+    }
+
+    public int GetCategorySortingOrder(int i)
+    {
+        return categories[i].spriteRenderer.sortingOrder;
     }
 }
