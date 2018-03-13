@@ -25,7 +25,7 @@ public class ClothesChooseChoiceController : MonoBehaviour
 
         // Plant highlight bar
         highlight.transform.SetParent(medicine.transform);
-        float startY = medicine.GetCategoryTransform(currentCategory).localPosition.y;
+        float startY = medicine.GetCategoryHighlightPosition(currentCategory).y;
         highlight.transform.localPosition = new Vector2(highlight.transform.localPosition.x, startY);
     }
 
@@ -33,7 +33,7 @@ public class ClothesChooseChoiceController : MonoBehaviour
     {
         if (moveHighlight)
         {
-            float targetY = medicine.GetCategoryTransform(currentCategory).localPosition.y;
+            float targetY = medicine.GetCategoryHighlightPosition(currentCategory).y;
             float moveAmount = (Time.time - highlightMoveStartTime) / highlightMoveDuration;
             
             if (moveAmount > 1)

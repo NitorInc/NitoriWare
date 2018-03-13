@@ -16,6 +16,8 @@ public class ClothesChooseDoll : MonoBehaviour
         public List<Sprite> alternatives;
     }
 
+    public bool randomOutfit;
+
     public ClothingChoice[] ClothingChoices
     {
         get { return clothingChoices; }
@@ -34,6 +36,8 @@ public class ClothesChooseDoll : MonoBehaviour
     {
         List<ClothingChoice> choices = new List<ClothingChoice>();
         
+        int outfitIndex = 0;
+        bool chosen = false;
         for (int i = 0; i < categories.Length; i++)
         {
             Category category = categories[i];
@@ -41,14 +45,19 @@ public class ClothesChooseDoll : MonoBehaviour
             if (category.spriteRenderer.enabled)
             {
                 List<Sprite> clothes = new List<Sprite>(category.clothes);
+                ClothingChoice choice = new ClothingChoice();
 
                 // Choose a piece of clothing
-                ClothingChoice choice = new ClothingChoice();
-                int choiceIndex = UnityEngine.Random.Range(0, clothes.Count);
-                choice.chosen = clothes[choiceIndex];
+                if (!chosen)
+                {
+                    outfitIndex = UnityEngine.Random.Range(0, clothes.Count);
+                    if (!randomOutfit)
+                        chosen = true;
+                }
+                choice.chosen = clothes[outfitIndex];
 
                 // Store alternatives
-                clothes.RemoveAt(choiceIndex);
+                clothes.RemoveAt(outfitIndex);
                 choice.alternatives = clothes;
 
                 // Wear
@@ -64,6 +73,16 @@ public class ClothesChooseDoll : MonoBehaviour
     public Transform GetCategoryTransform(int i)
     {
         return categories[i].spriteRenderer.transform;
+    }
+
+    public Vector2 GetCategoryHighlightPosition(int i)
+    {
+        var slot = categories[i].spriteRenderer.gameObject.GetComponent<ClothesChooseSlot>();
+        Vector2 highlightPosition = new Vector2(
+            slot.transform.localPosition.x,
+            slot.transform.localPosition.y + slot.highlightOffset);
+
+        return highlightPosition;
     }
 
     public int GetCategorySortingOrder(int i)

@@ -31,7 +31,7 @@ public class ClothesChooseChoice : MonoBehaviour
         animator = GetComponent<Animator>();
 
         // Shuffle
-        correct = UnityEngine.Random.Range(0, 1);
+        correct = UnityEngine.Random.Range(0, 2);
         incorrect = 1 - correct;
         slots = new Slot[2] { leftSlot, rightSlot };
 
