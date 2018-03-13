@@ -8,7 +8,7 @@ public class BeachBallHoopParamsRandomizer : MonoBehaviour
     [Header("Animation name")]
     public string AnimationName;
     [Header("Animation scale")]
-    public float AnimationScale;
+    public float AnimationScale = 1f;
     void Start()
     {
         var animation = GetComponent<Animation>()[AnimationName];
