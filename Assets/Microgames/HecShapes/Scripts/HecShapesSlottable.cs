@@ -12,16 +12,16 @@ public class HecShapesSlottable : MonoBehaviour
     
     public HecShapesHolder snapTarget;
     public bool snap;
-
-    public AudioClip pickupSound;
-
+    
     MouseGrabbable grabbable;
     HecShapesCelestialBody celestialBody;
+    AudioSource[] audioSources;
 
     void Start()
     {
         this.grabbable = GetComponent<MouseGrabbable>();
         this.celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
+        this.audioSources = GetComponents<AudioSource>();
 
         if (grabbable)
         {
@@ -77,7 +77,7 @@ public class HecShapesSlottable : MonoBehaviour
         if (this.snapTarget && this.snapTarget.ShapeInSlot == this.celestialBody.shape)
             this.snapTarget.ShapeInSlot = Shape.none;
 
-        MicrogameController.instance.playSFX(this.pickupSound, pitchMult: 1F, volume: 0.4F);
+        this.audioSources[0].Play();
     }
 
     public void OnRelease()
@@ -85,7 +85,7 @@ public class HecShapesSlottable : MonoBehaviour
         if (this.snapTarget && this.snapTarget.SlotShape == this.celestialBody.shape)
             this.snap = true;
 
-        MicrogameController.instance.playSFX(this.pickupSound, pitchMult: 1.2F, volume: 0.4F);
+        this.audioSources[1].Play();
     }
 
 }
