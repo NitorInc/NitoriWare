@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class ComicBubble_GameController : MonoBehaviour {
 
@@ -27,6 +27,7 @@ public class ComicBubble_GameController : MonoBehaviour {
     float bubbleMovementSpeed;
 
 
+
     [SerializeField]
     Color bubbleShadowColor;
 
@@ -38,22 +39,30 @@ public class ComicBubble_GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        currentBubbleIndex = 0;
+
+        // Set the text speed for each bubble
         setAllComicBubbleData();
-        followActualBubble();
-        hideAllPanels();
-        showActualPanel();
+
+        // Initalize the bubble index in 0
+        currentBubbleIndex = 0;
+
+        // Hide every panel at first
+        hideAllStrips();
+
+        // Show the current elements
+        showCurrentElements();
+
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
 
-	}
+    }
 
     void setAllComicBubbleData()
     {
-        foreach (ComicBubbleDataCollection d in bubbleList){
-            if (d.speechBubble != null )
+        foreach (ComicBubbleDataCollection d in bubbleList) {
+            if (d.speechBubble != null)
             {
                 if (d.speechTarget != null)
                 {
@@ -70,54 +79,35 @@ public class ComicBubble_GameController : MonoBehaviour {
         }
     }
 
-    void hideAllPanels()
+
+    //  ALL ELEMENTS    
+    void showCurrentElements()
     {
-        foreach (ComicBubbleDataCollection d in bubbleList)
-        {
-            foreach (SpriteRenderer sr in d.speechStrip.GetComponentsInChildren<SpriteRenderer>())
-            {
-                sr.material.color = deactivatedStripColor;
-            }
-        }
-    }
+        showCurrentStrip();
 
-    void showCurrentBubbleShadow()
-    {
-        // Destroy the current bubble shadow
-        if (currentBubbleShadow != null)
-        {
-            GameObject.Destroy(currentBubbleShadow);
-            currentBubbleShadow = null;
-        }
-
-        // Get the speechbubble image
-        GameObject speechBubble = bubbleList[currentBubbleIndex].speechBubble;
-        GameObject bubbleImage = speechBubble.GetComponentInChildren<Image>().gameObject;
-
-        // Instatiating shadow
-        currentBubbleShadow = Instantiate(speechBubble, this.transform) as GameObject;
-        currentBubbleShadow.transform.position = Vector2.zero;
-        currentBubbleShadow.transform.SetSiblingIndex(0);
-
-        // Delete and add components
-        Image shadowImage = currentBubbleShadow.GetComponentInChildren<Image>();
-        GameObject shadowObject = shadowImage.gameObject;
-        foreach (Transform child in shadowImage.transform) GameObject.Destroy(child.gameObject);
-        Destroy(shadowImage.GetComponent<ComicBubble_BubbleTextBoxBehaviour>());
-        shadowImage.color = bubbleShadowColor;
-
-
-
-
-        print("Bitch");
-    }
-
-
-    void showActualPanel()
-    {
-        var currentBubble = bubbleList[currentBubbleIndex];
+        showCurrentBubble();
 
         showCurrentBubbleShadow();
+
+    }
+
+    void hideCurrentElements()
+    {
+        unfollowCurrentBubble();
+
+        hideCurrentBubbleShadow();
+    }
+
+
+    //  PANEL STUFF
+
+    void showCurrentStrip()
+    {
+
+        sendPreviousStripToTheBack();
+        sendCurrentStripToTheTop();
+
+        var currentBubble = bubbleList[currentBubbleIndex];
 
         foreach (SpriteRenderer sr in currentBubble.speechStrip.GetComponentsInChildren<SpriteRenderer>())
         {
@@ -125,8 +115,77 @@ public class ComicBubble_GameController : MonoBehaviour {
         }
     }
 
+    void hideAllStrips()
+    {
+        int index = 0;
+        foreach (ComicBubbleDataCollection d in bubbleList)
+        {
+            sendStripToTheBack(index);
+            foreach (SpriteRenderer sr in d.speechStrip.GetComponentsInChildren<SpriteRenderer>())
+            {
+                sr.material.color = deactivatedStripColor;
+            }
+            index++;
+        }
+    }
+
+    void sendCurrentStripToTheTop()
+    {
+        sendStripToTheFront(currentBubbleIndex);
+    }
+
+    void sendPreviousStripToTheBack()
+    {
+        if (currentBubbleIndex > 0)
+            sendStripToTheBack(currentBubbleIndex-1);
+    }
+
+
+    void sendStripToTheFront(int index)
+    {
+
+        print("send strip " + index + " to the front");
+        var strip = bubbleList[index].speechStrip;
+
+        // Update Spritemask Range
+        var sprmask = strip.GetComponentInChildren<SpriteMask>();
+        sprmask.frontSortingOrder = sprmask.frontSortingOrder + 100;
+        sprmask.backSortingOrder = sprmask.backSortingOrder + 100;
+
+        // Update Canvas sorting order
+        var canvas = strip.GetComponentInChildren<Canvas>();
+        canvas.sortingOrder = canvas.sortingOrder + 100;
+
+        // Update Sprites sorting order
+        foreach (SpriteRenderer sr in strip.GetComponentsInChildren<SpriteRenderer>())
+            sr.sortingOrder = sr.sortingOrder + 100;
+    }
+
+    void sendStripToTheBack(int index)
+    {
+        print("send strip " + index + " to the bacl");
+
+        var strip = bubbleList[index].speechStrip;
+
+        // Update Spritemask Range
+        var sprmask = strip.GetComponentInChildren<SpriteMask>();
+        sprmask.backSortingOrder = sprmask.backSortingOrder - 100;
+        sprmask.frontSortingOrder = sprmask.frontSortingOrder - 100;
+
+        // Update Canvas sorting order
+        var canvas = strip.GetComponentInChildren<Canvas>();
+        canvas.sortingOrder = canvas.sortingOrder - 100;
+
+        // Update Sprites sorting order
+        foreach (SpriteRenderer sr in strip.GetComponentsInChildren<SpriteRenderer>())
+            sr.sortingOrder = sr.sortingOrder - 100;
+    }
+
+
+    //  BUBBLE STUFF
+
     // Enable FollowCursor of the bubble object referenced by currentBubbleIndex
-    void followActualBubble()
+    void showCurrentBubble()
     {
         var currentBubble = bubbleList[currentBubbleIndex];
         currentBubble.speechBubble.transform.position = Input.mousePosition;
@@ -134,61 +193,92 @@ public class ComicBubble_GameController : MonoBehaviour {
     }
 
     // Disable FollowCursor of the bubble object referenced by currentBubbleIndex
-    void unfollowActualBubble()
+    void unfollowCurrentBubble()
     {
         var currentBubble = bubbleList[currentBubbleIndex];
         currentBubble.speechBubble.GetComponent<FollowCursor>().enabled = false;
     }
 
-
-    // Event for changing to the next bubble
-    public void eventShowNextBubble()
+    // Move the bubble specified by the index slightly upwards
+    IEnumerator moveBubbleToFinalPosition(int bubbleIndex)
     {
-        unfollowActualBubble();
+        Vector2 target = (Vector2)bubbleList[bubbleIndex].speechBubble.transform.position + new Vector2(0, bubbleMovementDistanceAfterEnding);
 
-        StartCoroutine(moveToFinalPosition(currentBubbleIndex));
+        Transform bubbleTransform = bubbleList[bubbleIndex].speechBubble.transform;
+        float step = bubbleMovementSpeed * Time.deltaTime;
 
-        currentBubbleIndex++;
-
-        if (bubbleList[currentBubbleIndex].speechBubble != null)
+        while (!Mathf.Approximately(((Vector2)bubbleTransform.position - target).sqrMagnitude, 0))
         {
-            followActualBubble();
-
-            showActualPanel();
+            bubbleTransform.position = Vector2.MoveTowards(bubbleTransform.position, target, step);
+            yield return null;
         }
     }
 
 
-    IEnumerator moveToFinalPosition(int bubbleIndex)
+    //  BUBBLE SHADOW SUTFF
+
+    void showCurrentBubbleShadow()
     {
-        Vector2 target = (Vector2) bubbleList[bubbleIndex].speechBubble.transform.position + new Vector2(0, bubbleMovementDistanceAfterEnding);
-        
+        hideCurrentBubbleShadow();
 
+        // Get the speechbubble image
+        GameObject speechBubble = bubbleList[currentBubbleIndex].speechBubble;
+        GameObject bubbleImage = speechBubble.GetComponentInChildren<SpriteRenderer>().gameObject;
 
-        Transform bubbleTransform = bubbleList[bubbleIndex].speechBubble.transform;
-        float step = bubbleMovementSpeed * Time.deltaTime;
-        
-        while (!Mathf.Approximately(((Vector2) bubbleTransform.position - target).sqrMagnitude, 0))
+        // Instatiating shadow
+        currentBubbleShadow = Instantiate(speechBubble, this.GetComponentInChildren<Canvas>().transform) as GameObject;
+        currentBubbleShadow.transform.position = Vector2.zero;
+        currentBubbleShadow.transform.SetSiblingIndex(0);
+
+        // Delete and add components
+        var shadowSprite = currentBubbleShadow.GetComponentInChildren<SpriteRenderer>();
+        GameObject shadowObject = shadowSprite.gameObject;
+        foreach (Transform child in shadowSprite.transform) GameObject.Destroy(child.gameObject);
+        Destroy(shadowSprite.GetComponent<ComicBubble_BubbleTextBoxBehaviour>());
+        shadowSprite.color = bubbleShadowColor;
+        shadowSprite.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+        shadowSprite.sortingOrder = 0;
+    }
+
+    void hideCurrentBubbleShadow()
+    {
+        // Destroy the current bubble shadow
+        if (currentBubbleShadow != null)
         {
-            print("move fucker");
-            bubbleTransform.position = Vector2.MoveTowards(bubbleTransform.position, target, step);
-            yield return null;
-
+            GameObject.Destroy(currentBubbleShadow);
+            currentBubbleShadow = null;
         }
+    }
 
+//  EVENTS STUFF
 
+    // Event for changing to the next bubble
+
+    public void eventShowNextBubble()
+    {
+        hideCurrentElements();
+
+        StartCoroutine(moveBubbleToFinalPosition(currentBubbleIndex));
+
+        currentBubbleIndex++;
+
+        if (currentBubbleIndex < bubbleList.Count &&
+            bubbleList[currentBubbleIndex].speechBubble != null)
+        {
+            showCurrentElements();
+        }
     }
 
     // Event for ending the microgame
     public void eventEndMicrogame()
     {
-        unfollowActualBubble();
+        unfollowCurrentBubble();
 
-        StartCoroutine(moveToFinalPosition(currentBubbleIndex));
+        StartCoroutine(moveBubbleToFinalPosition(currentBubbleIndex));
 
         currentBubbleIndex++;
 
-        showActualPanel();
+        showCurrentStrip();
 
         MicrogameController.instance.setVictory(true);
     }
