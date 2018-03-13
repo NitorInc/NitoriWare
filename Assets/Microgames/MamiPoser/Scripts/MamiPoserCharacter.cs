@@ -18,17 +18,13 @@ public class MamiPoserCharacter : MonoBehaviour {
     [SerializeField]
     private GameObject wrongSprite;
 
-    [Header("Sprite for looking straight")]
+    [Header("Eye pupils sprite")]
     [SerializeField]
-    private GameObject lookingStraightSprite;
+    private GameObject pupilsSprite;
 
-    [Header("Sprite for looking left")]
+    [Header("Max distance the eye pupils move")]
     [SerializeField]
-    private GameObject lookingLeftSprite;
-
-    [Header("Sprite for looking right")]
-    [SerializeField]
-    private GameObject lookingRightSprite;
+    private float pupilsMoveDistance = 0.03f;
 
     [SerializeField]
     private Collider2D clickCollider;
@@ -41,9 +37,15 @@ public class MamiPoserCharacter : MonoBehaviour {
     // Is this character showing an expression for being clicked incorrectly?
     public bool isChoseWrongExpression { get; private set; }
 
+    // The position of the pupils when they're looking straight
+    private Vector2 pupilsCenter;
+
     void Start()
     {
         isChoseWrongExpression = false;
+
+        // Save the starting pupils position
+        pupilsCenter = pupilsSprite.transform.position;
     }
 
     [System.Serializable]
@@ -88,39 +90,10 @@ public class MamiPoserCharacter : MonoBehaviour {
             regularSprite.SetActive(false);
         if (wrongSprite)
             wrongSprite.SetActive(true);
-        // Also remove the eyes
-        if (lookingStraightSprite)
-            lookingStraightSprite.SetActive(false);
-        if (lookingLeftSprite)
-            lookingLeftSprite.SetActive(false);
-        if (lookingRightSprite)
-            lookingRightSprite.SetActive(false);
-    }
-
-    // Make the character look left
-    public void LookLeft()
-    {
-        if (lookingStraightSprite)
-            lookingStraightSprite.SetActive(false);
-        if (lookingLeftSprite)
-            lookingLeftSprite.SetActive(true);
-        if (lookingRightSprite)
-            lookingRightSprite.SetActive(false);
-    }
-
-    // Make the character look right
-    public void LookRight()
-    {
-        if (lookingStraightSprite)
-            lookingStraightSprite.SetActive(false);
-        if (lookingLeftSprite)
-            lookingLeftSprite.SetActive(false);
-        if (lookingRightSprite)
-            lookingRightSprite.SetActive(true);
     }
 
     // Check every frame if this character was clicked
-    void Update()
+    void CheckClick()
     {
         if (MicrogameController.instance.getVictoryDetermined())
             return;
@@ -128,6 +101,23 @@ public class MamiPoserCharacter : MonoBehaviour {
             print("ERROR: MamiPoserCharacter: No clickCollider set!");
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
             Click();
+    }
+
+    // Move the pupils in the direction of the cursor
+    void MovePupils()
+    {
+        Vector2 posDelta = (Vector2)CameraHelper.getCursorPosition() - pupilsCenter;
+        if (posDelta.magnitude > pupilsMoveDistance)
+            pupilsSprite.transform.position =
+                pupilsCenter + posDelta.normalized * pupilsMoveDistance;
+        else
+            pupilsSprite.transform.position = pupilsCenter + posDelta;
+    }
+
+    void Update()
+    {
+        CheckClick();
+        MovePupils();
     }
 
     // Handle clicks
