@@ -79,6 +79,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                     updateMovement();
                 break;
             case (State.Victory):
+            case (State.Loss):
                 if (Mathf.Abs(transform.position.x - victim.transform.position.x) < minScareDistance)
                 {
                     float snapDirection = Mathf.Sign(transform.position.x - victim.transform.position.x);

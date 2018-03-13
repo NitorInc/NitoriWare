@@ -19,6 +19,10 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
     [Header("Duration of Hop Idle animation should match Hop Ground Time")]
     [SerializeField]
     private float hopGroundTime = .5f;
+    [SerializeField]
+    private float fallGravity = 6f;
+    [SerializeField]
+    private float fallSpeed = 6f;
 
     private bool hopping;
     private float hopStartTime;
@@ -72,6 +76,17 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
                 transform.position.z);
         }
 	}
+
+    void onScare(bool successful)
+    {
+        enabled = false;
+        CancelInvoke();
+
+        var suwaBody = GetComponent<Rigidbody2D>();
+        suwaBody.bodyType = RigidbodyType2D.Dynamic;
+        suwaBody.gravityScale = fallGravity;
+        suwaBody.velocity = Vector2.down * fallSpeed;
+    }
 
     void setHopState(HopState state)
     {
