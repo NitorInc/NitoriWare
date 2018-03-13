@@ -26,6 +26,12 @@ public class MamiPoserCharacter : MonoBehaviour {
     [SerializeField]
     private float pupilsMoveDistance = 0.03f;
 
+    [Header("Mult affecting how far the cursor has to be for max pupil distance")]
+    [SerializeField]
+    private float pupilsMoveSoftnessMult = 1f;
+    [SerializeField]
+    private float pupilsMoveSoftnessExponent = .5f;
+
     [SerializeField]
     private Collider2D clickCollider;
 
@@ -95,8 +101,6 @@ public class MamiPoserCharacter : MonoBehaviour {
     // Check every frame if this character was clicked
     void CheckClick()
     {
-        if (MicrogameController.instance.getVictoryDetermined())
-            return;
         if (!clickCollider)
             print("ERROR: MamiPoserCharacter: No clickCollider set!");
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
@@ -107,6 +111,12 @@ public class MamiPoserCharacter : MonoBehaviour {
     void MovePupils()
     {
         Vector2 posDelta = (Vector2)CameraHelper.getCursorPosition() - pupilsCenter;
+
+        float distance =
+            Mathf.Pow((posDelta.magnitude / pupilsMoveSoftnessMult) / pupilsMoveDistance, pupilsMoveSoftnessExponent)
+            * pupilsMoveDistance;
+        posDelta = posDelta.resize(distance);
+
         if (posDelta.magnitude > pupilsMoveDistance)
             pupilsSprite.transform.position =
                 pupilsCenter + posDelta.normalized * pupilsMoveDistance;
@@ -116,8 +126,11 @@ public class MamiPoserCharacter : MonoBehaviour {
 
     void Update()
     {
-        CheckClick();
-        MovePupils();
+        if (!MicrogameController.instance.getVictoryDetermined())
+        {
+            CheckClick();
+            MovePupils();
+        }
     }
 
     // Handle clicks
