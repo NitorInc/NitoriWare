@@ -12,17 +12,19 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
     private AnimationCurve hopCurve;
     [SerializeField]
     private float hopDuration = 1f;
-    [SerializeField]
-    private float hopHeightMult = 1f;
-    [SerializeField]
-    private Vector2 hopXRange;
     [Header("Duration of Hop Idle animation should match Hop Ground Time")]
     [SerializeField]
     private float hopGroundTime = .5f;
     [SerializeField]
+    private float hopHeightMult = 1f;
+    [SerializeField]
+    private Vector2 hopXRange;
+    [SerializeField]
     private float fallGravity = 6f;
     [SerializeField]
     private float fallSpeed = 6f;
+    [SerializeField]
+    private GameObject genericSpriteObject;
 
     private bool hopping;
     private float hopStartTime;
@@ -39,6 +41,7 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
 
     void Start ()
     {
+        genericSpriteObject.SetActive(false);
         groundY = transform.position.y;
         InvokeRepeating("startHop", hopGroundTime, hopDuration + hopGroundTime);
 	}
@@ -86,6 +89,9 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
         suwaBody.bodyType = RigidbodyType2D.Dynamic;
         suwaBody.gravityScale = fallGravity;
         suwaBody.velocity = Vector2.down * fallSpeed;
+
+        hopAnimator.gameObject.SetActive(false);
+        genericSpriteObject.SetActive(true);
     }
 
     void setHopState(HopState state)
