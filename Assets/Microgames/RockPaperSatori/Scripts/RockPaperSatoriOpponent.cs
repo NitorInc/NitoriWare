@@ -17,6 +17,8 @@ public class RockPaperSatoriOpponent : MonoBehaviour
     private SpriteRenderer thoughtRenderer;
     [SerializeField]
     private Sprite[] moveThoughts;
+    [SerializeField]
+    private AudioClip shuffleClip;
 
     [Header("Character sprites")]
     [SerializeField]
@@ -77,18 +79,25 @@ public class RockPaperSatoriOpponent : MonoBehaviour
 
     void fakeShuffle()
     {
-        //Shuffle untile we get a different sprite
+        //Shuffle until we get a different sprite
         var currentSprite = thoughtRenderer.sprite;
         do
         {
             thoughtRenderer.sprite = fakeThoughts[Random.Range(0, fakeThoughts.Length)];
         }
         while (thoughtRenderer.sprite == currentSprite || fakeThoughts.Length < 2);
+        playShuffleSound();
     }
 
     void realShuffle()
     {
         thoughtRenderer.sprite = moveThoughts[(int)move];
+        playShuffleSound();
+    }
+
+    void playShuffleSound()
+    {
+        MicrogameController.instance.playSFX(shuffleClip);
     }
 
     public RockPaperSatoriController.Move getMove()
