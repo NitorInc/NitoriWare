@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
+using System;
 
 public class CompilationStage : Stage
 {
@@ -11,16 +11,22 @@ public class CompilationStage : Stage
 	private MicrogameCollection.Restriction restriction = MicrogameCollection.Restriction.StageReady;
 	[SerializeField]
 	protected Interruption nextRound;
+    [SerializeField]
+    private int seed;
 
-	//[SerializeField]	//Debug
-	private List<Microgame> microgamePool;
-	protected int roundsCompleted = 0, roundStartIndex = 0;
+    //[SerializeField]	//Debug
+    private List<Microgame> microgamePool;
+    private System.Random shuffleRandom;
+    protected int roundsCompleted = 0, roundStartIndex = 0;
 
 	public override void onStageStart()
 	{
 		microgamePool = MicrogameHelper.getMicrogames(restriction);
         roundsCompleted = roundStartIndex = 0;
-		shuffleGames();
+        
+        shuffleRandom = new System.Random(seed == 0 ? (int)System.DateTime.Now.Ticks : seed);
+        shuffleGames();
+
         base.onStageStart();
     }
 
@@ -53,11 +59,12 @@ public class CompilationStage : Stage
 
 	void shuffleGames()
 	{
-		int choice;
-		Microgame hold;
+
+        int choice;
+        Microgame hold;
 		for (int j = 0; j < microgamesPerRound; j++)
 		{
-			choice = Random.Range(j, microgamePool.Count);
+            choice = (shuffleRandom.Next() % (microgamePool.Count - j)) + j;
 			if (choice != j)
 			{
 				hold = microgamePool[j];

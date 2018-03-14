@@ -44,7 +44,8 @@ namespace NitorInc.YuukaWater {
         
         private void OnCollisionEnter2D(Collision2D collision) {
             if (collision.gameObject.GetComponentInParent<YuukaWaterWaterdrop>() == null) {
-                Instantiate(sprayEffect, collision.contacts[0].point, Quaternion.identity);
+                if (collision.contacts.Length > 0)
+                    Instantiate(sprayEffect, collision.contacts[0].point, Quaternion.identity);
                 Destroy(gameObject);
             }
         }

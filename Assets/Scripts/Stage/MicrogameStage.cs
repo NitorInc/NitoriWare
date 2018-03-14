@@ -14,6 +14,9 @@ public class MicrogameStage : Stage
     [SerializeField]
     private int forceDifficulty;
     [SerializeField]
+    [Range(1, StageController.MAX_SPEED)]
+    private int forceStartSpeed = 1;
+    [SerializeField]
     private bool speedUpEveryCycle = false;
 
     public override void onStageStart()
@@ -38,6 +41,11 @@ public class MicrogameStage : Stage
 	{
 		return forceDifficulty < 1 ? ((num % 3) + 1) : forceDifficulty;
 	}
+
+    public override int getStartSpeed()
+    {
+        return forceStartSpeed;
+    }
 
     public override string getDiscordState(int microgameIndex)
     {

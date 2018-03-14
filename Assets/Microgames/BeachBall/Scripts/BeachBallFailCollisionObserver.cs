@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Observes ball params. Launches the ball backwards and triggers loss if requirements are met
+/// Launches the ball backwards and triggers loss
+/// if the ball changes velocity to negative while
+/// inside the outer circle but outside the win capsule
 /// </summary>
 public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
 {
@@ -9,31 +11,39 @@ public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
 
     public float velocityTreshold = 0.5f;
 
-    [Header("Backwards launch params")]
+    [Header("Backwards bounce params")]
     public float torqueRange = 50f;
     public float forceRange = 300f;
+
+    private float ballThrowSpeed = 1f;
 
     protected override void Start()
     {
         base.Start();
         beachBallCollisionObserver = GameObject.Find("Hoop")
             .GetComponent<BeachBallCollisionObserver>();
+        ballThrowSpeed = GameObject.Find("Ball")
+            .GetComponent<BeachBallBallLauncher>().ThrowMultiplier;
     }
     public override void OnTriggerStay2D(Collider2D other)
     {
         if (!fired && !beachBallCollisionObserver.Fired &&
-            ballPhysics.velocity.y < -velocityTreshold
+            ballPhysics.velocity.y < -velocityTreshold * ballThrowSpeed
             * (1 / Time.timeScale) && other == ballCollider)
         {
             fired = true;
+
+            //Revert Z changes
             other.gameObject.GetComponent<BeachBallZSwitcher>().Revert();
 
+            //Trigger upscaling
             var downscaler = other.gameObject.GetComponent<BeachBallScaler>();
             downscaler.DesiredScale = 2f;
             downscaler.Speed *= -2;
 
+            //Add torque and force
             var rigidBody = other.gameObject.GetComponent<Rigidbody2D>();
-            rigidBody.AddForce(new Vector2(Random.Range(-forceRange, forceRange),
+            rigidBody.AddForce(Mathf.Sqrt(ballThrowSpeed) * new Vector2(Random.Range(-forceRange, forceRange),
                 Random.Range(-forceRange, forceRange)));
             rigidBody.AddTorque(Random.Range(-torqueRange, torqueRange));
 

@@ -10,16 +10,19 @@ public class BeachBallScaler : MonoBehaviour
     public float Speed = 0.1f;
     public bool Started = false;
 
+    private float ballThrowSpeed = 1f;
+
     void Start()
     {
-
+        ballThrowSpeed = GameObject.Find("Ball")
+            .GetComponent<BeachBallBallLauncher>().ThrowMultiplier;
     }
 
     void Update()
     {
         if (Started && Math.Abs(transform.localScale.x - DesiredScale) > 0.01f)
         {
-            transform.localScale *= 1 - (Time.deltaTime  * Speed);
+            transform.localScale *= 1 - (Time.deltaTime * Speed * Mathf.Sqrt(ballThrowSpeed));
         }
     }
 }
