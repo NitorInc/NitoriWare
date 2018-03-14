@@ -32,8 +32,9 @@ public class MamiPoserCharacter : MonoBehaviour {
     [SerializeField]
     private float pupilsMoveSoftnessExponent = .5f;
 
+    [Header("Used to determine if cursor is within the sprite when clicked")]
     [SerializeField]
-    private Collider2D clickCollider;
+    private Collider2D[] clickColliders;
 
     public MamiPoserController controller;
 
@@ -101,10 +102,17 @@ public class MamiPoserCharacter : MonoBehaviour {
     // Check every frame if this character was clicked
     void CheckClick()
     {
-        if (!clickCollider)
-            print("ERROR: MamiPoserCharacter: No clickCollider set!");
-        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider))
-            Click();
+        if (clickColliders == null || clickColliders.Length == 0) {
+            print("ERROR: MamiPoserCharacter: No clickColliders set!");
+            return;
+        }
+        if (Input.GetMouseButtonDown(0))
+            foreach (Collider2D collider in clickColliders)
+                if (CameraHelper.isMouseOver(collider))
+                {
+                    Click();
+                    return;
+                }
     }
 
     // Move the pupils in the direction of the cursor
