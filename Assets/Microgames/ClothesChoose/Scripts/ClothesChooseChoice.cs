@@ -12,7 +12,9 @@ public class ClothesChooseChoice : MonoBehaviour
     }
 
     public Slot leftSlot;
+    public GameObject leftArrow;
     public Slot rightSlot;
+    public GameObject rightArrow;
 
     Animator animator;
     bool listen;
@@ -77,6 +79,8 @@ public class ClothesChooseChoice : MonoBehaviour
     void Choose(string direction)
     {
         listen = false;
+        leftArrow.SetActive(false);
+        rightArrow.SetActive(false);
 
         if (choiceMap[direction])
         {
