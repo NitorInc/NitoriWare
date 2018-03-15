@@ -28,6 +28,10 @@ namespace NitorInc.NueAbduct {
 
         public State currState;
 
+        [Header("Area the animal should wander inside")]
+        [SerializeField]
+        private RectTransform wanderArea;
+
         Timer wanderTimer;
         Timer graceTimer;
         Timer suckTimer;
@@ -44,8 +48,12 @@ namespace NitorInc.NueAbduct {
         }
 
         void Wander() {
+            // Randomly choose movement direction
             targetPos = Random.insideUnitCircle.normalized * wanderRadius
                 + new Vector2(transform.position.x, transform.position.y);
+            // Abort movement if the goal would be outside the wander area
+            if (!wanderArea.rect.Contains(targetPos - wanderArea.anchoredPosition))
+                targetPos = transform.position;
             wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
             wanderTimer.Start();
         }
