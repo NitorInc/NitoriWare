@@ -44,7 +44,8 @@ namespace NitorInc.NueAbduct {
         }
 
         void Wander() {
-            targetPos = Random.insideUnitCircle * wanderRadius + new Vector2(transform.position.x, transform.position.y);
+            targetPos = Random.insideUnitCircle.normalized * wanderRadius
+                + new Vector2(transform.position.x, transform.position.y);
             wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
             wanderTimer.Start();
         }
