@@ -36,4 +36,9 @@ public class BeachBallWinLossEventWrapper : MonoBehaviour
                 OnLoss(this, new EventArgs());
         }
     }
+    void OnDestroy()
+    {
+        OnWin = null;
+        OnLoss = null;
+    }
 }
