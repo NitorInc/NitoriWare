@@ -11,16 +11,23 @@ public class DoorKnockDoor : MonoBehaviour {
     private bool teleportOnClick;
 
     [SerializeField]
+    private bool shouldMove;
+
+    [SerializeField]
     private int clicksToWin;
 
     private float screenWidth;
     private float screenHeight;
-    
+    private Vector2 direction; 
+
     // Use this for initialization
 	void Start() {
         // Get the screen dimensions
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
+        if (shouldMove){
+            direction = new Vector2(Random.Range(-8.0f, 8.0f), Random.Range(-8.0f, 8.0f));
+        }
  	    Teleport();
     }
 	
@@ -30,11 +37,20 @@ public class DoorKnockDoor : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider)) {
             OnClick(); 
         }
+        if (shouldMove && direction != null){
+            Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
+            transform.position = newPosition;
+            if (Mathf.Abs(transform.position.x) > screenWidth){
+                direction.x *= -1;
+            }
+            if (Mathf.Abs(transform.position.y) > screenHeight){
+                direction.y *= -1;
+            }
+        }
 	}
     
     // When the object is clicked
     void OnClick() {
-        print("Clicked.");
         clicksToWin--;
         if (clicksToWin <= 0){
             // We win
