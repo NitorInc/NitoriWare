@@ -11,6 +11,10 @@ public class RockPaperSatoriController : MonoBehaviour
     private RockPaperSatoriPlayer player;
     [SerializeField]
     private RockPaperSatoriOpponent opponent;
+    [SerializeField]
+    private AudioClip victoryClip;
+    [SerializeField]
+    private AudioClip lossClip;
 
     private bool gameStarted;
 
@@ -46,7 +50,9 @@ public class RockPaperSatoriController : MonoBehaviour
             playerState = RockPaperSatoriPlayer.State.Loss;
 
         //Set victory
-        MicrogameController.instance.setVictory(playerState == RockPaperSatoriPlayer.State.Victory);
+        bool victory = playerState == RockPaperSatoriPlayer.State.Victory;
+        MicrogameController.instance.setVictory(victory);
+        MicrogameController.instance.playSFX(victory ? victoryClip : lossClip);
         player.throwHand(move, playerState);
         opponent.throwHand(playerState);
     }
