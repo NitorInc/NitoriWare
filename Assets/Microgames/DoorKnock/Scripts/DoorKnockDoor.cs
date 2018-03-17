@@ -16,6 +16,9 @@ public class DoorKnockDoor : MonoBehaviour {
     [SerializeField]
     private int clicksToWin;
 
+    [SerializeField]
+    private int speed;
+
     private float screenWidth;
     private float screenHeight;
     private Vector2 direction; 
@@ -25,9 +28,7 @@ public class DoorKnockDoor : MonoBehaviour {
         // Get the screen dimensions
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
-        if (shouldMove){
-            direction = new Vector2(Random.Range(-8.0f, 8.0f), Random.Range(-8.0f, 8.0f));
-        }
+        NewDirection();
  	    Teleport();
     }
 	
@@ -60,6 +61,7 @@ public class DoorKnockDoor : MonoBehaviour {
         if (teleportOnClick){
             Teleport();
         }
+        NewDirection();
     }
     
     // Move to a random location
@@ -68,6 +70,11 @@ public class DoorKnockDoor : MonoBehaviour {
         float newy = Random.Range(-screenHeight, screenHeight) / 2;
         transform.position = new Vector2(newx, newy);
         StartCoroutine(Appear());
+    }
+
+    void NewDirection() {
+        float angle = Random.Range(0.0f, 2*Mathf.PI);
+        direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * speed;
     }
 
     // popping back animation
