@@ -19,5 +19,45 @@ namespace NitorInc.ClownTorch {
                 return playerTorchRequiredTime;
             }
         }
+
+        public GameObject victorySequence;
+        public float sequenceStartingDelay = 0.25f;
+        public GameObject[] objsToDisableOnVictory;
+        
+
+        ClownTorchTorchObject torch;
+
+        bool hasWon = false;
+        public bool HasWon {
+            get {
+                return hasWon;
+            }
+        }
+
+        void Start() {
+            var torches = FindObjectsOfType<ClownTorchTorchObject>();
+            for (int i = 0; i < torches.Length; i++) {
+                if (torches[i].GetComponent<ClownTorchTag>().type == ClownTorchTag.Type.ClownTorch) {
+                    torch = torches[i];
+                }
+            }
+        }
+
+        void Update() {
+            if (torch.IsLit()) {
+                SetVictory();
+            }
+        }
+
+        public void SetVictory() {
+            if (!hasWon) {
+                for (int i = 0; i < objsToDisableOnVictory.Length; i++) {
+                    objsToDisableOnVictory[i].SetActive(false);
+                }
+                MicrogameController.instance.setVictory(true);
+                victorySequence.SetActive(true);
+                hasWon = true;
+            }
+        }
     }
 }
