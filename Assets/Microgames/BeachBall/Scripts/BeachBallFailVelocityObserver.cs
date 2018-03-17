@@ -10,14 +10,18 @@ public class BeachBallFailVelocityObserver : MonoBehaviour
 
     private Rigidbody2D rigidBody;
 
+    private float ballThrowSpeed;
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        ballThrowSpeed = GameObject.Find("Ball")
+            .GetComponent<BeachBallBallLauncher>().ThrowMultiplier;
     }
 
     void Update()
     {
-        if (rigidBody.velocity.y < -velocityTreshold
+        if (rigidBody.velocity.y < -velocityTreshold * ballThrowSpeed
             * (1 / Time.timeScale))
             MicrogameController.instance.setVictory(false, true);
     }

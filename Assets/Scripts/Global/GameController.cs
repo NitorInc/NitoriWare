@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    public const CursorLockMode DefaultCursorMode = CursorLockMode.None;
+
 #pragma warning disable 0649
     [SerializeField]
     private bool disableCursor;
@@ -51,7 +53,7 @@ public class GameController : MonoBehaviour
 		instance = this;
 
 		Cursor.visible = !disableCursor;
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = DefaultCursorMode;
         Application.targetFrameRate = 60;
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;

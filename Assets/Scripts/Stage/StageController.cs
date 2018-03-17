@@ -475,7 +475,10 @@ public class StageController : MonoBehaviour
 		animationStartTime += beatLength * (12f + (float)microgameTraits.getDurationInBeats());
         microgameQueue.Peek().scene = MicrogameController.instance.gameObject.scene;
 
-		MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
+        stageCamera.GetComponent<AudioListener>().enabled = false;
+        Cursor.lockState = microgameTraits.cursorLockState;
+
+        MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
 		MicrogameTimer.instance.invokeTick();
 		invokeOutroAnimations();
@@ -497,11 +500,14 @@ public class StageController : MonoBehaviour
 
 		microgameMusicSource.Stop();
 		Cursor.visible = false;
+        Cursor.lockState = GameController.DefaultCursorMode;
+        stageCamera.GetComponent<AudioListener>().enabled = true;
 
-		MicrogameTimer.instance.beatsLeft = 0f;
+        MicrogameTimer.instance.beatsLeft = 0f;
 		MicrogameTimer.instance.gameObject.SetActive(false);
 
-		stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
+
+        stage.onMicrogameEnd(microgameCount, microgameVictoryStatus);
 
         finishedMicrogame = microgameQueue.Dequeue();
         MicrogameController.instance = null;
@@ -538,18 +544,13 @@ public class StageController : MonoBehaviour
 			introSource.Pause();
 		else if (introSource.isPlaying)
 			introSource.Stop();
-	}
+    }
 
 	public void onUnPause()
 	{
 		if (animationPart == AnimationPart.Intro)
 			introSource.UnPause();
-	}
-
-    //void Update()
-    //{
-
-    //}
+    }
 
     public int getLife()
     {

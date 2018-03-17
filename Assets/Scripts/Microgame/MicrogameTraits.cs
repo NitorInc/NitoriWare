@@ -18,7 +18,11 @@ public class MicrogameTraits : MonoBehaviour
 	private bool _hideCursor;
 	public virtual bool hideCursor { get { return _hideCursor; } set { } }
 
-	[SerializeField]
+    [SerializeField]
+    private CursorLockMode _cursorLockState = CursorLockMode.None;
+    public virtual CursorLockMode cursorLockState { get { return _cursorLockState; } set { _cursorLockState = value; } }
+
+    [SerializeField]
 	private Duration _duration;
 	public virtual Duration duration { get { return _duration; } set { } }
 
