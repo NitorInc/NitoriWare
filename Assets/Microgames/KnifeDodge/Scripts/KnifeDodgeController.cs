@@ -45,7 +45,7 @@ public class KnifeDodgeController : MonoBehaviour {
 
 	void SpawnTargets() {
 		knifeTargetsList = new List<GameObject> ();
-		Vector3 offset = new Vector3(-numKnives / 2.0f + 0.5f, -1.0f / 2.0f  + 0.5f, 0.0f);
+		Vector3 offset = new Vector3(-numKnives / 2.0f + 0.5f, -1.0f / 2.0f  + 1.5f, 0.0f);
 
 		for (int j = 0; j < numKnives; j++) {
 			GameObject target = Instantiate(knifeTargetPrefab, new Vector3(j, -5.0f, 0.0f) + offset, Quaternion.identity);
@@ -130,9 +130,6 @@ public class KnifeDodgeController : MonoBehaviour {
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
-            Debug.Log(knifeList[i].transform.position.y);
-            Debug.Log(knifeStopHeight);
-
             if (knifeList[i].transform.position.y > knifeStopHeight)
             {
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
