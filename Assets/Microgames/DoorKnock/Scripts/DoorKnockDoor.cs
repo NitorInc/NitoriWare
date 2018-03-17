@@ -84,11 +84,12 @@ public class DoorKnockDoor : MonoBehaviour {
     // popping back animation
     IEnumerator Appear(){
         Transform rigTransform = transform.Find("Rig").transform;
+        Vector2 origScale = rigTransform.localScale;
         for (float i = 1.0f; i <= 11.0f; i+=0.7f){
-            rigTransform.localScale = new Vector2(i, i);
+            rigTransform.localScale = origScale * i/10;
             yield return new WaitForFixedUpdate();
         }
-        rigTransform.localScale = new Vector2(10, 10);
+        rigTransform.localScale = origScale;
         yield return null;
     }
 }
