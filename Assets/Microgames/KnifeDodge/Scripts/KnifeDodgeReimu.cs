@@ -6,10 +6,11 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	public float speed = 1; // speed in meters per second
 	public float animSpeed = 1f;
 	public float animSpeedStopped = 0.25f;
-	public float killLaunchSpeed = 15.0f;
+	public float killLaunchSpeed = 20.0f;
 	public GameObject leftBound;
 	public GameObject rightBound;
 	bool bIsKilled;
+    Vector3 previousMoveDir;
 	// Use this for initialization
 	void Start () {
 		bIsKilled = false;
@@ -21,7 +22,13 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		if (!bIsKilled) {
 			moveDir.x = Input.GetAxisRaw ("Horizontal"); // get result of AD keys in X
             moveDir.z = 0;
-		}
+            previousMoveDir = moveDir;
+
+        } else
+        {
+            transform.position += previousMoveDir * speed * Time.deltaTime;
+            return;
+        }
 
 		if (moveDir == Vector3.zero) {
 			GetComponent<Animator> ().speed = animSpeedStopped;
@@ -47,7 +54,6 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "KnifeDodgeHazard") {
 			Kill ();
-			MicrogameController.instance.setVictory (false, true);
 		}
 	}
 
