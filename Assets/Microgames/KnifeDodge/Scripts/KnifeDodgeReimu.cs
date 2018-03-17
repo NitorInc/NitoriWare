@@ -25,10 +25,8 @@ public class KnifeDodgeReimu : MonoBehaviour {
 
 		if (moveDir == Vector3.zero) {
 			GetComponent<Animator> ().speed = animSpeedStopped;
-			GetComponent<Animator> ().Play ("Standing");
 		} else {
 			GetComponent<Animator> ().speed = animSpeed;
-			GetComponent<Animator> ().Play ("Moving");
 		}
 
 		// move this object at frame rate independent speed:
