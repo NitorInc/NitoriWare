@@ -40,46 +40,51 @@ namespace NitorInc.MochiPound {
 
         void Update() {
             if (!hasWon) {
-                switch (lastHit) {
-                    case Hit.Both:
-                        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                            rabbits[(int)Hit.Left].Pound();
-                            rabbits[(int)Hit.Right].Windup();
-                            rabbits[(int)Hit.Left].ShowButton(false);
-                            ++hitCounter;
-                            lastHit = Hit.Left;
-                        } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                            rabbits[(int)Hit.Right].Pound();
-                            rabbits[(int)Hit.Left].Windup();
-                            rabbits[(int)Hit.Right].ShowButton(false);
-                            ++hitCounter;
-                            lastHit = Hit.Right;
-                        }
-                        break;
-                    case Hit.Left:
-                        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                            rabbits[(int)Hit.Right].Pound();
-                            rabbits[(int)Hit.Left].Windup();
-                            rabbits[(int)Hit.Right].ShowButton(false);
-                            rabbits[(int)Hit.Left].ResetStatus();
-                            rabbits[(int)Hit.Left].ShowButton(true);
-                            ++hitCounter;
-                            lastHit = Hit.Right;
-                        }
-                        break;
-                    case Hit.Right:
-                        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                            rabbits[(int)Hit.Left].Pound();
-                            rabbits[(int)Hit.Right].Windup();
-                            rabbits[(int)Hit.Left].ShowButton(false);
-                            rabbits[(int)Hit.Right].ResetStatus();
-                            rabbits[(int)Hit.Right].ShowButton(true);
-                            ++hitCounter;
-                            lastHit = Hit.Left;
-                        }
-                        break;
+                if (rabbits[0].IsAnimationFinished && rabbits[1].IsAnimationFinished) {
+                    switch (lastHit) {
+                        case Hit.Both:
+                            if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                                rabbits[(int)Hit.Left].Pound();
+                                rabbits[(int)Hit.Right].Disable();
+                                //rabbits[(int)Hit.Right].Windup();
+                                //rabbits[(int)Hit.Left].ShowButton(false);
+                                ++hitCounter;
+                                lastHit = Hit.Left;
+                            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+                                rabbits[(int)Hit.Right].Pound();
+                                rabbits[(int)Hit.Left].Disable();
+                                //rabbits[(int)Hit.Left].Windup();
+                                //rabbits[(int)Hit.Right].ShowButton(false);
+                                ++hitCounter;
+                                lastHit = Hit.Right;
+                            }
+                            break;
+                        case Hit.Left:
+                            if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+                                rabbits[(int)Hit.Right].Pound();
+                                //rabbits[(int)Hit.Left].Windup();
+                                //rabbits[(int)Hit.Right].ShowButton(false);
+                                ++hitCounter;
+                                lastHit = Hit.Right;
+                            }
+                            break;
+                        case Hit.Right:
+                            if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                                rabbits[(int)Hit.Left].Pound();
+                                //rabbits[(int)Hit.Right].Windup();
+                                //rabbits[(int)Hit.Left].ShowButton(false);
+                                ++hitCounter;
+                                lastHit = Hit.Left;
+                            }
+                            break;
+                    }
                 }
             }
+        }
+
+        public void RefreshRabbit(Hit side) {
+            rabbits[(int)side].ResetStatus();
+            rabbits[(int)side].ShowButton(true);
         }
 
         public void OnHit() {

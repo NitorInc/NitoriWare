@@ -9,6 +9,11 @@ namespace NitorInc.MochiPound {
         Animator anim;
         public float poundNormalizedTime = 0.55f;
         bool hasHit = false;
+        public bool HasHit {
+            get {
+                return hasHit;
+            }
+        }
         bool hasWon = false;
 
         public Animator mochiAnim;
@@ -17,6 +22,7 @@ namespace NitorInc.MochiPound {
         public float shakeSpeed = 1.0f;
         MochiPoundPlanet[] planets;
         MochiPoundController ctrler;
+        public Hit opposingSide;
 
         public MochiPoundArrowKey button;
 
@@ -24,6 +30,10 @@ namespace NitorInc.MochiPound {
         int poundAnimNameHash;
         public string windupAnimName = "Windup";
         int windupAnimNameHash;
+        public string idleAnimName = "Idle";
+        int idleAnimNameHash;
+
+        public float animationSpeed = 1.0f;
 
         // Use this for initialization
         void Start() {
@@ -33,6 +43,8 @@ namespace NitorInc.MochiPound {
             ctrler = FindObjectOfType<MochiPoundController>();
             poundAnimNameHash = Animator.StringToHash(poundAnimName);
             windupAnimNameHash = Animator.StringToHash(windupAnimName);
+            idleAnimNameHash = Animator.StringToHash(idleAnimName);
+            anim.speed = animationSpeed;
         }
 
         // Update is called once per frame
@@ -49,6 +61,8 @@ namespace NitorInc.MochiPound {
                     if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime < 1.0f) {
                         OnMochiHit();
                         hasHit = true;
+                        if (!hasWon)
+                            ctrler.RefreshRabbit(opposingSide);
                     }
                 }
             }
@@ -65,27 +79,38 @@ namespace NitorInc.MochiPound {
         public bool IsAnimationFinished {
             get {
                 var animState = anim.GetCurrentAnimatorStateInfo(0);
+                if (animState.shortNameHash == idleAnimNameHash) {
+                    return true;
+                }
                 if (animState.shortNameHash == poundAnimNameHash) {
-                    if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime < 1.0f) {
+                    if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime >= poundNormalizedTime) {
                         return true;
                     }
-                }
-                else {
-                    return true;
+                    else {
+                        return false;
+                    }
                 }
                 return false;
             }
         }
 
         public void Pound() {
-            PlayPoundImmediate();
+            //PlayPoundImmediate();
+            PlayPoundAnim();
+            ShowButton(false);
         }
+        public void Disable() {
+            hasHit = true;
+            ShowButton(false);
+        }
+
 
         public void Windup() {
             PlayWindup();
         }
 
         public void OnVictory() {
+            anim.speed = 1.0f;
             hasWon = true;
             PlayPoundAnim();
             ShowButton(false);
