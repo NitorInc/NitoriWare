@@ -20,7 +20,7 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	
 		if (!bIsKilled) {
 			moveDir.x = Input.GetAxisRaw ("Horizontal"); // get result of AD keys in X
-			moveDir.z = Input.GetAxisRaw ("Vertical"); // get result of WS keys in Z
+            moveDir.z = 0;
 		}
 
 		if (moveDir == Vector3.zero) {
@@ -59,7 +59,7 @@ public class KnifeDodgeReimu : MonoBehaviour {
 
 		MicrogameController.instance.setVictory (false, true);
 		// To implement later
-		// CameraShake.instance.setScreenShake (.15f);
-		// CameraShake.instance.shakeCoolRate = .5f;
+		CameraShake.instance.setScreenShake (.15f);
+		CameraShake.instance.shakeCoolRate = .5f;
 	}
 }

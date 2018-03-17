@@ -47,7 +47,9 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "KnifeDodgeGround") {
 			GetComponent<Rigidbody2D> ().simulated = false;
-		}
+            CameraShake.instance.setScreenShake(.15f);
+            CameraShake.instance.shakeCoolRate = .5f;
+        }
 	}
 
 	public void SetFacing(Vector3 vec) {
