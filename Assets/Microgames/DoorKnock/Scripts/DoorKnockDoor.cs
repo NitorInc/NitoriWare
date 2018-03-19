@@ -22,6 +22,7 @@ public class DoorKnockDoor : MonoBehaviour {
     private float screenWidth;
     private float screenHeight;
     private Vector2 direction; 
+    private bool win = false;
 
     // Use this for initialization
 	void Start() {
@@ -38,9 +39,11 @@ public class DoorKnockDoor : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider)) {
             OnClick(); 
         }
-        if (shouldMove && direction != null){
+        if (shouldMove && direction != null && !win){
+            // Add the direction we're moving in to our position
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
             transform.position = newPosition;
+            // bounce if on edge
             if (Mathf.Abs(transform.position.x) > screenWidth){
                 direction.x *= -1;
             }
@@ -53,12 +56,13 @@ public class DoorKnockDoor : MonoBehaviour {
     // When the object is clicked
     void OnClick() {
         clicksToWin--;
-        if (clicksToWin <= 0){
+        if (clicksToWin <= 0 && !win){
             // We win
+            win = true;
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
-
-        if (teleportOnClick){
+        // Don't teleport if we've won
+        else if (teleportOnClick && !win){
             Teleport();
         }
         NewDirection();
