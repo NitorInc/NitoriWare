@@ -19,7 +19,7 @@ public class ComicBubble_GameController : MonoBehaviour {
 
     GameObject currentBubbleShadow;
 
-    ComicBubble_SpeechBubble currentBubbleTextScript;
+    ComicBubble_SpeechBubble currentBubbleScript;
 
     Animator animator;
 
@@ -53,6 +53,8 @@ public class ComicBubble_GameController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
+        //  Update animator progress parameter
+        updateAnimatorProgressParameter();
 
     }
 
@@ -122,6 +124,24 @@ public class ComicBubble_GameController : MonoBehaviour {
     }
 
 
+    //  To update the animator progress parameter
+    void updateAnimatorProgressParameter()
+    {
+        if (animator != null)
+        {
+            if (currentBubbleScript != null)
+            {
+                var currentProgress = currentBubbleScript.getBubbleProgress();
+                animator.SetFloat("CurrentProgress", currentProgress);
+            }
+            else
+            {
+                // Put it on 100 since there is no bubble
+                animator.SetFloat("CurrentProgress", 100);
+            }
+        }
+    }
+
     
 
 //  CURRENT STRIP RELATED STUFF
@@ -137,9 +157,18 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  For showing the strip related to the current index
     void showCurrentStrip()
     {
-        //  Previous strip is sent to the back so the sprites of the current strip doesn't overlap the mask of the previous strip
+        //  Previous strip is sent to the back 
         if (currentIndex > 0)
-            comicDataList.sendStripToTheBack(currentIndex - 1);
+        {
+            // But only if it's different from tu current strip
+            var previousStrip = comicDataList.getStrip(currentIndex - 1);
+            var actualStrip = comicDataList.getStrip(currentIndex);
+            if (previousStrip != actualStrip)
+            {
+                comicDataList.sendStripToTheBack(currentIndex - 1);
+            }
+        }
+
 
         comicDataList.showStrip(currentIndex);
     }
@@ -172,7 +201,7 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  Updates the speechbubble script for easy access
     void updateCurrentBubbleTextScript()
     {
-        currentBubbleTextScript = comicDataList.getSpeechBubbleScript(currentIndex);
+        currentBubbleScript = comicDataList.getSpeechBubbleScript(currentIndex);
     }
 
 
