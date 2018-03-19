@@ -50,7 +50,7 @@ public class ClothesChooseChoiceController : MonoBehaviour
     void LoadCategory(int i)
     {
         ClothesChooseChoice choice = Instantiate(choiceTemplate, medicine.GetCategoryTransform(i));
-
+        
         // Set the correct choice
         choice.SetCorrect(
             mannequin.ClothingChoices[i].chosen,
