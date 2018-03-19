@@ -168,6 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4687463932038764}
   - component: {fileID: 212449093026869432}
+  - component: {fileID: 114399351342031114}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -501,6 +502,22 @@ MonoBehaviour:
   decisionTimeMax: 1.5
   currState: 0
   wanderArea: {fileID: 0}
+--- !u!114 &114399351342031114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680781413884728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8042c311a5fcaa4ea8667884eab0f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shrinkTime: 0.25
+  victim: {fileID: 114254308835544054}
+  animal: {fileID: 4941887542925610}
+  affectScale: 1
+  affectAlpha: 1
 --- !u!212 &212004197338840244
 SpriteRenderer:
   m_ObjectHideFlags: 1
