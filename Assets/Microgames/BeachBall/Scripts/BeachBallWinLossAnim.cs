@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class BeachBallWinLossAnim : MonoBehaviour
 {
-    public AnimationClip WinAnimation;
-    public AnimationClip LossAnimation;
+    public String WinTriggerName = "WinTrigger";
+    public String LossTriggerName = "LossTrigger";
 
-    private Animation anim;
+    private Animator animator;
 
     void Start()
     {
-        anim = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
 
         var eventWrapper = GameObject.Find(BeachBallWinLossEventWrapper.DefaultGameObjectName)
             .GetComponent<BeachBallWinLossEventWrapper>();
@@ -19,13 +18,11 @@ public class BeachBallWinLossAnim : MonoBehaviour
         //Add event listeners
         eventWrapper.OnWin += (sender, args) =>
         {
-            anim.clip = WinAnimation;
-            anim.Play();
+            animator.SetTrigger(WinTriggerName);
         };
         eventWrapper.OnLoss += (sender, args) =>
         {
-            anim.clip = LossAnimation;
-            anim.Play();
+            animator.SetTrigger(LossTriggerName);
         };
     }
 
