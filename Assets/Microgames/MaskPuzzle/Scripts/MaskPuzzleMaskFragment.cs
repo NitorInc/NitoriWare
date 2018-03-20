@@ -13,6 +13,8 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     {
         public List<MaskPuzzleMaskFragment> fragments;
 
+        public Camera assignedCamera;
+
         public FragmentGroup(MaskPuzzleMaskFragment initialFragment)
         {
             fragments = new List<MaskPuzzleMaskFragment>();
@@ -25,6 +27,9 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             if (group == this)
                 return;
 
+            group.assignedCamera.enabled = false;
+            assignedCamera.cullingMask |= group.assignedCamera.cullingMask;
+
             fragments.AddRange(group.fragments);
             foreach (var fragment in group.fragments)
             {
@@ -36,6 +41,11 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     void Start()
     {
         fragmentGroup = new FragmentGroup(this);
+        fragmentGroup.assignedCamera = Instantiate(Camera.main);
+        fragmentGroup.assignedCamera.GetComponent<AudioListener>().enabled = false;
+        fragmentGroup.assignedCamera.clearFlags = CameraClearFlags.Depth;
+        fragmentGroup.assignedCamera.cullingMask = 1 << gameObject.layer;
+        fragmentGroup.assignedCamera.depth = 0;
     }
 
     // Callbacks for drag and drop events
@@ -109,16 +119,11 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     }
 
     // To be called when grabbing a mask, after SwapParents()
-    // The grabbed fragment is brought up to the front layer automatically by MouseGrabbableGroup,
-    // but the other linked fragments need to be brought to the front manually - this method does this
+    // Bring this fragment group to the front
+    // by setting the assigned camera's depth higher than all other cameras' depths
     void MoveChildrenToFront()
     {
-        Transform[] children = GetComponentsInChildren<Transform>();
-        foreach (Transform child in children)
-        {
-            print("MoveChildrenToFront(): " + child.gameObject + " moved to the front.");
-            fragmentsManager.GetComponent<MouseGrabbableGroup>().moveToFront(child.gameObject.GetComponent<MouseGrabbable>());
-        }
+        fragmentGroup.assignedCamera.depth = (++fragmentsManager.topDepth);
     }
 
     // To be called after dropping a fragment and snapping to other fragments

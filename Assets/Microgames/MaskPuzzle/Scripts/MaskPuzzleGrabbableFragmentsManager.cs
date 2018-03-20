@@ -25,6 +25,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
     public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;
+    public int topDepth = 0;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
     void Start ()
@@ -35,6 +36,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
         // Get info about the edges that should be connected
         edges = chosenMask.GetComponent<MaskPuzzleMaskEdges>();
+
+        // Layers will be assigned starting from this one
+        int layerCounter = 14;
 
         // Initialize all fragments of the chosen mask
         while (chosenMask.transform.childCount > 0)
@@ -62,6 +66,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             UnityEvent releaseEvent = new UnityEvent();
             releaseEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().OnRelease);
             currentFragment.GetComponent<MouseGrabbable>().onRelease = releaseEvent;
+
+            // Assign a layer to the fragment
+            currentFragment.gameObject.layer = layerCounter++;
 
             // Add the fragment to list
             fragments.Add(currentFragment.GetComponent<MaskPuzzleMaskFragment>());
