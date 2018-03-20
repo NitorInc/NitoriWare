@@ -83,6 +83,12 @@ public class ComicBubble_GameController : MonoBehaviour {
                 microgameEnd();
             }
         }
+
+        // No more bubbles or panels
+        else
+        {
+            microgameEnd();
+        }
     }
 
 
