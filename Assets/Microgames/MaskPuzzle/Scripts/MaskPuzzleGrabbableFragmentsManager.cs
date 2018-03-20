@@ -54,7 +54,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             currentFragment.GetComponent<MaskPuzzleMaskFragment>().fragmentsManager = this;
 
             // Setup drag and drop
-            //currentFragment.AddComponent<PolygonCollider2D>();
+            currentFragment.AddComponent<MeshCollider>();
             currentFragment.AddComponent<MouseGrabbable>();
             currentFragment.GetComponent<MouseGrabbable>().disableOnVictory = true;
             GetComponent<MouseGrabbableGroup>().addGrabbable(currentFragment.GetComponent<MouseGrabbable>(), false);
