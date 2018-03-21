@@ -6,7 +6,7 @@
 public class BeachBallFailVelocityObserver : MonoBehaviour
 {
 
-    public float velocityTreshold = 1f;
+    public float velocityThreshold = 1f;
 
     private Rigidbody2D rigidBody;
 
@@ -21,7 +21,7 @@ public class BeachBallFailVelocityObserver : MonoBehaviour
 
     void Update()
     {
-        if (rigidBody.velocity.y < -velocityTreshold * ballThrowSpeed
+        if (rigidBody.velocity.y < -velocityThreshold * ballThrowSpeed
             * (1 / Time.timeScale))
             MicrogameController.instance.setVictory(false, true);
     }

@@ -28,6 +28,10 @@ namespace NitorInc.NueAbduct {
 
         public State currState;
 
+        [Header("Area the animal should wander inside")]
+        [SerializeField]
+        private RectTransform wanderArea;
+
         Timer wanderTimer;
         Timer graceTimer;
         Timer suckTimer;
@@ -44,7 +48,12 @@ namespace NitorInc.NueAbduct {
         }
 
         void Wander() {
-            targetPos = Random.insideUnitCircle * wanderRadius + new Vector2(transform.position.x, transform.position.y);
+            // Randomly choose movement direction
+            targetPos = Random.insideUnitCircle.normalized * wanderRadius
+                + new Vector2(transform.position.x, transform.position.y);
+            // Abort movement if the goal would be outside the wander area
+            if (!wanderArea.rect.Contains(targetPos - wanderArea.anchoredPosition))
+                targetPos = transform.position;
             wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
             wanderTimer.Start();
         }
@@ -86,6 +95,10 @@ namespace NitorInc.NueAbduct {
                     break;
                 case State.Wander:
                     transform.position = Vector2.MoveTowards(transform.position, targetPos, wanderSpeed * Time.deltaTime);
+                    if ((Vector2)transform.position == targetPos)
+                        anim.Play("Idle");
+                    else
+                        anim.Play("Wander");
                     break;
                 case State.Sucked:
                     transform.position = Vector2.MoveTowards(transform.position, ufo.SuckPoint.position, ufo.SuckSpeed * Time.deltaTime);
@@ -128,7 +141,7 @@ namespace NitorInc.NueAbduct {
         void OnTriggerEnter2D(Collider2D other) {
             if (other.GetComponentInChildren<NueAbductVictimBehavior>() == null) {
                 if (currState == State.Sucked) {
-                    Destroy(this.gameObject);
+                    gameObject.SetActive(false);
                 } else if (!other.name.Contains("Succ")) {
                     SetState(State.Sucking);
                 }
