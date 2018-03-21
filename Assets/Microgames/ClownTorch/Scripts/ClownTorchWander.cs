@@ -24,7 +24,8 @@ namespace NitorInc.ClownTorch {
         }
 
         void Wander() {
-            if (!MicrogameController.instance.getVictory()) {
+            if (!MicrogameController.instance.getVictory())
+            {
                 target.x = Random.Range(rect.xMin, rect.xMax);
                 target.y = Random.Range(rect.yMin, rect.yMax);
                 anim.Play("Walk");
@@ -37,13 +38,15 @@ namespace NitorInc.ClownTorch {
                 anim.Play("Idle");
                 TimerManager.NewTimer(waitTime, Wander, 0, true, true);
             }
+            else
+                anim.Play("Idle");
         }
 
         // Update is called once per frame
         void Update() {
             if (MicrogameController.instance.getVictory()) {
-                anim.Play("Walk");
-                transform.position += Vector3.right * winMoveSpeed * Time.deltaTime;
+                //anim.Play("Walk");
+                //transform.position += Vector3.right * winMoveSpeed * Time.deltaTime;
             } else {
                 transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
                 Vector2 pos = transform.position;
