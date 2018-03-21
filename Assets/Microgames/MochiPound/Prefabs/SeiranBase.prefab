@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 212671240192590276}
   - component: {fileID: 114892797405791642}
   m_Layer: 0
-  m_Name: RightArrowKey
+  m_Name: ArrowKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,8 +136,8 @@ MonoBehaviour:
   xShake: 0.35
   shakeSpeed: 5
   poundAnimTime: 0.25
-  poundHitTime: 0.15
-  windupAnimTime: 0.25
+  poundHitTime: 0.1
+  windupAnimTime: 0.1
   inputKey: 275
   opposingRabbit: {fileID: 0}
   button: {fileID: 114892797405791642}
@@ -155,7 +155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9098f3226e3c875488515b573aa6ac7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disabledColor: {r: 0.47058827, g: 0.47058827, b: 0.47058827, a: 1}
+  disabledColor: {r: 0.47058827, g: 0.47058827, b: 0.47058827, a: 0.5019608}
+  animator: {fileID: 95379612008894942}
+  stillAnimationName: ButtonStill
+  pulseAnimationName: ButtonPulse
 --- !u!212 &212671240192590276
 SpriteRenderer:
   m_ObjectHideFlags: 1

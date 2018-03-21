@@ -102,7 +102,9 @@ namespace NitorInc.MochiPound {
                     }
                 }
             }
-            else {
+            else
+            {
+                MicrogameController.instance.setVictory(true);
                 ShowButton(false);
             }
         }
