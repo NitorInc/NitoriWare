@@ -12,9 +12,7 @@ public class ClothesChooseChoice : MonoBehaviour
     }
 
     public Slot leftSlot;
-    public GameObject leftArrow;
     public Slot rightSlot;
-    public GameObject rightArrow;
 
     Animator animator;
     bool listen;
@@ -31,7 +29,7 @@ public class ClothesChooseChoice : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-
+        
         // Shuffle
         correct = UnityEngine.Random.Range(0, 2);
         incorrect = 1 - correct;
@@ -43,7 +41,7 @@ public class ClothesChooseChoice : MonoBehaviour
 
         listen = true;
     }
-
+    
     public void SetCorrect(Sprite sprite, int sortingOrder, Action correctAction)
     {
         slots[correct].spriteRenderer.sprite = sprite;
@@ -79,8 +77,6 @@ public class ClothesChooseChoice : MonoBehaviour
     void Choose(string direction)
     {
         listen = false;
-        leftArrow.SetActive(false);
-        rightArrow.SetActive(false);
 
         if (choiceMap[direction])
         {
