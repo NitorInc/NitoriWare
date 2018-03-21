@@ -137,12 +137,10 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
         // Victory!
         MicrogameController.instance.setVictory(victory: true, final: true);
-        // Calculate speed values for the final mask movement
-        // Time must be positive or Bad Things will happen
-        if (fragmentsManager.victoryMoveTime <= 0)
-            fragmentsManager.victoryMoveTime = 0.001f;
-        fragmentsManager.victoryMoveSpeed = Vector3.Distance(transform.position, fragmentsManager.victoryGoal) / fragmentsManager.victoryMoveTime;
-        fragmentsManager.victoryRotationSpeed = (transform.rotation.z - fragmentsManager.victoryRotation) / fragmentsManager.victoryMoveTime;
+        // Save the starting time, position and rotation for the victory animation
+        fragmentsManager.victoryStartTime = Time.time;
+        fragmentsManager.victoryStartPosition = transform.position;
+        fragmentsManager.victoryStartRotation = transform.eulerAngles;
     }
 
     // Called every frame
@@ -152,16 +150,24 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         // Only the direct children of the manager need to be moved
         if (MicrogameController.instance.getVictory() && transform.parent == fragmentsManager.transform)
         {
-            if (MathHelper.moveTowards(transform, fragmentsManager.victoryGoal, fragmentsManager.victoryMoveSpeed))
+            if (Time.time > fragmentsManager.victoryStartTime + fragmentsManager.victoryMoveTime)
             {
-                // Arrived at the final location, set rotation to the final value too
-                Vector3 rotation = transform.eulerAngles;
-                rotation.z = fragmentsManager.victoryRotation;
-                transform.eulerAngles = -rotation;
+                // Animation time elapsed, set position and rotation to the final value
+                transform.position = fragmentsManager.victoryGoal;
+                transform.eulerAngles = fragmentsManager.victoryRotation;
             }
             else
             {
-                transform.Rotate(0f, 0f, fragmentsManager.victoryRotationSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(
+                    fragmentsManager.victoryStartPosition,
+                    fragmentsManager.victoryGoal,
+                    (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
+                );
+                transform.eulerAngles = Vector3.Slerp(
+                    fragmentsManager.victoryStartRotation,
+                    fragmentsManager.victoryRotation,
+                    (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
+                );
             }
         }
     }

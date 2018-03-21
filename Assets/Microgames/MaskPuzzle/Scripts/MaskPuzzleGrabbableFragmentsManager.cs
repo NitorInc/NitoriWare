@@ -15,13 +15,16 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("On victory move mask to:")]
     public Vector3 victoryGoal;
 
-    [Header("On victory rotate the mask by:")]
-    public float victoryRotation;
+    [Header("On victory rotate the mask to:")]
+    public Vector3 victoryRotation;
 
     [Header("Time to move to victory position")]
     public float victoryMoveTime = 1f;
 
-    public float victoryMoveSpeed, victoryRotationSpeed;
+    [Header("")]
+    public float victoryStartTime;
+    public Vector3 victoryStartPosition;
+    public Vector3 victoryStartRotation;
 
     public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;
