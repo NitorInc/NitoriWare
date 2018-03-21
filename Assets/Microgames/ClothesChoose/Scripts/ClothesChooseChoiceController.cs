@@ -11,6 +11,12 @@ public class ClothesChooseChoiceController : MonoBehaviour
     public SpriteRenderer highlight;
     public float highlightMoveDuration;
 
+    public AudioClip chooseClip;
+    public AudioClip victoryClip;
+    public AudioClip lossClip;
+    public float choosePitchIncrease = .2f;
+    public float victoryClipDelay = .2f;
+
     Animator animator;
 
     int currentCategory;
@@ -69,6 +75,7 @@ public class ClothesChooseChoiceController : MonoBehaviour
     public void Correct()
     {
         int newCategory = currentCategory + 1;
+        MicrogameController.instance.playSFX(chooseClip, pitchMult: 1f + ((newCategory - 1f) * choosePitchIncrease));
         if (newCategory < mannequin.ClothingChoices.Length)
         {
             currentCategory = newCategory;
@@ -86,7 +93,13 @@ public class ClothesChooseChoiceController : MonoBehaviour
             }
 
             MicrogameController.instance.setVictory(true, true);
+            Invoke("playVictoryClip", victoryClipDelay);
         }
+    }
+
+    void playVictoryClip()
+    {
+        MicrogameController.instance.playSFX(victoryClip);
     }
     
     public void Incorrect()
@@ -99,5 +112,6 @@ public class ClothesChooseChoiceController : MonoBehaviour
         }
 
         MicrogameController.instance.setVictory(false, true);
+        MicrogameController.instance.playSFX(lossClip);
     }
 }
