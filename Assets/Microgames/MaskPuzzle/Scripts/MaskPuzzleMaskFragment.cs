@@ -160,20 +160,22 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
             }
             else
             {
+                float timeFactor = (Time.time - fragmentsManager.victoryStartTime) /
+                                   fragmentsManager.victoryMoveTime;
                 transform.position = Vector3.Lerp(
                     fragmentsManager.victoryStartPosition,
                     fragmentsManager.victoryGoal,
-                    (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
+                    1 - Mathf.Pow(1 - timeFactor, 2)
                 );
                 transform.eulerAngles = Vector3.Slerp(
                     fragmentsManager.victoryStartRotation,
                     fragmentsManager.victoryRotation,
-                    (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
+                    1 - Mathf.Pow(1 - timeFactor, 2)
                 );
                 fragmentsManager.backgroundImage.color = Color.Lerp(
                     fragmentsManager.victoryStartBgColor,
                     Color.white,
-                    (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
+                    timeFactor * 4
                 );
             }
         }
