@@ -281,6 +281,26 @@ Prefab:
       propertyPath: mochiAnim
       value: 
       objectReference: {fileID: 1378836869}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: windupNormalizedTime
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: finishPoundSpeed
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: startAnimationSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: finishAnimationSpeed
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47e852eca0036a348a29ddbf3a769eba, type: 2}
   m_IsPrefabParent: 0
@@ -383,6 +403,26 @@ Prefab:
       propertyPath: mochiAnim
       value: 
       objectReference: {fileID: 1378836869}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: windupNormalizedTime
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: finishPoundSpeed
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: startAnimationSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: finishAnimationSpeed
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
   m_IsPrefabParent: 0
@@ -4427,12 +4467,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2444aea6269664f89084ce616d1042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 2
+  difficulty: 0
   requiredHits: 040000000600000008000000
   finishAnims:
   - {fileID: 1497573906}
   - {fileID: 333833779}
-  finishWaitTime: 0.35
+  lastPoundElapsedTime: 0.15
+  finishWaitTime: 0.55
   rabbits:
   - {fileID: 210418368}
   - {fileID: 2004113677}

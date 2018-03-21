@@ -6,8 +6,7 @@ namespace NitorInc.MochiPound {
 
     public enum Hit {
         Left = 0,
-        Right,
-        Both
+        Right
     }
 
     public class MochiPoundController : MonoBehaviour {
@@ -27,53 +26,41 @@ namespace NitorInc.MochiPound {
         int hitCounter = 0;
 
         public Animator[] finishAnims;
-        public float finishWaitTime = 0.3f;
+        // how long in real time the last pound would take
+        public float lastPoundElapsedTime = 0.25f;
+        // how long in real time the finish pound (pound from both sides) pound would take
+        public float finishWaitTime = 0.55f;
 
         bool hasWon = false;
-        Hit lastHit = Hit.Both;
+        Hit lastHit = Hit.Left;
 
         public MochiPoundRabbitController[] rabbits;
 
         void Start() {
             hitCounter = 0;
+            rabbits[(int)Hit.Left].Disable();
         }
 
         void Update() {
             if (!hasWon) {
-                if (rabbits[0].IsAnimationFinished && rabbits[1].IsAnimationFinished) {
+                if (BothAnimationFinished()) {
+                    RefreshRabbit(OpposedTo(lastHit));
                     switch (lastHit) {
-                        case Hit.Both:
-                            if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                                rabbits[(int)Hit.Left].Pound();
-                                rabbits[(int)Hit.Right].Disable();
-                                //rabbits[(int)Hit.Right].Windup();
-                                //rabbits[(int)Hit.Left].ShowButton(false);
-                                ++hitCounter;
-                                lastHit = Hit.Left;
-                            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                                rabbits[(int)Hit.Right].Pound();
-                                rabbits[(int)Hit.Left].Disable();
-                                //rabbits[(int)Hit.Left].Windup();
-                                //rabbits[(int)Hit.Right].ShowButton(false);
-                                ++hitCounter;
-                                lastHit = Hit.Right;
-                            }
-                            break;
                         case Hit.Left:
                             if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                                 rabbits[(int)Hit.Right].Pound();
-                                //rabbits[(int)Hit.Left].Windup();
-                                //rabbits[(int)Hit.Right].ShowButton(false);
                                 ++hitCounter;
+                                if (hitCounter < RequiredHits)
+                                    rabbits[(int)Hit.Left].Windup();
                                 lastHit = Hit.Right;
                             }
                             break;
                         case Hit.Right:
                             if (Input.GetKeyDown(KeyCode.RightArrow)) {
                                 rabbits[(int)Hit.Left].Pound();
-                                //rabbits[(int)Hit.Right].Windup();
-                                //rabbits[(int)Hit.Left].ShowButton(false);
                                 ++hitCounter;
+                                if (hitCounter < RequiredHits)
+                                    rabbits[(int)Hit.Right].Windup();
                                 lastHit = Hit.Left;
                             }
                             break;
@@ -82,9 +69,22 @@ namespace NitorInc.MochiPound {
             }
         }
 
+        public bool BothAnimationFinished() {
+            return rabbits[0].IsAnimationFinished && rabbits[1].IsAnimationFinished;
+        }
+
         public void RefreshRabbit(Hit side) {
             rabbits[(int)side].ResetStatus();
             rabbits[(int)side].ShowButton(true);
+        }
+
+        public Hit OpposedTo(Hit side) {
+            if (side == Hit.Left) {
+                return Hit.Right;
+            }
+            else {
+                return Hit.Left;
+            }
         }
 
         public void OnHit() {
@@ -92,10 +92,17 @@ namespace NitorInc.MochiPound {
                 MicrogameController.instance.setVictory(true, true);
                 hasWon = true;
                 for (int i = 0; i < rabbits.Length; i++) {
-                    rabbits[i].OnVictory();
+                    rabbits[i].Disable();
                 }
-                Invoke("PlayFinishSequence", finishWaitTime);
+                Invoke("PlayFinishPound", lastPoundElapsedTime);
             }
+        }
+
+        void PlayFinishPound() {
+            for (int i = 0; i < rabbits.Length; i++) {
+                rabbits[i].OnVictory();
+            }
+            Invoke("PlayFinishSequence", finishWaitTime);
         }
 
         void PlayFinishSequence() {
