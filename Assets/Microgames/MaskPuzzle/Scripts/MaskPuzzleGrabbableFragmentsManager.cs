@@ -21,10 +21,14 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Time to move to victory position")]
     public float victoryMoveTime = 1f;
 
+    [Header("Background image")]
+    public SpriteRenderer backgroundImage;
+
     [Header("")]
     public float victoryStartTime;
     public Vector3 victoryStartPosition;
     public Vector3 victoryStartRotation;
+    public Color victoryStartBgColor;
 
     public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;

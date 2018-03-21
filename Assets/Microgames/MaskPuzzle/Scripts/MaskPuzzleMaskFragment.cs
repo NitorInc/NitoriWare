@@ -137,10 +137,11 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
 
         // Victory!
         MicrogameController.instance.setVictory(victory: true, final: true);
-        // Save the starting time, position and rotation for the victory animation
+        // Save the starting values for the victory animation
         fragmentsManager.victoryStartTime = Time.time;
         fragmentsManager.victoryStartPosition = transform.position;
         fragmentsManager.victoryStartRotation = transform.eulerAngles;
+        fragmentsManager.victoryStartBgColor = fragmentsManager.backgroundImage.color;
     }
 
     // Called every frame
@@ -152,9 +153,10 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         {
             if (Time.time > fragmentsManager.victoryStartTime + fragmentsManager.victoryMoveTime)
             {
-                // Animation time elapsed, set position and rotation to the final value
+                // Animation time elapsed, set animated variables to the final values
                 transform.position = fragmentsManager.victoryGoal;
                 transform.eulerAngles = fragmentsManager.victoryRotation;
+                fragmentsManager.backgroundImage.color = Color.white;
             }
             else
             {
@@ -166,6 +168,11 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
                 transform.eulerAngles = Vector3.Slerp(
                     fragmentsManager.victoryStartRotation,
                     fragmentsManager.victoryRotation,
+                    (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
+                );
+                fragmentsManager.backgroundImage.color = Color.Lerp(
+                    fragmentsManager.victoryStartBgColor,
+                    Color.white,
                     (Time.time - fragmentsManager.victoryStartTime) / fragmentsManager.victoryMoveTime
                 );
             }
