@@ -283,24 +283,9 @@ Prefab:
       objectReference: {fileID: 1378836869}
     - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
         type: 2}
-      propertyPath: windupNormalizedTime
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: finishPoundSpeed
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: startAnimationSpeed
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: finishAnimationSpeed
-      value: 0.7
-      objectReference: {fileID: 0}
+      propertyPath: opposingRabbit
+      value: 
+      objectReference: {fileID: 210418368}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47e852eca0036a348a29ddbf3a769eba, type: 2}
   m_IsPrefabParent: 0
@@ -405,24 +390,9 @@ Prefab:
       objectReference: {fileID: 1378836869}
     - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
         type: 2}
-      propertyPath: windupNormalizedTime
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: finishPoundSpeed
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: startAnimationSpeed
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: finishAnimationSpeed
-      value: 0.7
-      objectReference: {fileID: 0}
+      propertyPath: opposingRabbit
+      value: 
+      objectReference: {fileID: 2004113677}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
   m_IsPrefabParent: 0
@@ -4469,14 +4439,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficulty: 0
   requiredHits: 040000000600000008000000
+  finishPoundAnimTime: 0.25
+  finishSequenceAnimTime: 0.45
   finishAnims:
-  - {fileID: 1497573906}
   - {fileID: 333833779}
-  lastPoundElapsedTime: 0.15
-  finishWaitTime: 0.55
-  rabbits:
-  - {fileID: 210418368}
-  - {fileID: 2004113677}
+  - {fileID: 1497573906}
+  objectsToDisableOnFinish:
+  - {fileID: 2095608891}
 --- !u!4 &1711409699
 Transform:
   m_ObjectHideFlags: 0
@@ -4646,6 +4615,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 155361714}
   m_Script: {fileID: 11500000, guid: 47de400ed93e5264a9bb90b4972e0143, type: 3}
+--- !u!1 &2095608891 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1760610583589858, guid: 4171fe8f22421a3408dcc630ab639b93,
+    type: 2}
+  m_PrefabInternal: {fileID: 1363207736}
 --- !u!1 &2117180174
 GameObject:
   m_ObjectHideFlags: 0
