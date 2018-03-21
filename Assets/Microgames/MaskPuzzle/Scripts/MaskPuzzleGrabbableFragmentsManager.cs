@@ -13,7 +13,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     public float maxSnapDistance = 1f;
 
     [Header("On victory move mask to:")]
-    public Vector2 victoryGoal;
+    public Vector3 victoryGoal;
 
     [Header("On victory rotate the mask by:")]
     public float victoryRotation;

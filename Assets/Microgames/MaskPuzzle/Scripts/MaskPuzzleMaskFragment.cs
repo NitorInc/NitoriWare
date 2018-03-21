@@ -141,7 +141,7 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         // Time must be positive or Bad Things will happen
         if (fragmentsManager.victoryMoveTime <= 0)
             fragmentsManager.victoryMoveTime = 0.001f;
-        fragmentsManager.victoryMoveSpeed = Vector2.Distance(transform.position, fragmentsManager.victoryGoal) / fragmentsManager.victoryMoveTime;
+        fragmentsManager.victoryMoveSpeed = Vector3.Distance(transform.position, fragmentsManager.victoryGoal) / fragmentsManager.victoryMoveTime;
         fragmentsManager.victoryRotationSpeed = (transform.rotation.z - fragmentsManager.victoryRotation) / fragmentsManager.victoryMoveTime;
     }
 
@@ -152,7 +152,7 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         // Only the direct children of the manager need to be moved
         if (MicrogameController.instance.getVictory() && transform.parent == fragmentsManager.transform)
         {
-            if (MathHelper.moveTowards2D(transform, fragmentsManager.victoryGoal, fragmentsManager.victoryMoveSpeed))
+            if (MathHelper.moveTowards(transform, fragmentsManager.victoryGoal, fragmentsManager.victoryMoveSpeed))
             {
                 // Arrived at the final location, set rotation to the final value too
                 Vector3 rotation = transform.eulerAngles;
