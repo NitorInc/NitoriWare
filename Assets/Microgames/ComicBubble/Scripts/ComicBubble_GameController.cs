@@ -26,8 +26,6 @@ public class ComicBubble_GameController : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        print(comicDataList.getStrip(1).name);
-
         // Initialize the bubble gameobjects (stablish the relationship between them, the target and speech speed)
         comicDataList.initializeBubbleGameObjects();
 

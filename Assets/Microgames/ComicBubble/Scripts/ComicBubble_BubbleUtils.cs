@@ -14,7 +14,7 @@ public static class ComicBubble_BubbleUtils {
             {
                 if (data.getTarget() != null)
                 {
-                    var bubbleScript = data.getBubble().GetComponent<ComicBubble_SpeechBubble>();
+                    var bubbleScript = data.getBubble().GetComponentInChildren<ComicBubble_SpeechBubble>();
                     bubbleScript.setTargetCharacter(data.getTarget());
                     bubbleScript.setTextSpeed(data.getSpeechSpeed());
                 }
@@ -61,7 +61,7 @@ public static class ComicBubble_BubbleUtils {
     {
         var bubble = dataList.getBubble(index);
         if (bubble != null)
-            bubble.GetComponent<FollowCursor>().enabled = false;
+            bubble.GetComponentInChildren<FollowCursor>().enabled = false;
     }
 
 
@@ -70,7 +70,7 @@ public static class ComicBubble_BubbleUtils {
     {
         var bubble = dataList.getBubble(index);
         if (bubble != null)
-            return bubble.GetComponent<ComicBubble_SpeechBubble>();
+            return bubble.GetComponentInChildren<ComicBubble_SpeechBubble>();
         else
             return null;
     }
