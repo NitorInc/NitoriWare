@@ -36,6 +36,44 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
                 fragment.fragmentGroup = this;
             }
         }
+
+        // To be called when dropping a mask
+        // Checks whether any other fragments are near the drop position
+        // If yes, snaps this fragment to the other one(s) by making their positions equal
+        // and becoming their parent so they are moved together in the future
+        public void SnapToOtherFragments()
+        {
+            for (int i=0; i<fragments[0].fragmentsManager.fragments.Count; i++)
+            {
+                MaskPuzzleMaskFragment checkedFragment = fragments[0].fragmentsManager.fragments[i];
+
+                // Check if already connected
+                if (fragments.Contains(checkedFragment))
+                    continue;
+
+                // Check distance
+                if (Vector2.Distance(fragments[0].transform.position, checkedFragment.transform.position)
+                        > fragments[0].fragmentsManager.maxSnapDistance)
+                    continue;
+
+                // Check if the grabbed fragment can be connected to the i-th fragment,
+                // directly or through other already connected fragments
+                print("Checking connectability; grabbed group count: " + fragments.Count + "; checked group count: "
+                    + checkedFragment.fragmentGroup.fragments.Count);
+                if (fragments[0].fragmentsManager.edges.areConnectable(
+                    this, checkedFragment.fragmentGroup))
+                {
+                    // Make positions equal and connect the groups
+                    foreach (MaskPuzzleMaskFragment fragment in fragments)
+                    {
+                        fragment.transform.position = checkedFragment.transform.position;
+                        print("Snapped " + fragment.name + " to " + checkedFragment.name);
+                    }
+                    connectTo(checkedFragment.fragmentGroup);
+                    print("Now the group contains " + fragments.Count + " fragments.");
+                }
+            }
+        }
     }
 
     void Start()
@@ -48,108 +86,11 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
         fragmentGroup.assignedCamera.depth = 0;
     }
 
-    // Callbacks for drag and drop events
-    public void OnGrab()
-    {
-        SwapParents();
-        MoveChildrenToFront();
-    }
-
-    public void OnRelease()
-    {
-        SnapToOtherFragments();
-        CheckVictory();
-    }
-
-    public void ConnectTo(MaskPuzzleMaskFragment otherFragment)
-    {
-        fragmentGroup.connectTo(otherFragment.fragmentGroup);
-    }
-
-    public List<MaskPuzzleMaskFragment> GetAllConnected()
-    {
-        return fragmentGroup.fragments;
-    }
-
-    // To be called when dropping a mask
-    // Checks whether any other fragments are near the drop position
-    // If yes, snaps this fragment to the other one(s) by making their positions equal
-    // and becoming their parent so they are moved together in the future
-    void SnapToOtherFragments()
-    {
-        for (int i=0; i<fragmentsManager.fragments.Count; i++)
-        {
-            // Check if already connected
-            if (GetAllConnected().Contains(fragmentsManager.fragments[i]))
-                continue;
-
-            // Check distance
-            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position)
-                > fragmentsManager.maxSnapDistance)
-                continue;
-
-            // Check if the grabbed fragment can be connected to the i-th fragment,
-            // directly or through other already connected fragments
-            print("Checking connectability; grabbed group count: " + GetAllConnected().Count + "; checked group count: "
-                + fragmentsManager.fragments[i].GetAllConnected().Count);
-            if (fragmentsManager.edges.areConnectable(
-                fragmentGroup, fragmentsManager.fragments[i].fragmentGroup))
-            {
-                transform.position = (Vector2)fragmentsManager.fragments[i].transform.position;
-                ConnectTo(fragmentsManager.fragments[i]);
-                // Become the parent of the newly joined fragments
-                SwapParents();
-                print("Snapped " + name + " to " + fragmentsManager.fragments[i].name);
-                print("Now the group contains " + GetAllConnected().Count + " fragments.");
-            }
-        }
-    }
-
-    // To be called when grabbing a mask fragment and when joining new fragments
-    // Make all connected fragments children of this fragment so they are moved together
-    void SwapParents()
-    {
-        transform.parent = fragmentsManager.transform;
-        foreach (MaskPuzzleMaskFragment otherFragment in GetAllConnected())
-        {
-            if (otherFragment == this)
-                continue;
-            otherFragment.transform.parent = transform;
-        }
-    }
-
-    // To be called when grabbing a mask, after SwapParents()
-    // Bring this fragment group to the front
-    // by setting the assigned camera's depth higher than all other cameras' depths
-    void MoveChildrenToFront()
-    {
-        fragmentGroup.assignedCamera.depth = (++fragmentsManager.topDepth);
-    }
-
-    // To be called after dropping a fragment and snapping to other fragments
-    // Check and handle victory condition
-    void CheckVictory()
-    {
-        // If the distance to any of the other masks > 0, we haven't won yet
-        for (int i=0; i<fragmentsManager.fragments.Count; i++)
-            if (Vector2.Distance(transform.position, fragmentsManager.fragments[i].transform.position) > 0)
-                return;
-
-        // Victory!
-        MicrogameController.instance.setVictory(victory: true, final: true);
-        // Save the starting values for the victory animation
-        fragmentsManager.victoryStartTime = Time.time;
-        fragmentsManager.victoryStartPosition = transform.position;
-        fragmentsManager.victoryStartRotation = transform.eulerAngles;
-        fragmentsManager.victoryStartBgColor = fragmentsManager.backgroundImage.color;
-    }
-
     // Called every frame
     // Move and rotate the mask when victory achieved
     void Update()
     {
-        // Only the direct children of the manager need to be moved
-        if (MicrogameController.instance.getVictory() && transform.parent == fragmentsManager.transform)
+        if (MicrogameController.instance.getVictory())
         {
             if (Time.time > fragmentsManager.victoryStartTime + fragmentsManager.victoryMoveTime)
             {
