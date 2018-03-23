@@ -11,11 +11,6 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
     void Start()
     {
         fragmentGroup = new MaskPuzzleFragmentGroup(this);
-        fragmentGroup.assignedCamera = Instantiate(Camera.main);
-        fragmentGroup.assignedCamera.GetComponent<AudioListener>().enabled = false;
-        fragmentGroup.assignedCamera.clearFlags = CameraClearFlags.Depth;
-        fragmentGroup.assignedCamera.cullingMask = 1 << gameObject.layer;
-        fragmentGroup.assignedCamera.depth = 0;
     }
 
     // Called every frame

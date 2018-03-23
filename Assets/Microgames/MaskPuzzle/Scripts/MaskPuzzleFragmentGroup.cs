@@ -13,6 +13,15 @@ public class MaskPuzzleFragmentGroup
     {
         fragments = new List<MaskPuzzleMaskFragment>();
         fragments.Add(initialFragment);
+
+        // Create a new camera for this group by cloning the main camera
+        // A separate camera for each group is needed so they don't clip into each other
+        // Drawing order is determined by the camera depth
+        assignedCamera = Instantiate(Camera.main);
+        assignedCamera.GetComponent<AudioListener>().enabled = false;
+        assignedCamera.clearFlags = CameraClearFlags.Depth;
+        assignedCamera.cullingMask = 1 << initialFragment.gameObject.layer;
+        assignedCamera.depth = 0;
     }
 
     //Connect this group to another fragment group
@@ -33,8 +42,8 @@ public class MaskPuzzleFragmentGroup
 
     // To be called when dropping a mask
     // Checks whether any other fragments are near the drop position
-    // If yes, snaps this fragment to the other one(s) by making their positions equal
-    // and becoming their parent so they are moved together in the future
+    // If yes, snaps the fragments of this group to them by making their positions equal
+    // and joins their groups
     public void SnapToOtherFragments()
     {
         for (int i=0; i<fragments[0].fragmentsManager.fragments.Count; i++)

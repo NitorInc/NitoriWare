@@ -73,6 +73,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     }
 
     // Called every frame
+    // Handle dragging and dropping the fragments
     void Update()
     {
         if (MicrogameController.instance.getVictory())
@@ -81,6 +82,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         // Grabbing a fragment
         if (grabbedFragmentGroup == null && Input.GetMouseButtonDown(0))
         {
+            // Get an array of all the fragments under the cursor
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits = Physics.RaycastAll(mouseRay, float.PositiveInfinity, 31 << 14);
 
@@ -89,6 +91,10 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             float topHitDepth = -1f;
             float topHitDistance = 0f;
 
+            // There might be multiple fragments under the cursor
+            // We need to determine which one is on top - that one will be grabbed
+            // We pick the one whose assigned camera has the highest depth
+            // In case of equal depth we pick the fragment closest to the camera
             foreach (RaycastHit hit in hits)
             {
                 fragmentHit = hit.collider.GetComponent<MaskPuzzleMaskFragment>();
@@ -105,7 +111,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
             if (topHitFragment) {
                 grabbedFragmentGroup = topHitFragment.fragmentGroup;
+                // Grabbed fragment group should be on top
                 grabbedFragmentGroup.assignedCamera.depth = (++topDepth);
+                // Save the grabbed point's coordinates needed for calculating position when dragging
                 grabZ = topHit.point.z;
                 grabOffset = topHitFragment.transform.position
                     - CameraHelper.getCursorPosition(grabZ);
