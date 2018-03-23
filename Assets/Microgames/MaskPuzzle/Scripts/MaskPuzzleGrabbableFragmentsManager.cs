@@ -21,14 +21,16 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Time to move to victory position")]
     public float victoryMoveTime = 1f;
 
-    [Header("Background image")]
-    public SpriteRenderer backgroundImage;
+    [Header("Speed of background animation")]
+    public float backgroundAnimSpeed = 10f;
+
+    [Header("Background sprite mask")]
+    public Transform backgroundMask;
 
     [Header("")]
     public float victoryStartTime;
     public Vector3 victoryStartPosition;
     public Vector3 victoryStartRotation;
-    public Color victoryStartBgColor;
 
     public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;
@@ -72,13 +74,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         }
     }
 
-    // Called every frame
     // Handle dragging and dropping the fragments
-    void Update()
+    void HandleDragging()
     {
-        if (MicrogameController.instance.getVictory())
-            return;
-
         // Grabbing a fragment
         if (grabbedFragmentGroup == null && Input.GetMouseButtonDown(0))
         {
@@ -138,6 +136,21 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         }
     }
 
+    // Animate the background mask
+    void VictoryAnimation()
+    {
+        backgroundMask.localScale = Vector2.one * (Time.time - victoryStartTime) * backgroundAnimSpeed;
+    }
+
+    // Called every frame
+    void Update()
+    {
+        if (MicrogameController.instance.getVictory())
+            VictoryAnimation();
+        else
+            HandleDragging();
+    }
+
     // To be called after dropping a fragment and snapping to other fragments
     // Check and handle victory condition
     void CheckVictory()
@@ -152,6 +165,6 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         victoryStartTime = Time.time;
         victoryStartPosition = fragments[0].transform.position;
         victoryStartRotation = fragments[0].transform.eulerAngles;
-        victoryStartBgColor = backgroundImage.color;
+        backgroundMask.position = victoryStartPosition;
     }
 }

@@ -24,7 +24,6 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
                 // Animation time elapsed, set animated variables to the final values
                 transform.position = fragmentsManager.victoryGoal;
                 transform.eulerAngles = fragmentsManager.victoryRotation;
-                fragmentsManager.backgroundImage.color = Color.white;
             }
             else
             {
@@ -39,11 +38,6 @@ public class MaskPuzzleMaskFragment : MonoBehaviour {
                     fragmentsManager.victoryStartRotation,
                     fragmentsManager.victoryRotation,
                     1 - Mathf.Pow(1 - timeFactor, 2)
-                );
-                fragmentsManager.backgroundImage.color = Color.Lerp(
-                    fragmentsManager.victoryStartBgColor,
-                    Color.white,
-                    timeFactor * 4
                 );
             }
         }
