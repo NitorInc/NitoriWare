@@ -27,6 +27,14 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Background sprite mask")]
     public Transform backgroundMask;
 
+    [Header("Sound for picking up a fragment")]
+    [SerializeField]
+    private AudioClip grabSound;
+
+    [Header("Sound for dropping a fragment")]
+    [SerializeField]
+    private AudioClip dropSound;
+
     [Header("")]
     public float victoryStartTime;
     public Vector3 victoryStartPosition;
@@ -117,12 +125,22 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
                     - CameraHelper.getCursorPosition(grabZ);
                 print("Top hit=" + topHitFragment + "; depth=" + topHitDepth + "; dist=" + topHitDistance
                     + "; z=" + topHit.point.z);
+                MicrogameController.instance.playSFX(
+                    grabSound,
+                    volume: 1f,
+                    panStereo: AudioHelper.getAudioPan(topHitFragment.transform.position.x)
+                );
             }
         }
 
         // Dropping a fragment
         else if (grabbedFragmentGroup != null && !Input.GetMouseButton(0)) {
             grabbedFragmentGroup.SnapToOtherFragments();
+            MicrogameController.instance.playSFX(
+                dropSound,
+                volume: 1f,
+                panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
+            );
             CheckVictory();
             grabbedFragmentGroup = null;
         }
