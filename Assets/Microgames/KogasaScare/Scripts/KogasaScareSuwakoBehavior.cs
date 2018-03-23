@@ -11,6 +11,8 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
     [SerializeField]
     private AnimationCurve hopCurve;
     [SerializeField]
+    private AudioClip hopClip;
+    [SerializeField]
     private float hopDuration = 1f;
     [Header("Duration of Hop Idle animation should match Hop Ground Time")]
     [SerializeField]
@@ -55,6 +57,7 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
         victimAnimator.SetInteger("direction", (int)Mathf.Sign(hopEndX - hopStartX));
         hopping = true;
         setHopState(HopState.Up);
+        MicrogameController.instance.playSFX(hopClip, AudioHelper.getAudioPan(transform.position.x));
     }
 	
 	void Update ()
