@@ -17,7 +17,7 @@ public class MaskPuzzleFragmentGroup
         // Create a new camera for this group by cloning the main camera
         // A separate camera for each group is needed so they don't clip into each other
         // Drawing order is determined by the camera depth
-        assignedCamera = Instantiate(Camera.main);
+        assignedCamera = Camera.Instantiate(Camera.main);
         assignedCamera.GetComponent<AudioListener>().enabled = false;
         assignedCamera.clearFlags = CameraClearFlags.Depth;
         assignedCamera.cullingMask = 1 << initialFragment.gameObject.layer;
