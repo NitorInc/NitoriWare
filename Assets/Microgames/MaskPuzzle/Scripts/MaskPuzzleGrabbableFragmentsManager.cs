@@ -34,7 +34,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     public MaskPuzzleMaskEdges edges;
     public int topDepth = 0;
 
-    public MaskPuzzleMaskFragment.FragmentGroup grabbedFragmentGroup;
+    public MaskPuzzleFragmentGroup grabbedFragmentGroup;
     private Vector3 grabOffset;
     private float grabZ;
 
