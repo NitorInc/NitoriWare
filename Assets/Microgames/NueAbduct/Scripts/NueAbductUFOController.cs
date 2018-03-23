@@ -36,17 +36,26 @@ namespace NitorInc.NueAbduct {
                 return suckSpeed;
             }
         }
+        [SerializeField]
+        float suckAcc = 1.0f;
+        public float SuckAcc
+        {
+            get
+            {
+                return suckAcc;
+            }
+        }
 
         public Animator[] anims;
 
         // Use this for initialization
         void Start() {
-            Cursor.visible = true;
+
         }
 
         // Update is called once per frame
         void Update() {
-
+            suckSpeed += suckAcc * Time.deltaTime;
         }
 
         public void PlaySuckAnimation() {

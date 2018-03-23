@@ -19,9 +19,9 @@ public class MamiPoserController : MonoBehaviour {
     [SerializeField]
     private GameObject smokePrefab;
 
-	[Header("Correct/incorrect sign prefabs")]
-	[SerializeField]
-	private GameObject correctSignPrefab, incorrectSignPrefab;
+    [Header("Correct/incorrect sign prefabs")]
+    [SerializeField]
+    private GameObject correctSignPrefab, incorrectSignPrefab;
 
     [Header("Spawners to spawn characters in")]
     [SerializeField]
@@ -30,6 +30,22 @@ public class MamiPoserController : MonoBehaviour {
     [Header("Delay before Mamizou's sprite appears after clicking")]
     [SerializeField]
     private float mamizouAppearDelay = 0f;
+
+    [Header("Delay before playing victory/loss effects after clicking")]
+    [SerializeField]
+    private float resultEffectsDelay = 0f;
+
+    [Header("Sound played on loss")]
+    [SerializeField]
+    private AudioClip lossSound;
+
+    [Header("Sound played on victory")]
+    [SerializeField]
+    private AudioClip winSound;
+
+    [Header("The smoke poof sound")]
+    [SerializeField]
+    private AudioClip smokeSound;
 
     // Number of character copies to be spawned
     private int characterSpawnNumber = 0;
@@ -48,6 +64,9 @@ public class MamiPoserController : MonoBehaviour {
 
     // Used for delayed Mamizou (true form) appearance
     private Timer mamizouAppearTimer;
+
+    // Used for victory/loss effects
+    private Timer resultTimer;
 
     // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
@@ -93,6 +112,12 @@ public class MamiPoserController : MonoBehaviour {
         // Play the smoke effect
         GameObject smoke = Instantiate(smokePrefab, Vector2.zero, Quaternion.identity);
         smoke.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
+        // Play the poof sound - panned to the smoke's location
+        MicrogameController.instance.playSFX(
+            smokeSound,
+            volume: 1f,
+            panStereo: AudioHelper.getAudioPan(smoke.transform.position.x)
+        );
         // Spawn the real Mamizou - hidden for now
         mamizou = Instantiate(mamizouPrefab, Vector2.zero, Quaternion.identity);
         mamizou.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
@@ -101,36 +126,32 @@ public class MamiPoserController : MonoBehaviour {
         mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
 
         // Determine if the player chose correctly
-		GameObject signPrefab;
-		if (clickedCharacter.isDisguised)
+        GameObject signPrefab;
+        AudioClip resultSound;
+        if (clickedCharacter.isDisguised)
         {
+            // Win
             MicrogameController.instance.setVictory(victory: true, final: true);
             mamizou.ChoseRight();
-			signPrefab = correctSignPrefab;
+            signPrefab = correctSignPrefab;
+            resultSound = winSound;
         }
         else
         {
+            // Loss
             MicrogameController.instance.setVictory(victory: false, final: true);
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
-			signPrefab = incorrectSignPrefab;
+            signPrefab = incorrectSignPrefab;
+            resultSound = lossSound;
         }
 
-		// Show the correct/incorrect sign at cursor position
-		print(CameraHelper.getCursorPosition());
-		if (signPrefab)
-			Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
-		
-        // Make the other characters (except the one clicked) look at Mamizou
-        for (int i = 0; i < characterSpawnNumber; i++)
-        {
-            if (createdCharacters[i] == clickedCharacter)
-                continue;
-            if (i < mamizouIndex)
-                createdCharacters[i].LookRight();
-            else if (i > mamizouIndex)
-                createdCharacters[i].LookLeft();
-        }
+        // Delay the victory/loss effects
+        resultTimer = TimerManager.NewTimer(
+            resultEffectsDelay,
+            () => VictoryLossEffects(signPrefab, resultSound),
+            0
+        );
     }
 
     // Hide the disguised form Mamizou and show the true form Mamizou
@@ -138,5 +159,19 @@ public class MamiPoserController : MonoBehaviour {
     {
         createdCharacters[mamizouIndex].gameObject.SetActive(false);
         mamizou.gameObject.SetActive(true);
+    }
+
+    // Play victory/loss effects
+    private void VictoryLossEffects(GameObject signPrefab, AudioClip sound)
+    {
+        // Show the correct/incorrect sign in the middle of the screen
+        if (signPrefab)
+            Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
+        // Play the victory/loss sound
+        MicrogameController.instance.playSFX(
+            sound,
+            volume: 0.5f,
+            panStereo: 0
+        );
     }
 }
