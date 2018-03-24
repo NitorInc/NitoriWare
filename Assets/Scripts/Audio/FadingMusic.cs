@@ -11,16 +11,24 @@ public class FadingMusic : MonoBehaviour
     [SerializeField]
     private float fadeSpeed;
     [SerializeField]
+    private bool startOnAwake;
+    [SerializeField]
     private PrefsHelper.VolumeType type = PrefsHelper.VolumeType.Music;
 #pragma warning restore 0649
 
     private AudioSource _audioSource;
     private bool started;
+    private float goalVolumeMult = 1f;
 
 	void Awake()
-	{
-        started = false;
+    {
         _audioSource = GetComponent<AudioSource>();
+        started = startOnAwake;
+        if (fadeInFirst && startOnAwake)
+        {
+            goalVolumeMult = _audioSource.volume;
+            _audioSource.volume = 0f;
+        }
 	}
 
     void Update()
@@ -35,13 +43,13 @@ public class FadingMusic : MonoBehaviour
         if (PrefsHelper.getVolume(type) <= 0f)
             return;
 
-        float volumeMult = PrefsHelper.getVolume(type);
-        float diff = fadeSpeed * Time.deltaTime * volumeMult;
+        float prefsMult = PrefsHelper.getVolume(type);
+        float diff = fadeSpeed * Time.deltaTime * prefsMult;
         if (fadeInFirst)
         {
-            if (_audioSource.volume >= volumeMult)
+            if (_audioSource.volume >= prefsMult * goalVolumeMult)
             {
-                _audioSource.volume = volumeMult;
+                _audioSource.volume = prefsMult * goalVolumeMult;
                 fadeInFirst = started = false;
             }
             else
