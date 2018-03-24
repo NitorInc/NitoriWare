@@ -21,7 +21,7 @@ public class MaskPuzzleFragmentGroup
         assignedCamera.GetComponent<AudioListener>().enabled = false;
         assignedCamera.clearFlags = CameraClearFlags.Depth;
         assignedCamera.cullingMask = 1 << initialFragment.gameObject.layer;
-        assignedCamera.depth = 0;
+        assignedCamera.depth = .1f;
     }
 
     //Connect this group to another fragment group

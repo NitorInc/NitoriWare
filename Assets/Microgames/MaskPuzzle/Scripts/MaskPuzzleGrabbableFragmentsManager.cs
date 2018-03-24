@@ -48,7 +48,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
     public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;
-    public int topDepth = 0;
+    public float topDepth = 0f;
 
     public MaskPuzzleFragmentGroup grabbedFragmentGroup;
     private Vector3 grabOffset;
@@ -124,7 +124,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             if (topHitFragment) {
                 grabbedFragmentGroup = topHitFragment.fragmentGroup;
                 // Grabbed fragment group should be on top
-                grabbedFragmentGroup.assignedCamera.depth = (++topDepth);
+                grabbedFragmentGroup.assignedCamera.depth = (topDepth += .005f);
                 // Save the grabbed point's coordinates needed for calculating position when dragging
                 grabZ = topHit.point.z;
                 grabOffset = topHitFragment.transform.position
