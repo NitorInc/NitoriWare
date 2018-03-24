@@ -7,8 +7,10 @@ public class DatingSimMenuExpand : MonoBehaviour
 {
     [SerializeField]
     private float targetYScale = 1f;
+    public float TargetYScale { get { return targetYScale;} set { targetYScale = value; } }
     [SerializeField]
     private float scaleSpeed = 10f;
+    public float ScaleSpeed { get { return scaleSpeed; } set { scaleSpeed = value; } }
     [SerializeField]
     private UnityEvent onExpanded;
     
