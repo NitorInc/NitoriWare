@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class Vibrate : MonoBehaviour
 {
 
@@ -28,9 +29,12 @@ public class Vibrate : MonoBehaviour
 	private Vector2 vibrateGoal, offset;
 	public bool relativeToStartPosition = true, resetOnStop, resetOnStart;
 
+    public bool enableInEditor = false;
 
 	protected void Awake()
 	{
+        if (!Application.isPlaying && !enableInEditor)
+            return;
 		resetOffset();
 		resetVibrateGoal();
 	}
@@ -47,8 +51,11 @@ public class Vibrate : MonoBehaviour
 	}
 
 	void Update()
-	{
-		if (vibrateOn)
+    {
+        if (!Application.isPlaying && !enableInEditor)
+            return;
+
+        if (vibrateOn)
 			updateVibrate();
 	}
 

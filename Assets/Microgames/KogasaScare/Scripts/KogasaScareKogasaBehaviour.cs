@@ -79,6 +79,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                     updateMovement();
                 break;
             case (State.Victory):
+            case (State.Loss):
                 if (Mathf.Abs(transform.position.x - victim.transform.position.x) < minScareDistance)
                 {
                     float snapDirection = Mathf.Sign(transform.position.x - victim.transform.position.x);
@@ -155,6 +156,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         {
             walkSource.loop = false;
         }
+        walkSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
 
         kogasaAnimator.speed = (leftPressed || rightPressed) ? 1f : 1.5f;
         transform.position += Vector3.right * (float)direction * moveSpeed * Time.deltaTime; // * ((leftPressed || rightPressed) ? 1f : .5f);
