@@ -9,12 +9,17 @@ public class YuugiBalancePlate : MonoBehaviour
     private Animator anim;
     [SerializeField]
     private SpriteRenderer background;
+    private SpriteRenderer rend;
+    [SerializeField]
+    private Sprite failure_spr;
     [SerializeField]
     private Transform player;
     [SerializeField]
     private YuugiBalancePlayer player_script;
     [SerializeField]
     private Vector3 offset;
+    [SerializeField]
+    private new AudioSource audio;
     private float z = 0,
         target_x = 0,
         sin = Mathf.PI / 2f,
@@ -28,25 +33,27 @@ public class YuugiBalancePlate : MonoBehaviour
     private float delay = 0, //delay in seconds before start
         difficulty = 2,
         beats_left_to_win = 0.5f;
-    private Vector3 deathposition;
+    private Vector3 deathposition, bgdefpos;
     private bool success = false;
     void Start()
     {
+        rend = GetComponent<SpriteRenderer>();
+        bgdefpos = background.transform.position;
         //randomize if plate will start rotating left or right
-        if (Random.value > 0.5f)
+        if(Random.value > 0.5f)
             sin = Mathf.PI * 3 / 2f;
     }
 
     void LateUpdate()
     {
         //run the failed update if failed
-        if (!MicrogameController.instance.getVictory())
+        if(!MicrogameController.instance.getVictory())
         {
             Failed();
             return;
         }
-        
-        if (MicrogameTimer.instance.beatsLeft <= beats_left_to_win)
+
+        if(MicrogameTimer.instance.beatsLeft <= beats_left_to_win)
         {
             Succeed();
             return;
@@ -59,7 +66,7 @@ public class YuugiBalancePlate : MonoBehaviour
 
         //push if close to edge
         float max = player_script.max_horizontal - 1;
-        if (Mathf.Abs(player.position.x) > max)
+        if(Mathf.Abs(player.position.x) > max)
             target_x -= (player.position.x - max
                 * Mathf.Sign(player.position.x)) * 0.3f;
 
@@ -75,15 +82,22 @@ public class YuugiBalancePlate : MonoBehaviour
         transform.eulerAngles = Vector3.forward * z;
 
         //set bg paralax position
-        background.transform.position = Vector3.right * distance * -0.1f;
+        background.transform.position = bgdefpos + Vector3.right * distance * -0.1f;
+
+        //save the variable for less abs calls
+        float abs = Mathf.Abs(distance);
 
         //check for failure
-        if (Mathf.Abs(distance) > fail_distance)
+        if(abs > fail_distance)
         {
             MicrogameController.instance.setVictory(false, true);
 
             //death animation
             anim.SetBool("rip", true);
+
+            //change sprite if available
+            if(failure_spr != null)
+                rend.sprite = failure_spr;
 
             //set death pos
             deathposition = player.position;
@@ -91,11 +105,19 @@ public class YuugiBalancePlate : MonoBehaviour
             //remove controls
             Destroy(player.GetComponent<YuugiBalancePlayer>());
         }
+
+        //play beeping noise when nearing failure
+        if(abs > 0.2F)
+        {
+            if(!audio.isPlaying)
+                audio.Play();
+            audio.pitch = 1 + abs;
+        }
     }
 
     void Succeed()
     {
-        if (!success)
+        if(!success)
         {
             success = true;
             //remove controls
