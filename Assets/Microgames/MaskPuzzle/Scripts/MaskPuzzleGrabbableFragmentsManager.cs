@@ -34,6 +34,12 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Sound for dropping a fragment")]
     [SerializeField]
     private AudioClip dropSound;
+    [SerializeField]
+    private float dropPitchMult = .8f;
+
+    [Header("Sound for placing a fragment correctly")]
+    [SerializeField]
+    private AudioClip placeSound;
 
     [Header("")]
     public float victoryStartTime;
@@ -135,13 +141,22 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
         // Dropping a fragment
         else if (grabbedFragmentGroup != null && !Input.GetMouseButton(0)) {
-            grabbedFragmentGroup.SnapToOtherFragments();
             MicrogameController.instance.playSFX(
                 dropSound,
                 volume: 1f,
+                pitchMult: dropPitchMult,
                 panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
             );
-            CheckVictory();
+            if (grabbedFragmentGroup.SnapToOtherFragments())
+            {
+
+                CheckVictory();
+                MicrogameController.instance.playSFX(
+                    placeSound,
+                    volume: 1f,
+                    panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
+                );
+            }
             grabbedFragmentGroup = null;
         }
 

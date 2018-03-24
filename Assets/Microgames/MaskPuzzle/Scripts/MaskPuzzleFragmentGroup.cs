@@ -44,8 +44,9 @@ public class MaskPuzzleFragmentGroup
     // Checks whether any other fragments are near the drop position
     // If yes, snaps the fragments of this group to them by making their positions equal
     // and joins their groups
-    public void SnapToOtherFragments()
+    public bool SnapToOtherFragments()
     {
+        bool connected = false;
         for (int i=0; i<fragments[0].fragmentsManager.fragments.Count; i++)
         {
             MaskPuzzleMaskFragment checkedFragment = fragments[0].fragmentsManager.fragments[i];
@@ -74,7 +75,9 @@ public class MaskPuzzleFragmentGroup
                 }
                 connectTo(checkedFragment.fragmentGroup);
                 Debug.Log("Now the group contains " + fragments.Count + " fragments.");
+                connected = true;
             }
         }
+        return connected;
     }
 }
