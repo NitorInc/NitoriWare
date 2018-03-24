@@ -286,6 +286,21 @@ Prefab:
       propertyPath: opposingRabbit
       value: 
       objectReference: {fileID: 210418368}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: poundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 94abe471ad529c9448ae47096d505588, type: 3}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: rabbitAnimSpeedMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
+        type: 2}
+      propertyPath: rabbitAnimSpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47e852eca0036a348a29ddbf3a769eba, type: 2}
   m_IsPrefabParent: 0
@@ -340,6 +355,7 @@ Transform:
   m_Children:
   - {fileID: 954400039}
   - {fileID: 619239677}
+  - {fileID: 1787770451}
   - {fileID: 676115374}
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -404,6 +420,21 @@ Prefab:
     - target: {fileID: 4905512214401638, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.89952
+      objectReference: {fileID: 0}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: poundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 94abe471ad529c9448ae47096d505588, type: 3}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: rabbitAnimSpeedMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
+        type: 2}
+      propertyPath: rabbitAnimSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
@@ -589,7 +620,7 @@ Transform:
   m_LocalScale: {x: 4.2506847, y: 4.2506847, z: 4.2506847}
   m_Children: []
   m_Father: {fileID: 333833780}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &676115375
 Animator:
@@ -4449,15 +4480,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2444aea6269664f89084ce616d1042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 0
-  requiredHits: 040000000600000008000000
-  finishPoundAnimTime: 0.15
-  finishSequenceAnimTime: 0.15
+  difficulty: 2
+  requiredHits: 040000000500000007000000
   finishAnims:
   - {fileID: 333833779}
   - {fileID: 1497573906}
   objectsToDisableOnFinish:
   - {fileID: 2095608891}
+  finishPoundSound: {fileID: 8300000, guid: 94abe471ad529c9448ae47096d505588, type: 3}
+  finishPoundVolume: 2.5
+  finishAnimSpeed: 1
 --- !u!4 &1711409699
 Transform:
   m_ObjectHideFlags: 0
@@ -4471,6 +4503,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1787770450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1787770451}
+  - component: {fileID: 1787770452}
+  m_Layer: 0
+  m_Name: ExplosionSE
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1787770451
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1787770450}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.7922317, y: 2.4290686, z: 0.027702626}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 333833780}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1787770452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1787770450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db0c418872377d41bc367d4e425060f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 70d71b844dcd4564fa01476d4896c946, type: 3}
 --- !u!1001 &1922383202
 Prefab:
   m_ObjectHideFlags: 0
