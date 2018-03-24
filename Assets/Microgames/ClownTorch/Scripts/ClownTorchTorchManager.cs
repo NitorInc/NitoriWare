@@ -20,6 +20,8 @@ namespace NitorInc.ClownTorch {
             }
         }
 
+        public AudioClip[] igniteClips;
+
         public GameObject victorySequence;
         public float sequenceStartingDelay = 0.25f;
         public GameObject[] objsToDisableOnVictory;
@@ -47,6 +49,12 @@ namespace NitorInc.ClownTorch {
             if (torch.IsLit()) {
                 SetVictory();
             }
+        }
+
+        public void PlayIgniteClip(int index = -1) {
+            if (index == -1)
+                index = Random.Range(0, igniteClips.Length);
+            MicrogameController.instance.playSFX(igniteClips[index], MicrogameController.instance.getSFXSource().panStereo);
         }
 
         public void SetVictory() {
