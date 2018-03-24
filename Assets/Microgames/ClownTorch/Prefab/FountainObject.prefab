@@ -51,8 +51,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4116804928207834}
-  - component: {fileID: 61094185406755134}
   - component: {fileID: 114126858635447416}
+  - component: {fileID: 60861614517406500}
   m_Layer: 0
   m_Name: FountainCollider
   m_TagString: Untagged
@@ -83,7 +83,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1620583319944792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38502958, y: -1.9, z: -0.009765625}
+  m_LocalPosition: {x: 2.2425365, y: -0.07098514, z: -0.009765625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4116804928207834}
@@ -131,8 +131,8 @@ Transform:
   m_Father: {fileID: 4063362662261638}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61094185406755134
-BoxCollider2D:
+--- !u!60 &60861614517406500
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -153,9 +153,18 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.22566323, y: 0.45821804}
+      - {x: -0.2643776, y: 0.4685349}
+      - {x: -0.53220814, y: 0.16863936}
+      - {x: -0.52187014, y: -0.13393623}
+      - {x: -0.28240514, y: -0.14575052}
+      - {x: -0.26495102, y: -0.44337398}
+      - {x: 0.27493575, y: -0.44726372}
+      - {x: 0.2647344, y: -0.13037142}
+      - {x: 0.50751275, y: -0.14121112}
+      - {x: 0.52172035, y: 0.07562786}
 --- !u!95 &95284606832047758
 Animator:
   serializedVersion: 3
