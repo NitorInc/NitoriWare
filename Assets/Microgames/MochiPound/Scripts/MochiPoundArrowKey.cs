@@ -23,11 +23,11 @@ namespace NitorInc.MochiPound {
         public void SetActive(bool active) {
             if (active) {
                 animator.Play(pulseAnimationName);
-                sr.color = Color.white;
+                Sr.color = Color.white;
             } 
             else {
                 animator.Play(stillAnimationName);
-                sr.color = disabledColor;
+                Sr.color = disabledColor;
                 if (MicrogameController.instance.getVictory())
                     Disable();
             }
