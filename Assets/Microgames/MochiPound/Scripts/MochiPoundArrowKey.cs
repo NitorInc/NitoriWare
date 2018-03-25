@@ -12,6 +12,8 @@ namespace NitorInc.MochiPound {
         public string pulseAnimationName = "ButtonPulse";
 
         SpriteRenderer sr;
+
+        bool isActive = false;
         private void Start() {
             sr = GetComponent<SpriteRenderer>();
         }
@@ -26,6 +28,11 @@ namespace NitorInc.MochiPound {
                 if (MicrogameController.instance.getVictory())
                     disable();
             }
+            isActive = active;
+        }
+
+        public bool IsActive() {
+            return isActive;
         }
 
         public void disable()

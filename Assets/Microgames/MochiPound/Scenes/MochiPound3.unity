@@ -281,26 +281,6 @@ Prefab:
       propertyPath: mochiAnim
       value: 
       objectReference: {fileID: 1378836869}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: opposingRabbit
-      value: 
-      objectReference: {fileID: 210418368}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: poundClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 94abe471ad529c9448ae47096d505588, type: 3}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: rabbitAnimSpeedMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114287238188397832, guid: 47e852eca0036a348a29ddbf3a769eba,
-        type: 2}
-      propertyPath: rabbitAnimSpeed
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47e852eca0036a348a29ddbf3a769eba, type: 2}
   m_IsPrefabParent: 0
@@ -404,38 +384,6 @@ Prefab:
       propertyPath: mochiAnim
       value: 
       objectReference: {fileID: 1378836869}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: opposingRabbit
-      value: 
-      objectReference: {fileID: 2004113677}
-    - target: {fileID: 4905512214401638, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.89952
-      objectReference: {fileID: 0}
-    - target: {fileID: 4905512214401638, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.89952
-      objectReference: {fileID: 0}
-    - target: {fileID: 4905512214401638, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.89952
-      objectReference: {fileID: 0}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: poundClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 94abe471ad529c9448ae47096d505588, type: 3}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: rabbitAnimSpeedMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114814297421897884, guid: 54caea376ac3b1542b088ad5107310c3,
-        type: 2}
-      propertyPath: rabbitAnimSpeed
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54caea376ac3b1542b088ad5107310c3, type: 2}
   m_IsPrefabParent: 0
@@ -4489,7 +4437,13 @@ MonoBehaviour:
   - {fileID: 2095608891}
   finishPoundSound: {fileID: 8300000, guid: 94abe471ad529c9448ae47096d505588, type: 3}
   finishPoundVolume: 2.5
+  timeBeforeFinishAnim: 0.1
   finishAnimSpeed: 1
+  rabbits:
+  - {fileID: 2004113677}
+  - {fileID: 210418368}
+  timeBetweenInputs: 0.2
+  mistakePenalty: 0.5
 --- !u!4 &1711409699
 Transform:
   m_ObjectHideFlags: 0
