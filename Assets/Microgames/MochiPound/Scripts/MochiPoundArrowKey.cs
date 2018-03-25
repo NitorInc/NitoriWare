@@ -11,6 +11,9 @@ namespace NitorInc.MochiPound {
         public string stillAnimationName = "ButtonStill";
         public string pulseAnimationName = "ButtonPulse";
 
+        public GameObject xSpriteObj;
+        public float xDuration = 0.12f;
+
         SpriteRenderer sr;
         SpriteRenderer Sr {
             get {
@@ -31,6 +34,15 @@ namespace NitorInc.MochiPound {
                 if (MicrogameController.instance.getVictory())
                     Disable();
             }
+        }
+
+        public void OnMistake() {
+            xSpriteObj.SetActive(true);
+            Invoke("DisableX", xDuration);
+        }
+
+        void DisableX() {
+            xSpriteObj.SetActive(false);
         }
 
         public void Disable()

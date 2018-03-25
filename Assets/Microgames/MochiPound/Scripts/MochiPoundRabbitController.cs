@@ -43,6 +43,7 @@ namespace NitorInc.MochiPound {
         public MochiPoundArrowKey button;
 
         public AudioClip poundClip;
+        public AudioClip mistakeClip;
 
         public string poundAnimName = "Pounding";
         public string windupAnimName = "Windup";
@@ -100,6 +101,12 @@ namespace NitorInc.MochiPound {
             PlanetBump();
             MochiBump();
             ctrl.CountHit();
+        }
+
+        public void OnMistake() {
+            MicrogameController.instance.playSFX(mistakeClip, MicrogameController.instance.getSFXSource().panStereo);
+            button.OnMistake();
+            anim.Play(shakeAnimName, 0, 0.0f);
         }
 
         void PlanetBump() {

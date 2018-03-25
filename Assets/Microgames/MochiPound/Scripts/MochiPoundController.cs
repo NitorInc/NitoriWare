@@ -89,6 +89,7 @@ namespace NitorInc.MochiPound {
                     }
                 }
                 else {
+                    rabbits[0].OnMistake();
                     enableTimer.Restart(mistakePenalty);
                 }
                 DisableInput();
@@ -107,6 +108,7 @@ namespace NitorInc.MochiPound {
                     }
                 }
                 else {
+                    rabbits[1].OnMistake();
                     enableTimer.Restart(mistakePenalty);
                 }
                 DisableInput();
