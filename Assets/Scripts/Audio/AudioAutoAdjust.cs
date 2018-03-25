@@ -8,10 +8,13 @@ public class AudioAutoAdjust : MonoBehaviour
     [SerializeField]
 	private bool includeChildren, tieToTimescale = true, tieToVolumeSettings = true;
     [SerializeField]
+    private bool preserveInitialPitch;
+    [SerializeField]
     private PrefsHelper.VolumeType volumeType = PrefsHelper.VolumeType.SFX;
 	private AudioSource[] sources;
 
     private float[] initialVolumes;
+    private float[] initialPitches;
     private float instanceTimeScale, instanceVolumeSetting;
 
 	void Awake()
@@ -27,7 +30,14 @@ public class AudioAutoAdjust : MonoBehaviour
             updateVolume();
         }
         if (tieToTimescale)
+        {
+            initialPitches = new float[sources.Length];
+            for (int i = 0; i < sources.Length; i++)
+            {
+                initialPitches[i] = sources[i].pitch;
+            }
             updatePitch();
+        }
     }
 
 	void Update()
@@ -51,6 +61,8 @@ public class AudioAutoAdjust : MonoBehaviour
 		for (int i = 0; i < sources.Length; i++)
 		{
 			sources[i].pitch = Time.timeScale;
+            if (preserveInitialPitch)
+                sources[i].pitch *= initialPitches[i];
         }
         instanceTimeScale = Time.timeScale;
 	}
