@@ -14,6 +14,8 @@ public class BeachBallBallLauncher : MonoBehaviour
     [Header("Launch equation arg (affects height)")]
     public float ThrowConstant = 442f;
 
+    public BeachBallHoopParamsRandomizer hoopAnimationControl;
+
     public Vector2 ThrowDirection = new Vector2(0, 1);
 
     private Rigidbody2D physicsModel;
@@ -52,6 +54,8 @@ public class BeachBallBallLauncher : MonoBehaviour
             scaleMultiplier.Started = true;
             //animate the seal
             sealAnimation.Play();
+
+            hoopAnimationControl.stopHoop();
 
             //throw the ball using animation
             /*foreach (AnimationState state in ballAnimation)
