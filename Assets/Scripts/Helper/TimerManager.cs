@@ -10,6 +10,10 @@ namespace NitorInc.Utility {
                     _instance = new GameObject("TimerManager").AddComponent<TimerManager>();
                     _instance.Initialize();
                 }
+                else if (!_instance.gameObject.activeInHierarchy) {
+                    _instance = new GameObject("TimerManager").AddComponent<TimerManager>();
+                    _instance.Initialize();
+                }
                 return _instance;
             }
         }

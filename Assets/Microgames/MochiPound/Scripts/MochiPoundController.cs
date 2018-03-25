@@ -4,101 +4,53 @@ using UnityEngine;
 
 namespace NitorInc.MochiPound {
 
-    public enum Hit {
-        Left = 0,
-        Right,
-        Both
-    }
-
     public class MochiPoundController : MonoBehaviour {
-
         public int difficulty = 0;
-        public int[] requiredHits = {25, 50, 75}; 
-        public int RequiredHits {
+        public int[] requiredHits = {
+            4,6,8
+        };
+        public int RequiredHit {
             get {
                 return requiredHits[difficulty];
             }
         }
+
+        int hitCounter;
+
+        public void CountHit() {
+            hitCounter++;
+        }
+
         public bool IsLastHit {
             get {
-                return (RequiredHits - hitCounter) == 1;
+                return hitCounter == RequiredHit;
             }
         }
-        int hitCounter = 0;
 
         public Animator[] finishAnims;
-        public float finishWaitTime = 0.3f;
+        public GameObject[] objectsToDisableOnFinish;
+        public AudioClip finishPoundSound;
+        public float finishPoundVolume = 2.5f;
+        bool hasCalled = false;
+        public float finishAnimSpeed = 1.0f;
 
-        bool hasWon = false;
-        Hit lastHit = Hit.Both;
-
-        public MochiPoundRabbitController[] rabbits;
-
-        void Start() {
-            hitCounter = 0;
-        }
-
-        void Update() {
-            if (!hasWon) {
-                switch (lastHit) {
-                    case Hit.Both:
-                        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                            rabbits[(int)Hit.Left].Pound();
-                            rabbits[(int)Hit.Right].Windup();
-                            rabbits[(int)Hit.Left].ShowButton(false);
-                            ++hitCounter;
-                            lastHit = Hit.Left;
-                        } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                            rabbits[(int)Hit.Right].Pound();
-                            rabbits[(int)Hit.Left].Windup();
-                            rabbits[(int)Hit.Right].ShowButton(false);
-                            ++hitCounter;
-                            lastHit = Hit.Right;
-                        }
-                        break;
-                    case Hit.Left:
-                        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                            rabbits[(int)Hit.Right].Pound();
-                            rabbits[(int)Hit.Left].Windup();
-                            rabbits[(int)Hit.Right].ShowButton(false);
-                            rabbits[(int)Hit.Left].ResetStatus();
-                            rabbits[(int)Hit.Left].ShowButton(true);
-                            ++hitCounter;
-                            lastHit = Hit.Right;
-                        }
-                        break;
-                    case Hit.Right:
-                        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                            rabbits[(int)Hit.Left].Pound();
-                            rabbits[(int)Hit.Right].Windup();
-                            rabbits[(int)Hit.Left].ShowButton(false);
-                            rabbits[(int)Hit.Right].ResetStatus();
-                            rabbits[(int)Hit.Right].ShowButton(true);
-                            ++hitCounter;
-                            lastHit = Hit.Left;
-                        }
-                        break;
-                }
-            }
-        }
-
-        public void OnHit() {
-            if (hitCounter >= RequiredHits) {
-                MicrogameController.instance.setVictory(true, true);
-                hasWon = true;
-                for (int i = 0; i < rabbits.Length; i++) {
-                    rabbits[i].OnVictory();
-                }
-                Invoke("PlayFinishSequence", finishWaitTime);
+        public void PrepareToStartFinalSequence(float poundAnimTime) {
+            if (!hasCalled) {
+                hasCalled = true;
+                Invoke("PlayFinishSequence", poundAnimTime);
             }
         }
 
         void PlayFinishSequence() {
+            MicrogameController.instance.playSFX(finishPoundSound, MicrogameController.instance.getSFXSource().panStereo, 1.0f, finishPoundVolume);
             for (int i = 0; i < finishAnims.Length; i++) {
+                finishAnims[i].speed *= finishAnimSpeed;
                 finishAnims[i].enabled = true;
                 finishAnims[i].Play("Finish", 0, 0.0f);
             }
+            for (int i = 0; i < objectsToDisableOnFinish.Length; i++) {
+                objectsToDisableOnFinish[i].SetActive(false);
+            }
         }
-
     }
 }

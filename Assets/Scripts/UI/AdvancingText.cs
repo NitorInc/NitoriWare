@@ -10,6 +10,7 @@ public class AdvancingText : MonoBehaviour
     
     [SerializeField]
     private float advanceSpeed;
+
     [SerializeField]
     private UnityEvent onComplete;
 

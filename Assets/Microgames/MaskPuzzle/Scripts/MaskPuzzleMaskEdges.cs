@@ -18,7 +18,7 @@ public class MaskPuzzleMaskEdges : MonoBehaviour
     }
 
     // Check if two fragments can be connected directly
-    public bool areConnectable(MaskPuzzleMaskFragment.FragmentGroup group1, MaskPuzzleMaskFragment.FragmentGroup group2)
+    public bool areConnectable(MaskPuzzleFragmentGroup group1, MaskPuzzleFragmentGroup group2)
     {
         if (overrideEdgeCheck)
             return true;

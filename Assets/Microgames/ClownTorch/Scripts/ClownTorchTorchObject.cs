@@ -8,13 +8,26 @@ namespace NitorInc.ClownTorch {
         public GameObject fireEff;
         public ParticleSystem smokeEff;
         public ParticleSystem extinguishEff;
-        public float requiredTime = 0.5f;
+        float requiredTime = 0.5f;
         float timer = 0.0f;
         bool isOnFire = false;
 
         bool countedThisFrame = false;
+
+        ClownTorchTorchManager manager;
         // Use this for initialization
         void Start() {
+            manager = FindObjectOfType<ClownTorchTorchManager>();
+            var tag = GetComponent<ClownTorchTag>().type;
+            switch (tag) {
+                case ClownTorchTag.Type.ClownTorch:
+                    requiredTime = manager.ClownTorchRequiredTime;
+                    break;
+                case ClownTorchTag.Type.PlayerTorch:
+                    requiredTime = manager.PlayerTorchRequiredTime;
+                    break;
+            }
+            
         }
 
         // Update is called once per frame
@@ -23,9 +36,12 @@ namespace NitorInc.ClownTorch {
                 timer += Time.deltaTime;
             }
 
-            if (timer >= requiredTime) {
-                fireEff.SetActive(true);
-                smokeEff.Stop();
+            if (!IsLit()) {
+                if (timer >= requiredTime) {
+                    fireEff.SetActive(true);
+                    smokeEff.Stop();
+                    manager.PlayIgniteClip();
+                }
             }
         }
 

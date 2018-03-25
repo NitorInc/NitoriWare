@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 212337572485090720}
   - component: {fileID: 114283687822758842}
   m_Layer: 0
-  m_Name: LeftArrowKey
+  m_Name: ArrowKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9098f3226e3c875488515b573aa6ac7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disabledColor: {r: 0.47058827, g: 0.47058827, b: 0.47058827, a: 1}
+  disabledColor: {r: 0.47058827, g: 0.47058827, b: 0.47058827, a: 0.5019608}
+  animator: {fileID: 95715120387334158}
+  stillAnimationName: ButtonStill
+  pulseAnimationName: ButtonPulse
 --- !u!114 &114287238188397832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,11 +146,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poundNormalizedTime: 0.6
+  windupNormalizedTime: 0.7
   mochiAnim: {fileID: 0}
   xShake: 0.35
   shakeSpeed: 5
+  poundAnimTime: 0.25
+  poundHitTime: 0.1
+  windupAnimTime: 0.1
+  inputKey: 276
+  opposingRabbit: {fileID: 0}
   button: {fileID: 114283687822758842}
   poundAnimName: Pounding
+  windupAnimName: Windup
+  idleAnimName: Idle
 --- !u!212 &212337572485090720
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -157,6 +168,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -172,6 +184,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -189,6 +202,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212456409956757420
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -198,6 +212,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -213,6 +228,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -220,7 +236,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 961721a2b42e1b740878c3d5949cd4e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -230,3 +246,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

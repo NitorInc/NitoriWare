@@ -13,18 +13,46 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     public float maxSnapDistance = 1f;
 
     [Header("On victory move mask to:")]
-    public Vector2 victoryGoal;
+    public Vector3 victoryGoal;
 
-    [Header("On victory rotate the mask by:")]
-    public float victoryRotation;
+    [Header("On victory rotate the mask to:")]
+    public Vector3 victoryRotation;
 
     [Header("Time to move to victory position")]
     public float victoryMoveTime = 1f;
 
-    public float victoryMoveSpeed, victoryRotationSpeed;
+    [Header("Speed of background animation")]
+    public float backgroundAnimSpeed = 10f;
+
+    [Header("Background sprite mask")]
+    public Transform backgroundMask;
+
+    [Header("Sound for picking up a fragment")]
+    [SerializeField]
+    private AudioClip grabSound;
+
+    [Header("Sound for dropping a fragment")]
+    [SerializeField]
+    private AudioClip dropSound;
+    [SerializeField]
+    private float dropPitchMult = .8f;
+
+    [Header("Sound for placing a fragment correctly")]
+    [SerializeField]
+    private AudioClip placeSound;
+
+    [Header("")]
+    public float victoryStartTime;
+    public Vector3 victoryStartPosition;
+    public Vector3 victoryStartRotation;
 
     public List<MaskPuzzleMaskFragment> fragments;
     public MaskPuzzleMaskEdges edges;
+    public float topDepth = 0f;
+
+    public MaskPuzzleFragmentGroup grabbedFragmentGroup;
+    private Vector3 grabOffset;
+    private float grabZ;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
     void Start ()
@@ -36,6 +64,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         // Get info about the edges that should be connected
         edges = chosenMask.GetComponent<MaskPuzzleMaskEdges>();
 
+        // Layers will be assigned starting from this one
+        int layerCounter = 14;
+
         // Initialize all fragments of the chosen mask
         while (chosenMask.transform.childCount > 0)
         {
@@ -45,26 +76,128 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             // Become the parent of the fragment
             currentFragment.transform.parent = transform;
 
-            // Add script to the fragment
-            //currentFragment.AddComponent<MaskPuzzleMaskFragment>();
+            // Add script and collider to the fragment
             currentFragment.GetComponent<MaskPuzzleMaskFragment>().fragmentsManager = this;
+            currentFragment.AddComponent<MeshCollider>();
 
-            // Setup drag and drop
-            currentFragment.AddComponent<PolygonCollider2D>();
-            currentFragment.AddComponent<MouseGrabbable>();
-            currentFragment.GetComponent<MouseGrabbable>().disableOnVictory = true;
-            GetComponent<MouseGrabbableGroup>().addGrabbable(currentFragment.GetComponent<MouseGrabbable>(), false);
-
-            // Add hooks to drag and drop
-            UnityEvent grabEvent = new UnityEvent();
-            grabEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().OnGrab);
-            currentFragment.GetComponent<MouseGrabbable>().onGrab = grabEvent;
-            UnityEvent releaseEvent = new UnityEvent();
-            releaseEvent.AddListener(currentFragment.GetComponent<MaskPuzzleMaskFragment>().OnRelease);
-            currentFragment.GetComponent<MouseGrabbable>().onRelease = releaseEvent;
+            // Assign a layer to the fragment
+            currentFragment.gameObject.layer = layerCounter++;
 
             // Add the fragment to list
             fragments.Add(currentFragment.GetComponent<MaskPuzzleMaskFragment>());
         }
-	}
+    }
+
+    // Handle dragging and dropping the fragments
+    void HandleDragging()
+    {
+        // Grabbing a fragment
+        if (grabbedFragmentGroup == null && Input.GetMouseButtonDown(0))
+        {
+            // Get an array of all the fragments under the cursor
+            Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(mouseRay, float.PositiveInfinity, 31 << 14);
+
+            RaycastHit topHit = new RaycastHit();
+            MaskPuzzleMaskFragment fragmentHit, topHitFragment = null;
+            float topHitDepth = -1f;
+            float topHitDistance = 0f;
+
+            // There might be multiple fragments under the cursor
+            // We need to determine which one is on top - that one will be grabbed
+            // We pick the one whose assigned camera has the highest depth
+            // In case of equal depth we pick the fragment closest to the camera
+            foreach (RaycastHit hit in hits)
+            {
+                fragmentHit = hit.collider.GetComponent<MaskPuzzleMaskFragment>();
+                if (fragmentHit.fragmentGroup.assignedCamera.depth <= topHitDepth)
+                    continue;
+                if (fragmentHit.fragmentGroup.assignedCamera.depth == topHitDepth
+                        && hit.distance >= topHitDistance)
+                    continue;
+                topHit = hit;
+                topHitFragment = fragmentHit;
+                topHitDepth = fragmentHit.fragmentGroup.assignedCamera.depth;
+                topHitDistance = hit.distance;
+            }
+
+            if (topHitFragment) {
+                grabbedFragmentGroup = topHitFragment.fragmentGroup;
+                // Grabbed fragment group should be on top
+                grabbedFragmentGroup.assignedCamera.depth = (topDepth += .005f);
+                // Save the grabbed point's coordinates needed for calculating position when dragging
+                grabZ = topHit.point.z;
+                grabOffset = topHitFragment.transform.position
+                    - CameraHelper.getCursorPosition(grabZ);
+                print("Top hit=" + topHitFragment + "; depth=" + topHitDepth + "; dist=" + topHitDistance
+                    + "; z=" + topHit.point.z);
+                MicrogameController.instance.playSFX(
+                    grabSound,
+                    volume: 1f,
+                    panStereo: AudioHelper.getAudioPan(topHitFragment.transform.position.x)
+                );
+            }
+        }
+
+        // Dropping a fragment
+        else if (grabbedFragmentGroup != null && !Input.GetMouseButton(0)) {
+            MicrogameController.instance.playSFX(
+                dropSound,
+                volume: 1f,
+                pitchMult: dropPitchMult,
+                panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
+            );
+            if (grabbedFragmentGroup.SnapToOtherFragments())
+            {
+
+                CheckVictory();
+                MicrogameController.instance.playSFX(
+                    placeSound,
+                    volume: 1f,
+                    panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
+                );
+            }
+            grabbedFragmentGroup = null;
+        }
+
+        // Dragging fragments
+        else if (grabbedFragmentGroup != null) {
+            Vector3 position = CameraHelper.getCursorPosition(grabZ);
+            position += grabOffset;
+            foreach (MaskPuzzleMaskFragment fragment in grabbedFragmentGroup.fragments)
+                fragment.transform.position = position;
+        }
+    }
+
+    // Animate the background mask
+    void VictoryAnimation()
+    {
+        backgroundMask.localScale = Vector2.one * (Time.time - victoryStartTime) * backgroundAnimSpeed;
+    }
+
+    // Called every frame
+    void Update()
+    {
+        if (MicrogameController.instance.getVictory())
+            VictoryAnimation();
+        else
+            HandleDragging();
+    }
+
+    // To be called after dropping a fragment and snapping to other fragments
+    // Check and handle victory condition
+    void CheckVictory()
+    {
+        // A fragment group should contain all fragments, otherwise we haven't won yet
+        if (fragments.Count != fragments[0].fragmentGroup.fragments.Count)
+            return;
+
+        // Victory!
+        MicrogameController.instance.setVictory(victory: true, final: true);
+        // Save the starting values for the victory animation
+        victoryStartTime = Time.time;
+        victoryStartPosition = fragments[0].transform.position;
+        victoryStartRotation = fragments[0].transform.eulerAngles;
+        backgroundMask.position = victoryStartPosition;
+    }
 }
