@@ -87,10 +87,6 @@ namespace NitorInc.MochiPound {
             button.SetActive(active);
         }
 
-        public bool GetButtonState() {
-            return button.IsActive();
-        }
-
         public void Pound() {
             anim.Play(poundAnimName, 0, 0.0f);
             Invoke("OnMochiHit", PoundHitTime);
