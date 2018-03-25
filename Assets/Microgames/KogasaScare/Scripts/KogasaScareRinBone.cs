@@ -11,6 +11,8 @@ public class KogasaScareRinBone : MonoBehaviour
     [SerializeField]
     private Vector2 rotateSpeedRange;
     [SerializeField]
+    private float destroyY;
+    [SerializeField]
     private Animator rinAnimator;
 
     private Rigidbody2D rigidBoi;
@@ -28,5 +30,11 @@ public class KogasaScareRinBone : MonoBehaviour
             MathHelper.randomRangeFromVector(xSpeedRange) * direction
             , MathHelper.randomRangeFromVector(ySpeedRange));
         rigidBoi.angularVelocity = MathHelper.randomRangeFromVector(rotateSpeedRange) * direction;
+    }
+
+    private void Update()
+    {
+        if (transform.position.y < destroyY)
+            Destroy(gameObject);
     }
 }
