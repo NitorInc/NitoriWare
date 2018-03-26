@@ -17,6 +17,7 @@ namespace NitorInc.MochiPound {
         MochiPoundController ctrler;
 
         public float rabbitAnimSpeed;
+        float currAnimSpeed = 1.0f;
         // total elapsed time of Pound clip
         public float poundAnimTime = 0.25f;
         float PoundAnimTime {
@@ -38,40 +39,30 @@ namespace NitorInc.MochiPound {
                 return windupAnimTime / rabbitAnimSpeed;
             }
         }
-        Timer poundTimer;
-        Timer windupTimer;
-
-        public KeyCode inputKey = KeyCode.LeftArrow;
-        public MochiPoundRabbitController opposingRabbit;
 
         public MochiPoundArrowKey button;
 
         public AudioClip poundClip;
+        public AudioClip mistakeClip;
 
         public string poundAnimName = "Pounding";
-        int poundAnimNameHash;
         public string windupAnimName = "Windup";
-        int windupAnimNameHash;
         public string idleAnimName = "Idle";
-        int idleAnimNameHash;
+        public string shakeAnimName = "Shake";
 
         bool readyToPound = true;
 
         MochiPoundController ctrl;
 
+
         // Use this for initialization
         void Start() {
             anim = GetComponent<Animator>();
             ApplyAnimationSpeed();
+            currAnimSpeed = anim.speed;
             shake = FindObjectOfType<CameraShake>();
             planets = FindObjectsOfType<MochiPoundPlanet>();
-            poundTimer = TimerManager.NewTimer(PoundAnimTime, OnPoundFinish, 0, false, false);
-            windupTimer = TimerManager.NewTimer(WindupAnimTime, OnWindupFinish, 0, false, false);
             ctrl = FindObjectOfType<MochiPoundController>();
-            
-            if (inputKey == KeyCode.RightArrow) {
-                readyToPound = false;
-            }
         }
 
         void ApplyAnimationSpeed() {
@@ -84,57 +75,13 @@ namespace NitorInc.MochiPound {
             mochiAnim.speed = speed;
         }
 
-        public void PrepareToFinish() {
-            poundTimer.Stop();
-            windupTimer.Stop();
-            readyToPound = false;
-            FinishPound();
-        }
-
-        void FinishPound() {
+        public void FinishPound() {
             SetAnimationSpeed(ctrl.finishAnimSpeed);
             anim.Play(poundAnimName, 0, 0.0f);
-            ctrl.PrepareToStartFinalSequence(PoundHitTime);
         }
 
         public void PlayPoundSound() {
             MicrogameController.instance.playSFX(poundClip, MicrogameController.instance.getSFXSource().panStereo);
-        }
-
-        public void SetReady(bool ready = true) {
-            readyToPound = true;
-        }
-
-        public bool IsPounding() {
-            return poundTimer.IsRunning();
-        }
-
-        public bool IsWindingUp() {
-            return windupTimer.IsRunning();
-        }
-
-        void OnPoundFinish() {
-        }
-
-        void OnWindupFinish() {
-            readyToPound = true;
-        }
-
-        // Update is called once per frame
-        void Update() {
-            if (!ctrl.IsLastHit) {
-                ShowButton(readyToPound);
-                if (Input.GetKeyDown(inputKey)) {
-                    if (readyToPound) {
-                        Pound();
-                    }
-                }
-            }
-            else
-            {
-                MicrogameController.instance.setVictory(true);
-                ShowButton(false);
-            }
         }
 
         public void ShowButton(bool active) {
@@ -142,32 +89,36 @@ namespace NitorInc.MochiPound {
         }
 
         public void Pound() {
-            readyToPound = false;
-            anim.Play(poundAnimName);
-            TimerManager.NewTimer(PoundHitTime, OnMochiHit, 0);
-            poundTimer.Restart(PoundAnimTime);
+            anim.Play(poundAnimName, 0, 0.0f);
+            Invoke("OnMochiHit", PoundHitTime);
         }
 
         public void Windup() {
-            anim.Play(windupAnimName);
-            windupTimer.Restart(WindupAnimTime);
+            anim.Play(windupAnimName, 0, 0.0f);
         }
 
         void OnMochiHit() {
+            PlanetBump();
+            MochiBump();
             ctrl.CountHit();
-            if (!ctrl.IsLastHit) {
-                opposingRabbit.Windup();
-                mochiAnim.Play("Bump", 0, 0.0f);
-                shake.xShake = xShake;
-                for (int i = 0; i < planets.Length; i++) {
-                    planets[i].Shake();
-                }
-                PlayPoundSound();
-            } else {
-                PrepareToFinish();
-                opposingRabbit.PrepareToFinish();
-            }
+        }
 
+        public void OnMistake() {
+            MicrogameController.instance.playSFX(mistakeClip, MicrogameController.instance.getSFXSource().panStereo);
+            button.OnMistake();
+            anim.Play(shakeAnimName, 0, 0.0f);
+        }
+
+        void PlanetBump() {
+            shake.xShake = xShake;
+            for (int i = 0; i < planets.Length; i++) {
+                planets[i].Shake();
+            }
+        }
+
+        void MochiBump() {
+            mochiAnim.Play("Bump", 0, 0.0f);
+            PlayPoundSound();
         }
         
     }

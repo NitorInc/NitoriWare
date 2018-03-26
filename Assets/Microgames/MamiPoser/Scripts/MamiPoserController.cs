@@ -62,15 +62,14 @@ public class MamiPoserController : MonoBehaviour {
     // All created cloned characters
     private List<MamiPoserCharacter> createdCharacters;
 
+    // Used for delayed Mamizou (true form) appearance
+    private Timer mamizouAppearTimer;
+
     // Used for victory/loss effects
     private Timer resultTimer;
 
     // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
-
-    //Prefab and sound that play in result animation
-    GameObject signPrefab;
-    AudioClip resultSound;
 
     // Setup the microgame
     void Start()
@@ -123,8 +122,12 @@ public class MamiPoserController : MonoBehaviour {
         mamizou = Instantiate(mamizouPrefab, Vector2.zero, Quaternion.identity);
         mamizou.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
         mamizou.gameObject.SetActive(false);
+        // Delay the sprite switch so it happens when the sprite is covered in smoke
+        mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
 
         // Determine if the player chose correctly
+        GameObject signPrefab;
+        AudioClip resultSound;
         if (clickedCharacter.isDisguised)
         {
             // Win
@@ -144,7 +147,11 @@ public class MamiPoserController : MonoBehaviour {
         }
 
         // Delay the victory/loss effects
-        Invoke("VictoryLossEffects", resultEffectsDelay);
+        resultTimer = TimerManager.NewTimer(
+            resultEffectsDelay,
+            () => VictoryLossEffects(signPrefab, resultSound),
+            0
+        );
     }
 
     // Hide the disguised form Mamizou and show the true form Mamizou
@@ -155,14 +162,14 @@ public class MamiPoserController : MonoBehaviour {
     }
 
     // Play victory/loss effects
-    private void VictoryLossEffects()
+    private void VictoryLossEffects(GameObject signPrefab, AudioClip sound)
     {
         // Show the correct/incorrect sign in the middle of the screen
         if (signPrefab)
             Instantiate(signPrefab, Vector2.zero, Quaternion.identity);
         // Play the victory/loss sound
         MicrogameController.instance.playSFX(
-            resultSound,
+            sound,
             volume: 0.5f,
             panStereo: 0
         );

@@ -46,10 +46,10 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         transform.position = new Vector3(Random.Range(minSpawnX, maxSpawnX), transform.position.y, transform.position.z);
     }
-    
+
     void Update()
     {
-        switch(state)
+        switch (state)
         {
             case (State.Default):
                 //Handle scare
@@ -74,6 +74,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                     //Set animation triggers
                     kogasaAnimator.SetTrigger("scare");
                     kogasaAnimator.SetInteger("state", (int)state);
+                    kogasaAnimator.SetTrigger("arrowsOff");
                 }
                 else
                     updateMovement();
@@ -102,7 +103,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         victim.scare(true, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
         //Destroy(victimInSight.gameObject);
     }
-    
+
     void loss()
     {
         MicrogameController.instance.setVictory(false, true);
@@ -126,6 +127,9 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     {
         bool leftPressed = Input.GetKey(KeyCode.LeftArrow);
         bool rightPressed = Input.GetKey(KeyCode.RightArrow);
+
+        if (leftPressed || rightPressed)
+            kogasaAnimator.SetTrigger("arrowsOff");
 
         if (!(leftPressed && rightPressed))
         {
