@@ -45,6 +45,7 @@ namespace NitorInc.ClownTorch {
         // Update is called once per frame
         void Update() {
             if (MicrogameController.instance.getVictory()) {
+                anim.Play("Idle");
                 //anim.Play("Walk");
                 //transform.position += Vector3.right * winMoveSpeed * Time.deltaTime;
             } else {

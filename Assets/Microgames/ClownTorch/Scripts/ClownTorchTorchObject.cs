@@ -13,15 +13,18 @@ namespace NitorInc.ClownTorch {
         bool isOnFire = false;
 
         bool countedThisFrame = false;
+
+        ClownTorchTorchManager manager;
         // Use this for initialization
         void Start() {
+            manager = FindObjectOfType<ClownTorchTorchManager>();
             var tag = GetComponent<ClownTorchTag>().type;
             switch (tag) {
                 case ClownTorchTag.Type.ClownTorch:
-                    requiredTime = FindObjectOfType<ClownTorchTorchManager>().ClownTorchRequiredTime;
+                    requiredTime = manager.ClownTorchRequiredTime;
                     break;
                 case ClownTorchTag.Type.PlayerTorch:
-                    requiredTime = FindObjectOfType<ClownTorchTorchManager>().PlayerTorchRequiredTime;
+                    requiredTime = manager.PlayerTorchRequiredTime;
                     break;
             }
             
@@ -33,9 +36,12 @@ namespace NitorInc.ClownTorch {
                 timer += Time.deltaTime;
             }
 
-            if (timer >= requiredTime) {
-                fireEff.SetActive(true);
-                smokeEff.Stop();
+            if (!IsLit()) {
+                if (timer >= requiredTime) {
+                    fireEff.SetActive(true);
+                    smokeEff.Stop();
+                    manager.PlayIgniteClip();
+                }
             }
         }
 
