@@ -17,6 +17,7 @@ public static class ComicBubble_BubbleUtils {
                     var bubbleScript = data.getBubble().GetComponentInChildren<ComicBubble_SpeechBubble>();
                     bubbleScript.setTargetCharacter(data.getTarget());
                     bubbleScript.setTextSpeed(data.getSpeechSpeed());
+                    bubbleScript.setIndicator(data.getIndicator());
                 }
 
                 else

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class ComicBubble_GameController : MonoBehaviour {
 
@@ -32,8 +33,13 @@ public class ComicBubble_GameController : MonoBehaviour {
         // Disables all of bubbles so they don't appear all of them at once
         comicDataList.disableAllSpeechBubbles();
 
+        // Deactivate every panel animator
+        stopEveryStripAnimator();
+
         // Hide every panel at first so they don't appear all of them at once
         comicDataList.hideAllStrips(deactivatedStripColor);
+
+        hideAllIndicators();
 
         // Initalize the bubble index in 0
         currentIndex = 0;
@@ -64,6 +70,10 @@ public class ComicBubble_GameController : MonoBehaviour {
         unfollowCurrentBubble();
 
         hideCurrentBubbleShadow();
+
+        stopStripAnimator(currentIndex);
+
+        hideCurrentIndicator();
 
         StartCoroutine(moveBubbleToFinalPosition(currentIndex));
 
@@ -96,9 +106,14 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  This is called after one of the bubbles ends and the current index is updated. It shows everything related to that index. 
     void showCurrentElements()
     {
+
         showCurrentStrip();
 
+        resumeStripAnimator(currentIndex);
+
         showCurrentBubble();
+
+        showCurrentIndicator();
 
         showCurrentBubbleShadow();
 
@@ -146,6 +161,45 @@ public class ComicBubble_GameController : MonoBehaviour {
         }
     }
 
+
+    void stopEveryStripAnimator()
+    {
+        foreach(var element in comicDataList)
+        {
+            var strip = element.getStrip();
+            var animator = strip.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.enabled = false;
+            }
+        }
+    }
+
+    void stopStripAnimator(int index)
+    {
+        if (comicDataList.stripAnimatorCanBeDisabled(index))
+        {
+            var animator = comicDataList.getStrip(index).GetComponent<Animator>();
+
+            if (animator != null)
+            {
+                animator.enabled = false;
+            }
+
+            else
+            {
+                print("Want to disable animator but there is no animator...");
+            }
+        }
+    }
+
+    void resumeStripAnimator(int index)
+    {
+        var animator = comicDataList.getStrip(index).GetComponent<Animator>();
+        if (animator != null)
+            animator.enabled = true;
+
+    }
     
 
 //  CURRENT STRIP RELATED STUFF
@@ -178,7 +232,42 @@ public class ComicBubble_GameController : MonoBehaviour {
     }
 
 
-//  CURRENT BUBBLE RELATED STUFF
+//  INDICATOR RELATED STUFF
+    
+    void hideAllIndicators()
+    {
+        foreach( ComicBubble_ComicData data in comicDataList)
+        {
+            var indicator = data.getIndicator();
+            if (indicator != null)
+            {
+                indicator.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            }
+
+        }
+    }
+
+    void showCurrentIndicator()
+    {
+        var indicator = comicDataList.getIndicator(currentIndex);
+        if (indicator != null)
+        {
+            indicator.GetComponentInChildren<SpriteRenderer>().enabled = true;
+        }
+
+    }
+
+    void hideCurrentIndicator()
+    {
+        var indicator = comicDataList.getIndicator(currentIndex);
+        if (indicator != null)
+        {
+            GameObject.Destroy(indicator);
+        }
+
+    }
+
+    //  CURRENT BUBBLE RELATED STUFF
 
 
     //  Function to get the current bubble displayed.
@@ -243,6 +332,7 @@ public class ComicBubble_GameController : MonoBehaviour {
 
         if (speechBubble != null)
         {
+ 
             GameObject bubbleImage = speechBubble.GetComponentInChildren<SpriteRenderer>().gameObject;
 
             // Instatiating shadow
@@ -251,15 +341,18 @@ public class ComicBubble_GameController : MonoBehaviour {
             currentBubbleShadow.transform.SetSiblingIndex(0);
 
             // Delete non needed commponents
-            var shadowSprite = currentBubbleShadow.GetComponentInChildren<SpriteRenderer>();
-            GameObject shadowObject = shadowSprite.gameObject;
-            foreach (Transform child in shadowSprite.transform) GameObject.Destroy(child.gameObject);
-            Destroy(shadowSprite.GetComponent<ComicBubble_SpeechBubble>());
+            Destroy(currentBubbleShadow.GetComponentInChildren<ComicBubble_SpeechBubble>());
+            Destroy(currentBubbleShadow.GetComponentInChildren<Text>());
+
 
             // Add the remaining elements
-            shadowSprite.color = bubbleShadowColor;
-            shadowSprite.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
-            shadowSprite.sortingOrder = 1;
+            foreach(SpriteRenderer sprite in currentBubbleShadow.GetComponentsInChildren<SpriteRenderer>())
+            {
+                sprite.color = bubbleShadowColor;
+                sprite.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+                sprite.sortingOrder = 1;
+            }
+;
         }
 
     }

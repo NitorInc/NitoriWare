@@ -6,6 +6,8 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
     private GameObject targetCharacter;
 
+    private GameObject indicator;
+
     private Animator targetMouthAnimator;
 
     private AdvancingText textObject;
@@ -134,11 +136,27 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     }
 
 
+    public void setIndicator(GameObject indicator)
+    {
+        this.indicator = indicator;
+    }
+
+
     // Stop text from showing
     void stopSpeechText()
     {
         textObject.setAdvanceSpeed(0);
         setMouthAnimationParam(CLOSED_MOUTH_PARAM);
+
+        /**
+        if (indicator != null) {
+            Animator animator = indicator.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.enabled = true;
+            }
+        } 
+        **/
     }
 
 
@@ -147,6 +165,18 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     {
         textObject.setAdvanceSpeed(textSpeed);
         setMouthAnimationParam(SPEAKING_MOUTH_PARAM);
+
+        /**
+        if (indicator != null)
+        {
+            Animator animator = indicator.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.enabled = false;
+            }
+        }
+        **/
+
     }
 
 

@@ -19,6 +19,10 @@ public class ComicBubble_ComicData {
     [SerializeField]
     private GameObject characterTarget;
 
+    [Tooltip("Indicator GameObject")]
+    [SerializeField]
+    private GameObject indicator;
+
     [Header("Before Bubble Completion")]
 
     [Tooltip("Fix the speed in which the bubble will be completed, independently of the amount of characters in the bubble")]
@@ -35,6 +39,10 @@ public class ComicBubble_ComicData {
     [SerializeField]
     private float speedAfterCompletion;
 
+    [Tooltip("Disable strip animator after completion?")]
+    [SerializeField]
+    private bool disableStripAnimator;
+
 
     public GameObject getStrip() { return strip; }
 
@@ -42,11 +50,15 @@ public class ComicBubble_ComicData {
 
     public GameObject getTarget() { return characterTarget; }
 
+    public GameObject getIndicator() { return indicator;  }
+
     public float getSpeechSpeed() { return speechSpeed; }
 
     public float getDistanceAfterCompletion() { return distanceAfterCompletion; }
 
     public float getSpeedAfterCompletion() { return speedAfterCompletion; }
+
+    public bool stripAnimatorCanBeDisabled() { return disableStripAnimator;  }
 }
 
 public static class ComicBubble_ComicDataExtension
@@ -67,6 +79,11 @@ public static class ComicBubble_ComicDataExtension
         return dataList[index].getTarget();
     }
 
+    public static GameObject getIndicator(this List<ComicBubble_ComicData> dataList, int index)
+    {
+        return dataList[index].getIndicator();
+    }
+
     public static float getSpeechSpeed(this List<ComicBubble_ComicData> dataList, int index)
     {
         return dataList[index].getSpeechSpeed();
@@ -83,5 +100,9 @@ public static class ComicBubble_ComicDataExtension
         return dataList[index].getSpeedAfterCompletion();
     }
 
+    public static bool stripAnimatorCanBeDisabled(this List<ComicBubble_ComicData> dataList, int index)
+    {
+        return dataList[index].stripAnimatorCanBeDisabled();
+    }
 }
 
