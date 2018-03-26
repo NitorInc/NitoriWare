@@ -62,23 +62,36 @@ namespace NitorInc.ClownTorch {
         }
 
         private void OnTriggerEnter2D(Collider2D col) {
+            checkCollision(col, true);
+        }
+
+        private void OnTriggerStay2D(Collider2D col)
+        {
+            checkCollision(col, false);
+        }
+
+        private void checkCollision(Collider2D col, bool entering){
             var tag = col.GetComponentInParent<ClownTorchTag>().type;
-            switch (tag) {
+            switch (tag)
+            {
                 case ClownTorchTag.Type.Pyre:
-                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch) {
+                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch)
+                    {
                         smokeEff.Play();
                         isOnFire = true;
                     }
                     break;
                 case ClownTorchTag.Type.Water:
-                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch) {
+                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch)
+                    {
                         isOnFire = false;
                         TurnOff();
                     }
                     break;
                 case ClownTorchTag.Type.PlayerTorch:
                     var obj = col.GetComponentInParent<ClownTorchTorchObject>();
-                    if (obj.IsLit() && !IsLit()) {
+                    if (entering && obj.IsLit() && !IsLit())
+                    {
                         smokeEff.Play();
                         isOnFire = true;
                     }

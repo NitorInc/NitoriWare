@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4396483812728958}
-  - component: {fileID: 61577690194451210}
   - component: {fileID: 114272970356736126}
+  - component: {fileID: 60291912017204910}
   m_Layer: 0
   m_Name: FountainCollider
   m_TagString: Untagged
@@ -68,7 +68,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4116804928207834}
-  - component: {fileID: 61094185406755134}
   - component: {fileID: 114126858635447416}
   m_Layer: 0
   m_Name: FountainCollider (1)
@@ -162,33 +161,8 @@ Transform:
   m_Father: {fileID: 4063362662261638}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61094185406755134
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1844333974946350}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!61 &61577690194451210
-BoxCollider2D:
+--- !u!60 &60291912017204910
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -196,7 +170,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -209,9 +183,20 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.24049444, y: 0.40709084}
+      - {x: -0.2255276, y: 0.42494687}
+      - {x: -0.5089018, y: -0.36535746}
+      - {x: -0.46254528, y: -0.6008768}
+      - {x: -0.20535915, y: -0.71786505}
+      - {x: -0.16989996, y: -1.111266}
+      - {x: -0.22681364, y: -1.477283}
+      - {x: 0.24315467, y: -1.4982151}
+      - {x: 0.19327068, y: -1.101769}
+      - {x: 0.23719092, y: -0.6927725}
+      - {x: 0.46301952, y: -0.88539857}
+      - {x: 0.53231406, y: -0.4697307}
 --- !u!95 &95284606832047758
 Animator:
   serializedVersion: 3
