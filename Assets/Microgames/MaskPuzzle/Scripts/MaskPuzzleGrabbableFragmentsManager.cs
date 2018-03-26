@@ -9,6 +9,10 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [SerializeField]
     private Mask[] maskPrefabs;
 
+    [Header("Coordinates the masks can spawn in")]
+    [SerializeField]
+    private List<Vector2> spawnCoordinates;
+
     [Header("Fragments snap when closer than:")]
     public float maxSnapDistance = 1f;
 
@@ -91,6 +95,11 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
             // Become the parent of the fragment
             currentFragment.transform.parent = transform;
+
+            // Randomize the spawn location
+            int spawnPointIndex = Random.Range(0, spawnCoordinates.Count);
+            currentFragment.transform.position = spawnCoordinates[spawnPointIndex];
+            spawnCoordinates.RemoveAt(spawnPointIndex);
 
             // Add script and collider to the fragment
             currentFragment.GetComponent<MaskPuzzleMaskFragment>().fragmentsManager = this;
