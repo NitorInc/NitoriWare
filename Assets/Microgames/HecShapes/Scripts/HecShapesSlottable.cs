@@ -16,12 +16,14 @@ public class HecShapesSlottable : MonoBehaviour
     MouseGrabbable grabbable;
     HecShapesCelestialBody celestialBody;
     AudioSource[] audioSources;
+    HecShapesVibrate vibration;
 
     void Start()
     {
         this.grabbable = GetComponent<MouseGrabbable>();
         this.celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
         this.audioSources = GetComponents<AudioSource>();
+        this.vibration = GetComponent<HecShapesVibrate>();
 
         if (grabbable)
         {
@@ -78,12 +80,21 @@ public class HecShapesSlottable : MonoBehaviour
             this.snapTarget.ShapeInSlot = Shape.none;
 
         this.audioSources[0].Play();
+
+        vibration.StopVibrate();
     }
 
     public void OnRelease()
     {
         if (this.snapTarget && this.snapTarget.SlotShape == this.celestialBody.shape)
+        {
+            this.snapTarget.GetComponentInParent<HecShapesWobble>().Settle();
             this.snap = true;
+        }
+        else
+        {
+            vibration.StartVibrate();
+        }
 
         this.audioSources[1].Play();
     }
