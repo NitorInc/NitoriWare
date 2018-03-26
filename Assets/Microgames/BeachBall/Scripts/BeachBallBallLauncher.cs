@@ -16,6 +16,8 @@ public class BeachBallBallLauncher : MonoBehaviour
 
     public BeachBallHoopParamsRandomizer hoopAnimationControl;
 
+    public AudioClip launchSound;
+
     public Vector2 ThrowDirection = new Vector2(0, 1);
 
     private Rigidbody2D physicsModel;
@@ -70,6 +72,9 @@ public class BeachBallBallLauncher : MonoBehaviour
 
             //set triggerMode to prevent collisions when the ball falls
             ballStandCollider.isTrigger = true;
+
+            MicrogameController.instance.playSFX(launchSound, volume: 0.5f,
+                panStereo: AudioHelper.getAudioPan(transform.position.x));
         }
     }
 }
