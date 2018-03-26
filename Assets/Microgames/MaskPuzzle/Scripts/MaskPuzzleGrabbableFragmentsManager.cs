@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
-    [Header("Mask Library")]
+    [Header("Masks to be used, with fragmented and whole versions")]
     [SerializeField]
-    private GameObject maskLibrary;
+    private Mask[] maskPrefabs;
 
     [Header("Fragments snap when closer than:")]
     public float maxSnapDistance = 1f;
@@ -54,23 +54,39 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     private Vector3 grabOffset;
     private float grabZ;
 
+    [System.Serializable]
+    public class Mask
+    {
+        public GameObject fragmented;
+        public GameObject assembled;
+    };
+
+    Mask chosenMask;
+
+    private const int FIRST_MASK_LAYER = 14;
+
     // Initialization - choose and prepare the mask that will be assembled by the player
     void Start ()
     {
-        // Choose a random mask from the library
-        GameObject chosenMask = maskLibrary.transform.GetChild(Random.Range(0, maskLibrary.transform.childCount)).gameObject;
-        print("Chosen " + chosenMask.name + ". It has " + chosenMask.transform.childCount + " fragments.");
+        // Choose a random mask
+        chosenMask = maskPrefabs[Random.Range(0, maskPrefabs.Length)];
+        GameObject chosenMaskFragmented = Instantiate(
+            chosenMask.fragmented,
+            Vector2.zero,
+            Quaternion.identity
+        );
+        print("Chosen " + chosenMaskFragmented.name + ". It has " + chosenMaskFragmented.transform.childCount + " fragments.");
 
         // Get info about the edges that should be connected
-        edges = chosenMask.GetComponent<MaskPuzzleMaskEdges>();
+        edges = chosenMaskFragmented.GetComponent<MaskPuzzleMaskEdges>();
 
         // Layers will be assigned starting from this one
-        int layerCounter = 14;
+        int layerCounter = FIRST_MASK_LAYER;
 
         // Initialize all fragments of the chosen mask
-        while (chosenMask.transform.childCount > 0)
+        while (chosenMaskFragmented.transform.childCount > 0)
         {
-            GameObject currentFragment = chosenMask.transform.GetChild(0).gameObject;
+            GameObject currentFragment = chosenMaskFragmented.transform.GetChild(0).gameObject;
             print("Taking " + currentFragment.name + " from the library");
 
             // Become the parent of the fragment
@@ -194,10 +210,23 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
         // Victory!
         MicrogameController.instance.setVictory(victory: true, final: true);
+
         // Save the starting values for the victory animation
         victoryStartTime = Time.time;
         victoryStartPosition = fragments[0].transform.position;
         victoryStartRotation = fragments[0].transform.eulerAngles;
         backgroundMask.position = victoryStartPosition;
+
+        // Replace the mask fragments with the assembled model
+        foreach (MaskPuzzleMaskFragment fragment in fragments)
+            fragment.gameObject.SetActive(false);
+        MaskPuzzleMaskFragment assembledMask = Instantiate(
+            chosenMask.assembled,
+            Vector2.zero,
+            Quaternion.identity
+        ).transform.GetChild(0).GetComponent<MaskPuzzleMaskFragment>();
+        assembledMask.fragmentsManager = this;
+        assembledMask.gameObject.layer = FIRST_MASK_LAYER;
+        assembledMask.VictoryAnimation();
     }
 }
