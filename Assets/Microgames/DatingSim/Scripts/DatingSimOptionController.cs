@@ -24,15 +24,20 @@ public class DatingSimOptionController : MonoBehaviour
     //    public bool isWin = true;
     //}
 
+    [Header("Edit this variable to adjust box height")]
+    public float boxHeightMult = 1f;
+    public float distancePerUnit;
     public GameObject optionLineProto;
     public Transform startPosition;
+    public DatingSimMenuExpand menuExpander;
+    public DatingSimMaterialAnimation materialAnimation;
     public float optionBoxHeight = 2.3f;
     float totalOptions = 4.0f;
-    float distancePerUnit {
-        get {
-            return optionBoxHeight / (totalOptions - 1.0f);
-        }
-    }
+    //float distancePerUnit {
+    //    get {
+    //        return optionBoxHeight / (totalOptions - 1.0f);
+    //    }
+    //}
     //List<OptionSet> sets;
     List<DatingSimOptionLine> lines = new List<DatingSimOptionLine>();
     int currentOption = 0;
@@ -40,7 +45,15 @@ public class DatingSimOptionController : MonoBehaviour
 
 
     bool enableUserControl = true;
-    
+
+    private void Awake()
+    {
+        optionBoxHeight *= boxHeightMult;
+        menuExpander.TargetYScale *= boxHeightMult;
+        menuExpander.ScaleSpeed *= boxHeightMult;
+        materialAnimation.setMaterialYScaleMult(boxHeightMult);
+    }
+
     void Start ()
     {
         enableUserControl = false;
