@@ -21,6 +21,8 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private Vector3 scaleAtCenter;
     [SerializeField]
     private float timeToCenter;
+    [SerializeField]
+    private Text debugText;
 #pragma warning restore 0649
 
     private static List<MicrogameCollection.Microgame> microgamePool;
@@ -53,6 +55,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
             else
                 microgame = microgamePool[microgameNumber];
         }
+
         
         initialScale = transform.localScale;
         initialPosition = transform.localPosition;
@@ -61,7 +64,9 @@ public class MenuPracticeMicrogame : MonoBehaviour
         Sprite iconSprite = microgame.menuIcon;
         if (iconSprite != null)
             icon.sprite = iconSprite;
-	}
+        else
+            debugText.text = microgame.microgameId;
+    }
 	
 	void LateUpdate()
     {
@@ -114,10 +119,17 @@ public class MenuPracticeMicrogame : MonoBehaviour
         nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", microgame.microgameId);
         for (int i = 0; i < creditsTexts.Length; i++)
         {
-            string creditsString = creditsTexts[i].text;
-            creditsString= TextHelper.getLocalizedText(creditsKeys[i], creditsString);
-            creditsString = string.Format(creditsString, microgame.difficultyTraits[0].credits[i]);
-            creditsTexts[i].text = creditsString;
+            if (microgame.difficultyTraits[i].credits.Length < 3)
+            {
+                creditsTexts[i].text = "";
+            }
+            else
+            {
+                string creditsString = creditsTexts[i].text;
+                creditsString = TextHelper.getLocalizedText(creditsKeys[i], creditsString);
+                creditsString = string.Format(creditsString, microgame.difficultyTraits[0].credits[i]);
+                creditsTexts[i].text = creditsString;
+            }
         }
 
     }
