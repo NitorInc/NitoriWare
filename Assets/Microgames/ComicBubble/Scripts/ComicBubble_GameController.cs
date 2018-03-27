@@ -22,8 +22,6 @@ public class ComicBubble_GameController : MonoBehaviour {
 
     ComicBubble_SpeechBubble currentBubbleScript;
 
-    Animator animator;
-
     // Use this for initialization
     void Start() {
 
@@ -43,9 +41,6 @@ public class ComicBubble_GameController : MonoBehaviour {
 
         // Initalize the bubble index in 0
         currentIndex = 0;
-
-        // Get the animator controller
-        animator = GetComponent<Animator>();
 
         // Show the elements asociated with that index
         showCurrentElements();
@@ -67,16 +62,23 @@ public class ComicBubble_GameController : MonoBehaviour {
     // Event for changing to the next bubble
     public void eventBubbleHasEnded()
     {
+        // Unfollow the current Bubble
         unfollowCurrentBubble();
 
+        // Hide the current Shadow
         hideCurrentBubbleShadow();
 
-        stopStripAnimator(currentIndex);
-
+        // Hide the current Indicator
         hideCurrentIndicator();
 
+        // Stop the Animators (Strip and Bubble)
+        stopStripAnimator(currentIndex);
+        stopCurrentBubbleAnimator();
+
+        // Move Current Bubble Upwards
         StartCoroutine(moveBubbleToFinalPosition(currentIndex));
 
+        // Update and show next elements
         currentIndex++;
 
         updateAnimatorIndexParameter();
@@ -136,9 +138,13 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  To update the animator index parameter
     void updateAnimatorIndexParameter()
     {
-        if (animator != null)
+        for (int i = 0; i < comicDataList.Count; i++)
         {
-            animator.SetInteger("CurrentIndex", currentIndex);
+            var animator = comicDataList.getStrip(i).GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetInteger("CurrentIndex", currentIndex);
+            }
         }
     }
 
@@ -146,19 +152,29 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  To update the animator progress parameter
     void updateAnimatorProgressParameter()
     {
-        if (animator != null)
+
+        var strip = getCurrentStrip();
+
+        if (strip != null)
         {
-            if (currentBubbleScript != null)
+            var animator = strip.GetComponent<Animator>();
+
+            if (animator != null)
             {
-                var currentProgress = currentBubbleScript.getBubbleProgress();
-                animator.SetFloat("CurrentProgress", currentProgress);
-            }
-            else
-            {
-                // Put it on 100 since there is no bubble
-                animator.SetFloat("CurrentProgress", 100);
+                if (currentBubbleScript != null)
+                {
+                    var currentProgress = currentBubbleScript.getBubbleProgress();
+                    animator.SetFloat("CurrentProgress", currentProgress);
+                }
+                else
+                {
+                    // Put it on 100 since there is no bubble
+                    animator.SetFloat("CurrentProgress", 100);
+                }
             }
         }
+
+
     }
 
 
@@ -200,6 +216,12 @@ public class ComicBubble_GameController : MonoBehaviour {
             animator.enabled = true;
 
     }
+
+
+    void stopCurrentBubbleAnimator()
+    {
+        comicDataList.disableAnimator(currentIndex);
+    }
     
 
 //  CURRENT STRIP RELATED STUFF
@@ -208,7 +230,16 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  To get the current strip displayed.
     GameObject getCurrentStrip()
     {
-        return comicDataList[currentIndex].getStrip();
+        if (currentIndex < comicDataList.Count)
+        {
+            return comicDataList[currentIndex].getStrip();
+        }
+
+        else
+        {
+            return null;
+        }
+
     }
 
 

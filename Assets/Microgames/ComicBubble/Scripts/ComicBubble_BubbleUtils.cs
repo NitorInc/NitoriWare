@@ -66,6 +66,15 @@ public static class ComicBubble_BubbleUtils {
     }
 
 
+    //  Disables the animator of the bubble referenced by the index
+    public static void disableAnimator(this List<ComicBubble_ComicData> dataList, int index)
+    {
+        var bubble = dataList.getBubble(index);
+        if (bubble != null)
+            bubble.GetComponent<Animator>().enabled = false;
+    }
+
+
     //  Returns the speech bubble script of the bubble referenced by the index
     public static ComicBubble_SpeechBubble getSpeechBubbleScript(this List<ComicBubble_ComicData> dataList, int index)
     {

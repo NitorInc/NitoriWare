@@ -147,16 +147,6 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     {
         textObject.setAdvanceSpeed(0);
         setMouthAnimationParam(CLOSED_MOUTH_PARAM);
-
-        /**
-        if (indicator != null) {
-            Animator animator = indicator.GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.enabled = true;
-            }
-        } 
-        **/
     }
 
 
@@ -165,18 +155,6 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     {
         textObject.setAdvanceSpeed(textSpeed);
         setMouthAnimationParam(SPEAKING_MOUTH_PARAM);
-
-        /**
-        if (indicator != null)
-        {
-            Animator animator = indicator.GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.enabled = false;
-            }
-        }
-        **/
-
     }
 
 
