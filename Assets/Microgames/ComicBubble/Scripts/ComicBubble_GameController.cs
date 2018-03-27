@@ -339,6 +339,8 @@ public class ComicBubble_GameController : MonoBehaviour {
 
         Transform bubbleTransform = comicDataList[index].getBubble().transform;
 
+        bubbleTransform.GetComponentInChildren<ComicBubble_SpeechBubble>().onFinishedTalking();
+
         float step = comicDataList.getSpeedAfterCompletion(index) * Time.deltaTime;
 
         while (!Mathf.Approximately(((Vector2)bubbleTransform.position - targetPosition).sqrMagnitude, 0))
