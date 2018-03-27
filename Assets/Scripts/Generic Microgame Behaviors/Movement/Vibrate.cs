@@ -19,9 +19,12 @@ public class Vibrate : MonoBehaviour
         {
 
             if (!value && resetOnStop)
-				resetPosition();
-			else if (value && resetOnStart)
-				resetVibrateGoal();
+                resetPosition();
+            else if (value && resetOnStart)
+            {
+                resetOffset();
+                resetVibrateGoal();
+            }
 			_vibrateOn = value;
 		}
 	}
