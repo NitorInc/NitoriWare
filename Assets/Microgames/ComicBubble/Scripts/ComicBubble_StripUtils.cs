@@ -6,7 +6,7 @@ public static class ComicBubble_StripUtils {
 
 
     //  To hide all strips (used at the start of the game)
-    public static void  hideAllStrips(this List<ComicBubble_ComicData> dataList, Color deactivatedStripColor)
+    public static void hideAllStrips(this List<ComicBubble_ComicData> dataList, Color deactivatedStripColor)
     {
 
         for (int index = 0; index < dataList.Count; index++)
@@ -45,20 +45,26 @@ public static class ComicBubble_StripUtils {
 
         var strip = dataList[index].getStrip();
 
-        var scaling = 100 * (dataList.Count - index);
+        var scaling = 100 * (dataList.Count - dataList.getStripFirstIndex(index));
+
 
         // Update Spritemask Range
-        var sprmask = strip.GetComponentInChildren<SpriteMask>();
-        sprmask.frontSortingOrder = sprmask.frontSortingOrder + scaling;
-        sprmask.backSortingOrder = sprmask.backSortingOrder + scaling;
+        var sprmask = strip.GetComponentInChildren<SpriteMask>(true);
 
-        // Update Canvas sorting order
-        var canvas = strip.GetComponentInChildren<Canvas>();
-        if (canvas != null) canvas.sortingOrder = canvas.sortingOrder + scaling;
+        if (sprmask.backSortingOrder < 0)
+        {
+            sprmask.frontSortingOrder = sprmask.frontSortingOrder + scaling;
+            sprmask.backSortingOrder = sprmask.backSortingOrder + scaling;
 
-        // Update Sprites sorting order
-        foreach (SpriteRenderer sr in strip.GetComponentsInChildren<SpriteRenderer>())
-            sr.sortingOrder = sr.sortingOrder + scaling;
+            // Update Canvas sorting order
+            var canvas = strip.GetComponentInChildren<Canvas>(true);
+            if (canvas != null) canvas.sortingOrder = canvas.sortingOrder + scaling;
+
+            // Update Sprites sorting order
+            foreach (SpriteRenderer sr in strip.GetComponentsInChildren<SpriteRenderer>(true))
+                sr.sortingOrder = sr.sortingOrder + scaling;
+        }
+
     }
 
 
@@ -68,20 +74,38 @@ public static class ComicBubble_StripUtils {
 
         var strip = dataList[index].getStrip();
 
-        var scaling = 100 * (dataList.Count - index);
+        var scaling = 100 * (dataList.Count - dataList.getStripFirstIndex(index));
 
         // Update Spritemask Range
-        var sprmask = strip.GetComponentInChildren<SpriteMask>();
-        sprmask.backSortingOrder = sprmask.backSortingOrder - scaling;
-        sprmask.frontSortingOrder = sprmask.frontSortingOrder - scaling;
+        var sprmask = strip.GetComponentInChildren<SpriteMask>(true);
 
-        // Update Canvas sorting order
-        var canvas = strip.GetComponentInChildren<Canvas>();
-        if (canvas != null) canvas.sortingOrder = canvas.sortingOrder - scaling;
+        if (sprmask.backSortingOrder >= 0)
+        {
+            sprmask.backSortingOrder = sprmask.backSortingOrder - scaling;
+            sprmask.frontSortingOrder = sprmask.frontSortingOrder - scaling;
 
-        // Update Sprites sorting order
-        foreach (SpriteRenderer sr in strip.GetComponentsInChildren<SpriteRenderer>())
-            sr.sortingOrder = sr.sortingOrder - scaling;
+            // Update Canvas sorting order
+            var canvas = strip.GetComponentInChildren<Canvas>(true);
+            if (canvas != null) canvas.sortingOrder = canvas.sortingOrder - scaling;
+
+            // Update Sprites sorting order
+            foreach (SpriteRenderer sr in strip.GetComponentsInChildren<SpriteRenderer>(true))
+                sr.sortingOrder = sr.sortingOrder - scaling;
+        }
+
+
     }
 
+    private static int getStripFirstIndex(this List<ComicBubble_ComicData> dataList, int index)
+    {
+        var strip = dataList[index].getStrip();
+        for (int i = 0; i < dataList.Count; i++)
+        {
+            if (dataList[i].getStrip() == strip)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

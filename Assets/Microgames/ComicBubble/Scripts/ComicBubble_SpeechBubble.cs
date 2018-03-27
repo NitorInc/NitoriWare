@@ -6,6 +6,8 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
     private GameObject targetCharacter;
 
+    private GameObject indicator;
+
     private Animator targetMouthAnimator;
 
     private AdvancingText textObject;
@@ -24,21 +26,28 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     [SerializeField]
     private float textSpeed;            // Speed in which the text appears
 
+    [SerializeField]                    // Sprite to switch to upon finishing
+    private Sprite finishedSprite;
+
 
     private int CLOSED_MOUTH_PARAM = 0;
     private int SPEAKING_MOUTH_PARAM = 1;
     private int OPEN_MOUTH_PARAM = 2;
+
+    private SpriteRenderer spriteRenderer;
+    private Sprite initialSprite;
 
 
     // Use this for initialization
     void Start () {
 
         textObject = GetComponentInChildren<AdvancingText>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        initialSprite = spriteRenderer.sprite;
 
         bubbleProgress = 0;
 
         stopSpeechText();
-
 
     }
 
@@ -134,19 +143,31 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     }
 
 
+    public void setIndicator(GameObject indicator)
+    {
+        this.indicator = indicator;
+    }
+
+
     // Stop text from showing
     void stopSpeechText()
     {
         textObject.setAdvanceSpeed(0);
         setMouthAnimationParam(CLOSED_MOUTH_PARAM);
+        spriteRenderer.sprite = initialSprite;
     }
 
+    public void onFinishedTalking()
+    {
+        //spriteRenderer.sprite = finishedSprite;
+    }
 
     // Advance text
     void advanceSpeechText()
     {
         textObject.setAdvanceSpeed(textSpeed);
         setMouthAnimationParam(SPEAKING_MOUTH_PARAM);
+        spriteRenderer.sprite = finishedSprite;
     }
 
 
