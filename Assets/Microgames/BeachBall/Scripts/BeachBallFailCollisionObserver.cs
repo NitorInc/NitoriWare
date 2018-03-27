@@ -15,11 +15,14 @@ public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
     public float torqueRange = 50f;
     public float forceRange = 300f;
 
+    public AudioClip bounceSound;
+
     private float ballThrowSpeed = 1f;
 
     protected override void Start()
     {
         base.Start();
+
         beachBallCollisionObserver = GameObject.Find("Hoop")
             .GetComponent<BeachBallCollisionObserver>();
         ballThrowSpeed = GameObject.Find("Ball")
@@ -48,6 +51,9 @@ public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
             rigidBody.AddTorque(Random.Range(-torqueRange, torqueRange));
 
             MicrogameController.instance.setVictory(victory: false, final: true);
+
+            MicrogameController.instance.playSFX(bounceSound, volume: 0.5f,
+                panStereo: AudioHelper.getAudioPan(transform.position.x));
         }
     }
 }
