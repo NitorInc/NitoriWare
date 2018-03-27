@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1054001812363658}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,10 +53,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ba88b237a190e498e0b713509024e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maskLibrary: {fileID: 0}
-  maxSnapDistance: 1
+  maskPrefabs:
+  - fragmented: {fileID: 1652936788258542, guid: 7f3cc6830f8a54f3cbcc71f151eb6428,
+      type: 2}
+    assembled: {fileID: 1104953855958000, guid: 88faba6a29eaa407fba838d5b1fb74fb,
+      type: 2}
+  spawnCoordinates:
+  - {x: 2.5, y: -3}
+  - {x: 0, y: 1}
+  - {x: -2.5, y: -2.5}
+  - {x: 5, y: 0.5}
+  - {x: -5, y: 0}
+  maxSnapDistance: 2
   victoryGoal: {x: -8.5, y: 5.5, z: 6}
   victoryRotation: {x: 5, y: 385, z: -10}
+  grabScaleIncrease: 0.001
   victoryMoveTime: 0.7
   backgroundAnimSpeed: 11
   backgroundMask: {fileID: 0}
@@ -64,6 +75,7 @@ MonoBehaviour:
   dropSound: {fileID: 8300000, guid: bf8fbff5916507d45aa8e69b2f941673, type: 3}
   dropPitchMult: 0.8
   placeSound: {fileID: 8300000, guid: 812a13112b1d79c4494618237a92ddac, type: 3}
+  victorySound: {fileID: 8300000, guid: 7be30e59b0ceb8a4e91df090e1f83b14, type: 3}
   victoryStartTime: 0
   victoryStartPosition: {x: 0, y: 0, z: 0}
   victoryStartRotation: {x: 0, y: 0, z: 0}
