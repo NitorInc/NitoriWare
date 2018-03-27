@@ -14,9 +14,10 @@ public static class ComicBubble_BubbleUtils {
             {
                 if (data.getTarget() != null)
                 {
-                    var bubbleScript = data.getBubble().GetComponent<ComicBubble_SpeechBubble>();
+                    var bubbleScript = data.getBubble().GetComponentInChildren<ComicBubble_SpeechBubble>();
                     bubbleScript.setTargetCharacter(data.getTarget());
                     bubbleScript.setTextSpeed(data.getSpeechSpeed());
+                    bubbleScript.setIndicator(data.getIndicator());
                 }
 
                 else
@@ -61,7 +62,16 @@ public static class ComicBubble_BubbleUtils {
     {
         var bubble = dataList.getBubble(index);
         if (bubble != null)
-            bubble.GetComponent<FollowCursor>().enabled = false;
+            bubble.GetComponentInChildren<FollowCursor>().enabled = false;
+    }
+
+
+    //  Disables the animator of the bubble referenced by the index
+    public static void disableAnimator(this List<ComicBubble_ComicData> dataList, int index)
+    {
+        var bubble = dataList.getBubble(index);
+        if (bubble != null)
+            bubble.GetComponent<Animator>().enabled = false;
     }
 
 
@@ -70,7 +80,7 @@ public static class ComicBubble_BubbleUtils {
     {
         var bubble = dataList.getBubble(index);
         if (bubble != null)
-            return bubble.GetComponent<ComicBubble_SpeechBubble>();
+            return bubble.GetComponentInChildren<ComicBubble_SpeechBubble>();
         else
             return null;
     }
