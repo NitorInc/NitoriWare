@@ -166,6 +166,9 @@ GameObject:
   - component: {fileID: 4643405422967114}
   - component: {fileID: 212000241173560838}
   - component: {fileID: 95137123238835754}
+  - component: {fileID: 82217585329905170}
+  - component: {fileID: 114264493701630164}
+  - component: {fileID: 114618557052863392}
   m_Layer: 0
   m_Name: UFOSucc
   m_TagString: Untagged
@@ -186,6 +189,7 @@ GameObject:
   - component: {fileID: 114932190178378212}
   - component: {fileID: 82996905596415172}
   - component: {fileID: 114831551311572386}
+  - component: {fileID: 114815434942978064}
   m_Layer: 0
   m_Name: UFO
   m_TagString: Untagged
@@ -582,6 +586,86 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!82 &82217585329905170
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720810000345962}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 987372702a3e3479aa6e585001fe7ae8, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!82 &82996905596415172
 AudioSource:
   m_ObjectHideFlags: 1
@@ -776,6 +860,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 0.5
+--- !u!114 &114264493701630164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720810000345962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  volumeType: 2
 --- !u!114 &114336132391207374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -800,6 +900,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 0.25
+--- !u!114 &114618557052863392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720810000345962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bdf130420ede4c67b5e7e007c111d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+--- !u!114 &114815434942978064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1747568495080656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bdf130420ede4c67b5e7e007c111d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!114 &114831551311572386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -836,7 +960,6 @@ MonoBehaviour:
   anims:
   - {fileID: 95163398445996478}
   - {fileID: 95137123238835754}
-  audioSource: {fileID: 82996905596415172}
 --- !u!114 &114945655028599672
 MonoBehaviour:
   m_ObjectHideFlags: 1
