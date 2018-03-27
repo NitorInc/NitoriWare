@@ -22,6 +22,9 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("On victory rotate the mask to:")]
     public Vector3 victoryRotation;
 
+    [Header("How much fragments scale increases on grabbing")]
+    public float grabScaleIncrease = .001f;
+
     [Header("Time to move to victory position")]
     public float victoryMoveTime = 1f;
 
@@ -44,6 +47,10 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Sound for placing a fragment correctly")]
     [SerializeField]
     private AudioClip placeSound;
+
+    [Header("Sound for victory")]
+    [SerializeField]
+    private AudioClip victorySound;
 
     [Header("")]
     public float victoryStartTime;
@@ -148,6 +155,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
             if (topHitFragment) {
                 grabbedFragmentGroup = topHitFragment.fragmentGroup;
+                shiftGroupScale(grabbedFragmentGroup, grabScaleIncrease);
                 // Grabbed fragment group should be on top
                 grabbedFragmentGroup.assignedCamera.depth = (topDepth += .005f);
                 // Save the grabbed point's coordinates needed for calculating position when dragging
@@ -166,6 +174,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
         // Dropping a fragment
         else if (grabbedFragmentGroup != null && !Input.GetMouseButton(0)) {
+            shiftGroupScale(grabbedFragmentGroup, -grabScaleIncrease);
             MicrogameController.instance.playSFX(
                 dropSound,
                 volume: 1f,
@@ -174,13 +183,22 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             );
             if (grabbedFragmentGroup.SnapToOtherFragments())
             {
-
-                CheckVictory();
-                MicrogameController.instance.playSFX(
-                    placeSound,
-                    volume: 1f,
-                    panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
-                );
+                if (CheckVictory())
+                {
+                    MicrogameController.instance.playSFX(
+                        victorySound,
+                        volume: 1f,
+                        panStereo: 0f
+                    );
+                }
+                else
+                {
+                    MicrogameController.instance.playSFX(
+                        placeSound,
+                        volume: 1f,
+                        panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
+                    );
+                }
             }
             grabbedFragmentGroup = null;
         }
@@ -191,6 +209,14 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             position += grabOffset;
             foreach (MaskPuzzleMaskFragment fragment in grabbedFragmentGroup.fragments)
                 fragment.transform.position = position;
+        }
+    }
+
+    void shiftGroupScale(MaskPuzzleFragmentGroup group, float amount)
+    {
+        foreach (var fragment in grabbedFragmentGroup.fragments)
+        {
+            fragment.transform.localScale += Vector3.one * amount;
         }
     }
 
@@ -211,11 +237,11 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
     // To be called after dropping a fragment and snapping to other fragments
     // Check and handle victory condition
-    void CheckVictory()
+    bool CheckVictory()
     {
         // A fragment group should contain all fragments, otherwise we haven't won yet
         if (fragments.Count != fragments[0].fragmentGroup.fragments.Count)
-            return;
+            return false;
 
         // Victory!
         MicrogameController.instance.setVictory(victory: true, final: true);
@@ -237,5 +263,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         assembledMask.fragmentsManager = this;
         assembledMask.gameObject.layer = FIRST_MASK_LAYER;
         assembledMask.VictoryAnimation();
+
+        return true;
     }
 }
