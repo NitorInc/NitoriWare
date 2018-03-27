@@ -41,7 +41,7 @@ namespace NitorInc.NueAbduct {
             anim = GetComponentInChildren<Animator>();
             vib = GetComponentInChildren<Vibrate>();
             targetPos = transform.position;
-            wanderTimer = TimerManager.NewTimer(1.0f, Wander, 0, false, false);
+            wanderTimer = TimerManager.NewTimer(0f, Wander, 0, false, false);
             graceTimer = TimerManager.NewTimer(ufo.GracePeriod, SuckFail, 0, false, false);
             suckTimer = TimerManager.NewTimer(ufo.SuckTime, SuckSucceed, 0, false, false);
             SetState(State.Wander);
