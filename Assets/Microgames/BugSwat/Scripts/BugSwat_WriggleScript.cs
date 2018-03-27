@@ -23,11 +23,14 @@ public class BugSwat_WriggleScript : MonoBehaviour {
     private bool isStopped = false;
     private Rigidbody2D rb2d;
     private float startScalex;
+    private AudioSource buzzSource;
     
 
     // Use this for initialization
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
+        buzzSource = GetComponent<AudioSource>();
+        buzzSource.time = Random.Range(0f, .5f);
         startScalex = transform.localScale.x;
         beginMovement();
 	}
@@ -48,6 +51,8 @@ public class BugSwat_WriggleScript : MonoBehaviour {
                 MicrogameController.instance.playSFX(deathSound2, volume: 0.5f,
                 panStereo: AudioHelper.getAudioPan(0));
             }
+
+            buzzSource.Stop();
 
             GameObject myDeath = Instantiate(wriggleDead);
             myDeath.transform.position = transform.position;
@@ -133,6 +138,8 @@ public class BugSwat_WriggleScript : MonoBehaviour {
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, -maxSpeed);
         }
+
+        buzzSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
     }
 
     void beginMovement()
