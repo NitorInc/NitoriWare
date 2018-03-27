@@ -6,6 +6,8 @@ public class HecShapesCelestialBody : MonoBehaviour
     public HecShapesSlottable.Shape shape;
     public Sprite graySprite;
 
+    public float enlargedScale;
+
     SpriteRenderer spriteRenderer;
     Sprite defaultSprite;
 
@@ -23,6 +25,16 @@ public class HecShapesCelestialBody : MonoBehaviour
     public void ResetSprite()
     {
         GetComponent<SpriteRenderer>().sprite = this.defaultSprite;
+    }
+
+    public void Enlarge()
+    {
+        this.spriteRenderer.transform.localScale = new Vector3(enlargedScale, enlargedScale, 1);
+    }
+
+    public void ResetSize()
+    {
+        this.spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
     }
 
 }

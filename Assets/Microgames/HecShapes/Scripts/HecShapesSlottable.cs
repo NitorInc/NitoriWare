@@ -81,6 +81,7 @@ public class HecShapesSlottable : MonoBehaviour
             this.snapTarget.ShapeInSlot = Shape.none;
 
         this.audioSources[0].Play();
+        this.celestialBody.Enlarge();
 
         vibration.vibrateOn = false;
     }
@@ -97,6 +98,7 @@ public class HecShapesSlottable : MonoBehaviour
         }
 
         this.audioSources[1].Play();
+        this.celestialBody.ResetSize();
     }
 
 }
