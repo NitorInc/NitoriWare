@@ -11,6 +11,8 @@ namespace NitorInc.NueAbduct
         [SerializeField]
         private NueAbductVictimBehavior[] animals;
 
+        public Animator victoryAnimator;
+
         // Check victory condition (all animals sucked)
         void Update() {
             foreach (var animal in animals)
@@ -18,6 +20,7 @@ namespace NitorInc.NueAbduct
                     return;
             // No animals left, we win
             MicrogameController.instance.setVictory(victory: true, final: true);
+            victoryAnimator.Play("Nyoom");
             enabled = false;
         }
     }

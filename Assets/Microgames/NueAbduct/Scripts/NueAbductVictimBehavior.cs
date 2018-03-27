@@ -41,7 +41,7 @@ namespace NitorInc.NueAbduct {
             anim = GetComponentInChildren<Animator>();
             vib = GetComponentInChildren<Vibrate>();
             targetPos = transform.position;
-            wanderTimer = TimerManager.NewTimer(1.0f, Wander, 0, false, false);
+            wanderTimer = TimerManager.NewTimer(0f, Wander, 0, false, false);
             graceTimer = TimerManager.NewTimer(ufo.GracePeriod, SuckFail, 0, false, false);
             suckTimer = TimerManager.NewTimer(ufo.SuckTime, SuckSucceed, 0, false, false);
             SetState(State.Wander);
@@ -51,10 +51,19 @@ namespace NitorInc.NueAbduct {
             // Randomly choose movement direction
             targetPos = Random.insideUnitCircle.normalized * wanderRadius
                 + new Vector2(transform.position.x, transform.position.y);
-            // Abort movement if the goal would be outside the wander area
+
+            // If the goal would be outside the wander area
+            // abort the movement and try again next frame
             if (!wanderArea.rect.Contains(targetPos - wanderArea.anchoredPosition))
+            {
                 targetPos = transform.position;
-            wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
+                wanderTimer.SetTime(0);
+            }
+            else
+            {
+                wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
+            }
+
             wanderTimer.Start();
         }
 
@@ -141,7 +150,7 @@ namespace NitorInc.NueAbduct {
         void OnTriggerEnter2D(Collider2D other) {
             if (other.GetComponentInChildren<NueAbductVictimBehavior>() == null) {
                 if (currState == State.Sucked) {
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
                 } else if (!other.name.Contains("Succ")) {
                     SetState(State.Sucking);
                 }
