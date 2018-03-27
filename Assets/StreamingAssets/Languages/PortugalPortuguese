@@ -4,57 +4,62 @@ generic
 	incomplete=AVISO: Este idioma não está completamente traduzido. Algum texto pode aparecer em inglês.
 stage
 	control
-		key=USE AS TECLAS
-		mouse=USE O MOUSE
+		key=USA AS TECLAS
+		mouse=USA O RATO
 	speedup=MAIS RÁPIDO!
-	boss=FASE DO MESTRE
-	levelup=NÍVEL AUMENTADO!
+	boss=NÍVEL DE BOSS
+	levelup=SUBIDA DE NÍVEL
 	pause=Pausa
-		resume=Resumir
-	quit=Sair
-	retry=Tentar de Novo
-	gameover=Fim de Jogo
+		resume=Resumir {0}
+	quit=Sair {0}
+	retry=Tentar de Novo {0}
+	gameover=Fim do Jogo!
 		score=Pontuação: {0}
 		highscore=Recorde: {0}
 		newhighscore=Novo Recorde!
+discord
+	scoreformat={0} Jogos
+	scoreformatsingular={0} Jogo
+	boss=Nível de Boss
+	menu=No menu
 menu
 	yes=Sim
 	no=Não
-	ok=Ok
+	ok=OK
 	back=Voltar
-	backalt=Retornar
+	backalt=Voltar atrás
 	confirm=Confirmar
 	cancel=Cancelar
 	on=Ligado
 	off=Desligado
 	play=Jogar
-	gamemode=Escolha um modo de jogo!
-		nitori=Modo História
-			description=Jogue o Modo História sem parar! Quantos pontos você irá marcar?
+	gamemode=Escolhe um modo de jogo!
+		nitori=Modo de História
+			description=Joga o modo de história sem parar! Até onde consegues chegar?
 		arcade=Modo Arcade
-		microgamepractice=Modo Prática
-			description=Melhore suas habilidades nos jogos, e seja melhor que seus amigos!
-		locked1=Trancado! Complete {0} para liberar.
-		locked2=Trancado! Pontue {0} ou mais em {1} para liberar.
+		microgamepractice=Modo de Práctica
+			description=Melhora a tua destreza nos jogos, e fica melhor que os teus amigos!
+		locked1=Bloqueado! Completa {0} para desbloquear.
+		locked2=Bloqueado! Pontua {0} ou mais no {1} para desbloquear.
 		highscore=Melhor Pontuação: {0}
 		compilationmode
 			description=Jogue o máximo de jogos que puder! Sem estágios-chefe
 		compilation=Compêndio Kappa
-			description=Modo Arcade Normal: Jogue aleatoriamente!
+			description=Modo Arcade Normal: Joga microjogos aleatoriamente!
 		compilationfast=Kappacidade Máxima!
 			description=SUPER ULTRA RÁPIDO!!
-		compilationmystery=(Precisa-se documentação)
-			description=Ops, nós perdemos as informações deste. Jogue sem saber os controles!
+		compilationmystery=(Documentação em falta)
+			description=Ups, perdemos as informações deste modo. Joga sem saber o que usar ou fazer!
 		compilationhard=Inferno do Pepino
-			description=Todos os jogos mais difíceis! Somente uma vida! Quão longe você irá aguentar?
+			description=Apenas as variantes mais difíceis dos jogos! E apenas uma vida! Quanto tempo consegues aguentar?
 	main
 		quit=Sair do Jogo
-			prompt=Tem certeza que quer sair?
+			prompt=Tens a certeza que queres sair?
 		settings=Configurações
 		credits=Créditos
 	settings
-		resolution=Resolução da Tela
-		fullscreen=Tela Cheia
+		resolution=Resolução do Ecrã
+		fullscreen=Ecrã cheio
 		language=Idioma
 		graphics=Qualidade Gráfica
 			0=Mais Rápida
@@ -73,58 +78,195 @@ menu
 		code=Código: {0}
 		music=Música: {0}
 	splash
-		introa=Este jogo é um trabalho derivado de Touhou Project (東方Project), criado por ZUN
-		introb=Muitos fãs da série colaboraram e contribuiram com código, música, arte e vários outros talentos para criar esta coleção de Microgames.
-		introc=Se você gostaria de contribuir com o jogo, por favor visite {0}\nOu ajude a espalhá-lo!
-		webglwarning=Se o web player causar problemas, tente um dos downloads providenciados abaixo.
+		introa=Este jogo é um trabalho inspirado em Touhou Project (東方Project), criado por ZUN.
+		introb=Muitos fãs da série colaboraram e contribuiram com código, música, arte e vários outros talentos para criar esta coleção de microjogos.
+		introc=Se gostaria de contribuir com o jogo, por favor visite {0}\nOu espalhe a palavra!
+		webglwarning=Se o web player causar problemas, exprimenta usar um dos downloads disponíveis abaixo.
+nitori
+	storyintro=Parece que temos um novo cliente.\nVamos ver como se desenrasca com os meus jogos.\nÉ melhor nem sequer piscar os olhos!
+	storyfinished=Bom trabalho, cromo.\nParece que não ficaste só a olhar.\nAgora experimenta {0} para teres um verdadeiro desafio.
+	compilationfinished=Ena pá, impressionante!\nMas espera só até o jogo estar acabado.\n{0} acabou apenas de começar!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Hey! Tás livre, não tás? Bora comer qualquer coisa.
+			right0
+				option=Vai uma corrida até à barraca da comida?
+				response=Quem perder paga!
+			right1
+				option=Ya, bora comer qualquer coisa!
+				response=Yay!
+			wrong0
+				option=Não acabaste de comer agora?!
+				response=Oh. Não tem piada comer sozinha.
+			wrong1
+				option=Vai-te lixar, balofa!
+				response=Tu também não és assim tão magro, ò parvalhão!
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Cultivei estas flores para ti.
+			right0
+				option=São lindas!
+				response=Obrigada~
+			wrong0
+				option=Aaah, um fantasma!
+				response=Só podes estar a gozar...
+			wrong1
+				option=Odeio flores!
+				response=Não as merecias de qualquer maneira...
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Não estavas a olhar para outras raparigas, pois não?
+			right0
+				option=Claro que não!
+				response=Ainda bem, é melhor assim.
+			right1
+				option=És a única para mim.
+				response=Eu sei.
+			wrong0
+				option=Bem...
+				response=O que é que isso quer dizer?
+			wrong1
+				option=Eu gosto da Reimu!
+				response=É melhor pensares de novo
+		fakeconfig=Guardar\nCarregar\nAuto\nRegisto\nConfigurações
+		command=Sê romântico!
 	FreezeFrogs
-		command=Congele!
+		command=Congela!
+		igname=Sapos Congelados
 	Slingshot
-		command=Arremesse!
+		command=Atira!
+		igname=Lança-Pássaros
 	ChenFood
-		command=Não seja devorado!
+		command=Não sejas comida!
+		igname=Fuga ao Gato
 	Spider
-		command=Alimente!
+		command=Alimenta!
+		igname=Alimentação da Aranha
 	Donation
-		command=Colete 3!
+		command=Apanha 3!
+		igname=Apanha a Moeda
 	Wrench
-		command=Parafuse!
+		command=Aperta!
+		igname=Chave de Aperto Kappa
 	Potion
-		command=Jogue dentro!
+		command=Mete dentro!
 		ingredients=Ingredientes
+		igname=Pote de Poções
 	GhostFood
-		command=Coma e mastigue!
+		command=Come e mastiga!
+		igname=Fantasma Comilão
 	Spaceship
-		command=Lance!
+		command=Descolagem!
+		igname=Programa Espacial Youkai
 	CupShuffle
-		command=Preste Atenção
-		commandb=Escolha!
+		command=Presta atenção!
+		commandb=Escolhe!
+		igname=Jogo dos Copos
 	TraceShape
-		command=Preencha!
+		command=Preenche!
+		igname=Preencher as Formas
+	KogasaScare
+		command=Assusta!
+		igname=Susto Youkai
 	RockBand
-		command=Atue!
+		command=Atua!
+		igname=Performance ao Vivo
+	ChenBike
+		command=Buzina!
+		igname=Buzina Honk
 	MasterSparkCode
-		command=Atire!
+		command=Lança o feitiço!
+		igname=Tiro ao Alvo
 	OkuuFire
-		command=Regule!
+		command=Regula!
+		igname=Sob Controlo
 	YukariCake
 		command=Roube!
+		igname=Assalto à Sobremesa
 	RemiCover
-		command=Faça Sombra!
+		command=Mantém à sombra!
+		igname=Fraqueza vampírica
 	SuikaShake
-		command=Sacuda!
+		command=Sacode!
+		igname=Abanão dos Onizinhos
 	TouhouSort
-		command=Organize por {0}
-		hat=Acessório
-		wing=Tipo de Asa
-		ear=Orelhas
+		command=Organiza por {0}
+		hat=chapéus
+		wing=asas
+		ear=orelhas
+		igname=Organizador Touhou
 	FlanGrab
-		command=Proteja!
+		command=Protege!
+		igname=Proteção da Mansão
 	PaperThief
-		command=Chegue ao final!
+		command=Chega ao fim!
 		commandb=Cuidado!
-		commandc=Atire!
-		commandd=Defenda!
+		commandc=Dispara!
+		commandd=Derrota!
+		igname=Apanhador de Pepinos
+	RuukotoSweep
+		command=Varre!
+		igname=Varrimento do Templo
+	CirnoBored
+		command=Sê simpático!
+	MarisaJizou
+		command=Atira!
+		igname=Queda do Chapéu
+	NueAbduct
+		command=Captura!
+		igname=Raptado por Aliens
+	ReimuDodge
+		command=Desvia-te!
+	KyoukoEcho
+		command=Reflete!
+	BugSwat
+		command=Afasta!
+	ClownTorch
+		command=Pega fogo!
+	KaguyaMemoryl
+		commandb=Escolhe!
+	KaguyaMemory
+		igname=Memória Preciosa
+	MochiPound
+		igname=Batimento de Mochi
+	MaskPuzzle
+		igname=Expressão Confusa
+	YuukaWater
+		igname=Rega das Flores
+	NitoriLook
+		igname=NItori às Escondidas
+	MamiPoser
+		igname=Tanuki Impostor
+	DollDance
+		igname=Teatro de Fantoches
+	RockPaperSatori
+		igname=Pedra Papel Tesoura
 credits
-	intro={0} foi possível graças aos seguintes fãs!
+	intro={0} foi feito possível graças aos seguintes fãs!
+	kapptain=Diretor, Programador, Gerente e "Kappitão" de equipa
+	leadart=Diretora artistica, designer de personagens, voz da Nitori
+	UI=Grafia de níveis e menus
+	menumusic=Música de título/menu
+	stagemusic=Músicas dos níveis
+	microgame
+		management=Gestão de microjogos
+		managementalt=Gestão da colaboração
+		code=Programação dos microjogos
+		art=Arte dos microjogos
+		music=Música dos microjogos
+	localization=Adaptação
+		management=Gestão da adaptação
+	sfx=Efeitos sonoros
+	voice=Voz da Nitori
+	trailer=Trailer da demo
+	socialmedia=Promoção e redes sociais
+	touhou=Este jogo de fãs é um trabalho derivado de Touhou Project, criado por Zun
+	thanks=Agradecimentos especiais
+		discord=O servidor do Discord de Touhou Project
+		playtesters=Todos os que testaram o jogo
+		fans=E a todos os fãs que ajudaram a espalhar a palavra!
