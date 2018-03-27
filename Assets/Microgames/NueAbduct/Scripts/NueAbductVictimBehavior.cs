@@ -51,10 +51,19 @@ namespace NitorInc.NueAbduct {
             // Randomly choose movement direction
             targetPos = Random.insideUnitCircle.normalized * wanderRadius
                 + new Vector2(transform.position.x, transform.position.y);
-            // Abort movement if the goal would be outside the wander area
+
+            // If the goal would be outside the wander area
+            // abort the movement and try again next frame
             if (!wanderArea.rect.Contains(targetPos - wanderArea.anchoredPosition))
+            {
                 targetPos = transform.position;
-            wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
+                wanderTimer.SetTime(0);
+            }
+            else
+            {
+                wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
+            }
+
             wanderTimer.Start();
         }
 
