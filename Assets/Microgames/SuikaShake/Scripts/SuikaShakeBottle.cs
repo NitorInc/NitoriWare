@@ -18,6 +18,8 @@ public class SuikaShakeBottle : MonoBehaviour
 	private GameObject suikaPrefab;
     [SerializeField]
     private GameObject sparkleGenerator;
+    [SerializeField]
+    private AudioClip victoryClip;
 #pragma warning restore 0649
 
     private bool _pauseBuffer = false;
@@ -118,6 +120,7 @@ public class SuikaShakeBottle : MonoBehaviour
             }
             sparkleGenerator.SetActive(true);
             MicrogameController.instance.setVictory(true, true);
+            MicrogameController.instance.playSFX(victoryClip, AudioHelper.getAudioPan(transform.position.x));
 		}
 	}
 }
