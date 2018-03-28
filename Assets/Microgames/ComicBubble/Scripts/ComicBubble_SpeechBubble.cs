@@ -30,11 +30,13 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     private Sprite finishedSprite;
 
     [SerializeField]
-    private AudioClip chirpClip;
+    private AudioClip[] chirpClips;
     [SerializeField]
     private float chirpRepeatTime;
     [SerializeField]
     private Vector2 chirpPitchRange;
+    [SerializeField]
+    private float chirpVolume = 1f;
 
 
     private int CLOSED_MOUTH_PARAM = 0;
@@ -121,9 +123,10 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
         if (Time.time - lastChirpTime >= chirpRepeatTime)
         {
             lastChirpTime = Time.time;
-            MicrogameController.instance.playSFX(chirpClip,
+            MicrogameController.instance.playSFX(chirpClips[Random.Range(0, chirpClips.Length)],
                 panStereo: AudioHelper.getAudioPan(transform.position.x),
-                pitchMult: MathHelper.randomRangeFromVector(chirpPitchRange));
+                pitchMult: MathHelper.randomRangeFromVector(chirpPitchRange),
+                volume: chirpVolume);
         }
     }
 

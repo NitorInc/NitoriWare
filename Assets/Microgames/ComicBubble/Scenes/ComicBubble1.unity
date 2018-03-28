@@ -422,6 +422,11 @@ Prefab:
       propertyPath: debugSettings.timerTick
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.displayCommand
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -1119,6 +1124,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 19745002}
     m_Modifications:
+    - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
+        type: 2}
+      propertyPath: chirpClips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 224451124906956148, guid: a4a67637c7fdf0645b5e7573757ac05a,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -1239,23 +1249,43 @@ Prefab:
     - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
         type: 2}
       propertyPath: chirpRepeatTime
-      value: 0.09
+      value: 0.095
       objectReference: {fileID: 0}
     - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
         type: 2}
       propertyPath: chirpPitchRange.x
-      value: 0.9
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
         type: 2}
       propertyPath: chirpPitchRange.y
-      value: 0.95
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
         type: 2}
       propertyPath: chirpClip
       value: 
       objectReference: {fileID: 8300000, guid: ffac6ce470f66e14e907d3babddf55cf, type: 3}
+    - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
+        type: 2}
+      propertyPath: chirpClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 14de6e22a4988ea4292e5daa1ba51688, type: 3}
+    - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
+        type: 2}
+      propertyPath: chirpClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: a643319b3625205499beb28cb6bb8539, type: 3}
+    - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
+        type: 2}
+      propertyPath: chirpClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: a2ce058ebd56d7f499adddfc5cc2e623, type: 3}
+    - target: {fileID: 114760066199380228, guid: a4a67637c7fdf0645b5e7573757ac05a,
+        type: 2}
+      propertyPath: chirpVolume
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a4a67637c7fdf0645b5e7573757ac05a, type: 2}
   m_IsPrefabParent: 0
@@ -3589,9 +3619,12 @@ MonoBehaviour:
   castHeight: 0.1
   textSpeed: 0.7
   finishedSprite: {fileID: 21300002, guid: 01874cfbfb1b36745b21292f16b2a22d, type: 3}
-  chirpClip: {fileID: 8300000, guid: ffac6ce470f66e14e907d3babddf55cf, type: 3}
+  chirpClips:
+  - {fileID: 8300000, guid: 4ec0aaf6175d72347875b013843f13d4, type: 3}
+  - {fileID: 8300000, guid: 14de6e22a4988ea4292e5daa1ba51688, type: 3}
   chirpRepeatTime: 0.09
-  chirpPitchRange: {x: 0.9, y: 0.95}
+  chirpPitchRange: {x: 1.5, y: 1.8}
+  chirpVolume: 0.7
 --- !u!212 &1160287520
 SpriteRenderer:
   m_ObjectHideFlags: 0
