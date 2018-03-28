@@ -9,6 +9,8 @@ public class HecShapesSlottable : MonoBehaviour
     [Header("How quickly the planet snaps into the holder")]
     [SerializeField]
     float snapSpeed = 10;
+    [SerializeField]
+    private AudioClip snapClip;
     
     public HecShapesHolder snapTarget;
     public bool snap;
@@ -42,16 +44,20 @@ public class HecShapesSlottable : MonoBehaviour
         if (this.snap)
         {
             float distance = Time.deltaTime * this.snapSpeed;
-            this.transform.position = Vector2.MoveTowards(
-                this.transform.position,
-                this.snapTarget.SnapPosition,
-                distance);
+            if (snapTarget != null)
+            {
+                this.transform.position = Vector2.MoveTowards(
+                    this.transform.position,
+                    this.snapTarget.SnapPosition,
+                    distance);
+            }
             
             if ((Vector2)this.transform.position == this.snapTarget.SnapPosition)
             {
                 this.transform.SetParent(this.snapTarget.transform);
                 this.snapTarget.ShapeInSlot = this.celestialBody.shape;
                 this.snap = false;
+                MicrogameController.instance.playSFX(snapClip, AudioHelper.getAudioPan(transform.position.x));
             }
         }
     }
