@@ -183,20 +183,17 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
             );
             if (grabbedFragmentGroup.SnapToOtherFragments())
             {
+                MicrogameController.instance.playSFX(
+                    placeSound,
+                    volume: 1f,
+                    panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
+                );
                 if (CheckVictory())
                 {
                     MicrogameController.instance.playSFX(
                         victorySound,
                         volume: 1f,
                         panStereo: 0f
-                    );
-                }
-                else
-                {
-                    MicrogameController.instance.playSFX(
-                        placeSound,
-                        volume: 1f,
-                        panStereo: AudioHelper.getAudioPan(grabbedFragmentGroup.fragments[0].transform.position.x)
                     );
                 }
             }
