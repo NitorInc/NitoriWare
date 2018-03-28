@@ -9,6 +9,8 @@ public class HecShapesSlottable : MonoBehaviour
     [Header("How quickly the planet snaps into the holder")]
     [SerializeField]
     float snapSpeed = 10;
+    [SerializeField]
+    private AudioClip snapClip;
     
     public HecShapesHolder snapTarget;
     public bool snap;
@@ -16,12 +18,14 @@ public class HecShapesSlottable : MonoBehaviour
     MouseGrabbable grabbable;
     HecShapesCelestialBody celestialBody;
     AudioSource[] audioSources;
+    Vibrate vibration;
 
     void Start()
     {
         this.grabbable = GetComponent<MouseGrabbable>();
         this.celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
         this.audioSources = GetComponents<AudioSource>();
+        this.vibration = GetComponent<Vibrate>();
 
         if (grabbable)
         {
@@ -40,15 +44,20 @@ public class HecShapesSlottable : MonoBehaviour
         if (this.snap)
         {
             float distance = Time.deltaTime * this.snapSpeed;
-            this.transform.position = Vector2.MoveTowards(
-                this.transform.position,
-                this.snapTarget.SnapPosition,
-                distance);
+            if (snapTarget != null)
+            {
+                this.transform.position = Vector2.MoveTowards(
+                    this.transform.position,
+                    this.snapTarget.SnapPosition,
+                    distance);
+            }
             
             if ((Vector2)this.transform.position == this.snapTarget.SnapPosition)
             {
+                this.transform.SetParent(this.snapTarget.transform);
                 this.snapTarget.ShapeInSlot = this.celestialBody.shape;
                 this.snap = false;
+                MicrogameController.instance.playSFX(snapClip, AudioHelper.getAudioPan(transform.position.x));
             }
         }
     }
@@ -78,14 +87,24 @@ public class HecShapesSlottable : MonoBehaviour
             this.snapTarget.ShapeInSlot = Shape.none;
 
         this.audioSources[0].Play();
+        this.celestialBody.Enlarge();
+
+        vibration.vibrateOn = false;
     }
 
     public void OnRelease()
     {
         if (this.snapTarget && this.snapTarget.SlotShape == this.celestialBody.shape)
+        {
             this.snap = true;
+        }
+        else
+        {
+            vibration.vibrateOn = true;
+        }
 
         this.audioSources[1].Play();
+        this.celestialBody.ResetSize();
     }
 
 }

@@ -20,10 +20,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4064352859278636}
   - component: {fileID: 114707991988636770}
+  - component: {fileID: 114477328509807806}
   - component: {fileID: 58398601677449588}
   - component: {fileID: 50391026260979738}
   - component: {fileID: 82300447918250374}
   - component: {fileID: 82004889392053660}
+  - component: {fileID: 114595183941967134}
   m_Layer: 0
   m_Name: Slottable
   m_TagString: Untagged
@@ -146,7 +148,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -226,7 +228,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -239,6 +241,41 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114477328509807806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1553156318755578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2854cd4e7d7a6842bc82f59df5b237e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vibrateOn: 1
+  vibrateSpeed: 0.1
+  vibrateMaxX: 0.2
+  vibrateMaxY: 0.2
+  relativeToStartPosition: 1
+  resetOnStop: 0
+  resetOnStart: 1
+  enableInEditor: 0
+--- !u!114 &114595183941967134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1553156318755578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 1
+  volumeType: 2
 --- !u!114 &114707991988636770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,5 +288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapSpeed: 10
+  snapClip: {fileID: 8300000, guid: eee871edced942e4da54c2db5bec9e51, type: 3}
   snapTarget: {fileID: 0}
   snap: 0

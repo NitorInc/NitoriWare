@@ -29,6 +29,15 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     [SerializeField]                    // Sprite to switch to upon finishing
     private Sprite finishedSprite;
 
+    [SerializeField]
+    private AudioClip[] chirpClips;
+    [SerializeField]
+    private float chirpRepeatTime;
+    [SerializeField]
+    private Vector2 chirpPitchRange;
+    [SerializeField]
+    private float chirpVolume = 1f;
+
 
     private int CLOSED_MOUTH_PARAM = 0;
     private int SPEAKING_MOUTH_PARAM = 1;
@@ -36,6 +45,8 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
     private SpriteRenderer spriteRenderer;
     private Sprite initialSprite;
+    private float lastChirpTime;
+    private bool finishedTalking;
 
 
     // Use this for initialization
@@ -46,6 +57,7 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
         initialSprite = spriteRenderer.sprite;
 
         bubbleProgress = 0;
+        lastChirpTime = 0f;
 
         stopSpeechText();
 
@@ -67,6 +79,7 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
                     {
                         advanceSpeechText();
                         updateBubbleProgress();
+                        updateChirp();
                     }
                 }
             }
@@ -101,6 +114,20 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
         int totalChars = textObject.getTotalVisibleChars();
         int showChars = textObject.getVisibleChars();
         bubbleProgress = (showChars * 100)/ totalChars;
+    }
+
+    void updateChirp()
+    {
+        if (finishedTalking)
+            return;
+        if (Time.time - lastChirpTime >= chirpRepeatTime)
+        {
+            lastChirpTime = Time.time;
+            MicrogameController.instance.playSFX(chirpClips[Random.Range(0, chirpClips.Length)],
+                panStereo: AudioHelper.getAudioPan(transform.position.x),
+                pitchMult: MathHelper.randomRangeFromVector(chirpPitchRange),
+                volume: chirpVolume);
+        }
     }
 
 
@@ -159,7 +186,7 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
     public void onFinishedTalking()
     {
-        //spriteRenderer.sprite = finishedSprite;
+        finishedTalking = true;
     }
 
     // Advance text
