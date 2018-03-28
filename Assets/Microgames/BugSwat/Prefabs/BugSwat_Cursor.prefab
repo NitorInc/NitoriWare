@@ -53,8 +53,8 @@ GameObject:
   - component: {fileID: 212301865480599990}
   - component: {fileID: 114841031038740642}
   - component: {fileID: 95910790223507214}
-  - component: {fileID: 58968729491205624}
   - component: {fileID: 114938995688936288}
+  - component: {fileID: 61646637693268872}
   m_Layer: 0
   m_Name: BugSwat_Cursor
   m_TagString: Untagged
@@ -133,8 +133,8 @@ Transform:
   m_Father: {fileID: 4368255709865504}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -40, y: 0, z: 0}
---- !u!58 &58968729491205624
-CircleCollider2D:
+--- !u!61 &61646637693268872
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -142,12 +142,22 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.3}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 1.25, y: 2.5}
+  m_EdgeRadius: 0
 --- !u!95 &95910790223507214
 Animator:
   serializedVersion: 3
