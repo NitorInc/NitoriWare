@@ -168,9 +168,12 @@ namespace NitorInc.NueAbduct {
         }
 
         private void OnDestroy() {
-            wanderTimer.Stop();
-            graceTimer.Stop();
-            suckTimer.Stop();
+            if (wanderTimer != null)
+                wanderTimer.Stop();
+            if (graceTimer != null)
+                graceTimer.Stop();
+            if (suckTimer != null)
+                suckTimer.Stop();
         }
     }
 }
