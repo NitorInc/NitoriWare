@@ -10,15 +10,16 @@ public class YuukaWaterController : MonoBehaviour {
     public delegate void VictoryAction();
     public static event VictoryAction OnVictory;
 
-	public void Notify() {
+    private void Awake()
+    {
+        OnVictory = null;
+    }
+
+    public void Notify() {
         completionCounter++;
         if (completionCounter >= requiredCompletion) {
             MicrogameController.instance.setVictory(true, true);
             OnVictory();
         }    
-    }
-
-    private void OnDestroy() {
-        OnVictory = null;
     }
 }
