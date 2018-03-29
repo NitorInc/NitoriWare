@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour {
 
-	public float speed = 1; // speed in meters per second
+	float speed = 1; // speed in meters per second
 
 	// Use this for initialization
 	void Start () {
@@ -15,4 +15,11 @@ public class ParallaxBackground : MonoBehaviour {
 		// move this object at frame rate independent speed:
 		transform.position += new Vector3(1,0,0) * speed * Time.deltaTime;
 	}
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public float GetSpeed() { return speed; }
 }

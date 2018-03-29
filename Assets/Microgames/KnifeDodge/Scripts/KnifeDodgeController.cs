@@ -7,9 +7,11 @@ public class KnifeDodgeController : MonoBehaviour {
 	List<GameObject> knifeList;
 	List<GameObject> knifeTargetsList;
 
-	// Public Stuff
+    // Public Stuff
+    public GameObject parallaxController;
 	public GameObject knifePrefab;
 	public GameObject knifeTargetPrefab;
+    public GameObject blackOutPrefab;
 	public int numKnives = 14;
 	public float spawnDistance = 10.0f;
 	public int knivesRemoved = 4;
@@ -21,8 +23,9 @@ public class KnifeDodgeController : MonoBehaviour {
 	public float knifeStopHeight = 3.0f;
 	public float knifeFreezeTime = 1.0f;
 	public float knifeUnfreezeTime = 1.0f;
-
-	public enum KnifeDirections {
+    public float blackOutAValue = 4.0f;
+    public float parallaxMaxSpeed = 1.0f;
+    public enum KnifeDirections {
 		MINUS_ANGLE,
 		POSITIVE_ANGLES,
 		NUM_DIRECTIONS
@@ -130,19 +133,28 @@ public class KnifeDodgeController : MonoBehaviour {
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
+            float aValue = blackOutPrefab.GetComponent<SpriteRenderer>().material.color.a;
+            float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
+
+
             if (knifeList[i].transform.position.y > knifeStopHeight)
             {
+                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
+                blackOutPrefab.GetComponent<SpriteRenderer>().material.color = new Color(0, 0, 0, 0);
             }
             else if (timeUntilStrike < 0.0f)
             {
-            
-                    knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int) KnifeState.MOVING_TO_GROUND);
-            
+                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
+                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int) KnifeState.MOVING_TO_GROUND);
+                blackOutPrefab.GetComponent<SpriteRenderer>().material.color = new Color(0, 0, 0, Mathf.Lerp(aValue, 0, Time.deltaTime) ); 
             }  
             else
             {
-                    knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
+                
+                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
+                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
+                blackOutPrefab.GetComponent<SpriteRenderer>().material.color = new Color(0, 0, 0, Mathf.Lerp(aValue, blackOutAValue, Time.deltaTime));
             }
         }
 
