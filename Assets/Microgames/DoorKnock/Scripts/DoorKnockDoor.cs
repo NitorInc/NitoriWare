@@ -63,18 +63,21 @@ public class DoorKnockDoor : MonoBehaviour {
     
     // When the object is clicked
     void OnClick() {
-        clicksToWin--;
-        if (clicksToWin <= 0 && !win){
-            // We win
-            win = true;
-            MicrogameController.instance.setVictory(victory: true, final: true);
-            WinAnimation();
+        if (!win) {
+            clicksToWin--;
+            if (clicksToWin <= 0){
+                // We win
+                win = true;
+                MicrogameController.instance.setVictory(victory: true, final: true);
+                WinAnimation();
+            }
+            else if (teleportOnClick){
+                Teleport();
+            }
+            ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
+            particleSystem.Play();
+            NewDirection();
         }
-        // Don't teleport if we've won
-        else if (teleportOnClick && !win){
-            Teleport();
-        }
-        NewDirection();
     }
     
     // Move to a random location
