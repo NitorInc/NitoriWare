@@ -10,7 +10,7 @@ public class UnlockCursorOnStart : MonoBehaviour
         Invoke("unlockCursor", .1f);
 	}
 
-    void unlock()
+    void unlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
     }
