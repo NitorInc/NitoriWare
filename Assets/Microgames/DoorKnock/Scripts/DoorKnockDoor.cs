@@ -8,6 +8,12 @@ public class DoorKnockDoor : MonoBehaviour {
     private Collider2D clickCollider;
 	
     [SerializeField]
+    private AudioClip knockSound;
+
+    [SerializeField]
+    private AudioClip openSound;
+    
+    [SerializeField]
     private bool teleportOnClick;
 
     [SerializeField]
@@ -78,6 +84,11 @@ public class DoorKnockDoor : MonoBehaviour {
             particleSystem.Play();
             NewDirection();
         }
+        MicrogameController.instance.playSFX(
+            knockSound, volume: 0.5f,
+            panStereo: AudioHelper.getAudioPan(transform.position.x)
+        );
+        NewDirection();
     }
     
     // Move to a random location
@@ -96,6 +107,10 @@ public class DoorKnockDoor : MonoBehaviour {
 
     // Winning animation
     void WinAnimation(){
+        MicrogameController.instance.playSFX(
+            openSound, volume: 0.5f,
+            panStereo: AudioHelper.getAudioPan(transform.position.x)
+        );
         StartCoroutine(OpenDoors());
     }
 
