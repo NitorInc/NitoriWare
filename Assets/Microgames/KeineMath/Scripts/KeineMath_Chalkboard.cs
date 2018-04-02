@@ -26,9 +26,10 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     void setProblem()
     {
         //TODO: Generate actual problem with actual answer, and display the problem rather than the answer
-        problem = "What is the answer to Life, The Universe, and Everything?"; //hee hee hee
-        answer = 42;
-        problem = answer.ToString();
+        int rand1 = Random.Range(1, 10);
+        int rand2 = Random.Range(1, 10);
+        problem = rand1.ToString() + " + " + rand2.ToString() + " = ?";
+        answer = rand1 + rand2;
     }
 
     public void processAnswer(string answerString)
