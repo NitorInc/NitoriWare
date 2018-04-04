@@ -31,6 +31,8 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject term3;
     private List<GameObject> terms = new List<GameObject>();
     private GameObject answer;
+    private GameObject plusSymbol;
+    private GameObject minusSymbol;
     private GameObject operationSymbol;
     private int correctAnswer;
     private bool answered = false;
@@ -43,7 +45,8 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         terms.Add(term2);
         term3 = GameObject.Find("Term3");
         terms.Add(term3);
-        operationSymbol = GameObject.Find("Operation");
+        plusSymbol = GameObject.Find("Plus");
+        minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
         generateProblem();
         generateAnswers();
@@ -56,12 +59,16 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     void generateProblem()
     {
-        for(int i = 0; i < termCount; i++)
-        {
-            termList.Add(Random.Range(minTerm, (maxTerm + 1)));
-        }
+        //IMPORTANT: The bottom term in the equation is term 0.
+        //This is because we "generate up" (i.e. new terms are added on top)
         if (operation.Equals("+"))
         {
+            operationSymbol = plusSymbol;
+            minusSymbol.transform.position = new Vector3(50, 0, 0);
+            for (int i = 0; i < termCount; i++)
+            {
+                termList.Add(Random.Range(minTerm, (maxTerm + 1)));
+            }
             correctAnswer = 0;
             for(int i = 0; i < terms.Count; i++)
             {
@@ -76,7 +83,28 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             }
         } else if (operation.Equals("-"))
         {
-            print("Subtraction not implemented!");
+            operationSymbol = minusSymbol;
+            plusSymbol.transform.position = new Vector3(50, 0, 0);
+            termCount = 2; //Subtraction with more than 2 terms is not supported.
+            correctAnswer = Random.Range(1, maxTerm);
+            int firstTerm;
+            int secondTerm;
+            if (maxTerm - correctAnswer == 1)
+            {
+                secondTerm = 1;
+            } else
+            {
+                secondTerm = Random.Range(1, (maxTerm - correctAnswer));
+            }
+            firstTerm = correctAnswer + secondTerm;
+            termList.Add(firstTerm);
+            termList.Add(secondTerm);
+            terms[0].GetComponent<KeineMath_Term>().setValue(secondTerm);
+            terms[1].GetComponent<KeineMath_Term>().setValue(firstTerm);
+            for (int i = 2; i < terms.Count; i++)
+            {
+                terms[i].SetActive(false);
+            }
         } else
         {
             print("Invalid operation!");
@@ -94,6 +122,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         for(int i = 0; i < answerCount; i++)
         {
             int sign = (Random.Range(1, 3) * 2) - 3; //Generates 1 or -1
+            if (correctAnswer == 1) sign = 1; //Answers of zero are not permitted
             answerOffsets.Add(i * sign);
         }
         for(int i = 1; i <= answerCount; i++)
