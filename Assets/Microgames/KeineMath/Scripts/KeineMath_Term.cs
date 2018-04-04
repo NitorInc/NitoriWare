@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class KeineMath_Term : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void setValue(int value)
     {
+        //Add new instances of the object to match the value
+        //NOTE: Should not be called more than once
         for (int i = 1; i < value; i++)
         {
             float newx = transform.position.x - (1f * i);
@@ -24,4 +16,5 @@ public class KeineMath_Term : MonoBehaviour {
             Object.Instantiate(this, newposition, Quaternion.identity);
         }
     }
+
 }

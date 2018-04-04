@@ -50,11 +50,13 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         answer = GameObject.Find("Answer");
         generateProblem();
         generateAnswers();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        //Enforcing displayable values
+        if (minTerm < 1) minTerm = 1;
+        if (maxTerm > 11) maxTerm = 11;
+        if (termCount < 2) termCount = 2;
+        if (termCount > 3) termCount = 3;
+        if (answerCount > 4) answerCount = 4;
+        if (answerCount < 1) answerCount = 1;
 	}
 
     void generateProblem()
@@ -63,8 +65,9 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         //This is because we "generate up" (i.e. new terms are added on top)
         if (operation.Equals("+"))
         {
+            //Generate each term between the minimum and maximum and add them up
             operationSymbol = plusSymbol;
-            minusSymbol.transform.position = new Vector3(50, 0, 0);
+            minusSymbol.transform.position = new Vector3(50, 0, 0); //Move the minus offscreen
             for (int i = 0; i < termCount; i++)
             {
                 termList.Add(Random.Range(minTerm, (maxTerm + 1)));
@@ -83,8 +86,9 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             }
         } else if (operation.Equals("-"))
         {
+            //Generate an answer, then two terms that will produce it with subtraction
             operationSymbol = minusSymbol;
-            plusSymbol.transform.position = new Vector3(50, 0, 0);
+            plusSymbol.transform.position = new Vector3(50, 0, 0); //Move the plus offscreen
             termCount = 2; //Subtraction with more than 2 terms is not supported.
             correctAnswer = Random.Range(1, maxTerm);
             int firstTerm;
@@ -109,6 +113,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         {
             print("Invalid operation!");
         }
+        //Move the operation symbol to the right of the terms
         float symbolx = operationSymbol.transform.position.x - (1f * Mathf.Max(termList.ToArray())) + 1;
         float symboly = operationSymbol.transform.position.y;
         operationSymbol.transform.position = new Vector3(symbolx, symboly, 0);
@@ -121,12 +126,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         List<int> answerOffsets = new List<int>();
         for(int i = 0; i < answerCount; i++)
         {
+            //Generate an amount to be wrong by. Note the first offset generated will be 0 (i.e. correct answer)
             int sign = (Random.Range(1, 3) * 2) - 3; //Generates 1 or -1
             if (correctAnswer == 1) sign = 1; //Answers of zero are not permitted
             answerOffsets.Add(i * sign);
         }
         for(int i = 1; i <= answerCount; i++)
         {
+            //Pick a random offset, remove it, and apply it to the answer being generated
             answerOffset = answerOffsets[Random.Range(0, answerOffsets.Count)];
             answerOffsets.Remove(answerOffset);
             answerValue = correctAnswer + answerOffset;

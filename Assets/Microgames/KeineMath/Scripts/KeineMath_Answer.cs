@@ -24,6 +24,8 @@ public class KeineMath_Answer : MonoBehaviour {
 
     public void displayValue()
     {
+        //Add new instances of the internal object until the value is reached
+        //NOTE: Should not be called more than once
         for (int i = 1; i < value; i++)
         {
             float newx = answerTerm.transform.position.x + (0.5f * (i % iconsPerRow));
