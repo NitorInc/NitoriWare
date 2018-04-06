@@ -28,7 +28,7 @@ public class KeineMath_Answer : MonoBehaviour {
         //NOTE: Should not be called more than once
         for (int i = 1; i < value; i++)
         {
-            float newx = answerTerm.transform.position.x + (0.5f * (i % iconsPerRow));
+            float newx = answerTerm.transform.position.x + (0.55f * (i % iconsPerRow));
             float newy = answerTerm.transform.position.y - (0.8f * Mathf.Floor(i / iconsPerRow));
             Vector3 newposition = new Vector3(newx, newy, 0);
             Object.Instantiate(answerTerm, newposition, Quaternion.identity);
