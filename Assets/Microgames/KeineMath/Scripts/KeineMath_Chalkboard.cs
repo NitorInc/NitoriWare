@@ -38,7 +38,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject plusSymbol;
     private GameObject minusSymbol;
     private GameObject operationSymbol;
-    private GameObject keine;
+    //private GameObject keine;
     private int correctAnswer;
     private bool answered = false;
 
@@ -62,7 +62,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         plusSymbol = GameObject.Find("Plus");
         minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
-        keine = GameObject.Find("Keine");
+        //keine = GameObject.Find("Keine");
         selectIcons();
         generateProblem();
         generateAnswers();
@@ -174,17 +174,17 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         if (!answered)
         {
             answered = true;
-            GameObject keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
-            keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
+            //GameObject keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
+            //keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
             if (answer == correctAnswer)
             {
                 MicrogameController.instance.setVictory(victory: true, final: true);
-                keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
+                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
-                keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
+                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
             }
         }
     }
