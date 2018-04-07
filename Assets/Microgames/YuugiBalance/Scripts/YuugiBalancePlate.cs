@@ -25,7 +25,7 @@ public class YuugiBalancePlate : MonoBehaviour
         sin = Mathf.PI / 2f,
         sine_speed = 2f,
         max_rotation = 80,
-        fail_distance = 2,
+        fail_distance = 4,
         fall = 0,
         distance = 0,
         mad = 0,
