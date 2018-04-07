@@ -159,7 +159,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             answerOffset = answerOffsets[Random.Range(0, answerOffsets.Count)];
             answerOffsets.Remove(answerOffset);
             answerValue = correctAnswer + answerOffset;
-            float newx = answer.transform.position.x + (3.33f * i) + 2f;
+            float newx = answer.transform.position.x + (3.7f * i) + 1f;
             float newy = answer.transform.position.y;
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);
