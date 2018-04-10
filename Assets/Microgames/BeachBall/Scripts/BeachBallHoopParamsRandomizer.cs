@@ -24,12 +24,4 @@ public class BeachBallHoopParamsRandomizer : MonoBehaviour
     {
 
     }
-
-    public void stopHoop()
-    {
-        //A very convinient way to disable stopping behavior
-
-        /*var animation = GetComponent<Animation>()[AnimationName];
-        animation.speed = 0f;*/
-    }
 }

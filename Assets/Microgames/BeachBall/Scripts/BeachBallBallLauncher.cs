@@ -14,8 +14,6 @@ public class BeachBallBallLauncher : MonoBehaviour
     [Header("Launch equation arg (affects height)")]
     public float ThrowConstant = 442f;
 
-    public BeachBallHoopParamsRandomizer hoopAnimationControl;
-
     public AudioClip launchSound;
 
     public Vector2 ThrowDirection = new Vector2(0, 1);
@@ -56,13 +54,6 @@ public class BeachBallBallLauncher : MonoBehaviour
             scaleMultiplier.Started = true;
             //animate the seal
             sealAnimation.Play();
-
-            hoopAnimationControl.stopHoop();
-
-            //throw the ball using animation
-            /*foreach (AnimationState state in ballAnimation)
-                state.speed = ThrowMultiplier;
-            ballAnimation.Play();*/
 
             //throw the ball using physics
             //ThrowForce = ThrowConstant * Sqrt(ThrowMultiplier) (obtained using power curve fitting)
