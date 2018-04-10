@@ -38,9 +38,12 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject plusSymbol;
     private GameObject minusSymbol;
     private GameObject operationSymbol;
-    //private GameObject keine;
     private int correctAnswer;
     private bool answered = false;
+
+    private GameObject keine;
+    private GameObject keineAnimator;
+    private GameObject cheeringCrowd;
 
     // Use this for initialization
     void Start () {
@@ -62,7 +65,13 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         plusSymbol = GameObject.Find("Plus");
         minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
-        //keine = GameObject.Find("Keine");
+
+        keine = GameObject.Find("Keine");
+        keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
+        keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
+        cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
+        cheeringCrowd.SetActive(false);
+
         selectIcons();
         generateProblem();
         generateAnswers();
@@ -91,10 +100,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             //Generate each term between the minimum and maximum and add them up
             operationSymbol = plusSymbol;
             minusSymbol.transform.position = new Vector3(50, 0, 0); //Move the minus offscreen
+            bool allones = true;
             for (int i = 0; i < termCount; i++)
             {
                 termList.Add(Random.Range(minTerm, (maxTerm + 1)));
+                if (termList[i] != 1) allones = false;
             }
+            //We don't want all 1s because it ruins the answer-generating algorithm and also is boring.
+            if (allones) termList[Random.Range(0, termCount)] += 1;
             correctAnswer = 0;
             for(int i = 0; i < terms.Count; i++)
             {
@@ -169,22 +182,24 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         }
     }
 
-    public void processAnswer(int answer)
+    public void processAnswer(int answer, Vector3 answerPosition)
     {
         if (!answered)
         {
             answered = true;
-            //GameObject keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
-            //keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
+            keineAnimator.GetComponent<SpriteRenderer>().enabled = true;
+            keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
             if (answer == correctAnswer)
             {
                 MicrogameController.instance.setVictory(victory: true, final: true);
-                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
+                keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
+                cheeringCrowd.SetActive(true);
+                cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
-                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
+                keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
             }
         }
     }
