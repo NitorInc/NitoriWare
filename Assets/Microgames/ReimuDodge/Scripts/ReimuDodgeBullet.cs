@@ -16,13 +16,13 @@ public class ReimuDodgeBullet : MonoBehaviour {
 	private Vector2 trajectory;
 
 	// Use this for initialization
-	public void Start() {
+	private void Start() {
 		// Invoke the SetTrajectory method after the delay
 		Invoke("SetTrajectory", delay);
 	}
 	
 	// Update is called once per frame
-	public void Update() {
+	private void Update() {
 		// Only start moving after the trajectory has been set
 		if (trajectory != null) {
 			// Move the bullet a certain distance based on trajectory speed and time
