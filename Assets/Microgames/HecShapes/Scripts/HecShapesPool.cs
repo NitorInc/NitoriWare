@@ -131,15 +131,14 @@ public class HecShapesPool : MonoBehaviour
                 win = false;
                 break;
             }
+            else
+            {
+                head.Win();
+            }
         }
 
         if (win)
-        {
             MicrogameController.instance.setVictory(true, true);
-
-            foreach (HecShapesHecatia head in this.heads)
-                head.Win();
-        }
     }
     
 }

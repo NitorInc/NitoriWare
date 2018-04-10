@@ -26,7 +26,7 @@ public class HecShapesHecatia : MonoBehaviour
         this.animator.SetTrigger("Gray");
     }
 
-        public void AddOnFillAction(UnityAction fillAction)
+    public void AddOnFillAction(UnityAction fillAction)
     {
         this.holder.onFill.AddListener(fillAction);
     }
