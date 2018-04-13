@@ -2,25 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class YoumuSlashTarget : MonoBehaviour
+public class YoumuSlashTargetBody : MonoBehaviour
 {
-    [Header("Debug value until sword slice angle is implemented")]
-    [SerializeField]
-    private Vector2 sliceAngleRange;
     [SerializeField]
     private YoumuSlashTargetSlice leftSlice;
     [SerializeField]
     private YoumuSlashTargetSlice rightSlice;
-    
+
+    [Header("Debug values")]
+    [SerializeField]
+    private Vector2 sliceAngleRange;
+    [SerializeField]
+    private Vector2 lauchRotSpeedRange;
+    [SerializeField]
+    private Animator rigAnimator;
+
+    private float rotSpeed;
+
+    private void Start()
+    {
+        rotSpeed = -MathHelper.randomRangeFromVector(lauchRotSpeedRange);
+    }
 
     private void Update()
     {
+        transform.localEulerAngles += Vector3.forward * rotSpeed * Time.deltaTime;
+
         //Debug behavior
         transform.position += (Vector3.down  + Vector3.right) * Time.deltaTime * 2f;
-        transform.localEulerAngles += Vector3.forward * -300f * Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             setSlashedAngle(MathHelper.randomRangeFromVector(sliceAngleRange));
+            rigAnimator.speed = 0f;
             enabled = false;
         }
     }
