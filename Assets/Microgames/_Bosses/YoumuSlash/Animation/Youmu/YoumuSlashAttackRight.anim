@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: YoumuSlashYoumuBobDown
+  m_Name: YoumuSlashAttackRight
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -19,20 +19,26 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: {x: 0, y: -0.1500001, z: 0}
-        inSlope: {x: 0, y: -0.836088, z: 0}
-        outSlope: {x: 0, y: -0.836088, z: 0}
+        value: {x: -1.435547, y: 0, z: 0}
+        inSlope: {x: 26.947952, y: 0, z: 0}
+        outSlope: {x: 26.947952, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.041666668
+        value: {x: 0, y: 0, z: 0}
+        inSlope: {x: 39.72861, y: 0, z: 0}
+        outSlope: {x: 39.72861, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
         time: 0.125
-        value: {x: 0, y: -0.2, z: 0}
+        value: {x: 1.5, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Dummy Sprite
+    path: Movement
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -44,7 +50,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2971780430
+      path: 229373857
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -77,13 +83,41 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -0.1500001
-        inSlope: -0.836088
-        outSlope: -0.836088
+        value: -1.435547
+        inSlope: 26.947952
+        outSlope: 26.947952
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.041666668
+        value: 0
+        inSlope: 39.72861
+        outSlope: 39.72861
         tangentMode: 0
       - serializedVersion: 2
         time: 0.125
-        value: -0.2
+        value: 1.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.x
+    path: Movement
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.125
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -91,7 +125,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Dummy Sprite
+    path: Movement
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -113,7 +147,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Dummy Sprite
+    path: Movement
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

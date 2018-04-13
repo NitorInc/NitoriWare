@@ -8,6 +8,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private YoumuSlashTimingData timingData;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private Transform facingTransform;
 
     [Header("Timing window in seconds for hitting an object")]
     [SerializeField]
@@ -18,9 +20,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private bool autoSlash;
     [SerializeField]
     private Vector2 sliceAngleRange;
-
-    bool awaitingSlash;
+    [SerializeField]
+    private AudioClip debugSound;
+    
     YoumuSlashBeatMap.TargetBeat nextTarget;
+    int nextIdleBeat = -1;
+    bool attacking;
 
     private void Start()
     {
@@ -29,15 +34,33 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void onBeat(int beat)
     {
-        nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
-        if (!awaitingSlash)
+        if (beat >= nextIdleBeat)
         {
+
+            nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
+
+            if (beat == nextIdleBeat)
+            {
+                if (nextTarget != null && beat >= (int)nextTarget.HitBeat)
+                {
+                    nextIdleBeat++;
+                    return;
+                }
+                else
+                {
+                    MicrogameController.instance.playSFX(debugSound);
+                    rigAnimator.SetTrigger("Idle");
+                    rigAnimator.ResetTrigger("Attack");
+                }
+            }
+
             if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat)
             {
+
                 setFacingRight(nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right);
                 rigAnimator.SetTrigger("Beat");
                 rigAnimator.SetBool("Prep", false);
-                awaitingSlash = true;
+                nextIdleBeat = beat + 2;
             }
             else
             {
@@ -53,14 +76,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void setFacingRight(bool facingRight)
     {
-        //TODO Update to spin proper object
-        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * (facingRight ? -1f : 1f),
-            transform.localScale.y, transform.localScale.z);
+        facingTransform.localScale = new Vector3(Mathf.Abs(facingTransform.localScale.x) * (facingRight ? -1f : 1f),
+            facingTransform.localScale.y, facingTransform.localScale.z);
     }
 
     bool isFacingRight()
     {
-        return transform.localEulerAngles.x < 0f;
+        return facingTransform.localEulerAngles.x < 0f;
     }
 
     void Update ()
@@ -90,7 +112,14 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (hitTarget != null)
         {
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange));
+
+            bool facingRight = direction == YoumuSlashBeatMap.TargetBeat.Direction.Right;
+            setFacingRight(facingRight);
+            rigAnimator.SetBool("FacingRight", facingRight);
+            rigAnimator.SetTrigger("Attack");
+            rigAnimator.ResetTrigger("Idle");
+
+            nextIdleBeat = (int)hitTarget.HitBeat + 1;
         }
-        awaitingSlash = false;
     }
 }
