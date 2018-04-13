@@ -39,6 +39,7 @@ public class YoumuSlashTimingController : MonoBehaviour
     }
 
     void checkForSongEnd(int beat)
+    {
         print("Debug beat check");
         if (lastInvokedBeat > 1 && !musicSource.isPlaying)
             CancelInvoke();
