@@ -15,6 +15,8 @@ public class YoumuSlashTimingController : MonoBehaviour
     private YoumuSlashBeatMap beatMap;
     [SerializeField]
     private float StartDelay = .5f;
+    [SerializeField]
+    private AudioClip debugBeatClip;
 
     private AudioSource musicSource;
 
@@ -51,6 +53,8 @@ public class YoumuSlashTimingController : MonoBehaviour
 
         float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
         Invoke("callOnBeat", nextBeatTime - musicSource.time);
+
+        musicSource.PlayOneShot(debugBeatClip);
     }
 
     private void Update()
