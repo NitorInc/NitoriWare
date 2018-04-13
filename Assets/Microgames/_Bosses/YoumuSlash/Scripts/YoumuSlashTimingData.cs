@@ -47,6 +47,7 @@ public class YoumuSlashTimingData : ScriptableObject
     {
         this.musicSource = musicSource;
         this.beatMap = beatMap;
+        beatMap.initiate();
     }
 
 }

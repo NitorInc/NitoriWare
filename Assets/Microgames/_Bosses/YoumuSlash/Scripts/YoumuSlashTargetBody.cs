@@ -8,34 +8,30 @@ public class YoumuSlashTargetBody : MonoBehaviour
     private YoumuSlashTargetSlice leftSlice;
     [SerializeField]
     private YoumuSlashTargetSlice rightSlice;
-
-    [Header("Debug values")]
-    [SerializeField]
-    private Vector2 sliceAngleRange;
-    [SerializeField]
-    private Vector2 lauchRotSpeedRange;
     [SerializeField]
     private Animator rigAnimator;
+
+    [SerializeField]
+    private Vector2 lauchRotSpeedRange;
 
     private float rotSpeed;
 
     private void Start()
     {
         rotSpeed = -MathHelper.randomRangeFromVector(lauchRotSpeedRange);
+        transform.localEulerAngles = Vector3.forward * Random.Range(0f, 360f);
     }
 
     private void Update()
     {
         transform.localEulerAngles += Vector3.forward * rotSpeed * Time.deltaTime;
+    }
 
-        //Debug behavior
-        transform.position += (Vector3.down  + Vector3.right) * Time.deltaTime * 2f;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            setSlashedAngle(MathHelper.randomRangeFromVector(sliceAngleRange));
-            rigAnimator.speed = 0f;
-            enabled = false;
-        }
+    public void Slash(float angle)
+    {
+        setSlashedAngle(angle);
+        rigAnimator.speed = 0f;
+        enabled = false;
     }
 
     void setSlashedAngle(float angle)

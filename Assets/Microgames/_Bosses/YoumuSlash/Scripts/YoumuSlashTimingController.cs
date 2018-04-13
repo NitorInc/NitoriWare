@@ -53,9 +53,27 @@ public class YoumuSlashTimingController : MonoBehaviour
         Invoke("callOnBeat", nextBeatTime - musicSource.time);
     }
 
+    private void Update()
+    {
+        if (MicrogameController.instance.isDebugMode())
+        {
+            float fastSpeed = 2.5f;
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Time.timeScale *= fastSpeed;
+                musicSource.pitch *= fastSpeed;
+            }
+            else if (Input.GetKeyUp(KeyCode.S))
+            {
+                Time.timeScale /= fastSpeed;
+                musicSource.pitch /= fastSpeed;
+            }
+        }
+    }
+
     void checkForSongEnd(int beat)
     {
-        print("Beat " + beat);
+        //print("Beat " + beat);
         if (lastInvokedBeat > 1 && !musicSource.isPlaying)
             CancelInvoke();
     }

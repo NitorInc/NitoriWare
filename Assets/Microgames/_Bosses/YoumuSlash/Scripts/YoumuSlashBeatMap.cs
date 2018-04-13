@@ -16,6 +16,16 @@ public class YoumuSlashBeatMap : ScriptableObject
     [System.Serializable]
     public class TargetBeat
     {
+        public const float LaunchBeatDuration = 2f;
+
+        public YoumuSlashTarget launchInstance { get; set; }
+        public bool slashed { get; set; }
+        public void resetFields()
+        {
+            launchInstance = null;
+            slashed = false;
+        }
+
         [SerializeField]
         private string notes;
 
@@ -24,6 +34,10 @@ public class YoumuSlashBeatMap : ScriptableObject
         public float LaunchBeat
         {
             get { return launchBeat; }
+        }
+        public float HitBeat
+        {
+            get { return launchBeat + LaunchBeatDuration; }
         }
 
         [SerializeField]
@@ -40,7 +54,6 @@ public class YoumuSlashBeatMap : ScriptableObject
             get { return prefab; }
         }
 
-        public YoumuSlashTarget launchInstance { get; set; }
 
         public enum Direction
         {
@@ -49,18 +62,22 @@ public class YoumuSlashBeatMap : ScriptableObject
             Any
         }
 
+
         public enum TimeState
         {
             Pending,
             Active,
-            Passed
+            Passed,
+            Slashed
         }
 
         public TimeState getTimeState(float beat, float maxHitTime)
         {
-            if (beat < launchBeat)
+            if (slashed)
+                return TimeState.Slashed;
+            else if (beat < launchBeat)
                 return TimeState.Pending;
-            else if (beat <= launchBeat + maxHitTime)
+            else if (beat <= HitBeat + maxHitTime)
                 return TimeState.Active;
             else
                 return TimeState.Passed;
@@ -68,7 +85,15 @@ public class YoumuSlashBeatMap : ScriptableObject
 
         public bool isInHitRange(float beat, float minHitTime, float maxHitTime)
         {
-            return beat >= launchBeat - minHitTime && beat <= launchBeat + maxHitTime;
+            return beat >= HitBeat + minHitTime && beat <= HitBeat + maxHitTime;
+        }
+    }
+
+    public void initiate()
+    {
+        foreach (var target in targetBeats)
+        {
+            target.resetFields();
         }
     }
 
@@ -79,7 +104,7 @@ public class YoumuSlashBeatMap : ScriptableObject
             var targetState = target.getTimeState(beat, maxHitTime);
             if (targetState == TargetBeat.TimeState.Active)
                 return target;
-            else if (targetState == TargetBeat.TimeState.Passed)
+            else if (targetState == TargetBeat.TimeState.Pending)
                 return null;
         }
         return null;
@@ -90,14 +115,11 @@ public class YoumuSlashBeatMap : ScriptableObject
         TargetBeat lastFoundTarget = null;
         foreach (var target in TargetBeats)
         {
-            if (target.LaunchBeat < beat)
-            {
                 var targetState = target.getTimeState(beat, maxHitTime);
                 if (targetState == TargetBeat.TimeState.Active)
                     lastFoundTarget = target;
-                else if (targetState == TargetBeat.TimeState.Passed)
+                else if (targetState == TargetBeat.TimeState.Pending)
                     return lastFoundTarget;
-            }
         }
         return lastFoundTarget;
     }
@@ -106,10 +128,11 @@ public class YoumuSlashBeatMap : ScriptableObject
     {
         foreach (var target in TargetBeats)
         {
-            if (target.isInHitRange(beat, minHitTime, maxHitTime)
+            var targetState = target.getTimeState(beat, maxHitTime);
+            if (targetState == TargetBeat.TimeState.Active && target.isInHitRange(beat, minHitTime, maxHitTime)
                 && (direction == TargetBeat.Direction.Any || direction == target.HitDirection))
                 return target;
-            else if (target.getTimeState(beat, maxHitTime) == TargetBeat.TimeState.Passed)
+            else if (targetState == TargetBeat.TimeState.Pending)
                 return null;
         }
         return null;
