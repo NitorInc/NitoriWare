@@ -20,23 +20,33 @@ public class YoumuSlashTimingData : ScriptableObject
         get { return bpm; }
     }
 
+    private YoumuSlashBeatMap beatMap;
+    public YoumuSlashBeatMap BeatMap
+    {
+        get { return beatMap; }
+    }
+
     private AudioSource musicSource;
 
-    public void initiate(AudioSource musicSource)
+    public float CurrentBeat
+    {
+        get
+        {
+            if (!musicSource.isPlaying)
+                return 0f;
+            return musicSource.time / BeatDuration;
+        }
+    }
+
+    public float BeatDuration
+    {
+        get{ return 60f / bpm; }
+    }
+
+    public void initiate(AudioSource musicSource, YoumuSlashBeatMap beatMap)
     {
         this.musicSource = musicSource;
-    }
-
-    public float getCurrentBeat()
-    {
-        if (!musicSource.isPlaying)
-            return 0f;
-        return musicSource.time / getBeatDuration();
-    }
-
-    public float getBeatDuration()
-    {
-        return 60f / bpm;
+        this.beatMap = beatMap;
     }
 
 }

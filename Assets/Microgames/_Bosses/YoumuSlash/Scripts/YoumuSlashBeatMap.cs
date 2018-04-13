@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Microgame Assets/YoumuSlash/Beat Map")]
 public class YoumuSlashBeatMap : ScriptableObject
 {
 
@@ -12,8 +13,12 @@ public class YoumuSlashBeatMap : ScriptableObject
         get { return targetBeats; }
     }
     
+    [System.Serializable]
     public class TargetBeat
     {
+        [SerializeField]
+        private string notes;
+
         [SerializeField]
         private float launchBeat;
         public float LaunchBeat
@@ -34,7 +39,9 @@ public class YoumuSlashBeatMap : ScriptableObject
         {
             get { return prefab; }
         }
-        
+
+        public YoumuSlashTarget launchInstance { get; set; }
+
         public enum Direction
         {
             Left,
