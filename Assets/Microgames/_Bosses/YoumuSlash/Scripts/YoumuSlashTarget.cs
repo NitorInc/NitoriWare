@@ -21,6 +21,7 @@ public class YoumuSlashTarget : MonoBehaviour
 
     private YoumuSlashBeatMap.TargetBeat mapInstance;
     private bool isRight;
+    private AudioSource sfxSource;
     
 	public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
@@ -30,18 +31,19 @@ public class YoumuSlashTarget : MonoBehaviour
         if (isRight)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
-        MicrogameController.instance.playSFX(launchClip,
-            panStereo: launchPan * (isRight ? 1f : -1f),
-            pitchMult: isRight ? rightPitch : leftPitch);
-	}
+        sfxSource = GetComponent<AudioSource>();
+        sfxSource.panStereo = launchPan * (isRight ? 1f : -1f);
+        sfxSource.pitch = isRight ? rightPitch : leftPitch;
+        sfxSource.PlayOneShot(launchClip);
+    }
 
     public void slash(float angle)
     {
         body.slash(angle);
         mapInstance.slashed = true;
 
-        MicrogameController.instance.playSFX(slashClip,
-            panStereo: slashPan * (isRight ? 1f : -1f),
-            pitchMult: isRight ? rightPitch : leftPitch);
+        sfxSource.panStereo = slashPan * (isRight ? 1f : -1f);
+        sfxSource.pitch = isRight ? rightPitch : leftPitch;
+        sfxSource.PlayOneShot(slashClip);
     }
 }
