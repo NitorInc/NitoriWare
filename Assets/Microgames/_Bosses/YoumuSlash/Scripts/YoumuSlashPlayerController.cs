@@ -74,8 +74,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             }
         }
 
-        //if (autoSlash)
-        //    attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
+        if (autoSlash)
+            attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
     }
 
     void setFacingRight(bool facingRight)
@@ -115,6 +115,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
         if (hitTarget != null)
         {
+            direction = hitTarget.HitDirection;
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange));
 
             bool facingRight = direction == YoumuSlashBeatMap.TargetBeat.Direction.Right;
