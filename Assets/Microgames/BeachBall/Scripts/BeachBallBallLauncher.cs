@@ -41,7 +41,7 @@ public class BeachBallBallLauncher : MonoBehaviour
         physicsModel = GetComponent<Rigidbody2D>();
         scaleMultiplier = GetComponent<BeachBallScaler>();
         ballAnimation = GetComponent<Animation>();
-        ballStandCollider = GameObject.Find("BallStand").GetComponent<BoxCollider2D>();
+        //ballStandCollider = GameObject.Find("BallStand").GetComponent<BoxCollider2D>();
         sealAnimation = GameObject.Find("Seal").GetComponent<Animation>();
     }
 
@@ -62,7 +62,7 @@ public class BeachBallBallLauncher : MonoBehaviour
                 (float)System.Math.Sqrt(ThrowMultiplier) * ThrowConstant);
 
             //set triggerMode to prevent collisions when the ball falls
-            ballStandCollider.isTrigger = true;
+            //ballStandCollider.isTrigger = true;
 
             MicrogameController.instance.playSFX(launchSound, volume: 0.5f,
                 panStereo: AudioHelper.getAudioPan(transform.position.x));
