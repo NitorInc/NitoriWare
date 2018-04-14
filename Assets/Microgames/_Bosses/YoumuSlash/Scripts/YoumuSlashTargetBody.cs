@@ -27,7 +27,7 @@ public class YoumuSlashTargetBody : MonoBehaviour
         transform.localEulerAngles += Vector3.forward * rotSpeed * Time.deltaTime;
     }
 
-    public void Slash(float angle)
+    public void slash(float angle)
     {
         setSlashedAngle(angle);
         rigAnimator.speed = 0f;
