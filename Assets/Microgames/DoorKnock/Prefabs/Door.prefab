@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4243706919334432}
+  - component: {fileID: 61160334823322392}
   m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
@@ -101,7 +102,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4906990323830698}
   - component: {fileID: 114673762515398318}
-  - component: {fileID: 61077962718758034}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -222,12 +222,12 @@ Transform:
   m_Father: {fileID: 4243706919334432}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61077962718758034
+--- !u!61 &61160334823322392
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1616529981252406}
+  m_GameObject: {fileID: 1090514965968906}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -245,7 +245,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6, y: 1.6}
+  m_Size: {x: 4.8, y: 9.2}
   m_EdgeRadius: 0
 --- !u!95 &95488879670973038
 Animator:
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d6e039e1b8545f598200b2546c7bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickCollider: {fileID: 61077962718758034}
+  clickCollider: {fileID: 61160334823322392}
   knockSound: {fileID: 8300000, guid: baee7cccafefe446097cc3896d57c1e6, type: 3}
   openSound: {fileID: 8300000, guid: 8a075b8534d0945e59ff8a99a2034c6f, type: 3}
   teleportOnClick: 0
