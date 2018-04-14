@@ -40,42 +40,47 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         if (beat >= nextIdleBeat)
         {
-
-            nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
-
-            if (beat == nextIdleBeat)
-            {
-                if (nextTarget != null && beat >= (int)nextTarget.HitBeat)
-                {
-                    nextIdleBeat++;
-                    return;
-                }
-                else
-                {
-                    MicrogameController.instance.playSFX(debugSound);
-                    rigAnimator.SetTrigger("Idle");
-                    rigAnimator.ResetTrigger("Attack");
-                }
-            }
-
-            if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat)
-            {
-
-                setFacingRight(nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right);
-                rigAnimator.SetTrigger("Beat");
-                rigAnimator.SetBool("Prep", false);
-                nextIdleBeat = beat + 2;
-            }
-            else
-            {
-                rigAnimator.SetTrigger("Beat");
-                rigAnimator.SetBool("Prep", false);
-                //setFacingRight(true);
-            }
+            handleIdleAnimation(beat);
         }
 
         if (autoSlash)
             attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
+    }
+
+    void handleIdleAnimation(int beat)
+    {
+
+        nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
+
+        if (beat == nextIdleBeat)
+        {
+            if (nextTarget != null && beat >= (int)nextTarget.HitBeat)
+            {
+                nextIdleBeat++;
+                return;
+            }
+            else
+            {
+                MicrogameController.instance.playSFX(debugSound);
+                rigAnimator.SetTrigger("Idle");
+                rigAnimator.ResetTrigger("Attack");
+            }
+        }
+
+        if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat)
+        {
+
+            setFacingRight(nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right);
+            rigAnimator.SetTrigger("Beat");
+            rigAnimator.SetBool("Prep", false);
+            nextIdleBeat = beat + 2;
+        }
+        else
+        {
+            rigAnimator.SetTrigger("Beat");
+            rigAnimator.SetBool("Prep", false);
+            //setFacingRight(true);
+        }
     }
 
     void setFacingRight(bool facingRight)

@@ -33,7 +33,7 @@ public class YoumuSlashTarget : MonoBehaviour
 
         sfxSource = GetComponent<AudioSource>();
         sfxSource.panStereo = launchPan * (isRight ? 1f : -1f);
-        sfxSource.pitch = isRight ? rightPitch : leftPitch;
+        sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
         sfxSource.PlayOneShot(launchClip);
     }
 
@@ -43,7 +43,7 @@ public class YoumuSlashTarget : MonoBehaviour
         mapInstance.slashed = true;
 
         sfxSource.panStereo = slashPan * (isRight ? 1f : -1f);
-        sfxSource.pitch = isRight ? rightPitch : leftPitch;
+        sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
         sfxSource.PlayOneShot(slashClip);
     }
 }

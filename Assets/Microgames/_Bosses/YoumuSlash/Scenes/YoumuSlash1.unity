@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 334025764}
   - component: {fileID: 334025765}
   - component: {fileID: 334025766}
+  - component: {fileID: 334025767}
   m_Layer: 0
   m_Name: Timing Controller
   m_TagString: Untagged
@@ -340,6 +341,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &334025767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 334025763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  volumeType: 2
 --- !u!1 &544801954
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +639,7 @@ MonoBehaviour:
   spriteTrail: {fileID: 1514900943}
   spriteTrailStartOffset: 0.5
   hitTimeFudge: {x: -0.1, y: 0.15}
-  autoSlash: 0
+  autoSlash: 1
   sliceAngleRange: {x: 60, y: 120}
   debugSound: {fileID: 0}
 --- !u!4 &949925405
