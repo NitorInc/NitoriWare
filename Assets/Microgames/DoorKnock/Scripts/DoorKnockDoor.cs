@@ -8,6 +8,12 @@ public class DoorKnockDoor : MonoBehaviour {
     private Collider2D clickCollider;
 	
     [SerializeField]
+    private AudioClip knockSound;
+
+    [SerializeField]
+    private AudioClip openSound;
+    
+    [SerializeField]
     private bool teleportOnClick;
 
     [SerializeField]
@@ -21,7 +27,9 @@ public class DoorKnockDoor : MonoBehaviour {
 
     private float screenWidth;
     private float screenHeight;
-    private Vector2 direction; 
+    private Transform rigTransform;
+    private Vector2 origScale; 
+    private Vector2 direction;  
     private bool win = false;
 
     // Use this for initialization
@@ -29,6 +37,12 @@ public class DoorKnockDoor : MonoBehaviour {
         // Get the screen dimensions
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
+        
+        // save the scale
+        rigTransform = transform.Find("Rig");
+        origScale = rigTransform.localScale;
+        
+        // Randomize starting position and movement direction
         NewDirection();
  	    Teleport();
     }
@@ -55,18 +69,25 @@ public class DoorKnockDoor : MonoBehaviour {
     
     // When the object is clicked
     void OnClick() {
-        clicksToWin--;
-        if (clicksToWin <= 0 && !win){
-            // We win
-            win = true;
-            MicrogameController.instance.setVictory(victory: true, final: true);
-            WinAnimation();
+        if (!win) {
+            clicksToWin--;
+            if (clicksToWin <= 0){
+                // We win
+                win = true;
+                MicrogameController.instance.setVictory(victory: true, final: true);
+                WinAnimation();
+            }
+            else if (teleportOnClick){
+                Teleport();
+            }
+            ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
+            particleSystem.Play();
+            NewDirection();
+            MicrogameController.instance.playSFX(
+                knockSound, volume: 0.5f,
+                panStereo: AudioHelper.getAudioPan(transform.position.x)
+            );
         }
-        // Don't teleport if we've won
-        else if (teleportOnClick && !win){
-            Teleport();
-        }
-        NewDirection();
     }
     
     // Move to a random location
@@ -85,13 +106,16 @@ public class DoorKnockDoor : MonoBehaviour {
 
     // Winning animation
     void WinAnimation(){
+        MicrogameController.instance.playSFX(
+            openSound, volume: 0.5f,
+            panStereo: AudioHelper.getAudioPan(transform.position.x)
+        );
         StartCoroutine(OpenDoors());
     }
 
     // Door opening animation
     IEnumerator OpenDoors(){
         int speed = 10;
-        Transform rigTransform = transform.Find("Rig").transform;
         Transform doorL = rigTransform.Find("DoorPanelL").transform;
         Transform doorR = rigTransform.Find("DoorPanelR").transform;
         for (int i = 0; i < 180/speed; i++){
@@ -103,9 +127,7 @@ public class DoorKnockDoor : MonoBehaviour {
     }
 
     // popping back animation
-    IEnumerator Appear(){
-        Transform rigTransform = transform.Find("Rig").transform;
-        Vector2 origScale = rigTransform.localScale;
+    IEnumerator Appear(){ 
         for (float i = 1.0f; i <= 11.0f; i+=0.7f){
             rigTransform.localScale = origScale * i/10;
             yield return new WaitForFixedUpdate();
