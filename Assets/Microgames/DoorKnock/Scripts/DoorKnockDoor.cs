@@ -5,7 +5,7 @@ using UnityEngine;
 public class DoorKnockDoor : MonoBehaviour {
     
     [SerializeField]
-    private Collider2D clickCollider;
+    private BoxCollider2D clickCollider;
 	
     [SerializeField]
     private AudioClip knockSound;
@@ -58,10 +58,10 @@ public class DoorKnockDoor : MonoBehaviour {
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
             transform.position = newPosition;
             // bounce if on edge
-            if (Mathf.Abs(transform.position.x) > screenWidth){
+            if (Mathf.Abs(transform.position.x) + clickCollider.size.x/4 > screenWidth){
                 direction.x *= -1;
             }
-            if (Mathf.Abs(transform.position.y) > screenHeight){
+            if (Mathf.Abs(transform.position.y) + clickCollider.size.y/4 > screenHeight){
                 direction.y *= -1;
             }
         }
