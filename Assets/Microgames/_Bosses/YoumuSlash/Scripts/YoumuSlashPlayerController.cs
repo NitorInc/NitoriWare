@@ -123,7 +123,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetTrigger("Attack");
             rigAnimator.ResetTrigger("Idle");
 
-            spriteTrail.resetTrail(spriteTrailStartOffset * (facingRight ? -1f : 1f));
+            float facingDirection = (facingRight ? -1f : 1f);
+            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, facingDirection);
 
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
         }

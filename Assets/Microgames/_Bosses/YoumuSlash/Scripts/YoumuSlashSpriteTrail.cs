@@ -31,20 +31,21 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragments = fragmentParent.GetComponentsInChildren<SpriteRenderer>();
         nextFragmentIndex = 0;
         initialPosition = transform.position;
-        resetTrail(lastPosition.x);
+        //resetTrail(lastPosition.x);
 	}
 
-    public void resetTrail(float xPosition)
+    public void resetTrail(float xPosition, float facingDirection)
     {
+        if (fragments == null)
+            Start();
+
         currentHue = Random.Range(0f, 1f);
         lastPosition = new Vector3(xPosition, initialPosition.y, initialPosition.z);
+        fragmentParent.transform.localScale = new Vector3(facingDirection, 1f, 1f);
         distanceSpawnProgress = 0f;
-        if (fragments != null)
+        foreach (var fragment in fragments)
         {
-            foreach (var fragment in fragments)
-            {
-                fragment.enabled = false;
-            }
+            fragment.enabled = false;
         }
     }
 
@@ -58,7 +59,10 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
 
     private void OnDisable()
     {
-        resetTrail(0f);
+        foreach (var fragment in fragments)
+        {
+            fragment.enabled = false;
+        }
     }
 
     void Update ()
