@@ -120,7 +120,7 @@ public class DoorKnockDoor : MonoBehaviour {
         Transform doors = rigTransform.Find("Doors").transform;
         Transform doorL = doors.Find("DoorPanelL").transform;
         Transform doorR = doors.Find("DoorPanelR").transform;
-        for (int i = 0; i < 180/speed; i++){
+        for (int i = 0; i < 90/speed; i++){
             doorL.Rotate(new Vector3(0, speed, 0));
             doorR.Rotate(new Vector3(0, -speed, 0));
             yield return new WaitForFixedUpdate();
