@@ -59,9 +59,12 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
 
     private void OnDisable()
     {
+        if (fragments == null)
+            return;
         foreach (var fragment in fragments)
         {
-            fragment.enabled = false;
+            if (fragment != null)
+                fragment.enabled = false;
         }
     }
 
