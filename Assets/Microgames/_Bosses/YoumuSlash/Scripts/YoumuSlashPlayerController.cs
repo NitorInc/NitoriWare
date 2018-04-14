@@ -10,6 +10,10 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private Animator rigAnimator;
     [SerializeField]
     private Transform facingTransform;
+    [SerializeField]
+    private YoumuSlashSpriteTrail spriteTrail;
+    [SerializeField]
+    private float spriteTrailStartOffset;
 
     [Header("Timing window in seconds for hitting an object")]
     [SerializeField]
@@ -118,6 +122,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetBool("FacingRight", facingRight);
             rigAnimator.SetTrigger("Attack");
             rigAnimator.ResetTrigger("Idle");
+
+            spriteTrail.resetTrail(spriteTrailStartOffset * (facingRight ? -1f : 1f));
 
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
         }
