@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class KeineMath_Chalkboard : MonoBehaviour {
 
-    [Header("Number of terms")]
-    [SerializeField]
+    [Header("Number of terms")] //Number of terms in equation. Can be 2 or 3.
+    [SerializeField]            //Theoretically microgame can be modified to allow 4.
     private int termCount = 2;
 
-    [Header("Minimum size of terms")]
+    [Header("Minimum size of terms")] //Smallest term allowed to be generated.
     [SerializeField]
     private int minTerm = 1;
 
-    [Header("Maximum size of terms")]
-    [SerializeField]
+    [Header("Maximum size of terms")] //Largest term allowed to be generated.
+    [SerializeField]                  //Note that terms larger than 6 will overlap Keine and mess up the layout.
     private int maxTerm = 5;
 
-    [Header("Number of answers to generate")]
-    [SerializeField]
+    [Header("Number of answers to generate")] //Number of answers to generate.
+    [SerializeField]                          //Should be left at 3 without layout changes.
     private int answerCount = 3;
 
-    [Header("Operation to use")]
+    [Header("Operation to use")] //Whether to add or subtract.
     [SerializeField]
     private string operation = "+";
 
-    [Header("List of sprites to pick from for icons")]
+    [Header("List of sprites to pick from for icons")] //Exactly what it says on the tin.
     [SerializeField]
     private List<Sprite> iconList = new List<Sprite>();
 
@@ -47,14 +47,6 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //Enforcing displayable values
-        if (minTerm < 1) minTerm = 1;
-        if (maxTerm > 15) maxTerm = 15;
-        if (termCount < 2) termCount = 2;
-        if (termCount > 3) termCount = 3;
-        if (answerCount > 3) answerCount = 3;
-        if (answerCount < 1) answerCount = 1;
-
         //Setting up the microgame
         term1 = GameObject.Find("Term1");
         terms.Add(term1);
@@ -66,12 +58,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
 
+        //Setting up Keine and the cheering crowd. They stay invisible until an answer is chosen.
         keine = GameObject.Find("Keine");
         keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
         keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
         cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
         cheeringCrowd.SetActive(false);
 
+        //These functions randomize the microgame
         selectIcons();
         generateProblem();
         generateAnswers();
@@ -79,8 +73,9 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     void selectIcons()
     {
+        //This function allocates a unique icon to each term in the equation, and to the term used for answers
         Sprite iconSelected;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < terms.Count; i++)
         {
             iconSelected = iconList[Random.Range(0, iconList.Count)];
             iconList.Remove(iconSelected);
@@ -150,7 +145,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             print("Invalid operation!");
         }
         //Move the operation symbol to the right of the terms
-        float symbolOffset = (0.6f * Mathf.Max(termList.ToArray())) + (0.25f * Mathf.Floor(Mathf.Max(termList.ToArray()) / 5)) - 0.75f;
+        float symbolOffset = (0.6f * Mathf.Max(termList.ToArray())) + (0.17f * Mathf.Floor(Mathf.Max(termList.ToArray()) / 5)) - 0.75f;
         float symbolx = operationSymbol.transform.position.x - symbolOffset;
         float symboly = operationSymbol.transform.position.y;
         operationSymbol.transform.position = new Vector3(symbolx, symboly, 0);
