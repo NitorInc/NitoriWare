@@ -18,7 +18,7 @@ namespace NitorInc.MarisaJizou {
 
         bool hasTurned = false;
 
-        public int dropLimit = 3;
+        int hatsCarried = 3;
         int dropCounter = 0;
 
         public float upMagnitude = 1.7f;
@@ -31,6 +31,12 @@ namespace NitorInc.MarisaJizou {
 
         // Use this for initialization
         void Start() {
+            hatsCarried = FindObjectOfType<MarisaJizouController>().hatsCarried;
+            var total = kasaStack.Count;
+            for (int i = 0; i < total - hatsCarried; i++) {
+                kasaStack[0].gameObject.SetActive(false);
+                kasaStack.RemoveAt(0);
+            }
         }
 
         // Update is called once per frame
@@ -57,10 +63,9 @@ namespace NitorInc.MarisaJizou {
                 transform.Translate(direction * finishSpeed * Time.deltaTime);
             }
 
-            if (dropCounter < dropLimit) {
+            if (dropCounter < hatsCarried) {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow)) {
                     Instantiate(kasaProto, kasaStack[dropCounter].transform.position, Quaternion.identity);
-                    kasaStack[dropCounter].GetComponent<MarisaJizouMarisaKasaEffect>().DropEffect();
                     kasaStack[dropCounter].SetActive(false);
                     dropCounter++;
                 }
