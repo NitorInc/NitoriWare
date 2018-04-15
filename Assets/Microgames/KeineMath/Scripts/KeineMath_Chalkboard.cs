@@ -24,6 +24,10 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     [SerializeField]
     private string operation = "+";
 
+    [Header("List of sprites to pick from for icons")]
+    [SerializeField]
+    private List<Sprite> iconList = new List<Sprite>();
+
     private List<int> termList = new List<int>();
 
     private GameObject term1;
@@ -34,11 +38,21 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject plusSymbol;
     private GameObject minusSymbol;
     private GameObject operationSymbol;
+    //private GameObject keine;
     private int correctAnswer;
     private bool answered = false;
 
     // Use this for initialization
     void Start () {
+        //Enforcing displayable values
+        if (minTerm < 1) minTerm = 1;
+        if (maxTerm > 15) maxTerm = 15;
+        if (termCount < 2) termCount = 2;
+        if (termCount > 3) termCount = 3;
+        if (answerCount > 3) answerCount = 3;
+        if (answerCount < 1) answerCount = 1;
+
+        //Setting up the microgame
         term1 = GameObject.Find("Term1");
         terms.Add(term1);
         term2 = GameObject.Find("Term2");
@@ -48,16 +62,25 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         plusSymbol = GameObject.Find("Plus");
         minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
+        //keine = GameObject.Find("Keine");
+        selectIcons();
         generateProblem();
         generateAnswers();
-        //Enforcing displayable values
-        if (minTerm < 1) minTerm = 1;
-        if (maxTerm > 11) maxTerm = 11;
-        if (termCount < 2) termCount = 2;
-        if (termCount > 3) termCount = 3;
-        if (answerCount > 4) answerCount = 4;
-        if (answerCount < 1) answerCount = 1;
 	}
+
+    void selectIcons()
+    {
+        Sprite iconSelected;
+        for (int i = 0; i < 3; i++)
+        {
+            iconSelected = iconList[Random.Range(0, iconList.Count)];
+            iconList.Remove(iconSelected);
+            terms[i].GetComponent<SpriteRenderer>().sprite = iconSelected;
+        }
+        iconSelected = iconList[Random.Range(0, iconList.Count)];
+        iconList.Remove(iconSelected);
+        answer.transform.Find("AnswerTerm").gameObject.GetComponent<SpriteRenderer>().sprite = iconSelected;
+    }
 
     void generateProblem()
     {
@@ -114,7 +137,8 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             print("Invalid operation!");
         }
         //Move the operation symbol to the right of the terms
-        float symbolx = operationSymbol.transform.position.x - (1f * Mathf.Max(termList.ToArray())) + 1;
+        float symbolOffset = (0.6f * Mathf.Max(termList.ToArray())) + (0.25f * Mathf.Floor(Mathf.Max(termList.ToArray()) / 5)) - 0.75f;
+        float symbolx = operationSymbol.transform.position.x - symbolOffset;
         float symboly = operationSymbol.transform.position.y;
         operationSymbol.transform.position = new Vector3(symbolx, symboly, 0);
     }
@@ -137,7 +161,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             answerOffset = answerOffsets[Random.Range(0, answerOffsets.Count)];
             answerOffsets.Remove(answerOffset);
             answerValue = correctAnswer + answerOffset;
-            float newx = answer.transform.position.x + (3.25f * i);
+            float newx = answer.transform.position.x + (3.7f * i) + 1f;
             float newy = answer.transform.position.y;
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);
@@ -150,13 +174,17 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         if (!answered)
         {
             answered = true;
+            //GameObject keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
+            //keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
             if (answer == correctAnswer)
             {
                 MicrogameController.instance.setVictory(victory: true, final: true);
+                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
+                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
             }
         }
     }
