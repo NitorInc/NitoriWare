@@ -104,7 +104,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         var directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Any;
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Left;
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
             directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Right;
 
         if (directionPressed != YoumuSlashBeatMap.TargetBeat.Direction.Any)
