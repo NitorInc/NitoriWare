@@ -27,10 +27,9 @@ public class DoorKnockDoor : MonoBehaviour {
 
     private float screenWidth;
     private float screenHeight;
-    private Transform rigTransform;
-    private Vector2 origScale; 
     private Vector2 direction;  
     private bool win = false;
+    private Animator animator;
 
     // Use this for initialization
 	void Start() {
@@ -38,9 +37,7 @@ public class DoorKnockDoor : MonoBehaviour {
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
         
-        // save the scale
-        rigTransform = transform.Find("Rig");
-        origScale = rigTransform.localScale;
+        animator = GetComponentInChildren<Animator>(); 
         
         // Randomize starting position and movement direction
         NewDirection();
@@ -75,7 +72,7 @@ public class DoorKnockDoor : MonoBehaviour {
                 // We win
                 win = true;
                 MicrogameController.instance.setVictory(victory: true, final: true);
-                WinAnimation();
+                Win();
             }
             else if (teleportOnClick){
                 Teleport();
@@ -96,7 +93,7 @@ public class DoorKnockDoor : MonoBehaviour {
         float newx = Random.Range(-screenWidth, screenWidth) / 2;
         float newy = Random.Range(-screenHeight, screenHeight) / 2;
         transform.position = new Vector2(newx, newy);
-        StartCoroutine(Appear());
+        animator.SetTrigger("Clicked");
     }
     
     // Set a different direction
@@ -106,35 +103,11 @@ public class DoorKnockDoor : MonoBehaviour {
     }
 
     // Winning animation
-    void WinAnimation(){
+    void Win(){
         MicrogameController.instance.playSFX(
             openSound, volume: 0.5f,
             panStereo: AudioHelper.getAudioPan(transform.position.x)
         );
-        StartCoroutine(OpenDoors());
-    }
-
-    // Door opening animation
-    IEnumerator OpenDoors(){
-        int speed = 10;
-        Transform doors = rigTransform.Find("Doors").transform;
-        Transform doorL = doors.Find("DoorPanelL").transform;
-        Transform doorR = doors.Find("DoorPanelR").transform;
-        for (int i = 0; i < 90/speed; i++){
-            doorL.Rotate(new Vector3(0, speed, 0));
-            doorR.Rotate(new Vector3(0, -speed, 0));
-            yield return new WaitForFixedUpdate();
-        }
-        yield return null;
-    }
-
-    // popping back animation
-    IEnumerator Appear(){ 
-        for (float i = 1.0f; i <= 11.0f; i+=0.7f){
-            rigTransform.localScale = origScale * i/10;
-            yield return new WaitForFixedUpdate();
-        }
-        rigTransform.localScale = origScale;
-        yield return null;
+        animator.SetBool("Win", true);
     }
 }
