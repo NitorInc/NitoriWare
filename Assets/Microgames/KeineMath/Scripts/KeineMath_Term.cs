@@ -4,6 +4,28 @@ using UnityEngine;
 
 public class KeineMath_Term : MonoBehaviour {
 
+    private Vector3 anchor;
+    private Vector3 targetVector;
+    private float targetAngle;
+
+    //Code for having icons orbit in a circle
+    //NOTE: Could sync these with respect to each other using a parameter that is set at generation
+    //We'd just set it incrementally higher for each icon generated
+
+    /*private void Start()
+    {
+        anchor = transform.position;
+        targetAngle = Random.Range(0f, 360f);
+        targetVector = anchor + (Vector3)MathHelper.getVector2FromAngle(targetAngle, 0.025f);
+    }
+
+    private void Update()
+    {
+        transform.position = targetVector;
+        targetAngle = (targetAngle + 20) % 360;
+        targetVector = anchor + (Vector3)MathHelper.getVector2FromAngle(targetAngle, 0.025f);
+    }*/
+
     public void setValue(int value)
     {
         //Add new instances of the object to match the value

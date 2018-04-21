@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class KeineMath_Chalkboard : MonoBehaviour {
 
-    [Header("Number of terms")]
-    [SerializeField]
+    [Header("Number of terms")] //Number of terms in equation. Can be 2 or 3.
+    [SerializeField]            //Theoretically microgame can be modified to allow 4.
     private int termCount = 2;
 
-    [Header("Minimum size of terms")]
+    [Header("Minimum size of terms")] //Smallest term allowed to be generated.
     [SerializeField]
     private int minTerm = 1;
 
-    [Header("Maximum size of terms")]
-    [SerializeField]
+    [Header("Maximum size of terms")] //Largest term allowed to be generated.
+    [SerializeField]                  //Note that terms larger than 6 will overlap Keine and mess up the layout.
     private int maxTerm = 5;
 
-    [Header("Number of answers to generate")]
-    [SerializeField]
+    [Header("Number of answers to generate")] //Number of answers to generate.
+    [SerializeField]                          //Should be left at 3 without layout changes.
     private int answerCount = 3;
 
-    [Header("Operation to use")]
+    [Header("Operation to use")] //Whether to add or subtract.
     [SerializeField]
     private string operation = "+";
 
-    [Header("List of sprites to pick from for icons")]
+    [Header("List of sprites to pick from for icons")] //Exactly what it says on the tin.
     [SerializeField]
     private List<Sprite> iconList = new List<Sprite>();
 
@@ -38,20 +38,15 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject plusSymbol;
     private GameObject minusSymbol;
     private GameObject operationSymbol;
-    //private GameObject keine;
     private int correctAnswer;
     private bool answered = false;
 
+    private GameObject keine;
+    private GameObject keineAnimator;
+    private GameObject cheeringCrowd;
+
     // Use this for initialization
     void Start () {
-        //Enforcing displayable values
-        if (minTerm < 1) minTerm = 1;
-        if (maxTerm > 15) maxTerm = 15;
-        if (termCount < 2) termCount = 2;
-        if (termCount > 3) termCount = 3;
-        if (answerCount > 3) answerCount = 3;
-        if (answerCount < 1) answerCount = 1;
-
         //Setting up the microgame
         term1 = GameObject.Find("Term1");
         terms.Add(term1);
@@ -62,7 +57,15 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         plusSymbol = GameObject.Find("Plus");
         minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
-        //keine = GameObject.Find("Keine");
+
+        //Setting up Keine and the cheering crowd. They stay invisible until an answer is chosen.
+        keine = GameObject.Find("Keine");
+        keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
+        keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
+        cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
+        cheeringCrowd.SetActive(false);
+
+        //These functions randomize the microgame
         selectIcons();
         generateProblem();
         generateAnswers();
@@ -70,8 +73,9 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     void selectIcons()
     {
+        //This function allocates a unique icon to each term in the equation, and to the term used for answers
         Sprite iconSelected;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < terms.Count; i++)
         {
             iconSelected = iconList[Random.Range(0, iconList.Count)];
             iconList.Remove(iconSelected);
@@ -91,10 +95,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             //Generate each term between the minimum and maximum and add them up
             operationSymbol = plusSymbol;
             minusSymbol.transform.position = new Vector3(50, 0, 0); //Move the minus offscreen
+            bool allones = true;
             for (int i = 0; i < termCount; i++)
             {
                 termList.Add(Random.Range(minTerm, (maxTerm + 1)));
+                if (termList[i] != 1) allones = false;
             }
+            //We don't want all 1s because it ruins the answer-generating algorithm and also is boring.
+            if (allones) termList[Random.Range(0, termCount)] += 1;
             correctAnswer = 0;
             for(int i = 0; i < terms.Count; i++)
             {
@@ -137,7 +145,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             print("Invalid operation!");
         }
         //Move the operation symbol to the right of the terms
-        float symbolOffset = (0.6f * Mathf.Max(termList.ToArray())) + (0.25f * Mathf.Floor(Mathf.Max(termList.ToArray()) / 5)) - 0.75f;
+        float symbolOffset = (0.6f * Mathf.Max(termList.ToArray())) + (0.17f * Mathf.Floor(Mathf.Max(termList.ToArray()) / 5)) - 0.75f;
         float symbolx = operationSymbol.transform.position.x - symbolOffset;
         float symboly = operationSymbol.transform.position.y;
         operationSymbol.transform.position = new Vector3(symbolx, symboly, 0);
@@ -169,22 +177,24 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         }
     }
 
-    public void processAnswer(int answer)
+    public void processAnswer(int answer, Vector3 answerPosition)
     {
         if (!answered)
         {
             answered = true;
-            //GameObject keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
-            //keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
+            keineAnimator.GetComponent<SpriteRenderer>().enabled = true;
+            keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
             if (answer == correctAnswer)
             {
                 MicrogameController.instance.setVictory(victory: true, final: true);
-                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
+                keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
+                cheeringCrowd.SetActive(true);
+                cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
-                //keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
+                keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
             }
         }
     }

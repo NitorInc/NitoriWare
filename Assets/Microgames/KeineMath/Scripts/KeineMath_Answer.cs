@@ -37,6 +37,6 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value);
+        chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value, transform.position);
     }
 }
