@@ -19,19 +19,26 @@ public class KeineMath_Answer : MonoBehaviour {
     public int value;
     private bool displayed;
     private GameObject answerTerm;
+    private GameObject bg;
     private GameObject chalkboard;
+    private Color answerColor;
 
 	// Use this for initialization
 	void Start () {
+        //Find scene objects
         answerTerm = transform.Find("AnswerTerm").gameObject;
         chalkboard = GameObject.Find("Chalkboard");
+        bg = transform.Find("AnswerBG").gameObject;
+
+        //Generate random HSV color and apply it to the answer box
+        answerColor = Color.HSVToRGB(Random.Range(0f, 1f), 0.35f, 1);
+        GetComponent<SpriteRenderer>().color = answerColor;
+
+        //Handle background and term initialization     
+        answerTerm.GetComponent<SpriteRenderer>().color = answerColor;
+        editBGAlpha(0.25f);
         displayValue();
     }
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     public void displayValue()
     {
@@ -42,12 +49,30 @@ public class KeineMath_Answer : MonoBehaviour {
             float newx = answerTerm.transform.position.x + (horizoncalIconGap * (i % iconsPerRow));
             float newy = answerTerm.transform.position.y - (verticalIconGap * Mathf.Floor(i / iconsPerRow));
             Vector3 newposition = new Vector3(newx, newy, 0);
-            Object.Instantiate(answerTerm, newposition, Quaternion.identity);
+            GameObject newObject = Object.Instantiate(answerTerm, newposition, Quaternion.identity);
+            //newObject.GetComponent<SpriteRenderer>().color = answerColor;
         }
     }
 
     private void OnMouseDown()
     {
         chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value, transform.position);
+    }
+
+    private void OnMouseEnter()
+    {
+        editBGAlpha(0.5f);
+    }
+
+    private void OnMouseExit()
+    {
+        editBGAlpha(0.25f);
+    }
+
+    private void editBGAlpha(float newAlpha)
+    {
+        Color temp = bg.GetComponent<SpriteRenderer>().color;
+        temp.a = newAlpha;
+        bg.GetComponent<SpriteRenderer>().color = temp;
     }
 }
