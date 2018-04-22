@@ -17,11 +17,11 @@ public class KeineMath_Answer : MonoBehaviour {
     private float verticalIconGap = 0.8f;
 
     public int value;
+    public Color answerColor;
     private bool displayed;
     private GameObject answerTerm;
     private GameObject bg;
     private GameObject chalkboard;
-    private Color answerColor;
 
 	// Use this for initialization
 	void Start () {
@@ -31,12 +31,11 @@ public class KeineMath_Answer : MonoBehaviour {
         bg = transform.Find("AnswerBG").gameObject;
 
         //Generate random HSV color and apply it to the answer box
-        answerColor = Color.HSVToRGB(Random.Range(0f, 1f), 0.35f, 1);
-        GetComponent<SpriteRenderer>().color = answerColor;
 
-        //Handle background and term initialization     
+        //Handle background and term initialization
+        GetComponent<SpriteRenderer>().color = answerColor;
         answerTerm.GetComponent<SpriteRenderer>().color = answerColor;
-        editBGAlpha(0.25f);
+        if (bg.GetComponent<SpriteRenderer>().color.a == 1) editBGAlpha(0.25f); //Initialize only if it hasn't already been set.
         displayValue();
     }
 
@@ -61,7 +60,7 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        if (!MicrogameController.instance.getVictoryDetermined()) editBGAlpha(0.5f);
+        if (!MicrogameController.instance.getVictoryDetermined()) editBGAlpha(0.38f);
     }
 
     private void OnMouseExit()
@@ -71,6 +70,7 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void editBGAlpha(float newAlpha)
     {
+        if (bg == null) bg = transform.Find("AnswerBG").gameObject; //Juuuust in case we are calling this before Start is done
         Color temp = bg.GetComponent<SpriteRenderer>().color;
         temp.a = newAlpha;
         bg.GetComponent<SpriteRenderer>().color = temp;

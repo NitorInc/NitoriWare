@@ -36,6 +36,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     [SerializeField]
     private AudioClip incorrectClip;
 
+    [Header("How close answer hues are permitted to be to each other")] //NOTE: Large values may cause this to become non-functional
+    [SerializeField]
+    private float answerHueTolerance = 0.1f;
+
+    [Header("Value for answer color saturation")] //NOTE: Large values may cause this to become non-functional
+    [SerializeField]
+    private float answerColorSaturation = 0.3f;
+
     private List<int> termList = new List<int>();
 
     private GameObject term1;
@@ -165,6 +173,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     void generateAnswers()
     {
+        List<float> hues = new List<float>();
         int answerValue;
         int answerOffset;
         List<int> answerOffsets = new List<int>();
@@ -173,7 +182,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             //Generate an amount to be wrong by. Note the first offset generated will be 0 (i.e. correct answer)
             int sign = (Random.Range(1, 3) * 2) - 3; //Generates 1 or -1
             if (correctAnswer == 1) sign = 1; //Answers of zero are not permitted
-            answerOffsets.Add(i * sign);
+            answerOffsets.Add(i * sign); //First wrong answer is off by 1, second wrong answer is off by 2
         }
         for(int i = 1; i <= answerCount; i++)
         {
@@ -181,11 +190,36 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             answerOffset = answerOffsets[Random.Range(0, answerOffsets.Count)];
             answerOffsets.Remove(answerOffset);
             answerValue = correctAnswer + answerOffset;
-            float newx = answer.transform.position.x + (3.7f * i) + 1f;
+            float newx = answer.transform.position.x + (3.7f * i) + 1f; //Values in here determine answer positioning
             float newy = answer.transform.position.y;
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);
             newanswer.GetComponent<KeineMath_Answer>().value = answerValue;
+
+            //Set the color of this answer here.
+            //Procedure: Generate random hue, iterate through existing hues, nudge hue up to get away from them.
+            //If we nudge enough times to get back to where we started, assume we're in an infinite loop and bail.
+            //NOTE: We don't nudge in the most efficient direction (i.e. up if already higher, down if already lower)
+            //because this can lead to the third answer ping-ponging between running away from the first answer or the second one.
+            float hue = Random.Range(0f, 1f);
+            int loopSafeguard = 0;
+            for(int j = 0; j < hues.Count; j++)
+            {
+                float diff = hue - hues[j];
+                //Check if we're too close.
+                if ((Mathf.Abs(diff) < answerHueTolerance || Mathf.Abs(diff) > (1 - answerHueTolerance)) && loopSafeguard < (1 / answerHueTolerance))
+                {
+                    //Collision: Bump the hue up by the tolerance value, set it between 0 and 1 again, and give it another go.
+                    hue += answerHueTolerance;
+                    if (hue > 1) hue -= 1;
+                    loopSafeguard++;
+                    diff = hue - hues[j];
+                    j = -1; //Gets incremented to 0 immediately
+                }
+            }
+            hues.Add(hue);
+            Color answerColor = Color.HSVToRGB(hue, answerColorSaturation, 1);
+            newanswer.GetComponent<KeineMath_Answer>().answerColor = answerColor;
         }
     }
 
