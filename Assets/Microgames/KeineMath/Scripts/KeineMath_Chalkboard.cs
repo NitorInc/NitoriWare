@@ -28,6 +28,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     [SerializeField]
     private List<Sprite> iconList = new List<Sprite>();
 
+    [Header("Sound to play on correct answer")] //I wonder what this does?
+    [SerializeField]
+    private AudioClip correctClip;
+
+    [Header("Sound to play on incorrect answer")] //it_is_a_mystery.mp3
+    [SerializeField]
+    private AudioClip incorrectClip;
+
     private List<int> termList = new List<int>();
 
     private GameObject term1;
@@ -190,11 +198,13 @@ public class KeineMath_Chalkboard : MonoBehaviour {
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
                 cheeringCrowd.SetActive(true);
                 cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
+                MicrogameController.instance.playSFX(correctClip);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
+                MicrogameController.instance.playSFX(incorrectClip);
             }
         }
     }
