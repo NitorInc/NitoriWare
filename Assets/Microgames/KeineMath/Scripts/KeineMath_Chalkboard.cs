@@ -38,11 +38,11 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     [Header("How close answer hues are permitted to be to each other")] //NOTE: Large values may cause this to become non-functional
     [SerializeField]
-    private float answerHueTolerance = 0.1f;
+    private float answerHueTolerance = 0.15f;
 
     [Header("Value for answer color saturation")] //NOTE: Large values may cause this to become non-functional
     [SerializeField]
-    private float answerColorSaturation = 0.3f;
+    private float answerColorSaturation = 0.25f;
 
     private List<int> termList = new List<int>();
 
@@ -219,6 +219,9 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             }
             hues.Add(hue);
             Color answerColor = Color.HSVToRGB(hue, answerColorSaturation, 1);
+            //Hack -- Manually adjust saturation for darker "problem" color(s)
+            //This ended up being any color with a hue above 0.6
+            if (hue > 0.6) answerColor = Color.HSVToRGB(hue, answerColorSaturation - 0.075f, 1);
             newanswer.GetComponent<KeineMath_Answer>().answerColor = answerColor;
         }
     }
