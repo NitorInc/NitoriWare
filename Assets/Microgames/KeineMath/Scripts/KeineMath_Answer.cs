@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class KeineMath_Answer : MonoBehaviour {
 
+    [Header("Maximum icons per row")] //Number of icons that show up in each row of the answer box
+    [SerializeField]
+    private int iconsPerRow = 4;
+
+    [Header("Space between icons (horizontal)")] //The gap between one icon and the next horizontally
+    [SerializeField]
+    private float horizoncalIconGap = 0.55f;
+
+    [Header("Space between icons (vertical)")] //The gap between rows of icons vertically
+    [SerializeField]
+    private float verticalIconGap = 0.8f;
+
     public int value;
-    private int iconsPerRow = 5;
     private bool displayed;
     private GameObject answerTerm;
     private GameObject chalkboard;
@@ -28,8 +39,8 @@ public class KeineMath_Answer : MonoBehaviour {
         //NOTE: Should not be called more than once
         for (int i = 1; i < value; i++)
         {
-            float newx = answerTerm.transform.position.x + (0.55f * (i % iconsPerRow));
-            float newy = answerTerm.transform.position.y - (0.8f * Mathf.Floor(i / iconsPerRow));
+            float newx = answerTerm.transform.position.x + (horizoncalIconGap * (i % iconsPerRow));
+            float newy = answerTerm.transform.position.y - (verticalIconGap * Mathf.Floor(i / iconsPerRow));
             Vector3 newposition = new Vector3(newx, newy, 0);
             Object.Instantiate(answerTerm, newposition, Quaternion.identity);
         }
