@@ -53,6 +53,8 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject keineAnimator;
     private GameObject cheeringCrowd;
 
+    //private GameObject youtried; //kek
+
     // Use this for initialization
     void Start () {
         //Setting up the microgame
@@ -72,6 +74,8 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
         cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
         cheeringCrowd.SetActive(false);
+
+        //youtried = GameObject.Find("youtried"); //kek
 
         //These functions randomize the microgame
         selectIcons();
@@ -204,6 +208,8 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
+                //youtried.SetActive(true);
+                //youtried.transform.position = new Vector3(answerPosition.x, answerPosition.y, 0);
                 MicrogameController.instance.playSFX(incorrectClip);
             }
         }

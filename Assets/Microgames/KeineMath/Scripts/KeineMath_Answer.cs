@@ -61,12 +61,12 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        editBGAlpha(0.5f);
+        if (!MicrogameController.instance.getVictoryDetermined()) editBGAlpha(0.5f);
     }
 
     private void OnMouseExit()
     {
-        editBGAlpha(0.25f);
+        if (!MicrogameController.instance.getVictoryDetermined()) editBGAlpha(0.25f);
     }
 
     private void editBGAlpha(float newAlpha)
