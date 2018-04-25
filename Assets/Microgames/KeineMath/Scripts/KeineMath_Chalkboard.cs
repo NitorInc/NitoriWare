@@ -60,6 +60,9 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private GameObject keine;
     private GameObject keineAnimator;
     private GameObject cheeringCrowd;
+    private GameObject correctSymbol;
+    private GameObject incorrectSymbol;
+    private GameObject hundredSymbol;
 
     //private GameObject youtried; //kek
 
@@ -76,12 +79,16 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         minusSymbol = GameObject.Find("Minus");
         answer = GameObject.Find("Answer");
 
-        //Setting up Keine and the cheering crowd. They stay invisible until an answer is chosen.
+        //Setting up Keine, the correct/incorrect symbols, and the cheering crowd.
+        //They stay invisible or offscreen until an answer is chosen.
         keine = GameObject.Find("Keine");
         keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
         keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
         cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
         cheeringCrowd.SetActive(false);
+        correctSymbol = GameObject.Find("Doodle_Correct");
+        incorrectSymbol = GameObject.Find("Doodle_Incorrect");
+        hundredSymbol = GameObject.Find("Doodle_Hundred");
 
         //youtried = GameObject.Find("youtried"); //kek
 
@@ -195,6 +202,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);
             newanswer.GetComponent<KeineMath_Answer>().value = answerValue;
+            if (answerOffset == 0) newanswer.GetComponent<KeineMath_Answer>().isCorrect = true;
 
             //Set the color of this answer here.
             //Procedure: Generate random hue, iterate through existing hues, nudge hue up to get away from them.
@@ -226,10 +234,11 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         }
     }
 
-    public void processAnswer(int answer, Vector3 answerPosition)
+    public void processAnswer(int answer, GameObject answerObject)
     {
         if (!answered)
         {
+            Vector3 answerPosition = answerObject.transform.position;
             answered = true;
             keineAnimator.GetComponent<SpriteRenderer>().enabled = true;
             keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
@@ -238,17 +247,88 @@ public class KeineMath_Chalkboard : MonoBehaviour {
                 MicrogameController.instance.setVictory(victory: true, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
                 cheeringCrowd.SetActive(true);
-                cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
+                //cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
+                //StartCoroutine(AnimateAnswerSymbol(correctSymbol, answerPosition, 0));
+                StartCoroutine(AnimateAnswerSymbol(hundredSymbol, new Vector3(answerPosition.x, answerPosition.y - 2.4f, 0), 0));
+                //StartCoroutine(SetAnswerBG(new Color(0.6f, 1f, 0.6f, 0.38f), answerObject));
                 MicrogameController.instance.playSFX(correctClip);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
-                //youtried.SetActive(true);
-                //youtried.transform.position = new Vector3(answerPosition.x, answerPosition.y, 0);
+                StartCoroutine(AnimateAnswerSymbol(incorrectSymbol, answerPosition, 0));
+                //StartCoroutine(SetAnswerBG(new Color(1f, 0.7f, 0.7f, 0.38f), answerObject));
                 MicrogameController.instance.playSFX(incorrectClip);
             }
         }
+    }
+
+    IEnumerator AnimateAnswerSymbol(GameObject symbol, Vector3 answerPosition, int mode = 0)
+    {
+        //Takes a symbol to be placed over the answer box and does so.
+        //Additionally, an animation mode may be specified which will make this process more interesting.
+        symbol.transform.position = answerPosition;
+        int i;
+        switch(mode)
+        {
+            case 1:
+                //Flicker the symbol a couple times
+                int flickerFrames = 5;
+                for (i = 0; i < flickerFrames; i++) yield return null;
+                symbol.SetActive(false);
+                for (i = 0; i < flickerFrames; i++) yield return null;
+                symbol.SetActive(true);
+                for (i = 0; i < flickerFrames; i++) yield return null;
+                symbol.SetActive(false);
+                for (i = 0; i < flickerFrames; i++) yield return null;
+                symbol.SetActive(true);
+                break;
+            case 2:
+                //Have the symbol fade into position
+                Color symbolColor = symbol.GetComponent<SpriteRenderer>().color;
+                float initialXScale = symbol.transform.localScale.x;
+                float initialYScale = symbol.transform.localScale.x;
+                float initialSizeIncrease = 1.5f;
+                float sizeIncrease = initialSizeIncrease;
+                float alpha = 0;
+                symbol.transform.localScale = new Vector3(initialXScale * sizeIncrease, initialYScale * sizeIncrease, symbol.transform.localScale.z);
+                symbolColor.a = alpha;
+                symbol.GetComponent<SpriteRenderer>().color = symbolColor;
+                for (i = 1; i <= 20; i++)
+                {
+                    float currentFactor = (i * i) / 400f; //When this hits 1, we're done.
+                    sizeIncrease = ((initialSizeIncrease - 1) * (1 - currentFactor)) + 1;
+                    alpha = currentFactor;
+                    symbol.transform.localScale = new Vector3(initialXScale * sizeIncrease, initialYScale * sizeIncrease, symbol.transform.localScale.z);
+                    symbolColor.a = alpha;
+                    symbol.GetComponent<SpriteRenderer>().color = symbolColor;
+                    yield return null;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    IEnumerator SetAnswerBG(Color newColor, GameObject answer)
+    {
+        Color baseColor = answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color;
+        //Color baseBorderColor = answer.GetComponent<SpriteRenderer>().color;
+        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = newColor;
+        //answer.GetComponent<SpriteRenderer>().color = newColor;
+        int i = 0;
+        int flickerFrames = 7;
+        for (i = 0; i < flickerFrames; i++) yield return null;
+        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = baseColor;
+        //answer.GetComponent<SpriteRenderer>().color = baseBorderColor;
+        for (i = 0; i < flickerFrames; i++) yield return null;
+        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = newColor;
+        //answer.GetComponent<SpriteRenderer>().color = newColor;
+        for (i = 0; i < flickerFrames; i++) yield return null;
+        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = baseColor;
+        //answer.GetComponent<SpriteRenderer>().color = baseBorderColor;
+        for (i = 0; i < flickerFrames; i++) yield return null;
+        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = newColor;
     }
 }

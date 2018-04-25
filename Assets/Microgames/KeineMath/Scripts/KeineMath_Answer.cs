@@ -18,25 +18,36 @@ public class KeineMath_Answer : MonoBehaviour {
 
     public int value;
     public Color answerColor;
+    public bool isCorrect = false;
     private bool displayed;
+    private bool circled;
     private GameObject answerTerm;
     private GameObject bg;
     private GameObject chalkboard;
+    private GameObject correctSymbol;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         //Find scene objects
         answerTerm = transform.Find("AnswerTerm").gameObject;
         chalkboard = GameObject.Find("Chalkboard");
         bg = transform.Find("AnswerBG").gameObject;
-
-        //Generate random HSV color and apply it to the answer box
+        correctSymbol = GameObject.Find("Doodle_Correct");
 
         //Handle background and term initialization
         GetComponent<SpriteRenderer>().color = answerColor;
         answerTerm.GetComponent<SpriteRenderer>().color = answerColor;
         if (bg.GetComponent<SpriteRenderer>().color.a == 1) editBGAlpha(0.25f); //Initialize only if it hasn't already been set.
         displayValue();
+    }
+
+    private void Update()
+    {
+        if (MicrogameController.instance.getVictoryDetermined() && isCorrect && !circled)
+        {
+            circled = true;
+            correctSymbol.transform.position = this.transform.position;
+        }
     }
 
     public void displayValue()
@@ -55,7 +66,7 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value, transform.position);
+        chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value, this.gameObject);
     }
 
     private void OnMouseEnter()
