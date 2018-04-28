@@ -69,10 +69,14 @@ public class KnifeDodgeController : MonoBehaviour {
 			foreach (GameObject k in knifeList) {
 				Physics2D.IgnoreCollision (knife.GetComponent<BoxCollider2D>(), k.GetComponent<BoxCollider2D>());
 			}
-		}			
+		}
 
+        for (int i = 0; i < knifeList.Count; i++)
+        {
+            knifeList[i].GetComponent<KnifeDodgeKnife>().SetTilted(tiltedKnives);
+        }
 
-		if (tiltedKnives) {
+        if (tiltedKnives) {
 
 			if (tiltedKnivesRandomAngle) {
 				// Set a random position on the ground instead of a fixed one
@@ -146,12 +150,11 @@ public class KnifeDodgeController : MonoBehaviour {
             else if (timeUntilStrike < 0.0f)
             {
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
-                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int) KnifeState.MOVING_TO_GROUND);
+                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.MOVING_TO_GROUND);
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = 0;
-            }  
+            }
             else
             {
-                
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = blackOutAValue;
