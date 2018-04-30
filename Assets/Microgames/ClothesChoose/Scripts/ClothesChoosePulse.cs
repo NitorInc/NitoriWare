@@ -16,14 +16,14 @@ public class ClothesChoosePulse : MonoBehaviour
 
     void Start()
     {
-        this.Reset();
+        Reset();
     }
 
     void Update()
     {
-        if (this.pulse)
+        if (pulse)
         {
-            float pulseAmount = Mathf.Sin(((Time.time - this.startTime) * this.pulseSpeed) + Mathf.PI);
+            float pulseAmount = Mathf.Sin(((Time.time - startTime) * pulseSpeed) + Mathf.PI);
             pulseAmount = (pulseAmount + 1) / 2;
 
             float deltaX = (maxX - minX) * pulseAmount;
@@ -32,12 +32,12 @@ public class ClothesChoosePulse : MonoBehaviour
             float newXScale = minX + deltaX;
             float newYScale = minY + deltaY;
 
-            this.transform.localScale = new Vector3(newXScale, newYScale);
+            transform.localScale = new Vector3(newXScale, newYScale);
         }
     }
 
     void Reset()
     {
-        this.startTime = Time.time;
+        startTime = Time.time;
     }
 }

@@ -8,14 +8,7 @@ public class KyoukoEchoFlyZone : MonoBehaviour
     [SerializeField]
     Transform lowerBound;
     
-    public float UpperBoundY
-    {
-        get { return this.upperBound.position.y; }
-    }
-
-    public float LowerBoundY
-    {
-        get { return this.lowerBound.position.y; }
-    }
+    public float UpperBoundY => upperBound.position.y;
+    public float LowerBoundY => lowerBound.position.y;
 
 }

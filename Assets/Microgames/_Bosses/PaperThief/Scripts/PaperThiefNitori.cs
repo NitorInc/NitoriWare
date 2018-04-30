@@ -33,12 +33,6 @@ public class PaperThiefNitori : MonoBehaviour
     private AudioClip stepClip, jumpClip, gunFireClip, gunEquipClip, deathClip;
 #pragma warning restore 0649
 
-    public int forceDirection
-    {
-        get { return _forceDirection; }
-        set { _forceDirection = value; }
-    }
-
     private Rigidbody2D _rigidBody2D;
     private Transform startParent;
 	private float spinCooldownTimer, shotCooldownTimer, lastStepSoundPlayedAt;
@@ -165,7 +159,7 @@ public class PaperThiefNitori : MonoBehaviour
 			default:
 				break;
 		}
-        if (this.state == State.Gun && state != State.Gun)
+        if (state == State.Gun && state != State.Gun)
         {
             Instantiate(gunDiscardPrefab, gunTransform.position, Quaternion.Euler(0f, 0f, updateGunTilt()));
             gunTransform.gameObject.SetActive(false);
@@ -258,7 +252,7 @@ public class PaperThiefNitori : MonoBehaviour
                 direction += 1;
         }
         else //if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
-            direction = forceDirection;
+            direction = _forceDirection;
 
         RaycastHit2D groundHit = isGrounded();
         bool grounded = groundHit; // && _rigidBody2D.velocity.y <= 0f;
@@ -341,7 +335,7 @@ public class PaperThiefNitori : MonoBehaviour
         }
         else if (PaperThiefMarisa.defeated && transform.position.x >= victoryTransform.position.x - .5f)
         {
-            forceDirection = 0;
+            _forceDirection = 0;
             PaperThiefController.instance.startScene(PaperThiefController.Scene.Victory);
             MicrogameController.instance.setVictory(true, true);
         }

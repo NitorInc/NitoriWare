@@ -11,39 +11,39 @@ public class HecShapesHecatia : MonoBehaviour
 
     void Awake()
     {
-        this.animator = GetComponent<Animator>();
-        this.holder.onFill = new UnityEvent();
+        animator = GetComponent<Animator>();
+        holder.onFill = new UnityEvent();
     }
 
     public void SetStyle(HecShapesSlottable.Shape shape)
     {
-        this.animator.SetInteger("Style", (int)shape);
-        this.holder.SlotShape = shape;
+        animator.SetInteger("Style", (int)shape);
+        holder.SlotShape = shape;
     }
 
     public void MakeGray()
     {
-        this.animator.SetTrigger("Gray");
+        animator.SetTrigger("Gray");
     }
 
     public void AddOnFillAction(UnityAction fillAction)
     {
-        this.holder.onFill.AddListener(fillAction);
+        holder.onFill.AddListener(fillAction);
     }
 
     public bool IsFilled()
     {
-        return this.holder.Filled && this.holder.Valid;
+        return holder.Filled && holder.Valid;
     }
 
     public void Win()
     {
-        this.animator.SetTrigger("Win");
+        animator.SetTrigger("Win");
     }
 
     public void Lose()
     {
-        this.animator.SetTrigger("Lose");
+        animator.SetTrigger("Lose");
     }
 
 }

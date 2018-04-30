@@ -16,15 +16,15 @@ public class MicrogameCollection : MonoBehaviour
     {
         [SerializeField]
         private string _microgameId;
-        public string microgameId { get { return _microgameId; } }
+        public string microgameId => _microgameId;
 
         [SerializeField]
         private MicrogameTraits[] _difficultyTraits;
-        public MicrogameTraits[] difficultyTraits { get { return _difficultyTraits; } }
+        public MicrogameTraits[] difficultyTraits => _difficultyTraits;
 
         [SerializeField]
         private Sprite _menuIcon;
-        public Sprite menuIcon { get { return _menuIcon; } }
+        public Sprite menuIcon => _menuIcon;
 
         public Microgame(string microgameId, MicrogameTraits[] difficultyTraits, Sprite menuIcon)
         {

@@ -10,17 +10,17 @@ public class OkuuFireDoor : MonoBehaviour, IOkuuFireMechanism
     
     void Awake()
     {
-        this.startPosition = transform.localPosition;
+        startPosition = transform.localPosition;
 
-        this.endPosition = this.startPosition;
-        this.endPosition.x += this.reach;
+        endPosition = startPosition;
+        endPosition.x += reach;
     }
 	
     public void Move(float completion)
     {
-        float move = Mathf.Abs(this.reach * completion);
+        float move = Mathf.Abs(reach * completion);
 
-        Vector3 newPosition = Vector3.MoveTowards(this.startPosition, this.endPosition, move);
-        this.transform.localPosition = newPosition;
+        Vector3 newPosition = Vector3.MoveTowards(startPosition, endPosition, move);
+        transform.localPosition = newPosition;
     }
 }

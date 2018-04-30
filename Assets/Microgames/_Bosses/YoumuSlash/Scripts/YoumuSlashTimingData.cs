@@ -8,23 +8,13 @@ public class YoumuSlashTimingData : ScriptableObject
 
     [SerializeField]
     private AudioClip musicClip;
-    public AudioClip MusicClip
-    {
-        get { return musicClip; }
-    }
+    public AudioClip MusicClip => musicClip;
 
     [SerializeField]
     private float bpm = 130f;
-    public float Bpm
-    {
-        get { return bpm; }
-    }
+    public float Bpm => bpm;
 
-    private YoumuSlashBeatMap beatMap;
-    public YoumuSlashBeatMap BeatMap
-    {
-        get { return beatMap; }
-    }
+    public YoumuSlashBeatMap BeatMap { get; private set; }
 
     private AudioSource musicSource;
 
@@ -38,15 +28,12 @@ public class YoumuSlashTimingData : ScriptableObject
         }
     }
 
-    public float BeatDuration
-    {
-        get{ return 60f / bpm; }
-    }
+    public float BeatDuration => 60f / bpm;
 
     public void initiate(AudioSource musicSource, YoumuSlashBeatMap beatMap)
     {
         this.musicSource = musicSource;
-        this.beatMap = beatMap;
+        this.BeatMap = beatMap;
         beatMap.initiate();
     }
 

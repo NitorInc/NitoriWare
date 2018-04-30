@@ -11,7 +11,7 @@ public class TouhouSortTraits : MicrogameTraits
 	public override string localizedCommand { 
 		get { return string.Format(TextHelper.getLocalizedText("microgame." + microgameId + ".command", command),
 			TextHelper.getLocalizedText("microgame.TouhouSort." + category.name, category.name)); }
-		set { } }
+	}
 
 	public override void onAccessInStage(string microgameId)
 	{

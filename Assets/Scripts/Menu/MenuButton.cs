@@ -27,14 +27,7 @@ public class MenuButton : MonoBehaviour
     private KeyCode pressKey = KeyCode.None;
 #pragma warning restore 0649
 
-    private bool _forceDisable;
-    public bool forceDisable
-    {
-        get { return _forceDisable; }
-        set { _forceDisable = value; }
-    }
-
-
+    public bool forceDisable { get; set; }
     private int clickBuffer;   //Waits one frame to enable button to prevent carry-over clicks from last scene
 
 	void Start()
@@ -97,10 +90,7 @@ public class MenuButton : MonoBehaviour
         }
     }
 
-    bool shouldButtonBeEnabled()
-    {
-        return !_forceDisable && !GameMenu.shifting;
-    }
+    bool shouldButtonBeEnabled() => !forceDisable && !GameMenu.shifting;
 
     void setButtonEnabled(bool enabled)
     {
@@ -111,7 +101,6 @@ public class MenuButton : MonoBehaviour
             buttonAnimator.SetTrigger("Highlighted");
         }
     }
-
 
     public bool isMouseOver()
     {

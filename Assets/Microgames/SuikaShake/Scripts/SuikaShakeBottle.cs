@@ -22,13 +22,7 @@ public class SuikaShakeBottle : MonoBehaviour
     private AudioClip victoryClip;
 #pragma warning restore 0649
 
-    private bool _pauseBuffer = false;
-	public bool pauseBuffer
-	{
-		set { _pauseBuffer = value; }
-		get { return _pauseBuffer; }
-	}
-
+	public bool pauseBuffer { get; set; }
 	private SuikaShakeSuika[] suikas;
 	private Vector2 lastCursorPosition;
 

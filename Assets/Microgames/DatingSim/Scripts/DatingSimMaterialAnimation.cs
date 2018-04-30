@@ -10,10 +10,7 @@ public class DatingSimMaterialAnimation : MonoBehaviour {
     Vector2 offset;
     Vector2 scale;
 
-    public void setMaterialYScaleMult(float yMult)
-    {
-        this.yMult = yMult;
-    }
+    public void setMaterialYScaleMult(float yMult) => this.yMult = yMult;
 
     // Use this for initialization
     void Start () {
@@ -29,8 +26,6 @@ public class DatingSimMaterialAnimation : MonoBehaviour {
         rnd.material.SetTextureScale("_MainTex", getMultipliedScale());
     }
 
-    Vector2 getMultipliedScale()
-    {
-        return new Vector2(scale.x, scale.y * yMult);
-    }
+    Vector2 getMultipliedScale() => new Vector2(scale.x, scale.y * yMult);
+
 }

@@ -18,29 +18,29 @@ public class KyoukoEchoNoiseZone : MonoBehaviour
 
     void Start()
     {
-        this.zone = GetComponent<Collider2D>();
-        this.kyouko = FindObjectOfType<KyoukoEchoKyouko>();
+        zone = GetComponent<Collider2D>();
+        kyouko = FindObjectOfType<KyoukoEchoKyouko>();
 
-        for (int i = 0; i < this.noiseCount; i++)
+        for (int i = 0; i < noiseCount; i++)
         {
-            MakeNoise(this.delay * i);
-            this.kyouko.IncrementEchoCount();
+            MakeNoise(delay * i);
+            kyouko.IncrementEchoCount();
         }
     }
     
     void MakeNoise(float delay)
     {
         // Calculate random start position
-        Bounds bounds = this.zone.bounds;
+        Bounds bounds = zone.bounds;
         Vector2 noisePosition = new Vector2(
             Random.Range(bounds.min.x, bounds.max.x),
             Random.Range(bounds.min.y, bounds.max.y));
 
         KyoukoEchoNoisePair noisePair = noisePairs[Random.Range(0, noisePairs.Length)];
         
-        KyoukoEchoNoise noise = Instantiate(this.noise, noisePosition, this.transform.rotation);
-        noise.SetNoise(noisePair);
-        noise.Fire(this.kyouko.transform.position.x, this.kyouko.UpperBoundY, this.kyouko.LowerBoundY, delay);
+        KyoukoEchoNoise noiseInstance = Instantiate(noise, noisePosition, transform.rotation);
+        noiseInstance.SetNoise(noisePair);
+        noiseInstance.Fire(kyouko.transform.position.x, kyouko.UpperBoundY, kyouko.LowerBoundY, delay);
     }
 
 }

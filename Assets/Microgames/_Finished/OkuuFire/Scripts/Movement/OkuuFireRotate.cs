@@ -14,29 +14,29 @@ public class OkuuFireRotate : MonoBehaviour
 
     void Start()
     {
-        this.Reset();
+        Reset();
     }
     
     void Update()
     {
-        if (this.rotate)
+        if (rotate)
         {
-            this.DoRotate();
+            DoRotate();
         }
     }
 
     void Reset()
     {
-        this.startTime = Time.time;
-        this.DoRotate();
+        startTime = Time.time;
+        DoRotate();
     }
 
     void DoRotate()
     {
-        float rotateAmount = Mathf.Sin(((Time.time - this.startTime) * this.rotateSpeed) + (this.offset * Mathf.PI));
+        float rotateAmount = Mathf.Sin(((Time.time - startTime) * rotateSpeed) + (offset * Mathf.PI));
         
-        float angle = this.maxRotation * rotateAmount;
-        this.transform.localRotation = Quaternion.Euler(0, 0, angle);
+        float angle = maxRotation * rotateAmount;
+        transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
 
 }

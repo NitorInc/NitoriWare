@@ -48,18 +48,9 @@ public class YoumuSlashTargetSlice : MonoBehaviour
         transform.position += (Vector3)speed * Time.deltaTime;
     }
 
-    public Transform getImageTransform()
-    {
-        return imageTransform;
-    }
+    public Transform getImageTransform() => imageTransform;
+    public bool isFalling() => falling;
 
-    public bool isFalling()
-    {
-        return falling;
-    }
+    public void setFalling(bool falling) => this.falling = falling;
 
-    public void setFalling(bool falling)
-    {
-        this.falling = falling;
-    }
 }

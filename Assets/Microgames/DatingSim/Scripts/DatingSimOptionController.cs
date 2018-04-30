@@ -17,7 +17,7 @@ public class DatingSimOptionController : MonoBehaviour
     //    public OptionSet(string option, string response, bool isWin) {
     //        optionText = option;
     //        responseText = response;
-    //        this.isWin = isWin;
+    //        isWin = isWin;
     //    }
     //    public string optionText = "";
     //    public string responseText = "";

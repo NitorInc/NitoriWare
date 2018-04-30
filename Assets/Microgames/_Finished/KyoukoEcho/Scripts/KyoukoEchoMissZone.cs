@@ -7,7 +7,7 @@ public class KyoukoEchoMissZone : MonoBehaviour
 
     void Start()
     {
-        this.kyouko = FindObjectOfType<KyoukoEchoKyouko>();
+        kyouko = FindObjectOfType<KyoukoEchoKyouko>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -15,7 +15,7 @@ public class KyoukoEchoMissZone : MonoBehaviour
         KyoukoEchoNoise noise = other.GetComponent<KyoukoEchoNoise>();
         if (noise && noise.CanEcho())
         {
-            this.kyouko.Miss();
+            kyouko.Miss();
         }
     }
 

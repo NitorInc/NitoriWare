@@ -86,9 +86,9 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
 		if (MicrogameTimer.instance.beatsLeft < .5f)
 			return;
 		if (collidersOutside == 0)
-			this.HP = Mathf.Min(this.HP + (burnSpeed * Time.deltaTime * .65f), 1f);
+			HP = Mathf.Min(HP + (burnSpeed * Time.deltaTime * .65f), 1f);
 		else
-			this.HP -= burnSpeed * Time.deltaTime * collidersOutside;
+			HP -= burnSpeed * Time.deltaTime * collidersOutside;
     }
 
 
@@ -112,7 +112,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
             smokeInstance.enableEmission = true;
         }
 
-        this.inmunity = inmunity_value;
+        inmunity = inmunity_value;
 
     }
 

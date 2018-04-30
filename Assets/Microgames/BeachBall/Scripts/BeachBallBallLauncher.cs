@@ -25,16 +25,7 @@ public class BeachBallBallLauncher : MonoBehaviour
     private Animation sealAnimation;
     private Animation ballAnimation;
 
-    private bool launched = false;
-    public bool Launched
-    {
-        get
-        {
-            return launched;
-        }
-        set
-        { }
-    }
+    public bool Launched { get; private set; }
 
     void Start()
     {
@@ -47,9 +38,9 @@ public class BeachBallBallLauncher : MonoBehaviour
 
     void Update()
     {
-        if (!launched && Input.GetKeyDown(KeyCode.Space))
+        if (!Launched && Input.GetKeyDown(KeyCode.Space))
         {
-            launched = true;
+            Launched = true;
             //start scaling
             scaleMultiplier.Started = true;
             //animate the seal

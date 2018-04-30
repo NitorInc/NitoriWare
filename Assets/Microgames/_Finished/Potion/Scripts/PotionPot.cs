@@ -32,11 +32,6 @@ public class PotionPot : MonoBehaviour
 
 	[SerializeField]
 	private AudioSource _bubbleSource;
-	public AudioSource bubbleSource
-	{
-		get { return _bubbleSource; }
-		set { _bubbleSource = value; }
-	}
 
     #pragma warning disable 0649
     [SerializeField]
@@ -63,16 +58,16 @@ public class PotionPot : MonoBehaviour
         float volumeScale = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
         if (state != State.Default && volumeScale > 0f)
 		{
-            if (bubbleSource.volume / volumeScale > 0f)
+            if (_bubbleSource.volume / volumeScale > 0f)
 			{
-				bubbleSource.volume -= bubbleFadeSpeed * Time.deltaTime * volumeScale;
-				bubbleSource.volume = Mathf.Max(bubbleSource.volume, 0f) * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+				_bubbleSource.volume -= bubbleFadeSpeed * Time.deltaTime * volumeScale;
+				_bubbleSource.volume = Mathf.Max(_bubbleSource.volume, 0f) * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 			}
 		}
-		else if (!bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)
+		else if (!_bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)
 		{
 			//bubbleSource.pitch = Time.timeScale;
-			bubbleSource.Play();
+			_bubbleSource.Play();
 		}
 	}
 
