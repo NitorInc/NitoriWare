@@ -19,7 +19,6 @@ namespace NitorInc.YuukaWater {
         public float leftXBound;
         public float rightXBound;
 
-        float lastDirection = 1.0f;
         float vel = 0f;
 
         bool movementEnabled = true;

@@ -22,7 +22,6 @@ public class TitleFloatingInteractive : MonoBehaviour
     AudioClip bounceClip;
 #pragma warning restore 0649
 
-    private bool ignoreWalls;
     private float colliderExtent;
     private int startTrailBuffer = 3;
     private TrailRenderer trail;
@@ -125,6 +124,5 @@ public class TitleFloatingInteractive : MonoBehaviour
         {
             Physics2D.IgnoreCollision(wallHitCollider, wall, ignore);
         }
-        ignoreWalls = ignore;
     }
 }

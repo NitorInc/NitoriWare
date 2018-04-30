@@ -25,7 +25,6 @@ public class TraceShapeCursor : MonoBehaviour
 		_audioSource = GetComponent<AudioSource>();
 		traceParticles = GetComponent<ParticleSystem>();
 		Cursor.visible = false;
-		//_audioSource.pitch = resultSoundSource.pitch = Time.timeScale;
 	}
 	
 	void Update ()

@@ -6,8 +6,6 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
     private GameObject targetCharacter;
 
-    private GameObject indicator;
-
     private Animator targetMouthAnimator;
 
     private AdvancingText textObject;
@@ -168,13 +166,6 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
             }
         }
     }
-
-
-    public void setIndicator(GameObject indicator)
-    {
-        this.indicator = indicator;
-    }
-
 
     // Stop text from showing
     void stopSpeechText()

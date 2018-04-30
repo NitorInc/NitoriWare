@@ -15,7 +15,6 @@ namespace NitorInc.ClownTorch {
 
         Animator anim;
 
-        bool hasReached = true;
         // Use this for initialization
         void Start() {
             target = transform.position;

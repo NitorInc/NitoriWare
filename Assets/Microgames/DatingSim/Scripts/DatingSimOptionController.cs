@@ -13,17 +13,6 @@ public class DatingSimOptionController : MonoBehaviour
 
     public delegate void OnSelection();
 
-    //public class OptionSet {
-    //    public OptionSet(string option, string response, bool isWin) {
-    //        optionText = option;
-    //        responseText = response;
-    //        this.isWin = isWin;
-    //    }
-    //    public string optionText = "";
-    //    public string responseText = "";
-    //    public bool isWin = true;
-    //}
-
     [Header("Edit this variable to adjust box height")]
     public float boxHeightMult = 1f;
     public float distancePerUnit;
@@ -32,13 +21,6 @@ public class DatingSimOptionController : MonoBehaviour
     public DatingSimMenuExpand menuExpander;
     public DatingSimMaterialAnimation materialAnimation;
     public float optionBoxHeight = 2.3f;
-    float totalOptions = 4.0f;
-    //float distancePerUnit {
-    //    get {
-    //        return optionBoxHeight / (totalOptions - 1.0f);
-    //    }
-    //}
-    //List<OptionSet> sets;
     List<DatingSimOptionLine> lines = new List<DatingSimOptionLine>();
     int currentOption = 0;
 

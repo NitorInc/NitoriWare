@@ -29,16 +29,13 @@ public class TitleKappaInteractive : MonoBehaviour
 #pragma warning restore 0649
 
     private Vector2 lastMousePosition, flingVelocity;
-    private Vector3 initialScale;
     private bool grabbed;
     private List<GameObject> eatenCucumbers;
 
     void Start()
     {
         grabbed = false;
-        initialScale = transform.localScale;
         eatenCucumbers = new List<GameObject>();
-        //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
     }
 
     void Update()
@@ -54,12 +51,6 @@ public class TitleKappaInteractive : MonoBehaviour
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Max(speed - diff, minSpeed));
             else if (speed < minSpeed)
                 _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Min(speed + diff, minSpeed));
-
-
-            //if (_rigidBody.velocity == Vector2.zero)
-            //    _rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minVelocity);
-            //else
-            //    _rigidBody.velocity = _rigidBody.velocity.resize(Mathf.Clamp(_rigidBody.velocity.magnitude - diff, minVelocity, maxVelocity));
         }
         else
         {

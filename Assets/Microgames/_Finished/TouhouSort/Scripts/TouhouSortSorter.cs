@@ -24,8 +24,6 @@ public class TouhouSortSorter : MonoBehaviour
     
     TouhouSortSortable[] touhous;
     Vector3[] slots;
-
-    bool sorted;
     
     [System.Serializable]
     public struct Category
@@ -52,8 +50,6 @@ public class TouhouSortSorter : MonoBehaviour
         touhous = LoadTouhous (category, slotCount);
         
         slotCount = touhous.Length;
-
-		sorted = false;
 
 		// Fill starting slots with touhous
 		CreateSlots ();
@@ -207,8 +203,6 @@ public class TouhouSortSorter : MonoBehaviour
 
 		if (allSorted)
         {
-			// Sorted
-			sorted = true;
             
             confettiParticles.gameObject.SetActive(true);
             confettiParticles.Play();

@@ -68,12 +68,6 @@ public class YuugiBalancePlate : MonoBehaviour
         if (delay > 0f)
             target_x *= Mathf.Clamp01((Time.time - start_time) / delay);
 
-        //push if close to edge
-        float max = player_script.max_horizontal - 1;
-        //if (Mathf.Abs(player.position.x) > max)
-        //    target_x -= (player.position.x - max
-        //        * Mathf.Sign(player.position.x)) * 0.3f;
-
         //calculate distance and rotate plate
         distance = player.position.x - target_x;
         z = distance * max_rotation / fail_distance;

@@ -28,7 +28,6 @@ public class TitleCucumber : MonoBehaviour
     {
         grabbed = false;
         initialScale = transform.localScale;
-        //_rigidBody.velocity = MathHelper.getVector2FromAngle(Random.Range(0f, 360f), minSpeed);
 	}
 	
 	void Update()

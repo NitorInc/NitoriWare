@@ -30,14 +30,7 @@ public class TextMeshLimitSize : TextLimitSize
     public override void updateScale()
     {
         setFontSize(defaultFontSize);
-        int beforeFontSize = getFontSize();
         base.updateScale();
-
-        //if (outline != null)
-        //{
-        //    outline.updateAttributes = true;
-        //    outline.LateUpdate();
-        //}
     }
 
     protected override string getText()

@@ -14,8 +14,6 @@ public class CirnoBoredSelectable : MonoBehaviour
     public AudioClip victoryClip;
     public AudioClip lossClip;
 
-    private float defaultScale;
-
     private State state;
     public enum State
     {
@@ -27,7 +25,6 @@ public class CirnoBoredSelectable : MonoBehaviour
     
 	void Start ()
     {
-        defaultScale = transform.localScale.x;
         state = State.Default;
         itemAnimator.Play("Idle", 0, idleAnimationOffset);
 	}

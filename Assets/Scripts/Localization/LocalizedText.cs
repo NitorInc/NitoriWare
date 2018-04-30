@@ -23,8 +23,6 @@ public class LocalizedText : MonoBehaviour
 		set { _key = value; updateText(); }
     }
 
-    private TextLimitSize limitSize;    //Force update when text is changed
-
     [System.Serializable]
     public struct Parameter
     {
@@ -52,7 +50,6 @@ public class LocalizedText : MonoBehaviour
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
         textMeshPro = GetComponent<TextMeshPro>();
-        limitSize = GetComponent<TextLimitSize>();
         loadedLanguage = new LocalizationManager.Language();
         initialText = getText();
         initialStyle = getStyle();
@@ -224,9 +221,6 @@ public class LocalizedText : MonoBehaviour
 
         if (textComponent != null)
         {
-            //var fitter = GetComponent<CanvasTextLimitSize>();
-            //if (fitter != null)
-            //    fitter.updateScale();
             var outline = GetComponent<CanvasTextOutline>();
             if (outline != null)
             {
@@ -239,9 +233,6 @@ public class LocalizedText : MonoBehaviour
             var fitter = GetComponent<TextMeshLimitSize>();
             if (fitter != null)
                 fitter.updateScale();
-            var outline = GetComponent<TextOutline>();
-         //   if (outline != null)
-         //       outline.LateUpdate();
         }
 
     }
