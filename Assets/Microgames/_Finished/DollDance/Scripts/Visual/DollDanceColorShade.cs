@@ -5,8 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class DollDanceColorShade : MonoBehaviour
 {
-    //[SerializeField]
-    //private bool shaded;
     [SerializeField]
     private SpriteRenderer[] spriteRenderers;
     public float lightness = 1f;
@@ -17,11 +15,6 @@ public class DollDanceColorShade : MonoBehaviour
     {
         updateColor();
 	}
-
-    //private void Update()
-    //{
-    //    spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-    //}
 
     private void LateUpdate()
     {

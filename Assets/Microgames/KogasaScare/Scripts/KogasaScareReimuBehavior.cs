@@ -14,8 +14,6 @@ public class KogasaScareReimuBehavior : MonoBehaviour
     void onSpawnSet()
     {
         rigAnimator.SetInteger("direction", transform.position.x > kogasa.transform.position.x ? 1 : -1);
-        //rigAnimator.Rebind();
-        //rigAnimator.enabled = true;
     }
 
     void onScare(bool scared)

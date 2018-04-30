@@ -47,7 +47,6 @@ namespace NitorInc.MarisaJizou {
 
                 if (transform.position.x <= leftBound || transform.position.x >= rightBound) {
                     if (!hasTurned) {
-                        //transform.Rotate(Vector3.up, 180.0f);
                         marisaSprite.flipX = !marisaSprite.flipX;
                         direction *= -1.0f;
                         hasTurned = true;
@@ -58,8 +57,6 @@ namespace NitorInc.MarisaJizou {
                     hasTurned = false;
                 }
             } else {
-                //var dir = transform.position.z <= 0.0f ? Vector3.left : Vector3.right;
-                //dir.y = upMagnitude;
                 transform.Translate(direction * finishSpeed * Time.deltaTime);
             }
 

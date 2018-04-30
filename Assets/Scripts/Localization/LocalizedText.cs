@@ -118,16 +118,6 @@ public class LocalizedText : MonoBehaviour
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
 		setText(value);
-
-        //if (limitSize != null)
-        //{
-        //    var component = GetComponent<TextLimitSize>();
-        //    component.updateScale();
-        //    //if (textComponent != null)
-        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
-        //    //else if (textMesh != null)
-        //    //    ((TextMeshLimitSize)limitSize).updateScale();
-        //}
     }
 
     public void updateFont()
@@ -203,17 +193,7 @@ public class LocalizedText : MonoBehaviour
         //TODO TextMeshPro fontstyle support
     }
 
-    string getPrefixedKey()
-	{
-		switch(keyPrefix)
-		{
-			//Handled seperately
-			//case (Prefix.CurrentMicrogame):
-			//	return "microgame." + gameObject.scene.name.Substring(0, gameObject.scene.name.Length - 1) + ".";
-			default:
-				return key;
-		}
-	}
+    string getPrefixedKey() => key;
 
     void updateTextEffects()
     {

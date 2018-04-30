@@ -92,8 +92,6 @@ public class RockBandAudienceMember : MonoBehaviour
                 hopHeightRandomBounds *= 1.5f;
                 flipCooldownBounds /= 2f;
                 flipCooldown /= 2f;
-                //if (Time.time - hopStartTime >= hopDuration)
-                //    resetHop();
                 victoryStatus = 1;
             }
             else

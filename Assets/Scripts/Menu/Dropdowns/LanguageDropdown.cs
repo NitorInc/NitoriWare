@@ -5,7 +5,7 @@ using System.Linq;
 public class LanguageDropdown : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Dropdown dropdown;
 #pragma warning restore 0649
@@ -48,7 +48,6 @@ public class LanguageDropdown : MonoBehaviour
             }
         }
 
-        //var languages = LocalizationManager.instance.getAllLanguages().OrderBy(a => a.languageName).ToArray();
         for (int i = 0; i < languages.Length; i++)
         {
             if (languages[i].getLanguageID() == currentLanguage.getLanguageID())

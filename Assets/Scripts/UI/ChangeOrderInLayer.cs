@@ -4,7 +4,7 @@ using System.Collections;
 [ExecuteInEditMode]
 public class ChangeOrderInLayer : MonoBehaviour
 {
-#pragma warning disable 0649    //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Renderer _renderer;
     [SerializeField]

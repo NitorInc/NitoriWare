@@ -71,7 +71,5 @@ public class AdvancingText : MonoBehaviour
     public int getTotalVisibleChars()
     {
         return textMeshProComponent.text.Length;
-        //var textInfo = textMeshProComponent.textInfo;
-        //return textInfo.characterCount; 
     }
 }

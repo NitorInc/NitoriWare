@@ -38,8 +38,6 @@ public class NitoriLookTarget_rot : MonoBehaviour
         }
 
         transform.RotateAround(center.position, axis, rotationSpeed * Time.deltaTime);
-        //var desiredPosition = (transform.position - center.position).normalized * radius + center.position;
-        //transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
     }
 
     void calculateRadius()

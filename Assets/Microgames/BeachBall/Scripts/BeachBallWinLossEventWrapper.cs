@@ -9,21 +9,7 @@ public class BeachBallWinLossEventWrapper : MonoBehaviour
 
     public const String DefaultGameObjectName = "WinLossEventWrapper";
 
-    //It does not work -_-
-    /*public static BeachBallWinLossEventWrapper Instance
-    {
-        get
-        {
-            return GameObject.Find(DefaultGameObjectName).GetComponent<BeachBallWinLossEventWrapper>();
-        }
-    }*/
-
     private bool fired;
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {

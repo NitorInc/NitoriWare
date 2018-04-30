@@ -49,7 +49,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         initialScale = transform.localScale.x;
 
         Invoke("obtainStartingPosition", 0.01f);
-        //Invoke("appearSelectable", timeValues.doorOpenAfterClose);
     }
 
     void OnMouseDown()

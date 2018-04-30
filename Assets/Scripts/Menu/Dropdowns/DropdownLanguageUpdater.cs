@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class DropdownLanguageUpdater : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private UnityEvent onLanguageChanged;
 #pragma warning restore 0649

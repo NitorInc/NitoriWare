@@ -72,8 +72,6 @@ public class SpaceshipRocket : MonoBehaviour
 			spaceshipBodies[i].isKinematic = false;
 			spaceshipBodies[i].AddForce(MathHelper.getVector2FromAngle(Random.Range(30f, 150f), 600f));
 			spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 700f);
-			//spaceshipBodies[i].AddForce(MathHelper.getVectorFromAngle2D(Random.Range(3f, 150f), 600f));
-			//spaceshipBodies[i].AddTorque(Random.Range(-1f, 1f) * 500f);
 		}
 
 		explosionParticles.Play();

@@ -32,7 +32,6 @@ public class TouhouSortSorter : MonoBehaviour
         public Sprite leftIcon, rightIcon;
         public Sprite[] leftPool, rightPool;
     }
-	//public Category[] categories;
     
     public struct Style
     {

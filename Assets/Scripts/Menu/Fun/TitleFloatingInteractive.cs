@@ -7,7 +7,7 @@ public class TitleFloatingInteractive : MonoBehaviour
     public TitleInteractableSpawner spawner;
     public Vector2 lastVelocity;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private float startSpeed, lifetime, escapeSpeed;
     [SerializeField]

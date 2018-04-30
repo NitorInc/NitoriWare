@@ -79,29 +79,13 @@ public class TextLimitSizeV2 : MonoBehaviour
                 fitter.SetLayoutVertical();
         }
         
-
-        //Vector2 sizeAtDefaultFont = getSize() * ((float)defaultFontSize / (float)getFontSize());
         var generator = new TextGenerator();
         var generatorSettings = textComponent.GetGenerationSettings(rectTransform.rect.size);
         Vector2 sizeAtDefaultFont = new Vector2(generator.GetPreferredWidth(getText(), generatorSettings),
             generator.GetPreferredHeight(getText(), generatorSettings));
 
-        //if (fitter != null)
-        //{
-        //    if (fitter.horizontalFit != ContentSizeFitter.FitMode.PreferredSize)
-        //    {
-        //        sizeAtDefaultFont.x = 0f;
-        //        print(sizeAtDefaultFont);
-        //    }
-        //    if (fitter.verticalFit != ContentSizeFitter.FitMode.PreferredSize)
-        //        sizeAtDefaultFont.y = 0f;
-        //}
-        //print(sizeAtDefaultFont);
-
         Vector2 resizedSize = sizeAtDefaultFont;
         Vector2 maxSize = getMaxSize();
-
-        //setFontSize(defaultFontSize);
 
         if (sizeAtDefaultFont != Vector2.zero && (sizeAtDefaultFont.x > maxSize.x || sizeAtDefaultFont.y > maxSize.y))
         {
@@ -109,19 +93,10 @@ public class TextLimitSizeV2 : MonoBehaviour
             {
                 float mult = Mathf.Min(maxSize.x / resizedSize.x, maxSize.y / resizedSize.y);
                 setFontSize(Mathf.FloorToInt((float)getFontSize() * mult) - 1);
-                //Debug.Log(name + " fit");
                 resizedSize *= mult;
-                //resizedSize = getSize();
-                //print(resizedSize);
-                //print(getSize());
-                //print(maxSize);
             }
             while (resizedSize.x > maxSize.x + .001f || resizedSize.y > maxSize.y + .001f);
         }
-        //else
-        //{
-        //    setFontSize(defaultFontSize);
-        //}
 
         lastText = getText();
     }

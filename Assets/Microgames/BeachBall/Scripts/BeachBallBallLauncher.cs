@@ -5,9 +5,6 @@
 /// </summary>
 public class BeachBallBallLauncher : MonoBehaviour
 {
-    //[Header("Deprecated physics launch properties")]
-    //public float ThrowForce = 500f;
-
     [Header("Launch equation arg (affects gravity scale and throw force)")]
     public float ThrowMultiplier = 8f;
 
@@ -53,7 +50,6 @@ public class BeachBallBallLauncher : MonoBehaviour
             sealAnimation.Play();
 
             //throw the ball using physics
-            //ThrowForce = ThrowConstant * Sqrt(ThrowMultiplier) (obtained using power curve fitting)
             physicsModel.gravityScale = ThrowMultiplier;
             physicsModel.AddForce(ThrowDirection.normalized *
                 (float)System.Math.Sqrt(ThrowMultiplier) * ThrowConstant);

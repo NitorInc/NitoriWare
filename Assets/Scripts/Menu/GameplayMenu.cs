@@ -7,7 +7,7 @@ public class GameplayMenu : MonoBehaviour
 {
     private static bool gameplayStarting;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private float voiceDelay;
     [SerializeField]
@@ -35,7 +35,6 @@ public class GameplayMenu : MonoBehaviour
 
     public void startGameplay(string scene)
     {
-        //GetComponent<GameMenu>().shift((int)GameMenu.subMenu);
         animator.SetTrigger("StartGameplay");
 
         if (!string.IsNullOrEmpty(scene) && !gameplayStarting)

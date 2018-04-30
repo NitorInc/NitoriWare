@@ -5,7 +5,7 @@ using UnityEngine;
 public class TitleMaskBGTiler : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private float moveSpeed, wrapAt, wrapTo;
 #pragma warning restore 0649

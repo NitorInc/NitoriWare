@@ -138,10 +138,6 @@ public class YuugiBalancePlate : MonoBehaviour
         transform.position += Vector3.down * Time.deltaTime * (fall += Time.deltaTime * 70)
             - Vector3.right * distance * Time.deltaTime;
 
-        //zoom
-        //Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, deathposition - Vector3.forward * 10, Time.deltaTime);
-        //Camera.main.orthographicSize = 5 - Mathf.Clamp((mad += Time.deltaTime) - 1, 0, 3);
-
         //shake
         player.position = deathposition
             + new Vector3(Random.value * 2 - 1, Random.value * -1)

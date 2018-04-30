@@ -6,7 +6,7 @@ public class TitleInteractableSpawner : MonoBehaviour
 {
     public BoxCollider2D[] wallColliders;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Vector2 spawnTimeBounds, spawnExtents;
     [SerializeField]

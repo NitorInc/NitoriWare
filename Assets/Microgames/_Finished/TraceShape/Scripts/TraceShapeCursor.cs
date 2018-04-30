@@ -146,7 +146,6 @@ public class TraceShapeCursor : MonoBehaviour
 
         failed = true;
         Invoke("tryAgain", particleDisappearResumeTime);
-		//setSpriteActive(false);
 	}
 
     void tryAgain()
@@ -155,17 +154,11 @@ public class TraceShapeCursor : MonoBehaviour
             return;
 
         failed = false;
-        //setSpriteActive(true);
         foreach (VictoryColor vColor in victoryColors)
         {
             vColor.ignoreVictoryDetermined = false;
         }
     }
-
-	//void setSpriteActive(bool active)
-	//{
-	//	transform.FindChild("Sprite").gameObject.SetActive(active);
- //   }
 
     void OnTriggerEnter2D(Collider2D other)
 	{

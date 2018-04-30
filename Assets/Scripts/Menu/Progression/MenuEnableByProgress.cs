@@ -5,7 +5,7 @@ using UnityEngine;
 public class MenuEnableByProgress : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Operation operation;
     [SerializeField]
