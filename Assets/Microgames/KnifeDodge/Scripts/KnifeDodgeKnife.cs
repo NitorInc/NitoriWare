@@ -5,6 +5,7 @@ using UnityEngine;
 public class KnifeDodgeKnife : MonoBehaviour {
 	Vector3 facingDirection;
     int state;
+    bool tilted;
 
     public float knifeSpeed = 20.0f;
 	public float knifeRotationSpeed = 1.0f;
@@ -20,7 +21,6 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         state = (int)KnifeState.FLYING_IN;
-
     }
 	
 	// Update is called once per frame
@@ -35,8 +35,11 @@ public class KnifeDodgeKnife : MonoBehaviour {
             case (int)KnifeState.STOP_AND_ROTATE:
                 GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, transform.position - facingDirection), knifeRotationSpeed * Time.deltaTime);
-                break;
+                if (tilted)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, transform.position - facingDirection), knifeRotationSpeed * Time.deltaTime);
+                }
+                 break;
 
             case (int)KnifeState.MOVING_TO_GROUND:
                 GetComponent<Rigidbody2D>().AddForce(-1.0f * transform.up * knifeSpeed);
@@ -55,6 +58,11 @@ public class KnifeDodgeKnife : MonoBehaviour {
 	public void SetFacing(Vector3 vec) {
 		facingDirection = vec;
 	}
+
+    public void SetTilted(bool isTilted)
+    {
+        tilted = isTilted;
+    }
 
     public void SetState(int stateNumber)
     {
