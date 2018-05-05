@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KnifeDodgeReimu : MonoBehaviour {
-	public float speed = 1; // speed in meters per second
-	public float animSpeed = 1f;
-	public float animSpeedStopped = 0.25f;
+	public float speed = 7.5f; // speed in meters per second
+	public float animSpeed = 1.5f;
+	public float animSpeedStopped = 0f;
 	public float killLaunchSpeed = 20.0f;
 	public GameObject leftBound;
 	public GameObject rightBound;
