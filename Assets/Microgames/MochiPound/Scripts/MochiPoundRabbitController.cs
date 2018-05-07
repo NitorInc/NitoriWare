@@ -19,25 +19,15 @@ namespace NitorInc.MochiPound {
         public float rabbitAnimSpeed;
         // total elapsed time of Pound clip
         public float poundAnimTime = 0.25f;
-        float PoundAnimTime {
-            get {
-                return poundAnimTime / rabbitAnimSpeed;
-            }
-        }
+        float PoundAnimTime => poundAnimTime / rabbitAnimSpeed;
+
         // time needed for hammer to hit
         public float poundHitTime = 0.15f;
-        float PoundHitTime {
-            get {
-                return poundHitTime / rabbitAnimSpeed;
-            }
-        }
+        float PoundHitTime => poundHitTime / rabbitAnimSpeed;
+
         // total elapsed time of Windup clip
         public float windupAnimTime = 0.25f;
-        float WindupAnimTime {
-            get {
-                return windupAnimTime / rabbitAnimSpeed;
-            }
-        }
+        float WindupAnimTime => windupAnimTime / rabbitAnimSpeed;
 
         public MochiPoundArrowKey button;
 

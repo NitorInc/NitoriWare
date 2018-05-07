@@ -50,7 +50,7 @@ public class FlanGrab_SightBehaviour : MonoBehaviour {
     void CastRay()
     {
         var position = new Vector2(transform.position.x, transform.position.y);
-        var radius = this.GetComponent<CircleCollider2D>().radius;
+        var radius = GetComponent<CircleCollider2D>().radius;
         RaycastHit2D[] colliders = Physics2D.CircleCastAll(position, radius, new Vector2(0, 0));
         foreach (RaycastHit2D r in colliders)
         {

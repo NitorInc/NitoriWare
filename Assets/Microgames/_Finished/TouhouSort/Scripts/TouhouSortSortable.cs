@@ -23,25 +23,10 @@ public class TouhouSortSortable : MonoBehaviour
         Physics2D.IgnoreCollision(grabBox, hitBox);
     }
 
-    public string GetStyle()
-    {
-        return style;
-    }
-
-    public void SetStyle(string style)
-    {
-        this.style = style;
-    }
-
-    public TouhouSortDropZone GetCurrentZone()
-    {
-        return currentZone;
-    }
-
-    public void EnterZone(TouhouSortDropZone zone)
-    {
-        currentZone = zone;
-    }
+    public string GetStyle() => style;
+    public void SetStyle(string style) => this.style = style;
+    public TouhouSortDropZone GetCurrentZone() => currentZone;
+    public void EnterZone(TouhouSortDropZone zone) => currentZone = zone;
 
     public void ExitZone(TouhouSortDropZone zone)
     {

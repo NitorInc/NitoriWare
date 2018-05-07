@@ -17,9 +17,9 @@ public class OkuuFireChain : MonoBehaviour, IOkuuFireMechanism
     
     public void Move(float completion)
     {
-        float move = Mathf.Abs(this.reach * completion);
+        float move = Mathf.Abs(reach * completion);
 
-        float newPosition = Mathf.Repeat(move, this.tileSize);
-        this.transform.localPosition = this.startPosition + Vector3.up * newPosition;
+        float newPosition = Mathf.Repeat(move, tileSize);
+        transform.localPosition = startPosition + Vector3.up * newPosition;
     }
 }

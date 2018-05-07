@@ -36,31 +36,31 @@ public class OkuuFireHandle : MonoBehaviour
 
     void Start()
     {
-        this.crank = this.GetComponentInParent<OkuuFireCrank>();
-        this.canMove = true;
+        crank = GetComponentInParent<OkuuFireCrank>();
+        canMove = true;
 
-        float rotations = this.crank.rotations;
-        this.reach = 360 * rotations;
+        float rotations = crank.rotations;
+        reach = 360 * rotations;
 
-        Vector3 crankPoint = Camera.main.WorldToScreenPoint(this.crank.transform.position);
-        Vector3 handlePoint = Camera.main.WorldToScreenPoint(this.transform.position);
+        Vector3 crankPoint = Camera.main.WorldToScreenPoint(crank.transform.position);
+        Vector3 handlePoint = Camera.main.WorldToScreenPoint(transform.position);
 
         // Calculate angle of the handle from the crank.
         Vector2 offset = new Vector2(handlePoint.x - crankPoint.x, handlePoint.y - crankPoint.y);
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         if (angle < 0)
             angle = (180 - Mathf.Abs(angle)) + 180;
-        this.minAngle = angle;
-        this.cranker.SetStartAngle(angle);
+        minAngle = angle;
+        cranker.SetStartAngle(angle);
 
         // Calculate max cumulative angle
-        this.maxAngle = this.minAngle + reach;
+        maxAngle = minAngle + reach;
 
-        this.crankSound = this.GetComponent<AudioSource>();
-        this.crankSound.Pause();
+        crankSound = GetComponent<AudioSource>();
+        crankSound.Pause();
 
-        this.MoveMechanism();
-        this.ShowArrow(this.gauge.GetTargetOffset());
+        MoveMechanism();
+        ShowArrow(gauge.GetTargetOffset());
     }
 
     void Update()
@@ -68,11 +68,11 @@ public class OkuuFireHandle : MonoBehaviour
         float deltaCompletion = 0;
 
         // Check if the handle has been grabbed.
-        if (this.canMove && this.guide.grabbed)
+        if (canMove && guide.grabbed)
         {
             // Get the points at the centre of the crank and the centre of the mouse guide.
-            Vector3 targetPoint = Camera.main.WorldToScreenPoint(this.guide.transform.position);
-            Vector3 crankPoint = Camera.main.WorldToScreenPoint(this.crank.transform.position);
+            Vector3 targetPoint = Camera.main.WorldToScreenPoint(guide.transform.position);
+            Vector3 crankPoint = Camera.main.WorldToScreenPoint(crank.transform.position);
 
             // Calculate direction of the mouse from the crank.
             Vector2 offset = new Vector2(targetPoint.x - crankPoint.x, targetPoint.y - crankPoint.y);
@@ -89,46 +89,46 @@ public class OkuuFireHandle : MonoBehaviour
                 deltaAngle = deltaAngle + 360;
             
             // Limit change.
-            if (deltaAngle > this.turnLimit)
-                deltaAngle = this.turnLimit;
-            else if (deltaAngle < -this.turnLimit)
-                deltaAngle = -this.turnLimit;
+            if (deltaAngle > turnLimit)
+                deltaAngle = turnLimit;
+            else if (deltaAngle < -turnLimit)
+                deltaAngle = -turnLimit;
 
             // Determine target angle.
             float targetAngle = currentAngle + deltaAngle;
-            if (targetAngle < this.minAngle)
-                targetAngle = this.minAngle;
-            else if (targetAngle > this.maxAngle)
-                targetAngle = this.maxAngle;
-            this.cranker.Rotate(targetAngle);
+            if (targetAngle < minAngle)
+                targetAngle = minAngle;
+            else if (targetAngle > maxAngle)
+                targetAngle = maxAngle;
+            cranker.Rotate(targetAngle);
 
             // Calculate the new completion amount for the whole machine.
-            deltaCompletion = ((targetAngle - this.minAngle) / this.reach) - this.completion;
+            deltaCompletion = ((targetAngle - minAngle) / reach) - completion;
             // Constrain based on time and max speed.
-            deltaCompletion = deltaCompletion * Time.deltaTime * this.maxSpeed;
+            deltaCompletion = deltaCompletion * Time.deltaTime * maxSpeed;
 
-            float newCompletion = this.completion + deltaCompletion;
+            float newCompletion = completion + deltaCompletion;
             if (newCompletion > 1F)
                 newCompletion = 1F;
             else if (newCompletion < 0F)
                 newCompletion = 0F;
 
             // Set completion.
-            this.completion = newCompletion;
+            completion = newCompletion;
 
             // Move the machine.
-            this.MoveMechanism();
+            MoveMechanism();
         }
         else
         {
             // Make sure the guide remains on the handle when not in use.
-            this.ResetGuide();
+            ResetGuide();
         }
 
-        if (this.canMove && !this.guide.grabbed)
-            this.indicatorMovement.enabled = true;
+        if (canMove && !guide.grabbed)
+            indicatorMovement.enabled = true;
         else
-            this.indicatorMovement.enabled = false;
+            indicatorMovement.enabled = false;
 
         // Play sound
         float speed = Mathf.Abs(deltaCompletion / Time.deltaTime);
@@ -138,13 +138,13 @@ public class OkuuFireHandle : MonoBehaviour
             soundLinger = maxSoundLinger;
 
             // Volume/pitch control
-            this.crankSound.volume = (soundLinger / maxSoundLinger) * speed * 3
+            crankSound.volume = (soundLinger / maxSoundLinger) * speed * 3
                 * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
-            this.crankSound.pitch = speed + 0.8F;
+            crankSound.pitch = speed + 0.8F;
 
             // Play
-            if (!this.crankSound.isPlaying)
-                this.crankSound.Play();
+            if (!crankSound.isPlaying)
+                crankSound.Play();
         }
         else
         {
@@ -153,77 +153,77 @@ public class OkuuFireHandle : MonoBehaviour
 
             // Volume/pitch control
             float newVolume = soundLinger / maxSoundLinger;
-            this.crankSound.volume = newVolume;
+            crankSound.volume = newVolume;
 
             // Pause
             if (soundLinger <= 0)
-                this.crankSound.Pause();
+                crankSound.Pause();
         }
     }
 
     public void MoveMechanism()
     {
-        foreach (Transform transform in this.mechanisms)
+        foreach (Transform transform in mechanisms)
         {
             IOkuuFireMechanism mechanism = transform.GetComponent<IOkuuFireMechanism>();
-            mechanism.Move(this.completion);
+            mechanism.Move(completion);
         }
     }
 
     public void OnGrab()
     {
-        this.nob.Pulse = false;
+        nob.Pulse = false;
 
-        this.HideArrow();
+        HideArrow();
     }
 
     public void OnRelease()
     {
-        if (this.canMove)
+        if (canMove)
         {
-            this.nob.Pulse = true;
+            nob.Pulse = true;
         }
 
-        this.ShowArrow(this.gauge.GetTargetOffset());
+        ShowArrow(gauge.GetTargetOffset());
     }
 
     void ShowArrow(float offset)
     {
-        if (!this.gauge.InTargetZone())
+        if (!gauge.InTargetZone())
         {
             if (offset > 0)
             {
-                this.clockwiseArrow.enabled = true;
-                this.anticlockwiseArrow.enabled = false;
+                clockwiseArrow.enabled = true;
+                anticlockwiseArrow.enabled = false;
             }
             else
             {
-                this.clockwiseArrow.enabled = false;
-                this.anticlockwiseArrow.enabled = true;
+                clockwiseArrow.enabled = false;
+                anticlockwiseArrow.enabled = true;
             }
         }
     }
 
     void HideArrow()
     {
-        this.clockwiseArrow.enabled = false;
-        this.anticlockwiseArrow.enabled = false;
+        clockwiseArrow.enabled = false;
+        anticlockwiseArrow.enabled = false;
     }
 
     void ResetGuide()
     {
-        if (this.guide.transform.position != this.transform.position)
-            this.guide.transform.position = this.transform.position;
+        if (guide.transform.position != transform.position)
+            guide.transform.position = transform.position;
     }
 
     float GetCurrentAngle()
     {
-        return this.minAngle + (this.reach * this.completion);
+        return minAngle + (reach * completion);
     }
 
     void Victory()
     {
-        this.canMove = false;
-        this.nob.Pulse = false;
+        canMove = false;
+        nob.Pulse = false;
     }
 }

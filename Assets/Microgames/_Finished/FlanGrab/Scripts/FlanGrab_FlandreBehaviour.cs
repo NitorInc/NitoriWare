@@ -11,7 +11,10 @@ public class FlanGrab_FlandreBehaviour : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        rightArmObject = this.transform.Find("Right_Arm").gameObject;
+        //var microgrameScript = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
+        //xRightLimit = microgrameScript.rightLimit;
+
+        rightArmObject = transform.Find("Right_Arm").gameObject;
     }
 	
 	// Update is called once per frame

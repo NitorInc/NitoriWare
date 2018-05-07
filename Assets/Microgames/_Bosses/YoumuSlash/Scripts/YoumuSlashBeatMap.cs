@@ -8,10 +8,7 @@ public class YoumuSlashBeatMap : ScriptableObject
 
     [SerializeField]
     private List<TargetBeat> targetBeats;
-    public List<TargetBeat> TargetBeats
-    {
-        get { return targetBeats; }
-    }
+    public List<TargetBeat> TargetBeats => targetBeats;
     
     [System.Serializable]
     public class TargetBeat
@@ -31,29 +28,16 @@ public class YoumuSlashBeatMap : ScriptableObject
 
         [SerializeField]
         private float launchBeat;
-        public float LaunchBeat
-        {
-            get { return launchBeat; }
-        }
-        public float HitBeat
-        {
-            get { return launchBeat + LaunchBeatDuration; }
-        }
+        public float LaunchBeat => launchBeat;
+        public float HitBeat => launchBeat + LaunchBeatDuration;
 
         [SerializeField]
         private Direction hitDirection;
-        public Direction HitDirection
-        {
-            get { return hitDirection; }
-        }
+        public Direction HitDirection => hitDirection; 
 
         [SerializeField]
         private GameObject prefab;
-        public GameObject Prefab
-        {
-            get { return prefab; }
-        }
-
+        public GameObject Prefab => prefab; 
 
         public enum Direction
         {

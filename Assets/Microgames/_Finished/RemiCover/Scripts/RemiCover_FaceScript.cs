@@ -14,7 +14,7 @@ public class RemiCover_FaceScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame

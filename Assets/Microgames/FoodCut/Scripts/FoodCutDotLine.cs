@@ -18,9 +18,4 @@ public class FoodCutDotLine : MonoBehaviour {
         transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
 }

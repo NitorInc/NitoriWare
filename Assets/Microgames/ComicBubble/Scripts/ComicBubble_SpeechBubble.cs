@@ -167,6 +167,8 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
         }
     }
 
+    public void setIndicator(GameObject indicator) => this.indicator = indicator;
+
     // Stop text from showing
     void stopSpeechText()
     {
@@ -175,10 +177,7 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
         spriteRenderer.sprite = initialSprite;
     }
 
-    public void onFinishedTalking()
-    {
-        finishedTalking = true;
-    }
+    public void onFinishedTalking() => finishedTalking = true;
 
     // Advance text
     void advanceSpeechText()
@@ -187,7 +186,6 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
         setMouthAnimationParam(SPEAKING_MOUTH_PARAM);
         spriteRenderer.sprite = finishedSprite;
     }
-
 
     // This is for showing where the square box cast is being placed
     void OnDrawGizmosSelected()

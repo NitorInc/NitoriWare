@@ -28,12 +28,7 @@ public class SumiWheelCardClick : MonoBehaviour
             color.a = .5f;
             spriteRenderer.color = color;
         }
-
-
     }
 
-    public bool isClickable()
-    {
-        return clickable;
-    }
+    public bool isClickable() => clickable;
 }

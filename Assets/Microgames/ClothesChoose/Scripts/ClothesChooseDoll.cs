@@ -18,14 +18,9 @@ public class ClothesChooseDoll : MonoBehaviour
 
     public bool randomOutfit;
 
-    public ClothingChoice[] ClothingChoices
-    {
-        get { return clothingChoices; }
-    }
+    public ClothingChoice[] ClothingChoices { get; private set; }
 
     public Category[] categories;
-
-    ClothingChoice[] clothingChoices;
 
     void Awake()
     {
@@ -67,7 +62,7 @@ public class ClothesChooseDoll : MonoBehaviour
             }
         }
 
-        this.clothingChoices = choices.ToArray();
+        ClothingChoices = choices.ToArray();
     }
     
     public Transform GetCategoryTransform(int i)

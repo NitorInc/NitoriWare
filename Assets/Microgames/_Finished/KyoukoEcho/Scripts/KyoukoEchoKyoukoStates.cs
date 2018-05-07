@@ -11,9 +11,9 @@ public class KyoukoEchoKyoukoStates : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Play hit sound
-        MicrogameController.instance.playSFX(this.hitClip);
+        MicrogameController.instance.playSFX(hitClip);
 
-        if (this.wound && !animator.GetBool("Wounded"))
+        if (wound && !animator.GetBool("Wounded"))
         {
             animator.SetBool("Wounded", true);
         }

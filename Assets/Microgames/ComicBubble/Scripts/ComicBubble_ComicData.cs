@@ -43,22 +43,14 @@ public class ComicBubble_ComicData {
     [SerializeField]
     private bool disableStripAnimator;
 
-
-    public GameObject getStrip() { return strip; }
-
-    public GameObject getBubble() { return speechBubble; }
-
-    public GameObject getTarget() { return characterTarget; }
-
-    public GameObject getIndicator() { return indicator;  }
-
-    public float getSpeechSpeed() { return speechSpeed; }
-
-    public float getDistanceAfterCompletion() { return distanceAfterCompletion; }
-
-    public float getSpeedAfterCompletion() { return speedAfterCompletion; }
-
-    public bool stripAnimatorCanBeDisabled() { return disableStripAnimator;  }
+    public GameObject getStrip() => strip;
+    public GameObject getBubble() => speechBubble;
+    public GameObject getTarget() => characterTarget;
+    public GameObject getIndicator() => indicator; 
+    public float getSpeechSpeed() => speechSpeed;
+    public float getDistanceAfterCompletion() => distanceAfterCompletion;
+    public float getSpeedAfterCompletion() => speedAfterCompletion;
+    public bool stripAnimatorCanBeDisabled() => disableStripAnimator; 
 }
 
 public static class ComicBubble_ComicDataExtension
@@ -93,7 +85,6 @@ public static class ComicBubble_ComicDataExtension
     {
         return dataList[index].getDistanceAfterCompletion();
     }
-
 
     public static float getSpeedAfterCompletion(this List<ComicBubble_ComicData> dataList, int index)
     {

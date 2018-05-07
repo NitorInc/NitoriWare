@@ -25,8 +25,8 @@ public class HecShapesPool : MonoBehaviour
 
     void Awake()
     {
-        this.grabGroup = GetComponent<MouseGrabbableGroup>();
-        this.zone = GetComponent<Collider2D>();
+        grabGroup = GetComponent<MouseGrabbableGroup>();
+        zone = GetComponent<Collider2D>();
 
         GenerateShapes();
     }
@@ -34,36 +34,36 @@ public class HecShapesPool : MonoBehaviour
     void Start()
     {
         // Set victory checking for each head
-        foreach (HecShapesHecatia head in this.heads)
+        foreach (HecShapesHecatia head in heads)
         {
             head.AddOnFillAction(CheckWin);
 
-            if (this.noir)
+            if (noir)
                 head.MakeGray();
         }
         
         // Make the planets and Hecatias
         List<Vector2> takenPositions = new List<Vector2>();
-        for (int i = 0; i < this.shapes.Count; i++)
+        for (int i = 0; i < shapes.Count; i++)
         {
-            if (i < this.heads.Count)
-                this.heads[i].SetStyle(this.shapes[i].shape);
+            if (i < heads.Count)
+                heads[i].SetStyle(shapes[i].shape);
 
             // Calculate random start position
-            Vector2 start = FindSpace(this.zone.bounds, takenPositions);
+            Vector2 start = FindSpace(zone.bounds, takenPositions);
             takenPositions.Add(start);
 
-            InstantiateShape(this.shapes[i], start);
+            InstantiateShape(shapes[i], start);
         }
     }
 
     void GenerateShapes()
     {
-        this.shapes = new List<HecShapesCelestialBody>();
+        shapes = new List<HecShapesCelestialBody>();
         while (availableShapes.Count > 0)
         {
             int index = Random.Range(0, availableShapes.Count);
-            this.shapes.Add(availableShapes[index]);
+            shapes.Add(availableShapes[index]);
             availableShapes.RemoveAt(index);
         }
     }
@@ -72,7 +72,7 @@ public class HecShapesPool : MonoBehaviour
     {
         // Attempt to find a position that isn't too close to occupied positions
         Vector2 space = Vector2.zero;
-        for (int i = 0; i < this.spaceAttempts; i++)
+        for (int i = 0; i < spaceAttempts; i++)
         {
             space = new Vector2(
                 Random.Range(bounds.min.x, bounds.max.x),
@@ -81,7 +81,7 @@ public class HecShapesPool : MonoBehaviour
             bool good = true;
             foreach (Vector2 taken in takenPositions)
             {
-                if (Vector2.Distance(space, taken) < this.startSpacing)
+                if (Vector2.Distance(space, taken) < startSpacing)
                 {
                     good = false;
                     break;
@@ -99,15 +99,15 @@ public class HecShapesPool : MonoBehaviour
     {
         // This is the planet's generic object
         HecShapesSlottable slottable = Instantiate(
-                this.slottableTemplate,
+                slottableTemplate,
                 start,
                 new Quaternion(),
-                this.transform);
+                transform);
 
         // Instantiate the planet's sprite and collider holding object as a child
         var shape = Instantiate(shapeTemplate, slottable.transform);
 
-        if (this.noir)
+        if (noir)
             shape.MakeGray();
 
         // Make the planet grabbable
@@ -118,13 +118,13 @@ public class HecShapesPool : MonoBehaviour
         grabbable._collider2D = shape.GetComponent<Collider2D>();
 
         // Add to grabbable group
-        this.grabGroup.addGrabbable(grabbable, false);
+        grabGroup.addGrabbable(grabbable, false);
     }
     
     public void CheckWin()
     {
         bool win = true;
-        foreach (HecShapesHecatia head in this.heads)
+        foreach (HecShapesHecatia head in heads)
         {
             if (!head.IsFilled())
             {

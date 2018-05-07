@@ -10,17 +10,9 @@ namespace NitorInc.MarisaJizou {
         public static event Action onVictory;
 
         public int requiredJizou = 2;
-        int totalJizou {
-            get {
-                return spawnLocations.Count;
-            }
-        }
+        int totalJizou => spawnLocations.Count;
         int successCounter = 0;
-        public int failTolerance {
-            get {
-                return hatsCarried - requiredJizou;
-            }
-        }
+        public int failTolerance => hatsCarried - requiredJizou;
         int failCounter = 0;
         public int hatsCarried = 3;
 

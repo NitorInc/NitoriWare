@@ -41,10 +41,7 @@ public class YoumuSlashBlackBars : MonoBehaviour
         bottomBar.position = -topBar.position * bottomBarDistanceMult;
     }
 
-    float getY()
-    {
-        return -topBar.position.y;
-    }
+    float getY() => -topBar.position.y;
 
     public void setGoalY(float goalY)
     {
@@ -53,8 +50,6 @@ public class YoumuSlashBlackBars : MonoBehaviour
             setY(goalY);
     }
 
-    float getSpeedToGoal()
-    {
-        return goalY > getY() ? closeSpeed : openSpeed;
-    }
+    float getSpeedToGoal() => goalY > getY() ? closeSpeed : openSpeed;
+
 }

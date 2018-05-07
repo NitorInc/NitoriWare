@@ -51,8 +51,8 @@ public class PauseManager : MonoBehaviour
         public CamPauseData(Camera camera)
         {
             this.camera = camera;
-            this.backgroundColor = camera.backgroundColor;
-            this.cullingMask = camera.cullingMask;
+            backgroundColor = camera.backgroundColor;
+            cullingMask = camera.cullingMask;
         }
     }
 

@@ -17,67 +17,52 @@ public class KyoukoEchoKyouko : MonoBehaviour
 
     void Awake()
     {
-        this.animator = GetComponent<Animator>();
-        this.flyZone = FindObjectOfType<KyoukoEchoFlyZone>();
+        animator = GetComponent<Animator>();
+        flyZone = FindObjectOfType<KyoukoEchoFlyZone>();
     }
     
     void LateUpdate()
     {
         Vector3 cursorPosition = CameraHelper.getCursorPosition();
-        this.transform.position = new Vector2(this.transform.position.x, cursorPosition.y);
+        transform.position = new Vector2(transform.position.x, cursorPosition.y);
     }
 
     public void Hit(string partName)
     {
         // Body parts share names with animations
-        this.animator.SetTrigger(partName);
+        animator.SetTrigger(partName);
 
-        this.hits += 1;
-        bool win = (this.hits + this.misses) >= echoCount;
+        hits += 1;
+        bool win = (hits + misses) >= echoCount;
 
         if (win)
         {
             // Win
-            this.willEcho = false;
+            willEcho = false;
             MicrogameController.instance.setVictory(true, true);
 
-            this.animator.SetTrigger("Win");
+            animator.SetTrigger("Win");
         }
     }
 
     public void Miss()
     {
-        this.misses += 1;
-        bool lose = this.misses >= missLimit;
+        misses += 1;
+        bool lose = misses >= missLimit;
 
         if (lose)
         {
             // Lose
-            this.willEcho = false;
+            willEcho = false;
             MicrogameController.instance.setVictory(false, true);
 
-            this.animator.SetTrigger("Lose");
+            animator.SetTrigger("Lose");
         }
     }
     
-    public void IncrementEchoCount()
-    {
-        this.echoCount++;
-    }
-
-    public bool WillEcho
-    {
-        get { return this.willEcho; }
-    }
-
-    public float UpperBoundY
-    {
-        get { return this.flyZone.UpperBoundY; }
-    }
-
-    public float LowerBoundY
-    {
-        get { return this.flyZone.LowerBoundY; }
-    }
+    public void IncrementEchoCount() => echoCount++;
+    public bool WillEcho => willEcho;
+    public float UpperBoundY => flyZone.UpperBoundY; 
+    public float LowerBoundY => flyZone.LowerBoundY; 
 
 }

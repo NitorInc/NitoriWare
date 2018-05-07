@@ -26,19 +26,9 @@ public class GameController : MonoBehaviour
 
     private string startScene;
 
-    public MicrogameCollection microgameCollection
-    {
-        get { return _microgameCollection; }
-    }
-    public SceneShifter sceneShifter
-    {
-        get { return _sceneShifter; }
-    }
-
-    public DiscordController discord
-    {
-        get { return _discord; }
-    }
+    public MicrogameCollection microgameCollection => _microgameCollection;
+    public SceneShifter sceneShifter => _sceneShifter;
+    public DiscordController discord => _discord;
 
 	void Awake()
 	{
@@ -87,8 +77,5 @@ public class GameController : MonoBehaviour
         return controlSprites[(int)controlScheme];
     }
 
-    public string getStartScene()
-    {
-        return startScene;
-    }
+    public string getStartScene() => startScene;
 }

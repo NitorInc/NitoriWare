@@ -37,29 +37,17 @@ public class DatingSimOptionLine : MonoBehaviour
         return DatingSimHelper.getSelectedCharacter().getLocalizedOptionDialogue(right, index, true);
     }
     
-    public bool isRight()
-    {
-        return right;
-    }
-
-    void SetText(string text)
-    {
-        textComp.text = text;
-    }
-
-    public void HighlightText(bool highlight)
-    {
-        textComp.color = highlight ? defaultColor : greyColor;
-    }
-
-    public void ShowText(bool show)
-    {
-        gameObject.SetActive(show);
-    }
+    public bool isRight() => right;
+    public void HighlightText(bool highlight) => textComp.color = highlight ? defaultColor : greyColor;
+    public void ShowText(bool show) => gameObject.SetActive(show);
 
     public void ShowCursor(bool show)
     {
         cursor.gameObject.SetActive(show);
         HighlightText(show);
     }
+
+    void SetText(string text) => textComp.text = text;
+
 }
+

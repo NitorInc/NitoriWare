@@ -107,11 +107,7 @@ namespace NitorInc.YuukaWater {
         }
 
 
-        float SecondStage {
-            get {
-                return Mathf.Floor(totalWaterRequired * secondStageThreshold);
-            }
-        }
+        float SecondStage => Mathf.Floor(totalWaterRequired * secondStageThreshold);
         float waterCounter = 0;
 
         private void OnCollisionEnter2D(Collision2D other)
