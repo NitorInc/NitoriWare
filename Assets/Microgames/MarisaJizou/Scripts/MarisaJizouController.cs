@@ -29,6 +29,10 @@ namespace NitorInc.MarisaJizou {
         public List<GameObject> specialJizouProtos;
         public GameObject normalJizouProto;
         List<GameObject> jizouList;
+
+        public AudioClip[] touchJizouClip;
+        public float finishClipDelay = 0.2f;
+        public AudioClip finishClip;
         // Use this for initialization
         void Start() {
             specialJizouProtos.Shuffle();
@@ -48,10 +52,16 @@ namespace NitorInc.MarisaJizou {
             }
         }
 
+        void PlayFinishClip () {
+            MicrogameController.instance.playSFX(finishClip, MicrogameController.instance.getSFXSource().panStereo);
+        }
+
         public void Notify(bool succeed) {
             if (succeed) {
+                MicrogameController.instance.playSFX(touchJizouClip[successCounter], MicrogameController.instance.getSFXSource().panStereo);
                 successCounter++;
                 if (successCounter >= requiredJizou) {
+                    Invoke("PlayFinishClip", finishClipDelay);
                     MicrogameController.instance.setVictory(true, true);
                     if (onVictory != null)
                         onVictory();
