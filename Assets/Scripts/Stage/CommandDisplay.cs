@@ -6,17 +6,12 @@ using UnityEngine.UI;
 public class CommandDisplay : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Text textComponent;
     [SerializeField]
     private Animator animator;
 #pragma warning restore 0649
-	
-	void Update()
-	{
-		
-	}
 
     public void play(string command)
     {

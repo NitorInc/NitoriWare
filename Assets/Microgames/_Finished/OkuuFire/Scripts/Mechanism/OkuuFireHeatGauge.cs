@@ -28,8 +28,6 @@ public class OkuuFireHeatGauge : MonoBehaviour, IOkuuFireMechanism
 
     private float heatSpeed;
     private float heatLevel;
-    private float targetStartLevel;
-    private float targetLevel;
     private float stability;
 
     // Cosmetic

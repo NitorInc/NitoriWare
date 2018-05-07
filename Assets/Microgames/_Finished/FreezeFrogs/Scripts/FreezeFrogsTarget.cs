@@ -30,10 +30,6 @@ public class FreezeFrogsTarget : MonoBehaviour
 			particleSystems[i].SetParticles(new ParticleSystem.Particle[0], 0);
 
 		}
-
-		//transform.parent.GetComponent<Animator>().animation["bluh"].normalizedTime = 0f;
-
-
 	}
 
 	void Update ()
@@ -57,7 +53,6 @@ public class FreezeFrogsTarget : MonoBehaviour
 		progress = 1f;
 		updateProgress();
 		for (int i = 0; i < particleSystems.Length;particleSystems[i].Play(), i++);
-		//audio.pitch = /*1.35f */ Time.timeScale;
 		audio.panStereo = AudioHelper.getAudioPan(transform.position.x);
 		audio.Play();
 

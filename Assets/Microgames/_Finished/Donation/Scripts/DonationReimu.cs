@@ -27,24 +27,13 @@ public class DonationReimu : MonoBehaviour
 
 	public void reset ()
 	{
-		//transform.position = new Vector3(0f, transform.position.y, transform.position.z);
 		position = 0;
 		updatePosition();
 		progress = 0;
 	}
 
-	void endEarly()
-	{
-		//ScenarioController.instance.setVictoryDetermined();
-	}
-	
 	void Update ()
 	{
-		//if (MicrogameTimer.beatsLeft <= 9.5f)
-		//{
-		//	//Debug.Log(MicrogameTimer.beatsLeft);
-		//	ScenarioController.instance.setMicrogameVictory(true, true);
-		//}
 		if (!MicrogameController.instance.getVictoryDetermined() && coinsInPlay == 0)
 			MicrogameController.instance.setVictory(false, true);
 		updateMovement();
@@ -61,7 +50,6 @@ public class DonationReimu : MonoBehaviour
 
 		DonationChing ching = textPool.getObjectFromPool().GetComponent<DonationChing>();
 		ching.pool = textPool;
-		//ching.reset(transform.position + new Vector3(0f, .3f, 0f));
 		ching.reset(coin.position);
 		ching.GetComponent<TextMesh>().text = progress.ToString();
 	}
@@ -72,10 +60,6 @@ public class DonationReimu : MonoBehaviour
 		{
 			position+= (Input.GetKeyDown(KeyCode.LeftArrow) && position > minPosition) ? -1 : 1;
 			updatePosition();
-			//if (transform.position.x < minX)
-			//	transform.position = new Vector3(minX, transform.position.y, transform.position.z);
-			//setFacingRight(false);
-			//body.velocity = new Vector2(-1f * moveSpeed, 0f);
 		}
 		else
 		{

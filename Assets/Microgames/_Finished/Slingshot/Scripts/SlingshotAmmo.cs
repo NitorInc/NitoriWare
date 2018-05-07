@@ -24,7 +24,6 @@ public class SlingshotAmmo : MonoBehaviour
 
 	public State state;
 
-	//private float flingSpeed, flingAngle;
 	private Rigidbody2D rigidThing;
 
 	private Vector3 initialPosition, initialScale;
@@ -113,7 +112,6 @@ public class SlingshotAmmo : MonoBehaviour
 				if (!Input.GetMouseButton(0))
 				{	
 					audio.Stop();
-					//audio.pitch = Time.timeScale;
 					if (diff.magnitude > 0f)
 					{
 						rigidThing.isKinematic = false;
@@ -175,7 +173,6 @@ public class SlingshotAmmo : MonoBehaviour
 
 					backString.gameObject.SetActive(true);
 				}
-				//transform.Translate((Vector3)MathHelper.getVectorFromAngle(flingAngle, flingSpeed * Time.deltaTime));
 				break;
 			case(State.Flung):
 				updateAudioPan();
@@ -216,8 +213,6 @@ public class SlingshotAmmo : MonoBehaviour
 	void tiltSlingShot()
 	{
 		setSlingshotAngle((initialPosition.x - transform.position.x) * .01f);
-		//setSlingshotAngle(((Vector2)initialPosition - (Vector2)transform.position).magnitude * .01f
-		//	* (transform.position.x < initialPosition.x ? 1f: -1f));
 	}
 
 	void setSlingshotAngle(float angle)

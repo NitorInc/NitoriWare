@@ -37,8 +37,6 @@ namespace NitorInc.MochiPound {
         public float timeBetweenInputs = 0.2f;
         public float mistakePenalty = 0.1f;
         bool inputEnabled = true;
-        KeyCode correctKey = KeyCode.LeftArrow;
-
         KeyCode lastKey = KeyCode.RightArrow;
 
         Timer enableTimer;

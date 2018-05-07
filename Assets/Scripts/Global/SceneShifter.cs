@@ -11,7 +11,7 @@ public class SceneShifter : MonoBehaviour
     private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .5f;
     private const float MinBlackScreenTime = .5f;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Image blocker;
 #pragma warning restore 0649

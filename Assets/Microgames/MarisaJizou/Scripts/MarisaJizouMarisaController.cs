@@ -29,6 +29,8 @@ namespace NitorInc.MarisaJizou {
         public delegate void OnAction();
         public static event OnAction onTurning;
 
+        public AudioClip[] hatDropClip;
+
         // Use this for initialization
         void Start() {
             hatsCarried = FindObjectOfType<MarisaJizouController>().hatsCarried;
@@ -47,7 +49,6 @@ namespace NitorInc.MarisaJizou {
 
                 if (transform.position.x <= leftBound || transform.position.x >= rightBound) {
                     if (!hasTurned) {
-                        //transform.Rotate(Vector3.up, 180.0f);
                         marisaSprite.flipX = !marisaSprite.flipX;
                         direction *= -1.0f;
                         hasTurned = true;
@@ -58,8 +59,6 @@ namespace NitorInc.MarisaJizou {
                     hasTurned = false;
                 }
             } else {
-                //var dir = transform.position.z <= 0.0f ? Vector3.left : Vector3.right;
-                //dir.y = upMagnitude;
                 transform.Translate(direction * finishSpeed * Time.deltaTime);
             }
 
@@ -67,6 +66,7 @@ namespace NitorInc.MarisaJizou {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow)) {
                     Instantiate(kasaProto, kasaStack[dropCounter].transform.position, Quaternion.identity);
                     kasaStack[dropCounter].SetActive(false);
+                    MicrogameController.instance.playSFX(hatDropClip[dropCounter], MicrogameController.instance.getSFXSource().panStereo);
                     dropCounter++;
                 }
             }

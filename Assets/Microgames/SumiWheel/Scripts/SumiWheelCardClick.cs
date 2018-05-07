@@ -7,7 +7,6 @@ public class SumiWheelCardClick : MonoBehaviour
     private SumiWheelCardController cardController;
 
     private bool clickable = true;
-    private SumiWheelThoughtCard correctCard = null;
 
     public void setController(SumiWheelCardController cardController)
     {

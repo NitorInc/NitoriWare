@@ -39,7 +39,6 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		}
 
 		// move this object at frame rate independent speed:
-		float boundryColliderSize = leftBound.GetComponent<BoxCollider2D>().size.x;
 		if (moveDir.x > 0
 			&& transform.position.x < rightBound.GetComponent<Transform> ().position.x) {
 			transform.position += moveDir * speed * Time.deltaTime;

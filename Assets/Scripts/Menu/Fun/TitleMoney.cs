@@ -5,7 +5,7 @@ using UnityEngine;
 public class TitleMoney : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Vector2 speedBounds, torqueBounds;
     [SerializeField]

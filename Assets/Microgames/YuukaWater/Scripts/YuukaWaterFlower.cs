@@ -75,7 +75,6 @@ namespace NitorInc.YuukaWater {
                 case State.stage3:
                     var state = anim.GetCurrentAnimatorStateInfo(0);
                     if (state.normalizedTime >= 1.0f) {
-                        //int index = Random.Range(0, fullIds.Length);
                         int index = flowerIndex;
                         anim.Play(fullIds[index]);
                         SetState(State.finished);

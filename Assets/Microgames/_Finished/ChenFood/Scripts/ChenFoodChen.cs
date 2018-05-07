@@ -152,7 +152,6 @@ public class ChenFoodChen : MonoBehaviour
 				startAttack();
 		}
 
-
 		body.setSprite(state == State.Leap|| state == State.Slow);
 		head.setSprite(fish.eaten);
 
@@ -161,14 +160,7 @@ public class ChenFoodChen : MonoBehaviour
 
 	void LateUpdate()
 	{
-
 		fish.eyes.transform.localPosition = new Vector3(0f, 0f, (transform.position.x > fish.transform.position.x) ? .01f: -.01f);
-
-
-		//if (transform.position.x < fish.transform.position.x)
-		//	fish.transform.localScale = new Vector3(-1f, 1f, 1f);
-		//else
-		//	fish.transform.localScale = new Vector3(1f, 1f, 1f);
 	}
 
 	void startAttack()

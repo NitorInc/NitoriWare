@@ -7,7 +7,6 @@ public class DatingSimOptionLine : MonoBehaviour
 {
     TMP_Text textComp;
     DatingSimCursorAnimation cursor;
-    DatingSimCharacters.CharacterOption option;
     private bool right;
     private int index;
 
@@ -16,11 +15,10 @@ public class DatingSimOptionLine : MonoBehaviour
 
     public void initialize(DatingSimCharacters.CharacterOption option)
     {
-        this.option = option;
         right = DatingSimHelper.getOptionIsRight(option);
         index = DatingSimHelper.getOptionIndex(option, right);
 
-        var character = DatingSimHelper.getSelectedCharacter();
+        DatingSimHelper.getSelectedCharacter();
 
         if (textComp == null)
             textComp = GetComponentInChildren<TMP_Text>();

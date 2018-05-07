@@ -79,7 +79,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             rigAnimator.SetTrigger("Beat");
             rigAnimator.SetBool("Prep", false);
-            //setFacingRight(true);
         }
     }
 

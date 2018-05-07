@@ -53,7 +53,6 @@ public class KogasaScareSuwakoBehavior : MonoBehaviour
         hopStartTime = Time.time;
         hopStartX = transform.position.x;
         hopEndX = MathHelper.randomRangeFromVector(hopXRange);
-        //hopEndX = transform.position.x + 3f;
         victimAnimator.SetInteger("direction", (int)Mathf.Sign(hopEndX - hopStartX));
         hopping = true;
         setHopState(HopState.Up);

@@ -7,7 +7,6 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     private float HP = 1;                           // Remilia's Health Points.
     public float burnSpeed;                         // How much will HP decrease when Remilia's collider is exposed to sunlight?
     public Vector2 burnBeatBounds;                   // Between what beats can remi be hurt?
-    //private int collidersOutside = 0;               // How many colliders are outside of Umbrella's shadow?
 
     public ParticleSystem smokeParticles;
     private ParticleSystem smokeInstance;
@@ -124,7 +123,6 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
             if (isColliderUnderUmbrella(checkCollider))
                 collidersOutside--;
         }
-        //Debug.Log(collidersOutside);
         return collidersOutside;
     }
 
@@ -134,29 +132,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
         float yOffset = 3.75f;
         var hit = PhysicsHelper2D.visibleRaycast((Vector2)(new Vector3(collider.transform.position.x - colliderHalfWidth, yOffset, 0f)),
             Vector2.right, colliderHalfWidth * 2f);
-
-        //if (hit)
-        //  Debug.Log(hit.collider.name);
         return hit && hit.collider.name.Equals("UmbrellaShadow");
     }
-
-    //void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other.name == "UmbrellaShadow")
-    //    {
-    //        collidersOutside += 1;
-    //    }
-    //}
-
-
-    //void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.name == "UmbrellaShadow" && collidersOutside != 0)
-    //    {
-    //        collidersOutside -= 1;
-    //    }
-    //}
-
 
     private void changeSpriteColor(Color color)
     {

@@ -60,7 +60,6 @@ public class FadingMusic : MonoBehaviour
             if (_audioSource.volume <= diff)
             {
                 _audioSource.volume = 0f;
-                //_audioSource.Stop();
                 fadeInFirst = true;
                 started = false;
             }

@@ -53,7 +53,6 @@ public class SuikaShakeBottle : MonoBehaviour
                 suikas[i].setFacing(0);
             }
 			suikas[i].transform.parent = transform;
-            //suikas[i].spriteRenderer.sortingOrder = 1 + (suikas.Length - i);
             suikas[i].spriteRenderer.sortingOrder = i + 1;
         }
         lastCursorPosition = CameraHelper.getCursorPosition();

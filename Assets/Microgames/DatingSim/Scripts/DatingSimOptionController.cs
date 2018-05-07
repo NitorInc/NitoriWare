@@ -13,17 +13,6 @@ public class DatingSimOptionController : MonoBehaviour
 
     public delegate void OnSelection();
 
-    //public class OptionSet {
-    //    public OptionSet(string option, string response, bool isWin) {
-    //        optionText = option;
-    //        responseText = response;
-    //        isWin = isWin;
-    //    }
-    //    public string optionText = "";
-    //    public string responseText = "";
-    //    public bool isWin = true;
-    //}
-
     [Header("Edit this variable to adjust box height")]
     public float boxHeightMult = 1f;
     public float distancePerUnit;
@@ -32,17 +21,8 @@ public class DatingSimOptionController : MonoBehaviour
     public DatingSimMenuExpand menuExpander;
     public DatingSimMaterialAnimation materialAnimation;
     public float optionBoxHeight = 2.3f;
-    float totalOptions = 4.0f;
-    //float distancePerUnit {
-    //    get {
-    //        return optionBoxHeight / (totalOptions - 1.0f);
-    //    }
-    //}
-    //List<OptionSet> sets;
     List<DatingSimOptionLine> lines = new List<DatingSimOptionLine>();
     int currentOption = 0;
-
-
 
     bool enableUserControl = true;
 
@@ -58,26 +38,6 @@ public class DatingSimOptionController : MonoBehaviour
     {
         enableUserControl = false;
     }
-
-    //void InitializeOptions()
-    //{
-    //    //for (int i = 0; i < winList.Count; i++)
-    //    //{
-    //    //    string optionText = preset.GetOption(charIndex, true, true, i);
-    //    //    string responseText = preset.GetOption(charIndex, true, false, i);
-    //    //    sets.Add(new OptionSet(optionText, responseText, true));
-    //    //}
-
-    //    //var loseList = SelectAtRandom(neededLoseLines, totalLoseLines);
-    //    //for (int i = 0; i < loseList.Count; i++)
-    //    //{
-    //    //    string optionText = preset.GetOption(charIndex, false, true, i);
-    //    //    string responseText = preset.GetOption(charIndex, false, false, i);
-    //    //    sets.Add(new OptionSet(optionText, responseText, false));
-    //    //}
-
-    //    enableUserControl = false;
-    //}
 
     public void ShowOptions()
     {
@@ -150,33 +110,12 @@ public class DatingSimOptionController : MonoBehaviour
 
                 enableUserControl = false;
 
-                //for (int i = 0; i < sets.Count; i++) {
-                //    if (i != currentOption) {
-                //        lines[currentOption].ShowText(false);
-                //    }
-                //}
-                
                 MicrogameController.instance.setVictory(lines[currentOption].isRight());
                 dialogueController.resetDialogueSpeed();
                 dialogueController.SetDialogue(lines[currentOption].getLocalizedResponse());
             }
         }
 	}
-
-    //List<int> SelectAtRandom(int amount, int total) {
-    //    List<int> result = new List<int>();
-    //    for (int i = 0; i < total; i++) {
-    //        result.Add(i);
-    //    }
-    //    result.Shuffle();
-    //    int count = total - amount;
-    //    if (count < 0)
-    //        count = 0;
-    //    if (amount > total)
-    //        amount = total;
-    //    result.RemoveRange(amount, count);
-    //    return result;
-    //}
 
     public void InvokeOptions(float time)
     {

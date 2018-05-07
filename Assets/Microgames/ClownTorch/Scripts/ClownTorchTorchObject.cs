@@ -12,8 +12,6 @@ namespace NitorInc.ClownTorch {
         float timer = 0.0f;
         bool isOnFire = false;
 
-        bool countedThisFrame = false;
-
         ClownTorchTorchManager manager;
         // Use this for initialization
         void Start() {

@@ -15,7 +15,6 @@ public class KaguyaMemory_BlackBarScript : MonoBehaviour {
     public Transform otherDoor;
 
     private int phase = 0;
-    private bool exiting = false;
     private Rigidbody2D rb2d;
     private KaguyaMemory_Timing timeValues;
 

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CanvasTextLimitSize : TextLimitSize
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Text textComponent;
     [SerializeField]

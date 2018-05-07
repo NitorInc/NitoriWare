@@ -69,8 +69,6 @@ public class VoicePlayer : MonoBehaviour
 		soundQueued = false;
 		this.victory = victory;
 
-		//voiceSource.clip = victory ? victoryClips[Random.Range(0, victoryClips.Count)]
-		//	: lossClips[Random.Range(0, lossClips.Count)];
 		if (delayTime == 0f)
 			playClipAudio();
 		else

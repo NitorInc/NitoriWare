@@ -94,8 +94,6 @@ public class CameraHelper
 			camSize = Camera.main.orthographicSize;
 
 			Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			//if (isPointOffscreen(position))
-			//	return lastCursorPosition;
 
 			position.x = Mathf.Clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f),
 				Camera.main.transform.position.x + (camSize * 4f / 3f));

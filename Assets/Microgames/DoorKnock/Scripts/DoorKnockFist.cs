@@ -10,19 +10,19 @@ public class DoorKnockFist : MonoBehaviour {
     [SerializeField]
     private Sprite knocking;
 	
-    private SpriteRenderer renderer;
+    private SpriteRenderer spriteRenderer;
 
     void Start() {
-        renderer = transform.Find("Rig").GetComponent<SpriteRenderer>();
+        spriteRenderer = transform.Find("Rig").GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
 	void Update () {
 	    if (Input.GetMouseButtonDown(0)) {
-            renderer.sprite = knocking;
+            spriteRenderer.sprite = knocking;
         }
         else if(Input.GetMouseButtonUp(0)){
-            renderer.sprite = resting;
+            spriteRenderer.sprite = resting;
         }
 	}
 }

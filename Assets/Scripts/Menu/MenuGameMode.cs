@@ -7,7 +7,7 @@ public class MenuGameMode : MonoBehaviour
 {
     private const string KeyPrefix = "menu.gamemode.";
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private MenuButton menuButton;
     [SerializeField]

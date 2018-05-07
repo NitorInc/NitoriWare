@@ -35,7 +35,6 @@ public class RuukotoSweepPatch : MonoBehaviour
     {
         for (int i = 0; i < transform.parent.childCount; i++)
         {
-            //Debug.Log(((Vector2)(transform.parent.GetChild(i).position - transform.position)).magnitude);
             Transform childTransform = transform.parent.GetChild(i);
             if (childTransform != transform && ((Vector2)(childTransform.position - transform.position)).magnitude < minLeafSeparation)
                 return true;
@@ -54,7 +53,6 @@ public class RuukotoSweepPatch : MonoBehaviour
         {
             var leafModule = leafParticles.main;
             leafModule.simulationSpeed = 1f;
-            //MicrogameController.instance.getSFXSource().Stop();
             MicrogameController.instance.playSFX(sweepClip, pitchMult: MathHelper.randomRangeFromVector(sweepPitchRange),
                 volume: (MicrogameController.instance.getSFXSource().isPlaying ? interruptSweepVolume : 1f),
                 panStereo: AudioHelper.getAudioPan(transform.position.x / 2f));
