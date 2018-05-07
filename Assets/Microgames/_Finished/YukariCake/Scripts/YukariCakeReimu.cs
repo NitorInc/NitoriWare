@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// YukariCakeReimu.cs
 /// The logic that facilitates Reimu's AI and movement...
 /// </summary>
-
 public class YukariCakeReimu : MonoBehaviour {
 
     public Animator Animator;
@@ -67,7 +65,6 @@ public class YukariCakeReimu : MonoBehaviour {
 
     public void ChangeState()
     {
-        //Debug.Log(string.Format("We're going to change state at {0}", MicrogameTimer.instance.beatsLeft));
         Animator.SetTrigger("changeState");
     }
 
@@ -117,9 +114,6 @@ public class YukariCakeReimu : MonoBehaviour {
 
     public Queue<float> DifficultyHardPattern()
     {
-        // Hard should have tighter timing windows.
-        // Like, super tight. ;)
-
         var queue = new Queue<float>();
         var beatsLeft = 8f;
         for (int i = 0; i < 5; i++)

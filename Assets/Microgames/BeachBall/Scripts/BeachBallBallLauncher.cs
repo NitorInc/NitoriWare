@@ -5,9 +5,6 @@
 /// </summary>
 public class BeachBallBallLauncher : MonoBehaviour
 {
-    //[Header("Deprecated physics launch properties")]
-    //public float ThrowForce = 500f;
-
     [Header("Launch equation arg (affects gravity scale and throw force)")]
     public float ThrowMultiplier = 8f;
 
@@ -23,7 +20,6 @@ public class BeachBallBallLauncher : MonoBehaviour
 
     private BoxCollider2D ballStandCollider;
     private Animation sealAnimation;
-    private Animation ballAnimation;
 
     private bool launched = false;
     public bool Launched
@@ -40,8 +36,6 @@ public class BeachBallBallLauncher : MonoBehaviour
     {
         physicsModel = GetComponent<Rigidbody2D>();
         scaleMultiplier = GetComponent<BeachBallScaler>();
-        ballAnimation = GetComponent<Animation>();
-        //ballStandCollider = GameObject.Find("BallStand").GetComponent<BoxCollider2D>();
         sealAnimation = GameObject.Find("Seal").GetComponent<Animation>();
     }
 
@@ -56,13 +50,9 @@ public class BeachBallBallLauncher : MonoBehaviour
             sealAnimation.Play();
 
             //throw the ball using physics
-            //ThrowForce = ThrowConstant * Sqrt(ThrowMultiplier) (obtained using power curve fitting)
             physicsModel.gravityScale = ThrowMultiplier;
             physicsModel.AddForce(ThrowDirection.normalized *
                 (float)System.Math.Sqrt(ThrowMultiplier) * ThrowConstant);
-
-            //set triggerMode to prevent collisions when the ball falls
-            //ballStandCollider.isTrigger = true;
 
             MicrogameController.instance.playSFX(launchSound, volume: 0.5f,
                 panStereo: AudioHelper.getAudioPan(transform.position.x));

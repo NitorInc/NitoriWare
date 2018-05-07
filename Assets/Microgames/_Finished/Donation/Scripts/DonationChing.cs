@@ -26,9 +26,6 @@ public class DonationChing : MonoBehaviour
 		position += new Vector3(Random.Range(xBounds.x, xBounds.y), Random.Range(yBounds.x, yBounds.y), pool.prefab.transform.position.z);
 		transform.position = position;
 
-		//audio.pitch = Time.timeScale;
-		//audio.Play();
-
 		time = 0f;
 		alpha = 1f;
 		scale = initialScale;

@@ -112,7 +112,7 @@ public class PaperThiefStar : MonoBehaviour
 	{
         if (makeAppearSound && !CameraHelper.isObjectOffscreen(transform, 1f))
         {
-            MicrogameController.instance.playSFX(appearClip);//, AudioHelper.getAudioPan(transform.position.x, .8f));
+            MicrogameController.instance.playSFX(appearClip);
             makeAppearSound = false;
         }
         if (dead)

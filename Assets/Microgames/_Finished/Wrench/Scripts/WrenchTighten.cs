@@ -64,7 +64,6 @@ public class WrenchTighten : MonoBehaviour
 
 	void finish()
 	{
-		//handVibrate.vibrateOn = false;
 		MicrogameController.instance.setVictory(true, true);
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 		finished = true;
@@ -131,9 +130,6 @@ public class WrenchTighten : MonoBehaviour
 					setRotation(getRotation() + diff);
 			}
 		}
-
-
-		//handVibrate.vibrateOn = fastening;
 		screw.transform.localPosition = new Vector3(0f, getScrewHeight(), 0f);
 	}
 
@@ -156,14 +152,8 @@ public class WrenchTighten : MonoBehaviour
 
 	void snapWrench()
 	{
-
 		float increment = Mathf.PI / 3f, diff = ((getBoltRotation() % increment) - (getRotation() % increment));
-
-		//if (diff < 0f)
-		//	diff += increment;
-
 		setRotation(getRotation() + diff);
-
 	}
 
 	void updateScale()

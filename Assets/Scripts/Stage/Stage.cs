@@ -7,7 +7,7 @@ public abstract class Stage : MonoBehaviour
     private const string DiscordStateFormat = "{0} Games";
     private const string DiscordStateFormatSingular = "{0} Game";
 
-#pragma warning disable 0649    //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
 	private VoicePlayer.VoiceSet voiceSet;
     [SerializeField]

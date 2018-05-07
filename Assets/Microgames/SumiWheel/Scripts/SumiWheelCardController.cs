@@ -51,7 +51,6 @@ public class SumiWheelCardController : MonoBehaviour
         }
         else
         {
-            //Begone, Thought
             thought.select();
             thoughtPool.Remove(thought);
 

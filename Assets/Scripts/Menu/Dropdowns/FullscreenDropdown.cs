@@ -8,7 +8,7 @@ public class FullscreenDropdown : MonoBehaviour
 {
     private const char ResolutionDelimiter = 'x';
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Dropdown dropdown;
     [SerializeField]

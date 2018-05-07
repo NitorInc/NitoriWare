@@ -23,8 +23,6 @@ public class LocalizedText : MonoBehaviour
 		set { _key = value; updateText(); }
     }
 
-    private TextLimitSize limitSize;    //Force update when text is changed
-
     [System.Serializable]
     public struct Parameter
     {
@@ -52,7 +50,6 @@ public class LocalizedText : MonoBehaviour
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
         textMeshPro = GetComponent<TextMeshPro>();
-        limitSize = GetComponent<TextLimitSize>();
         loadedLanguage = new LocalizationManager.Language();
         initialText = getText();
         initialStyle = getStyle();
@@ -121,16 +118,6 @@ public class LocalizedText : MonoBehaviour
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
 		setText(value);
-
-        //if (limitSize != null)
-        //{
-        //    var component = GetComponent<TextLimitSize>();
-        //    component.updateScale();
-        //    //if (textComponent != null)
-        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
-        //    //else if (textMesh != null)
-        //    //    ((TextMeshLimitSize)limitSize).updateScale();
-        //}
     }
 
     public void updateFont()
@@ -206,17 +193,7 @@ public class LocalizedText : MonoBehaviour
         //TODO TextMeshPro fontstyle support
     }
 
-    string getPrefixedKey()
-	{
-		switch(keyPrefix)
-		{
-			//Handled seperately
-			//case (Prefix.CurrentMicrogame):
-			//	return "microgame." + gameObject.scene.name.Substring(0, gameObject.scene.name.Length - 1) + ".";
-			default:
-				return key;
-		}
-	}
+    string getPrefixedKey() => key;
 
     void updateTextEffects()
     {
@@ -224,9 +201,6 @@ public class LocalizedText : MonoBehaviour
 
         if (textComponent != null)
         {
-            //var fitter = GetComponent<CanvasTextLimitSize>();
-            //if (fitter != null)
-            //    fitter.updateScale();
             var outline = GetComponent<CanvasTextOutline>();
             if (outline != null)
             {
@@ -239,9 +213,6 @@ public class LocalizedText : MonoBehaviour
             var fitter = GetComponent<TextMeshLimitSize>();
             if (fitter != null)
                 fitter.updateScale();
-            var outline = GetComponent<TextOutline>();
-         //   if (outline != null)
-         //       outline.LateUpdate();
         }
 
     }

@@ -17,7 +17,6 @@ namespace NitorInc.MochiPound {
         MochiPoundController ctrler;
 
         public float rabbitAnimSpeed;
-        float currAnimSpeed = 1.0f;
         // total elapsed time of Pound clip
         public float poundAnimTime = 0.25f;
         float PoundAnimTime {
@@ -50,16 +49,12 @@ namespace NitorInc.MochiPound {
         public string idleAnimName = "Idle";
         public string shakeAnimName = "Shake";
 
-        bool readyToPound = true;
-
         MochiPoundController ctrl;
-
 
         // Use this for initialization
         void Start() {
             anim = GetComponent<Animator>();
             ApplyAnimationSpeed();
-            currAnimSpeed = anim.speed;
             shake = FindObjectOfType<CameraShake>();
             planets = FindObjectsOfType<MochiPoundPlanet>();
             ctrl = FindObjectOfType<MochiPoundController>();

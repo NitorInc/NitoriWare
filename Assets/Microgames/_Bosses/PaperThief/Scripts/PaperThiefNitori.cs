@@ -62,11 +62,11 @@ public class PaperThiefNitori : MonoBehaviour
 
 	public enum QueueAnimation
 	{
-		Idle,			//0
-		GetCucumber,	//1
-		GunRecoil,		//2
-		Shock,			//3
-		Confused		//4
+		Idle,
+		GetCucumber,
+		GunRecoil,
+		Shock,
+		Confused
 	}
 
 	void Awake()
@@ -112,24 +112,12 @@ public class PaperThiefNitori : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.G))
             {
                 MicrogameController.instance.displayCommand("send nudes");
-                //changeState(state == State.Gun ? State.Platforming : State.Gun);
             }
 
             if (Input.GetKeyDown(KeyCode.S))
                 Time.timeScale *= 4f;
             if (Input.GetKeyUp(KeyCode.S))
                 Time.timeScale /= 4f;
-            //else if (Input.GetKeyDown(KeyCode.T))
-            //{
-            //	//rigAnimator.Play("Hop");
-            //	queueAnimation(QueueAnimation.Confused);
-            //	//queueAnimation(QueueAnimation.Shock);
-            //	//queueAnimation(QueueAnimation.GetCucumber);
-            //}
-            //else if (Input.GetKeyDown(KeyCode.I))
-            //{
-            //	queueAnimation(QueueAnimation.Idle);
-            //}
         }
 
     }
@@ -139,7 +127,6 @@ public class PaperThiefNitori : MonoBehaviour
 		switch (state)
 		{
 			case (State.Platforming):
-				//PaperThiefCamera.instance.transform.parent = null;
 				PaperThiefCamera.instance.setGoalPosition(new Vector3(20f, 20f, 0f));
                 PaperThiefCamera.instance.setGoalSize(Camera.main.orthographicSize);
                 gunCursor.gameObject.SetActive(false);
@@ -152,15 +139,8 @@ public class PaperThiefNitori : MonoBehaviour
 
                 PaperThiefCamera.instance.startChase();
 
-                //sfxSource.volume = 1f;
                 sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-                //sfxSource.pitch = 1.25f * Time.timeScale;
                 sfxSource.PlayOneShot(gunEquipClip);
-                //PaperThiefCamera.instance.transform.parent = transform;
-                //PaperThiefCamera.instance.setFollow(null);
-                //PaperThiefCamera.instance.setGoalPosition(new Vector3(25f, 20f, 0f));
-                //PaperThiefCamera.instance.setGoalSize(6.5f);
-                //gunCursor.gameObject.SetActive(true);
                 break;
 			default:
 				break;
@@ -223,7 +203,6 @@ public class PaperThiefNitori : MonoBehaviour
 		queueAnimation(QueueAnimation.GunRecoil);
 		shotCooldownTimer = shotCooldown;
 
-        //sfxSource.volume = 1f;
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 2f;
         sfxSource.pitch = Time.timeScale;
         sfxSource.PlayOneShot(gunFireClip);
@@ -257,11 +236,11 @@ public class PaperThiefNitori : MonoBehaviour
             if (Input.GetKey(KeyCode.RightArrow) && !wallContact(true))
                 direction += 1;
         }
-        else //if ((forceDirection == 1 && !wallContact(true)) || (forceDirection == -1 && !wallContact(false)))
+        else 
             direction = forceDirection;
 
         RaycastHit2D groundHit = isGrounded();
-        bool grounded = groundHit; // && _rigidBody2D.velocity.y <= 0f;
+        bool grounded = groundHit;
 
         if (grounded)
         {
@@ -270,7 +249,6 @@ public class PaperThiefNitori : MonoBehaviour
                 && transform.position.y < groundHit.transform.position.y
                 && transform.position.y >= groundHit.transform.position.y - maxLandSnapHeight)
             {
-                //float snapY = groundHit.transform.position.y + (groundHit.collider.bounds.extents.y);
                 transform.position = new Vector3(transform.position.x, groundHit.transform.position.y, transform.position.z);
                 _rigidBody2D.velocity = new Vector2(_rigidBody2D.velocity.x, 0f);
 
@@ -390,8 +368,6 @@ public class PaperThiefNitori : MonoBehaviour
         if (Time.time < (lastStepSoundPlayedAt + .2f))
             return false;
         return rigAnimator.GetBool("Walking") && isGrounded();
-        //return (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-        //    && !(Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow));
     }
 
     bool isTurningAround(int direction)
@@ -406,7 +382,6 @@ public class PaperThiefNitori : MonoBehaviour
 
 		if (direction == 0)
 			rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(.9995f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
-		//rigAnimator.SetFloat("WalkSpeed", Mathf.Lerp(1f, 1f, Mathf.Abs(_rigidBody2D.velocity.x / walkSpeed)));
 		else
 			rigAnimator.SetFloat("WalkSpeed", 1f);
 

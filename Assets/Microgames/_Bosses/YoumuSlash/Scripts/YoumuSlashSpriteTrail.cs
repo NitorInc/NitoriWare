@@ -31,7 +31,6 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragments = fragmentParent.GetComponentsInChildren<SpriteRenderer>();
         nextFragmentIndex = 0;
         initialPosition = transform.position;
-        //resetTrail(lastPosition.x);
 	}
 
     public void resetTrail(float xPosition, float facingDirection)
@@ -107,7 +106,6 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         var fragment = fragments[nextFragmentIndex];
         fragment.enabled = true;
         fragment.transform.position = new Vector3(position.x, position.y, fragment.transform.position.z);
-        //Random.Range(0f, 1f)
         currentHue = (currentHue + hueShiftPerFragment) % 1f;
         fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness).ToColor();
         fragment.sortingOrder = nextFragmentIndex;
