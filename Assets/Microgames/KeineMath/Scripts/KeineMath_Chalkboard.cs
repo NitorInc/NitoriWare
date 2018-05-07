@@ -257,7 +257,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
-                StartCoroutine(AnimateAnswerSymbol(incorrectSymbol, answerPosition, 0));
+                //StartCoroutine(AnimateAnswerSymbol(incorrectSymbol, answerPosition, 0));
                 //StartCoroutine(SetAnswerBG(new Color(1f, 0.7f, 0.7f, 0.38f), answerObject));
                 MicrogameController.instance.playSFX(incorrectClip);
             }

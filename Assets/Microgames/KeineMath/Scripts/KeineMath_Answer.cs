@@ -20,11 +20,13 @@ public class KeineMath_Answer : MonoBehaviour {
     public Color answerColor;
     public bool isCorrect = false;
     private bool displayed;
-    private bool circled;
+    private bool circled = false;
+    private bool crossed = false;
     private GameObject answerTerm;
     private GameObject bg;
     private GameObject chalkboard;
     private GameObject correctSymbol;
+    private GameObject incorrectSymbol;
 
     // Use this for initialization
     void Start () {
@@ -33,6 +35,7 @@ public class KeineMath_Answer : MonoBehaviour {
         chalkboard = GameObject.Find("Chalkboard");
         bg = transform.Find("AnswerBG").gameObject;
         correctSymbol = GameObject.Find("Doodle_Correct");
+        incorrectSymbol = GameObject.Find("Doodle_Incorrect");
 
         //Handle background and term initialization
         GetComponent<SpriteRenderer>().color = answerColor;
@@ -43,10 +46,15 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void Update()
     {
-        if (MicrogameController.instance.getVictoryDetermined() && isCorrect && !circled)
+        /*if (MicrogameController.instance.getVictoryDetermined() && isCorrect && !circled)
         {
             circled = true;
             correctSymbol.transform.position = this.transform.position;
+        }*/
+        if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory() && !isCorrect && !crossed)
+        {
+            crossed = true;
+            Instantiate(incorrectSymbol, transform.position, Quaternion.identity);
         }
     }
 
