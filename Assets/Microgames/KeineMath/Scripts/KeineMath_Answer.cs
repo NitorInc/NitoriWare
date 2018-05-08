@@ -46,11 +46,11 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void Update()
     {
-        /*if (MicrogameController.instance.getVictoryDetermined() && isCorrect && !circled)
+        if (MicrogameController.instance.getVictoryDetermined() && MicrogameController.instance.getVictory() && isCorrect && !circled)
         {
             circled = true;
-            correctSymbol.transform.position = this.transform.position;
-        }*/
+            Instantiate(correctSymbol, transform.position, Quaternion.identity);
+        }
         if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory() && !isCorrect && !crossed)
         {
             crossed = true;
