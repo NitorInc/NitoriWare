@@ -16,6 +16,7 @@ public class KnifeDodgeController : MonoBehaviour {
 	public float spawnDistance = 10.0f;
 	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
+    public float knifeFreezeTime = 0.5f;
     public float knifeStopHeight = 3.0f;
     public float blackOutAValue = 4.0f;
     public float blackOutSpeed = 2.0f;
