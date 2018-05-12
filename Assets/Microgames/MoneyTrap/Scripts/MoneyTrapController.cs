@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoneyTrapController : MonoBehaviour {
-
-    /*
-    * code from wrench to get reference for key input capturing
-    if (Input.GetKeyDown(KeyCode.DownArrow))
-           {
-               if (!moving)
-               {
-                   _audioSource.PlayOneShot(fastenSound);
-                   setRotation(maxRotation);
-               }
-               moving = true;
-           }
-    */
+	
+	
 
     // Use this for initialization
     void Start () {
 		
+	}
+	
+	void LateUpdate()
+	{
+		Vector3 cursorPosition = CameraHelper.getCursorPosition();
+		cursorPosition.y = transform.position.y;
+		cursorPosition.z = transform.position.z;
+		transform.position = cursorPosition;
 	}
 	
 	// Update is called once per frame
