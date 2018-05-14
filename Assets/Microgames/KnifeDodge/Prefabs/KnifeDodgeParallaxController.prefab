@@ -9,33 +9,33 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1088745208369598}
+  m_RootGameObject: {fileID: 1509997765075364}
   m_IsPrefabParent: 1
---- !u!1 &1088745208369598
+--- !u!1 &1509997765075364
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4711990300117286}
-  - component: {fileID: 114625810252226948}
+  - component: {fileID: 4432586701057520}
+  - component: {fileID: 114634756958068276}
   m_Layer: 0
-  m_Name: KnifeDodge Parallax Controller
+  m_Name: KnifeDodgeParallaxController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1343634318022046
+--- !u!1 &1785781875613870
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4118351781636638}
-  - component: {fileID: 212452678029038454}
+  - component: {fileID: 4738640139672622}
+  - component: {fileID: 212562841488549684}
   m_Layer: 0
   m_Name: KDBackground_clouds
   m_TagString: Untagged
@@ -43,50 +43,50 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4118351781636638
+--- !u!4 &4432586701057520
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1343634318022046}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.707, y: 4.106, z: 0}
-  m_LocalScale: {x: 0.6544861, y: 0.6544861, z: 0.6544861}
-  m_Children: []
-  m_Father: {fileID: 4711990300117286}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4711990300117286
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1088745208369598}
+  m_GameObject: {fileID: 1509997765075364}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2.52, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
-  - {fileID: 4118351781636638}
+  - {fileID: 4738640139672622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114625810252226948
+--- !u!4 &4738640139672622
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1785781875613870}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.707, y: 4.106, z: 0}
+  m_LocalScale: {x: 0.6544861, y: 0.6544861, z: 0.6544861}
+  m_Children: []
+  m_Father: {fileID: 4432586701057520}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114634756958068276
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1088745208369598}
+  m_GameObject: {fileID: 1509997765075364}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0721e2739f5b54458cd4e24cabde26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &212452678029038454
+--- !u!212 &212562841488549684
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1343634318022046}
+  m_GameObject: {fileID: 1785781875613870}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

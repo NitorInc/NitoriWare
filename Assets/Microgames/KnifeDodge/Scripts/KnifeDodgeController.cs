@@ -17,7 +17,8 @@ public class KnifeDodgeController : MonoBehaviour {
 	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
     public float knifeFreezeTime = 0.5f;
-    public float knifeStopHeight = 3.0f;
+    // Disabled temporarily
+    // public float knifeStopHeight = 3.0f;
     public float blackOutAValue = 4.0f;
     public float blackOutSpeed = 2.0f;
     public float parallaxMaxSpeed = 1.0f;
@@ -111,7 +112,7 @@ public class KnifeDodgeController : MonoBehaviour {
 					}
 
 					Vector3 lDirection = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.down;
-					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection - new Vector3(0.0f, knifeStopHeight, 0.0f);
+					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection /*- new Vector3(0.0f, knifeStopHeight, 0.0f)*/;
 					knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
 				} 
 			}
@@ -142,7 +143,7 @@ public class KnifeDodgeController : MonoBehaviour {
             float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
             blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
 
-            if (knifeList[i].transform.position.y > knifeStopHeight)
+            if (/*knifeList[i].transform.position.y > knifeStopHeight ||*/ knifeFreezeTime > 0)
             {
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
@@ -162,6 +163,7 @@ public class KnifeDodgeController : MonoBehaviour {
             }
         }
 
+        knifeFreezeTime -= Time.deltaTime;
         timeUntilStrike -= Time.deltaTime;
     }
 }
