@@ -138,6 +138,8 @@ public class KnifeDodgeController : MonoBehaviour {
 	}
 
 	void Update() {
+        Debug.Log(knifeFreezeTime);
+
         for (int i = 0; i < knifeList.Count; i++)
         {
             float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
