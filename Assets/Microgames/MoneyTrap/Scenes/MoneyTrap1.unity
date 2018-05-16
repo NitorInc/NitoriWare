@@ -247,8 +247,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40214b85935f60459fbe09a23fd24b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  proximity: 3
+  player: {fileID: 1957115104}
+  speed: 17
+  proximityFollow: 1
+  distanceLeave: 3
+  fallSpeed: 1.8
 --- !u!50 &808195625
 Rigidbody2D:
   serializedVersion: 4
@@ -336,6 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5c38edfcf55ea43900a19ceb10d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  people: {fileID: 1919115396}
 --- !u!1 &1472319170
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +414,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.6}
+  m_Size: {x: 0.9, y: 1.6}
   m_EdgeRadius: 0
 --- !u!212 &1472319174
 SpriteRenderer:

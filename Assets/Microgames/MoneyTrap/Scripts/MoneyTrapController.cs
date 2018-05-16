@@ -5,15 +5,18 @@ using UnityEngine;
 public class MoneyTrapController : MonoBehaviour {
 
     //to check if there are still people moving around
+    [Header("Reference to People")]
+    [SerializeField]
     private GameObject people;
 
     // Use this for initialization
     void Start () {
-        people = GameObject.Find("People");
+
     }
 	
 	void LateUpdate()
 	{
+        //player mouse control
 		Vector3 cursorPosition = CameraHelper.getCursorPosition();
 		cursorPosition.y = transform.position.y;
 		cursorPosition.z = transform.position.z;
@@ -22,14 +25,11 @@ public class MoneyTrapController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //how many people alive (+1 for self)
-        Transform[] peoplearr = people.GetComponentsInChildren<Transform>();
 
-        if (peoplearr.Length < 2)
+        //check if all people were trapped (at least falling)
+        if (people.transform.childCount == 0)
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
-
-        print(peoplearr.Length);
 	}
 }
