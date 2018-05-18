@@ -234,11 +234,11 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         }
     }
 
-    public void processAnswer(int answer, GameObject answerObject)
+    public void processAnswer(int answer)
     {
         if (!answered)
         {
-            Vector3 answerPosition = answerObject.transform.position;
+            //Vector3 answerPosition = answerObject.transform.position;
             answered = true;
             keineAnimator.GetComponent<SpriteRenderer>().enabled = true;
             keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
@@ -247,88 +247,14 @@ public class KeineMath_Chalkboard : MonoBehaviour {
                 MicrogameController.instance.setVictory(victory: true, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
                 cheeringCrowd.SetActive(true);
-                //cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
-                //StartCoroutine(AnimateAnswerSymbol(correctSymbol, answerPosition, 0));
-                StartCoroutine(AnimateAnswerSymbol(hundredSymbol, new Vector3(answerPosition.x, answerPosition.y - 2.4f, 0), 0));
-                //StartCoroutine(SetAnswerBG(new Color(0.6f, 1f, 0.6f, 0.38f), answerObject));
                 MicrogameController.instance.playSFX(correctClip);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
-                //StartCoroutine(AnimateAnswerSymbol(incorrectSymbol, answerPosition, 0));
-                //StartCoroutine(SetAnswerBG(new Color(1f, 0.7f, 0.7f, 0.38f), answerObject));
                 MicrogameController.instance.playSFX(incorrectClip);
             }
         }
-    }
-
-    IEnumerator AnimateAnswerSymbol(GameObject symbol, Vector3 answerPosition, int mode = 0)
-    {
-        //Takes a symbol to be placed over the answer box and does so.
-        //Additionally, an animation mode may be specified which will make this process more interesting.
-        symbol.transform.position = answerPosition;
-        int i;
-        switch(mode)
-        {
-            case 1:
-                //Flicker the symbol a couple times
-                int flickerFrames = 5;
-                for (i = 0; i < flickerFrames; i++) yield return null;
-                symbol.SetActive(false);
-                for (i = 0; i < flickerFrames; i++) yield return null;
-                symbol.SetActive(true);
-                for (i = 0; i < flickerFrames; i++) yield return null;
-                symbol.SetActive(false);
-                for (i = 0; i < flickerFrames; i++) yield return null;
-                symbol.SetActive(true);
-                break;
-            case 2:
-                //Have the symbol fade into position
-                Color symbolColor = symbol.GetComponent<SpriteRenderer>().color;
-                float initialXScale = symbol.transform.localScale.x;
-                float initialYScale = symbol.transform.localScale.x;
-                float initialSizeIncrease = 1.5f;
-                float sizeIncrease = initialSizeIncrease;
-                float alpha = 0;
-                symbol.transform.localScale = new Vector3(initialXScale * sizeIncrease, initialYScale * sizeIncrease, symbol.transform.localScale.z);
-                symbolColor.a = alpha;
-                symbol.GetComponent<SpriteRenderer>().color = symbolColor;
-                for (i = 1; i <= 20; i++)
-                {
-                    float currentFactor = (i * i) / 400f; //When this hits 1, we're done.
-                    sizeIncrease = ((initialSizeIncrease - 1) * (1 - currentFactor)) + 1;
-                    alpha = currentFactor;
-                    symbol.transform.localScale = new Vector3(initialXScale * sizeIncrease, initialYScale * sizeIncrease, symbol.transform.localScale.z);
-                    symbolColor.a = alpha;
-                    symbol.GetComponent<SpriteRenderer>().color = symbolColor;
-                    yield return null;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    IEnumerator SetAnswerBG(Color newColor, GameObject answer)
-    {
-        Color baseColor = answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color;
-        //Color baseBorderColor = answer.GetComponent<SpriteRenderer>().color;
-        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = newColor;
-        //answer.GetComponent<SpriteRenderer>().color = newColor;
-        int i = 0;
-        int flickerFrames = 7;
-        for (i = 0; i < flickerFrames; i++) yield return null;
-        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = baseColor;
-        //answer.GetComponent<SpriteRenderer>().color = baseBorderColor;
-        for (i = 0; i < flickerFrames; i++) yield return null;
-        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = newColor;
-        //answer.GetComponent<SpriteRenderer>().color = newColor;
-        for (i = 0; i < flickerFrames; i++) yield return null;
-        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = baseColor;
-        //answer.GetComponent<SpriteRenderer>().color = baseBorderColor;
-        for (i = 0; i < flickerFrames; i++) yield return null;
-        answer.transform.Find("AnswerBG").gameObject.GetComponent<SpriteRenderer>().color = newColor;
     }
 }

@@ -8,10 +8,6 @@ public class KeineMath_Term : MonoBehaviour {
     private Vector3 targetVector;
     private float targetAngle;
 
-    //Code for having icons orbit in a circle
-    //NOTE: Could sync these with respect to each other using a parameter that is set at generation
-    //We'd just set it incrementally higher for each icon generated
-
     public void setValue(int value)
     {
         //Add new instances of the object to match the value

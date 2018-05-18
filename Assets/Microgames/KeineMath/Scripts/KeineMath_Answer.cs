@@ -26,6 +26,7 @@ public class KeineMath_Answer : MonoBehaviour {
     private GameObject bg;
     private GameObject chalkboard;
     private GameObject correctSymbol;
+    private GameObject hundredSymbol;
     private GameObject incorrectSymbol;
 
     // Use this for initialization
@@ -36,6 +37,7 @@ public class KeineMath_Answer : MonoBehaviour {
         bg = transform.Find("AnswerBG").gameObject;
         correctSymbol = GameObject.Find("Doodle_Correct");
         incorrectSymbol = GameObject.Find("Doodle_Incorrect");
+        hundredSymbol = GameObject.Find("Doodle_Hundred");
 
         //Handle background and term initialization
         GetComponent<SpriteRenderer>().color = answerColor;
@@ -50,6 +52,7 @@ public class KeineMath_Answer : MonoBehaviour {
         {
             circled = true;
             Instantiate(correctSymbol, transform.position, Quaternion.identity);
+            Instantiate(hundredSymbol, new Vector3(transform.position.x, transform.position.y - 2.4f, 0), Quaternion.identity);
         }
         if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory() && !isCorrect && !crossed)
         {
@@ -74,7 +77,7 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value, this.gameObject);
+        chalkboard.GetComponent<KeineMath_Chalkboard>().processAnswer(value);
     }
 
     private void OnMouseEnter()
