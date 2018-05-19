@@ -22,23 +22,15 @@ public class KeineMath_Answer : MonoBehaviour {
     private bool displayed;
     private bool circled = false;
     private bool crossed = false;
-    private GameObject answerTerm;
-    private GameObject bg;
-    private GameObject chalkboard;
-    private GameObject correctSymbol;
-    private GameObject hundredSymbol;
-    private GameObject incorrectSymbol;
+    [SerializeField] private GameObject answerTerm;
+    [SerializeField] private GameObject bg;
+    [SerializeField] private GameObject chalkboard;
+    [SerializeField] private GameObject correctSymbol;
+    [SerializeField] private GameObject hundredSymbol;
+    [SerializeField] private GameObject incorrectSymbol;
 
     // Use this for initialization
     void Start () {
-        //Find scene objects
-        answerTerm = transform.Find("AnswerTerm").gameObject;
-        chalkboard = GameObject.Find("Chalkboard");
-        bg = transform.Find("AnswerBG").gameObject;
-        correctSymbol = GameObject.Find("Doodle_Correct");
-        incorrectSymbol = GameObject.Find("Doodle_Incorrect");
-        hundredSymbol = GameObject.Find("Doodle_Hundred");
-
         //Handle background and term initialization
         GetComponent<SpriteRenderer>().color = answerColor;
         answerTerm.GetComponent<SpriteRenderer>().color = answerColor;

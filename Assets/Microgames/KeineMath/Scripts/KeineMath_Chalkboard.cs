@@ -46,51 +46,32 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     private List<int> termList = new List<int>();
 
-    private GameObject term1;
-    private GameObject term2;
-    private GameObject term3;
+    [SerializeField] private GameObject term1;
+    [SerializeField] private GameObject term2;
+    [SerializeField] private GameObject term3;
     private List<GameObject> terms = new List<GameObject>();
-    private GameObject answer;
-    private GameObject plusSymbol;
-    private GameObject minusSymbol;
+    [SerializeField] private GameObject answer;
+    [SerializeField] private GameObject plusSymbol;
+    [SerializeField] private GameObject minusSymbol;
     private GameObject operationSymbol;
     private int correctAnswer;
     private bool answered = false;
 
-    private GameObject keine;
-    private GameObject keineAnimator;
-    private GameObject cheeringCrowd;
-    private GameObject correctSymbol;
-    private GameObject incorrectSymbol;
-    private GameObject hundredSymbol;
-
-    //private GameObject youtried; //kek
+    [SerializeField] private GameObject keine;
+    [SerializeField] private GameObject keineAnimator;
+    [SerializeField] private GameObject cheeringCrowd;
 
     // Use this for initialization
     void Start () {
         //Setting up the microgame
-        term1 = GameObject.Find("Term1");
         terms.Add(term1);
-        term2 = GameObject.Find("Term2");
         terms.Add(term2);
-        term3 = GameObject.Find("Term3");
         terms.Add(term3);
-        plusSymbol = GameObject.Find("Plus");
-        minusSymbol = GameObject.Find("Minus");
-        answer = GameObject.Find("Answer");
 
         //Setting up Keine, the correct/incorrect symbols, and the cheering crowd.
         //They stay invisible or offscreen until an answer is chosen.
-        keine = GameObject.Find("Keine");
-        keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
         keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
-        cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
         cheeringCrowd.SetActive(false);
-        correctSymbol = GameObject.Find("Doodle_Correct");
-        incorrectSymbol = GameObject.Find("Doodle_Incorrect");
-        hundredSymbol = GameObject.Find("Doodle_Hundred");
-
-        //youtried = GameObject.Find("youtried"); //kek
 
         //These functions randomize the microgame
         selectIcons();
