@@ -174,7 +174,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         {
             //Generate an amount to be wrong by. Note the first offset generated will be 0 (i.e. correct answer)
             int sign = (Random.Range(1, 3) * 2) - 3; //Generates 1 or -1
-            if (correctAnswer == 1)
+            if (correctAnswer == 1 || (correctAnswer == 2 && i >= 2))
             {
                 sign = 1; //Answers of zero are not permitted
             }
