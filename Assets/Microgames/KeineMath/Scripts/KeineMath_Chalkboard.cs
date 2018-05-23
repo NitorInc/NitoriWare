@@ -28,41 +28,49 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     [SerializeField]
     private List<Sprite> iconList = new List<Sprite>();
 
+    [Header("Sound to play on correct answer")] //I wonder what this does?
+    [SerializeField]
+    private AudioClip correctClip;
+
+    [Header("Sound to play on incorrect answer")] //it_is_a_mystery.mp3
+    [SerializeField]
+    private AudioClip incorrectClip;
+
+    [Header("How close answer hues are permitted to be to each other")] //NOTE: Large values may cause this to become non-functional
+    [SerializeField]
+    private float answerHueTolerance = 0.15f;
+
+    [Header("Value for answer color saturation")] //NOTE: Large values may cause this to become non-functional
+    [SerializeField]
+    private float answerColorSaturation = 0.25f;
+
     private List<int> termList = new List<int>();
 
-    private GameObject term1;
-    private GameObject term2;
-    private GameObject term3;
+    [SerializeField] private GameObject term1;
+    [SerializeField] private GameObject term2;
+    [SerializeField] private GameObject term3;
     private List<GameObject> terms = new List<GameObject>();
-    private GameObject answer;
-    private GameObject plusSymbol;
-    private GameObject minusSymbol;
+    [SerializeField] private GameObject answer;
+    [SerializeField] private GameObject plusSymbol;
+    [SerializeField] private GameObject minusSymbol;
     private GameObject operationSymbol;
     private int correctAnswer;
     private bool answered = false;
 
-    private GameObject keine;
-    private GameObject keineAnimator;
-    private GameObject cheeringCrowd;
+    [SerializeField] private GameObject keine;
+    [SerializeField] private GameObject keineAnimator;
+    [SerializeField] private GameObject cheeringCrowd;
 
     // Use this for initialization
     void Start () {
         //Setting up the microgame
-        term1 = GameObject.Find("Term1");
         terms.Add(term1);
-        term2 = GameObject.Find("Term2");
         terms.Add(term2);
-        term3 = GameObject.Find("Term3");
         terms.Add(term3);
-        plusSymbol = GameObject.Find("Plus");
-        minusSymbol = GameObject.Find("Minus");
-        answer = GameObject.Find("Answer");
 
-        //Setting up Keine and the cheering crowd. They stay invisible until an answer is chosen.
-        keine = GameObject.Find("Keine");
-        keineAnimator = keine.transform.Find("Keine_Rig").gameObject;
+        //Setting up Keine, the correct/incorrect symbols, and the cheering crowd.
+        //They stay invisible or offscreen until an answer is chosen.
         keineAnimator.GetComponent<SpriteRenderer>().enabled = false;
-        cheeringCrowd = GameObject.Find("Doodle_Cheering_Crowd");
         cheeringCrowd.SetActive(false);
 
         //These functions randomize the microgame
@@ -153,6 +161,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
 
     void generateAnswers()
     {
+        List<float> hues = new List<float>();
         int answerValue;
         int answerOffset;
         List<int> answerOffsets = new List<int>();
@@ -161,7 +170,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             //Generate an amount to be wrong by. Note the first offset generated will be 0 (i.e. correct answer)
             int sign = (Random.Range(1, 3) * 2) - 3; //Generates 1 or -1
             if (correctAnswer == 1) sign = 1; //Answers of zero are not permitted
-            answerOffsets.Add(i * sign);
+            answerOffsets.Add(i * sign); //First wrong answer is off by 1, second wrong answer is off by 2
         }
         for(int i = 1; i <= answerCount; i++)
         {
@@ -169,18 +178,48 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             answerOffset = answerOffsets[Random.Range(0, answerOffsets.Count)];
             answerOffsets.Remove(answerOffset);
             answerValue = correctAnswer + answerOffset;
-            float newx = answer.transform.position.x + (3.7f * i) + 1f;
+            float newx = answer.transform.position.x + (3.7f * i) + 1f; //Values in here determine answer positioning
             float newy = answer.transform.position.y;
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);
             newanswer.GetComponent<KeineMath_Answer>().value = answerValue;
+            if (answerOffset == 0) newanswer.GetComponent<KeineMath_Answer>().isCorrect = true;
+
+            //Set the color of this answer here.
+            //Procedure: Generate random hue, iterate through existing hues, nudge hue up to get away from them.
+            //If we nudge enough times to get back to where we started, assume we're in an infinite loop and bail.
+            //NOTE: We don't nudge in the most efficient direction (i.e. up if already higher, down if already lower)
+            //because this can lead to the third answer ping-ponging between running away from the first answer or the second one.
+            float hue = Random.Range(0f, 1f);
+            int loopSafeguard = 0;
+            for(int j = 0; j < hues.Count; j++)
+            {
+                float diff = hue - hues[j];
+                //Check if we're too close.
+                if ((Mathf.Abs(diff) < answerHueTolerance || Mathf.Abs(diff) > (1 - answerHueTolerance)) && loopSafeguard < (1 / answerHueTolerance))
+                {
+                    //Collision: Bump the hue up by the tolerance value, set it between 0 and 1 again, and give it another go.
+                    hue += answerHueTolerance;
+                    if (hue > 1) hue -= 1;
+                    loopSafeguard++;
+                    diff = hue - hues[j];
+                    j = -1; //Gets incremented to 0 immediately
+                }
+            }
+            hues.Add(hue);
+            Color answerColor = Color.HSVToRGB(hue, answerColorSaturation, 1);
+            //Hack -- Manually adjust saturation for darker "problem" color(s)
+            //This ended up being any color with a hue above 0.6
+            if (hue > 0.6) answerColor = Color.HSVToRGB(hue, answerColorSaturation - 0.075f, 1);
+            newanswer.GetComponent<KeineMath_Answer>().answerColor = answerColor;
         }
     }
 
-    public void processAnswer(int answer, Vector3 answerPosition)
+    public void processAnswer(int answer)
     {
         if (!answered)
         {
+            //Vector3 answerPosition = answerObject.transform.position;
             answered = true;
             keineAnimator.GetComponent<SpriteRenderer>().enabled = true;
             keineAnimator.GetComponent<Animator>().SetBool("answerSelected", true);
@@ -189,12 +228,13 @@ public class KeineMath_Chalkboard : MonoBehaviour {
                 MicrogameController.instance.setVictory(victory: true, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", true);
                 cheeringCrowd.SetActive(true);
-                cheeringCrowd.transform.position = new Vector3(answerPosition.x, cheeringCrowd.transform.position.y, 0);
+                MicrogameController.instance.playSFX(correctClip);
             }
             else
             {
                 MicrogameController.instance.setVictory(victory: false, final: true);
                 keineAnimator.GetComponent<Animator>().SetBool("answerCorrect", false);
+                MicrogameController.instance.playSFX(incorrectClip);
             }
         }
     }
