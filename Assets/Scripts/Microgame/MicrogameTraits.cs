@@ -7,7 +7,8 @@ using UnityEngine.Events;
 using UnityEditor;
 #endif
 
-public class MicrogameTraits : MonoBehaviour
+[CreateAssetMenu(menuName = "Microgame Traits")]
+public class MicrogameTraits : ScriptableObject
 {
 #pragma warning disable 0649
     [SerializeField]
