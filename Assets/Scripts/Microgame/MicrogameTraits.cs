@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.Events;
 
 #if UNITY_EDITOR
@@ -86,29 +87,48 @@ public class MicrogameTraits : ScriptableObject
 	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
     {
 #if UNITY_EDITOR
-        GameObject traits;
+        MicrogameTraits traits;
 
-
+        //Search finished
         if (!skipFinishedFolder)
 		{
-			traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Finished/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
+            traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}_Finished/{microgameId}", difficulty);
 			if (traits != null)
-				return traits.GetComponent<MicrogameTraits>();
+				return traits;
 		}
 
-		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
-		if (traits != null)
-			return traits.GetComponent<MicrogameTraits>();
+        //Search normal unfinished
+        traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}{microgameId}", difficulty);
+        if (traits != null)
+            return traits;
 
-		traits = AssetDatabase.LoadAssetAtPath<GameObject>("Assets" + MicrogameCollection.MicrogameAssetPath + "_Bosses/" + microgameId + "/Traits" + difficulty.ToString() + ".prefab");
-		if (traits != null)
-			return traits.GetComponent<MicrogameTraits>();
+        //Search bosses
+        traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}_Bosses/{microgameId}", difficulty);
+        if (traits != null)
+            return traits;
 
-		Debug.LogError("Can't find Traits prefab for " + microgameId + difficulty.ToString());
+        Debug.LogError("Can't find Traits prefab for " + microgameId + difficulty.ToString());
 		return null;
 #else
         Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
         return null;
 #endif
+    }
+
+    static MicrogameTraits findMicrogameTraitsInFolder(string microgameFolder, int difficulty)
+    {
+        string fileName = "Traits";
+        string extension = ".asset";
+
+        //Look in Traits.asset
+        MicrogameTraits traits = AssetDatabase.LoadAssetAtPath<MicrogameTraits>($"{microgameFolder}/{fileName}{extension}");
+        if (traits != null)
+            return traits;
+        //Look in Traits[diff].asset
+        traits = AssetDatabase.LoadAssetAtPath<MicrogameTraits>($"{microgameFolder}/{fileName}{difficulty.ToString()}{extension}");
+        if (traits != null)
+            return traits;
+
+        return null;
     }
 }
