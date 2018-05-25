@@ -84,18 +84,18 @@ public class MicrogameTraits : ScriptableObject
 		return duration == Duration.Long16Beats ? 16f : 8f;
 	}
 
-	public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
+    public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
     {
 #if UNITY_EDITOR
         MicrogameTraits traits;
 
         //Search finished
         if (!skipFinishedFolder)
-		{
+        {
             traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}_Finished/{microgameId}", difficulty);
-			if (traits != null)
-				return traits;
-		}
+            if (traits != null)
+                return traits;
+        }
 
         //Search normal unfinished
         traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}{microgameId}", difficulty);
@@ -108,13 +108,8 @@ public class MicrogameTraits : ScriptableObject
             return traits;
 
         Debug.LogError("Can't find Traits prefab for " + microgameId + difficulty.ToString());
-		return null;
-#else
-        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
         return null;
-#endif
     }
-
     static MicrogameTraits findMicrogameTraitsInFolder(string microgameFolder, int difficulty)
     {
         string fileName = "Traits";
@@ -130,5 +125,10 @@ public class MicrogameTraits : ScriptableObject
             return traits;
 
         return null;
+        }
+#else
+        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
+        return null;
     }
+#endif
 }
