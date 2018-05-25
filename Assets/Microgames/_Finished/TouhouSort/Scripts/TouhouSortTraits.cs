@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Microgame Assets/TouhouSort/Traits")]
 public class TouhouSortTraits : MicrogameTraits
 {
 	public TouhouSortSorter.Category[] categories;
