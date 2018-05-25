@@ -10,10 +10,10 @@ public class DropdownLanguageFontUpdater : MonoBehaviour
 
 	void Start ()
     {
-        var languages = LocalizationManager.instance.getAllLanguages();
-        LocalizationManager.Language language = languages[0];
+        var languages = LanguagesData.instance.languages;
+        Language language = languages[0];
 
-        //Determine langauge index based on sibling position and selectable languages
+        //Determine language index based on sibling position and selectable languages
         int index = 0;
         int objectIndex = transform.GetSiblingIndex() - 1;
         for (int i = 0; i < languages.Length; i++)

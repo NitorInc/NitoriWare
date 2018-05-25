@@ -10,7 +10,7 @@ public class LanguageDropdown : MonoBehaviour
     private Dropdown dropdown;
 #pragma warning restore 0649
 
-    private LocalizationManager.Language[] languages;
+    private Language[] languages;
     private string[] languageFilenames;
 
     void Start()
@@ -21,7 +21,7 @@ public class LanguageDropdown : MonoBehaviour
             return;
         }
 
-        languages = LocalizationManager.instance.getAllLanguages();
+        languages = LanguagesData.instance.languages;
         languages = (from language in languages where !language.disableSelect select language).ToArray();   //Narrow down to selectable languages and sort alphabetically
 
         languageFilenames = (from language in languages select language.getLanguageID()).ToArray();
@@ -34,7 +34,7 @@ public class LanguageDropdown : MonoBehaviour
     int findLanguageIndex(string fileName)
     {
         //TODO Clean this shit up, better way of handling non-selectable languages
-        var currentLanguage = LocalizationManager.instance.FindLanguage(fileName);
+        var currentLanguage = LanguagesData.instance.FindLanguage(fileName);
         if (currentLanguage.disableSelect && !string.IsNullOrEmpty(currentLanguage.getLanguageID()))
         {
             for (int i = 0; i < languages.Length; i++)
