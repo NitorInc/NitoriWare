@@ -172,7 +172,7 @@ public class MicrogameCollection : MonoBehaviour
             if (microgame.microgameId.Equals(microgameId))
                 return microgame;
         }
-        Debug.Log("oops " + microgameId);
+        Debug.Log("Can't find Microgame " + microgameId);
         return null;
     }
 
