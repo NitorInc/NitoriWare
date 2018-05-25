@@ -51,10 +51,10 @@ public class MicrogameController : MonoBehaviour
         //Get traits from collection if available
         if (GameController.instance != null)
         {
-            var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
+            var collectionMicrogame = MicrogameCollection.instance.getCollectionMicrogames(MicrogameCollection.Restriction.All)
                 .FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame == null)
-                collectionMicrogame = GameController.instance.microgameCollection.getCollectionBossMicrogames()
+                collectionMicrogame = MicrogameCollection.instance.getCollectionBossMicrogames()
                 .FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
                 traits = collectionMicrogame.difficultyTraits[difficulty - 1];

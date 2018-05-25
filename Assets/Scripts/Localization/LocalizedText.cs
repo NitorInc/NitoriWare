@@ -34,7 +34,7 @@ public class LocalizedText : MonoBehaviour
     private Text textComponent;
 	private TextMesh textMesh;
     private TextMeshPro textMeshPro;
-    private LocalizationManager.Language loadedLanguage;
+    private Language loadedLanguage;
     private string initialText;
     private Font initialFont;
     private FontStyle initialStyle;
@@ -50,7 +50,7 @@ public class LocalizedText : MonoBehaviour
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
         textMeshPro = GetComponent<TextMeshPro>();
-        loadedLanguage = new LocalizationManager.Language();
+        loadedLanguage = null;
         initialText = getText();
         initialStyle = getStyle();
         initialFont = getFont();
@@ -59,10 +59,10 @@ public class LocalizedText : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID()
-            && !(string.IsNullOrEmpty(loadedLanguage.getLanguageID()) && string.IsNullOrEmpty(TextHelper.getLoadedLanguageID())))
+        if (loadedLanguage?.getLanguageID() != TextHelper.getLoadedLanguageID()
+            && !(string.IsNullOrEmpty(loadedLanguage?.getLanguageID()) && string.IsNullOrEmpty(TextHelper.getLoadedLanguageID())))
         {
-            bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage.getLanguageID());
+            bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage?.getLanguageID());
             loadedLanguage = TextHelper.getLoadedLanguage();
             if (applyToTextString)
             {
@@ -108,7 +108,7 @@ public class LocalizedText : MonoBehaviour
 
 	public void updateText()
 	{
-        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage.getLanguageID()))
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage?.getLanguageID()))
             return;
 
 		string value;
