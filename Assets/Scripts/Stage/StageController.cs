@@ -119,7 +119,7 @@ public class StageController : MonoBehaviour
 		{
 			MicrogameInstance newInstance = new MicrogameInstance();
             Stage.Microgame stageMicrogame = stage.getMicrogame(index);
-            newInstance.microgame = GameController.instance.microgameCollection.findMicrogame(stageMicrogame.microgameId);
+            newInstance.microgame = MicrogameCollection.instance.findMicrogame(stageMicrogame.microgameId);
 			newInstance.difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
 			StartCoroutine(loadMicrogameAsync(newInstance));
 			microgameQueue.Enqueue(newInstance);

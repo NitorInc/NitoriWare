@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-[ExecuteInEditMode]
-public class MicrogameCollection : MonoBehaviour
+[CreateAssetMenu(menuName = "Control/Microgame Collection")]
+public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection>
 {
     public const string MicrogameAssetPath = "/Microgames/";
 

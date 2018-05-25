@@ -36,11 +36,11 @@ public class MenuPracticeMicrogame : MonoBehaviour
 	{
         selectedInstance = null;
         if (microgamePool == null)
-            microgamePool = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.StageReady);
+            microgamePool = MicrogameCollection.instance.getCollectionMicrogames(MicrogameCollection.Restriction.StageReady);
 
         if (name.Contains("Boss"))
         {
-            microgame = GameController.instance.microgameCollection.getCollectionBossMicrogames()[0];
+            microgame = MicrogameCollection.instance.getCollectionBossMicrogames()[0];
         }
         else
         {
