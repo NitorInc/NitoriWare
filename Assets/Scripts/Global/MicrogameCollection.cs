@@ -112,9 +112,11 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
                 .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Finished")))
                 .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Bosses")));
         var buildScenes = EditorBuildSettings.scenes.ToList();
-        
 
-        //Add stage ready games
+        //Remove all microgames from path
+        buildScenes = buildScenes.Where(a => !a.path.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/'))).ToList();
+
+        //Re-add stage ready games
         foreach (var microgame in stageReadyMicrogames.Concat(finishedMicrogames))
         {
             var microgameFolder = microgameFolders.FirstOrDefault(a => a.Contains(microgame.microgameId));
@@ -127,7 +129,9 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
                     {
                         foreach (var scenePath in scenePaths)
                         {
-                            buildScenes.Add(new EditorBuildSettingsScene("Assets" + scenePath.Substring(Application.dataPath.Length), true));
+                            var newBuildScene = new EditorBuildSettingsScene("Assets" + scenePath.Substring(Application.dataPath.Length), true);
+                            if (!newBuildScene.guid.Empty())
+                                buildScenes.Add(newBuildScene);
                         }
                     }
                     else
@@ -223,7 +227,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     }
 
     /// <summary>
-    /// Returns a copied list of all boss microgmaes, regardless of completion, in MicrogameCollection.Microgame type
+    /// Returns a copied list of all boss microgames, regardless of completion, in MicrogameCollection.Microgame type
     /// </summary>
     /// <returns></returns>
     public List<Microgame> getCollectionBossMicrogames()
