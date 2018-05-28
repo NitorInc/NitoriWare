@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [CreateAssetMenu(menuName = "Control/Microgame Collection")]
 public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection>
@@ -95,6 +101,83 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     Sprite getSprite(string microgameId)
     {
         return Resources.Load<Sprite>("MicrogameIcons/" + microgameId + "Icon");
+    }
+
+    public void updateBuildPath()
+    {
+#if UNITY_EDITOR
+
+        string microgameFolderLocation = Path.Combine(Application.dataPath + MicrogameAssetPath);
+        var microgameFolders = Directory.GetDirectories(microgameFolderLocation)
+                .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Finished")))
+                .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Bosses")));
+        var buildScenes = EditorBuildSettings.scenes.ToList();
+        
+
+        //Add stage ready games
+        foreach (var microgame in stageReadyMicrogames.Concat(finishedMicrogames))
+        {
+            var microgameFolder = microgameFolders.FirstOrDefault(a => a.Contains(microgame.microgameId));
+            if (microgameFolder != null)
+            {
+                if (buildScenes.FirstOrDefault(a => a.path.Contains(microgame.microgameId)) == null)
+                {
+                    var scenePaths = getMicrogameSceneFilesRecursive(microgameFolder, microgame.microgameId);
+                    if (scenePaths != null)
+                    {
+                        foreach (var scenePath in scenePaths)
+                        {
+                            buildScenes.Add(new EditorBuildSettingsScene("Assets" + scenePath.Substring(Application.dataPath.Length), true));
+                        }
+                    }
+                    else
+                        Debug.Log($"Microgame {microgame.microgameId} scenes not found in folder!");
+                }
+
+            }
+            else
+                Debug.Log($"Microgame {microgame.microgameId} folder not found!");
+        }
+        EditorBuildSettings.scenes = buildScenes.ToArray();
+        Debug.Log("Build path updated");
+#else
+        Debug.LogError("Microgame build updates should NOT be called outside of the editor. You shouldn't even see this message.");
+#endif
+    }
+
+    string[] getMicrogameSceneFilesRecursive(string folder, string microgameId, bool checkForScenesFolderInBase= true)
+    {
+        var basePath = Path.Combine(folder, microgameId);
+        if (File.Exists(basePath + "1.unity"))
+        {
+            return new string[]
+            {
+                basePath + "1.unity",
+                basePath + "2.unity",
+                basePath + "3.unity"
+            };
+        }
+
+        //Try scenes folder first
+        if (checkForScenesFolderInBase)
+        {
+            var scenesFolder = Directory.GetDirectories(folder).FirstOrDefault(a => a.ToLower().Contains("scene"));
+            if (scenesFolder != null)
+            {
+                var foundScene = getMicrogameSceneFilesRecursive(scenesFolder, microgameId, false);
+                if (foundScene != null)
+                    return foundScene;
+            }
+        }
+
+        //Check other folders
+        foreach (var subfolder in Directory.GetDirectories(folder))
+        {
+            var foundScene = getMicrogameSceneFilesRecursive(subfolder, microgameId, false);
+            if (foundScene != null)
+                return foundScene;
+        }
+        return null;
     }
 
     /// <summary>
