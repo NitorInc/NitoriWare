@@ -17,8 +17,7 @@ public class KnifeDodgeController : MonoBehaviour {
 	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
     public float knifeFreezeTime = 0.5f;
-    // Disabled temporarily
-    // public float knifeStopHeight = 3.0f;
+    public float knifeStopHeight = 3.0f;
     public float blackOutAValue = 4.0f;
     public float blackOutSpeed = 2.0f;
     public float parallaxMaxSpeed = 1.0f;
@@ -64,11 +63,13 @@ public class KnifeDodgeController : MonoBehaviour {
 		
 		knifeList = new List<GameObject> ();
 		for (int i = 0; i < knifeTargetsList.Count; i++) {
-			Vector3 loc = knifeTargetsList [i].transform.position + new Vector3 (0,spawnDistance,0);
+            Vector3 loc = knifeTargetsList [i].transform.position + new Vector3 (0,spawnDistance,0);
 			GameObject knife = Instantiate (knifePrefab, loc, Quaternion.identity);
-			knifeList.Add(knife);
+            knife.transform.position += new Vector3(0, knife.GetComponent<KnifeDodgeKnife>().knifeSpeed * knifeFreezeTime,0);
 
-			foreach (GameObject k in knifeList) {
+            knifeList.Add(knife);
+
+            foreach (GameObject k in knifeList) {
 				Physics2D.IgnoreCollision (knife.GetComponent<BoxCollider2D>(), k.GetComponent<BoxCollider2D>());
 			}
 		}
@@ -138,14 +139,11 @@ public class KnifeDodgeController : MonoBehaviour {
 	}
 
 	void Update() {
-        Debug.Log(knifeFreezeTime);
-
         for (int i = 0; i < knifeList.Count; i++)
         {
             float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
             blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
-
-            if (/*knifeList[i].transform.position.y > knifeStopHeight ||*/ knifeFreezeTime > 0)
+            if (knifeList[i].transform.position.y > knifeStopHeight)
             {
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);

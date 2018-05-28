@@ -7,7 +7,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
     int state;
     bool tilted;
 
-    public float knifeSpeed = 20.0f;
+    public float knifeSpeed = 40.0f;
 	public float knifeRotationSpeed = 1.0f;
 
 
@@ -20,7 +20,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        state = (int)KnifeState.FLYING_IN;
+        state = (int)KnifeState.STOP_AND_ROTATE;
     }
 	
 	// Update is called once per frame
@@ -29,7 +29,8 @@ public class KnifeDodgeKnife : MonoBehaviour {
         switch (state)
         {
             case (int)KnifeState.FLYING_IN:
-                GetComponent<Rigidbody2D>().AddForce(-0.5f * transform.up * knifeSpeed);
+               // GetComponent<Rigidbody2D>().AddForce(-0.5f * transform.up * knifeSpeed);
+               GetComponent<Rigidbody2D>().velocity = transform.up * -1.0f * knifeSpeed;
                 break;
 
             case (int)KnifeState.STOP_AND_ROTATE:
@@ -42,7 +43,8 @@ public class KnifeDodgeKnife : MonoBehaviour {
                  break;
 
             case (int)KnifeState.MOVING_TO_GROUND:
-                GetComponent<Rigidbody2D>().AddForce(-1.0f * transform.up * knifeSpeed);
+                //GetComponent<Rigidbody2D>().AddForce(-1.0f * transform.up * knifeSpeed);
+                GetComponent<Rigidbody2D>().velocity = transform.up * -1.0f * knifeSpeed;
                 break;
         }
 	}
