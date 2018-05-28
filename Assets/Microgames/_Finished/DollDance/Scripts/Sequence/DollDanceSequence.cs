@@ -24,15 +24,15 @@ public class DollDanceSequence : MonoBehaviour
 
     void Awake()
     {
-        this.sequence = new Stack<Move>();
+        sequence = new Stack<Move>();
 
-        this.validMoves = Enum.GetValues(typeof(Move)).Cast<Move>().ToList();
-        this.validMoves.Remove(Move.Idle);
+        validMoves = Enum.GetValues(typeof(Move)).Cast<Move>().ToList();
+        validMoves.Remove(Move.Idle);
 
         if (enableOverrideMoves)
-            this.moveCount = overrideMoves.Length;
+            moveCount = overrideMoves.Length;
 
-        ResetSlots(this.moveCount);
+        ResetSlots(moveCount);
     }
 
     void ResetSlots(int moveCount)
@@ -44,14 +44,14 @@ public class DollDanceSequence : MonoBehaviour
         // Fill all of the sequence slots randomly
         System.Random random = new System.Random();
         Move previousMove = Move.Idle;
-        for (int i = 0; i < this.moveCount; i++)
+        for (int i = 0; i < moveCount; i++)
         {
-            List<Move> available = new List<Move>(this.validMoves);
+            List<Move> available = new List<Move>(validMoves);
             available.Remove(previousMove);
 
             Move newMove;
             if (enableOverrideMoves)
-                newMove = overrideMoves[this.moveCount - 1 - i];
+                newMove = overrideMoves[moveCount - 1 - i];
             else
                 newMove = available[random.Next(available.Count)];
             sequence.Push(newMove);
@@ -61,7 +61,7 @@ public class DollDanceSequence : MonoBehaviour
     
     public List<Move> CopySequence()
     {
-        return new List<Move>(this.sequence);
+        return new List<Move>(sequence);
     }
 
     public Move Process(Move move)

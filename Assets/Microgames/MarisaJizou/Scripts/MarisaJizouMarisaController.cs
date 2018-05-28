@@ -18,7 +18,7 @@ namespace NitorInc.MarisaJizou {
 
         bool hasTurned = false;
 
-        public int dropLimit = 3;
+        int hatsCarried = 3;
         int dropCounter = 0;
 
         public float upMagnitude = 1.7f;
@@ -29,8 +29,16 @@ namespace NitorInc.MarisaJizou {
         public delegate void OnAction();
         public static event OnAction onTurning;
 
+        public AudioClip[] hatDropClip;
+
         // Use this for initialization
         void Start() {
+            hatsCarried = FindObjectOfType<MarisaJizouController>().hatsCarried;
+            var total = kasaStack.Count;
+            for (int i = 0; i < total - hatsCarried; i++) {
+                kasaStack[0].gameObject.SetActive(false);
+                kasaStack.RemoveAt(0);
+            }
         }
 
         // Update is called once per frame
@@ -41,7 +49,6 @@ namespace NitorInc.MarisaJizou {
 
                 if (transform.position.x <= leftBound || transform.position.x >= rightBound) {
                     if (!hasTurned) {
-                        //transform.Rotate(Vector3.up, 180.0f);
                         marisaSprite.flipX = !marisaSprite.flipX;
                         direction *= -1.0f;
                         hasTurned = true;
@@ -52,16 +59,14 @@ namespace NitorInc.MarisaJizou {
                     hasTurned = false;
                 }
             } else {
-                //var dir = transform.position.z <= 0.0f ? Vector3.left : Vector3.right;
-                //dir.y = upMagnitude;
                 transform.Translate(direction * finishSpeed * Time.deltaTime);
             }
 
-            if (dropCounter < dropLimit) {
+            if (dropCounter < hatsCarried) {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow)) {
                     Instantiate(kasaProto, kasaStack[dropCounter].transform.position, Quaternion.identity);
-                    kasaStack[dropCounter].GetComponent<MarisaJizouMarisaKasaEffect>().DropEffect();
                     kasaStack[dropCounter].SetActive(false);
+                    MicrogameController.instance.playSFX(hatDropClip[dropCounter], MicrogameController.instance.getSFXSource().panStereo);
                     dropCounter++;
                 }
             }

@@ -9,44 +9,29 @@ namespace NitorInc.NueAbduct {
 
         [SerializeField]
         Transform suckPoint;
-        public Transform SuckPoint {
-            get {
-                return suckPoint;
-            }
-        }
+        public Transform SuckPoint => suckPoint;
 
         [SerializeField]
         float gracePeriod = 0.2f;
-        public float GracePeriod {
-            get {
-                return gracePeriod;
-            }
-        }
+        public float GracePeriod => gracePeriod;
+
         [SerializeField]
         float suckTime = 0.5f;
-        public float SuckTime {
-            get {
-                return suckTime;
-            }
-        }
+        public float SuckTime => suckTime;
+
         [SerializeField]
         float suckSpeed = 1.0f;
-        public float SuckSpeed {
-            get {
-                return suckSpeed;
-            }
-        }
+        public float SuckSpeed => suckSpeed;
+
+        [SerializeField]
+        float suckAcc = 1.0f;
+        public float SuckAcc => suckAcc;
 
         public Animator[] anims;
 
-        // Use this for initialization
-        void Start() {
-            Cursor.visible = true;
-        }
-
         // Update is called once per frame
         void Update() {
-
+            suckSpeed += suckAcc * Time.deltaTime;
         }
 
         public void PlaySuckAnimation() {

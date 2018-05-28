@@ -10,6 +10,7 @@ public class AdvancingText : MonoBehaviour
     
     [SerializeField]
     private float advanceSpeed;
+
     [SerializeField]
     private UnityEvent onComplete;
 
@@ -70,7 +71,5 @@ public class AdvancingText : MonoBehaviour
     public int getTotalVisibleChars()
     {
         return textMeshProComponent.text.Length;
-        //var textInfo = textMeshProComponent.textInfo;
-        //return textInfo.characterCount; 
     }
 }

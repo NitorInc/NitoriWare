@@ -28,6 +28,10 @@ namespace NitorInc.NueAbduct {
 
         public State currState;
 
+        [Header("Area the animal should wander inside")]
+        [SerializeField]
+        private RectTransform wanderArea;
+
         Timer wanderTimer;
         Timer graceTimer;
         Timer suckTimer;
@@ -37,15 +41,29 @@ namespace NitorInc.NueAbduct {
             anim = GetComponentInChildren<Animator>();
             vib = GetComponentInChildren<Vibrate>();
             targetPos = transform.position;
-            wanderTimer = TimerManager.NewTimer(1.0f, Wander, 0, false, false);
+            wanderTimer = TimerManager.NewTimer(0f, Wander, 0, false, false);
             graceTimer = TimerManager.NewTimer(ufo.GracePeriod, SuckFail, 0, false, false);
             suckTimer = TimerManager.NewTimer(ufo.SuckTime, SuckSucceed, 0, false, false);
             SetState(State.Wander);
         }
 
         void Wander() {
-            targetPos = Random.insideUnitCircle * wanderRadius + new Vector2(transform.position.x, transform.position.y);
-            wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
+            // Randomly choose movement direction
+            targetPos = Random.insideUnitCircle.normalized * wanderRadius
+                + new Vector2(transform.position.x, transform.position.y);
+
+            // If the goal would be outside the wander area
+            // abort the movement and try again next frame
+            if (!wanderArea.rect.Contains(targetPos - wanderArea.anchoredPosition))
+            {
+                targetPos = transform.position;
+                wanderTimer.SetTime(0);
+            }
+            else
+            {
+                wanderTimer.SetTime(Random.Range(decisionTimeMin, decisionTimeMax));
+            }
+
             wanderTimer.Start();
         }
 
@@ -86,6 +104,10 @@ namespace NitorInc.NueAbduct {
                     break;
                 case State.Wander:
                     transform.position = Vector2.MoveTowards(transform.position, targetPos, wanderSpeed * Time.deltaTime);
+                    if ((Vector2)transform.position == targetPos)
+                        anim.Play("Idle");
+                    else
+                        anim.Play("Wander");
                     break;
                 case State.Sucked:
                     transform.position = Vector2.MoveTowards(transform.position, ufo.SuckPoint.position, ufo.SuckSpeed * Time.deltaTime);
@@ -128,7 +150,7 @@ namespace NitorInc.NueAbduct {
         void OnTriggerEnter2D(Collider2D other) {
             if (other.GetComponentInChildren<NueAbductVictimBehavior>() == null) {
                 if (currState == State.Sucked) {
-                    Destroy(this.gameObject);
+                    //gameObject.SetActive(false);
                 } else if (!other.name.Contains("Succ")) {
                     SetState(State.Sucking);
                 }
@@ -146,9 +168,12 @@ namespace NitorInc.NueAbduct {
         }
 
         private void OnDestroy() {
-            wanderTimer.Stop();
-            graceTimer.Stop();
-            suckTimer.Stop();
+            if (wanderTimer != null)
+                wanderTimer.Stop();
+            if (graceTimer != null)
+                graceTimer.Stop();
+            if (suckTimer != null)
+                suckTimer.Stop();
         }
     }
 }

@@ -6,17 +6,48 @@ namespace NitorInc.MochiPound {
     public class MochiPoundArrowKey : MonoBehaviour {
 
         public Color disabledColor;
+        public Animator animator;
+
+        public string stillAnimationName = "ButtonStill";
+        public string pulseAnimationName = "ButtonPulse";
+
+        public GameObject xSpriteObj;
+        public float xDuration = 0.12f;
+
         SpriteRenderer sr;
-        private void Start() {
-            sr = GetComponent<SpriteRenderer>();
+        SpriteRenderer Sr {
+            get {
+                if (sr == null)
+                    sr = GetComponent<SpriteRenderer>();
+                return sr;
+            }
         }
+
         public void SetActive(bool active) {
             if (active) {
-                sr.color = Color.white;
+                animator.Play(pulseAnimationName);
+                Sr.color = Color.white;
             } 
             else {
-                sr.color = disabledColor;
+                animator.Play(stillAnimationName);
+                Sr.color = disabledColor;
+                if (MicrogameController.instance.getVictory())
+                    Disable();
             }
+        }
+
+        public void OnMistake() {
+            xSpriteObj.SetActive(true);
+            Invoke("DisableX", xDuration);
+        }
+
+        void DisableX() {
+            xSpriteObj.SetActive(false);
+        }
+
+        public void Disable()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

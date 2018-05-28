@@ -125,15 +125,4 @@ public class DiscordController : MonoBehaviour
         TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
         return (int)t.TotalSeconds;
     }
-
-    //void OnDisable()
-    //{
-    //    Debug.Log("Discord: shutdown");
-    //    DiscordRpc.Shutdown();
-    //}
-
-    void OnDestroy()
-    {
-
-    }
 }

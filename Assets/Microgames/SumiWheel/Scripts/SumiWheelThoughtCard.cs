@@ -25,10 +25,7 @@ public class SumiWheelThoughtCard : MonoBehaviour
         icon.GetComponent<SpriteRenderer>().sprite = cardIcon.GetComponent<SpriteRenderer>().sprite;
     }
 
-    public SumiWheelCardClick getCard()
-    {
-        return card;
-    }
+    public SumiWheelCardClick getCard() => card;
 
     public void select()
     {

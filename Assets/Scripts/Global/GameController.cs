@@ -13,8 +13,6 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private bool disableCursor;
     [SerializeField]
-    private MicrogameCollection _microgameCollection;
-    [SerializeField]
     private SceneShifter _sceneShifter;
     [SerializeField]
     private Sprite[] controlSprites;
@@ -25,20 +23,9 @@ public class GameController : MonoBehaviour
 #pragma warning restore 0649
 
     private string startScene;
-
-    public MicrogameCollection microgameCollection
-    {
-        get { return _microgameCollection; }
-    }
-    public SceneShifter sceneShifter
-    {
-        get { return _sceneShifter; }
-    }
-
-    public DiscordController discord
-    {
-        get { return _discord; }
-    }
+    
+    public SceneShifter sceneShifter => _sceneShifter;
+    public DiscordController discord => _discord;
 
 	void Awake()
 	{
@@ -87,8 +74,5 @@ public class GameController : MonoBehaviour
         return controlSprites[(int)controlScheme];
     }
 
-    public string getStartScene()
-    {
-        return startScene;
-    }
+    public string getStartScene() => startScene;
 }

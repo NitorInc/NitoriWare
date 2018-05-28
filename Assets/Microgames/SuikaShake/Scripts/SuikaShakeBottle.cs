@@ -18,15 +18,11 @@ public class SuikaShakeBottle : MonoBehaviour
 	private GameObject suikaPrefab;
     [SerializeField]
     private GameObject sparkleGenerator;
+    [SerializeField]
+    private AudioClip victoryClip;
 #pragma warning restore 0649
 
-    private bool _pauseBuffer = false;
-	public bool pauseBuffer
-	{
-		set { _pauseBuffer = value; }
-		get { return _pauseBuffer; }
-	}
-
+	public bool pauseBuffer { get; set; }
 	private SuikaShakeSuika[] suikas;
 	private Vector2 lastCursorPosition;
 
@@ -57,7 +53,6 @@ public class SuikaShakeBottle : MonoBehaviour
                 suikas[i].setFacing(0);
             }
 			suikas[i].transform.parent = transform;
-            //suikas[i].spriteRenderer.sortingOrder = 1 + (suikas.Length - i);
             suikas[i].spriteRenderer.sortingOrder = i + 1;
         }
         lastCursorPosition = CameraHelper.getCursorPosition();
@@ -118,6 +113,7 @@ public class SuikaShakeBottle : MonoBehaviour
             }
             sparkleGenerator.SetActive(true);
             MicrogameController.instance.setVictory(true, true);
+            MicrogameController.instance.playSFX(victoryClip, AudioHelper.getAudioPan(transform.position.x));
 		}
 	}
 }

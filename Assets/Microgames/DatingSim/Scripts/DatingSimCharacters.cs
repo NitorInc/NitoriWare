@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DatingSimCharacters : MonoBehaviour
+[CreateAssetMenu(menuName = "Microgame Assets/DatingSim/Character Roster")]
+public class DatingSimCharacters : ScriptableObject
 {
     [SerializeField]
     public List<Character> characters;
@@ -12,6 +13,8 @@ public class DatingSimCharacters : MonoBehaviour
     {
         public string idName;
         public string fullName;
+        [Multiline]
+        public string introDialogue;
         public List<CharacterOption> rightOptions;
         public List<CharacterOption> wrongOptions;
         public AudioClip musicClip;
@@ -21,8 +24,6 @@ public class DatingSimCharacters : MonoBehaviour
         public Sprite backgroundImage;
         public Material optionBGMaterial;
 
-        [Multiline]
-        public string introDialogue;
 
         public string getLocalizedIntroDialogue()
         {

@@ -37,12 +37,7 @@ public class PaperThiefStar : MonoBehaviour
 		Seeking
 	}
 
-    private bool _canBeShot;
-    public bool canBeShot
-    {
-        get { return _canBeShot; }
-        set { _canBeShot = value; }
-    }
+  private bool _canBeShot;
 
 	private Vector2 velocity;
 	private ParticleSystem.MainModule trailParticleModule, explosionParticleModule;
@@ -50,7 +45,7 @@ public class PaperThiefStar : MonoBehaviour
 
 	void Start()
 	{
-        canBeShot = false;
+        _canBeShot = false;
 		dead = outOfShootingRange = false;
 		transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
 
@@ -112,7 +107,7 @@ public class PaperThiefStar : MonoBehaviour
 	{
         if (makeAppearSound && !CameraHelper.isObjectOffscreen(transform, 1f))
         {
-            MicrogameController.instance.playSFX(appearClip);//, AudioHelper.getAudioPan(transform.position.x, .8f));
+            MicrogameController.instance.playSFX(appearClip);
             makeAppearSound = false;
         }
         if (dead)
@@ -170,7 +165,7 @@ public class PaperThiefStar : MonoBehaviour
 
         updateKnockBack();
 
-        if (canBeShot)
+        if (_canBeShot)
         {
             float scale = Mathf.Lerp(sizeOverSpeedBounds.x, sizeOverSpeedBounds.y, Mathf.Pow(velocity.magnitude / seekMoveSpeed, .5f));
             transform.localScale = new Vector3(scale, scale, transform.localScale.x);

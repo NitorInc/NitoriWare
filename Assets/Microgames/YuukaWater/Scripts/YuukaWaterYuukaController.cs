@@ -19,7 +19,6 @@ namespace NitorInc.YuukaWater {
         public float leftXBound;
         public float rightXBound;
 
-        float lastDirection = 1.0f;
         float vel = 0f;
 
         bool movementEnabled = true;
@@ -33,7 +32,6 @@ namespace NitorInc.YuukaWater {
 
         // Update is called once per frame
         void Update() {
-            //var x = Input.GetAxis("Horizontal");
             float goalVel = 0f;
 
             if (movementEnabled)
@@ -55,21 +53,6 @@ namespace NitorInc.YuukaWater {
                     vel += advance * Mathf.Sign(velDiff);
             }
 
-            /*
-            if (x > 0.0f) {
-                if (lastDirection < 0.0f) {
-                    yuukaAnim.Play("RotateReversed");
-                    lastDirection = 1.0f;
-                    launcher.SetDirection(lastDirection);
-                }
-            } else if (x < 0.0f) {
-                if (lastDirection > 0.0f) {
-                    yuukaAnim.Play("Rotate");
-                    lastDirection = -1.0f;
-                    launcher.SetDirection(lastDirection);
-                }
-            }
-            */
             if (Mathf.Abs(vel) > 0.0f) {
                 yuukaAnim.SetFloat("velX", moveAnimSpeed);
             } else {

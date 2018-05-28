@@ -46,10 +46,10 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
 
         transform.position = new Vector3(Random.Range(minSpawnX, maxSpawnX), transform.position.y, transform.position.z);
     }
-    
+
     void Update()
     {
-        switch(state)
+        switch (state)
         {
             case (State.Default):
                 //Handle scare
@@ -74,11 +74,13 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
                     //Set animation triggers
                     kogasaAnimator.SetTrigger("scare");
                     kogasaAnimator.SetInteger("state", (int)state);
+                    kogasaAnimator.SetTrigger("arrowsOff");
                 }
                 else
                     updateMovement();
                 break;
             case (State.Victory):
+            case (State.Loss):
                 if (Mathf.Abs(transform.position.x - victim.transform.position.x) < minScareDistance)
                 {
                     float snapDirection = Mathf.Sign(transform.position.x - victim.transform.position.x);
@@ -101,7 +103,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         victim.scare(true, (int)Mathf.Sign(transform.position.x - victim.transform.position.x));
         //Destroy(victimInSight.gameObject);
     }
-    
+
     void loss()
     {
         MicrogameController.instance.setVictory(false, true);
@@ -125,6 +127,9 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
     {
         bool leftPressed = Input.GetKey(KeyCode.LeftArrow);
         bool rightPressed = Input.GetKey(KeyCode.RightArrow);
+
+        if (leftPressed || rightPressed)
+            kogasaAnimator.SetTrigger("arrowsOff");
 
         if (!(leftPressed && rightPressed))
         {
@@ -155,6 +160,7 @@ public class KogasaScareKogasaBehaviour : MonoBehaviour
         {
             walkSource.loop = false;
         }
+        walkSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
 
         kogasaAnimator.speed = (leftPressed || rightPressed) ? 1f : 1.5f;
         transform.position += Vector3.right * (float)direction * moveSpeed * Time.deltaTime; // * ((leftPressed || rightPressed) ? 1f : .5f);

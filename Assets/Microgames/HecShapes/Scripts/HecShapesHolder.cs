@@ -5,43 +5,24 @@ public class HecShapesHolder : MonoBehaviour
 {
 
     public UnityEvent onFill;
-
     public Transform snapPoint;
 
-    HecShapesSlottable.Shape slotShape;
+    public HecShapesSlottable.Shape SlotShape { get; set; }
+
     HecShapesSlottable.Shape shapeInSlot;
-
-    public HecShapesSlottable.Shape SlotShape
-    {
-        get { return this.slotShape; }
-        set { this.slotShape = value; }
-    }
-
     public HecShapesSlottable.Shape ShapeInSlot
     {
-        get { return this.shapeInSlot; }
-
+        get { return shapeInSlot; }
         set
         {
-            this.shapeInSlot = value;
+            shapeInSlot = value;
             if (value != HecShapesSlottable.Shape.none)
                 onFill.Invoke();
         }
     }
 
-    public Vector2 SnapPosition
-    {
-        get { return this.snapPoint.transform.position; }
-    }
-
-    public bool Filled
-    {
-        get { return this.shapeInSlot != HecShapesSlottable.Shape.none; }
-    }
-
-    public bool Valid
-    {
-        get { return this.shapeInSlot == this.slotShape; }
-    }
+    public Vector2 SnapPosition => snapPoint.transform.position;
+    public bool Filled => shapeInSlot != HecShapesSlottable.Shape.none;
+    public bool Valid => shapeInSlot == SlotShape; 
 
 }

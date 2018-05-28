@@ -38,11 +38,24 @@ public class PauseManager : MonoBehaviour
 	{
 		public float timeScale;
 		public List<MonoBehaviour> disabledScripts;
-		public int camCullingMask;
-		public Color camColor;
+        public List<CamPauseData> camPauseDatas;
 		public bool cursorVisible;
         public CursorLockMode cursorLockState;
 	}
+
+    private struct CamPauseData
+    {
+        public Camera camera;
+        public Color backgroundColor;
+        public int cullingMask;
+        public CamPauseData(Camera camera)
+        {
+            this.camera = camera;
+            backgroundColor = camera.backgroundColor;
+            cullingMask = camera.cullingMask;
+        }
+    }
+
 
 	private float pauseTimer = 0f;
 
@@ -53,7 +66,7 @@ public class PauseManager : MonoBehaviour
         menuCanvas.worldCamera = Camera.main;
         sfxSource.ignoreListenerPause = true;
         if (transform.root != transform)
-            Debug.LogWarning("Pause Controller should be put in hierachy root!");
+            Debug.LogWarning("Pause Controller should be put in hierarchy root!");
     }
 	
 	void Update ()
@@ -64,17 +77,7 @@ public class PauseManager : MonoBehaviour
 		{
 			if (!paused)
 				pause();
-            //else
-            //	unPause();
-            //pauseTimer = Random.Range(.1f, .2f);
-        }
-        //else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
-        //{
-        //    //TODO make this a button function
-        //    if (paused)
-        //        quit();
-        //    SceneManager.LoadScene("Title");
-        //}
+      }
 	}
 
 	public void pause()
@@ -109,11 +112,19 @@ public class PauseManager : MonoBehaviour
 		if (MicrogameController.instance != null)
 		{
             MicrogameController.instance.onPaused();
-			pauseData.camCullingMask = Camera.main.cullingMask;
-			pauseData.camColor = Camera.main.backgroundColor;
-			Camera.main.cullingMask = 0;
-			Camera.main.backgroundColor = Color.black;
-			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
+
+            pauseData.camPauseDatas = new List<CamPauseData>();
+            var rootObjects = MicrogameController.instance.gameObject.scene.GetRootGameObjects();
+            foreach (var rootObject in rootObjects)
+            {
+                var cams = rootObject.GetComponentsInChildren<Camera>();
+                foreach (var cam in cams)
+                {
+                    pauseData.camPauseDatas.Add(new CamPauseData(cam));
+                    cam.cullingMask = 0;
+                    cam.backgroundColor = Color.black;
+                }
+            }
 		}
         if (MicrogameTimer.instance != null)
 		    MicrogameTimer.instance.gameObject.SetActive(false);
@@ -164,10 +175,12 @@ public class PauseManager : MonoBehaviour
 
 		if (MicrogameController.instance != null)
 		{
-			Camera.main.cullingMask = pauseData.camCullingMask;
-			Camera.main.backgroundColor = pauseData.camColor;
+            foreach (var camPauseData in pauseData.camPauseDatas)
+            {
+                camPauseData.camera.backgroundColor = camPauseData.backgroundColor;
+                camPauseData.camera.cullingMask = camPauseData.cullingMask;
+            }
             MicrogameController.instance.onUnPaused();
-			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)
             MicrogameTimer.instance.gameObject.SetActive(true);

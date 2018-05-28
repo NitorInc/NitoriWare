@@ -9,7 +9,14 @@ public class ClothesChooseChoiceController : MonoBehaviour
     public Animator[] endAnimators;
 
     public SpriteRenderer highlight;
+    public float highlightYOffset;
     public float highlightMoveDuration;
+
+    public AudioClip chooseClip;
+    public AudioClip victoryClip;
+    public AudioClip lossClip;
+    public float choosePitchIncrease = .2f;
+    public float victoryClipDelay = .2f;
 
     Animator animator;
 
@@ -26,7 +33,8 @@ public class ClothesChooseChoiceController : MonoBehaviour
         // Plant highlight bar
         highlight.transform.SetParent(medicine.transform);
         float startY = medicine.GetCategoryHighlightPosition(currentCategory).y;
-        highlight.transform.localPosition = new Vector2(highlight.transform.localPosition.x, startY);
+        highlight.transform.localPosition = new Vector2(
+            highlight.transform.localPosition.x, startY + highlightYOffset);
     }
 
     void Update()
@@ -43,14 +51,15 @@ public class ClothesChooseChoiceController : MonoBehaviour
             }
             
             float newY = Mathf.Lerp(highlight.transform.localPosition.y, targetY, moveAmount);
-            highlight.transform.localPosition = new Vector2(highlight.transform.localPosition.x, newY);
+            highlight.transform.localPosition = new Vector2(
+                highlight.transform.localPosition.x, newY + highlightYOffset);
         }
     }
     
     void LoadCategory(int i)
     {
         ClothesChooseChoice choice = Instantiate(choiceTemplate, medicine.GetCategoryTransform(i));
-
+        
         // Set the correct choice
         choice.SetCorrect(
             mannequin.ClothingChoices[i].chosen,
@@ -69,6 +78,7 @@ public class ClothesChooseChoiceController : MonoBehaviour
     public void Correct()
     {
         int newCategory = currentCategory + 1;
+        MicrogameController.instance.playSFX(chooseClip, pitchMult: 1f + ((newCategory - 1f) * choosePitchIncrease));
         if (newCategory < mannequin.ClothingChoices.Length)
         {
             currentCategory = newCategory;
@@ -86,7 +96,13 @@ public class ClothesChooseChoiceController : MonoBehaviour
             }
 
             MicrogameController.instance.setVictory(true, true);
+            Invoke("playVictoryClip", victoryClipDelay);
         }
+    }
+
+    void playVictoryClip()
+    {
+        MicrogameController.instance.playSFX(victoryClip);
     }
     
     public void Incorrect()
@@ -99,5 +115,6 @@ public class ClothesChooseChoiceController : MonoBehaviour
         }
 
         MicrogameController.instance.setVictory(false, true);
+        MicrogameController.instance.playSFX(lossClip);
     }
 }

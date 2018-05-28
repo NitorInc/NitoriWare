@@ -7,7 +7,7 @@ stage
 		key=KLAVYEYİ KULLAN
 		mouse=FAREYİ KULLAN
 	speedup=DAHA HIZLI!
-	boss=BÖLÜM PATRONU
+	boss=BOSS SEVİYESİ
 	levelup=SEVİYE ATLANDI!
 	pause=Oyun Durduruldu
 		resume=Devam {0}
@@ -17,6 +17,11 @@ stage
 		score=Skorun: {0}
 		highscore=Yüksek Skor: {0}
 		newhighscore=Yeni Rekor!
+discord
+	scoreformat={0} Oyunlar
+	scoreformatsingular={0} Oyun
+	boss=Boss Seviyesi
+	menu=Menüdea
 menu
 	yes=Evet
 	no=Hayır
@@ -30,7 +35,7 @@ menu
 	play=Oyna
 	gamemode=Oyun modu seç!
 		nitori=Hikâye Modu
-			description=Hikâye modunu sonsuz oyna! Ne kadar skorlayabilrsin?
+			description=Hikâye modunu sonsuza dek oyna! Ne kadar skorlayabilrsin?
 		arcade=Arcade Modu
 		microgamepractice=Microgame Pratiği
 			description=Becerilerini güçlendir, ve bu skorları o kadar yükseğe götür ki, arkadaşlarına övün!
@@ -81,6 +86,53 @@ nitori
 	storyfinished=Afferin, inek.\nDemek ki buraya boşa gelmemişsin.\nŞimdi gerçekten meydan okumak istiyorsan, {0} dene!
 	compilationfinished=Vay be, etkileyici!\nAma oyunun tam sürümü için bekle.\n{0} daha yeni başladı!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Eeeey! Müsait misin? Haydi gidip bir şey yiyelim.
+			right0
+				option=Yemek standına kadar koş!
+				response=Son gelen ödeyecektir!
+			right1
+				option=Evet! Gidip yiyecek bir şey alalım!
+				response=Yaşasın!
+			wrong0
+				option=Daha demin yemedin mi?
+				response=Uf, tek başıma yemek yemek istemiyorum.
+			wrong1
+				option=Yürü git, şişko!
+				response=Sen sanki çok sıskaymışsın, geri zekalı!
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Bu çiçekleri senin için yetiştirdim.
+			right0
+				option=Çok güzeller!
+				response=Teşekkürler~
+			wrong0
+				option=Aaa! Hayalet!
+				response=Şaka mı yapıyorsun?
+			wrong1
+				option=Çiçeklerden nefret ederim!
+				response=Zaten onlara layık da değilsin.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Başka kızlara bakmıyordun, doğru mu?
+			right0
+				option=Tabii ki de hayır!
+				response=İyi, zaten bakmasan iyi olur.
+			right1
+				option=Sen benim tek aşkımsın!
+				response=Biliyordum, ha.
+			wrong0
+				option=Şey...
+				response='Şey...'' derken?
+			wrong1
+				option=Reimu'ya aşığım!
+				response=Tekrar düşün.
+		fakeconfig=Kaydet\nYükle\nOtomatik\nOlay Kaydı\nAyarlar
 	FreezeFrogs
 		command=Dondur!
 		igname=Kurbağa Dondurmaca
@@ -153,11 +205,29 @@ microgame
 		command=Hedefe ulaş!
 		commandb=Dikkât et!
 		commandc=Ateş et!
-		commandd=Vur onu!
+		commandd=Vur ona!
 		igname=Hıyar Kovalamaca
 	RuukotoSweep
 		command=Süpür!
 		igname=Tapınak Süpürme
+	CirnoBored
+		command=İyi ol!
+	MarisaJizou
+		command=At!
+		igname=Düşen Şapka
+	NueAbduct
+		command=Kaçır!
+		igname=Uzaylı Kaçırması
+	ReimuDodge
+		command=Kenara sıçra!
+	KyoukoEcho
+		command=Yansıt!
+	BugSwat
+		command=Vur!
+	ClownTorch
+		command=Yak!
+	KaguyaMemoryl
+		commandb=Seç!
 	KaguyaMemory
 		igname=Değerli Anılar
 	MochiPound
@@ -174,10 +244,6 @@ microgame
 		igname=Kukla Gösterisi
 	RockPaperSatori
 		igname=Taş, Kağıt, Makas
-	MarisaJizou
-		igname=Düşen Şapka
-	NueAbduct
-		igname=Uzaylı Kaçırması
 credits
 	intro={0}, aşağıdaki hayranların sayesinde meydana gelebilmiştir!
 	kapptain=Yaratıcı Yönetmen, Programcı, Takım "Kapptanı"
@@ -186,11 +252,11 @@ credits
 	menumusic=Menü Müziği
 	stagemusic=Bölüm Müzikleri
 	microgame
-		management=Mikrooyun Yönetimi
+		management=Microgame Yönetimi
 		managementalt=Kollaborasyon Yönetimi
-		code=Mikrooyun Kodlaması
-		art=Mikrooyun Çizimleri
-		music=Mikrooyun Müzikleri
+		code=Microgame Kodlaması
+		art=Microgame Çizimleri
+		music=Microgame Müzikleri
 	localization=Çeviri
 		management=Çeviri Yönetimi
 	sfx=Ses Efektleri

@@ -5,18 +5,16 @@ using UnityEngine;
 public class FlanGrab_FlandreBehaviour : MonoBehaviour {
 
     private GameObject rightArmObject;
-    //private float xRightLimit;
 
 	[SerializeField]
 	private float bodyRotationMult;
-
 
     // Use this for initialization
     void Start () {
         //var microgrameScript = MicrogameController.instance.GetComponent<FlanGrab_Microgame_Behaviour>();
         //xRightLimit = microgrameScript.rightLimit;
 
-        rightArmObject = this.transform.Find("Right_Arm").gameObject;
+        rightArmObject = transform.Find("Right_Arm").gameObject;
     }
 	
 	// Update is called once per frame
@@ -40,7 +38,6 @@ public class FlanGrab_FlandreBehaviour : MonoBehaviour {
         }
     }
     
-
     float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
     {
         return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;

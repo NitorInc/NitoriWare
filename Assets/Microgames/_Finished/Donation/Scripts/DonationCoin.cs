@@ -77,7 +77,6 @@ public class DonationCoin : MonoBehaviour
 		}	
 		else if (transform.position.y <= slowHeight && transform.position.y > fallHeight)
 		{
-			//body.isKinematic = true;
 			body.velocity = Vector2.down * speed;
 		}
 		else if (transform.position.y <= fallHeight)
@@ -111,7 +110,6 @@ public class DonationCoin : MonoBehaviour
 
 	void playBounceSound(float volume)
 	{
-		//source.pitch = Random.Range(.7f, .75f);
 		bounceSource.pitch = Time.timeScale * .85f;
 
 		volume = Mathf.Min(1f, volume);

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PracticeStageButtons : MonoBehaviour
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private MicrogameCollection.Restriction restriction;
     [SerializeField]

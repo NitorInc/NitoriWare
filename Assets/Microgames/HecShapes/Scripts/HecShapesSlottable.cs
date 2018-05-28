@@ -9,6 +9,8 @@ public class HecShapesSlottable : MonoBehaviour
     [Header("How quickly the planet snaps into the holder")]
     [SerializeField]
     float snapSpeed = 10;
+    [SerializeField]
+    private AudioClip snapClip;
     
     public HecShapesHolder snapTarget;
     public bool snap;
@@ -16,12 +18,14 @@ public class HecShapesSlottable : MonoBehaviour
     MouseGrabbable grabbable;
     HecShapesCelestialBody celestialBody;
     AudioSource[] audioSources;
+    Vibrate vibration;
 
     void Start()
     {
-        this.grabbable = GetComponent<MouseGrabbable>();
-        this.celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
-        this.audioSources = GetComponents<AudioSource>();
+        grabbable = GetComponent<MouseGrabbable>();
+        celestialBody = GetComponentInChildren<HecShapesCelestialBody>();
+        audioSources = GetComponents<AudioSource>();
+        vibration = GetComponent<Vibrate>();
 
         if (grabbable)
         {
@@ -37,18 +41,23 @@ public class HecShapesSlottable : MonoBehaviour
 
     void Update()
     {
-        if (this.snap)
+        if (snap)
         {
-            float distance = Time.deltaTime * this.snapSpeed;
-            this.transform.position = Vector2.MoveTowards(
-                this.transform.position,
-                this.snapTarget.SnapPosition,
-                distance);
-            
-            if ((Vector2)this.transform.position == this.snapTarget.SnapPosition)
+            float distance = Time.deltaTime * snapSpeed;
+            if (snapTarget != null)
             {
-                this.snapTarget.ShapeInSlot = this.celestialBody.shape;
-                this.snap = false;
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    snapTarget.SnapPosition,
+                    distance);
+            }
+            
+            if ((Vector2)transform.position == snapTarget.SnapPosition)
+            {
+                transform.SetParent(snapTarget.transform);
+                snapTarget.ShapeInSlot = celestialBody.shape;
+                snap = false;
+                MicrogameController.instance.playSFX(snapClip, AudioHelper.getAudioPan(transform.position.x));
             }
         }
     }
@@ -61,31 +70,41 @@ public class HecShapesSlottable : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponentInParent<HecShapesHolder>())
-            this.snapTarget = null;
+            snapTarget = null;
     }
 
     void AcquireTarget(Collider2D collision)
     {
         HecShapesHolder holder = collision.GetComponentInParent<HecShapesHolder>();
         if (holder && !holder.Filled)
-            this.snapTarget = holder;
+            snapTarget = holder;
     }
     
     public void OnGrab()
     {
-        this.snap = false;
-        if (this.snapTarget && this.snapTarget.ShapeInSlot == this.celestialBody.shape)
-            this.snapTarget.ShapeInSlot = Shape.none;
+        snap = false;
+        if (snapTarget && snapTarget.ShapeInSlot == celestialBody.shape)
+            snapTarget.ShapeInSlot = Shape.none;
 
-        this.audioSources[0].Play();
+        audioSources[0].Play();
+        celestialBody.Enlarge();
+
+        vibration.vibrateOn = false;
     }
 
     public void OnRelease()
     {
-        if (this.snapTarget && this.snapTarget.SlotShape == this.celestialBody.shape)
-            this.snap = true;
+        if (snapTarget && snapTarget.SlotShape == celestialBody.shape)
+        {
+            snap = true;
+        }
+        else
+        {
+            vibration.vibrateOn = true;
+        }
 
-        this.audioSources[1].Play();
+        audioSources[1].Play();
+        celestialBody.ResetSize();
     }
 
 }

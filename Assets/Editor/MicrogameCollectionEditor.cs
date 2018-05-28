@@ -12,8 +12,14 @@ public class MicrogameCollectionEditor : Editor
 		if (GUILayout.Button("Update Microgames"))
 		{
 			collection.updateMicrogames();
-		}
-		DrawDefaultInspector();
+            EditorUtility.SetDirty(collection);
+        }
+        if (GUILayout.Button("Update Build Path"))
+        {
+            collection.updateBuildPath();
+            EditorUtility.SetDirty(collection);
+        }
+        DrawDefaultInspector();
 	}
 
 }

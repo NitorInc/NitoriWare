@@ -8,14 +8,20 @@ stage
 		mouse=USE O MOUSE
 	speedup=MAIS RÁPIDO!
 	boss=FASE DO CHEFE
+	levelup=SUBIDA DE NÍVEL
 	pause=Pausado
-		resume=Resumir
-	quit=Sair
-	retry=Tentar novamente
+		resume=Resumir {0}
+	quit=Sair {0}
+	retry=Tentar novamente {0}
 	gameover=Fim de Jogo!
-		score=Pontuação:
-		highscore=Pontuação mais alta:
+		score=Pontuação: {0}
+		highscore=Pontuação mais alta: {0}
 		newhighscore=Novo recorde!
+discord
+	scoreformat={0} Jogos
+	scoreformatsingular={0} Jogo
+	boss=Fase do chefe
+	menu=No menu
 menu
 	yes=Sim
 	no=Não
@@ -32,7 +38,7 @@ menu
 			description=Jogue o Modo História sem fim! Quantos pontos você consegue marcar?
 		arcade=Modo Arcade
 		microgamepractice=Praticar Microgames
-			description=Aperfeiçoe suas habilidades nos microgames e aumente suas melhores pontuações para você se exibir para os seus amigos!
+			description=Aperfeiçoe suas habilidades nos microgames e aumente suas melhores pontuações para você se exibir aos seus amigos!
 		locked1=Trancado! Complete {0} para desbloquear.
 		locked2=Trancado! Pontue {0} ou mais em {1} para desbloquear.
 		highscore=Maior Pontuação: {0}
@@ -81,6 +87,54 @@ nitori
 	storyfinished=Bom trabalho, nerd.\nVocê não é dos que só olham a vitrine.\nAgora tente {0} por um desafio de verdade!
 	compilationfinished=Caramba, tô impressionada!\nMas espera até você ver o jogo terminado.\n{0} só começou!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Eeeeeeei! Você tá com tempo livre, né? Vamos pegar algo pra comer.
+			right0
+				option=Corrida até a barraca de comida!
+				response=O perdedor paga!
+			right1
+				option=Sim, vamos pegar um rango!
+				response=Yay!
+			wrong0
+				option=Você não acabou de comer?!
+				response=Bleh. Não é divertido comer sozinha.
+			wrong1
+				option=Cai fora, gordão!
+				response=Bem, você também não é nenhum magricelo, panaca!
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Cultivei estas flores para você.
+			right0
+				option=São lindas!
+				response=Obrigada~
+			wrong0
+				option=Aaah, um fantasma!
+				response=Só pode estar de brincadeira.
+			wrong1
+				option=Odeio flores!
+				response=Você não merece elas mesmo.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Você não estava vendo outras garotas, estava?
+			right0
+				option=É claro que não!
+				response=Bom. Melhor não estar mesmo.
+			right1
+				option=Você é a unica pra mim!
+				response=Foi o que eu pensei.
+			wrong0
+				option=Bem...
+				response=O que quer dizer com "Bem"?
+			wrong1
+				option=Estou apaixonado pela Reimu!
+				response=Pense de novo.
+		fakeconfig=Salvar\nCarregar\nAuto\nRegistro\nConfigurações
+		command=Seja romântico!
 	FreezeFrogs
 		command=Congele!
 		igname=Sapinhos Congelados
@@ -115,6 +169,9 @@ microgame
 	TraceShape
 		command=Preencha!
 		igname=Pintando as Formas
+	KogasaScare
+		command=Assuste!
+		igname=Tema a Youkai!
 	RockBand
 		command=Atue!
 		igname=Performance AUU! Vivo
@@ -138,9 +195,9 @@ microgame
 		igname=Batido, Não Mexido
 	TouhouSort
 		command=Organize por {0}!
-		hat=chapéu
-		wing=tipo de asa
-		ear=orelhas
+		hat=Acessório
+		wing=Tipo de Asa
+		ear=Orelhas
 		igname=Garota de Todos os Tipos
 	FlanGrab
 		command=Proteja!
@@ -151,9 +208,26 @@ microgame
 		commandc=Atire!
 		commandd=Derrote-a!
 		igname=Travessura de Pepino
-	KogasaScare
-		igname=Tema a Youkai!
+	RuukotoSweep
+		command=Varra!
+	CirnoBored
+		command=Seja gentil!
+	MarisaJizou
+		command=Arremesse!
+	NueAbduct
+		command=Abduza!
+	ReimuDodge
+		command=Desvie!
+	KyoukoEcho
+		command=Reflita!
+	BugSwat
+		command=Esmague!
+	ClownTorch
+		command=Taque fogo!
+	KaguyaMemoryl
+		commandb=Escolha!
 credits
+	intro={0} foi possível graças aos seguintes fãs!
 	kapptain=Diretor, Programador, Gerente, "Kapptão" do Time
 	leadart=Artista-Chefe, Designer dos Personagens, Voz da Nitori
 	UI=Gráficos do Menu e das Fases

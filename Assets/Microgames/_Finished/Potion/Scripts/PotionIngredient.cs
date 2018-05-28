@@ -34,23 +34,6 @@ public class PotionIngredient : MonoBehaviour
 		_audioSource = GetComponent<AudioSource>();
 	}
 
-	void Start()
-	{
-		//disableCollision();
-		//_audioSource.pitch = Time.timeScale;
-	}
-
-	//void disableCollision()
-	//{
-	//	foreach (PotionIngredient ingredient in pot.ingredients)
-	//	{
-	//		if (ingredient != this)
-	//		{
-	//			Physics2D.IgnoreCollision(collider, ingredient.collider);
-	//		}
-	//	}
-	//}
-	
 	void Update ()
 	{
 		switch(state)

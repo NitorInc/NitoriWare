@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NitorInc.Utility;
 
 namespace NitorInc.MochiPound {
 
     public class MochiPoundRabbitController : MonoBehaviour {
 
         Animator anim;
-        public float poundNormalizedTime = 0.55f;
-        bool hasHit = false;
-        bool hasWon = false;
 
         public Animator mochiAnim;
         CameraShake shake;
@@ -18,99 +16,95 @@ namespace NitorInc.MochiPound {
         MochiPoundPlanet[] planets;
         MochiPoundController ctrler;
 
+        public float rabbitAnimSpeed;
+        // total elapsed time of Pound clip
+        public float poundAnimTime = 0.25f;
+        float PoundAnimTime => poundAnimTime / rabbitAnimSpeed;
+
+        // time needed for hammer to hit
+        public float poundHitTime = 0.15f;
+        float PoundHitTime => poundHitTime / rabbitAnimSpeed;
+
+        // total elapsed time of Windup clip
+        public float windupAnimTime = 0.25f;
+        float WindupAnimTime => windupAnimTime / rabbitAnimSpeed;
+
         public MochiPoundArrowKey button;
 
+        public AudioClip poundClip;
+        public AudioClip mistakeClip;
+
         public string poundAnimName = "Pounding";
-        int poundAnimNameHash;
         public string windupAnimName = "Windup";
-        int windupAnimNameHash;
+        public string idleAnimName = "Idle";
+        public string shakeAnimName = "Shake";
+
+        MochiPoundController ctrl;
 
         // Use this for initialization
         void Start() {
             anim = GetComponent<Animator>();
+            ApplyAnimationSpeed();
             shake = FindObjectOfType<CameraShake>();
             planets = FindObjectsOfType<MochiPoundPlanet>();
-            ctrler = FindObjectOfType<MochiPoundController>();
-            poundAnimNameHash = Animator.StringToHash(poundAnimName);
-            windupAnimNameHash = Animator.StringToHash(windupAnimName);
+            ctrl = FindObjectOfType<MochiPoundController>();
         }
 
-        // Update is called once per frame
-        void Update() {
-            if (!hasWon) {
-                UpdateHit();
-            }
+        void ApplyAnimationSpeed() {
+            anim.speed *= rabbitAnimSpeed;
+            mochiAnim.speed *= rabbitAnimSpeed;
         }
 
-        void UpdateHit() {
-            if (!hasHit) {
-                var animState = anim.GetCurrentAnimatorStateInfo(0);
-                if (animState.shortNameHash == poundAnimNameHash) {
-                    if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime < 1.0f) {
-                        OnMochiHit();
-                        hasHit = true;
-                    }
-                }
-            }
+        public void SetAnimationSpeed(float speed) {
+            anim.speed = speed;
+            mochiAnim.speed = speed;
         }
 
-        public void ResetStatus() {
-            hasHit = false;
+        public void FinishPound() {
+            SetAnimationSpeed(ctrl.finishAnimSpeed);
+            anim.Play(poundAnimName, 0, 0.0f);
+        }
+
+        public void PlayPoundSound() {
+            MicrogameController.instance.playSFX(poundClip, MicrogameController.instance.getSFXSource().panStereo);
         }
 
         public void ShowButton(bool active) {
             button.SetActive(active);
         }
 
-        public bool IsAnimationFinished {
-            get {
-                var animState = anim.GetCurrentAnimatorStateInfo(0);
-                if (animState.shortNameHash == poundAnimNameHash) {
-                    if (animState.normalizedTime >= poundNormalizedTime && animState.normalizedTime < 1.0f) {
-                        return true;
-                    }
-                }
-                else {
-                    return true;
-                }
-                return false;
-            }
-        }
-
         public void Pound() {
-            PlayPoundImmediate();
+            anim.Play(poundAnimName, 0, 0.0f);
+            Invoke("OnMochiHit", PoundHitTime);
         }
 
         public void Windup() {
-            PlayWindup();
-        }
-
-        public void OnVictory() {
-            hasWon = true;
-            PlayPoundAnim();
-            ShowButton(false);
+            anim.Play(windupAnimName, 0, 0.0f);
         }
 
         void OnMochiHit() {
-            mochiAnim.Play("Bump", 0, 0.0f);
+            PlanetBump();
+            MochiBump();
+            ctrl.CountHit();
+        }
+
+        public void OnMistake() {
+            MicrogameController.instance.playSFX(mistakeClip, MicrogameController.instance.getSFXSource().panStereo);
+            button.OnMistake();
+            anim.Play(shakeAnimName, 0, 0.0f);
+        }
+
+        void PlanetBump() {
             shake.xShake = xShake;
             for (int i = 0; i < planets.Length; i++) {
                 planets[i].Shake();
             }
-            ctrler.OnHit();
         }
 
-        void PlayWindup() {
-            anim.Play(windupAnimNameHash, 0, 0.0f);
+        void MochiBump() {
+            mochiAnim.Play("Bump", 0, 0.0f);
+            PlayPoundSound();
         }
-
-        void PlayPoundAnim() {
-            anim.Play(poundAnimNameHash, 0, 0.0f);
-        }
-
-        void PlayPoundImmediate() {
-            anim.Play(poundAnimNameHash, 0, poundNormalizedTime);
-        }
-
+        
     }
 }

@@ -26,7 +26,6 @@ Shader "Sprites/Multiply"
 		ZWrite Off
 		Fog{ Color(1,1,1,1) }
 		Blend Zero SrcColor
-		//AlphaTest Greater .01
 		ColorMask RGB
 
 		Pass

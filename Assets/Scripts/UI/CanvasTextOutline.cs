@@ -67,8 +67,6 @@ public class CanvasTextOutline : MonoBehaviour
         if (text == null)
             return;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-
         outlineColor.a = text.color.a * text.color.a;
 
         for (int i = 0; i < childTexts.Length; i++)

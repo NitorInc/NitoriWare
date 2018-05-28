@@ -10,9 +10,13 @@ namespace NitorInc.YuukaWater {
         Collider2D[] cols;
         string[] fullNames = { "PlantFull1", "PlantFull2", "PlantFull3"};
         int[] fullIds;
+
         public int flowerIndex;
         public float secondStageThreshold = 0.2f;
         public ParticleSystem heartParticles;
+        public AudioClip stage1Clip;
+        public AudioClip victoryClip;
+
         YuukaWaterController ctrl;
 
         private void Start() {
@@ -46,11 +50,13 @@ namespace NitorInc.YuukaWater {
                     break;
                 case State.stage2:
                     anim.Play("PlantFlip1");
+                    MicrogameController.instance.playSFX(stage1Clip, AudioHelper.getAudioPan(transform.position.x));
                     cols[0].enabled = false;
                     cols[1].enabled = true;
                     break;
                 case State.stage3:
                     anim.Play("PlantFlip2");
+                    MicrogameController.instance.playSFX(victoryClip, AudioHelper.getAudioPan(transform.position.x));
                     cols[1].enabled = false;
                     ctrl.Notify();
                     heartParticles.Play();
@@ -69,7 +75,6 @@ namespace NitorInc.YuukaWater {
                 case State.stage3:
                     var state = anim.GetCurrentAnimatorStateInfo(0);
                     if (state.normalizedTime >= 1.0f) {
-                        //int index = Random.Range(0, fullIds.Length);
                         int index = flowerIndex;
                         anim.Play(fullIds[index]);
                         SetState(State.finished);
@@ -102,11 +107,7 @@ namespace NitorInc.YuukaWater {
         }
 
 
-        float SecondStage {
-            get {
-                return Mathf.Floor(totalWaterRequired * secondStageThreshold);
-            }
-        }
+        float SecondStage => Mathf.Floor(totalWaterRequired * secondStageThreshold);
         float waterCounter = 0;
 
         private void OnCollisionEnter2D(Collision2D other)

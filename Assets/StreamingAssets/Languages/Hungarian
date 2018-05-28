@@ -17,6 +17,11 @@ stage
 		score=Pontszám: {0}
 		highscore=Legnagyobb: {0}
 		newhighscore=Új legnagyobb pontszám!
+discord
+	scoreformat={0} Játék
+	scoreformatsingular={0} Játék
+	boss=Főszint
+	menu=Menüben
 menu
 	yes=Igen
 	no=Nem
@@ -29,7 +34,7 @@ menu
 	off=Ki
 	play=Játssz
 	gamemode=Válassz egy játékmódot!
-		nitori=Történet Mód
+		nitori=Sztori Mód
 			description=Játsszd a történetet örökké! Mekkora pontszámot tuddsz elérni?
 		arcade=Arkád Mód
 		microgamepractice=Mikrójáték Gyakorlás
@@ -73,23 +78,25 @@ menu
 		code=Kód: {0}
 		music=Zene: {0}
 	splash
-		introa=Ez a játék demo a Touhou Project (東方 Project) származékos munkája, amelyet ZUN hozzot létre.
+		introa=Ez a játékdemó a Touhou Project (東方 Project) származékos munkája, amelyet ZUN hozzot létre.
 		introb=A sorozat számos rajongója együttműködött és hozzájárult a kódhoz, a zenéhez, a rajzhoz és a különböző tehetségek, hogy létrehozhassuk ezt a mikrójáték gyűjteményt.
 		introc=Ha a teljes játékhoz szeretnél hozzájárulni, kérlek, látogass el a {0} weboldalra (amennyiben tudsz angolul)\nVagy csak segíts terjeszteni a szót!
 		webglwarning=Ha az internetes lejátszó bajos, próbálkozz az alább felsorolt letöltések egyikével.
 nitori
-	storyintro=Úgy tűnik, új ügyfelünk van.\nLássuk, hogyan kezeli védjegyes játékaimat.\nJobb, ha nem pislogsz!
-	storyfinished=Szép munka, kockafej.\nTalán nem csak egy kirakatvásárló vagy.\nMost próbáld meg {0} az igazi kihívásért!
+	storyintro=Úgy tűnik, új vásárlónk van.\nLássuk, hogyan kezeli védjegyes játékaimat.\nJobb, ha nem pislogsz!
+	storyfinished=Szép munka, kockafej.\nTalán nem csak egy nézelődő vagy.\nMost próbáld meg {0} az igazi kihívásért!
 	compilationfinished=Igazán le vagyok nyűgözve!\nDe csak várd ki a teljes játékot.\n{0} csak most kezdődött el!
 microgame
 	DatingSim
 		suika
+			fullname=Ibuki Suika
+			firstname=Suika
 			introdialogue=Héé! Most szabad vagy nemde? Kapjunk be valamit (enni).
 			right0
 				option=Verseny a kajás bódéhoz!
 				response=Vesztesnek kell fizetnie!
 			right1
-				option=Jah, szerezünk lárvát!
+				option=Jah, szerezzünk kaját!
 				response=Yay!
 			wrong0
 				option=Nem az előbb ettél?!
@@ -98,12 +105,35 @@ microgame
 				option=Vessz el, kövér állat!
 				response=Hát te se vagy a legkarcsúbb magad, faszkalap.
 		youmu
+			fullname=Konpaku Youmu
+			firstname=Youmu
 			introdialogue=Ezeket a virágokat én neveltem számodra.
 			right0
 				option=Gyönyörűek!
 				response=Köszönöm~
 			wrong0
 				option=Áh, egy szellem!
+				response=Ugy te csak viccelsz velem.
+			wrong1
+				option=Utálom a virágokat!
+				response=Amúgy sem érdemled meg őket.
+		yuuka
+			fullname=Kazami Yuuka
+			firstname=Yuuka
+			introdialogue=Nem látogatsz más lányokat, ugye?
+			right0
+				option=Természetesen nem!
+				response=Rendben, jobb ha nem is.
+			right1
+				option=Te vagy az egyetlen számomra!
+				response=Gondoltam.
+			wrong0
+				option=Hát...
+				response=Mit értesz az alatt, hogy "Hát"?
+			wrong1
+				option=Én Reimuba vagyok szerelmes!
+				response=Gondolkozz megint
+		fakeconfig=Mentés\nBetöltés\nAutomatikus\nNapló\nKonfiguráció
 	FreezeFrogs
 		command=Fagyassz!
 		igname=Fagyos Békák
@@ -194,6 +224,8 @@ microgame
 		command=Csapd le!
 	ClownTorch
 		command=Gyújtsd meg!
+	KaguyaMemoryl
+		commandb=Válassz!
 	KogasaScare
 		igname=Félj a Youkaitól
 	KaguyaMemory

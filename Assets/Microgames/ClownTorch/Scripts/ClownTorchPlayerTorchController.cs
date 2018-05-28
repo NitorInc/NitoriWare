@@ -15,6 +15,7 @@ namespace NitorInc.ClownTorch {
             var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             point.z = 0.0f;
             transform.position = point;
+            MicrogameController.instance.getSFXSource().panStereo = AudioHelper.getAudioPan(transform.position.x);
         }
     }
 }

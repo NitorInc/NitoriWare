@@ -9,17 +9,20 @@ public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
 {
     private BeachBallCollisionObserver beachBallCollisionObserver;
 
-    public float velocityTreshold = 0.5f;
+    public float velocityThreshold = 0.5f;
 
     [Header("Backwards bounce params")]
     public float torqueRange = 50f;
     public float forceRange = 300f;
+
+    public AudioClip bounceSound;
 
     private float ballThrowSpeed = 1f;
 
     protected override void Start()
     {
         base.Start();
+
         beachBallCollisionObserver = GameObject.Find("Hoop")
             .GetComponent<BeachBallCollisionObserver>();
         ballThrowSpeed = GameObject.Find("Ball")
@@ -28,7 +31,7 @@ public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
     public override void OnTriggerStay2D(Collider2D other)
     {
         if (!fired && !beachBallCollisionObserver.Fired &&
-            ballPhysics.velocity.y < -velocityTreshold * ballThrowSpeed
+            ballPhysics.velocity.y < -velocityThreshold * ballThrowSpeed
             * (1 / Time.timeScale) && other == ballCollider)
         {
             fired = true;
@@ -48,6 +51,9 @@ public class BeachBallFailCollisionObserver : BeachBallCollisionObserver
             rigidBody.AddTorque(Random.Range(-torqueRange, torqueRange));
 
             MicrogameController.instance.setVictory(victory: false, final: true);
+
+            MicrogameController.instance.playSFX(bounceSound, volume: 0.5f,
+                panStereo: AudioHelper.getAudioPan(transform.position.x));
         }
     }
 }

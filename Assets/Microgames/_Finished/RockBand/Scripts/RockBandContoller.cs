@@ -26,8 +26,6 @@ public class RockBandContoller : MonoBehaviour
 	{
 		instance = this;
 		_audioSource = GetComponent<AudioSource>();
-		//_audioSource.pitch = Time.timeScale;
-
         QualitySettings.pixelLightCount = lights.Length;
 	}
 
@@ -72,9 +70,6 @@ public class RockBandContoller : MonoBehaviour
 	
 	void Update ()
 	{
-		//if (state == State.Hit)
-		//	setState(State.Default);
-
 		if ((state == State.Default || state == State.Hit) && MicrogameTimer.instance.beatsLeft < 7f)
 			checkForInput();
         updateAnimators();

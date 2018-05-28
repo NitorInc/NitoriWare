@@ -18,11 +18,6 @@ public class WrenchBg : MonoBehaviour
 
     private LineRenderer lineRenderer;
 
-	//void Awake()
-	//{
-	//	lineRenderer = GetComponent<LineRenderer>();
-	//}
-
 	void Update()
 	{
 		if (update)
@@ -55,10 +50,5 @@ public class WrenchBg : MonoBehaviour
 
 		lineRenderer.positionCount = points.Count;
 		lineRenderer.SetPositions(points.ToArray());
-		//lineRenderer.SetPositions(new Vector3[points.Count]);
-		//for (int i = 0; i < points.Count; i++)
-		//{
-		//	lineRenderer.SetPosition(i, points[i]);
-		//}
 	}
 }

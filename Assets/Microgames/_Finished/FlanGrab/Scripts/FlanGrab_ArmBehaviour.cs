@@ -8,7 +8,7 @@ public class FlanGrab_ArmBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        anim = this.GetComponent<Animator>();
+        anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame

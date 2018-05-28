@@ -8,13 +8,24 @@ namespace NitorInc.ClownTorch {
         public GameObject fireEff;
         public ParticleSystem smokeEff;
         public ParticleSystem extinguishEff;
-        public float requiredTime = 0.5f;
+        float requiredTime = 0.5f;
         float timer = 0.0f;
         bool isOnFire = false;
 
-        bool countedThisFrame = false;
+        ClownTorchTorchManager manager;
         // Use this for initialization
         void Start() {
+            manager = FindObjectOfType<ClownTorchTorchManager>();
+            var tag = GetComponent<ClownTorchTag>().type;
+            switch (tag) {
+                case ClownTorchTag.Type.ClownTorch:
+                    requiredTime = manager.ClownTorchRequiredTime;
+                    break;
+                case ClownTorchTag.Type.PlayerTorch:
+                    requiredTime = manager.PlayerTorchRequiredTime;
+                    break;
+            }
+            
         }
 
         // Update is called once per frame
@@ -23,9 +34,12 @@ namespace NitorInc.ClownTorch {
                 timer += Time.deltaTime;
             }
 
-            if (timer >= requiredTime) {
-                fireEff.SetActive(true);
-                smokeEff.Stop();
+            if (!IsLit()) {
+                if (timer >= requiredTime) {
+                    fireEff.SetActive(true);
+                    smokeEff.Stop();
+                    manager.PlayIgniteClip();
+                }
             }
         }
 
@@ -46,23 +60,36 @@ namespace NitorInc.ClownTorch {
         }
 
         private void OnTriggerEnter2D(Collider2D col) {
+            checkCollision(col, true);
+        }
+
+        private void OnTriggerStay2D(Collider2D col)
+        {
+            checkCollision(col, false);
+        }
+
+        private void checkCollision(Collider2D col, bool entering){
             var tag = col.GetComponentInParent<ClownTorchTag>().type;
-            switch (tag) {
+            switch (tag)
+            {
                 case ClownTorchTag.Type.Pyre:
-                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch) {
+                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch)
+                    {
                         smokeEff.Play();
                         isOnFire = true;
                     }
                     break;
                 case ClownTorchTag.Type.Water:
-                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch) {
+                    if (GetComponent<ClownTorchTag>().type != ClownTorchTag.Type.ClownTorch)
+                    {
                         isOnFire = false;
                         TurnOff();
                     }
                     break;
                 case ClownTorchTag.Type.PlayerTorch:
                     var obj = col.GetComponentInParent<ClownTorchTorchObject>();
-                    if (obj.IsLit() && !IsLit()) {
+                    if (entering && obj.IsLit() && !IsLit())
+                    {
                         smokeEff.Play();
                         isOnFire = true;
                     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SuikaShakeSparkleSpawner : MonoBehaviour
 {
     [SerializeField]
-    private float spanwStartTime = .05f;
+    private float spawnStartTime = .05f;
     [SerializeField]
     private float spawnFrequency = .25f;
     [SerializeField]
@@ -18,7 +18,7 @@ public class SuikaShakeSparkleSpawner : MonoBehaviour
 	void Update ()
     {
 
-        InvokeRepeating("createSparkle", spanwStartTime, spawnFrequency);
+        InvokeRepeating("createSparkle", spawnStartTime, spawnFrequency);
         enabled = false;
     }
 

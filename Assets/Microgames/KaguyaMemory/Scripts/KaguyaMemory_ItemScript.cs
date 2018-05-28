@@ -19,12 +19,9 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     private bool isSelectable = false;
     private Rigidbody2D rb2d;
     private Quaternion defaultRotation;
-    private bool isFinished = false;
-    private float initialY;
     private int floatDirection = 1;
     private bool isFloating = false;
     private float floatStartDelay = 0;
-    private KaguyaMemory_Timing timeValues;
 
     [SerializeField]
     private AudioClip correctSound;
@@ -37,8 +34,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<SineWave>().enabled = false;
         rb2d = GetComponent<Rigidbody2D>();
-        timeValues = timingMaster.GetComponent<KaguyaMemory_Timing>();
-        initialY = transform.position.y;
 
         if (GetComponent<CapsuleCollider2D> () != null)
         {
@@ -54,7 +49,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         initialScale = transform.localScale.x;
 
         Invoke("obtainStartingPosition", 0.01f);
-        //Invoke("appearSelectable", timeValues.doorOpenAfterClose);
     }
 
     void OnMouseDown()
@@ -82,7 +76,6 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
             rb2d.velocity = new Vector2(0, 0);
             theIndicator.transform.position = transform.position;
             rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished = true;
-            isFinished = true;
             isSelectable = false;
         }
         

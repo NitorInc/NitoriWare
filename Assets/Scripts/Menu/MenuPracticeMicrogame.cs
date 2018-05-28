@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MenuPracticeMicrogame : MonoBehaviour
 {
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private MenuButton menuButton;
     [SerializeField]
@@ -36,11 +36,11 @@ public class MenuPracticeMicrogame : MonoBehaviour
 	{
         selectedInstance = null;
         if (microgamePool == null)
-            microgamePool = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.StageReady);
+            microgamePool = MicrogameCollection.instance.getCollectionMicrogames(MicrogameCollection.Restriction.StageReady);
 
         if (name.Contains("Boss"))
         {
-            microgame = GameController.instance.microgameCollection.getCollectionBossMicrogames()[0];
+            microgame = MicrogameCollection.instance.getCollectionBossMicrogames()[0];
         }
         else
         {
@@ -75,7 +75,6 @@ public class MenuPracticeMicrogame : MonoBehaviour
                 {
                     if (transform.moveTowardsLocal2D(Vector2.zero, moveSpeed))
                     {
-                        //menuAnimator.SetBool("Shifting", false);
                         GameMenu.shifting = false;
                     }
                 }
