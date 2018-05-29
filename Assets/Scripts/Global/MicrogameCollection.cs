@@ -15,8 +15,9 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     public const string MicrogameAssetPath = "/Microgames/";
 
     [SerializeField]
-    private List<Microgame> finishedMicrogames, stageReadyMicrogames, unfinishedMicrogames, bossMicrogames;
-
+    private List<Microgame> _microgames;
+    public List<Microgame> microgames => _microgames;
+    
     [System.Serializable]
     public class Microgame
     {
@@ -40,60 +41,29 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         }
     }
 
-	public enum Restriction
-	{
-		All,
-		StageReady,
-		Finished
-	}
-
 	public void updateMicrogames()
 	{
-		finishedMicrogames = new List<Microgame>();
-		stageReadyMicrogames = new List<Microgame>();
-		unfinishedMicrogames = new List<Microgame>();
-		bossMicrogames = new List<Microgame>();
+        _microgames = new List<Microgame>();
 
-		string[] microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Finished/");
-		for (int i = 0; i < microgameDirectories.Length; i++)
+		var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)
+            .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
+        foreach (var directory in microgameDirectories)
 		{
-			string[] dirs = microgameDirectories[i].Split('/');
-			string microgameId = dirs[dirs.Length - 1];
-            MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId, false);
-            finishedMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
-		}
-
-		microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath);
-		for (int i = 0; i < microgameDirectories.Length; i++)
-		{
-			string[] dirs = microgameDirectories[i].Split('/');
-			string microgameId = dirs[dirs.Length - 1];
-			if (!microgameId.StartsWith("_"))
-			{
-                MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId, true);
-				if (difficultyTraits[0].isStageReady)
-					stageReadyMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
-				else
-					unfinishedMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
-			}
-		}
-
-		microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/");
-        for (int i = 0; i < microgameDirectories.Length; i++)
-		{
-			string[] dirs = microgameDirectories[i].Split('/');
-			string microgameId = dirs[dirs.Length - 1];
-            MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId, true);
-            bossMicrogames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
+			string microgameId = directory.Substring(directory.LastIndexOf('/') + 1);
+            if (!microgameId.StartsWith("_"))
+            {
+                MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId);
+                _microgames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
+            }
 		}
 	}
 
-    MicrogameTraits[] getDifficultyTraits(string microgameId, bool skipFInishedFolder)
+    MicrogameTraits[] getDifficultyTraits(string microgameId)
     {
         MicrogameTraits[] traits = new MicrogameTraits[3];
         for (int i = 0; i < 3; i++)
         {
-            traits[i] = MicrogameTraits.findMicrogameTraits(microgameId, i + 1, skipFInishedFolder);
+            traits[i] = MicrogameTraits.findMicrogameTraits(microgameId, i + 1);
         }
         return traits;
     }
@@ -107,9 +77,8 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     {
 #if UNITY_EDITOR
 
-        string microgameFolderLocation = Path.Combine(Application.dataPath + MicrogameAssetPath);
+        string microgameFolderLocation = Path.Combine(Application.dataPath, MicrogameAssetPath);
         var microgameFolders = Directory.GetDirectories(microgameFolderLocation)
-                .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Finished")))
                 .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Bosses")));
         var buildScenes = EditorBuildSettings.scenes.ToList();
 
@@ -117,7 +86,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         buildScenes = buildScenes.Where(a => !a.path.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/'))).ToList();
 
         //Re-add stage ready games
-        foreach (var microgame in stageReadyMicrogames.Concat(finishedMicrogames))
+        foreach (var microgame in microgames.Where(a => a.difficultyTraits[0].milestone > MicrogameTraits.Milestone.Unfinished))
         {
             var microgameFolder = microgameFolders.FirstOrDefault(a => a.Contains(microgame.microgameId));
             if (microgameFolder != null)
@@ -184,92 +153,11 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         return null;
     }
 
-    /// <summary>
-    /// Returns all microgames in the game (with given restriction) in Stage.Microgame type (used for determining what will play in the stage)
-    /// </summary>
-    /// <param name="restriction"></param>
-    /// <returns></returns>
-    public List<Stage.Microgame> getStageMicrogames(Restriction restriction)
-	{
-        List<Stage.Microgame> returnList = convertToStageMicrogameList(finishedMicrogames);
-		if (restriction != Restriction.Finished)
-		{
-			returnList.AddRange(convertToStageMicrogameList(stageReadyMicrogames));
-			if (restriction == Restriction.All)
-				returnList.AddRange(convertToStageMicrogameList(unfinishedMicrogames));
-		}
-		return returnList;
-	}
-
-	/// <summary>
-	/// Returns a copied list of all boss microgmaes, regardless of completion, in Stage.Microgame type
-	/// </summary>
-	/// <returns></returns>
-	public List<Stage.Microgame> getStageBossMicrogames()
-	{
-        List<Stage.Microgame> returnList = convertToStageMicrogameList(bossMicrogames);
-		return returnList;
-    }
-
-    /// <summary>/// Returns all microgames in the game (with given restriction) in MicrogmaeCollection.Microgame type (used for batch getting traits)
-    /// </summary>
-    /// <returns></returns>
-    public List<Microgame> getCollectionMicrogames(Restriction restriction)
+    public Microgame getMicrogame(string microgameId)
     {
-        List<Microgame> returnList = new List<Microgame>(finishedMicrogames);
-        if (restriction != Restriction.Finished)
-        {
-            returnList.AddRange(new List<Microgame>(stageReadyMicrogames));
-            if (restriction == Restriction.All)
-                returnList.AddRange(new List<Microgame>(unfinishedMicrogames));
-        }
-        return returnList;
-    }
-
-    /// <summary>
-    /// Returns a copied list of all boss microgames, regardless of completion, in MicrogameCollection.Microgame type
-    /// </summary>
-    /// <returns></returns>
-    public List<Microgame> getCollectionBossMicrogames()
-    {
-        List<Microgame> returnList = new List<Microgame>(bossMicrogames);
-        return returnList;
-    }
-
-    public Microgame findMicrogame(string microgameId)
-    {
-        //TODO optimize this whole process
-        foreach (Microgame microgame in finishedMicrogames)
-        {
-            if (microgame.microgameId.Equals(microgameId))
-                return microgame;
-        }
-        foreach (Microgame microgame in stageReadyMicrogames)
-        {
-            if (microgame.microgameId.Equals(microgameId))
-                return microgame;
-        }
-        foreach (Microgame microgame in unfinishedMicrogames)
-        {
-            if (microgame.microgameId.Equals(microgameId))
-                return microgame;
-        }
-        foreach (Microgame microgame in bossMicrogames)
-        {
-            if (microgame.microgameId.Equals(microgameId))
-                return microgame;
-        }
-        Debug.Log("Can't find Microgame " + microgameId);
-        return null;
-    }
-
-    private List<Stage.Microgame> convertToStageMicrogameList(List<Microgame> list)
-    {
-        List<Stage.Microgame>  returnList = new List<Stage.Microgame>();
-        for (int i = 0; i < list.Count; i++)
-        {
-            returnList.Add(new Stage.Microgame(list[i].microgameId));
-        }
-        return returnList;
+        var microgame = microgames.FirstOrDefault(a => a.microgameId.Equals(microgameId));
+        if (microgame == null)
+            Debug.Log($"Can't find Microgame {microgameId}. Make sure the Microgame Collection has been updated");
+        return microgame;
     }
 }

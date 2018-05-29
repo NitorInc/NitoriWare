@@ -11,7 +11,6 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Microgame Traits")]
 public class MicrogameTraits : ScriptableObject
 {
-#pragma warning disable 0649
     [SerializeField]
 	private ControlScheme _controlScheme;
 	public virtual ControlScheme controlScheme { get { return _controlScheme; } set { } }
@@ -51,13 +50,18 @@ public class MicrogameTraits : ScriptableObject
 	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
 
 	[SerializeField]
-	private bool _isStageReady;
-	public virtual bool isStageReady { get { return _isStageReady; } set { } }
+	private Milestone _milestone = Milestone.Unfinished;
+	public virtual Milestone milestone { get { return _milestone; } set { } }
+    public enum Milestone
+    {
+        Unfinished,
+        StageReady,
+        Finished
+    }
 
     [SerializeField]
     private string[] _credits;
     public virtual string[] credits { get { return _credits; } set { } }
-#pragma warning restore 0649
 
     private string _microgameId;
 	public string microgameId { get { return _microgameId; } set { } }
@@ -84,20 +88,17 @@ public class MicrogameTraits : ScriptableObject
 		return duration == Duration.Long16Beats ? 16f : 8f;
 	}
 
-    public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty, bool skipFinishedFolder = false)
+    public bool isBossMicrogame()
+    {
+        return GetType() == typeof(MicrogameBossTraits);
+    }
+
+    public static MicrogameTraits findMicrogameTraits(string microgameId, int difficulty)
     {
 #if UNITY_EDITOR
         MicrogameTraits traits;
 
-        //Search finished
-        if (!skipFinishedFolder)
-        {
-            traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}_Finished/{microgameId}", difficulty);
-            if (traits != null)
-                return traits;
-        }
-
-        //Search normal unfinished
+        //Search normal games
         traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}{microgameId}", difficulty);
         if (traits != null)
             return traits;
