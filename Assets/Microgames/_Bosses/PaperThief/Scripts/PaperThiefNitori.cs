@@ -15,6 +15,11 @@ public class PaperThiefNitori : MonoBehaviour
 	shotCooldown, shotSpeed, minGunCursorDistance, deathMusicDelay;
     [SerializeField]
     private int _forceDirection;
+    public int forceDirection
+    {
+        get { return _forceDirection; }
+        set { _forceDirection = value; }
+    }
 	[SerializeField]
 	private Animator rigAnimator;
 	[SerializeField]
