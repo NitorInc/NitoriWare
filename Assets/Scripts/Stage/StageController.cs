@@ -396,7 +396,7 @@ public class StageController : MonoBehaviour
 
 		MicrogameInstance instance = getCurrentMicrogameInstance();
         microgameTraits = instance.microgame.difficultyTraits[instance.difficulty - 1];
-		microgameTraits.onAccessInStage(instance.microgame.microgameId);
+		microgameTraits.onAccessInStage(instance.microgame.microgameId, instance.difficulty);
 	}
 
 	public float getBeatsRemaining()

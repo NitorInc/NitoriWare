@@ -18,14 +18,14 @@ public class DatingSimTraits : MicrogameTraits
         }
     }
 
-    public override void onAccessInStage(string microgameId)
+    public override void onAccessInStage(string microgameId, int difficulty)
     {
         if (overrideCharacter > -1)
             selectedCharacter = characterRoster.characters[overrideCharacter];
         else
             selectedCharacter = characterRoster.characters[Random.Range(0, characterRoster.characters.Count)];
         
-        base.onAccessInStage(microgameId);
+        base.onAccessInStage(microgameId, difficulty);
     }
     
     public DatingSimCharacters.Character getSelectedCharacter()

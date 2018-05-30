@@ -14,9 +14,9 @@ public class TouhouSortTraits : MicrogameTraits
 			TextHelper.getLocalizedText("microgame.TouhouSort." + category.name, category.name)); }
 	}
 
-	public override void onAccessInStage(string microgameId)
+	public override void onAccessInStage(string microgameId, int difficulty)
 	{
-		base.onAccessInStage(microgameId);
+		base.onAccessInStage(microgameId, difficulty);
 		category = categories[Random.Range(0, categories.Length)];
 	}
 }

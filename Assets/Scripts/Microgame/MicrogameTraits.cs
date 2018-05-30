@@ -13,45 +13,52 @@ public class MicrogameTraits : ScriptableObject
 {
     [SerializeField]
 	private ControlScheme _controlScheme;
-	public virtual ControlScheme controlScheme { get { return _controlScheme; } set { } }
+	public virtual ControlScheme controlScheme => _controlScheme;
+    public enum ControlScheme
+    {
+        Key,
+        Mouse
+    }
 
-	[SerializeField]
+    [SerializeField]
 	private bool _hideCursor;
-	public virtual bool hideCursor { get { return _hideCursor; } set { } }
+	public virtual bool hideCursor => _hideCursor;
 
     [SerializeField]
     private CursorLockMode _cursorLockState = CursorLockMode.None;
-    public virtual CursorLockMode cursorLockState { get { return _cursorLockState; } set { _cursorLockState = value; } }
+    public virtual CursorLockMode cursorLockState => _cursorLockState;
 
     [SerializeField]
 	private Duration _duration;
-	public virtual Duration duration { get { return _duration; } set { } }
+	public virtual Duration duration => _duration;
+    public enum Duration
+    {
+        Short8Beats,
+        Long16Beats
+    }
+	public virtual bool canEndEarly => _duration == Duration.Long16Beats;
 
-	[SerializeField]
-	private bool _canEndEarly;
-	public virtual bool canEndEarly { get { return _canEndEarly; } set { } }
-
-	[SerializeField]
+    [SerializeField]
 	private string _command;
-	public virtual string command { get { return _command; } set { } }
-	public virtual string localizedCommand { get { return TextHelper.getLocalizedText("microgame." + microgameId + ".command", command); } set { } }
+	public virtual string command => _command;
+    public virtual string commandKey => "command";
+    public virtual string localizedCommand => TextHelper.getLocalizedText($"microgame.{microgameId}.{commandKey}", command);
 
 	[SerializeField]
 	private bool _defaultVictory;
-	public virtual bool defaultVictory { get { return _defaultVictory; } set { } }
+	public virtual bool defaultVictory => _defaultVictory;
 
-	[SerializeField]
+    [SerializeField]
 	private float _victoryVoiceDelay, _failureVoiceDelay;
-	public virtual float victoryVoiceDelay { get { return _victoryVoiceDelay; } set { } }
-	public virtual float failureVoiceDelay { get { return _failureVoiceDelay; } set { } }
+	public virtual float victoryVoiceDelay => _victoryVoiceDelay;
+    public virtual float failureVoiceDelay => _failureVoiceDelay;
 
-	[SerializeField]
+    [SerializeField]
 	private AudioClip _musicClip;
-	public virtual AudioClip musicClip{ get { return _musicClip; } set { } }
 
-	[SerializeField]
+    [SerializeField]
 	private Milestone _milestone = Milestone.Unfinished;
-	public virtual Milestone milestone { get { return _milestone; } set { } }
+	public virtual Milestone milestone => _milestone;
     public enum Milestone
     {
         Unfinished,
@@ -61,26 +68,17 @@ public class MicrogameTraits : ScriptableObject
 
     [SerializeField]
     private string[] _credits;
-    public virtual string[] credits { get { return _credits; } set { } }
+    public virtual string[] credits => _credits;
 
     private string _microgameId;
-	public string microgameId { get { return _microgameId; } set { } }
+    public string microgameId => _microgameId;
+    private int _difficulty;
+    public int difficulty => _difficulty;
 
-	public enum ControlScheme
-	{
-		Key,
-		Mouse
-	}
-
-	public enum Duration
-	{
-		Short8Beats,
-		Long16Beats
-	}
-
-	public virtual void onAccessInStage(string microgameId)
+	public virtual void onAccessInStage(string microgameId, int difficulty)
 	{
 		_microgameId = microgameId;
+        _difficulty = difficulty;
 	}
 
 	public virtual float getDurationInBeats()

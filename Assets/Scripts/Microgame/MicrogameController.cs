@@ -84,7 +84,7 @@ public class MicrogameController : MonoBehaviour
             victory = traits.defaultVictory;
             victoryDetermined = false;
 
-            traits.onAccessInStage(microgameID);
+            traits.onAccessInStage(microgameID, difficulty);
         }
 		else if (!isBeingDiscarded())
 		{
