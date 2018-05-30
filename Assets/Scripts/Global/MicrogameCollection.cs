@@ -77,7 +77,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     {
 #if UNITY_EDITOR
 
-        string microgameFolderLocation = Path.Combine(Application.dataPath, MicrogameAssetPath);
+        string microgameFolderLocation = Path.Combine(Application.dataPath, MicrogameAssetPath.Replace("/", ""));
         var microgameFolders = Directory.GetDirectories(microgameFolderLocation)
                 .Concat(Directory.GetDirectories(Path.Combine(microgameFolderLocation, "_Bosses")));
         var buildScenes = EditorBuildSettings.scenes.ToList();
