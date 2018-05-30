@@ -15,11 +15,11 @@ public class MicrogameCollectionEditor : Editor
     {
         public string milestoneName;
         public bool show = false;
-        public List<string> idList;
+        public List<string> labelList;
 
         public MicrogameList()
         {
-            idList = new List<string>();
+            labelList = new List<string>();
         }
     }
     
@@ -41,7 +41,10 @@ public class MicrogameCollectionEditor : Editor
             newList.milestoneName = milestoneNames[i];
             foreach (var milestoneMicrogame in milestoneMicrogames)
             {
-                newList.idList.Add(milestoneMicrogame.microgameId);
+                string label = milestoneMicrogame.microgameId;
+                if (milestoneMicrogame.difficultyTraits[0].isBossMicrogame())
+                    label += " (BOSS)";
+                newList.labelList.Add(label);
             }
             microgames.Add(newList);
         }
@@ -68,9 +71,9 @@ public class MicrogameCollectionEditor : Editor
             microgameList.show = EditorGUILayout.Foldout(microgameList.show, microgameList.milestoneName);
             if (microgameList.show)
             {
-                foreach (var microgameId in microgameList.idList)
+                foreach (var microgameLabel in microgameList.labelList)
                 {
-                    EditorGUILayout.LabelField("    " + microgameId);
+                    EditorGUILayout.LabelField("    " + microgameLabel);
                 }
             }
         }
