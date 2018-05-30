@@ -7,7 +7,7 @@ public class PracticeStageButtons : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
-    private MicrogameCollection.Restriction restriction;
+    private MicrogameTraits.Milestone restriction;
     [SerializeField]
     private GameObject buttonPrefab;
     [SerializeField]
@@ -20,7 +20,7 @@ public class PracticeStageButtons : MonoBehaviour
 
 	void Start()
 	{
-        List<Stage.Microgame> microgames = MicrogameHelper.getMicrogames(restriction);
+        var microgames = MicrogameHelper.getMicrogames(restriction);
 		for (int i = 0; i < microgames.Count; i++)
         {
             int column = i % buttonsPerRow, row = (i - column) / buttonsPerRow;
