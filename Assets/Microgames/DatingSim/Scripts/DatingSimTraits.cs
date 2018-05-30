@@ -10,13 +10,7 @@ public class DatingSimTraits : MicrogameTraits
 
     private DatingSimCharacters.Character selectedCharacter;
 
-    public override AudioClip musicClip
-    {
-        get
-        {
-            return selectedCharacter.musicClip;
-        }
-    }
+    public override AudioClip musicClip => selectedCharacter.musicClip;
 
     public override void onAccessInStage(string microgameId, int difficulty)
     {

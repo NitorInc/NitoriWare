@@ -49,12 +49,20 @@ public class MicrogameTraits : ScriptableObject
 	public virtual bool defaultVictory => _defaultVictory;
 
     [SerializeField]
-	private float _victoryVoiceDelay, _failureVoiceDelay;
-	public virtual float victoryVoiceDelay => _victoryVoiceDelay;
-    public virtual float failureVoiceDelay => _failureVoiceDelay;
+    private float _victoryVoiceDelay;
+    private float instanceVictoryVoiceDelay;
+	public virtual float victoryVoiceDelay {get {return instanceVictoryVoiceDelay; } 
+        set { instanceVictoryVoiceDelay = value; }}
+
+    [SerializeField]
+    private float _failureVoiceDelay;
+    private float instanceFailureVoiceDelay;
+	public virtual float failureVoiceDelay {get {return instanceFailureVoiceDelay; } 
+        set { instanceFailureVoiceDelay = value; }}
 
     [SerializeField]
 	private AudioClip _musicClip;
+    public virtual AudioClip musicClip => _musicClip;
 
     [SerializeField]
 	private Milestone _milestone = Milestone.Unfinished;
@@ -77,6 +85,8 @@ public class MicrogameTraits : ScriptableObject
 
 	public virtual void onAccessInStage(string microgameId, int difficulty)
 	{
+        instanceVictoryVoiceDelay = victoryVoiceDelay;
+        instanceFailureVoiceDelay = failureVoiceDelay;
 		_microgameId = microgameId;
         _difficulty = difficulty;
 	}
