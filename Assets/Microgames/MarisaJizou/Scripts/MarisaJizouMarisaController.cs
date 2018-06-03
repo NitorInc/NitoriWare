@@ -58,17 +58,18 @@ namespace NitorInc.MarisaJizou {
                 } else {
                     hasTurned = false;
                 }
+
+                if (dropCounter < hatsCarried) {
+                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow)) {
+                        Instantiate(kasaProto, kasaStack[dropCounter].transform.position, Quaternion.identity);
+                        kasaStack[dropCounter].SetActive(false);
+                        MicrogameController.instance.playSFX(hatDropClip[dropCounter], MicrogameController.instance.getSFXSource().panStereo);
+                        dropCounter++;
+                    }
+                }
+
             } else {
                 transform.Translate(direction * finishSpeed * Time.deltaTime);
-            }
-
-            if (dropCounter < hatsCarried) {
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow)) {
-                    Instantiate(kasaProto, kasaStack[dropCounter].transform.position, Quaternion.identity);
-                    kasaStack[dropCounter].SetActive(false);
-                    MicrogameController.instance.playSFX(hatDropClip[dropCounter], MicrogameController.instance.getSFXSource().panStereo);
-                    dropCounter++;
-                }
             }
         }
 
