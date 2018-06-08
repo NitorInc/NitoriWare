@@ -61,7 +61,7 @@ public class YoumuSlashTimingController : MonoBehaviour
     {
         if (MicrogameController.instance.isDebugMode())
         {
-            float fastSpeed = 2.5f;
+            float fastSpeed = 5f;
             if (Input.GetKeyDown(KeyCode.S))
             {
                 Time.timeScale *= fastSpeed;
