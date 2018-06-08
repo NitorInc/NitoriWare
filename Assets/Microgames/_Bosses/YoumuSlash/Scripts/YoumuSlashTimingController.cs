@@ -42,14 +42,16 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     void callMusicStart()
     {
-        onMusicStart();
+        if (!(onMusicStart == null))
+            onMusicStart();
         callOnBeat();
     }
 
     void callOnBeat()
     {
         lastInvokedBeat++;
-        onBeat(lastInvokedBeat);
+        if (!(onBeat == null))
+            onBeat(lastInvokedBeat);
 
         float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
         Invoke("callOnBeat", nextBeatTime - musicSource.time);

@@ -9,27 +9,33 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
     private YoumuSlashTimingData timingData;
 
     private Queue<YoumuSlashBeatMap.TargetBeat> upcomingTargets;
-    private YoumuSlashBeatMap.TargetBeat nextTarget;
-    
-	void Start ()
+
+    private bool spawningEnabled = false;
+
+    void Start ()
     {
         upcomingTargets = new Queue<YoumuSlashBeatMap.TargetBeat>(timingData.BeatMap.TargetBeats);
-        YoumuSlashTimingController.onMusicStart += InvokeNextTarget;
+        YoumuSlashTimingController.onMusicStart += enableSpawning;
     }
 
-    void InvokeNextTarget()
+    void enableSpawning()
     {
-        if (!upcomingTargets.Any())
+        spawningEnabled = true;
+    }
+
+    void Update()
+    {
+        if (!spawningEnabled || !upcomingTargets.Any())
             return;
-
-        nextTarget = upcomingTargets.Dequeue();
-        Invoke("spawnTarget", (nextTarget.LaunchBeat - timingData.CurrentBeat) * timingData.BeatDuration);
+        else if (timingData.CurrentBeat >= upcomingTargets.Peek().LaunchBeat)
+        {
+            spawnTarget(upcomingTargets.Dequeue());
+        }
     }
 
-    void spawnTarget()
+    void spawnTarget(YoumuSlashBeatMap.TargetBeat target)
     {
-        var newTarget = Instantiate(nextTarget.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
-        newTarget.initiate(nextTarget);
-        InvokeNextTarget();
+        var newTargetInstance = Instantiate(target.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
+        newTargetInstance.initiate(target);
     }
 }

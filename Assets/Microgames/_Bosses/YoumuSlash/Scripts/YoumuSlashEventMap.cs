@@ -21,26 +21,19 @@ public class YoumuSlashEventMap : MonoBehaviour
 
 
     private Queue<Event> upcomingEvents;
-    private Event nextEvent;
 
     void Start()
     {
         upcomingEvents = new Queue<Event>(events);
-        YoumuSlashTimingController.onMusicStart += InvokeNextEvent;
     }
 
-    void InvokeNextEvent()
+   void Update()
     {
         if (!upcomingEvents.Any())
             return;
-
-        nextEvent = upcomingEvents.Dequeue();
-        Invoke("triggerEvent", (nextEvent.beat - timingData.CurrentBeat) * timingData.BeatDuration);
-    }
-
-    void triggerEvent()
-    {
-        nextEvent.unityEvent.Invoke();
-        InvokeNextEvent();
+        else if (timingData.CurrentBeat >= upcomingEvents.Peek().beat)
+        {
+            upcomingEvents.Dequeue().unityEvent.Invoke();
+        }
     }
 }

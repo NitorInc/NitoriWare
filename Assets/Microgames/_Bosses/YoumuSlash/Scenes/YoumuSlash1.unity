@@ -1339,9 +1339,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 699213540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe5d78db80f15244b4669922fd81666, type: 3}
+  m_Script: {fileID: 11500000, guid: c2813eeb9e80b8143a55cbc53d7e7343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
+  defaultBpm: 120
 --- !u!1 &706802717
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,13 +3998,14 @@ GameObject:
   - component: {fileID: 1973699471}
   - component: {fileID: 1973699468}
   - component: {fileID: 1973699472}
+  - component: {fileID: 1973699473}
   m_Layer: 0
   m_Name: Debug Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1973699467
 Transform:
   m_ObjectHideFlags: 0
@@ -4503,8 +4506,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 339146187
+  m_SortingLayer: 3
   m_SortingOrder: 0
 --- !u!114 &1973699472
 MonoBehaviour:
@@ -4524,6 +4527,21 @@ MonoBehaviour:
   doubleResolution: 1024
   squareAlign: 0
   updateAttributes: 0
+--- !u!114 &1973699473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1973699466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a64a4d99d88484ba7ca0a40398c997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 1973699471}
+  orderInLayer: 0
+  sortingLayer: MicrogameSortingLayer3
+  disableOnPlay: 1
 --- !u!1 &2042026123
 GameObject:
   m_ObjectHideFlags: 0
