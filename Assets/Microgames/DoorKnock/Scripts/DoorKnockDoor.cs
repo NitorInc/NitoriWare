@@ -5,9 +5,6 @@ using UnityEngine;
 public class DoorKnockDoor : MonoBehaviour {
     
     [SerializeField]
-    private BoxCollider2D clickCollider;
-	
-    [SerializeField]
     private AudioClip knockSound;
 
     [SerializeField]
@@ -30,6 +27,8 @@ public class DoorKnockDoor : MonoBehaviour {
     private Vector2 direction;  
     private bool win = false;
     private Animator animator;
+    private BoxCollider2D collider;
+    private bool intersecting = false;
 
     // Use this for initialization
 	void Start() {
@@ -38,7 +37,7 @@ public class DoorKnockDoor : MonoBehaviour {
         screenWidth = screenHeight * Screen.width / Screen.height;
         
         animator = GetComponentInChildren<Animator>(); 
-        
+        collider = GetComponent<BoxCollider2D>();
         // Randomize starting position and movement direction
         NewDirection();
  	    Teleport();
@@ -47,7 +46,8 @@ public class DoorKnockDoor : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
         // Test if sprite is clicked
-        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider)) {
+        if (Input.GetMouseButtonDown(0) && intersecting) {
+            print(clicksToWin);
             OnClick(); 
         }
         if (shouldMove && direction != null && !win){
@@ -55,14 +55,21 @@ public class DoorKnockDoor : MonoBehaviour {
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
             transform.position = newPosition;
             // bounce if on edge
-            if (Mathf.Abs(transform.position.x) + clickCollider.size.x/4 > screenWidth){
+            if (Mathf.Abs(transform.position.x) + collider.size.x/4 > screenWidth){
                 direction.x *= -1;
             }
-            if (Mathf.Abs(transform.position.y) + clickCollider.size.y/4 > screenHeight){
+            if (Mathf.Abs(transform.position.y) + collider.size.y/4 > screenHeight){
                 direction.y *= -1;
             }
         }
 	}
+    //OnTriggerStay2D doesn't work as well
+    void OnTriggerEnter2D(Collider2D other){
+        intersecting = true;
+    }
+    void OnTriggerExit2D(Collider2D other){
+        intersecting = false;
+    }
     
     // When the object is clicked
     void OnClick() {

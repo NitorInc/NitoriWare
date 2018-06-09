@@ -3,26 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorKnockFist : MonoBehaviour {
-
-	[SerializeField]
-    private Sprite resting;
-
-    [SerializeField]
-    private Sprite knocking;
-	
-    private SpriteRenderer renderer;
-
+    private bool knocking = false;
+    private Animator anim;
     void Start() {
-        renderer = transform.Find("Rig").GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
 	void Update () {
 	    if (Input.GetMouseButtonDown(0)) {
-            renderer.sprite = knocking;
+            anim.SetTrigger("Knock");
         }
-        else if(Input.GetMouseButtonUp(0)){
-            renderer.sprite = resting;
-        }
-	}
+	} 
 }
