@@ -178,7 +178,25 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             {
                 sign = 1; //Answers of zero are not permitted
             }
-            answerOffsets.Add(i * sign); //First wrong answer is off by 1, second wrong answer is off by 2
+            answerOffset = i * sign;
+            if (i != 0 && 
+                (correctAnswer + (i * sign)) == terms[0].GetComponent<KeineMath_Term>().value + terms[1].GetComponent<KeineMath_Term>().value) {
+                //Special case: An incorrect answer equals the sum of the two terms.
+                //We modify the answer in this case because if the problem is subtraction...
+                //...we don't want the player adding by mistake because the answer to the addition is there.
+                //Process: If the above case where the sign HAS to be positive is present, AND the offset is positive...
+                //...increment the offset since we can't make it negative without causing problems.
+                //Otherwise, flip the sign as either it's allowed to be negative or it's already negative.
+                if ((correctAnswer == 1 || (correctAnswer == 2 && i >= 2)) && answerOffset > 0)
+                {
+                    answerOffset++;
+                }
+                else
+                {
+                    answerOffset *= -1;
+                }
+            }
+            answerOffsets.Add(answerOffset); //In normal circumstances first wrong answer is off by 1, second wrong answer is off by 2
         }
         for(int i = 1; i <= answerCount; i++)
         {
