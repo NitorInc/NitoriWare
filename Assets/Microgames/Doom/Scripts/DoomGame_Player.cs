@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Doom_Player : MonoBehaviour
+public class DoomGame_Player : MonoBehaviour
 {
     [SerializeField]
     public static int hp = 1;
@@ -24,31 +24,31 @@ public class Doom_Player : MonoBehaviour
         {
             RaycastHit hit;
             if(Physics.Raycast(transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer("MicrogameLayer1")))
-                hit.collider.GetComponent<Doom_Enemy>().DamageSelf();
+                hit.collider.GetComponent<DoomGame_Enemy>().DamageSelf();
         }
         CheckEnemies();
     }
 
     void CheckEnemies()
     {
-        Doom_UI.rightArrow = Doom_UI.leftArrow = false;
-        for(int i = 0; i < Doom_Enemy.enemies.Count; i++)
+        DoomGame_UI.rightArrow = DoomGame_UI.leftArrow = false;
+        for(int i = 0; i < DoomGame_Enemy.enemies.Count; i++)
         {
             Vector3 vec = Camera.main.WorldToViewportPoint(
-                Doom_Enemy.enemies[i].transform.position);
+                DoomGame_Enemy.enemies[i].transform.position);
             if(vec.z < Camera.main.nearClipPlane)
             {
                 if(vec.x > 0.5f)
-                    Doom_UI.leftArrow = true;
+                    DoomGame_UI.leftArrow = true;
                 else
-                    Doom_UI.rightArrow = true;
+                    DoomGame_UI.rightArrow = true;
             }
             else
             {
                 if(vec.x < 0.25f)
-                    Doom_UI.leftArrow = true;
+                    DoomGame_UI.leftArrow = true;
                 if(vec.x > 0.75f)
-                    Doom_UI.rightArrow = true;
+                    DoomGame_UI.rightArrow = true;
             }
         }
     }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Doom_Enemy : MonoBehaviour
+public class DoomGame_Enemy : MonoBehaviour
 {
 
-    public static List<Doom_Enemy> enemies = new List<Doom_Enemy>();
+    public static List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy>();
 
     [SerializeField]
     Vector3 targetPosition = Vector3.zero;
@@ -74,8 +74,8 @@ public class Doom_Enemy : MonoBehaviour
     {
         if(delay > damageDelay)
         {
-            Doom_Player.hp -= damageAmount;
-            Doom_Player.bloodfx = 0.3f;
+            DoomGame_Player.hp -= damageAmount;
+            DoomGame_Player.bloodfx = 0.3f;
             delay = 0;
         }
         delay += Time.deltaTime;
