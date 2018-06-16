@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class CharacterSplashText : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
-    private Text[] lineTexts;
+    private TextMeshPro[] lineTexts;
     [SerializeField]
     private Phrase[] phrases;
     [SerializeField]
