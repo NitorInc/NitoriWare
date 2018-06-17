@@ -23,7 +23,7 @@ public class KeineMath_Answer : MonoBehaviour {
     private bool circled = false;
     private bool crossed = false;
     [SerializeField] private GameObject answerTerm;
-    [SerializeField] private GameObject bg;
+    [SerializeField] private SpriteRenderer bgsprite;
     [SerializeField] private GameObject chalkboard;
     [SerializeField] private GameObject correctSymbol;
     [SerializeField] private GameObject hundredSymbol;
@@ -34,7 +34,10 @@ public class KeineMath_Answer : MonoBehaviour {
         //Handle background and term initialization
         GetComponent<SpriteRenderer>().color = answerColor;
         answerTerm.GetComponent<SpriteRenderer>().color = answerColor;
-        if (bg.GetComponent<SpriteRenderer>().color.a == 1) editBGAlpha(0.25f); //Initialize only if it hasn't already been set.
+        if (bgsprite.color.a == 1)
+        {
+            editBGAlpha(0.25f); //Initialize only if it hasn't already been set.
+        }
         displayValue();
     }
 
@@ -74,19 +77,24 @@ public class KeineMath_Answer : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        if (!MicrogameController.instance.getVictoryDetermined()) editBGAlpha(0.38f);
+        if (!MicrogameController.instance.getVictoryDetermined())
+        {
+            editBGAlpha(0.38f);
+        }
     }
 
     private void OnMouseExit()
     {
-        if (!MicrogameController.instance.getVictoryDetermined()) editBGAlpha(0.25f);
+        if (!MicrogameController.instance.getVictoryDetermined())
+        {
+            editBGAlpha(0.25f);
+        }
     }
 
     private void editBGAlpha(float newAlpha)
     {
-        if (bg == null) bg = transform.Find("AnswerBG").gameObject; //Juuuust in case we are calling this before Start is done
-        Color temp = bg.GetComponent<SpriteRenderer>().color;
+        Color temp = bgsprite.color;
         temp.a = newAlpha;
-        bg.GetComponent<SpriteRenderer>().color = temp;
+        bgsprite.color = temp;
     }
 }
