@@ -21,15 +21,18 @@ public class ReimuDodge_Bullet : MonoBehaviour
 	[SerializeField] private float moveDelay = 2f;
 
 	private Rigidbody2D _Rigidbody;
+	private Collider2D _Collider;
 
 	void Start () 
 	{
 		_Rigidbody = GetComponent<Rigidbody2D>();
+		_Collider = GetComponent<Collider2D>();
 		Invoke("chase", moveDelay);
 	}
 
 	void chase()
 	{
+		_Collider.enabled = true;
 		Vector2 targetPos = (target.transform.position - transform.position).normalized;
 		_Rigidbody.velocity = targetPos * moveSpeed;
 	}
