@@ -8,6 +8,7 @@ public class KnifeDodgeBlackoutController : MonoBehaviour {
         get;
         set;
     }
+
     public float fadeSpeed
     {
         get;
@@ -23,7 +24,8 @@ public class KnifeDodgeBlackoutController : MonoBehaviour {
         // Debug.Log(gameObject.GetComponentsInChildren<SpriteRenderer>().Length   );
         foreach (SpriteRenderer sr in gameObject.GetComponentsInChildren<SpriteRenderer>())
         {
-            sr.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, Mathf.Lerp(sr.color.a, targetAlpha, Time.deltaTime * fadeSpeed));
+            Color srCol = sr.GetComponent<SpriteRenderer>().color;
+            sr.GetComponent<SpriteRenderer>().color = new Color(srCol.r, srCol.g, srCol.b, Mathf.Lerp(srCol.a, targetAlpha, Time.deltaTime * fadeSpeed));
         }
     }
 
