@@ -31,7 +31,7 @@ public class DoorKnockDoor : MonoBehaviour {
     private bool intersecting = false;
 
     // Use this for initialization
-	void Start() {
+    void Start() {
         // Get the screen dimensions
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
@@ -40,11 +40,11 @@ public class DoorKnockDoor : MonoBehaviour {
         collider = GetComponent<BoxCollider2D>();
         // Randomize starting position and movement direction
         NewDirection();
- 	    Teleport();
+        Teleport();
     }
 	
-	// Update is called once per frame
-	void Update() {
+    // Update is called once per frame
+    void Update() {
         // Test if sprite is clicked
         if (Input.GetMouseButtonDown(0) && intersecting) {
             print(clicksToWin);
@@ -62,7 +62,7 @@ public class DoorKnockDoor : MonoBehaviour {
                 direction.y *= -1;
             }
         }
-	}
+    }
     //OnTriggerStay2D doesn't work as well
     void OnTriggerEnter2D(Collider2D other){
         intersecting = true;
