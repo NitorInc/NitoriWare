@@ -85,8 +85,8 @@ public class MicrogameTraits : ScriptableObject
 
 	public virtual void onAccessInStage(string microgameId, int difficulty)
 	{
-        instanceVictoryVoiceDelay = victoryVoiceDelay;
-        instanceFailureVoiceDelay = failureVoiceDelay;
+        instanceVictoryVoiceDelay = _victoryVoiceDelay;
+        instanceFailureVoiceDelay = _failureVoiceDelay;
 		_microgameId = microgameId;
         _difficulty = difficulty;
 	}
