@@ -8,6 +8,7 @@ public class FoodCutMaskMover : MonoBehaviour {
     private float distance = 0f;
 
     public GameObject line;
+    public GameObject knife;
 
 	// Use this for initialization
 	void Start () {
@@ -15,9 +16,9 @@ public class FoodCutMaskMover : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (line != null)
+        if (Input.GetKeyDown(KeyCode.Space) && line != null)
         {
-            transform.position = new Vector2((line.transform.position.x + distance), transform.position.y);
+            transform.position = new Vector2((knife.transform.position.x + distance), transform.position.y);
         }
     }
 }
