@@ -18,7 +18,6 @@ public class FoodCutTriggerAnim : MonoBehaviour {
         if (MicrogameController.instance.getVictory() == true)
         {
             foodCutAnim.Play(anim);
-            Debug.Log("Animation should play");
         }
 	}
 }
