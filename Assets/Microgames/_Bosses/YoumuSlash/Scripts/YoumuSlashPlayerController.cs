@@ -11,6 +11,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private Transform facingTransform;
     [SerializeField]
+    private Transform facingSpriteTransform;
+    [SerializeField]
     private YoumuSlashSpriteTrail spriteTrail;
     [SerializeField]
     private float spriteTrailStartOffset;
@@ -40,6 +42,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         if (beat >= nextIdleBeat)
         {
+            attacking = false;
             handleIdleAnimation(beat);
         }
 
@@ -64,33 +67,43 @@ public class YoumuSlashPlayerController : MonoBehaviour
                 MicrogameController.instance.playSFX(debugSound);
                 rigAnimator.SetTrigger("Idle");
                 rigAnimator.ResetTrigger("Attack");
+                rigAnimator.SetTrigger("Beat");
             }
         }
-
-        if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat)
+        else if (beat > nextIdleBeat)
         {
-
-            setFacingRight(nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right);
             rigAnimator.SetTrigger("Beat");
-            rigAnimator.SetBool("Prep", false);
+        }
+
+        if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat && !attacking)
+        {
+            bool flipIdle = nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
+            if (isRigFacingRight())
+                flipIdle = !flipIdle;
+            setIdleFlipped(flipIdle);
+
             nextIdleBeat = beat + 2;
         }
-        else
-        {
-            rigAnimator.SetTrigger("Beat");
-            rigAnimator.SetBool("Prep", false);
-        }
+
+        rigAnimator.SetBool("Prep", false);
     }
 
-    void setFacingRight(bool facingRight)
+    void setRigFacingRight(bool facingRight)
     {
         facingTransform.localScale = new Vector3(Mathf.Abs(facingTransform.localScale.x) * (facingRight ? -1f : 1f),
             facingTransform.localScale.y, facingTransform.localScale.z);
+        rigAnimator.SetBool("FacingRight", facingRight);
     }
 
-    bool isFacingRight()
+    void setIdleFlipped(bool flip)
     {
-        return facingTransform.localEulerAngles.x < 0f;
+        facingSpriteTransform.localScale = new Vector3(Mathf.Abs(facingSpriteTransform.localScale.x) * (flip ? -1f : 1f),
+            facingSpriteTransform.localScale.y, facingSpriteTransform.localScale.z);
+    }
+
+    bool isRigFacingRight()
+    {
+        return facingTransform.localScale.x < 0f;
     }
 
     void Update ()
@@ -119,19 +132,19 @@ public class YoumuSlashPlayerController : MonoBehaviour
             hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
         if (hitTarget != null)
         {
+            attacking = true;
             direction = hitTarget.HitDirection;
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange));
-
+            nextIdleBeat = (int)hitTarget.HitBeat + 1;
             bool facingRight = direction == YoumuSlashBeatMap.TargetBeat.Direction.Right;
-            setFacingRight(facingRight);
-            rigAnimator.SetBool("FacingRight", facingRight);
+            setRigFacingRight(facingRight);
+            setIdleFlipped(false);
+
             rigAnimator.SetTrigger("Attack");
             rigAnimator.ResetTrigger("Idle");
 
             float facingDirection = (facingRight ? -1f : 1f);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, facingDirection);
-
-            nextIdleBeat = (int)hitTarget.HitBeat + 1;
         }
     }
 }

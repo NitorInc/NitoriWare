@@ -5,6 +5,10 @@ using UnityEngine;
 public class YoumuSlashSpriteTrail : MonoBehaviour
 {
     [SerializeField]
+    SpriteRenderer copyRenderer;
+    [SerializeField]
+    private bool enableSpawn;
+    [SerializeField]
     private Transform fragmentParent;
     [SerializeField]
     private float initialAlpha = 1f;
@@ -80,21 +84,24 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
             setAlpha(fragment, newAlpha);
         }
 
-        Vector2 diff = (Vector2)transform.position - lastPosition;
-        distanceSpawnProgress += diff.magnitude;
-        if (distanceSpawnProgress > spawnDistance)
+        if (enableSpawn)
         {
-            float initialProgress = distanceSpawnProgress - diff.magnitude;
-            float distanceToTravel = spawnDistance - initialProgress;
-            lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), distanceToTravel);
-            createFragment(lastPosition);
-            distanceSpawnProgress -= spawnDistance;
-        }
-        while(distanceSpawnProgress > spawnDistance)
-        {
-            lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), spawnDistance);
-            createFragment(lastPosition);
-            distanceSpawnProgress -= spawnDistance;
+            Vector2 diff = (Vector2)transform.position - lastPosition;
+            distanceSpawnProgress += diff.magnitude;
+            if (distanceSpawnProgress > spawnDistance)
+            {
+                float initialProgress = distanceSpawnProgress - diff.magnitude;
+                float distanceToTravel = spawnDistance - initialProgress;
+                lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), distanceToTravel);
+                createFragment(lastPosition);
+                distanceSpawnProgress -= spawnDistance;
+            }
+            while(distanceSpawnProgress > spawnDistance)
+            {
+                lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), spawnDistance);
+                createFragment(lastPosition);
+                distanceSpawnProgress -= spawnDistance;
+            }
         }
 
         lastPosition = transform.position;
@@ -110,6 +117,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness).ToColor();
         fragment.sortingOrder = nextFragmentIndex;
         setAlpha(fragment, initialAlpha);
+        fragment.sprite = copyRenderer.sprite;
 
         nextFragmentIndex++;
         if (nextFragmentIndex >= fragments.Length)
