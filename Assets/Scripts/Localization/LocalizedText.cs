@@ -33,7 +33,7 @@ public class LocalizedText : MonoBehaviour
 
     private Text textComponent;
 	private TextMesh textMesh;
-    private TextMeshPro textMeshPro;
+    private TextMeshProUGUI textMeshPro;
     private Language loadedLanguage;
     private string initialText;
     private Font initialFont;
@@ -49,7 +49,7 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        textMeshPro = GetComponent<TextMeshPro>();
+        textMeshPro = GetComponent<TextMeshProUGUI>();
         loadedLanguage = null;
         initialText = getText();
         initialStyle = getStyle();
@@ -117,7 +117,8 @@ public class LocalizedText : MonoBehaviour
 		else
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
-		setText(value);
+
+        setText(value);
     }
 
     public void updateFont()
