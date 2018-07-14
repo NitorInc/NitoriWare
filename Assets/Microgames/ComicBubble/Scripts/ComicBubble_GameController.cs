@@ -150,6 +150,7 @@ public class ComicBubble_GameController : MonoBehaviour {
 
 
     //  To update the animator progress parameter
+    // Note: Current progress was never used. It could be deleted if we're not going to add more scenes that might need it.
     void updateAnimatorProgressParameter()
     {
 

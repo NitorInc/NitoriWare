@@ -26,6 +26,14 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     [SerializeField]
     private float textSpeed;            // Speed in which the text appears
 
+    [SerializeField]
+    private int counterLimitSpeedUpdate;    // How many times I should update the speed?
+    private int counterSpeedUpdate;        // Times I've updated the speed
+    
+    private float refSpeed;                    // Reference to calculate the text speed
+    private TMPro.TMP_Text textComponent;     // Reference to the text object component
+
+
     [SerializeField]                    // Sprite to switch to upon finishing
     private Sprite finishedSprite;
 
@@ -58,6 +66,7 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
         bubbleProgress = 0;
         lastChirpTime = 0f;
+        counterSpeedUpdate = 0;
 
         stopSpeechText();
 
@@ -65,6 +74,11 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        if (counterSpeedUpdate < counterLimitSpeedUpdate) {
+            updateTextSpeed();
+        }
+
 
         if (textSpeed > 0)
         {
@@ -149,7 +163,18 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     // To set the speed in which the text will appear
     public void setTextSpeed(float speed)
     {
-        textSpeed = speed * GetComponentInChildren<AdvancingText>().GetComponent<TMPro.TMP_Text>().text.Length;
+        refSpeed = speed;
+        textComponent = GetComponentInChildren<AdvancingText>().GetComponent<TMPro.TMP_Text>();
+        textSpeed = speed * textComponent.text.Length;
+    }
+
+    public void updateTextSpeed()
+    {
+        if (textComponent != null)
+        {
+            textSpeed = refSpeed * textComponent.text.Length;
+            counterSpeedUpdate++;
+        }
     }
 
 
