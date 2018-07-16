@@ -2,20 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMovement : MonoBehaviour {
+public class PaperPlaneCameraMovement : MonoBehaviour {
     [SerializeField]
     Vector4 ViewportBorder =  new Vector4 (-11.4f, -7, 11.4f, 7);
     [SerializeField]
     Transform target;
-    [SerializeField]
-    Vector2 SizeMorph = new Vector2(7, 5);
-    [SerializeField]
-    float delayBeforeZoom;
-    [SerializeField]
-    float ZoomTime;
-    float timeElapsed;
-    bool IsZooming;
-
     Vector2 cameraSize
     {
         get
@@ -26,33 +17,14 @@ public class CameraMovement : MonoBehaviour {
 
     void Start ()
     {
-        StartCoroutine(Zoom());
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (IsZooming == false)
-        {
+        
             Movestep();
-        }
 	}
-
-    IEnumerator Zoom ()
-    {
-        IsZooming = true;
-        Movestep();
-        yield return new WaitForSeconds(delayBeforeZoom);
-        timeElapsed = 0;
-        while(ZoomTime > timeElapsed)
-        {
-            timeElapsed += Time.deltaTime;
-            yield return null;
-            Camera.main.orthographicSize = Mathf.Lerp(SizeMorph.x, SizeMorph.y, timeElapsed / ZoomTime);
-            Movestep();
-        }
-        IsZooming = false;
-    }
+    
 
     private void Movestep()
     {
