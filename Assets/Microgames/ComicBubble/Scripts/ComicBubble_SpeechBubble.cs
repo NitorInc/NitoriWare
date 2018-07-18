@@ -15,26 +15,25 @@ public class ComicBubble_SpeechBubble : MonoBehaviour {
     private float bubbleProgress;       
 
     [SerializeField]
-    private Vector2 castOffset;         // Offset of the box cast that interacts with the target
+    private Vector2 castOffset;                     // Offset of the box cast that interacts with the target
 
     [SerializeField]
-    private float castWidth;            // Widht of the box cast that interacts with the target
+    private float castWidth;                        // Widht of the box cast that interacts with the target
 
     [SerializeField]
-    private float castHeight;           // Height of the box cast that interacts with the target
+    private float castHeight;                       // Height of the box cast that interacts with the target
 
     [SerializeField]
-    private float textSpeed;            // Speed in which the text appears
+    private float textSpeed;                        // Speed in which the text appears
 
-    [SerializeField]
-    private int counterLimitSpeedUpdate;    // How many times I should update the speed?
-    private int counterSpeedUpdate;        // Times I've updated the speed
+    private int counterLimitSpeedUpdate = 100;      // How many times I should update the speed?
+    private int counterSpeedUpdate;                 // Times I've updated the speed
     
-    private float refSpeed;                    // Reference to calculate the text speed
-    private TMPro.TMP_Text textComponent;     // Reference to the text object component
+    private float refSpeed;                         // Reference to calculate the text speed
+    private TMPro.TMP_Text textComponent;           // Reference to the text object component
 
 
-    [SerializeField]                    // Sprite to switch to upon finishing
+    [SerializeField]                                // Sprite to switch to upon finishing
     private Sprite finishedSprite;
 
     [SerializeField]
