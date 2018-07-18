@@ -34,6 +34,7 @@ public class LocalizedText : MonoBehaviour
     private Text textComponent;
 	private TextMesh textMesh;
     private TextMeshPro textMeshPro;
+    private TextMeshProUGUI textMeshProUGUI;
     private Language loadedLanguage;
     private string initialText;
     private Font initialFont;
@@ -50,6 +51,7 @@ public class LocalizedText : MonoBehaviour
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
         textMeshPro = GetComponent<TextMeshPro>();
+        textMeshProUGUI = GetComponent<TextMeshProUGUI>();
         loadedLanguage = null;
         initialText = getText();
         initialStyle = getStyle();
@@ -142,6 +144,8 @@ public class LocalizedText : MonoBehaviour
 			textMesh.text = text;
         if (textMeshPro != null)
             textMeshPro.text = text;
+        if (textMeshProUGUI != null)
+            textMeshProUGUI.text = text;
     }
 
 	private string getText()
@@ -152,7 +156,10 @@ public class LocalizedText : MonoBehaviour
 			return textMesh.text;
         if (textMeshPro != null)
             return textMeshPro.text;
-		return "";
+        if (textMeshProUGUI != null)
+            return textMeshProUGUI.text;
+
+        return "";
     }
 
     private void setFont(Font font)
