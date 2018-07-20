@@ -18,34 +18,33 @@ public class SagumeLieText : MonoBehaviour
 
     // texts 
 
-    TMP_Text QuestionText;
-    TMP_Text Answer1;
-    TMP_Text Answer2;
-
     // setting correct answer to 0 before it's decided
     public int sagumeCorrectAnswer = 0;
 
-    // objects to be animated
-    Animator spriteDoremy;
-    Animator spriteSagume;
-    Animator spriteBackground;
-    
+    // use SerializeField to reference GameObjects that will be used in the script
+    // these are under the "ScriptController" object
+
+    [SerializeField]
+    private Animator DoremyAnimator;
+    [SerializeField]
+    private Animator SagumeAnimator;
+    [SerializeField]
+    private Animator BackgroundAnimator;
+
+    [SerializeField]
+    private TMP_Text QuestionText;
+    [SerializeField]
+    private TMP_Text AnswerText1;
+    [SerializeField]
+    private TMP_Text AnswerText2;
+
+    [SerializeField]
+    private GameObject QuestionBox;
 
     void Start()
     {
-        // set animators
-        spriteDoremy = GameObject.Find("Doremy").GetComponent<Animator>();
-        spriteSagume = GameObject.Find("Sagume").GetComponent<Animator>();
-        spriteBackground = GameObject.Find("Background").GetComponent<Animator>();
-
-
-
         // find the GameObjects we're going to be putting the text in
         // TODO: is there a 'better' way to do this?
-
-        QuestionText = GameObject.Find("QuestionText").GetComponent<TMP_Text>();
-        Answer1 = GameObject.Find("AnswerText1").GetComponent<TMP_Text>();
-        Answer2 = GameObject.Find("AnswerText2").GetComponent<TMP_Text>();
      
         // placeholder question text
         // TODO: get question from the question list & randomize 
@@ -64,14 +63,14 @@ public class SagumeLieText : MonoBehaviour
 
         if (sagumeCorrectAnswer == 1)
             {
-                Answer1.SetText("Correct Answer!");
-                Answer2.SetText("Incorrect Answer!");
+             AnswerText1.SetText("Correct Answer!");
+             AnswerText2.SetText("Incorrect Answer!");
             }
 
         else if (sagumeCorrectAnswer == 2)
             {
-                Answer1.SetText("Incorrect Answer!");
-                Answer2.SetText("Correct Answer!");
+              AnswerText1.SetText("Incorrect Answer!");
+              AnswerText2.SetText("Correct Answer!");
             }
 
     }
@@ -91,44 +90,44 @@ public class SagumeLieText : MonoBehaviour
 
     // if button 1 is clicked
 
-    public void AnswerCheckButton1()
+    void AnswerCheckButton1()
     {
-        GameObject.Find("QuestionBox").SetActive(false);
+        QuestionBox.SetActive(false);
 
         if (sagumeCorrectAnswer == 1)
         {
-            spriteSagume.SetBool("Success", true);
-            spriteDoremy.SetBool("Success", true);
-            spriteBackground.SetBool("Success", true);
+            SagumeAnimator.SetBool("Success", true);
+            DoremyAnimator.SetBool("Success", true);
+            BackgroundAnimator.SetBool("Success", true);
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
         else
-        {            
-            spriteSagume.SetBool("Failure", true);
-            spriteDoremy.SetBool("Failure", true);
-            spriteBackground.SetBool("Failure", true);
+        {
+            SagumeAnimator.SetBool("Failure", true);
+            DoremyAnimator.SetBool("Failure", true);
+            BackgroundAnimator.SetBool("Failure", true);
             MicrogameController.instance.setVictory(victory: false, final: true);
         }
     }
 
     // if button 2 is clicked
 
-    public void AnswerCheckButton2()
+    void AnswerCheckButton2()
     {
-        GameObject.Find("QuestionBox").SetActive(false);
+        QuestionBox.SetActive(false);
 
         if (sagumeCorrectAnswer == 2)
-        {            
-            spriteSagume.SetBool("Success", true);
-            spriteDoremy.SetBool("Success", true);
-            spriteBackground.SetBool("Success", true);
+        {
+            SagumeAnimator.SetBool("Success", true);
+            DoremyAnimator.SetBool("Success", true);
+            BackgroundAnimator.SetBool("Success", true);
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
         else
-        {            
-            spriteSagume.SetBool("Failure", true);
-            spriteDoremy.SetBool("Failure",true);
-            spriteBackground.SetBool("Failure", true);
+        {
+            SagumeAnimator.SetBool("Failure", true);
+            DoremyAnimator.SetBool("Failure",true);
+            BackgroundAnimator.SetBool("Failure", true);
             MicrogameController.instance.setVictory(victory: false, final: true);
         }
 
