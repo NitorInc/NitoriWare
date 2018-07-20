@@ -32,8 +32,6 @@ public class TitleInteractive : MonoBehaviour
                 if (animator != null)
                 {
                     animator.enabled = true;
-                    //if (animatorToDisable != null)
-                    //    animatorToDisable.enabled = false;
                 }
             }
 		}

@@ -9,7 +9,6 @@ namespace NitorInc.MarisaJizou {
         MarisaJizouController controller;
         bool hasTouched = false;
 
-
         public GameObject happyExp;
         public GameObject sadExp;
         public GameObject hat;
@@ -20,16 +19,6 @@ namespace NitorInc.MarisaJizou {
         public void Register(MarisaJizouController controller) {
             this.controller = controller;
             col = GetComponentInChildren<Collider2D>();
-        }
-
-        // Use this for initialization
-        void Start() {
-
-        }
-
-        // Update is called once per frame
-        void Update() {
-
         }
 
         public void HatLanding() {

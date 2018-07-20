@@ -10,11 +10,7 @@ namespace NitorInc.MochiPound {
         public int[] requiredHits = {
             4,6,8
         };
-        public int RequiredHit {
-            get {
-                return requiredHits[difficulty];
-            }
-        }
+        public int RequiredHit => requiredHits[difficulty];
 
         int hitCounter;
 
@@ -27,17 +23,8 @@ namespace NitorInc.MochiPound {
             }
         }
 
-        public bool IsLastHit {
-            get {
-                return hitCounter == RequiredHit;
-            }
-        }
-
-        bool IsLastHitDetermined {
-            get {
-                return hitCounter == RequiredHit - 1;
-            }
-        }
+        public bool IsLastHit => hitCounter == RequiredHit;
+        bool IsLastHitDetermined => hitCounter == RequiredHit - 1;
 
         public Animator[] finishAnims;
         public GameObject[] objectsToDisableOnFinish;
@@ -50,8 +37,6 @@ namespace NitorInc.MochiPound {
         public float timeBetweenInputs = 0.2f;
         public float mistakePenalty = 0.1f;
         bool inputEnabled = true;
-        KeyCode correctKey = KeyCode.LeftArrow;
-
         KeyCode lastKey = KeyCode.RightArrow;
 
         Timer enableTimer;

@@ -11,7 +11,7 @@ public class SceneShifter : MonoBehaviour
     private const float DefaultShiftDuration = 1f, DefaultFadeDuration = .5f;
     private const float MinBlackScreenTime = .5f;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Image blocker;
 #pragma warning restore 0649
@@ -98,48 +98,16 @@ public class SceneShifter : MonoBehaviour
         startShift(QuitString, shiftDuration, fadeDuration);
     }
 
-    public float getShiftDuration()
-    {
-        return shiftDuration;
-    }
+    public float getShiftDuration() => shiftDuration; 
+    public void setShiftDuration(float shiftDuration) => this.shiftDuration = shiftDuration;
 
-    public void setShiftDuration(float shiftDuration)
-    {
-        this.shiftDuration = shiftDuration;
-    }
+    public float getFadeDuration() => fadeDuration;
+    public void setFadeDuration(float fadeDuration) => this.fadeDuration = fadeDuration;
 
-    public float getFadeDuration()
-    {
-        return fadeDuration;
-    }
+    float getCurrentTime() => Time.timeScale > 0f ? Time.time : Time.realtimeSinceStartup;
+    float getShiftStartTime() => Time.timeScale > 0f ? shiftStartGameTime : shiftStartRealTime;
+    float getSceneLoadedTime() => Time.timeScale > 0f ? sceneLoadedGameTime : sceneLoadedRealTime;
+    float getblockerAlpha() => blocker.color.a;
+    void setBlockerAlpha(float alpha) => blocker.color = new Color(0f, 0f, 0f, alpha);
 
-    public void setFadeDuration(float fadeDuration)
-    {
-        this.fadeDuration = fadeDuration;
-    }
-
-    float getCurrentTime()
-    {
-        return Time.timeScale > 0f ? Time.time : Time.realtimeSinceStartup;
-    }
-
-    float getShiftStartTime()
-    {
-        return Time.timeScale > 0f ? shiftStartGameTime : shiftStartRealTime;
-    }
-    
-    float getSceneLoadedTime()
-    {
-        return Time.timeScale > 0f ? sceneLoadedGameTime : sceneLoadedRealTime;
-    }
-
-    void setBlockerAlpha(float alpha)
-    {
-        blocker.color = new Color(0f, 0f, 0f, alpha);
-    }
-
-    float getblockerAlpha()
-    {
-        return blocker.color.a;
-    }
 }

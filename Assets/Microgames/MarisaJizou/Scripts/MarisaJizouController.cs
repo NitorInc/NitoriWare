@@ -9,28 +9,31 @@ namespace NitorInc.MarisaJizou {
         public delegate void Action();
         public static event Action onVictory;
 
-        public int requiredJizou = 3;
-        int totalJizou {
-            get {
-                return spawnLocations.Count;
-            }
-        }
+        public int requiredJizou = 2;
+        int totalJizou => spawnLocations.Count;
         int successCounter = 0;
+        public int failTolerance => hatsCarried - requiredJizou;
+        int failCounter = 0;
+        public int hatsCarried = 3;
 
         public List<Transform> spawnLocations;
 
-        public GameObject[] specialJizouProtos;
+        public List<GameObject> specialJizouProtos;
         public GameObject normalJizouProto;
         List<GameObject> jizouList;
+
+        public AudioClip[] touchJizouClip;
+        public float finishClipDelay = 0.2f;
+        public AudioClip finishClip;
         // Use this for initialization
         void Start() {
-
+            specialJizouProtos.Shuffle();
             spawnLocations.Shuffle();
 
             jizouList = new List<GameObject>();
             GameObject go = null;
             for (int i = 0; i < totalJizou; i++) {
-                if (i <= (totalJizou - requiredJizou)) {
+                if (i < requiredJizou) {
                     go = Instantiate(specialJizouProtos[i]);
                     go.GetComponent<MarisaJizouJizou>().Register(this);
                 } else {
@@ -41,23 +44,27 @@ namespace NitorInc.MarisaJizou {
             }
         }
 
+        void PlayFinishClip () {
+            MicrogameController.instance.playSFX(finishClip, MicrogameController.instance.getSFXSource().panStereo);
+        }
+
         public void Notify(bool succeed) {
             if (succeed) {
+                MicrogameController.instance.playSFX(touchJizouClip[successCounter], MicrogameController.instance.getSFXSource().panStereo);
                 successCounter++;
                 if (successCounter >= requiredJizou) {
+                    Invoke("PlayFinishClip", finishClipDelay);
                     MicrogameController.instance.setVictory(true, true);
                     if (onVictory != null)
                         onVictory();
                 }
             } else {
-                MicrogameController.instance.setVictory(false, true);
+                failCounter++;
+                if (failCounter > failTolerance)
+                    MicrogameController.instance.setVictory(false, true);
             }
         }
 
-        // Update is called once per frame
-        void Update() {
-
-        }
     }
 
     public static class ListExtension {

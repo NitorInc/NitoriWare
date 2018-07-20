@@ -7,7 +7,6 @@ public class SumiWheelCardClick : MonoBehaviour
     private SumiWheelCardController cardController;
 
     private bool clickable = true;
-    private SumiWheelThoughtCard correctCard = null;
 
     public void setController(SumiWheelCardController cardController)
     {
@@ -29,12 +28,7 @@ public class SumiWheelCardClick : MonoBehaviour
             color.a = .5f;
             spriteRenderer.color = color;
         }
-
-
     }
 
-    public bool isClickable()
-    {
-        return clickable;
-    }
+    public bool isClickable() => clickable;
 }

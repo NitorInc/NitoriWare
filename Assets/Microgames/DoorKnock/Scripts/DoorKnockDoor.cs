@@ -53,7 +53,7 @@ public class DoorKnockDoor : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider)) {
             OnClick(); 
         }
-        if (shouldMove && direction != null && !win){
+        if (shouldMove && !win){
             // Add the direction we're moving in to our position
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
             transform.position = newPosition;

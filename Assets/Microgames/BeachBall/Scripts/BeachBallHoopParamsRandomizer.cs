@@ -9,9 +9,15 @@ public class BeachBallHoopParamsRandomizer : MonoBehaviour
     public string AnimationName;
     [Header("Animation scale")]
     public float AnimationScale = 1f;
+    [Header("Animation slowdown speed on toss")]
+    public float tossSlowdownSpeed = 4f;
+
+    private AnimationState animation;
+    private bool tossed;
+
     void Start()
     {
-        var animation = GetComponent<Animation>()[AnimationName];
+        animation = GetComponent<Animation>()[AnimationName];
         animation.time = animation.length + Random.Range(0.2f, 0.2f);
         animation.speed = 1 * AnimationScale;
 
@@ -20,8 +26,14 @@ public class BeachBallHoopParamsRandomizer : MonoBehaviour
                 -transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
     }
 
+    public void onToss()
+    {
+        tossed = true;
+    }
+
     void Update()
     {
-
+        if (tossed && animation.speed > 0f)
+            animation.speed = Mathf.MoveTowards(animation.speed, 0f, tossSlowdownSpeed * Time.deltaTime);
     }
 }

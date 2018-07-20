@@ -120,8 +120,6 @@ public class PaperThiefCamera : MonoBehaviour
 		}
 		else
 			Camera.main.orthographicSize = Mathf.Lerp(goalSize, lerpSize, ((Vector2)(goalPosition - transform.localPosition)).magnitude / lerpSizeDistance);
-		//Debug.Log(lerpSizeDistance + " and " + ((Vector2)(goalPosition - transform.localPosition)).magnitude);
-		//Debug.Log("also " + lerpSize + " and " + goalSize);
 	}
 
 	void updateFollow()

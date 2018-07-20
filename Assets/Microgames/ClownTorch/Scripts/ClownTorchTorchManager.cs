@@ -7,34 +7,21 @@ namespace NitorInc.ClownTorch {
 
         [SerializeField]
         private float clownTorchRequiredTime = 0.5f;
-        public float ClownTorchRequiredTime {
-            get {
-                return clownTorchRequiredTime;
-            }
-        }
+        public float ClownTorchRequiredTime => clownTorchRequiredTime;
+
         [SerializeField]
         private float playerTorchRequiredTime = 0.5f;
-        public float PlayerTorchRequiredTime {
-            get {
-                return playerTorchRequiredTime;
-            }
-        }
+        public float PlayerTorchRequiredTime => playerTorchRequiredTime;
 
         public AudioClip[] igniteClips;
 
         public GameObject victorySequence;
         public float sequenceStartingDelay = 0.25f;
         public GameObject[] objsToDisableOnVictory;
-        
 
         ClownTorchTorchObject torch;
 
         bool hasWon = false;
-        public bool HasWon {
-            get {
-                return hasWon;
-            }
-        }
 
         void Start() {
             var torches = FindObjectsOfType<ClownTorchTorchObject>();

@@ -52,8 +52,6 @@ public class ComicBubble_GameController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        //  Update animator progress parameter
-        updateAnimatorProgressParameter();
 
     }
 
@@ -138,44 +136,20 @@ public class ComicBubble_GameController : MonoBehaviour {
     //  To update the animator index parameter
     void updateAnimatorIndexParameter()
     {
+
         for (int i = 0; i < comicDataList.Count; i++)
         {
-            var animator = comicDataList.getStrip(i).GetComponent<Animator>();
-            if (animator != null)
+            if (comicDataList.usesAnimatorParameter(i))
             {
-                animator.SetInteger("CurrentIndex", currentIndex);
+                var animator = comicDataList.getStrip(i).GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.SetInteger("CurrentIndex", currentIndex);
+                }
             }
         }
     }
 
-
-    //  To update the animator progress parameter
-    void updateAnimatorProgressParameter()
-    {
-
-        var strip = getCurrentStrip();
-
-        if (strip != null)
-        {
-            var animator = strip.GetComponent<Animator>();
-
-            if (animator != null)
-            {
-                if (currentBubbleScript != null)
-                {
-                    var currentProgress = currentBubbleScript.getBubbleProgress();
-                    animator.SetFloat("CurrentProgress", currentProgress);
-                }
-                else
-                {
-                    // Put it on 100 since there is no bubble
-                    animator.SetFloat("CurrentProgress", 100);
-                }
-            }
-        }
-
-
-    }
 
 
     void stopEveryStripAnimator()

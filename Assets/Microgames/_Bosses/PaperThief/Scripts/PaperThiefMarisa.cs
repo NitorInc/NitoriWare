@@ -64,11 +64,11 @@ public class PaperThiefMarisa : MonoBehaviour
 
     public enum QueueAnimation
     {
-        Idle,       //0
-        Snap,       //1
-        Hurt,       //2
-        Zoom,       //3
-        Laugh       //4
+        Idle,
+        Snap,
+        Hurt,
+        Zoom,
+        Laugh
     }
 
 	void Awake()
@@ -173,9 +173,6 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Snap);
             starFireTimer = starFireCooldown;
         }
-
-        //if (!_sineWave.enabled)
-        //    transform.localPosition = fightPosition;
     }
 
     void updateDefeat()
@@ -269,7 +266,6 @@ public class PaperThiefMarisa : MonoBehaviour
                 newStarComponent.forceAngleDirection = 1f;
         }
         newStarComponent.makeAppearSound = false;
-        //newStarComponent.forceAngleDirection = _sineWave.enabled ? (transform.position.y > 0f ? -1f : 1f) : 0f;
 
         sfxSource.pitch = Time.timeScale;
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;

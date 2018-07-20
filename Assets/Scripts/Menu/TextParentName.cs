@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TextParentName : MonoBehaviour
 {
 
-#pragma warning disable 0649	//Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Text text;
     [SerializeField]

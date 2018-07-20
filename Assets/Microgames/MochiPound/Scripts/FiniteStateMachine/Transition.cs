@@ -5,15 +5,10 @@ using UnityEngine;
 namespace NitorInc.FSM {
 
     public abstract class Transition {
-        public Transition(State nextState) {
-            this.nextState = nextState;
+        public Transition(State next) {
+            NextState = next;
         }
-        private State nextState;
-        public State NextState {
-            get {
-                return nextState;
-            }
-        }
+        public State NextState { get; }
         public abstract bool IsTransiting();
     }
 

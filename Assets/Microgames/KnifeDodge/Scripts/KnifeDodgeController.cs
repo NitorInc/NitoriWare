@@ -16,16 +16,17 @@ public class KnifeDodgeController : MonoBehaviour {
 	public float spawnDistance = 10.0f;
 	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
-	public bool tiltedKnives = true;
-	public bool tiltedKnivesRandomAngle = true;
-	public float tiltedKnivesAngle = 0;
-	public int tiltedKnivesNumZeroTilt = 4;
-	public float knifeStopHeight = 3.0f;
-	public float knifeFreezeTime = 1.0f;
-	public float knifeUnfreezeTime = 1.0f;
+    public float knifeFreezeTime = 0.5f;
+    public float knifeStopHeight = 3.0f;
     public float blackOutAValue = 4.0f;
     public float blackOutSpeed = 2.0f;
     public float parallaxMaxSpeed = 1.0f;
+
+    // Only applies if tiltedKnives enabled
+    public bool tiltedKnives = true;
+	public bool tiltedKnivesRandomAngle = true;
+	public float tiltedKnivesAngle = 0;
+	public int tiltedKnivesNumZeroTilt = 4;
     public enum KnifeDirections {
 		MINUS_ANGLE,
 		POSITIVE_ANGLES,
@@ -62,17 +63,23 @@ public class KnifeDodgeController : MonoBehaviour {
 		
 		knifeList = new List<GameObject> ();
 		for (int i = 0; i < knifeTargetsList.Count; i++) {
-			Vector3 loc = knifeTargetsList [i].transform.position + new Vector3 (0,spawnDistance,0);
+            Vector3 loc = knifeTargetsList [i].transform.position + new Vector3 (0,spawnDistance,0);
 			GameObject knife = Instantiate (knifePrefab, loc, Quaternion.identity);
-			knifeList.Add(knife);
+            knife.transform.position += new Vector3(0, knife.GetComponent<KnifeDodgeKnife>().knifeSpeed * knifeFreezeTime,0);
 
-			foreach (GameObject k in knifeList) {
+            knifeList.Add(knife);
+
+            foreach (GameObject k in knifeList) {
 				Physics2D.IgnoreCollision (knife.GetComponent<BoxCollider2D>(), k.GetComponent<BoxCollider2D>());
 			}
-		}			
+		}
 
+        for (int i = 0; i < knifeList.Count; i++)
+        {
+            knifeList[i].GetComponent<KnifeDodgeKnife>().SetTilted(tiltedKnives);
+        }
 
-		if (tiltedKnives) {
+        if (tiltedKnives) {
 
 			if (tiltedKnivesRandomAngle) {
 				// Set a random position on the ground instead of a fixed one
@@ -106,7 +113,7 @@ public class KnifeDodgeController : MonoBehaviour {
 					}
 
 					Vector3 lDirection = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.down;
-					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection - new Vector3(0.0f, knifeStopHeight, 0.0f);
+					Vector3 pos = knifeList[i].GetComponent<Transform>().position + lDirection /*- new Vector3(0.0f, knifeStopHeight, 0.0f)*/;
 					knifeList[i].GetComponent<KnifeDodgeKnife>().SetFacing(pos);
 				} 
 			}
@@ -136,7 +143,6 @@ public class KnifeDodgeController : MonoBehaviour {
         {
             float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
             blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
-
             if (knifeList[i].transform.position.y > knifeStopHeight)
             {
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
@@ -146,18 +152,18 @@ public class KnifeDodgeController : MonoBehaviour {
             else if (timeUntilStrike < 0.0f)
             {
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
-                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int) KnifeState.MOVING_TO_GROUND);
+                knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.MOVING_TO_GROUND);
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = 0;
-            }  
+            }
             else
             {
-                
                 parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = blackOutAValue;
             }
         }
 
+        knifeFreezeTime -= Time.deltaTime;
         timeUntilStrike -= Time.deltaTime;
     }
 }

@@ -24,7 +24,7 @@ public class MicrogameStage : Stage
         //Update collection if microgame is forced, in case it's in the project but hasn't been added to the collection, for debugging
         if (!string.IsNullOrEmpty(forceMicrogame))
         {
-            GameController.instance.microgameCollection.updateMicrogames();
+            MicrogameCollection.instance.updateMicrogames();
             microgameId = forceMicrogame;
         }
         base.onStageStart();

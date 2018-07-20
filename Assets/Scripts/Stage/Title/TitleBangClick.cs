@@ -22,9 +22,6 @@ public class TitleBangClick : MonoBehaviour
 		animator = GetComponent<Animator>();
         if (GameMenu.subMenu != GameMenu.SubMenu.Splash)
             activationTime = .01f;
-
-		//Camera.main.GetComponent<AudioSource>().time = 40f;
-
 	}
 
 	void Update ()

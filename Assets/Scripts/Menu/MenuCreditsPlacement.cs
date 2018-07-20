@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MenuCreditsPlacement : MonoBehaviour
 {
     
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private int distanceBetweenCells, distancePerCreditLine;
 #pragma warning restore 0649

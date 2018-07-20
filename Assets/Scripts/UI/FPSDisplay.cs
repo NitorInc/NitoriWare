@@ -35,12 +35,5 @@ public class FPSDisplay : MonoBehaviour
 		fps *= Time.timeScale;
 		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
 		GUI.Label(rect, text, style);
-
-
-		//float trueFPS = 1f / Time.deltaTime;
-		//if (trueFPS< 50f)
-		//{
-		//	Debug.Log("SLOW FPS: " + trueFPS + " " + Time.deltaTime);
-		//}
 	}
 }

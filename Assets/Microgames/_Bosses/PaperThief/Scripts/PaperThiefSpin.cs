@@ -19,7 +19,6 @@ public class PaperThiefSpin : MonoBehaviour
 	{
 		_facingRight = MathHelper.Approximately(getSpinRotation(), -180f, 1f);
 	}
-	
 
 	void Update()
 	{

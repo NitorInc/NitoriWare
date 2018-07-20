@@ -1,27 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class MicrogameHelper
 {
 	/// <summary>
-	/// Returns a copied list of all microgames available in the game, with the given restriction on completeness, does not include bosses
+	/// Returns a list of all microgames with milestone equal to or greater than the restriction
 	/// Quick call to MicrogameCollection.getMicrogames
 	/// </summary>
 	/// <param name="restriction"></param>
 	/// <returns></returns>
-	public static List<Stage.Microgame> getMicrogames(MicrogameCollection.Restriction restriction)
+	public static List<MicrogameCollection.Microgame> getMicrogames(MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.Unfinished, bool includeBosses = false)
 	{
-		return GameController.instance.microgameCollection.getStageMicrogames(restriction);
-	}
-
-	/// <summary>
-	/// Returns a copied list of all boss microgmaes, regardless of completion.
-	/// Quick call to MicrogameCollection.getBossMicrogames
-	/// </summary>
-	/// <returns></returns>
-	public static List<Stage.Microgame> getBossMicrogames()
-	{
-		return GameController.instance.microgameCollection.getStageBossMicrogames();
+		return MicrogameCollection.instance.microgames
+            .Where(a => a.difficultyTraits[0].milestone >= restriction
+            && (includeBosses || !a.difficultyTraits[0].isBossMicrogame()))
+            .ToList();
 	}
 }

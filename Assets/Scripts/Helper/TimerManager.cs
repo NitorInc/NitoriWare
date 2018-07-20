@@ -44,23 +44,14 @@ namespace NitorInc.Utility {
 
     [System.Serializable]
     public class Timer {
-        int id;
-        public int Id {
-            get {
-                return id;
-            }
-        }
+        public int Id { get; }
         float t;
         float time;
         int repeatTimes;
         int repeatCounter;
         bool done;
         bool readyToDelete;
-        public bool ReadyToDelete {
-            get {
-                return readyToDelete;
-            }
-        }
+        public bool ReadyToDelete => readyToDelete;
         bool deleteWhenDone;
         bool paused;
         System.Action callback;
@@ -71,7 +62,7 @@ namespace NitorInc.Utility {
             this.repeatTimes = repeatTimes;
             repeatCounter = repeatTimes;
             done = !startImmediate;
-            this.id = id;
+            Id = id;
             this.callback = callback;
             this.deleteWhenDone = deleteWhenDone;
             readyToDelete = false;
@@ -104,13 +95,8 @@ namespace NitorInc.Utility {
             }
         }
 
-        public void SetCallback(System.Action callback) {
-            this.callback = callback;
-        }
-
-        public void SetOnFinish(System.Action onFinish) {
-            this.onFinish = onFinish;
-        }
+        public void SetCallback(System.Action callback) => this.callback = callback;
+        public void SetOnFinish(System.Action onFinish) => this.onFinish = onFinish;
 
         public void StartOnce() {
             if (done) {
@@ -146,21 +132,10 @@ namespace NitorInc.Utility {
             repeatCounter = repeatTimes;
         }
 
-        public void SetTime(float time) {
-            this.time = time;
-        }
-
-        public float GetCurrentTime() {
-            return time;
-        }
-
-        public void Pause() {
-            paused = true;
-        }
-
-        public void Unpause() {
-            paused = false;
-        }
+        public void SetTime(float time) => this.time = time;
+        public float GetCurrentTime() => time;
+        public void Pause() => paused = true;
+        public void Unpause() => paused = false;
 
         public void Stop(bool triggerCallback = false) {
             if (!done) {
@@ -175,9 +150,7 @@ namespace NitorInc.Utility {
             }
         }
 
-        public bool IsRunning() {
-            return !done && !paused && !readyToDelete;
-        }
+        public bool IsRunning() => !done && !paused && !readyToDelete;
 
         void SetToRemove() {
             readyToDelete = true;

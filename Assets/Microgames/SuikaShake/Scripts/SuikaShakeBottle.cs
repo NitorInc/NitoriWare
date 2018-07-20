@@ -9,11 +9,23 @@ public class SuikaShakeBottle : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
-	private float health, minSpeed, progressMult, sideChance;
+    private float health;
+    [SerializeField]
+    private float minSpeed;
+    [SerializeField]
+    private float progressMult;
+    [SerializeField]
+    private float sideChance;
 	[SerializeField]
 	private int healthPerSuika;
     [SerializeField]
-    private BoxCollider2D middleCollider, leftCollider, rightCollider;
+    private float toCenterSpeed = 30f;
+    [SerializeField]
+    private BoxCollider2D middleCollider;
+    [SerializeField]
+    private BoxCollider2D leftCollider;
+    [SerializeField]
+    private BoxCollider2D rightCollider;
 	[SerializeField]
 	private GameObject suikaPrefab;
     [SerializeField]
@@ -22,13 +34,7 @@ public class SuikaShakeBottle : MonoBehaviour
     private AudioClip victoryClip;
 #pragma warning restore 0649
 
-    private bool _pauseBuffer = false;
-	public bool pauseBuffer
-	{
-		set { _pauseBuffer = value; }
-		get { return _pauseBuffer; }
-	}
-
+	public bool pauseBuffer { get; set; }
 	private SuikaShakeSuika[] suikas;
 	private Vector2 lastCursorPosition;
 
@@ -59,7 +65,6 @@ public class SuikaShakeBottle : MonoBehaviour
                 suikas[i].setFacing(0);
             }
 			suikas[i].transform.parent = transform;
-            //suikas[i].spriteRenderer.sortingOrder = 1 + (suikas.Length - i);
             suikas[i].spriteRenderer.sortingOrder = i + 1;
         }
         lastCursorPosition = CameraHelper.getCursorPosition();
@@ -77,8 +82,14 @@ public class SuikaShakeBottle : MonoBehaviour
 
         if (health < 0)
 		{
-			if (transform.moveTowards2D(Vector2.zero, 30f))
+			if (transform.moveTowards2D(Vector2.zero, toCenterSpeed))
             {
+                var sineWave = GetComponent<SineWave>();
+                if (sineWave != null)
+                {
+                    sineWave.enabled = true;
+                    sineWave.resetCycle();
+                }
                 enabled = false;
             }
 			return;
@@ -112,12 +123,6 @@ public class SuikaShakeBottle : MonoBehaviour
 		if (health <= 0)
         {
             GetComponent<FollowCursor>().enabled = false;
-            var sineWave = GetComponent<SineWave>();
-            if (sineWave != null)
-            {
-                sineWave.enabled = true;
-                sineWave.resetCycle();
-            }
             sparkleGenerator.SetActive(true);
             MicrogameController.instance.setVictory(true, true);
             MicrogameController.instance.playSFX(victoryClip, AudioHelper.getAudioPan(transform.position.x));

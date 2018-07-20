@@ -73,8 +73,8 @@ public class TextHelper
     /// Shortcut to LocalizationManager.instance.getLanguage() with null check
     /// </summary>
     /// <returns></returns>
-    public static LocalizationManager.Language getLoadedLanguage()
+    public static Language getLoadedLanguage()
     {
-        return LocalizationManager.instance == null ? new LocalizationManager.Language() : LocalizationManager.instance.getLoadedLanguage();
+        return LocalizationManager.instance == null ? new Language() : LocalizationManager.instance.getLoadedLanguage();
     }
 }

@@ -51,11 +51,7 @@ public class MicrogameController : MonoBehaviour
         //Get traits from collection if available
         if (GameController.instance != null)
         {
-            var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
-                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
-            if (collectionMicrogame == null)
-                collectionMicrogame = GameController.instance.microgameCollection.getCollectionBossMicrogames()
-                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            var collectionMicrogame = MicrogameHelper.getMicrogames().FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
                 traits = collectionMicrogame.difficultyTraits[difficulty - 1];
         }
@@ -88,7 +84,7 @@ public class MicrogameController : MonoBehaviour
             victory = traits.defaultVictory;
             victoryDetermined = false;
 
-            traits.onAccessInStage(microgameID);
+            traits.onAccessInStage(microgameID, difficulty);
         }
 		else if (!isBeingDiscarded())
 		{
