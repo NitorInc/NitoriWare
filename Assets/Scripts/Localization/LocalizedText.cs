@@ -177,8 +177,24 @@ public class LocalizedText : MonoBehaviour
             return textComponent.font;
         if (textMesh != null)
             return textMesh.font;
-        //TODO TextMeshPro font support
+        if (textMeshPro != null)
+            setTMPFontFallback(textMeshPro.font);
+        if (textMeshProUGUI != null)
+            setTMPFontFallback(textMeshProUGUI.font);
         return null;
+    }
+
+    void setTMPFontFallback(TMP_FontAsset font)
+    {
+        var fallback = TextHelper.getLoadedLanguage().tmproFallback;
+        if (fallback != null && !font.fallbackFontAssets.Contains(fallback))
+        {
+            if (!LocalizationManager.instance.modifiedFallbacks.ContainsKey(font))
+                LocalizationManager.instance.modifiedFallbacks.Add(font, new List<TMP_FontAsset>(font.fallbackFontAssets));
+            else
+                font.fallbackFontAssets = new List<TMP_FontAsset>(LocalizationManager.instance.modifiedFallbacks[font]);
+            font.fallbackFontAssets.Add(fallback);
+        }
     }
 
     public FontStyle getStyle()

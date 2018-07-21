@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LocalizationManager : MonoBehaviour
     public const string DefaultLanguage = "English";
 
 	public static LocalizationManager instance;
+
+    public Dictionary<TMP_FontAsset, List<TMP_FontAsset>> modifiedFallbacks;
 
     [SerializeField]
     private string forceLanguage;
@@ -19,6 +22,7 @@ public class LocalizationManager : MonoBehaviour
 
 	public void Awake ()
     {
+        modifiedFallbacks = new Dictionary<TMP_FontAsset, List<TMP_FontAsset>>();
         loadedLanguage = new Language();
 		if (instance != null)
 		{
@@ -41,6 +45,15 @@ public class LocalizationManager : MonoBehaviour
             languageToLoad = Application.systemLanguage.ToString();
 		setLanguage(languageToLoad);
 	}
+
+    private void OnDestroy()
+    {
+        foreach (var fallbackPair in modifiedFallbacks)
+        {
+            fallbackPair.Key.fallbackFontAssets = fallbackPair.Value;
+        }
+        modifiedFallbacks = null;
+    }
 
     public void setForcedLanguage(string language)
     {

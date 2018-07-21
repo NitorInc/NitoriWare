@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [System.Serializable]
 public class Language
@@ -13,6 +14,7 @@ public class Language
     public string overrideFileName;
     public Font overrideFont;
     public bool forceUnbold;
+    public TMP_FontAsset tmproFallback;
 
     public string getFileName()
     {
