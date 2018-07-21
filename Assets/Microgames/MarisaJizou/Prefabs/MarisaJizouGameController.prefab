@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1325355836146052}
+  m_IsPrefabParent: 1
+--- !u!1 &1325355836146052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4995735694532580}
+  - component: {fileID: 114798739351050488}
+  - component: {fileID: 114737227113204060}
+  m_Layer: 0
+  m_Name: MarisaJizouGameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4995735694532580
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325355836146052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.009301506, y: -2.0854652, z: -0.024238132}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114737227113204060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325355836146052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c7dd4a0b6114f44bd0c138e14a9a3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.1
+  animObject: {fileID: 0}
+--- !u!114 &114798739351050488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325355836146052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b97a20edc84b7047af439973bf307ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredJizou: 1
+  hatsCarried: 2
+  spawnLocations:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  specialJizouProtos:
+  - {fileID: 1535283533027466, guid: a9b3050b3862448478cb15679d7d3673, type: 2}
+  - {fileID: 1741302942766840, guid: b8457c07638e2754aa86c788bd6a7d7b, type: 2}
+  - {fileID: 1090663481161050, guid: d6340407528d026438cf8a6dd8672caa, type: 2}
+  normalJizouProto: {fileID: 1727261362698798, guid: a000163f9653c0f4b8c94cd3f9ce27c9,
+    type: 2}
+  touchJizouClip:
+  - {fileID: 8300000, guid: b88ddada4f8398c41a6cc5a899e66511, type: 3}
+  - {fileID: 8300000, guid: f2c115f8ef6d9e142939b21720c8792d, type: 3}
+  - {fileID: 8300000, guid: cf064a150cc7dea498e977cb582b52e0, type: 3}
+  finishClipDelay: 0.2
+  finishClip: {fileID: 8300000, guid: 8c104aad22ff6fa4c804c7614f83929a, type: 3}
