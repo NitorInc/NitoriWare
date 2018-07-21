@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaymooDodgeBullet : MonoBehaviour {
+public class ReimuDodgeBullet : MonoBehaviour {
 
     [Header("Target")]
     [SerializeField]
