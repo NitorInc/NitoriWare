@@ -5,28 +5,29 @@ using UnityEngine;
 public class DoomGame_Player : MonoBehaviour
 {
     [SerializeField]
-    public static int hp = 1;
-    [HideInInspector]
-    public static float bloodfx = 0;
-    [SerializeField]
-    Material blit;
+    Animator gunAnimator;
+    Camera mainCamera;
 
     void Start()
     {
-        bloodfx = 0;
-        hp = 1;
+        mainCamera = Camera.main;
     }
 
     void Update()
     {
         transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
         if(Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            if(Physics.Raycast(transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer("MicrogameLayer1")))
-                hit.collider.GetComponent<DoomGame_Enemy>().DamageSelf();
-        }
+            Shoot();
         CheckEnemies();
+    }
+
+    void Shoot()
+    {
+        gunAnimator.Play("doom_gun");
+        gunAnimator.SetTrigger("shoot");
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer("MicrogameLayer1")))
+            hit.collider.GetComponent<DoomGame_Enemy>().DamageSelf();
     }
 
     void CheckEnemies()
@@ -34,9 +35,9 @@ public class DoomGame_Player : MonoBehaviour
         DoomGame_UI.rightArrow = DoomGame_UI.leftArrow = false;
         for(int i = 0; i < DoomGame_Enemy.enemies.Count; i++)
         {
-            Vector3 vec = Camera.main.WorldToViewportPoint(
+            Vector3 vec = mainCamera.WorldToViewportPoint(
                 DoomGame_Enemy.enemies[i].transform.position);
-            if(vec.z < Camera.main.nearClipPlane)
+            if(vec.z < mainCamera.nearClipPlane)
             {
                 if(vec.x > 0.5f)
                     DoomGame_UI.leftArrow = true;
@@ -53,6 +54,12 @@ public class DoomGame_Player : MonoBehaviour
         }
     }
 
+    public static void Kill()
+    {
+
+    }
+
+    /*
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         blit.SetFloat("_Amount", bloodfx -= Time.deltaTime);
@@ -60,4 +67,5 @@ public class DoomGame_Player : MonoBehaviour
             bloodfx = 0;
         Graphics.Blit(source, destination, blit);
     }
+    */
 }

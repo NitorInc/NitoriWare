@@ -12,70 +12,52 @@ public class DoomGame_Enemy : MonoBehaviour
     [SerializeField]
     float moveSpeed = 5, damageDelay = 0.5f, distanceToHit = 5;
     [SerializeField]
-    int damageAmount = 30, hp = 2;
+    int hp = 2;
     SpriteRenderer rend;
     [SerializeField]
     AudioClip[] hurtAudio;
     [SerializeField]
     AudioClip deathAudio;
-
-    [SerializeField]
-    Sprite[] movementSprites;
-    [SerializeField]
-    float animationDelay = 0.1f;
     [SerializeField]
     new ParticleSystem particleSystem;
 
     Vector3 direction;
     AudioSource audioSource;
+    Transform mainCamera;
 
     void Start()
     {
-        enemies.Clear();
+        if(enemies.Contains(null))
+            enemies.Clear(); //this was clearing the list every time a new enemy spawned
         enemies.Add(this);
         rend = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        mainCamera = Camera.main.transform;
     }
 
     void Update()
     {
-        targetPosition = new Vector3(Camera.main.transform.position.x, transform.position.y, Camera.main.transform.position.z);
+        targetPosition = new Vector3(mainCamera.position.x, transform.position.y, mainCamera.position.z);
 
-        direction = transform.position - targetPosition;
-        direction.Normalize();
+        direction = Vector3.Normalize(transform.position - targetPosition);
 
         if(Vector3.Distance(transform.position, targetPosition) < distanceToHit)
             DamagePlayer();
         else
             transform.position = Vector3.MoveTowards(transform.position, targetPosition - direction * 5, moveSpeed * Time.deltaTime);
-
-        transform.rotation = Camera.main.transform.rotation;
-
-        Animate();
     }
 
-    float anim;
-    int animationFrame = 0;
-    void Animate()
+    void LateUpdate()
     {
-        anim += Time.deltaTime;
-        if(anim > animationDelay)
-        {
-            animationFrame++;
-            if(animationFrame >= movementSprites.Length)
-                animationFrame = 0;
-            rend.sprite = movementSprites[animationFrame];
-            anim = 0;
-        }
+        transform.rotation = mainCamera.rotation;
     }
 
-    float delay = Mathf.Infinity;
+    float delay = 0;
     void DamagePlayer()
     {
         if(delay > damageDelay)
         {
-            DoomGame_Player.hp -= damageAmount;
-            DoomGame_Player.bloodfx = 0.3f;
+            DoomGame_Player.Kill();
             delay = 0;
         }
         delay += Time.deltaTime;
@@ -85,19 +67,34 @@ public class DoomGame_Enemy : MonoBehaviour
     {
         hp--;
         if(hp <= 0)
-        {
-            audioSource.clip = deathAudio;
-            audioSource.Play();
-            particleSystem.transform.SetParent(null);
-            particleSystem.Emit(1);
-            Destroy(particleSystem.gameObject, particleSystem.startLifetime);
-            Destroy(gameObject, deathAudio.length);
-            Destroy(GetComponent<Collider>());
-            rend.enabled = false;
-            enemies.Remove(this);
-            Destroy(this);
-            return;
-        }
+            Kill();
+        else
+            Hurt();
+    }
+
+    void Kill()
+    {
+        audioSource.clip = deathAudio;
+        audioSource.Play();
+        particleSystem.transform.SetParent(null);
+        particleSystem.Emit(30);
+        Destroy(particleSystem.gameObject, 2);
+        Destroy(gameObject, deathAudio.length);
+        Destroy(GetComponent<Collider>());
+        rend.enabled = false;
+        enemies.Remove(this);
+        Destroy(this);
+
+        CheckVictory();
+    }
+
+    void CheckVictory()
+    {
+
+    }
+
+    void Hurt()
+    {
         StartCoroutine(Knockback(direction * 5));
         StartCoroutine(DamageColor());
         audioSource.pitch = Random.value * 0.2f + 0.9f;
