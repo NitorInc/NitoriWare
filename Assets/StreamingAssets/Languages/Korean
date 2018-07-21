@@ -18,7 +18,7 @@ stage
 		highscore=기록: {0}
 		newhighscore=신기록 달성!
 discord
-	scoreformat={0} 게임
+	scoreformat={0} 게임째
 	scoreformatsingular={0} 게임
 	boss=보스 스테이지
 	menu=메뉴
@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=저리 가요, 이 돼지!
 				response=네가 할 말은 아니거든!
+			wrong2
+				option=혼자서 먹어도 되잖아요.
+				response=흥. 재미 없기는.
 		youmu
 			fullname=콘파쿠 요우무
 			firstname=요우무
@@ -115,6 +118,8 @@ microgame
 			wrong1
 				option=꽃은 싫은데...
 				response=꽃들도 넌 싫어할 거야.
+			wrong2
+				option=이거 조화 아니에요?
 		yuuka
 			fullname=카자미 유카
 			firstname=유카
@@ -131,8 +136,40 @@ microgame
 			wrong1
 				option=전 레이무가 좋아요!
 				response=다시 생각하는 게 좋을 거야.
+			wrong2
+				option=잠깐 볼일이 있어서...
+				response=어딜 가시려고?
+		patchy
+			fullname=파츄리 널릿지
+			firstname=파츄리
+			right0
+				option=맛있어요.
+			right1
+				option=더 주세요!
+			wrong0
+				option=맛이 이상하네요.
+			wrong1
+				option=어이쿠, 손이 미끄러졌네!
+			wrong2
+				option=차 달라고 한 적 없는데요.
 		fakeconfig=저장\n불러오기\n자동진행\n기록\n설정
 		command=연애해라!
+		igname=요괴 연애 시뮬레이션
+	ComicBubble
+		0
+			0=정말 이래도 괜찮은 거야?
+			1=괜찮아, 괜찮아!
+		1
+			0=잠깐만!
+			1=옷에 뭐가 묻어 있다구~
+			2=~요기!
+		2
+			0=청소하는 것도 귀찮구만...
+			1=찾아오는 사람도 없는데 청소할 필요는 없잖냐?
+			2=으악!
+			3=아악!
+		command=대화해라!
+		igname=다이나믹 말풍선
 	FreezeFrogs
 		command=얼려라!
 		igname=개구리 얼리기
@@ -185,7 +222,7 @@ microgame
 		igname=시원해 휠
 	YukariCake
 		command=훔쳐라!
-		igname=디저트 경찰
+		igname=디저트 판타지아
 	RemiCover
 		command=그늘을 드리워라!
 		igname=흡혈귀의 약점
@@ -207,11 +244,46 @@ microgame
 		commandc=쏴라!
 		commandd=쓰러트려라!
 		igname=오이 사냥
+	KaguyaMemory
+		command=주목!
+		commandb=선택해라!
+		igname=난제
+	SumiWheel
+		command=맞춰라!
+	MochiPound
+		command=찧어라!
+		igname=떡방아
 	RuukotoSweep
 		command=쓸어라!
 		igname=신사 쓸기
+	MaskPuzzle
+		command=고쳐라!
+		igname=표정이 필요한 포커페이스
+	YuukaWater
+		command=물을 줘라!
+		igname=물주기
+	KnifeDodge
+		command=피해라!
+	NitoriLook
+		command=니토리를 찾아라!
+		igname=숨은 니토리 찾기
+	MamiPoser
+		command=가짜를 찾아라!
+		igname=둔갑너구리
+	DollDance
+		command=따라해라!
+		igname=광란의 인형극
 	CirnoBored
 		command=친절해라!
+		commandb=즐겁게 해라!
+		commandc=구해라!
+		igname=얼음요정 달래기
+	HecShapes
+		command=놓아라!
+		igname=지옥의 깔맞춤
+	RockPaperSatori
+		command=이겨라!
+		igname=가위 바위 사토리
 	MarisaJizou
 		command=던져라!
 		igname=모자 씌우기
@@ -220,30 +292,35 @@ microgame
 		igname=UFO 납치
 	ReimuDodge
 		command=피해라!
+		igname=~
+	ClothesChoose
+		command=짝을 맞춰라!
+		igname=오늘의 패션
 	KyoukoEcho
 		command=반사해라!
+		igname=인사는 마음의 오아시스
 	BugSwat
 		command=잡아라!
+		igname=꿈틀대는 밤벌레
 	ClownTorch
 		command=태워라!
-	KaguyaMemoryl
-		commandb=선택해라!
-	KaguyaMemory
-		igname=난제
-	MochiPound
-		igname=떡방아
-	MaskPuzzle
-		igname=표정이 필요한 포커페이스
-	YuukaWater
-		igname=물주기
-	NitoriLook
-		igname=숨은 니토리 찾기
-	MamiPoser
-		igname=둔갑너구리
-	DollDance
-		igname=광란의 인형극
-	RockPaperSatori
-		igname=가위 바위 사토리
+		igname=신사 난방 시스템
+	BeachBall
+		command=던져라!
+		igname=만세락
+	YuugiBalance
+		command=균형을 잡아라!
+		igname=올바른 음주습관
+	DoorKnock
+		command=두드려라!
+	FoodCut
+		command=썰어라!
+	MoneyTrap
+		command=유인해라!
+	KeineMath
+		command=풀어라!
+	DoomGame
+		igname=광기의 지옥토끼
 credits
 	intro={0} 를 만드는 데 다음과 같은 사람들이 도움을 주었습니다!
 	kapptain=감독, 프로그래머, 매니저, 팀 "Kapptain"
@@ -261,7 +338,7 @@ credits
 		management=번역 관리
 	sfx=음향
 	voice=니토리 음성
-	trailer=단편
+	trailer=단편 영상
 	socialmedia=홍보/소셜 미디어
 	touhou=이 게임 데모는 ZUN이 제작한 동방 프로젝트 (東方Project)의 2차 창작물입니다.
 	thanks=특별히 감사드림

@@ -38,7 +38,7 @@ menu
 			description=ハイスコアを目指せ！エンドレスモード！
 		arcade=アーケードモード
 		microgamepractice=プラクティスモード
-			description=地力を上げてハイスコアを目指そう！そして自慢ツイートしようぜ！
+			description=Hone your microgaming skills, and get those high scores up so you can brag to your friends!
 		locked1={0}を完走したら開放するよ！
 		locked2={1}で{0}点達成したら開放するよ！
 		highscore=ハイスコア: {0}
@@ -99,43 +99,89 @@ microgame
 				option=いい店知ってるよ！行こ行こ！
 				response=わーい！任せるー！
 			wrong0
-				option=さっき食ってたじゃん？
+				option=さっき食ったばかりだろう！
 				response=デリカシーがないねぇ…
 			wrong1
 				option=石でも食ってろ！
-				response=あいにく投げる方が好きでな。ほれ！
+				response=あいにく投げる方が好きでな。ほーら！
+			wrong2
+				option=お前一人でも大丈夫でしょう…
+				response=つまんねえなこいつ…
 		youmu
 			fullname=魂魄妖夢
 			firstname=妖夢
 			introdialogue=あなたのために育てた花よ。きれいでしょう？
 			right0
-				option=花より君のほうがきれいだよ。
-				response=い、いきなり何言ってんの？嬉しいけど…
+				option=花よりも君のほうがきれいだよ。
+				response=ありがとう。
+			right1
+				option=すごく…きれいです。
+				response=気に入ってくれてよかった。
 			wrong0
 				option=え？頼んでないのに…
-				response=鈍いやつだな…
+				response=どれだけ鈍いんだ…
 			wrong1
-				option=金は払わんぞ！
-				response=商売しにきたんじゃないから！もう…
+				option=花なんか大嫌いだ！
+				response=花もあんたのことが嫌いだよ。
+			wrong2
+				option=これ造花っぽいな…
+				response=見る目がない人ねぇ…
 		yuuka
 			fullname=風見幽香
 			firstname=幽香
-			introdialogue=最近は全然来ないわね。他の女のとこにも行ったのか？お？
+			introdialogue=最近は全然来ないわね。他の女のとこにも行ったのかい？
 			right0
 				option=寂しい思いをさせてゴメン！
 				response=次はないわよ。
 			right1
-				option=浮気する度胸なんかないよ…
+				option=浮気する度胸なんてないよ…
 				response=だろうね。
 			wrong0
 				option=いやぁ～実は…その…
-				response=なにごちゃごちゃ言ってんだ。さっさとしろ。
+				response=なにごちゃごちゃ言ってんだ。
 			wrong1
 				option=霊夢に惚れ直した！
-				response=どうやら再教育が必要だねぇ…
+				response=もう一度言ってみろ。
+			wrong2
+				option=ちょっと急用が…
+				response=あぁん？なんだその言い訳は！
+		patchy
+			fullname=パチュリー・ノーレッジ
+			firstname=パチュリー
+			introdialogue=私が入れた紅茶…どう？おいしい？
+			right0
+				option=すごく美味しかった。
+				response=よかった…
+			right1
+				option=もう一杯頼む！
+				response=はい、お待ちどうー
+			wrong0
+				option=シュールな味だった…
+				response=下手でごめんね…
+			wrong1
+				option=こぼしちゃった…
+				response=そ、そうか…さっそく片付けないと…
+			wrong2
+				option=お茶なんか頼んでないぞ。
+				response=好きかと思ってた…
 		fakeconfig=Save\nLoad\nAuto\nLog\nConfig
 		command=好感度上げろ！
 		igname=ガールフレンド（東方）
+	ComicBubble
+		0
+			0=そこ大丈夫？やばくない？
+			1=大丈夫だって～
+		1
+			0=ちょっと待って！
+			1=服になんか付いてるよー
+			2=はいそこ！
+		2
+			0=掃除がめんどくさいわー
+			1=私しか来ないし掃除しなくても…
+			2=あいたっ！
+			3=いってぇ！
+		command=吹き出せ！
+		igname=ダイナミックフキダシ
 	FreezeFrogs
 		command=凍らせろ！
 		igname=かえる・こおる
@@ -210,12 +256,46 @@ microgame
 		commandc=打ち砕け！
 		commandd=ぶっ倒せ！
 		igname=キュウリ大戦争
+	KaguyaMemory
+		command=覚えろ！
+		commandb=選べ！
+		igname=六つ目の難題
+	SumiWheel
+		command=当てろ！
+	MochiPound
+		command=つぶせ！
+		igname=ユニバーサルもちつき
 	RuukotoSweep
 		command=掃除しろ！
-		igname=る～ことのやること
+		igname=る～ことのやる～こと
+	MaskPuzzle
+		command=直せ！
+		igname=割られたエモーション
+	YuukaWater
+		command=水をあげろ！
+		igname=ガーデニングマスター
+	KnifeDodge
+		command=避けろ！
+	NitoriLook
+		command=にとりを探せ！
+		igname=よりどりにとり
+	MamiPoser
+		command=偽物め！
+		igname=取られた狸の皮算用
+	DollDance
+		command=真似しろ！
+		igname=乙女文楽
 	CirnoBored
 		command=適当に！
+		commandb=楽しませろ！
+		commandc=助けろ！
 		igname=妖精の育ち方
+	HecShapes
+		command=入れろ！
+		igname=ヘルマッチング
+	RockPaperSatori
+		command=勝利しろ！
+		igname=イカサマじゃんけん
 	MarisaJizou
 		command=投げろ！
 		igname=ハットトリック
@@ -224,43 +304,33 @@ microgame
 		igname=未確認幻想飛行アブダクション
 	ReimuDodge
 		command=逸らかせ！
+		igname=~
+	ClothesChoose
+		command=着させろ！
+		igname=ファッションドール
 	KyoukoEcho
 		command=反射しろ！
-		igname=やまびこの特訓法
+		igname=コトダマデフレクション
 	BugSwat
 		command=叩け！
 		igname=リグルたたき
 	ClownTorch
 		command=火貸して！
-		igname=火継ぎの神社
-	KaguyaMemoryl
-		commandb=選べ！
-	KaguyaMemory
-		igname=六つ目の難題
-	MochiPound
-		igname=ユニバーサルもちつき
-	MaskPuzzle
-		igname=割られたエモーション
-	YuukaWater
-		igname=ガーデニングマスター
-	NitoriLook
-		igname=よりどりにとり
-	MamiPoser
-		igname=タヌキさがし
-	DollDance
-		igname=乙女文楽
-	HecShapes
-		igname=ヘルマッチング
-	RockPaperSatori
-		igname=イカサマじゃんけん
-	ClothesChoose
-		igname=ファッションドール
+		igname=地獄式避寒術
 	BeachBall
+		command=投げろ！
 		igname=まんざいらく
 	YuugiBalance
+		command=落ち着け！
 		igname=四天王式皿回し
-	ComicBubble
-		igname=ダイナミックフキダシ
+	DoorKnock
+		command=叩け！
+	FoodCut
+		command=切れ！
+	MoneyTrap
+		command=おびき出せ！
+	KeineMath
+		igname=とけーね
 credits
 	intro={0} の制作に協力してくれた人たち
 	kapptain=製作総指揮、プログラム、チーム・カッパテン

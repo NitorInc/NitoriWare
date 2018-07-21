@@ -84,14 +84,14 @@ menu
 		webglwarning=Jeżeli doświadczysz jakichś problemów z odtwarzaczem przeglądarkowym, spróbuj pobrać grę z poniżej podanych linków.
 nitori
 	storyintro=Wygląda na to, że mamy nowego klienta.\nZobaczmy jak poradzisz sobie z moimi grami.\nLepiej nie mrugaj za dużo bo nie nadążysz!
-	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu jedynie by zwiedzać.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
+	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu tylko na wczasach.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
 	compilationfinished=No no, jestem pod wrażeniem!\nCiekawe czy dasz sobie radę w pełnej grze!\nTo jedynie początek {0}!
 microgame
 	DatingSim
 		suika
 			fullname=Suika Ibuki
 			firstname=Suika
-			introdialogue=Hej! Masz chwilkę? Chcesz coś przekąsić?
+			introdialogue=Hej! Masz chwilkę? Chcesz pójść coś przekąsić?
 			right0
 				option=Kto pierwszy do straganu!
 				response=Ostatni stawia!
@@ -100,10 +100,13 @@ microgame
 				response=Hurra!
 			wrong0
 				option=Dopiero co jadłaś!
-				response=E tam. Samej to nie to samo.
+				response=E tam. Jeść samej to nie to samo.
 			wrong1
 				option=Spadaj, grubasie!
 				response=Sam do najszczuplejszych nie należysz!
+			wrong2
+				option=Nie możesz iść sama?
+				response=Mogę. Niepotrzebnie pytałam.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,19 +114,25 @@ microgame
 			right0
 				option=Są przepiękne!
 				response=Dziękuję!
+			right1
+				option=Jak miło!
+				response=Cieszę się, że ci się podobają!
 			wrong0
 				option=Aaa, duch!
 				response=Chyba żartujesz.
 			wrong1
 				option=Nie cierpię kwiatów!
 				response=I tak na nie nie zasługujesz.
+			wrong2
+				option=Na pewno są sztuczne.
+				response=Na pewno masz <i>wielkie</i> powodzenie u kobiet.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
 			introdialogue=Nie spotykałeś się z innymi dziewczynami?
 			right0
 				option=Jasne, że nie!
-				response=Masz szczęście.
+				response=No, mam nadzieję.
 			right1
 				option=Jesteś moją jedyną!
 				response=Tak jak myślałam.
@@ -133,8 +142,46 @@ microgame
 			wrong1
 				option=Kocham Reimu!
 				response=Lepiej się zastanów.
+			wrong2
+				option=Och! Muszę coś zrobić.
+				response=O nie, nie wywiniesz się!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Mam nadzieję, że smakuje ci moja herbata.
+			right0
+				option=Jest wyśmienita.
+				response=Naprawdę? Cieszę się.
+			right1
+				option=Poproszę jeszcze jedną!
+				response=Jak najbardziej!
+			wrong0
+				option=Smakuje jakoś dziwnie.
+				response=Och, przepraszam.
+			wrong1
+				option=*Potknij się i rozlej gorącą herbatę*
+				response=<i>JAAAAAAŁAłałała!!</i>
+			wrong2
+				option=Nie prosiłem o herbatę.
+				response=Chciałam... ci zrobić przyjemność.
 		fakeconfig=Zapisz\nWczytaj\nAuto\nHistoria\nUstawienia
 		command=Flirtuj!
+		igname=Pierwsza randka
+	ComicBubble
+		0
+			0=Jesteś pewna, że to bezpieczne?
+			1=Bez obaw!
+		1
+			0=Hej, zaczekaj!
+			1=Masz coś oooo~
+			2=~TUTAJ!
+		2
+			0=Nie cierpię sprzątać...
+			1=Po co się wysilasz? I tak tylko ja tu przychodzę.
+			2=Aj!
+			3=Ałć!
+		command=Rozmawiaj!
+		igname=A gdzie puenta?
 	FreezeFrogs
 		command=Zamróź!
 		igname=Mroźne Żaby
@@ -209,27 +256,80 @@ microgame
 		commandc=Zestrzel!
 		commandd=Pokonaj ją!
 		igname=W pogoni za ogórkiem
+	KaguyaMemory
+		command=Obserwuj!
+		commandb=Wybierz!
+		igname=Cenne wspomnienie
+	SumiWheel
+		command=Runa!
+		igname=Runy fortuny
+	MochiPound
+		command=Ubij!
+		igname=Ryżobicie
 	RuukotoSweep
 		command=Zamieć!
 		igname=Pozamiatane
+	MaskPuzzle
+		command=Złóż!
+		igname=Maskładanka
+	YuukaWater
+		command=Podlej!
+		igname=Dziewczyna z konewką
+	KnifeDodge
+		command=Uniknij!
+	NitoriLook
+		command=Znajdź Nitori!
+		igname=Ukryta Nitori
+	MamiPoser
+		command=Oszust!
+		igname=Oszust
+	DollDance
+		command=Naśladuj!
+		igname=Teatr lalek
 	CirnoBored
 		command=Bądź miły!
+		commandb=Zabaw!
+		commandc=Uratuj ją!
+		igname=Oziębłe stosunki
+	HecShapes
+		command=Włóż!
+		igname=Świat na głowie
+	RockPaperSatori
+		command=Wygraj!
+		igname=Papier, kamień, telepata
 	MarisaJizou
 		command=Zrzuć!
+		igname=Czapki z głów
 	NueAbduct
 		command=Uprowadź!
+		igname=Porywająca opowieść
 	ReimuDodge
 		command=Uniknij!
+		igname=~
+	ClothesChoose
+		command=Dopasuj!
+		igname=Przymierzalnia
 	KyoukoEcho
 		command=Odbij!
+		igname=Coś ty powiedział?
 	BugSwat
 		command=Pacnij!
+		igname=Zakaz latania
 	ClownTorch
 		command=Podpal!
-	KaguyaMemoryl
-		commandb=Wybierz!
-	MaskPuzzle
-		igname=Maskładanka
+		igname=Domowe ognisko
+	BeachBall
+		command=Wrzuć!
+		igname=Przez obręcz
+	YuugiBalance
+		command=Balansuj!
+		igname=Balansuj tak jak oni
+	DoorKnock
+		command=Zapukaj!
+	FoodCut
+		command=Pokrój!
+	MoneyTrap
+		command=Zwab!
 credits
 	intro={0} powstało dzięki niżej wymienionym fanom!
 	kapptain=Kierunek twórczy, Programista, "Kappitan" drużyny

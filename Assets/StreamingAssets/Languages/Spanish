@@ -38,7 +38,7 @@ menu
 			description=¡Juega al modo historia sin parar! ¿Cuál será tu máxima puntuación?
 		arcade=Modo Arcade
 		microgamepractice=Practicar microjuegos
-			description=¡Mejora tus habilidades en los microjuegos y consigue las puntuaciones más altas para que puedas presumir con tus amigos!
+			description=¡Mejora tus habilidades en los microjuegos y consigue las puntuaciones más altas para que puedas presumir de ello con tus amigos!
 		locked1=¡Bloqueado! Completa {0} para desbloquearlo.
 		locked2=¡Bloqueado! Consigue una puntuación de {0} o más en {1} para desbloquearlo.
 		highscore=Puntuación máxima: {0}
@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=¡Piérdete, glotona!
 				response=¡Tú sí que tienes lorzas, imbécil!
+			wrong2
+				option=Ve tú sola.
+				response=Bah, qué pelma eres.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=¡Son preciosas!
 				response=Gracias...
+			right1
+				option=Eres un cielo.
+				response=¡Me alegro de que te gusten!
 			wrong0
 				option=¡Aaah! ¡Un fantasma!
 				response=Tienes que estar de coña.
 			wrong1
 				option=¡Odio las flores!
 				response=No te las mereces.
+			wrong2
+				option=Seguro que son falsas.
+				response=Seguro que tienes <i>mucha suerte</i> con las mujeres.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -133,8 +142,46 @@ microgame
 			wrong1
 				option=¡Mi corazón pertenece a Reimu!
 				response=Piénsatelo dos veces.
+			wrong2
+				option=Tengo otros planes.
+				response=¿Cómo te atreves?
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Espero que te guste el té que he preparado...
+			right0
+				option=Está delicioso.
+				response=Me alegro.
+			right1
+				option=¡Más, por favor!
+				response=¡Enseguida!
+			wrong0
+				option=Sabe un poco raro...
+				response=Lo siento...
+			wrong1
+				option=—tropieza y salpica té por todas partes—
+				response=<i>¡¡IAAAAAAAAAAHH!!</i>
+			wrong2
+				option=No te he pedido té.
+				response=Había pensado... que te gustaría...
 		fakeconfig=Guardar\nCargar\nAuto\nHistorial\nOpciones
-		command=¡Enamora!
+		command=¡Enamórala!
+		igname=Primera cita
+	ComicBubble
+		0
+			0=¿De verdad esto es seguro?
+			1=¡No pasará nada!
+		1
+			0=¡Eh, espera!
+			1=Creo que tienes algo...
+			2=¡AQUÍ!
+		2
+			0=Limpiar es un aburrimiento...
+			1=¿Para qué molestarse si soy la única a la que visitar?
+			2=¡Aaah!
+			3=¡Ay!
+		command=¡Charla!
+		igname=Va una de Gensokyo y dice...
 	FreezeFrogs
 		command=¡Congela!
 		igname=Congelarranas
@@ -148,7 +195,7 @@ microgame
 		command=¡Alimenta!
 		igname=Alimentarañas
 	Donation
-		command=¡Obtén 3!
+		command=¡Consigue 3!
 		igname=Cazamonedas
 	Wrench
 		command=¡Atornilla!
@@ -181,7 +228,7 @@ microgame
 		igname=¡Honk honk!
 	MasterSparkCode
 		command=¡Conjura!
-		igname=¡Al Atakker-o!
+		igname=¡Al atakker-o!
 	OkuuFire
 		command=¡Regula!
 		igname=Control refrescante
@@ -190,7 +237,7 @@ microgame
 		igname=Robapostres
 	RemiCover
 		command=¡Dale sombra!
-		igname=Negocio sombrío
+		igname=A la sombra me Remi-to
 	SuikaShake
 		command=¡Quítalas de encima!
 		igname=Mezclado, no agitado
@@ -209,36 +256,80 @@ microgame
 		commandc=¡Dispara!
 		commandd=¡Véncela!
 		igname=Kappaseo
+	KaguyaMemory
+		command=¡Observa!
+		commandb=¡Selecciona!
+		igname=Recuerdos preciados
+	SumiWheel
+		command=¡Identifica!
+		igname=Lo he vizto todo...
+	MochiPound
+		command=¡Machaca!
+		igname=Mochicante
 	RuukotoSweep
 		command=¡Barre!
-		igname=La Barrendera
+		igname=La barrendera
+	MaskPuzzle
+		command=¡Monta!
+		igname=Rompe-cabezas
+	YuukaWater
+		command=¡Riega!
+		igname=Riégame
+	KnifeDodge
+		command=¡Evita!
+	NitoriLook
+		command=¡Busca a Nitori!
+		igname=¿Dónde está Nitori?
+	MamiPoser
+		command=¡Busca la diferente!
+		igname=Mami-mpostora
+	DollDance
+		command=¡Imita!
+		igname=Teatro de piruetas
+	CirnoBored
+		command=¡Pórtate bien!
+		commandb=¡Diviértela!
+		commandc=¡Sálvala!
+		igname=Una hada aburrida
+	HecShapes
+		command=¡Coloca!
+		igname=Pareja infernal
+	RockPaperSatori
+		command=¡Gana!
+		igname=Piedra, papel, Satori
 	MarisaJizou
 		command=¡Lanza!
+		igname=De sombrero a sombrero
 	NueAbduct
-		command=¡Secuestra!
+		command=¡Abduce!
 		igname=Abducción extraterrestre
 	ReimuDodge
 		command=¡Esquiva!
+		igname=~
+	ClothesChoose
+		command=¡Une!
+		igname=¿Qué me pongo hoy?
 	KyoukoEcho
 		command=¡Refleja!
+		igname=Dicho de otra forma...
 	BugSwat
 		command=¡Aplasta!
+		igname=Aplastabichos
 	ClownTorch
-		command=¡Quémalos!
-	KaguyaMemory
-		igname=Memorias atesoradas
-	MochiPound
-		igname=Mochicante
-	MaskPuzzle
-		igname=Rompe-cabezas
-	NitoriLook
-		igname=¿Dónde está Nitori?
-	MamiPoser
-		igname=Mami-mpostora
-	DollDance
-		igname=Teatro de piruetas
-	RockPaperSatori
-		igname=Piedra, papel, Satori
+		command=¡Quema!
+		igname=Antorcha payasística
+	BeachBall
+		command=¡Lanza!
+		igname=Por el aro
+	YuugiBalance
+		command=¡Equilibra!
+		igname=Bebe con proporción
+	DoorKnock
+		command=¡Toca!
+	FoodCut
+		command=¡Corta!
+	MoneyTrap
+		command=¡Tienta!
 credits
 	intro=¡{0} ha sido posible gracias a los siguientes fans!
 	kapptain=Director creativo, programador, "Kappitán" del equipo

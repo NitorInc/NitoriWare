@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Get lost, fatso!
 				response=Well you’re not the skinniest yourself, jerk!
+			wrong2
+				option=You can go yourself.
+				response=Fine, you’re no fun anyway.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=They’re beautiful!
 				response=Thank you~
+			right1
+				option=That's so sweet.
+				response=I'm glad you like them!
 			wrong0
 				option=Aaah, a ghost!
 				response=You have got to be kidding me.
 			wrong1
 				option=I hate flowers!
 				response=You don’t deserve them anyway.
+			wrong2
+				option=I bet these are fake.
+				response=I bet you have <i>lots</i> of luck with the ladies.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -133,9 +142,46 @@ microgame
 			wrong1
 				option=I’m in love with Reimu!
 				response=Think again.
+			wrong2
+				option=Something came up.
+				response=Oh, no you don't!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=I hope you enjoy my tea...
+			right0
+				option=Tastes delicious.
+				response=Oh? I'm glad.
+			right1
+				option=More, please!
+				response=Coming right up!
+			wrong0
+				option=This tastes funny.
+				response=Oh, I'm sorry.
+			wrong1
+				option=*Trip and spill hot tea everywhere*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=I never asked for tea.
+				response=I... thought you would like it.
 		fakeconfig=Save\nLoad\nAuto\nLog\nConfig
 		command=Romance!
 		igname=First Date
+	ComicBubble
+		0
+			0=Are you sure that's safe?
+			1=It's fine!
+		1
+			0=Hey, Wait!
+			1=You have something riiiiight~
+			2=~HERE!
+		2
+			0=Cleaning is such a pain...
+			1=Why bother when I'm the only one to visit?
+			2=Eek!
+			3=Ow!
+		command=Dialogue!
+		igname=Get to the Punchline!
 	FreezeFrogs
 		command=Freeze!
 		igname=Frosty Frogs
@@ -210,14 +256,49 @@ microgame
 		commandc=Shoot down!
 		commandd=Defeat her!
 		igname=The Cucumber Caper
+	KaguyaMemory
+		command=Watch!
+		commandb=Select!
+		igname=Treasured Memory
+	SumiWheel
+		command=Rune!
+		igname=I Have Zeen it All
+	MochiPound
+		command=Pound!
+		igname=By the Pound
 	RuukotoSweep
 		command=Sweep!
 		igname=Feeling Sweepy
+	MaskPuzzle
+		command=Assemble!
+		igname=Puzzled Expression
+	YuukaWater
+		command=Water!
+		igname=Sunny Side Up
+	KnifeDodge
+		command=Dodge!
+	NitoriLook
+		command=Find Nitori!
+		igname=Nitori-Where?
+	MamiPoser
+		command=Imposter!
+		igname=The Imposter
+	DollDance
+		command=Mimic!
+		igname=String Fever
 	CirnoBored
 		command=Be nice!
+		commandb=Entertain!
+		commandc=Save her!
 		igname=Cold Treatment
+	HecShapes
+		command=Place!
+		igname=A Match Made in Hell
+	RockPaperSatori
+		command=Win!
+		igname=Rock-Paper-Psychic
 	MarisaJizou
-		command=Throw!
+		command=Hat!
 		igname=Drop of a Hat
 	NueAbduct
 		command=Abduct!
@@ -225,8 +306,11 @@ microgame
 	ReimuDodge
 		command=Dodge!
 		igname=this one has no name it's a tutorial
+	ClothesChoose
+		command=Match!
+		igname=Look of the Day
 	KyoukoEcho
-		command=Reflect!
+		command=Deflect!
 		igname=Let Me Rephrase That
 	BugSwat
 		command=Swat!
@@ -234,36 +318,22 @@ microgame
 	ClownTorch
 		command=Ignite!
 		igname=Passing the Torch
-	KaguyaMemoryl
-		commandb=Select!
-	KaguyaMemory
-		igname=Treasured Memory
-	SumiWheel
-		igname=I Have Zeen it All
-	MochiPound
-		igname=By the Pound
-	MaskPuzzle
-		igname=Puzzled Expression
-	YuukaWater
-		igname=Sunny Side Up
-	NitoriLook
-		igname=Nitori-Where?
-	MamiPoser
-		igname=The Imposter
-	DollDance
-		igname=String Fever
-	HecShapes
-		igname=A Match Made in Hell
-	RockPaperSatori
-		igname=Rock-Paper-Psychic
-	ClothesChoose
-		igname=Look of the Day
 	BeachBall
+		command=Toss!
 		igname=Hoopsie Daisy
 	YuugiBalance
+		command=Balance!
 		igname=Balanced Drinking
-	ComicBubble
-		igname=Get to the Punchline!
+	DoorKnock
+		command=Knock!
+	FoodCut
+		command=Cut!
+	MoneyTrap
+		command=Lure!
+	KeineMath
+		command=Solve!
+	DoomGame
+		igname=Reisen' Hell
 credits
 	intro={0} was made possible thanks to the following fans!
 	kapptain=Director, Programmer, Manager, Team "Kapptain"

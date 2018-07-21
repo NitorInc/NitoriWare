@@ -7,7 +7,7 @@ stage
 		key=KLAVYEYİ KULLAN
 		mouse=FAREYİ KULLAN
 	speedup=DAHA HIZLI!
-	boss=BOSS SEVİYESİ
+	boss=BOSS SEVİYE
 	levelup=SEVİYE ATLANDI!
 	pause=Oyun Durduruldu
 		resume=Devam {0}
@@ -15,13 +15,13 @@ stage
 	retry=Yeniden Dene {0}
 	gameover=Oyun Bitti!
 		score=Skorun: {0}
-		highscore=Yüksek Skor: {0}
+		highscore=En Yüksek Skor: {0}
 		newhighscore=Yeni Rekor!
 discord
 	scoreformat={0} Oyunlar
 	scoreformatsingular={0} Oyun
 	boss=Boss Seviyesi
-	menu=Menüdea
+	menu=Menüde
 menu
 	yes=Evet
 	no=Hayır
@@ -103,6 +103,9 @@ microgame
 			wrong1
 				option=Yürü git, şişko!
 				response=Sen sanki çok sıskaymışsın, geri zekalı!
+			wrong2
+				option=Vay anasını.
+				response=Bana ne, zaten eğlenceli biri de değilsin.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -110,12 +113,18 @@ microgame
 			right0
 				option=Çok güzeller!
 				response=Teşekkürler~
+			right1
+				option=Çok şirinsin.
+				response=Onları sevdiğine mutlu oldum.
 			wrong0
 				option=Aaa! Hayalet!
 				response=Şaka mı yapıyorsun?
 			wrong1
 				option=Çiçeklerden nefret ederim!
 				response=Zaten onlara layık da değilsin.
+			wrong2
+				option=Bunların sahte olduğundan eminim.
+				response=Başka kızlarla da <i>çok şanslı</i> olduğuna eminim.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -132,7 +141,46 @@ microgame
 			wrong1
 				option=Reimu'ya aşığım!
 				response=Tekrar düşün.
+			wrong2
+				option=Aklıma bir şey geldi de.
+				response=Hayır, gelmedi!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Umarım çayımı seversin...
+			right0
+				option=Tadı iyiymiş.
+				response=Ah? Sevindim.
+			right1
+				option=Biraz daha alabilir miyim?
+				response=Hemen geliyor!
+			wrong0
+				option=Tadı garip.
+				response=Ah, özür dilerim.
+			wrong1
+				option=*çayı her yere döküp tükürmek*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=Çay istemiyordum ki.
+				response=Ben beğenebileceğini düşündüm de...
 		fakeconfig=Kaydet\nYükle\nOtomatik\nOlay Kaydı\nAyarlar
+		command=Aşk!
+		igname=İlk Randevu
+	ComicBubble
+		0
+			0=Güvenli olduğundan emin misin?
+			1=Bir şey olmaz ya!
+		1
+			0=Dur, bekle!
+			1=Burda bir şeyiiin~
+			2=~VAR!
+		2
+			0=Temizlik ne yorucu ya...
+			1=Sadece ben geliyorsam neden zahmet ediyorsun ki?
+			2=Ay!
+			3=Uf!
+		command=Diyalog!
+		igname=Espiriye gel!
 	FreezeFrogs
 		command=Dondur!
 		igname=Kurbağa Dondurmaca
@@ -146,7 +194,7 @@ microgame
 		command=Besle!
 		igname=Örümcek Beslemece
 	Donation
-		command=Üçünü yakala!
+		command=3 Tane Topla!
 		igname=Para Yakalamaca
 	Wrench
 		command=Sıkıştır!
@@ -175,7 +223,7 @@ microgame
 		command=Gösteri yap!
 		igname=Canlı Konser
 	ChenBike
-		command=Korna çal!
+		command=Kornaya bas!
 		igname=Korna
 	MasterSparkCode
 		command=Büyü yap!
@@ -207,43 +255,80 @@ microgame
 		commandc=Ateş et!
 		commandd=Vur ona!
 		igname=Hıyar Kovalamaca
+	KaguyaMemory
+		command=Bak!
+		commandb=Seç!
+		igname=Değerli Anılar
+	SumiWheel
+		command=Rünik yazı!
+		igname=Hepzini Gördüm
+	MochiPound
+		command=Vur!
+		igname=Moçi Vurmaca
 	RuukotoSweep
 		command=Süpür!
 		igname=Tapınak Süpürme
+	MaskPuzzle
+		command=Parçaları birleştir!
+		igname=Maske Onarlama
+	YuukaWater
+		command=Sula!
+		igname=Çiçek Sulama
+	KnifeDodge
+		command=Atla!
+	NitoriLook
+		command=Nitori'yi bul!
+		igname=Nito-nerde?
+	MamiPoser
+		command=Taklitçi!
+		igname=Taklitçi
+	DollDance
+		command=Taklit et!
+		igname=Kukla Gösterisi
 	CirnoBored
 		command=İyi ol!
+		commandb=Eğlendir!
+		commandc=Onu kurtar!
+	HecShapes
+		command=Koy!
+	RockPaperSatori
+		command=Kazan!
+		igname=Taş, Kağıt, Medyum
 	MarisaJizou
 		command=At!
 		igname=Düşen Şapka
 	NueAbduct
 		command=Kaçır!
-		igname=Uzaylı Kaçırması
+		igname=UFOlamaz!
 	ReimuDodge
 		command=Kenara sıçra!
+		igname=~
+	ClothesChoose
+		command=Eşleştir!
+		igname=Yeni Moda
 	KyoukoEcho
 		command=Yansıt!
+		igname=Bi' Yansıtayım
 	BugSwat
 		command=Vur!
+		igname=Wriggle'ın Odası
 	ClownTorch
 		command=Yak!
-	KaguyaMemoryl
-		commandb=Seç!
-	KaguyaMemory
-		igname=Değerli Anılar
-	MochiPound
-		igname=Moçi Vurmaca
-	MaskPuzzle
-		igname=Maske Onarlama
-	YuukaWater
-		igname=Çiçek Sulama
-	NitoriLook
-		igname=Saklanan Nitori
-	MamiPoser
-		igname=Taklitçi
-	DollDance
-		igname=Kukla Gösterisi
-	RockPaperSatori
-		igname=Taş, Kağıt, Makas
+		igname=Meşaleyi Verirken
+	BeachBall
+		command=At!
+		igname=Yunus Gösterisi
+	YuugiBalance
+		command=Dengele!
+		igname=Dengeli İçme
+	DoorKnock
+		command=Kapıya vur!
+	FoodCut
+		command=Kes!
+	MoneyTrap
+		command=Cezbet!
+	KeineMath
+		igname=Tavşan Cehennemi
 credits
 	intro={0}, aşağıdaki hayranların sayesinde meydana gelebilmiştir!
 	kapptain=Yaratıcı Yönetmen, Programcı, Takım "Kapptanı"

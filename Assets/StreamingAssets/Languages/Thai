@@ -54,7 +54,7 @@ menu
 			description=ในโหมดนี้ มีแต่เกมระดับยากที่สุดเท่านั้น โอกาสมีแค่ชีวิตเดียว จะทนได้นานแค่ไหนกันนะ?
 	main
 		quit=ออกจากเกม
-			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
+			prompt=คุณต้องการที่จะออกจากเกมแน่นะ?
 		settings=ตั้งค่า
 		credits=ผู้จัดทำ
 	settings
@@ -78,9 +78,9 @@ menu
 		code=โค้ด : {0}
 		music=เพลง : {0}
 	splash
-		introa=เวอร์ชั่นทดลองนี้เป็นเกมที่ได้รับแรงบันดาลใจมาจากโทโฮโปรเจกต์ สร้างโดยท่าน ZUN
+		introa=เกมเวอร์ชั่นทดลองนี้เป็นงานสร้างสรรค์ต่อเนื่องของโทโฮโปรเจกต์ ซึ่งสร้างโดยท่าน ZUN
 		introb=แฟน ๆ ของซีรี่ส์นี่ได้ช่วยกันเขียนโค้ด แต่งเพลง วาดรูป และใช้ความสามารถต่าง ๆ นา ๆ ในการทำเกมนี้
-		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และคุณอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้
+		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้!
 		webglwarning=ถ้าตัวเกมในเว็บไซต์เล่นไม่ได้ ลองดาวน์โหลดจากลิ้งค์พวกนี้ดูสิ
 nitori
 	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
@@ -96,7 +96,7 @@ microgame
 				option=แข่งกันไปที่ร้านอาหารนะ!
 				response=คนแพ้จ่ายนะ!
 			right1
-				option=อืิ้ม จัดไป!
+				option=อื้ม จัดไป!
 				response=เย้!
 			wrong0
 				option=เธอเพิ่งกินไปไม่ใช่เหรอ?!
@@ -104,23 +104,32 @@ microgame
 			wrong1
 				option=ไปไกล ๆ ซะ ยัยอ้วน!
 				response=นายก็ใช่ว่าจะผอมนะ ตาบ้า!
+			wrong2
+				option=เธอไปคนเดียวก็ได้นี่?
+				response=ช่างเถอะ นายมันเป็นคนน่าเบื่ออยู่แล้วนี่
 		youmu
-			fullname=คอนปากุ โยวมุ
+			fullname=คอนปาคุ โยวมุ
 			firstname=โยวมุ
 			introdialogue=ดอกไม้นี่ฉันปลูกให้คุณล่ะ
 			right0
 				option=สวยจังเลย!
 				response=ขอบคุณนะ~
+			right1
+				option=ฉันชอบมันมากเลยล่ะ
+				response=จริงเหรอ? ดีใจจังเลย!
 			wrong0
 				option=อ๊าา ผี!
 				response=นี่ล้อฉันเล่นใช่ไหม?
 			wrong1
 				option=ฉันเกลียดดอกไม้!
 				response=เธอไม่สมควรที่จะได้มันอยู่แล้ว
+			wrong2
+				option=ดอกไม้ปลอมชัด ๆ
+				response=ตาดีซะไม่มีนะยะ...
 		yuuka
 			fullname=คาซามิ ยูกะ
 			firstname=ยูกะ
-			introdialogue=นี่ี่เธอไม่ได้ไปแอบชอบคนอื่นอยู่สินะ?
+			introdialogue=นี่เธอไม่ได้ไปแอบชอบคนอื่นอยู่สินะ?
 			right0
 				option=แน่นอนว่าไม่!
 				response=ดี อย่าแม้แต่จะคิดล่ะ
@@ -133,7 +142,46 @@ microgame
 			wrong1
 				option=ผมชอบเรย์มุ!
 				response=คิดใหม่อีกทีสิ
+			wrong2
+				option=พอดีมีธุระน่ะ
+				response=หา? ไม่ต้องมาโกหกเลย!
+		patchy
+			fullname=แพชูลี่ โนว์เลดจ์
+			firstname=แพชูลี่
+			introdialogue=หวังว่าจะชอบชาที่ฉันชงมานะ...
+			right0
+				option=อร่อยมากเลยล่ะ
+				response=ดีใจจัง...
+			right1
+				option=ขอเบิ้ลได้มั้ย?
+				response=ได้เลย!
+			wrong0
+				option=รสชาติแปลก ๆ นะ
+				response=ขอโทษนะ...
+			wrong1
+				option=*สะดุดล้ม*
+				response=กรี๊ดดดดดดดดดดด!!
+			wrong2
+				option=ไม่ได้สั่งชาซะหน่อย
+				response=ฉันคิดว่าคุณจะชอบซะอีก...
 		fakeconfig=เซฟ\nโหลด\nออโต้\nบันทึก\nตั้งค่า
+		command=เย้ายวน!
+		igname=เดทแรก
+	ComicBubble
+		0
+			0=แน่ใจนะว่าปลอดภัย?
+			1=น่า~ ไม่เป็นไรหรอก
+		1
+			0=เฮ้ รอเดี๋ยวสิ!
+			1=นายซ่อนอะไรไว้อยู่..
+			2=ตรงนี้!
+		2
+			0=น่าเบื่อจังน้า...
+			1=ทำไมต้องทำขนาดนั้นถ้ามีแค่ฉันคนเดียวที่มาน่ะ?
+			2=อ๊ะ!
+			3=โอ๊ย!
+		command=เลือกบทพูด!
+		igname=วันก่อนครับ
 	FreezeFrogs
 		command=ทำให้แข็ง!
 		igname=กบแช่แข็ง
@@ -177,13 +225,13 @@ microgame
 		igname=ไมค์หอน
 	ChenBike
 		command=บีบแตร!
-		igname=บีบแตรวนปายย
+		igname=บีบแตรวนปายยย
 	MasterSparkCode
 		command=ร่าย!
 		igname=ฝึกซ้อมยิงเป้า
 	OkuuFire
 		command=ควบคุม!
-		igname=ส่งโอคูวไป
+		igname=ส่งโอคูวไป!
 	YukariCake
 		command=รับ!
 		igname=โหยหาความหวาน
@@ -201,37 +249,81 @@ microgame
 		igname=แยกประเภทโทโฮ
 	FlanGrab
 		command=ปกป้อง!
-		igname=ปกป้องคฤหาศน์
+		igname=ปกป้องคฤหาสน์
 	PaperThief
 		command=ไปให้ถึงจุดหมาย!
 		commandb=อันตราย!
 		commandc=ยิง!
 		commandd=เอาชนะเธอซะ!
 		igname=ไล่ล่าแตงกวา
+	KaguyaMemory
+		command=จำ!
+		commandb=เลือก!
+		igname=ปริศนาความทรงจำ
+	SumiWheel
+		command=เลือก!
+	MochiPound
+		command=ตำ!
+		igname=ของฝากจากดวงจันทร์
 	RuukotoSweep
 		command=กวาด!
+		igname=กวาดลานศาลเจ้า
+	MaskPuzzle
+		command=ต่อ!
+		igname=ปริศนาหน้ากาก
+	YuukaWater
+		command=รดน้ำ!
+	KnifeDodge
+		command=หลบ!
+	NitoriLook
+		command=หานิโทริ!
+		igname=เห็นนิโตริหนูไหม
+	MamiPoser
+		command=หาตัวปลอม!
+		igname=ทานุกิจำแลงกาย
+	DollDance
+		command=เลียนแบบ!
+		igname=ตุ๊กตาเท้าไฟ
 	CirnoBored
 		command=ทำตัวดี!
+		commandb=เอ็นเตอร์เทน!
+		commandc=ช่วยชีวิต!
+		igname=เค้าเบื่ออ่ะ!
+	HecShapes
+		command=วาง!
+	RockPaperSatori
+		command=เอาชนะ!
+		igname=เป่ายิ้งฉุบ
 	MarisaJizou
 		command=ขว้าง!
 	NueAbduct
 		command=ลักพาตัว!
 	ReimuDodge
 		command=หลบ!
+		igname=~
+	ClothesChoose
+		command=เลือก!
 	KyoukoEcho
 		command=สะท้อนกลับ!
 	BugSwat
 		command=ตี!
 	ClownTorch
 		command=จุดไฟ!
-	KaguyaMemoryl
-		commandb=เลืือก!
-	MaskPuzzle
-		igname=ปริศนาหน้ากาก
-	MamiPoser
-		igname=ทานุกิจำแลงกาย
-	RockPaperSatori
-		igname=เป่ายิ้งฉุบ
+	BeachBall
+		command=โยน!
+	YuugiBalance
+		command=ทรงตัว!
+		igname=อย่าทำตกล่ะ
+	DoorKnock
+		command=เคาะ!
+	FoodCut
+		command=ตัด!
+	MoneyTrap
+		command=หลอกล่อ!
+	KeineMath
+		command=แก้โจทย์!
+	DoomGame
+		igname=กระต่ายอเวจี
 credits
 	intro={0} จะเกิดขึ้นไม่ได้หากขาดเขาพวกนี้!
 	kapptain=ผู้บริหารงาน โปรแกรมเมอร์ กัปตันทีม
@@ -243,15 +335,15 @@ credits
 		management=บริหารเกมย่อย
 		managementalt=บริหารการร่วมมือ
 		code=โค้ดเกมย่อย
-		art=รูป / กราฟิกของเกมย่อย
+		art=รูป / กราฟิกเกมย่อย
 		music=เพลงประจำเกมย่อย
 	localization=การจัดการเรื่องภาษา
-		management=บริหารการจัดการเกี่ยวกับภาษา
-	sfx=ซาวนด์เอฟเฟกต์
+		management=การจัดการด้านภาษา
+	sfx=ซาวด์เอฟเฟกต์
 	voice=เสียงนิโตริ
 	trailer=คลิปตัวอย่าง
 	socialmedia=ฝ่ายกระจายข่าวสาร
-	touhou=เกมตัวนี้เป็นเกมที่มีพื้นรากมาจากโทโฮโปรเจกต์ โดย ZUN
+	touhou=แฟนเกมนี้เป็นงานสร้างสรรค์ต่อเนื่องของโทโฮโปรเจกต์ โดย ZUN
 	thanks=ขอขอบคุณ
 		discord=เซิร์ฟเวอร์ Discord โทโฮโปรเจกต์
 		playtesters=ผู้เล่นทดสอบทุกท่าน

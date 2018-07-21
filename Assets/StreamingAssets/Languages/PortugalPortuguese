@@ -21,7 +21,7 @@ discord
 	scoreformat={0} Jogos
 	scoreformatsingular={0} Jogo
 	boss=Nível de Boss
-	menu=No menu
+	menu=Em menu
 menu
 	yes=Sim
 	no=Não
@@ -81,7 +81,7 @@ menu
 		introa=Este jogo é um trabalho inspirado em Touhou Project (東方Project), criado por ZUN.
 		introb=Muitos fãs da série colaboraram e contribuiram com código, música, arte e vários outros talentos para criar esta coleção de microjogos.
 		introc=Se gostaria de contribuir com o jogo, por favor visite {0}\nOu espalhe a palavra!
-		webglwarning=Se o web player causar problemas, exprimenta usar um dos downloads disponíveis abaixo.
+		webglwarning=Se o web player causar problemas, exprimente usar um dos downloads disponíveis abaixo.
 nitori
 	storyintro=Parece que temos um novo cliente.\nVamos ver como se desenrasca com os meus jogos.\nÉ melhor nem sequer piscar os olhos!
 	storyfinished=Bom trabalho, cromo.\nParece que não ficaste só a olhar.\nAgora experimenta {0} para teres um verdadeiro desafio.
@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Vai-te lixar, balofa!
 				response=Tu também não és assim tão magro, ò parvalhão!
+			wrong2
+				option=Podes ir sozinha.
+				response=Tá bom, também não tens piada nenhuma.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=São lindas!
 				response=Obrigada~
+			right1
+				option=Que querido!
+				response=Ainda bem que gostas!
 			wrong0
 				option=Aaah, um fantasma!
 				response=Só podes estar a gozar...
 			wrong1
 				option=Odeio flores!
 				response=Não as merecias de qualquer maneira...
+			wrong2
+				option=Devem ser falsas.
+				response=Deves ter <i>muuuiita</i> sorte com mulheres, tu.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -133,8 +142,46 @@ microgame
 			wrong1
 				option=Eu gosto da Reimu!
 				response=É melhor pensares de novo
+			wrong2
+				option=Ah, aconteceu qualquer coisa...
+				response=Ah, não vais não!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Espero que gostes do meu chá.
+			right0
+				option=É muito saboroso.
+				response=Ainda bem.
+			right1
+				option=Posso beber mais?
+				response=Claro.
+			wrong0
+				option=Isto tem um sabor estranho.
+				response=Ah, desculpa...
+			wrong1
+				option=*Tropeçar e verter chá quente por todo o lado*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=Não me lembro de ter pedido chá.
+				response=Pensei que podias querer...
 		fakeconfig=Guardar\nCarregar\nAuto\nRegisto\nConfigurações
 		command=Sê romântico!
+		igname=Primeiro Encontro
+	ComicBubble
+		0
+			0=Tens a certeza que é seguro?
+			1=Sim, sem problema.
+		1
+			0=Espera.
+			1=Tens alguma coisa certo?
+			2=~Aqui!
+		2
+			0=Limpar é uma seca...
+			1=Porquê limpar se sou o único aqui?
+			2=Ooh!
+			3=Au!
+		command=Fala!
+		igname=Contar a Piada
 	FreezeFrogs
 		command=Congela!
 		igname=Sapos Congelados
@@ -209,11 +256,47 @@ microgame
 		commandc=Dispara!
 		commandd=Derrota!
 		igname=Apanhador de Pepinos
+	KaguyaMemory
+		command=Observa!
+		commandb=Escolhe!
+		igname=Memória Preciosa
+	SumiWheel
+		command=Identifica!
+		igname=Já Vi Tudo
+	MochiPound
+		command=Amassa!
+		igname=Amassamento de Mochi
 	RuukotoSweep
 		command=Varre!
 		igname=Varrimento do Templo
+	MaskPuzzle
+		command=Monta!
+		igname=Expressão Confusa
+	YuukaWater
+		command=Rega!
+		igname=Rega das Flores
+	KnifeDodge
+		command=Esquiva!
+	NitoriLook
+		command=Encontra a Nitori!
+		igname=NItori às Escondidas
+	MamiPoser
+		command=Encontra o impostor!
+		igname=Tanuki Impostor
+	DollDance
+		command=Imita!
+		igname=Teatro de Fantoches
 	CirnoBored
 		command=Sê simpático!
+		commandb=Entretém!
+		commandc=Salva-a!
+		igname=Fada Aborrecida
+	HecShapes
+		command=Associa!
+		igname=Combinações Infernais
+	RockPaperSatori
+		command=Ganha!
+		igname=Pedra Papel Tesoura
 	MarisaJizou
 		command=Atira!
 		igname=Queda do Chapéu
@@ -222,30 +305,31 @@ microgame
 		igname=Raptado por Aliens
 	ReimuDodge
 		command=Desvia-te!
+		igname=~
+	ClothesChoose
+		command=Combina!
+		igname=Guarda-Roupa
 	KyoukoEcho
 		command=Reflete!
+		igname=Redizer
 	BugSwat
 		command=Afasta!
+		igname=Enxota Bichos
 	ClownTorch
 		command=Pega fogo!
-	KaguyaMemoryl
-		commandb=Escolhe!
-	KaguyaMemory
-		igname=Memória Preciosa
-	MochiPound
-		igname=Batimento de Mochi
-	MaskPuzzle
-		igname=Expressão Confusa
-	YuukaWater
-		igname=Rega das Flores
-	NitoriLook
-		igname=NItori às Escondidas
-	MamiPoser
-		igname=Tanuki Impostor
-	DollDance
-		igname=Teatro de Fantoches
-	RockPaperSatori
-		igname=Pedra Papel Tesoura
+		igname=Passagem da Tocha
+	BeachBall
+		command=Amanda!
+		igname=Bola na Argola
+	YuugiBalance
+		command=Equilibra!
+		igname=Equílibrio Bêbado
+	DoorKnock
+		command=Bate à porta!
+	FoodCut
+		command=Corta!
+	MoneyTrap
+		command=Atrai!
 credits
 	intro={0} foi feito possível graças aos seguintes fãs!
 	kapptain=Diretor, Programador, Gerente e "Kappitão" de equipa

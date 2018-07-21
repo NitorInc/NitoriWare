@@ -81,7 +81,7 @@ menu
 		introa=Demo ini adalah karya derivatif dari serial Touhou Project (東方Project) yang dibuat oleh ZUN.
 		introb=Banyak fans dari seri ini berkolaborasi dan berkontribusi dalam coding, musik, ilustrasi, dan berbagai hal lainnya demi membuat koleksi microgames ini.
 		introc=Jika kamu bisa berbahasa Inggris dan mau berkontribusi dalam permainan ini, silakan kunjungi {0} atau kamu bisa menyebarkan permainan ini!
-		webglwarning=Jika web player bermasalah, coba unduh lewat tautan dibawah.
+		webglwarning=Jika web player bermasalah, coba unduh lewat tautan di bawah.
 nitori
 	storyintro=Sepertinya kita kedatangan pelanggan baru.\nCoba kita lihat bagaimana kau memainkan permainan buatanku.\nJangan meleng!
 	storyfinished=Kerja bagus, gan.\nRupanya kamu nggak sekedar lihat-lihat.\nSekarang coba {0} untuk tantangan yang sesungguhnya!
@@ -91,9 +91,9 @@ microgame
 		suika
 			fullname=Suika Ibuki
 			firstname=Suika
-			introdialogue=Heeeeey! Lagi senggang kan? Makan yuk!
+			introdialogue=Heeeeey! Lagi nyantai kan? Makan kuy!
 			right0
-				option=Kita balapan kesana!
+				option=Kita balapan ke sana!
 				response=Yang kalah traktir ya!
 			right1
 				option=Sip, makan kuy!
@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Makan sendiri, ndut!
 				response=Kayak lo kurus aja, bangsat!
+			wrong2
+				option=Pergi sendiri gih, sana.
+				response=Ya udah. Ga asik lo.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=Wah, indahnya!
 				response=Terimakasih~
+			right1
+				option=Ih, manis banget.
+				response=Aku senang kamu menyukainya!
 			wrong0
 				option=AAAH SETAAAAN!
 				response=Ha-ha. Lucu.
 			wrong1
 				option=Aku benci bunga!
 				response=Kamu nggak pantes dapat bunga ini.
+			wrong2
+				option=Pasti bunga palsu nih.
+				response=Pasti kamu <i>populer</i> di antara banyak cewek.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -133,7 +142,45 @@ microgame
 			wrong1
 				option=Aku cinta Reimu!
 				response=Oh, gitu ya.
+			wrong2
+				option=Sori ya, aku ada janji.
+				response=Eits, jangan kabur!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Kuharap kau bisa menikmati teh buatanku.
+			right0
+				option=Tehnya enak.
+				response=Oh? Baguslah.
+			right1
+				option=Enak, nambah dong!
+				response=Baik, sebentar ya!
+			wrong0
+				option=Rasanya kok aneh ya....
+				response=Oh... Maaf.
+			wrong1
+				option=*Jatuh dan menumpahkan teh-nya*
+				response=<i>GYAAAAAAAAAAaaahh!!</i>
+			wrong2
+				option=Aku nggak bilang mau teh.
+				response=Ku... kukira kau ingin minum teh.
 		fakeconfig=Save\nLoad\nAuto\nLog\nPengaturan
+		command=Cintailah!
+		igname=Kencan Perdana
+	ComicBubble
+		0
+			0=Kamu yakin ini aman?
+			1=Santai!
+		1
+			0=Hei, tunggu!
+			1=Kamu punya sesuatu kaaaannn~
+			2=~DI SINI!
+		2
+			0=Beres-beres itu merepotkan ya...
+			1=Kenapa repot-repot kalau cuma aku yang datang?
+			2=Aah!
+			3=Aduh!
+		command=Dialog!
 	FreezeFrogs
 		command=Bekukan!
 		igname=Kodok Dingin Empuk
@@ -208,39 +255,76 @@ microgame
 		commandc=Tembak!
 		commandd=Kalahkan dia!
 		igname=Timun Timun Lompat
+	KaguyaMemory
+		command=Perhatikan!
+		commandb=Pilih!
+		igname=Ingatan Berharga
+	SumiWheel
+		command=Jelaskan!
+		igname=Tatap Mata Saya
+	MochiPound
+		command=Tumbuk!
+		igname=Memukul Mochi
 	RuukotoSweep
 		command=Sapu!
 		igname=Bersih-Bersih Kuil
+	MaskPuzzle
+		command=Pasangkan!
+		igname=Memperbaiki Topeng
+	YuukaWater
+		command=Siram!
+		igname=Menyiram Bunga
+	KnifeDodge
+		command=Menghindar!
+	NitoriLook
+		command=Temukan Nitori!
+		igname=Nitorilang
+	MamiPoser
+		command=Temukan peniru!
+		igname=Tanuki Peniru
+	DollDance
+		command=Ikuti!
+		igname=Pentas Boneka
+	CirnoBored
+		command=Jadilah baik!
+		commandb=Hibur!
+		commandc=Selamatkan dia!
+		igname=Perlakuan Dingin
+	HecShapes
+		command=Letakkan!
+	RockPaperSatori
+		command=Menangkan!
+		igname=Suit-ori
 	MarisaJizou
 		command=Lempar!
-		igname=Topi Jatuh
+		igname=Topinya Jatuh
 	NueAbduct
 		command=Culik!
 		igname=Penculikan Alien
 	ReimuDodge
 		command=Hindari!
+		igname=~
+	ClothesChoose
+		command=Pasangkan!
 	KyoukoEcho
 		command=Pantulkan!
+		igname=Coba Kuulang Lagi
 	BugSwat
 		command=Pukul!
+		igname=Ruang Wriggle
 	ClownTorch
 		command=Nyalakan!
-	KaguyaMemory
-		igname=Ingatan Berharga
-	MochiPound
-		igname=Memukul Mochi
-	MaskPuzzle
-		igname=Memperbaiki Topeng
-	YuukaWater
-		igname=Menyiram Bunga
-	NitoriLook
-		igname=Nitorilang
-	MamiPoser
-		igname=Tanuki Peniru
-	DollDance
-		igname=Pentas Boneka
-	RockPaperSatori
-		igname=Batu-Kertas-Satori
+	BeachBall
+		command=Lempar!
+	YuugiBalance
+		command=Imbangi!
+		igname=Minuman Seimbang
+	DoorKnock
+		command=Ketuk Pintu!
+	FoodCut
+		command=Potong!
+	MoneyTrap
+		command=Pancing!
 credits
 	intro=Terima kasih kepada para fans yang membuat {0}!
 	kapptain=Direktur Kreatif, Programmer, "Kapptain" Tim

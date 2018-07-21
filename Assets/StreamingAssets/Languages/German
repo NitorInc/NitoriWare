@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Verzieh dich, Fettsack!
 				response=Du bist auch nicht der Dünnste, Hohlkopf!
+			wrong2
+				option=Du kannst alleine gehen.
+				response=Na gut. Macht sowieso kein Spaß mit dir.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=Sie sind wunderschön!
 				response=Dankeschön~
+			right1
+				option=Das ist so nett von dir.
+				response=Freut mich, dass du sie magst!
 			wrong0
 				option=Aaah, ein Geist!
 				response=Ist das dein Ernst?
 			wrong1
 				option=Ich hasse Blumen!
 				response=Du hast sie sowieso nicht verdient.
+			wrong2
+				option=Ich wette, die sind aus Plastik.
+				response=Ich wette, du hast eine <i>Menge</i> Glück bei Frauen.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -133,8 +142,45 @@ microgame
 			wrong1
 				option=Ich liebe Reimu!
 				response=Denk nochmal genau drüber nach.
+			wrong2
+				option=Etwas ist dazwischen gekommen.
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli Knowledge
+			introdialogue=Ich hoffe dir gefällt mein Tee...
+			right0
+				option=Schmeckt wunderbar.
+				response=Oh? Da bin ich froh.
+			right1
+				option=Mehr, bitte!
+				response=Kommt sofort!
+			wrong0
+				option=Er schmeckt komisch.
+				response=Oh, tut mir Leid.
+			wrong1
+				option=*Fall hin und verschütte überall heißen Tee*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=Ich hab nie nach Tee gefragt.
+				response=Ich... hab gehofft, er würde dir gefallen.
 		fakeconfig=Speichern\nLaden\nAuto\nLog\nEinstellungen
+		command=Flirte!
 		igname=Um den Finger wickeln
+	ComicBubble
+		0
+			0=Denkst du wirklich, dass das sicher ist?
+			1=Alles gut!
+		1
+			0=Hey, warte!
+			1=Du hast etwas genaaaaauuu~
+			2=~ DA!
+		2
+			0=Putzen ist so anstrengend...
+			1=Warum bemühst du dich, wenn ich dich als Einzige besuche?
+			2=Aah!
+			3=Ouch!
+		command=Dialog!
+		igname=Komm zur Pointe!
 	FreezeFrogs
 		command=Friere ein!
 		igname=Frostige Frösche
@@ -170,6 +216,9 @@ microgame
 	TraceShape
 		command=Ausmalen!
 		igname=Dingen neuen Anstrich verpassen
+	KogasaScare
+		command=Erschrecke!
+		igname=Fürchte den Youkai
 	RockBand
 		command=Rocke!
 		igname=Subwoofer
@@ -206,35 +255,82 @@ microgame
 		commandc=Abschießen!
 		commandd=Mach sie fertig!
 		igname=Die Gurkenjagd
+	KaguyaMemory
+		command=Pass auf!
+		commandb=Auswählen!
+		igname=Schatzsuche
+	SumiWheel
+		command=Rune!
+		igname=Ist DAS deine Karte?
+	MochiPound
+		command=Hämmere!
+		igname=Mochi-Macher
 	RuukotoSweep
 		command=Fege!
 		igname=Heißer Feger
+	MaskPuzzle
+		command=Füge zusammen!
+		igname=Gefallene Maske
+	YuukaWater
+		command=Wasser!
+		igname=Gartenarbeit
+	KnifeDodge
+		command=Weich aus!
+	NitoriLook
+		command=Finde Nitori!
+		igname=Zimmerbesichtigung
+	MamiPoser
+		command=Betrüger!
+		igname=Der Betrüger
+	DollDance
+		command=Imitieren!
+		igname=Lass die Puppen tanzen!
 	CirnoBored
 		command=Sei nett!
+		commandb=Unterhalten!
+		commandc=Rette sie!
 		igname=Idiotentest
+	HecShapes
+		command=Platziere!
+		igname=Formidabel
+	RockPaperSatori
+		command=Gewinne!
+		igname=Satori, Stein, Papier
 	MarisaJizou
 		command=Werfe!
 		igname=Gut behütet
 	NueAbduct
 		command=Entführe!
+		igname=Alien Abtransport
 	ReimuDodge
 		command=Weiche aus!
+		igname=~
+	ClothesChoose
+		command=Kombiniere!
+		igname=Passt wie angegossen
 	KyoukoEcho
 		command=Reflektiere!
+		igname=Sprachbegabt
 	BugSwat
 		command=Zerquetsche!
+		igname=Käferkiller
 	ClownTorch
 		command=Zünd an!
-	KogasaScare
-		igname=Fürchte den Youkai
-	MochiPound
-		igname=Mochi-Macher
-	NitoriLook
-		igname=Zimmerbesichtigung
-	DollDance
-		igname=Lass die Puppen tanzen!
-	RockPaperSatori
-		igname=Satori, Stein, Papier
+		igname=Nicht lange Fackeln
+	BeachBall
+		command=Wirf!
+		igname=Präzisionswurf
+	YuugiBalance
+		command=Balanciere!
+		igname=Balanceakt
+	DoorKnock
+		command=Klopf!
+	FoodCut
+		command=Schneide!
+	MoneyTrap
+		command=Locke!
+	KeineMath
+		command=Löse!
 credits
 	intro={0} wurde durch folgende Fans möglich gemacht!
 	kapptain=Kreativdirektor, Programmierer, Team "Kappitän"

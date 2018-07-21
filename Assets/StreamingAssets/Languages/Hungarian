@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Vessz el, kövér állat!
 				response=Hát te se vagy a legkarcsúbb magad, faszkalap.
+			wrong2
+				option=Mehetsz te magad.
+				response=Amúgy se vagy vicces.
 		youmu
 			fullname=Konpaku Youmu
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=Gyönyörűek!
 				response=Köszönöm~
+			right1
+				option=De édes vagy.
+				response=rülök, hogy szerted őket!
 			wrong0
 				option=Áh, egy szellem!
 				response=Ugy te csak viccelsz velem.
 			wrong1
 				option=Utálom a virágokat!
 				response=Amúgy sem érdemled meg őket.
+			wrong2
+				option=Biztos vagyok benne, hogy hamisak.
+				response=Biztos <i>sok</i> szerencséd van a nőkkel.
 		yuuka
 			fullname=Kazami Yuuka
 			firstname=Yuuka
@@ -133,7 +142,46 @@ microgame
 			wrong1
 				option=Én Reimuba vagyok szerelmes!
 				response=Gondolkozz megint
+			wrong2
+				option=Valami feljött.
+				response=Nem nem, te nem!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Remélem ízlik a teám.
+			right0
+				option=Nagyon ízletes.
+				response=Oh? Igazán örülök.
+			right1
+				option=Többet, kérek!
+				response=Mindjárt jön!
+			wrong0
+				option=Érdekes íze van.
+				response=Bocsáss meg.
+			wrong1
+				option=*Elesiik, és forró teát önt mindehova*
+				response=<i>Áááááááááhhhhhhhh!!!</i>
+			wrong2
+				option=Én sohase kértem teát.
+				response=Én.. azt hittem örülsz majd neki.
 		fakeconfig=Mentés\nBetöltés\nAutomatikus\nNapló\nKonfiguráció
+		command=Csábíts!
+		igname=Első Randi
+	ComicBubble
+		0
+			0=Biztos, hogy biztonságos?
+			1=Minden rendben lesz!
+		1
+			0=Hé, várj!
+			1=Van valami pontosan~
+			2=~ITT!
+		2
+			0=Takarítani fájdalmas...
+			1=Miért csinálod, amikor csak én jövök?
+			2=Ááá!
+			3=Áuu!!
+		command=Párbeszéd!
+		igname=Érd el a Poént!
 	FreezeFrogs
 		command=Fagyassz!
 		igname=Fagyos Békák
@@ -165,13 +213,16 @@ microgame
 	CupShuffle
 		command=Figylej oda!
 		commandb=Válassz!
-		igname=Itt a youkai, hol a youkai?
+		igname=Itt a Youkai, Hol a Youkai?
 	TraceShape
 		command=Töltsd ki!
-		igname=Alakzat töltés
+		igname=Alakzat Töltés
+	KogasaScare
+		command=Ijessz!
+		igname=Félj a Youkaitól
 	RockBand
 		command=Adj elő!
-		igname=Élő előadás
+		igname=Élő Előadás
 	ChenBike
 		command=Dudálj!
 		igname=Dudálás
@@ -204,46 +255,85 @@ microgame
 		commandb=Vigyázz!
 		commandc=Lödd le!
 		commandd=Győzd le!
-		igname=Uborka vadászat
+		igname=Uborka Vadászat
+	KaguyaMemory
+		command=Nézz!
+		commandb=Válassz!
+		igname=Féltve Őrzött Memória
+	SumiWheel
+		command=Rúna!
+		igname=Látam Mostmár Mindent
+	MochiPound
+		command=Dolgozd át!
+		igname=Mochi Püfölés
 	RuukotoSweep
 		command=Söpörj!
 		igname=Szentély Takarítás
+	MaskPuzzle
+		command=Állítsd össze!
+		igname=Maszk Javítás
+	YuukaWater
+		command=Locsolj!
+		igname=Növénylocsolás
+	KnifeDodge
+		command=Kerülj!
+	NitoriLook
+		command=Találd meg Nitorit!
+		igname=Nitori Rejtés
+	MamiPoser
+		command=Imposztor!
+		igname=Tanuki Imposztor
+	DollDance
+		command=Ismételj!
+		igname=Bábszínház
 	CirnoBored
 		command=Légy jó!
+		commandb=Szórakoztass!
+		commandc=Mentsd meg!
+		igname=Hideg Kezelés
+	HecShapes
+		command=Helyezd el!
+		igname=Pokolban lévő Egyezés
+	RockPaperSatori
+		command=Nyerj!
+		igname=Kő Papír Satori
 	MarisaJizou
 		command=Dobd le!
 		igname=Kalap Ejtés
 	NueAbduct
 		command=Rabold el!
-		igname=Űrlény rablás
+		igname=Űrlény Rablás
 	ReimuDodge
 		command=Térj ki!
+		igname=~
+	ClothesChoose
+		command=Öltöztess!
+		igname=A Nap Kinézete
 	KyoukoEcho
 		command=Tükrözd vissza!
+		igname=Hadd Fogalmazzam Át Azt
 	BugSwat
 		command=Csapd le!
+		igname=Tekergő Szoba
 	ClownTorch
 		command=Gyújtsd meg!
-	KaguyaMemoryl
-		commandb=Válassz!
-	KogasaScare
-		igname=Félj a Youkaitól
-	KaguyaMemory
-		igname=Féltve őrzött Memória
-	MochiPound
-		igname=Mochi Püfölés
-	MaskPuzzle
-		igname=Maszk Javítás
-	YuukaWater
-		igname=Növénylocsolás
-	NitoriLook
-		igname=Nitori rejtés
-	MamiPoser
-		igname=Tanuki Imposztor
-	DollDance
-		igname=Bábszínház
-	RockPaperSatori
-		igname=Kő Papír Satori
+		igname=Fáklya Passzolás
+	BeachBall
+		command=Dobd!
+		igname=Hoppá
+	YuugiBalance
+		command=Egyensúlyozz!
+		igname=Egyensúlyos Iszogatás
+	DoorKnock
+		command=Kopogj!
+	FoodCut
+		command=Vágj!
+	MoneyTrap
+		command=Csalogass!
+	KeineMath
+		command=Old meg!
+	DoomGame
+		igname=Reisen Pokla
 credits
 	intro={0} a következő rajongóknak köszönhetően lehetséges!
 	kapptain=Rendező, Programozó, Menedzser, Csapat "Kappitány"
