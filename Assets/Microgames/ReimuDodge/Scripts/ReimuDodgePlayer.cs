@@ -16,11 +16,16 @@ public class ReimuDodgePlayer : MonoBehaviour
         // Only kill Reimu if she's still alive
         if (alive)
         {
-            Kill();
+            if(other.tag != "MicrogameTag1")
+            {
+                Kill();
+                // Now tell the MicrogameController in the scene that the game is over
+                // and we've lost forever
+                MicrogameController.instance.setVictory(victory: false, final: true);
+            }
+            
 
-            // Now tell the MicrogameController in the scene that the game is over
-            // and we've lost forever
-            MicrogameController.instance.setVictory(victory: false, final: true);
+            
         }
     }
 

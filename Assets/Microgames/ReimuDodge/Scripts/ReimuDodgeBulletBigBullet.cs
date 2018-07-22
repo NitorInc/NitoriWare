@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReimuDodgeBullet : MonoBehaviour
+public class ReimuDodgeBulletBigBullet: MonoBehaviour
 {
 
     // A Unity in-editor variable
@@ -19,13 +19,14 @@ public class ReimuDodgeBullet : MonoBehaviour
     private float delay = 1f;
 
     // Stores the direction of travel for the bullet
-    private Vector2 trajectory;
+    public Vector2 trajectory;
 
     // Use this for initialization
     void Start()
     {
         // Invoke the setTrajectory method after the delay
         Invoke("SetTrajectory", delay);
+        Invoke("SetChildrenSpeed", delay);
     }
 
     // Update is called once per frame
@@ -38,6 +39,14 @@ public class ReimuDodgeBullet : MonoBehaviour
             Vector2 newPosition = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
             transform.position = newPosition;
         }
+    }
+    void SetChildrenSpeed()
+    {
+        foreach (Transform child in transform)
+        {
+            child.BroadcastMessage("RandomizeSpeed");
+        }
+
     }
 
     void SetTrajectory()
