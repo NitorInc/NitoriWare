@@ -49,6 +49,9 @@ public class LocalizationManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (instance != this)
+            return;
+
         foreach (var fallbackPair in modifiedFallbacks)
         {
             fallbackPair.Key.fallbackFontAssets = fallbackPair.Value;
