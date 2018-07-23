@@ -68,7 +68,7 @@ public class MicrogameCollectionEditor : Editor
         var names = Enum.GetNames(typeof(MicrogameTraits.Milestone));
         foreach (var microgameList in microgames)
         {
-            microgameList.show = EditorGUILayout.Foldout(microgameList.show, microgameList.milestoneName);
+            microgameList.show = EditorGUILayout.Foldout(microgameList.show, microgameList.milestoneName + $" ({microgameList.labelList.Count().ToString()})");
             if (microgameList.show)
             {
                 foreach (var microgameLabel in microgameList.labelList)
