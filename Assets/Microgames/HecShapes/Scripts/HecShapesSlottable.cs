@@ -50,15 +50,16 @@ public class HecShapesSlottable : MonoBehaviour
                     transform.position,
                     snapTarget.SnapPosition,
                     distance);
+
+                if ((Vector2)transform.position == snapTarget.SnapPosition)
+                {
+                    transform.SetParent(snapTarget.transform);
+                    snapTarget.ShapeInSlot = celestialBody.shape;
+                    snap = false;
+                    MicrogameController.instance.playSFX(snapClip, AudioHelper.getAudioPan(transform.position.x));
+                }
             }
             
-            if ((Vector2)transform.position == snapTarget.SnapPosition)
-            {
-                transform.SetParent(snapTarget.transform);
-                snapTarget.ShapeInSlot = celestialBody.shape;
-                snap = false;
-                MicrogameController.instance.playSFX(snapClip, AudioHelper.getAudioPan(transform.position.x));
-            }
         }
     }
 
