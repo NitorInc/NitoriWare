@@ -63,8 +63,10 @@ public class GameController : MonoBehaviour
         {
             AudioListener.pause = false;
             Time.timeScale = 1f;
-            PauseManager.exitedWhilePaused = false;
             Cursor.visible = true;
+            Cursor.lockState = DefaultCursorMode;
+
+            PauseManager.exitedWhilePaused = false;
         }
         onSceneLoad.Invoke();
     }
