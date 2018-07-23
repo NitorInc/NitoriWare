@@ -48,6 +48,13 @@ public class LocalizedText : MonoBehaviour
         [SerializeField]
         private TMP_FontAsset fallback;
         public TMP_FontAsset Fallback => fallback;
+
+        [SerializeField]
+        private bool useOverrideFontStyle;
+        public bool UseOverrideFontStyle => useOverrideFontStyle;
+        [SerializeField]
+        private FontStyles overrideFontStyle;
+        public FontStyles OverrideFontStyle => overrideFontStyle;
     }
 
     private Text textComponent;
@@ -165,6 +172,8 @@ public class LocalizedText : MonoBehaviour
             textMeshPro.text = text;
         if (textMeshProUGUI != null)
             textMeshProUGUI.text = text;
+
+        SendMessage("OnTextLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
 	private string getText()
@@ -191,6 +200,8 @@ public class LocalizedText : MonoBehaviour
             setTMPFontFallback(textMeshPro.font);
         if (textMeshProUGUI != null)
             setTMPFontFallback(textMeshProUGUI.font);
+
+        SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
     private Font getFont()
@@ -224,8 +235,17 @@ public class LocalizedText : MonoBehaviour
         var loadedLanguage = TextHelper.getLoadedLanguage();
         foreach (var fallbackOverride in TMProFallbackOverrideFonts)
         {
-            if (fallbackOverride.Languages.Split('\n').Contains(loadedLanguage.languageName))
+            if (fallbackOverride.Languages.Contains(loadedLanguage.getLanguageID()))
             {
+                if (fallbackOverride.UseOverrideFontStyle)
+                {
+
+                    if (textMeshPro != null)
+                        textMeshPro.fontStyle = fallbackOverride.OverrideFontStyle;
+                    if (textMeshProUGUI != null)
+                        textMeshProUGUI.fontStyle = fallbackOverride.OverrideFontStyle;
+                }
+
                 return fallbackOverride.Fallback;
             }
         }
