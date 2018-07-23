@@ -143,6 +143,7 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     public void quit()
     {
+        exitedWhilePaused = true;
         foreach (MonoBehaviour script in pauseData.disabledScripts)
         {
             if (script != null)
@@ -156,8 +157,6 @@ public class PauseManager : MonoBehaviour
         }
 
         GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftDuration);
-
-        exitedWhilePaused = true;
     }
 
 	public void unPause()
