@@ -187,7 +187,10 @@ public class LocalizedText : MonoBehaviour
             textComponent.font = font;
         else if (textMesh != null)
             textMesh.font = font;
-        //TODO TextMeshPro font support
+        if (textMeshPro != null)
+            setTMPFontFallback(textMeshPro.font);
+        if (textMeshProUGUI != null)
+            setTMPFontFallback(textMeshProUGUI.font);
     }
 
     private Font getFont()
@@ -196,10 +199,10 @@ public class LocalizedText : MonoBehaviour
             return textComponent.font;
         if (textMesh != null)
             return textMesh.font;
-        if (textMeshPro != null)
-            setTMPFontFallback(textMeshPro.font);
-        if (textMeshProUGUI != null)
-            setTMPFontFallback(textMeshProUGUI.font);
+        //if (textMeshPro != null)
+        //    return textMeshPro.font;
+        //if (textMeshProUGUI != null)
+        //    return textMeshProUGUI.font;
         return null;
     }
 
