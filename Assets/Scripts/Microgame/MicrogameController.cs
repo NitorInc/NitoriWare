@@ -185,7 +185,8 @@ public class MicrogameController : MonoBehaviour
             return false;
 		return StageController.instance == null
             || StageController.instance.animationPart == StageController.AnimationPart.GameOver
-            || StageController.instance.animationPart == StageController.AnimationPart.WonStage;
+            || StageController.instance.animationPart == StageController.AnimationPart.WonStage
+            || PauseManager.exitedWhilePaused;
 	}
 
 	/// <summary>
