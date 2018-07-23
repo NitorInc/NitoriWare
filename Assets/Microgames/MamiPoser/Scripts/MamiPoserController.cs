@@ -4,6 +4,8 @@ using UnityEngine;
 using NitorInc.Utility;
 
 public class MamiPoserController : MonoBehaviour {
+    //[Header("The object containing the characters")]
+    //public GameObject characterLibrary;
 
     [Header("Mamizou prefab")]
     [SerializeField]
@@ -60,6 +62,12 @@ public class MamiPoserController : MonoBehaviour {
     // All created cloned characters
     private List<MamiPoserCharacter> createdCharacters;
 
+    // Used for delayed Mamizou (true form) appearance
+    private Timer mamizouAppearTimer;
+
+    // Used for victory/loss effects
+    private Timer resultTimer;
+
     // Mamizou object (true form)
     private MamiPoserMamizou mamizou;
 
@@ -114,13 +122,19 @@ public class MamiPoserController : MonoBehaviour {
         mamizou = Instantiate(mamizouPrefab, Vector2.zero, Quaternion.identity);
         mamizou.GetComponent<Transform>().SetParent(characterSlots[mamizouIndex], false);
         mamizou.gameObject.SetActive(false);
+        // Delay the sprite switch so it happens when the sprite is covered in smoke
+        mamizouAppearTimer = TimerManager.NewTimer(mamizouAppearDelay, SwitchSpriteToMamizou, 0);
 
         // Determine if the player chose correctly
+        GameObject signPrefab;
+        AudioClip resultSound;
         if (clickedCharacter.isDisguised)
         {
             // Win
             MicrogameController.instance.setVictory(victory: true, final: true);
             mamizou.ChoseRight();
+            signPrefab = correctSignPrefab;
+            resultSound = winSound;
         }
         else
         {
@@ -128,7 +142,16 @@ public class MamiPoserController : MonoBehaviour {
             MicrogameController.instance.setVictory(victory: false, final: true);
             mamizou.ChoseWrong();
             clickedCharacter.ChoseWrong();
+            signPrefab = incorrectSignPrefab;
+            resultSound = lossSound;
         }
+
+        // Delay the victory/loss effects
+        resultTimer = TimerManager.NewTimer(
+            resultEffectsDelay,
+            () => VictoryLossEffects(signPrefab, resultSound),
+            0
+        );
     }
 
     // Hide the disguised form Mamizou and show the true form Mamizou
