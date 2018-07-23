@@ -22,8 +22,6 @@ public class LocalizationManager : MonoBehaviour
 
 	public void Awake ()
     {
-        modifiedFallbacks = new Dictionary<TMP_FontAsset, List<TMP_FontAsset>>();
-        loadedLanguage = new Language();
 		if (instance != null)
 		{
 			if (instance != this)
@@ -34,6 +32,9 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
+
+        modifiedFallbacks = new Dictionary<TMP_FontAsset, List<TMP_FontAsset>>();
+        loadedLanguage = new Language();
 
         string languageToLoad;
         string preferredLanguage = PrefsHelper.getPreferredLanguage();
