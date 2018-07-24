@@ -5,6 +5,9 @@
 /// </summary>
 public class BeachBallCollisionObserver : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip victoryClip;
+
     protected Collider2D innerArea;
 
     protected Collider2D ballCollider;
@@ -43,6 +46,7 @@ public class BeachBallCollisionObserver : MonoBehaviour
             other.gameObject.GetComponent<BeachBallZSwitcher>().Switch();
 
             MicrogameController.instance.setVictory(victory: true, final: true);
+            MicrogameController.instance.playSFX(victoryClip);
         }
     }
 }
