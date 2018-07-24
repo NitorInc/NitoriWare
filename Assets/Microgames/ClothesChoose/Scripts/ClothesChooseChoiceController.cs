@@ -102,7 +102,7 @@ public class ClothesChooseChoiceController : MonoBehaviour
 
     void playVictoryClip()
     {
-        MicrogameController.instance.playSFX(victoryClip);
+        MicrogameController.instance?.playSFX(victoryClip);
     }
     
     public void Incorrect()
