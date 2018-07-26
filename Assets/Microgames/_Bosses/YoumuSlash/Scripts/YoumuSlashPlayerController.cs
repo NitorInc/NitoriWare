@@ -33,6 +33,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     int nextIdleBeat = -1;
     int untenseBeat = -1;
     bool attacking;
+    int beatResetTimer;
 
     private void Start()
     {
@@ -46,6 +47,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
             handleIdleAnimation(beat);
         }
         rigAnimator.SetBool("IsAttacking", attacking);
+        
+        rigAnimator.SetTrigger("Beat");
+        beatResetTimer = 2;
 
         if (autoSlash)
             attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
@@ -79,11 +83,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
                 attacking = false;
             }
         }
-        else if (beat > nextIdleBeat)
-        {
-            //Continue idle and bob
-            rigAnimator.SetTrigger("Beat");
-        }
 
         if (nextTarget != null)
         {
@@ -109,8 +108,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
             }
         }
         attacking = false;
-
         rigAnimator.SetBool("Prep", false);
+
+
     }
 
     void setRigFacingRight(bool facingRight)
@@ -143,6 +143,14 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void Update ()
     {
+        if (beatResetTimer > 0)
+        {
+            beatResetTimer--;
+            if (beatResetTimer <= 0)
+            {
+                rigAnimator.ResetTrigger("Beat");
+            }
+        }
         handleInput();
 	}
 
