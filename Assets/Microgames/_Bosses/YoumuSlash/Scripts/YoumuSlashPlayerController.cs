@@ -190,6 +190,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
             rigAnimator.SetTrigger("Attack");
             rigAnimator.ResetTrigger("Idle");
+            rigAnimator.SetBool("IsAttacking", true);
             rigAnimator.SetBool("Tense", false);
             untenseBeat = -1;
 
