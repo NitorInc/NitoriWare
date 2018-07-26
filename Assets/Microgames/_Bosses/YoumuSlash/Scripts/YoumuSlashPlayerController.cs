@@ -67,7 +67,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
                 MicrogameController.instance.playSFX(debugSound);
                 rigAnimator.SetTrigger("Idle");
                 rigAnimator.ResetTrigger("Attack");
-                rigAnimator.SetTrigger("Beat");
             }
         }
         else if (beat > nextIdleBeat)
