@@ -108,7 +108,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             else if (beat + 2 >= (int)nextTarget.HitBeat)
             {
                 //2 Beat prep
-                if (isRigFacingRight() != (nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right))
+                if (isFacingRight() != (nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right))
                     rigAnimator.SetBool("LookBack", true);
             }
         }
@@ -134,6 +134,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
     bool isRigFacingRight()
     {
         return facingTransform.localScale.x < 0f;
+    }
+
+    bool isFacingRight()
+    {
+        bool spriteFlipped = facingSpriteTransform.localScale.x < 0f;
+        return isRigFacingRight() ? !spriteFlipped : spriteFlipped;
     }
 
     public void setBobEnabled(bool enable)
