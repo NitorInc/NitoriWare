@@ -31,6 +31,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     
     YoumuSlashBeatMap.TargetBeat nextTarget;
     int nextIdleBeat = -1;
+    int untenseBeat = -1;
     bool attacking;
 
     private void Start()
@@ -42,7 +43,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         if (beat >= nextIdleBeat)
         {
-            attacking = false;
             handleIdleAnimation(beat);
         }
 
@@ -55,6 +55,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
         nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
 
+        if (beat == untenseBeat)
+            rigAnimator.SetBool("Tense", false);
+
         if (beat == nextIdleBeat)
         {
             if (nextTarget != null && beat >= (int)nextTarget.HitBeat)
@@ -65,8 +68,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
             else
             {
                 MicrogameController.instance.playSFX(debugSound);
-                rigAnimator.SetTrigger("Idle");
-                rigAnimator.ResetTrigger("Attack");
+                if (attacking)
+                {
+                    rigAnimator.ResetTrigger("Attack");
+                    rigAnimator.SetTrigger("Idle");
+                }
+                attacking = false;
             }
         }
         else if (beat > nextIdleBeat)
@@ -74,15 +81,19 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetTrigger("Beat");
         }
 
-        if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat && !attacking)
+        if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat)
         {
             bool flipIdle = nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
             if (isRigFacingRight())
                 flipIdle = !flipIdle;
             setIdleFlipped(flipIdle);
 
+            rigAnimator.SetBool("Tense", true);
+            untenseBeat = beat + 2;
+
             nextIdleBeat = beat + 2;
         }
+        attacking = false;
 
         rigAnimator.SetBool("Prep", false);
     }
@@ -103,6 +114,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
     bool isRigFacingRight()
     {
         return facingTransform.localScale.x < 0f;
+    }
+
+    public void setBobEnabled(bool enable)
+    {
+        rigAnimator.SetBool("EnableBob", enable);
     }
 
     void Update ()
