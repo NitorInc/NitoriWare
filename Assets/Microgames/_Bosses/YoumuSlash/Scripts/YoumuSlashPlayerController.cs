@@ -47,7 +47,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             handleIdleAnimation(beat);
         }
         rigAnimator.SetBool("IsAttacking", attacking);
-
+        
         rigAnimator.SetTrigger("Beat");
         beatResetTimer = 2;
 
@@ -60,7 +60,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
         nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
 
-        if (beat == untenseBeat)
+        if (beat >= untenseBeat)
             rigAnimator.SetBool("Tense", false);
 
         if (beat == nextIdleBeat)
@@ -99,10 +99,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     flipIdle = !flipIdle;
                 setIdleFlipped(flipIdle);
 
-                rigAnimator.SetBool("Tense", true);
                 rigAnimator.SetBool("LookBack", false);
-                if (!attacking)
-                    untenseBeat = beat + 2;
+                rigAnimator.SetBool("Tense", true);
+                untenseBeat = beat + 2;
 
                 nextIdleBeat = beat + 2;
             }
@@ -191,6 +190,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
             rigAnimator.SetTrigger("Attack");
             rigAnimator.ResetTrigger("Idle");
+            rigAnimator.SetBool("Tense", false);
+            untenseBeat = -1;
 
             float facingDirection = (facingRight ? -1f : 1f);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, facingDirection);
