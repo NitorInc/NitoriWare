@@ -63,11 +63,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             if (nextTarget != null && beat >= (int)nextTarget.HitBeat)
             {
+                //Delay idle if new target in 1 beat
                 nextIdleBeat++;
                 return;
             }
             else
             {
+                //Return to idle
                 MicrogameController.instance.playSFX(debugSound);
                 if (attacking)
                 {
@@ -79,20 +81,32 @@ public class YoumuSlashPlayerController : MonoBehaviour
         }
         else if (beat > nextIdleBeat)
         {
+            //Continue idle and bob
             rigAnimator.SetTrigger("Beat");
         }
 
-        if (nextTarget != null && beat + 1 >= (int)nextTarget.HitBeat)
+        if (nextTarget != null)
         {
-            bool flipIdle = nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
-            if (isRigFacingRight())
-                flipIdle = !flipIdle;
-            setIdleFlipped(flipIdle);
+            if (beat + 1 >= (int)nextTarget.HitBeat)
+            {
+                //1 Beat prep
+                bool flipIdle = nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
+                if (isRigFacingRight())
+                    flipIdle = !flipIdle;
+                setIdleFlipped(flipIdle);
 
-            rigAnimator.SetBool("Tense", true);
-            untenseBeat = beat + 2;
+                rigAnimator.SetBool("Tense", true);
+                rigAnimator.SetBool("LookBack", false);
+                untenseBeat = beat + 2;
 
-            nextIdleBeat = beat + 2;
+                nextIdleBeat = beat + 2;
+            }
+            else if (beat + 2 >= (int)nextTarget.HitBeat)
+            {
+                //2 Beat prep
+                if (isRigFacingRight() != (nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right))
+                    rigAnimator.SetBool("LookBack", true);
+            }
         }
         attacking = false;
 
