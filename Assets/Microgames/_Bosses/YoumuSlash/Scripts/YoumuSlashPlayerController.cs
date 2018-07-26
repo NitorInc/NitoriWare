@@ -47,7 +47,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             handleIdleAnimation(beat);
         }
         rigAnimator.SetBool("IsAttacking", attacking);
-        
+
         rigAnimator.SetTrigger("Beat");
         beatResetTimer = 2;
 
@@ -83,6 +83,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
                 attacking = false;
             }
         }
+        else if (beat > nextIdleBeat)
+        {
+            //Start bobbing after return
+            rigAnimator.SetTrigger("Bob");
+        }
 
         if (nextTarget != null)
         {
@@ -96,7 +101,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
                 rigAnimator.SetBool("Tense", true);
                 rigAnimator.SetBool("LookBack", false);
-                untenseBeat = beat + 2;
+                if (!attacking)
+                    untenseBeat = beat + 2;
 
                 nextIdleBeat = beat + 2;
             }
