@@ -45,6 +45,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             handleIdleAnimation(beat);
         }
+        rigAnimator.SetBool("IsAttacking", attacking);
 
         if (autoSlash)
             attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
@@ -119,6 +120,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
     public void setBobEnabled(bool enable)
     {
         rigAnimator.SetBool("EnableBob", enable);
+    }
+
+    public void setEyesClosed(bool closed)
+    {
+        rigAnimator.SetBool("EyesClosed", closed);
     }
 
     void Update ()
