@@ -16,6 +16,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private YoumuSlashSpriteTrail spriteTrail;
     [SerializeField]
     private float spriteTrailStartOffset;
+    [SerializeField]
+    private bool firstTargetStareMode;
 
     [Header("Timing window in seconds for hitting an object")]
     [SerializeField]
@@ -42,7 +44,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
-        if (!attacking
+        if ((!firstTargetStareMode || timingData.BeatMap.getFirstActiveTarget(timingData.CurrentBeat, hitTimeFudge.y) == target)
+            && !attacking
             && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
         if (autoSlash)
@@ -69,7 +72,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     void handleIdleAnimation(int beat)
     {
         var nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
-        var lastTarget = timingData.BeatMap.getLastActiveTarget((float)beat, hitTimeFudge.y);
+        //var lastTarget = timingData.BeatMap.getLastActiveTarget((float)beat, hitTimeFudge.y);
 
         if (beat >= untenseBeat)
             rigAnimator.SetBool("Tense", false);
