@@ -8,6 +8,7 @@ stage
 		mouse=ANVÄND MUSEN
 	speedup=SNABBARE!
 	boss=BOSSNIVÅ
+	levelup=NU BLIR DET SVÅRARE!
 	pause=Pausat
 		resume=Fortsätt {0}
 	quit=Avsluta {0}
@@ -20,7 +21,7 @@ discord
 	scoreformat={0} spel
 	scoreformatsingular={0} spel
 	boss=Bossnivå
-	menu=Meny
+	menu=I menyer
 menu
 	yes=Ja
 	no=Nej
@@ -43,7 +44,7 @@ menu
 		highscore=Rekord: {0}
 		compilationmode
 			description=Utmana så många mikrospel som du kan! Inga bossnivåer.
-		compilation
+		compilation=Kappa kompendium
 			description=Normalt arkadläge: spela alla mikrospel blandade.
 		compilationfast=Max kappacitet
 			description=SUPER DUPER SNABBT!!
@@ -55,13 +56,14 @@ menu
 		quit=Avsluta spelet
 			prompt=Är du säker på att du vill avsluta {0}?
 		settings=Inställningar
+		credits=Medverkande
 	settings
 		resolution=Skärmupplösning
 		fullscreen=Helskärm
 		language=Språk
 		graphics=Grafikkvaliten
 			0=Snabbast
-			1=Snabb
+			1=Snabbt
 			2=Simpelt
 			3=Bra
 			4=Vackert
@@ -72,9 +74,11 @@ menu
 			sfx=Ljudeffekter
 			voice=Röst
 	microgamecredits
+		art=Konst: {0}
+		code=Kod: {0}
 		music=Musik: {0}
 	splash
-		introa=Det här spelet är baserat på omgivningar och karaktärer från Touhou Project (東方Project), vilket skapades av ZUN.
+		introa=Det här spelet är baserat på omgivningar och karaktärer från The Touhou Project (東方Project), vilket skapades av ZUN.
 		introb=Många av seriens fans har samarbetat och bidragit med programmering, musik, konst, och andra talanger för att skapa denna samling av mikrospel.
 		introc=Vill du bidra till slutversionen av spelet, besök {0}. Det går också bra att bara tala om för andra om spelet!
 		webglwarning=Har du problem med webbversionen, klicka på länkarna nedan för att ladda ner en desktop-version.
@@ -99,7 +103,7 @@ microgame
 				response=Buu... Inge kul med att käka ensam.
 			wrong1
 				option=Stick, fetto!
-				response=Ska du säga, dumskalle!
+				response=Ska du säga, tjockskalle!
 			wrong2
 				option=Ät själv, du.
 				response=OK då, du är ju inge rolig ändå.
@@ -173,7 +177,7 @@ microgame
 			2=~NÄSAN!
 		2
 			0=Det är så jobbigt att städa...
-			1=Varför bryr'ru dig om ingen besöker dig?
+			1=Varför bryr'ru dig om ingen ens besöker dig?
 			2=<i>Uff!</i>
 			3=<i>Aj!</i>
 		command=Dialog!
@@ -195,21 +199,30 @@ microgame
 		igname=Ka-chingko
 	Wrench
 		command=Fäst!
+		igname=Fästlig utveckling
+	Potion
+		command=Ingredienser!
+		ingredients=Ingredienser
+		igname=Trolleri trollera
 	GhostFood
 		command=Tugga och svälj!
+		igname=Spöklik aptit
 	Spaceship
 		command=Fyra av!
 		igname=Youkain på Greveholm
 	CupShuffle
 		command=Var uppmärksam!
 		commandb=Välj!
+		igname=Koppleken
 	TraceShape
 		command=Färglägg!
+		igname=Utmålning
 	KogasaScare
 		command=Skräm!
 		igname=Para-bu
 	RockBand
 		command=Uppträd!
+		igname=Live föreställning
 	ChenBike
 		command=Tuta!
 		igname=*Tut*-san också
@@ -218,12 +231,13 @@ microgame
 		igname=Testskjutning
 	OkuuFire
 		command=Regulera!
+		igname=Under kontroll
 	YukariCake
 		command=Stjäl!
 		igname=Sötsug
 	RemiCover
 		command=Skugga!
-		igname=Vampyren's svaghet
+		igname=Vampyrens svaghet
 	SuikaShake
 		command=Skaka av!
 		igname=Skaka väl
@@ -242,31 +256,68 @@ microgame
 		commandc=Skjut!
 		commandd=Besegra henne!
 		igname=Gurkjakt
+	KaguyaMemory
+		command=Titta noga!
+		commandb=Välj!
+		igname=Objektivt minne
+	SumiWheel
+		command=Runa!
+		igname=Ockult natt
+	MochiPound
+		command=Klubba!
+		igname=Mochi massaker
 	RuukotoSweep
 		command=Sopa!
+		igname=Sopa sopa bort din sura min
 	MaskPuzzle
 		command=Sätt ihop!
+		igname=Maskerad fixeri
 	YuukaWater
 		command=Vattna!
 		igname=Solsidan
+	KnifeDodge
+		command=Undvik!
 	NitoriLook
 		command=Hitta Nitori!
 		igname=Var är Nitori?
+	MamiPoser
+		command=Bedragare!
+		igname=Bedragaren
 	DollDance
 		command=Härma!
+		igname=Alice I docklandet
+	CirnoBored
+		command=Var snäll!
+		commandb=Roa!
+		commandc=Rädda henne!
+		igname=Kalla blicken
+	HecShapes
+		command=Placera!
+		igname=Form-sike
 	RockPaperSatori
 		command=Vinn!
 		igname=Sten, sax, påse
 	MarisaJizou
 		command=Hatt!
 		igname=Hattrick
+	NueAbduct
+		command=Bortför!
+		igname=U.F.Åh nej!
+	ReimuDodge
+		command=Undvik!
+		igname=~
 	ClothesChoose
 		command=Matcha!
 		igname=Dagens look
+	KyoukoEcho
+		command=Deflektera!
+		igname=Får jag ta om det där?
 	BugSwat
 		command=Smäll!
+		igname=Youkai smällare
 	ClownTorch
-		command=Antänd!
+		command=Tänd!
+		igname=Tänd lågan
 	BeachBall
 		command=Kasta!
 		igname=Hoppsansa
@@ -281,26 +332,14 @@ microgame
 		command=Locka!
 	KeineMath
 		command=Lös!
-	Potion
-		ingredients=Ingredienser
-		igname=Trolleri trollera
-	KaguyaMemory
-		commandb=Välj!
-	CirnoBored
-		commandb=Roa!
-		commandc=Rädda henne!
-	MamiPoser
-		igname=Bedragaren
-	NueAbduct
-		igname=U.F.Åh nej!
-	ReimuDodge
-		igname=~
-	KyoukoEcho
-		igname=Får jag ta om det där?
+		igname=Mattemagik
+	DoomGame
+		igname=Till harvetet och tillbaka
 credits
 	intro={0} kunde skapas tack vare dessa fans!
 	kapptain=[Director], programmerare, manager, "lagkappten"
 	leadart=Huvudkonstnär, Karaktärsdesigner, Nitoris röst
+	code=Icke-mikrospels kod
 	UI=Meny och nivågrafiker
 	menumusic=Titel- och menymusik
 	stagemusic=Nivåmusik
@@ -314,6 +353,7 @@ credits
 		management=Lokaliseringsmanager
 	sfx=Ljudeffekter
 	voice=Nitoris röst
+	site=Hemsidedesign
 	trailer=Demotrailer
 	socialmedia=PR/Sociala medier
 	touhou=Det här spelet är baserat på Touhou Project, skapat av ZUN

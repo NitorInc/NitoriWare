@@ -38,6 +38,7 @@ menu
 			description=Joacă story mode-ul la nesfârșit! Cât de mult poți să faci?
 		arcade=Arcade Mode
 		microgamepractice=Exersează microjocurile
+			description=Imbunătățește-ți abilitățile de joc si obtineți cele mai mari scoruri pentru a vă lăuda prietenilor!
 		locked1=Blocat! Completează {0} pentru a debloca.
 		locked2=Blocat! Fă scorul {0} sau mai mult în {1} pentru a debloca.
 		highscore=Record: {0}
@@ -48,6 +49,7 @@ menu
 		compilationfast=Kappacitate maximă
 			description=SUPER SUPER RAPID!!
 		compilationmystery=(Nevoie de documentare)
+			description=Hopa, am pierdut planurile pentru asta.
 		compilationhard=Iadul castravetelui
 			description=Toate jocurile grele! O singură viață! Cât poți rezista?
 	main
@@ -79,6 +81,7 @@ menu
 		introa=Acest joc demo este un derivat al Touhou Project (東方Project), creat de ZUN.
 		introb=Mulți fani al seriei au colaborat și au contribuit cu cod, muzică, artă și multe alte talente pentru a crea această colecție de microjocuri.
 		introc=Dacă ai vrea să contribui la jocul full, te rugăm vizitează {0}\nSau doar ajută răspândind vorba!
+		webglwarning=Dacă player-ul web îți face probleme, încearcă în schimb unul dintre link-urile de mai jos
 nitori
 	storyintro=Se pare că avem un nou client.\nSă vedem dacă poți face față jocurilor mele.\nAi face bine să nu clipesti!
 	storyfinished=Bună treabă tipule.\nPresupun ca nu ești doar un simplu cumpărător.\nAcum incearcă {0} pentru o provocare adevărată!
@@ -170,15 +173,21 @@ microgame
 			1=E bine!
 		1
 			0=Hey, așteaptă!
+			1=Ai ceva exaaaact~
 			2=~AICI!
 		2
 			0=Curățenia e așa un chin...
+			1=De ce îți bați capul când eu sunt singura care te vizitează?
 			2=<i>Aah! </i>
 			3=<i>Au! </i>
 		command=Dialog!
+		igname=Benzi desenate
 	FreezeFrogs
 		command=Îngheață!
 		igname=Broaște înghețate
+	Slingshot
+		command=Trage!
+		igname=Lansarea păsărilor
 	ChenFood
 		command=Nu te lăsa mâncat!
 		igname=Evadarea pisicii
@@ -190,9 +199,11 @@ microgame
 		igname=Prinderea banului
 	Wrench
 		command=Repară!
+		igname=Strângerea șurubului
 	Potion
 		command=Aruncă in cazan!
 		ingredients=Ingrediente
+		igname=Amestecul buclucaș
 	GhostFood
 		command=Mănâncă și mestecă!
 		igname=Mâncare de fantome
@@ -205,6 +216,7 @@ microgame
 		igname=Jocul paharelor
 	TraceShape
 		command=Umple golurile!
+		igname=Colorarea formelor
 	KogasaScare
 		command=Sperie!
 		igname=Fie-ți frică de Youkai
@@ -214,16 +226,21 @@ microgame
 	ChenBike
 		command=Claxonează!
 		igname=Claxonează
+	MasterSparkCode
+		command=Pornește vraja!
+		igname=Exersarea țintei
 	OkuuFire
 		command=Reglează!
 		igname=Sub control
 	YukariCake
 		command=Fură!
+		igname=Poftă de dulciuri
 	RemiCover
 		command=Umbră!
 		igname=Slăbiciunea vampirului
 	SuikaShake
 		command=Scutură!
+		igname=Demoni îmbătați
 	TouhouSort
 		command=Sortează in funcție de {0}
 		hat=pălării
@@ -238,20 +255,26 @@ microgame
 		commandb=Ai grijă!
 		commandc=Trage!
 		commandd=Invinge-o!
+		igname=Vânătoarea de castraveți
 	KaguyaMemory
 		command=Privește!
 		commandb=Selectează!
+		igname=Memorie importantă
 	SumiWheel
 		command=Rune!
+		igname=Roata ocultă
 	MochiPound
 		command=Lovește!
+		igname=Zdrobirea orezului
 	RuukotoSweep
 		command=Matură!
+		igname=Chef de treaba
 	MaskPuzzle
 		command=Asamblează!
 		igname=Repararea măștii
 	YuukaWater
 		command=Udă!
+		igname=Îngrijirea florilor
 	KnifeDodge
 		command=Ferește-te!
 	NitoriLook
@@ -267,8 +290,9 @@ microgame
 		command=Fii drăguț!
 		commandb=Distreaz-o!
 		commandc=Salveaz-o!
+		igname=Distracție
 	HecShapes
-		command=Așează!
+		command=Așază!
 		igname=Un meci făcut în iad
 	RockPaperSatori
 		command=Câștigă!
@@ -278,35 +302,44 @@ microgame
 		igname=Căderea pălăriei
 	NueAbduct
 		command=Răpește!
+		igname=Răpire extraterestră
 	ReimuDodge
 		command=Ferește-te!
 		igname=~
 	ClothesChoose
 		command=Potrivește!
+		igname=Îmbrăcămintea zilei
 	KyoukoEcho
 		command=Deviază!
+		igname=Permiteți-mi să reformulizez asta
 	BugSwat
 		command=Lovește!
+		igname=Wriggle Room
 	ClownTorch
 		command=Aprinde!
+		igname=Trecerea torței
 	BeachBall
 		command=Aruncă!
+		igname=Nimerește ținta
 	YuugiBalance
 		command=Echilibru!
+		igname=Echilibru
 	DoorKnock
 		command=Knock!
 	FoodCut
 		command=Taie!
 	MoneyTrap
-		command=Ispitește!
-	Slingshot
-		igname=Lansarea păsărilor
-	MasterSparkCode
-		igname=Exersarea țintei
+		command=Ademenește!
+	KeineMath
+		command=Rezolvă!
+		igname=Fă matematica
+	DoomGame
+		igname=Iadul lui Reisen
 credits
 	intro={0} a fost posibil mulțumită urmatorilor fani!
 	kapptain=Director, Programator, Manager, Echipa "Kapptain"
 	leadart=Director artistic, Designer de caractere, Vocea lui Nitori
+	code=Non-Microgame Code
 	UI=Meniul și graficile stage-urilor
 	menumusic=Muzica meniului
 	stagemusic=Muzica stage-urilor
@@ -320,7 +353,7 @@ credits
 		management=Management de traducere
 	sfx=Efecte sonore
 	voice=Vocea lui Nitori
-	website=Design-ul website-ului
+	site=Design-ul website-ului
 	trailer=Trailer-ul demo-ului
 	socialmedia=Promoție/Social Media
 	touhou=Acest fangame este un derivat al Touhou Project, creat de ZUN
