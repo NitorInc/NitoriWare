@@ -166,6 +166,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("EnableTense", enable);
     }
 
+    public void setForceTense(bool forceTense)
+    {
+        rigAnimator.SetBool("ForceTense", forceTense);
+    }
+
     public void setEyesClosed(bool closed)
     {
         rigAnimator.SetBool("EyesClosed", closed);
