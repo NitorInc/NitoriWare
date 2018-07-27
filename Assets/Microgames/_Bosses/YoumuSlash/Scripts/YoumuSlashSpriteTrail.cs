@@ -37,14 +37,13 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         initialPosition = transform.position;
 	}
 
-    public void resetTrail(float xPosition, float facingDirection)
+    public void resetTrail(float xPosition)
     {
         if (fragments == null)
             Start();
 
         currentHue = Random.Range(0f, 1f);
         lastPosition = new Vector3(xPosition, initialPosition.y, initialPosition.z);
-        fragmentParent.transform.localScale = new Vector3(facingDirection, 1f, 1f);
         distanceSpawnProgress = 0f;
         foreach (var fragment in fragments)
         {

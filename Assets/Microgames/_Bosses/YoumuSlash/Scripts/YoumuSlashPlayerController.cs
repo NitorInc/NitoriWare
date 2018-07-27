@@ -226,8 +226,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetBool("LookBack", false);
             rigAnimator.SetTrigger("ResetLook");
 
-            float facingDirection = (facingRight ? -1f : 1f);
-            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, facingDirection);
+            float facingDirection = (isRigFacingRight() ? -1f : 1f);
+            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection);
         }
     }
 }
