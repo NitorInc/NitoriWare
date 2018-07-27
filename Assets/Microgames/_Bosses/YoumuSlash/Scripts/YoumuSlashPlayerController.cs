@@ -29,7 +29,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip debugSound;
     
-    YoumuSlashBeatMap.TargetBeat nextTarget;
     int nextIdleBeat = -1;
     int untenseBeat = -1;
     bool attacking;
@@ -38,6 +37,21 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private void Start()
     {
         YoumuSlashTimingController.onBeat += onBeat;
+        YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
+    }
+
+    void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
+    {
+        if (!attacking
+            && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
+            rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
+        if (autoSlash)
+            Invoke("performAutoSlash", (target.HitBeat - timingData.CurrentBeat) * timingData.BeatDuration);
+    }
+
+    void performAutoSlash()
+    {
+        attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
     }
 
     void onBeat(int beat)
@@ -50,15 +64,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
         
         rigAnimator.SetTrigger("Beat");
         beatResetTimer = 2;
-
-        if (autoSlash)
-            attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction.Any);
     }
 
     void handleIdleAnimation(int beat)
     {
-
-        nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
+        var nextTarget = timingData.BeatMap.getFirstActiveTarget((float)beat, hitTimeFudge.y);
+        var lastTarget = timingData.BeatMap.getLastActiveTarget((float)beat, hitTimeFudge.y);
 
         if (beat >= untenseBeat)
             rigAnimator.SetBool("Tense", false);
@@ -94,12 +105,17 @@ public class YoumuSlashPlayerController : MonoBehaviour
             if (beat + 1 >= (int)nextTarget.HitBeat)
             {
                 //1 Beat prep
+                bool initialFlip = isFacingRight();
                 bool flipIdle = nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
                 if (isRigFacingRight())
                     flipIdle = !flipIdle;
                 setIdleFlipped(flipIdle);
 
-                rigAnimator.SetBool("LookBack", false);
+                if (isFacingRight() != initialFlip)
+                {
+                    rigAnimator.SetBool("LookBack", false);
+                    rigAnimator.SetTrigger("ResetLook");
+                }
                 rigAnimator.SetBool("Tense", true);
                 untenseBeat = beat + 2;
 
@@ -108,8 +124,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
             else if (beat + 2 >= (int)nextTarget.HitBeat)
             {
                 //2 Beat prep
-                if (isFacingRight() != (nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right))
-                    rigAnimator.SetBool("LookBack", true);
             }
         }
         attacking = false;
@@ -185,10 +199,15 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     }
 
+    YoumuSlashBeatMap.TargetBeat getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction direction)
+    {
+        return timingData.BeatMap.getFirstHittableTarget(timingData.CurrentBeat,
+            hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
+    }
+
     void attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction direction)
     {
-        var hitTarget = timingData.BeatMap.getFirstHittableTarget(timingData.CurrentBeat,
-            hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
+        var hitTarget = getFirstHittableTarget(direction);
         if (hitTarget != null)
         {
             attacking = true;
@@ -204,6 +223,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetBool("IsAttacking", true);
             rigAnimator.SetBool("Tense", false);
             untenseBeat = -1;
+            rigAnimator.SetBool("LookBack", false);
+            rigAnimator.SetTrigger("ResetLook");
 
             float facingDirection = (facingRight ? -1f : 1f);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, facingDirection);

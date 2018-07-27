@@ -5,12 +5,21 @@ using System.Linq;
 
 public class YoumuSlashTargetSpawner : MonoBehaviour
 {
+    public delegate void TargetLaunchDelegate(YoumuSlashBeatMap.TargetBeat target);
+    public delegate void SongStartDelegate();
+    public static TargetLaunchDelegate OnTargetLaunch;
+
     [SerializeField]
     private YoumuSlashTimingData timingData;
 
     private Queue<YoumuSlashBeatMap.TargetBeat> upcomingTargets;
 
     private bool spawningEnabled = false;
+
+    private void Awake()
+    {
+        OnTargetLaunch = null;
+    }
 
     void Start ()
     {
@@ -29,7 +38,9 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
             return;
         else if (timingData.CurrentBeat >= upcomingTargets.Peek().LaunchBeat)
         {
-            spawnTarget(upcomingTargets.Dequeue());
+            var target = upcomingTargets.Dequeue();
+            spawnTarget(target);
+            OnTargetLaunch(target);
         }
     }
 
