@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReimuDodgeBulletBehaviour : MonoBehaviour {
+public class ReimuDodgeBulletBehaviour : MonoBehaviour
+{
 	// A Unity in-editor variable
-	[Header("The thing to fly towards")]
+	[Header ("The thing to fly towards")]
 	[SerializeField]
 	private GameObject target;
 
-	[Header("How fast the bullet goes")]
+	[Header ("How fast the bullet goes")]
 	[SerializeField]
 	private float speed = 1f;
 
-	[Header("Firing delay in seconds")]
+	[Header ("Firing delay in seconds")]
 	[SerializeField]
 	private float delay = 1f;
 
@@ -23,23 +24,38 @@ public class ReimuDodgeBulletBehaviour : MonoBehaviour {
 	void Start ()
 	{
 		// Invoke the setTrajectory method after the delay
-		Invoke("SetTrajectory", delay);
+		Invoke ("SetTrajectory", delay);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		// Only start moving after the trajectory has been set
-		if (trajectory != null)
-		{
+		if (trajectory != null) {
 			// Move the bullet a certain distance based on trajectory speed and time
 			Vector2 newPosition = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
 			transform.position = newPosition;
 		}
 	}
 
-	void SetTrajectory()
+	void SetTrajectory ()
 	{
 		// Calculate a trajectory towards the target
 		trajectory = (target.transform.position - transform.position).normalized;
+	}
+
+	public void SetDelay (float delay)
+	{
+		this.delay = delay;
+	}
+
+	public void SetTarget (GameObject target)
+	{
+		this.target = target;
+	}
+
+	public void SetSpeed (float speed)
+	{
+		this.speed = speed;
 	}
 }

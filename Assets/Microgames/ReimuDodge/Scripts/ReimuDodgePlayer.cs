@@ -41,5 +41,9 @@ public class ReimuDodgePlayer : MonoBehaviour {
 		// Now get a reference to the death exposion and start it
 		ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
 		particleSystem.Play();
+
+		// Now tell the MicrogameController in the scene that the game is over
+		// and we've lost forever
+		MicrogameController.instance.setVictory(victory: false, final: true);
 	}
 }
