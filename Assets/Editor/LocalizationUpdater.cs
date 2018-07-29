@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.IO;
+using System.Text.RegularExpressions;
 
 [CreateAssetMenu(menuName = "Localization/Localization Updater")]
 [ExecuteInEditMode]
@@ -40,13 +42,38 @@ public class LocalizationUpdater : ScriptableObject
                 {
                     if (element.LocalName.Equals(KeyIdentifier))
                         rowKey = element.Value;
-                    else if (languages.ContainsKey(element.LocalName))
-                        languages[element.LocalName][rowKey] = element.Value;
+                    else if (languages.ContainsKey(element.LocalName) && !string.IsNullOrEmpty(element.Value))
+                    {
+
+                        languages[element.LocalName][rowKey] = cleanseEntry(element.Value);
+                        Debug.Log(rowKey + " "+ element.LocalName + " " + cleanseEntry(element.Value));
+                    }
                 }
             }
         }
-        
+
+        string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
+        foreach (var languageData in languages)
+        {
+            string name = getLanguageIdName(languageData.Value);
+            File.WriteAllText(Path.Combine(fullLanguagesPath, name), languageData.Value.ToString());
+        }
+
+        Debug.Log("Done!");
 	}
+
+    string cleanseEntry(string value)
+    {
+        value = Regex.Replace(value, @"^\n*", "");  //Remove leading line breaks
+        value = Regex.Replace(value, @"\n*$", "");  //Remove trailing line breaks
+        value = Regex.Replace(value, @"^ *", "");   //Remove leading whitespace
+        value = Regex.Replace(value, @" *$", "");   //Remove trailing whitespace
+        value = value.Replace("\n", "\\n");         //Format line breaks
+
+        //TODO Re-implement parameter count
+
+        return value;
+    }
 
     //Use the second row sheet buffer to get proper codenames for langauges
     string getLanguageIdName(SerializedNestedStrings languageData)
