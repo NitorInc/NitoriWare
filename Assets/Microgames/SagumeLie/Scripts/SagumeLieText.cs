@@ -5,24 +5,15 @@ using TMPro;
 using UnityEngine.UI;
 
 
-// not done:
-// this is a placeholder!
-// i need to actually get questions from list
-
-// this was originally meant to just contain the script to change the "Question" and "Answer" text,
-// but i kind of accidentally put everything else in here too.
-// todo: split that up for convenience????
-
 public class SagumeLieText : MonoBehaviour
 {
-
-    // texts 
-
     // setting correct answer to 0 before it's decided
-    public int sagumeCorrectAnswer = 0;
+    public int sagumeCorrectAnswer;
+    public int sagumeQuestionID;
+
 
     // use SerializeField to reference GameObjects that will be used in the script
-    // these are under the "ScriptController" object
+    // these can be edited in the "ScriptController" GameObject
 
     [SerializeField]
     private Animator DoremyAnimator;
@@ -43,14 +34,15 @@ public class SagumeLieText : MonoBehaviour
 
     void Start()
     {
-        // find the GameObjects we're going to be putting the text in
-        // TODO: is there a 'better' way to do this?
-     
-        // placeholder question text
-        // TODO: get question from the question list & randomize 
+        // import traits
 
-        QuestionText.SetText("This is a test question! It exists to show that I can change the text from the code. " +
-        "Isn't that neat? I'm going to make it really long so that I can see what happens if the question is way too long.");
+        var traits = (SagumeLieTraits)MicrogameController.instance.getTraits();
+
+        // randomize question - currently 2 options; edit later.
+        sagumeQuestionID = Random.Range(0, 2);
+
+        // set question text to the randomized question
+        QuestionText.SetText(traits.getLocalizedQuestionText(sagumeQuestionID));
 
         // TEMPORARY
         // select which slot the correct answer will be in
@@ -90,7 +82,7 @@ public class SagumeLieText : MonoBehaviour
 
     // if button 1 is clicked
 
-    void AnswerCheckButton1()
+   public void AnswerCheckButton1()
     {
         QuestionBox.SetActive(false);
 
@@ -112,7 +104,7 @@ public class SagumeLieText : MonoBehaviour
 
     // if button 2 is clicked
 
-    void AnswerCheckButton2()
+    public void AnswerCheckButton2()
     {
         QuestionBox.SetActive(false);
 
