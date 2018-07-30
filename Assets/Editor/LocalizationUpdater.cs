@@ -25,8 +25,7 @@ public class LocalizationUpdater : ScriptableObject
     private string languagesPath;
         
 	
-    [ContextMenu("Update Sheet")]
-	void updateSheet ()
+	public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
         for (int i = 1; i <= subsheetCount; i++)
@@ -46,7 +45,6 @@ public class LocalizationUpdater : ScriptableObject
                     {
 
                         languages[element.LocalName][rowKey] = cleanseEntry(element.Value);
-                        Debug.Log(rowKey + " "+ element.LocalName + " " + cleanseEntry(element.Value));
                     }
                 }
             }
