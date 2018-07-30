@@ -49,7 +49,7 @@ public class SagumeLieText : MonoBehaviour
         // this is just to show it can be randomized
         // if there's a better way, i'd love to know!
 
-        sagumeCorrectAnswer = Random.Range(1, 3);
+        sagumeCorrectAnswer = Random.Range(0, 2);
 
         // placeholder answers
 
@@ -69,7 +69,7 @@ public class SagumeLieText : MonoBehaviour
 
     // victory and failure conditions
 
-    public void SagumeVictoryAnimation()
+    public void SagumeVictory()
     {
         SagumeAnimator.SetBool("Success", true);
         DoremyAnimator.SetBool("Success", true);
@@ -77,7 +77,7 @@ public class SagumeLieText : MonoBehaviour
         MicrogameController.instance.setVictory(victory: true, final: true);
     }
 
-    public void SagumeFailureAnimation()
+    public void SagumeFailure()
     {
         SagumeAnimator.SetBool("Failure", true);
         DoremyAnimator.SetBool("Failure", true);
@@ -85,44 +85,19 @@ public class SagumeLieText : MonoBehaviour
         MicrogameController.instance.setVictory(victory: false, final: true);
     }
 
-    // that set up the question & answer text.
-    // now, we check to see if the questions are answered.
-
-    // TODO: see if there's a better way to do this?
-    // it works but i feel there must be a more efficient way
-    // both for checking if the button pressed is the correct one
-    // and setting the animations for all the sprites to go off
-
-    // this script is referenced in the "OnClick" of AnswerButton1 and AnswerButton2
-    // it runs the relevant code below to check for answer correctness
+    // when buttons are clicked, determine if it's the right answer or not.
+    // the script is referenced in the "OnClick" of the answer buttons.
+    // (note: add script to buttons by dragging "ScriptController" GameObject)
 
 
-    // if button 1 is clicked
-
-    public void AnswerCheckButton1()
+    public void AnswerCheck(int answerButtonClicked)
     {
         QuestionBox.SetActive(false);
 
-        if (sagumeCorrectAnswer == 1)
-            SagumeVictoryAnimation();
+        if (answerButtonClicked == sagumeCorrectAnswer)
+            SagumeVictory();
         else
-        {
-            SagumeFailureAnimation();
-        }
+            SagumeFailure();
     }
-
-    // if button 2 is clicked
-
-    public void AnswerCheckButton2()
-    {
-        QuestionBox.SetActive(false);
-
-        if (sagumeCorrectAnswer == 2)
-            SagumeVictoryAnimation();
-        else
-            SagumeFailureAnimation();
-
-    }
-
 
 }
