@@ -15,14 +15,22 @@ public class LocalizationUpdaterEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        GUILayout.Label("To add or edit language info, use Languages Data.");
-
         GUILayout.Label("Update all languages, takes a while:");
         if (GUILayout.Button("Update Language Content"))
         {
             updater.updateLanguages();
         }
-        
+
+        GUILayout.Label("");
+        GUILayout.Label("Update char files for fonts");
+        GUILayout.Label("(call this after Update Language Content):");
+        if (GUILayout.Button("Update Chars Files"))
+        {
+            updater.updateCharsFiles();
+        }
+
+        GUILayout.Label("");
+        GUILayout.Label("TO ADD OR EDIT LANGUAGES THEMSELVES, edit Languages Data.");
         DrawDefaultInspector();
     }
 }

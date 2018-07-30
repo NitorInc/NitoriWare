@@ -11,6 +11,12 @@ using System.Text.RegularExpressions;
 public class LocalizationUpdater : ScriptableObject
 {
     private const string KeyIdentifier = "key";
+    private const string CharsFileSuffix = "Chars.txt";
+    private const string AllCharsFile = "AllChars.txt";
+    private const string NonAsianCharsFile = "NonAsianChars.txt";
+
+    [SerializeField]
+    private LanguagesData languagesData;
 
     [SerializeField]
     private string spreadsheetId;
@@ -23,9 +29,11 @@ public class LocalizationUpdater : ScriptableObject
 
     [SerializeField]
     private string languagesPath;
-        
-	
-	public void updateLanguages()
+    [SerializeField]
+    private string charsPath;
+
+
+    public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
         for (int i = 1; i <= subsheetCount; i++)
@@ -57,8 +65,43 @@ public class LocalizationUpdater : ScriptableObject
             File.WriteAllText(Path.Combine(fullLanguagesPath, name), languageData.Value.ToString());
         }
 
-        Debug.Log("Done!");
+        Debug.Log("Language content updated");
 	}
+
+    public void updateCharsFiles()
+    {
+        string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
+        string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
+
+        //Language files
+        var languageFiles = languagesData.languages.Select(a => Path.Combine(fullLanguagesPath, a.getFileName())).Distinct();
+        foreach (var languageFile in languageFiles)
+        {
+            string language = Path.GetFileName(languageFile);
+            File.WriteAllText(Path.Combine(fullCharsPath, language + CharsFileSuffix), getUniqueCharString(File.ReadAllLines(languageFile)));
+        }
+        Debug.Log("Language chars updated");
+
+        //All chars
+        var allChars = languageFiles.Select(a => getUniqueCharString(File.ReadAllLines(a))).SelectMany(a => a).Distinct().ToArray();
+        File.WriteAllText(Path.Combine(fullCharsPath, AllCharsFile), new string(allChars));
+        Debug.Log(AllCharsFile + " updated");
+
+        //Non-Asian chars
+        languageFiles = languagesData.languages.Where(a => !a.isAsian).Select(a => Path.Combine(fullLanguagesPath, a.getFileName())).Distinct();
+        allChars = languageFiles.Select(a => getUniqueCharString(File.ReadAllLines(a))).SelectMany(a => a).Distinct().ToArray();
+        File.WriteAllText(Path.Combine(fullCharsPath, NonAsianCharsFile), new string(allChars));
+        Debug.Log(NonAsianCharsFile + " updated");
+    }
+
+    static string getUniqueCharString(string[] languageLines)
+    {
+        var str = new string((from line in languageLines
+                              where line.Contains("=")
+                              select line.Substring(line.IndexOf('=') + 1))
+                .SelectMany(a => a).Distinct().ToArray());
+        return str;
+    }
 
     string cleanseEntry(string value)
     {
