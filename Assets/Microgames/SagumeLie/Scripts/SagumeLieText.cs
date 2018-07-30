@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class SagumeLieText : MonoBehaviour
 {
-    // setting correct answer to 0 before it's decided
-    public int sagumeCorrectAnswer;
-    public int sagumeQuestionID;
-
+    public int correctAnswerPosition;
+    public int questionIndex;
 
     // use SerializeField to reference GameObjects that will be used in the script
     // these can be edited in the "ScriptController" GameObject
+
+    // following used for animation
 
     [SerializeField]
     private Animator DoremyAnimator;
@@ -21,6 +21,10 @@ public class SagumeLieText : MonoBehaviour
     private Animator SagumeAnimator;
     [SerializeField]
     private Animator BackgroundAnimator;
+    [SerializeField]
+    private GameObject QuestionBox;
+
+    // following used for text editing
 
     [SerializeField]
     private TMP_Text QuestionText;
@@ -33,8 +37,7 @@ public class SagumeLieText : MonoBehaviour
     [SerializeField]
     private TMP_Text Answer3;
 
-    [SerializeField]
-    private GameObject QuestionBox;
+    string[] Answer = new string[4];
 
     void Start()
     {
@@ -43,26 +46,30 @@ public class SagumeLieText : MonoBehaviour
         var traits = (SagumeLieTraits)MicrogameController.instance.getTraits();
 
         // randomize question - currently 2 options; edit later.
-        sagumeQuestionID = Random.Range(0, 2);
+        questionIndex = Random.Range(0, 2);
 
-        // set question text to the randomized question
-        QuestionText.SetText(traits.getLocalizedQuestionText(sagumeQuestionID));
+        QuestionText.SetText(traits.getLocalizedQuestionText(questionIndex));
 
         // set number of maximum answers
         // this is prep for higher difficulty; 4 for testing purposes
-        // then, randomize position of correct answer
 
         int maxAnswer = 4;
 
-        sagumeCorrectAnswer = Random.Range(0, maxAnswer);
+        correctAnswerPosition = Random.Range(0, maxAnswer);
 
-        // randomize correct answer text
-        int correctAnswerID = Random.Range(0, 2);
+        for (int i = 0; i < maxAnswer; i++)
+        {
+            if (i == correctAnswerPosition)
+                Answer[i] = traits.getLocalizedResponseText(questionIndex, false, Random.Range(0, traits.QuestionPool[questionIndex].TruthResponses.Length));
 
-        Answer0.SetText(traits.getLocalizedResponseText(sagumeQuestionID, false, 1));
+            else
+                Answer[i] = traits.getLocalizedResponseText(questionIndex, true, Random.Range(0, traits.QuestionPool[questionIndex].LieResponses.Length));
+        }
 
-
-
+        Answer0.SetText(Answer[0]);
+        Answer1.SetText(Answer[1]);
+        Answer2.SetText(Answer[2]);
+        Answer3.SetText(Answer[3]);
 
     }
 
@@ -93,7 +100,7 @@ public class SagumeLieText : MonoBehaviour
     {
         QuestionBox.SetActive(false);
 
-        if (answerButtonClicked == sagumeCorrectAnswer)
+        if (answerButtonClicked == correctAnswerPosition)
             SagumeVictory();
         else
             SagumeFailure();
