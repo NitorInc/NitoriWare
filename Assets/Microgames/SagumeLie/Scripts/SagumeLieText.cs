@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SagumeLieText : MonoBehaviour
 {
-    public int correctAnswerPosition;
+    public int liePosition;
     public int questionIndex;
 
     // these can be edited in the "ScriptController" GameObject
@@ -39,17 +39,17 @@ public class SagumeLieText : MonoBehaviour
         int maxAnswer = 4;
 
         // find the answers
-        // note: can have duplicate answers right now. find fix??
+        // note: truth can have duplicate answers right now. find fix??
 
-        correctAnswerPosition = Random.Range(0, maxAnswer);
+        liePosition = Random.Range(0, maxAnswer);
 
         for (int i = 0; i < maxAnswer; i++)
         {
-            if (i == correctAnswerPosition)
-                Answer[i] = traits.getLocalizedResponseText(questionIndex, false, Random.Range(0, traits.QuestionPool[questionIndex].TruthResponses.Length));
+            if (i == liePosition)
+                Answer[i] = traits.getLocalizedResponseText(questionIndex, true, Random.Range(0, traits.QuestionPool[questionIndex].LieResponses.Length));
 
             else
-                Answer[i] = traits.getLocalizedResponseText(questionIndex, true, Random.Range(0, traits.QuestionPool[questionIndex].LieResponses.Length));
+                Answer[i] = traits.getLocalizedResponseText(questionIndex, false, Random.Range(0, traits.QuestionPool[questionIndex].TruthResponses.Length));
         }
 
         Answer0.SetText(Answer[0]);
@@ -95,7 +95,7 @@ public class SagumeLieText : MonoBehaviour
     {
         QuestionBox.SetActive(false);
 
-        if (answerButtonClicked == correctAnswerPosition)
+        if (answerButtonClicked == liePosition)
             SagumeVictory();
         else
             SagumeFailure();
