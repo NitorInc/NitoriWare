@@ -67,6 +67,23 @@ public class SagumeLieText : MonoBehaviour
 
     }
 
+    // victory and failure conditions
+
+    public void SagumeVictoryAnimation()
+    {
+        SagumeAnimator.SetBool("Success", true);
+        DoremyAnimator.SetBool("Success", true);
+        BackgroundAnimator.SetBool("Success", true);
+        MicrogameController.instance.setVictory(victory: true, final: true);
+    }
+
+    public void SagumeFailureAnimation()
+    {
+        SagumeAnimator.SetBool("Failure", true);
+        DoremyAnimator.SetBool("Failure", true);
+        BackgroundAnimator.SetBool("Failure", true);
+        MicrogameController.instance.setVictory(victory: false, final: true);
+    }
 
     // that set up the question & answer text.
     // now, we check to see if the questions are answered.
@@ -82,23 +99,15 @@ public class SagumeLieText : MonoBehaviour
 
     // if button 1 is clicked
 
-   public void AnswerCheckButton1()
+    public void AnswerCheckButton1()
     {
         QuestionBox.SetActive(false);
 
         if (sagumeCorrectAnswer == 1)
-        {
-            SagumeAnimator.SetBool("Success", true);
-            DoremyAnimator.SetBool("Success", true);
-            BackgroundAnimator.SetBool("Success", true);
-            MicrogameController.instance.setVictory(victory: true, final: true);
-        }
+            SagumeVictoryAnimation();
         else
         {
-            SagumeAnimator.SetBool("Failure", true);
-            DoremyAnimator.SetBool("Failure", true);
-            BackgroundAnimator.SetBool("Failure", true);
-            MicrogameController.instance.setVictory(victory: false, final: true);
+            SagumeFailureAnimation();
         }
     }
 
@@ -109,20 +118,11 @@ public class SagumeLieText : MonoBehaviour
         QuestionBox.SetActive(false);
 
         if (sagumeCorrectAnswer == 2)
-        {
-            SagumeAnimator.SetBool("Success", true);
-            DoremyAnimator.SetBool("Success", true);
-            BackgroundAnimator.SetBool("Success", true);
-            MicrogameController.instance.setVictory(victory: true, final: true);
-        }
+            SagumeVictoryAnimation();
         else
-        {
-            SagumeAnimator.SetBool("Failure", true);
-            DoremyAnimator.SetBool("Failure",true);
-            BackgroundAnimator.SetBool("Failure", true);
-            MicrogameController.instance.setVictory(victory: false, final: true);
-        }
+            SagumeFailureAnimation();
 
     }
+
 
 }
