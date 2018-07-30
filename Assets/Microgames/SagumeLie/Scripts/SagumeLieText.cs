@@ -10,21 +10,7 @@ public class SagumeLieText : MonoBehaviour
     public int correctAnswerPosition;
     public int questionIndex;
 
-    // use SerializeField to reference GameObjects that will be used in the script
     // these can be edited in the "ScriptController" GameObject
-
-    // following used for animation
-
-    [SerializeField]
-    private Animator DoremyAnimator;
-    [SerializeField]
-    private Animator SagumeAnimator;
-    [SerializeField]
-    private Animator BackgroundAnimator;
-    [SerializeField]
-    private GameObject QuestionBox;
-
-    // following used for text editing
 
     [SerializeField]
     private TMP_Text QuestionText;
@@ -41,12 +27,9 @@ public class SagumeLieText : MonoBehaviour
 
     void Start()
     {
-        // import traits
-
         var traits = (SagumeLieTraits)MicrogameController.instance.getTraits();
 
-        // randomize question - currently 2 options; edit later.
-        questionIndex = Random.Range(0, 2);
+        questionIndex = Random.Range(0, traits.QuestionPool.Length);
 
         QuestionText.SetText(traits.getLocalizedQuestionText(questionIndex));
 
@@ -54,6 +37,9 @@ public class SagumeLieText : MonoBehaviour
         // this is prep for higher difficulty; 4 for testing purposes
 
         int maxAnswer = 4;
+
+        // find the answers
+        // note: can have duplicate answers right now. find fix??
 
         correctAnswerPosition = Random.Range(0, maxAnswer);
 
@@ -73,7 +59,16 @@ public class SagumeLieText : MonoBehaviour
 
     }
 
-    // victory and failure conditions
+    // victory and failure functions
+
+    [SerializeField]
+    private Animator DoremyAnimator;
+    [SerializeField]
+    private Animator SagumeAnimator;
+    [SerializeField]
+    private Animator BackgroundAnimator;
+    [SerializeField]
+    private GameObject QuestionBox;
 
     public void SagumeVictory()
     {
@@ -91,7 +86,7 @@ public class SagumeLieText : MonoBehaviour
         MicrogameController.instance.setVictory(victory: false, final: true);
     }
 
-    // when buttons are clicked, determine if it's the right answer or not.
+    // answer check function
     // the script is referenced in the "OnClick" of the answer buttons.
     // (note: add script to buttons by dragging "ScriptController" GameObject)
 
