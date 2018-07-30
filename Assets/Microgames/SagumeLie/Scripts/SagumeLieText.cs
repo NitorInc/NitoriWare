@@ -25,9 +25,13 @@ public class SagumeLieText : MonoBehaviour
     [SerializeField]
     private TMP_Text QuestionText;
     [SerializeField]
-    private TMP_Text AnswerText1;
+    private TMP_Text Answer0;
     [SerializeField]
-    private TMP_Text AnswerText2;
+    private TMP_Text Answer1;
+    [SerializeField]
+    private TMP_Text Answer2;
+    [SerializeField]
+    private TMP_Text Answer3;
 
     [SerializeField]
     private GameObject QuestionBox;
@@ -44,26 +48,21 @@ public class SagumeLieText : MonoBehaviour
         // set question text to the randomized question
         QuestionText.SetText(traits.getLocalizedQuestionText(sagumeQuestionID));
 
-        // TEMPORARY
-        // select which slot the correct answer will be in
-        // this is just to show it can be randomized
-        // if there's a better way, i'd love to know!
+        // set number of maximum answers
+        // this is prep for higher difficulty; 4 for testing purposes
+        // then, randomize position of correct answer
 
-        sagumeCorrectAnswer = Random.Range(0, 2);
+        int maxAnswer = 4;
 
-        // placeholder answers
+        sagumeCorrectAnswer = Random.Range(0, maxAnswer);
 
-        if (sagumeCorrectAnswer == 1)
-            {
-             AnswerText1.SetText("Correct Answer!");
-             AnswerText2.SetText("Incorrect Answer!");
-            }
+        // randomize correct answer text
+        int correctAnswerID = Random.Range(0, 2);
 
-        else if (sagumeCorrectAnswer == 2)
-            {
-              AnswerText1.SetText("Incorrect Answer!");
-              AnswerText2.SetText("Correct Answer!");
-            }
+        Answer0.SetText(traits.getLocalizedResponseText(sagumeQuestionID, false, 1));
+
+
+
 
     }
 
