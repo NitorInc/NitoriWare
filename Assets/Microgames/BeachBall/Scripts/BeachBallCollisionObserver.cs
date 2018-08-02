@@ -40,7 +40,8 @@ public class BeachBallCollisionObserver : MonoBehaviour
 
     public virtual void OnTriggerStay2D(Collider2D other)
     {
-        if (!fired && ballPhysics.velocity.y < 0 && other == ballCollider)
+        if (!fired && ballPhysics.velocity.y < 0 && other == ballCollider
+            && !MicrogameController.instance.getVictoryDetermined())
         {
             fired = true;
             other.gameObject.GetComponent<BeachBallZSwitcher>().Switch();
