@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 //Serialization uses tabs for group indentation, key=value for string value lines
 //ToString() returns serialized data
 
-class SerializedNestedStrings
+public class SerializedNestedStrings
 {
     private class StringData
     {

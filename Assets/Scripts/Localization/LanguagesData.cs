@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Control/Languages Data")]
 public class LanguagesData : ScriptableObjectSingleton<LanguagesData>
 {
+    [Header("Update this list manually.")]
+    [Header("Update language content in Localization Updater.")]
+
     [SerializeField]
     private Language[] _languages;
     public Language[] languages => _languages;

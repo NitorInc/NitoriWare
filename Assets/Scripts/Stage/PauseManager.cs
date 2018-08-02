@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public static PauseManager instance;
+
     public static bool disablePause;
     public static bool exitedWhilePaused;
 
@@ -31,6 +33,7 @@ public class PauseManager : MonoBehaviour
     private AudioClip pauseClip;
 
 	private bool paused;
+    public bool Paused => paused;
 
 	PauseData pauseData;
 	//Varopis data stored on pause that gets reapplied on unpause
@@ -59,7 +62,12 @@ public class PauseManager : MonoBehaviour
 
 	private float pauseTimer = 0f;
 
-	void Start ()
+    void Awake()
+    {
+        instance = this;
+    }
+
+    void Start ()
 	{
         transform.position = Vector3.zero;
 		paused = false;
@@ -84,6 +92,8 @@ public class PauseManager : MonoBehaviour
 	{
         if (disablePause)
             return;
+
+        paused = true;
 
         sfxSource.PlayOneShot(pauseClip);
 		pauseData.timeScale = Time.timeScale;
@@ -135,7 +145,6 @@ public class PauseManager : MonoBehaviour
         Cursor.lockState = GameController.DefaultCursorMode;
 
 		menu.gameObject.SetActive(true);
-		paused = true;
 	}
 
     /// <summary>
@@ -164,6 +173,8 @@ public class PauseManager : MonoBehaviour
         if (disablePause)
             return;
 
+        paused = false;
+
         foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
 			if (script != null)
@@ -191,6 +202,5 @@ public class PauseManager : MonoBehaviour
         menu.gameObject.SetActive(false);
 
         onUnPause.Invoke();
-        paused = false;
     }
 }

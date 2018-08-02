@@ -71,6 +71,11 @@ public class DiscordController : MonoBehaviour
             return;
         }
 #endif
+        if (Application.platform != RuntimePlatform.WindowsPlayer)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
         Debug.Log("Discord: init");
         callbackCalls = 0;

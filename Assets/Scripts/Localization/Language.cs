@@ -9,6 +9,7 @@ public class Language
     [SerializeField]
     private string languageID;
     public string languageName;
+    public bool isAsian;
     public bool incomplete;
     public bool disableSelect;
     public string overrideFileName;
