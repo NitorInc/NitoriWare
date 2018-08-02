@@ -61,7 +61,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
 
     private void OnDisable()
     {
-        if (fragments == null)
+        if (fragments == null || PauseManager.instance.Paused)
             return;
         foreach (var fragment in fragments)
         {
