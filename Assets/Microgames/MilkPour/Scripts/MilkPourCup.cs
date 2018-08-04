@@ -1,34 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MilkPourCup : MonoBehaviour
 {
-    public float MaximumFill = 100;
-    public float RequiredFill = 70;
-    public float Fill;
+    public virtual void AddFill (float amount) { }
 
-    [SerializeField]
-    private Transform _maskTransform;
-
-    [SerializeField]
-    private float _maskMinY;
-
-    [SerializeField]
-    private float _maskMaxY;
-
-    [SerializeField]
-    private Transform _fillLineTransform;
-
-    void Start ()
-    {
-        Fill = 0;
-        _fillLineTransform.localPosition = new Vector2 (_fillLineTransform.localPosition.x, RequiredFill / MaximumFill);
+    public virtual bool IsOverfilled ()
+    { 
+        return false;
     }
 
-    void Update ()
-    {
-        _maskTransform.localPosition = new Vector2 (_maskTransform.localPosition.x,
-            Mathf.Lerp (_maskMinY, _maskMaxY, Fill / MaximumFill));
+    public virtual bool IsFillReqMet ()
+    { 
+        return false;
     }
+
+    public virtual void Stop () { }
 }
