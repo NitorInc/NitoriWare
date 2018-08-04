@@ -45,9 +45,9 @@ public class KnifeDodgeWhiteOutController : MonoBehaviour {
 
                 sr.color = new Color(srCol.r, srCol.g, srCol.b, Mathf.Lerp(srCol.a, fadeAlpha, Time.deltaTime * fadeSpeed));
                 sr.transform.localScale = new Vector3(
-                    Mathf.Lerp(currentSize.x, 10, expansionSpeed * Time.deltaTime), 
-                    Mathf.Lerp(currentSize.y, 10, expansionSpeed * Time.deltaTime), 
-                    Mathf.Lerp(currentSize.z, 10, expansionSpeed * Time.deltaTime));
+                    Mathf.Lerp(currentSize.x, 12, expansionSpeed * Time.deltaTime), 
+                    Mathf.Lerp(currentSize.y, 12, expansionSpeed * Time.deltaTime), 
+                    Mathf.Lerp(currentSize.z, 12, expansionSpeed * Time.deltaTime));
                 break;
             case (int) WhiteOutState.FADEOUT:
                 fadeAlpha = 0;

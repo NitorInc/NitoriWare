@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParallaxBackground : MonoBehaviour {
+public class KnifeDodgeParallaxBackground : MonoBehaviour {
 
 	float speed = 1; // speed in meters per second
 

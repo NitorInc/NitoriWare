@@ -142,23 +142,23 @@ public class KnifeDodgeController : MonoBehaviour {
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
-            float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
+            float parallaxSpeed = parallaxController.GetComponent<KnifeDodgeParallaxBackground>().GetSpeed();
             blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
             if (knifeList[i].transform.position.y > knifeStopHeight)
             {
-                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
+                parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = 0;
             }
             else if (timeUntilStrike < 0.0f)
             {
-                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
+                parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.MOVING_TO_GROUND);
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = 0;
             }
             else
             {
-                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
+                parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
                 whiteoutController.GetComponent<KnifeDodgeWhiteOutController>().DoFlash();
                 blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = blackOutAValue;
