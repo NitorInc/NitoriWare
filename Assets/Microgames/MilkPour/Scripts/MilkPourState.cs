@@ -50,27 +50,31 @@ public class MilkPourState : MonoBehaviour
     void OnFill ()
     {
         _cup.AddFill (_fillRate * Time.deltaTime);
-        if (_cup.IsOverfilled ())
-        {
-            _cup.Stop ();
-            MicrogameController.instance.setVictory(false, true);
-            _state = gameState.Stopped;
-        }
+        if (_cup.IsFillMaxed ())
+            Fail ();
     }
 
     void OnIdle ()
     {
         if (_cup.IsFillReqMet ())
-        {
-            _cup.Stop ();
-            MicrogameController.instance.setVictory(true, true);
-            _state = gameState.Stopped;
-        }
+            Win ();
+        else if (_cup.IsOverfilled ())
+            Fail ();
         else if (_failOnEarlyRelease)
-        {
-            _cup.Stop ();
-            MicrogameController.instance.setVictory(false, true);
-            _state = gameState.Stopped;
-        }
+            Fail ();
+    }
+
+    void Win ()
+    {
+        _cup.Stop ();
+        MicrogameController.instance.setVictory(true, true);
+        _state = gameState.Stopped;
+    }
+
+    void Fail ()
+    {
+        _cup.Stop ();
+        MicrogameController.instance.setVictory(false, true);
+        _state = gameState.Stopped;
     }
 }
