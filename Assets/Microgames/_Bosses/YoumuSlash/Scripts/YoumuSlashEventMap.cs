@@ -16,6 +16,7 @@ public class YoumuSlashEventMap : MonoBehaviour
     {
         public string description;
         public float beat;
+        public bool debugPause;
         public UnityEvent unityEvent;
     }
 
@@ -33,7 +34,10 @@ public class YoumuSlashEventMap : MonoBehaviour
             return;
         else if (timingData.CurrentBeat >= upcomingEvents.Peek().beat)
         {
-            upcomingEvents.Dequeue().unityEvent.Invoke();
+            var newEvent = upcomingEvents.Dequeue();
+            newEvent.unityEvent.Invoke();
+            if (newEvent.debugPause)
+                Debug.Break();
         }
     }
 }
