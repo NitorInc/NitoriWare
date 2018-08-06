@@ -31,6 +31,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip debugSound;
     [SerializeField]
+    private AudioClip hitVoiceClip;
+    [SerializeField]
     private AudioClip screamClip;
     
     int nextIdleBeat = -1;
@@ -250,6 +252,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     MicrogameController.instance.playSFX(screamClip);
                     break;
                 default:
+                    MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
                     break;
             }
             
