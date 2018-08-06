@@ -37,6 +37,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     int untenseBeat = -1;
     bool attacking;
     int beatResetTimer;
+    bool attackedUp;
 
     private void Start()
     {
@@ -220,7 +221,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
         var hitTarget = getFirstHittableTarget(direction);
         if (hitTarget != null)
         {
+            rigAnimator.SetBool("IsAttacking", true);
+            bool attackingUp = (!attackedUp && attacking) || hitTarget.ForceUp;
+            rigAnimator.SetBool("AttackUp", attackingUp);
+            attackedUp = attackingUp;
+
             attacking = true;
+
             direction = hitTarget.HitDirection;
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange));
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
@@ -230,7 +237,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
             rigAnimator.SetTrigger("Attack");
             rigAnimator.ResetTrigger("Idle");
-            rigAnimator.SetBool("IsAttacking", true);
             rigAnimator.SetBool("Tense", false);
             untenseBeat = -1;
             rigAnimator.SetBool("LookBack", false);

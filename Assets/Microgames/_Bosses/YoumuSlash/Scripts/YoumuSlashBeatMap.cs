@@ -43,6 +43,10 @@ public class YoumuSlashBeatMap : ScriptableObject
         private Effect hitEffect = Effect.None;
         public Effect HitEffect => hitEffect;
 
+        [SerializeField]
+        private bool forceUp;
+        public bool ForceUp => forceUp;
+
         public enum Direction
         {
             Left,
