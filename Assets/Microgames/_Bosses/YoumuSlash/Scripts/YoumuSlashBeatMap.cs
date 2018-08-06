@@ -37,7 +37,11 @@ public class YoumuSlashBeatMap : ScriptableObject
 
         [SerializeField]
         private GameObject prefab;
-        public GameObject Prefab => prefab; 
+        public GameObject Prefab => prefab;
+
+        [SerializeField]
+        private Effect hitEffect = Effect.None;
+        public Effect HitEffect => hitEffect;
 
         public enum Direction
         {
@@ -45,8 +49,7 @@ public class YoumuSlashBeatMap : ScriptableObject
             Right,
             Any
         }
-
-
+        
         public enum TimeState
         {
             Pending,
@@ -65,6 +68,12 @@ public class YoumuSlashBeatMap : ScriptableObject
                 return TimeState.Active;
             else
                 return TimeState.Passed;
+        }
+
+        public enum Effect
+        {
+            None,
+            Scream
         }
 
         public bool isInHitRange(float beat, float minHitTime, float maxHitTime)

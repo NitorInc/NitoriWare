@@ -30,6 +30,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private Vector2 sliceAngleRange;
     [SerializeField]
     private AudioClip debugSound;
+    [SerializeField]
+    private AudioClip screamClip;
     
     int nextIdleBeat = -1;
     int untenseBeat = -1;
@@ -234,6 +236,17 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetBool("LookBack", false);
             rigAnimator.SetTrigger("ResetLook");
 
+            switch (hitTarget.HitEffect)
+            {
+                case (YoumuSlashBeatMap.TargetBeat.Effect.Scream):
+                    rigAnimator.SetTrigger("Scream");
+                    nextIdleBeat++;
+                    MicrogameController.instance.playSFX(screamClip);
+                    break;
+                default:
+                    break;
+            }
+            
             float facingDirection = (isRigFacingRight() ? -1f : 1f);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection);
         }
