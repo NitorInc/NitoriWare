@@ -5,7 +5,7 @@ using UnityEngine;
 public class YoumuSlashSpriteTrail : MonoBehaviour
 {
     [SerializeField]
-    SpriteRenderer copyRenderer;
+    Sprite trailSprite;
     [SerializeField]
     private bool enableSpawn;
     [SerializeField]
@@ -116,7 +116,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness).ToColor();
         fragment.sortingOrder = nextFragmentIndex;
         setAlpha(fragment, initialAlpha);
-        fragment.sprite = copyRenderer.sprite;
+        fragment.sprite = trailSprite;
 
         nextFragmentIndex++;
         if (nextFragmentIndex >= fragments.Length)

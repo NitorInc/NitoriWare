@@ -152,6 +152,12 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.0625
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -229,16 +235,58 @@ AnimationClip:
     path: Trail bodies
     classID: 1
     script: {fileID: 0}
-  m_PPtrCurves:
   - curve:
-    - time: 0
-      value: {fileID: 21300002, guid: ba9f2b1c80558d9479fc52e76af14d5b, type: 3}
-    - time: 0.03125
-      value: {fileID: 21300004, guid: ba9f2b1c80558d9479fc52e76af14d5b, type: 3}
-    attribute: m_Sprite
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.0625
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Movement/Body/Dash
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.0625
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
     path: Movement/Body/Attack/Sprite
     classID: 212
     script: {fileID: 0}
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 6c7fbe58947d617409354fbd36d73db7, type: 3}
+    attribute: trailSprite
+    path: Movement/Body/Attack/Sprite
+    classID: 114
+    script: {fileID: 11500000, guid: 3a7ad603fbbaa9747944834a770f5f2e, type: 3}
   m_SampleRate: 32
   m_WrapMode: 0
   m_Bounds:
@@ -303,11 +351,25 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
+      path: 2362694931
+      attribute: 2086281974
+      script: {fileID: 0}
+      typeID: 1
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
       path: 324448488
-      attribute: 0
+      attribute: 3305885265
       script: {fileID: 0}
       typeID: 212
-      customType: 23
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 324448488
+      attribute: 2618943189
+      script: {fileID: 11500000, guid: 3a7ad603fbbaa9747944834a770f5f2e, type: 3}
+      typeID: 114
+      customType: 0
       isPPtrCurve: 1
     - serializedVersion: 2
       path: 3747441678
@@ -317,8 +379,7 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300002, guid: ba9f2b1c80558d9479fc52e76af14d5b, type: 3}
-    - {fileID: 21300004, guid: ba9f2b1c80558d9479fc52e76af14d5b, type: 3}
+    - {fileID: 21300000, guid: 6c7fbe58947d617409354fbd36d73db7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -653,6 +714,12 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.0625
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -729,6 +796,50 @@ AnimationClip:
     attribute: m_IsActive
     path: Trail bodies
     classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.0625
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Movement/Body/Dash
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.0625
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Movement/Body/Attack/Sprite
+    classID: 212
     script: {fileID: 0}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
