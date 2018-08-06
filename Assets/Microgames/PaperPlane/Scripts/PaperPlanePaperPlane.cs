@@ -15,19 +15,24 @@ public class PaperPlanePaperPlane : MonoBehaviour
     [SerializeField]
     float delay = 0.5f;
     [SerializeField]
+    Vector2 upperBounds = new Vector2(-7, 7);
+    [SerializeField]
     Sprite[] sprites;
     SpriteRenderer spriteRenderer;
 
     Vector2 velocity;
 
-    void Start () {
+    void Start()
+    {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.gameObject.SetActive(false);
         velocity = Vector2.zero;
         Invoke("setVelocity", delay);
 	}
 	
     void setVelocity()
     {
+        spriteRenderer.gameObject.SetActive(true);
         velocity = new Vector2(speed, 0);
         spriteRenderer.sprite = sprites[1];
     }
@@ -60,8 +65,10 @@ public class PaperPlanePaperPlane : MonoBehaviour
                 }
                 else velocity.y = 0;
             }
-
+            
             transform.position += new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0);
+            if (transform.position.y < upperBounds.x) transform.position = new Vector3(transform.position.x, upperBounds.x, transform.position.z);
+            else if (transform.position.y > upperBounds.y) transform.position = new Vector3(transform.position.x, upperBounds.y, transform.position.z);
         }
 
         if (velocity.y > spriteChangeThreshold)

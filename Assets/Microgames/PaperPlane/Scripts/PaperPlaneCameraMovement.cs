@@ -14,12 +14,7 @@ public class PaperPlaneCameraMovement : MonoBehaviour {
             return new Vector2(Camera.main.orthographicSize * Camera.main.aspect, Camera.main.orthographicSize);
         }
     }
-
-    void Start ()
-    {
-    }
-	
-	// Update is called once per frame
+    
 	void Update () {
         
             Movestep();
