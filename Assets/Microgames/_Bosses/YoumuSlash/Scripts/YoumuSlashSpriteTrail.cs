@@ -22,6 +22,8 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
     private float spawnDistance = .1f;
     [SerializeField]
     private float hueShiftPerFragment = .1f;
+    [SerializeField]
+    private int sortingOrderStart;
 
     private SpriteRenderer[] fragments;
     private int nextFragmentIndex;
@@ -114,7 +116,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragment.transform.position = new Vector3(position.x, position.y, fragment.transform.position.z);
         currentHue = (currentHue + hueShiftPerFragment) % 1f;
         fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness).ToColor();
-        fragment.sortingOrder = nextFragmentIndex;
+        fragment.sortingOrder = sortingOrderStart + nextFragmentIndex;
         setAlpha(fragment, initialAlpha);
         fragment.sprite = trailSprite;
 
