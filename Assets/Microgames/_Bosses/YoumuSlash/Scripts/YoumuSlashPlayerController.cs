@@ -40,6 +40,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     bool attacking;
     int beatResetTimer;
     bool attackedUp;
+    private YoumuSlashBeatMap.TargetBeat.Direction lastSliceDirection;
 
     private void Start()
     {
@@ -224,6 +225,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (hitTarget != null)
         {
             rigAnimator.SetBool("IsAttacking", true);
+            bool reAttacking = attacking == true && hitTarget.HitDirection == lastSliceDirection;
+            rigAnimator.SetBool("ReAttack", reAttacking);
+            lastSliceDirection = hitTarget.HitDirection;
             bool attackingUp = (!attackedUp && attacking) || hitTarget.ForceUp;
             rigAnimator.SetBool("AttackUp", attackingUp);
             attackedUp = attackingUp;
