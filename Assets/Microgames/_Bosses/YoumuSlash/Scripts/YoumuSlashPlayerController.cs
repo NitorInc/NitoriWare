@@ -103,9 +103,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
                 attacking = false;
             }
         }
-        else if (beat > nextIdleBeat)
+        if (beat >= nextIdleBeat)
         {
-            //Start bobbing after return
+            //Start bobbing on return
             rigAnimator.SetTrigger("Bob");
         }
 
