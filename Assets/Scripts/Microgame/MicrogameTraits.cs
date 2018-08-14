@@ -36,7 +36,8 @@ public class MicrogameTraits : ScriptableObject
         Short8Beats,
         Long16Beats
     }
-	public virtual bool canEndEarly => _duration == Duration.Long16Beats;
+    public virtual bool canEndEarly => false;
+        //_duration == Duration.Long16Beats;
 
     [SerializeField]
 	private string _command;

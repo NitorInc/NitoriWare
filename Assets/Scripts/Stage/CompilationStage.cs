@@ -6,13 +6,15 @@ using System;
 
 public class CompilationStage : Stage
 {
-	[SerializeField]
+    public static string globalSeed = "0";
+
+    [SerializeField]
 	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
 	private MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.StageReady;
 	[SerializeField]
 	protected Interruption nextRound;
-    [SerializeField]
+
     private int seed;
 
     //[SerializeField]	//Debug
@@ -22,6 +24,8 @@ public class CompilationStage : Stage
 
 	public override void onStageStart()
 	{
+        seed = int.Parse(globalSeed);
+
 		microgamePool = (from microgame in MicrogameHelper.getMicrogames(restriction)
                         select new Microgame(microgame.microgameId))
                         .ToList();
