@@ -1,34 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MilkPourCup : MonoBehaviour
 {
-    public float MaximumFill = 100;
-    public float RequiredFill = 70;
-    public float Fill;
+    public virtual void AddFill (float amount) { }
 
-    [SerializeField]
-    private Transform _maskTransform;
-
-    [SerializeField]
-    private float _maskMinY;
-
-    [SerializeField]
-    private float _maskMaxY;
-
-    [SerializeField]
-    private Transform _fillLineTransform;
-
-    void Start ()
-    {
-        Fill = 0;
-        _fillLineTransform.localPosition = new Vector2 (_fillLineTransform.localPosition.x, RequiredFill / MaximumFill);
+    // Is the fill too large for the cup?
+    public virtual bool IsFillMaxed ()
+    { 
+        return false;
     }
 
-    void Update ()
+    // Is the fill above the max fill line?
+    public virtual bool IsOverfilled()
     {
-        _maskTransform.localPosition = new Vector2 (_maskTransform.localPosition.x,
-            Mathf.Lerp (_maskMinY, _maskMaxY, Fill / MaximumFill));
+        return false;
     }
+
+    // Is the fill between the min and max fill lines?
+    public virtual bool IsFillReqMet ()
+    { 
+        return false;
+    }
+
+    // Stop the cup from growing.
+    public virtual void Stop () { }
 }
