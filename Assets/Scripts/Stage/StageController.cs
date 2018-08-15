@@ -69,7 +69,11 @@ public class StageController : MonoBehaviour
         WonStage        //10 - Player has won a character stage for the first time | 8 beats, ends stage
 	}
 
-    bool gameplayStarted = false;
+    bool gameplayContdownStarted = false;
+    bool gameplayCountdownReached = false;
+    float gameplayStartTime;
+    Transform blocker;
+    TextMesh blockerText;
 
 	void Start()
 	{
@@ -87,20 +91,38 @@ public class StageController : MonoBehaviour
         AudioListener.pause = true;
     }
 
+
     void Update()
     {
-        if (!gameplayStarted && Input.GetKeyDown(KeyCode.Space))
+        if (!gameplayContdownStarted)
         {
-            transform.Find("Blocker").gameObject.SetActive(false);
-            Time.timeScale = getSpeedMult();
-            AudioListener.pause = false;
-            PauseManager.disablePause = false;
-            gameplayStarted = true;
-            updateToIntro();
-            introSource.pitch = getSpeedMult();
-            introSource.Play();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                blocker = transform.Find("Blocker");
+                blockerText = blocker.GetComponentInChildren<TextMesh>();
+                gameplayStartTime = Time.realtimeSinceStartup + 4f;
+                gameplayContdownStarted = true;
+            }
+        }
+        else if (!gameplayCountdownReached)
+        {
+            var timeLeft = gameplayStartTime - Time.realtimeSinceStartup;
+            if (timeLeft > 0f)
+                blockerText.text = timeLeft >= 1f ? ((int)Mathf.Floor(timeLeft)).ToString() : "GO!";
+            else
+            {
+                blocker.gameObject.SetActive(false);
+                Time.timeScale = getSpeedMult();
+                AudioListener.pause = false;
+                PauseManager.disablePause = false;
+                updateToIntro();
+                introSource.pitch = getSpeedMult();
+                introSource.Play();
+                gameplayCountdownReached = true;
+            }
         }
     }
+    
 
 	void resetStage(float startTime, bool firstTime)
 	{
