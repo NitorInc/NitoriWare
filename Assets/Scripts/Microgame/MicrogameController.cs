@@ -173,10 +173,17 @@ public class MicrogameController : MonoBehaviour
 	public void shutDownMicrogame()
 	{
 		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
-		for (int i = 0; i < rootObjects.Length; i++)
-		{
-			rootObjects[i].SetActive(false);
-		}
+        foreach (var rootObject in rootObjects)
+        {
+            rootObject.SetActive(false);
+
+            //Is there a better way to do this?
+            var monobehaviours = rootObject.GetComponentsInChildren<MonoBehaviour>();
+            foreach (var behaviour in monobehaviours)
+            {
+                behaviour.CancelInvoke();
+            }
+        }
 	}
 
 	bool isBeingDiscarded()
