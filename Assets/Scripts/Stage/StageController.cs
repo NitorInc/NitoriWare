@@ -91,6 +91,7 @@ public class StageController : MonoBehaviour
     {
         if (!gameplayStarted && Input.GetKeyDown(KeyCode.Space))
         {
+            transform.Find("Blocker").gameObject.SetActive(false);
             Time.timeScale = getSpeedMult();
             AudioListener.pause = false;
             PauseManager.disablePause = false;
