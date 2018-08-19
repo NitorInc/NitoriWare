@@ -4779,7 +4779,7 @@ MonoBehaviour:
   allowInput: 1
   autoSlash: 0
   hitTimeFudge: {x: -0.1, y: 0.15}
-  slashMissCooldown: 0.5
+  slashCooldown: 0.5
   sliceAngleRange: {x: 60, y: 120}
   debugSound: {fileID: 0}
   hitVoiceClip: {fileID: 8300000, guid: 98d6039b471c0ab4e943afd3fbc94dcd, type: 3}
@@ -5920,6 +5920,44 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - description: Dots Freeze Input
+    beat: 72
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: freezeInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - description: Dots Unfreeze Input
+    beat: 76
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
   - description: End Big Slash
     beat: 78.75
     debugPause: 0
@@ -5980,7 +6018,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - description: Eye Shift Eyes
+  - description: Eye Shift Animation and Freeze Input
     beat: 94
     debugPause: 0
     unityEvent:
@@ -5997,9 +6035,20 @@ MonoBehaviour:
             m_StringArgument: EyeShift
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: freezeInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - description: End Eye Shift
+  - description: End Eye Shift and Unfreeze Input
     beat: 96
     debugPause: 0
     unityEvent:
@@ -6014,6 +6063,17 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: EnableBob
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -6108,7 +6168,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - description: Sunglasses Fall
+  - description: Sunglasses Fall and Freeeze Input
     beat: 125
     debugPause: 0
     unityEvent:
@@ -6124,6 +6184,36 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: Sunglasses
             m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: freezeInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - description: Sunglasses Unfreeeze Input
+    beat: 128
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null

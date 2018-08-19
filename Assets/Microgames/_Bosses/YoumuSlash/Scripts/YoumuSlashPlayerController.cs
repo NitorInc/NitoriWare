@@ -162,6 +162,16 @@ public class YoumuSlashPlayerController : MonoBehaviour
         attacking = false;
     }
 
+    //For animation purposes
+    public void freezeInput(bool facingRight)
+    {
+        returnToIdle();
+        if (isFacingRight() != facingRight)
+            setIdleFlipped(!isIdleFlipped());
+        rigAnimator.SetBool("LookBack", false);
+        allowInput = false;
+    }
+
     void setRigFacingRight(bool facingRight)
     {
         facingTransform.localScale = new Vector3(Mathf.Abs(facingTransform.localScale.x) * (facingRight ? -1f : 1f),
@@ -173,6 +183,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         facingSpriteTransform.localScale = new Vector3(Mathf.Abs(facingSpriteTransform.localScale.x) * (flip ? -1f : 1f),
             facingSpriteTransform.localScale.y, facingSpriteTransform.localScale.z);
+    }
+
+    bool isIdleFlipped()
+    {
+        return facingSpriteTransform.localScale.x < 0f;
     }
 
     bool isRigFacingRight()
@@ -251,8 +266,10 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         var hitTarget = getFirstHittableTarget(direction);
         bool isHit = hitTarget != null;
-        if (slashCooldownTimer > 0f &&  //No slash if cooldown timer isn't reached and attack is a miss
-            (!isHit || !attackWasSuccess))   //Or if last attack was miss
+        if (!isHit && attacking)    //No slash if this slash attack is a miss and we're still attacking
+            return;
+        if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
+            &&  (!isHit || !attackWasSuccess))   //Or if last attack was a miss
             return;
         else if (isHit)   //For force direction (auto-slash)
             direction = hitTarget.HitDirection;
