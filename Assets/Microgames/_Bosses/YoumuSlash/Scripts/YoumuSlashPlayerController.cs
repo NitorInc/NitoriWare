@@ -41,6 +41,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private float slashCooldown = .5f;
     [SerializeField]
     private float missReactionAnimationTime = .5f;
+    [SerializeField]
+    private int upsetReactionBeatDuration = 6;
 
     [SerializeField]
     private Vector2 sliceAngleRange;
@@ -61,6 +63,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     float slashCooldownTimer;
     bool holdAttack;
     YoumuSlashBeatMap.TargetBeat nextTarget;
+    int upsetResetBeat;
 
     private void Start()
     {
@@ -92,6 +95,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             handleIdleAnimation(beat);
         }
         rigAnimator.SetBool("IsAttacking", attacking);
+        if (beat == upsetResetBeat)
+            rigAnimator.SetBool("Upset", false);
         
         rigAnimator.SetTrigger("Beat");
         beatTriggerResetTimer = 2;
@@ -250,7 +255,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (nextTarget != currentNextTarget)
         {
             if (nextTarget != null && !nextTarget.slashed)
-                triggerMiss();
+                triggerMiss(true);
             nextTarget = currentNextTarget;
         }
 
@@ -296,7 +301,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
         if (!isHit)
-            triggerMiss();
+            triggerMiss(false);
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);
@@ -354,10 +359,15 @@ public class YoumuSlashPlayerController : MonoBehaviour
         spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
     }
 
-    void triggerMiss()
+    void triggerMiss(bool playIdleReaction)
     {
-        rigAnimator.SetBool("NoteMissed", true);
-        Invoke("disableMiss", missReactionAnimationTime);
+        if (playIdleReaction)
+        {
+            rigAnimator.SetBool("NoteMissed", true);
+            Invoke("disableMiss", missReactionAnimationTime);
+        }
+        rigAnimator.SetBool("Upset", true);
+        upsetResetBeat = (int)timingData.CurrentBeat + upsetReactionBeatDuration;
     }
 
     void disableMiss()
