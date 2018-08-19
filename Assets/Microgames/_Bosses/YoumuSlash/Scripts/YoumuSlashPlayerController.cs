@@ -39,7 +39,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [Header("Minimum time to miss a slash after a previous attempt")]
     [SerializeField]
     private float slashCooldown = .5f;
-    
+    [SerializeField]
+    private float missReactionAnimationTime = .5f;
+
     [SerializeField]
     private Vector2 sliceAngleRange;
     [SerializeField]
@@ -58,11 +60,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
     YoumuSlashBeatMap.TargetBeat.Direction lastSliceDirection;
     float slashCooldownTimer;
     bool holdAttack;
+    YoumuSlashBeatMap.TargetBeat nextTarget;
 
     private void Start()
     {
         YoumuSlashTimingController.onBeat += onBeat;
         YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
+        nextTarget = getFirstActiveTarget();
     }
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
@@ -241,7 +245,16 @@ public class YoumuSlashPlayerController : MonoBehaviour
         }
         if (allowInput)
             handleInput();
-	}
+        
+        var currentNextTarget = getFirstActiveTarget();
+        if (nextTarget != currentNextTarget)
+        {
+            if (nextTarget != null && !nextTarget.slashed)
+                triggerMiss();
+            nextTarget = currentNextTarget;
+        }
+
+    }
 
     void handleInput()
     {
@@ -263,6 +276,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
             hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
     }
 
+    YoumuSlashBeatMap.TargetBeat getFirstActiveTarget()
+    {
+        return timingData.BeatMap.getFirstActiveTarget(timingData.CurrentBeat,
+            hitTimeFudge.y / timingData.BeatDuration);
+    }
+
     void attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction direction)
     {
         var hitTarget = getFirstHittableTarget(direction);
@@ -276,6 +295,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             direction = hitTarget.HitDirection;
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
+        if (!isHit)
+            triggerMiss();
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);
@@ -331,5 +352,16 @@ public class YoumuSlashPlayerController : MonoBehaviour
         }
 
         spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
+    }
+
+    void triggerMiss()
+    {
+        rigAnimator.SetBool("NoteMissed", true);
+        Invoke("disableMiss", missReactionAnimationTime);
+    }
+
+    void disableMiss()
+    {
+        rigAnimator.SetBool("NoteMissed", false);
     }
 }
