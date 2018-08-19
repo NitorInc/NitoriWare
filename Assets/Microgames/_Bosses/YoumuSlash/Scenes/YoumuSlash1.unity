@@ -1976,7 +1976,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -484190271
   m_SortingLayer: 1
-  m_SortingOrder: 39
+  m_SortingOrder: 45
   m_Sprite: {fileID: 21300000, guid: 6d6b3a69f09b5094d9d2cff453c6bc7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4776,8 +4776,8 @@ MonoBehaviour:
   spriteTrail: {fileID: 409873476}
   spriteTrailStartOffset: 0.5
   firstTargetStareMode: 1
-  allowInput: 1
-  autoSlash: 0
+  allowInput: 0
+  autoSlash: 1
   hitTimeFudge: {x: -0.1, y: 0.15}
   slashCooldown: 0.5
   sliceAngleRange: {x: 60, y: 120}
@@ -5833,6 +5833,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   events:
+  - description: Start Input
+    beat: 14
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AutoSlash
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Squint
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
   - description: Squint
     beat: 28
     debugPause: 0
@@ -11875,7 +11905,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -484190271
   m_SortingLayer: 1
-  m_SortingOrder: 39
+  m_SortingOrder: 45
   m_Sprite: {fileID: 21300000, guid: 6d6b3a69f09b5094d9d2cff453c6bc7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
