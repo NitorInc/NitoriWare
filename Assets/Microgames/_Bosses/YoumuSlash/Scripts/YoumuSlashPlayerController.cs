@@ -57,6 +57,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     bool attackWasSuccess;
     YoumuSlashBeatMap.TargetBeat.Direction lastSliceDirection;
     float slashCooldownTimer;
+    bool holdAttack;
 
     private void Start()
     {
@@ -266,7 +267,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         var hitTarget = getFirstHittableTarget(direction);
         bool isHit = hitTarget != null;
-        if (!isHit && attacking)    //No slash if this slash attack is a miss and we're still attacking
+        if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
         if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
             &&  (!isHit || !attackWasSuccess))   //Or if last attack was a miss
@@ -286,6 +287,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             attackingUp = true;
         rigAnimator.SetBool("AttackUp", attackingUp);
         attackedUp = attackingUp;
+        rigAnimator.SetBool("AttackMissed", !isHit);
         
         bool facingRight = direction == YoumuSlashBeatMap.TargetBeat.Direction.Right;
         setRigFacingRight(facingRight);
@@ -313,15 +315,18 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     rigAnimator.SetTrigger("Scream");
                     nextIdleBeat++;
                     MicrogameController.instance.playSFX(screamClip);
+                    holdAttack = true;
                     break;
                 default:
                     MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
+                    holdAttack = false;
                     break;
             }
         }
         else
         {
             //Missed
+            holdAttack = false;
             MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
         }
 
