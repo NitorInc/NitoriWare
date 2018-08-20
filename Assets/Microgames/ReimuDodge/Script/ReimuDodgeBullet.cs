@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RemiuDodgeBullet : MonoBehaviour {
+public class ReimuDodgeBullet : MonoBehaviour {
 
     // Use this for initialization
     // A Unity in-editor variable

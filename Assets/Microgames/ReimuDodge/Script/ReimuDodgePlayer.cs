@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RemiuDodgePlayer : MonoBehaviour
+public class ReimuDodgePlayer : MonoBehaviour
 {
     [SerializeField]
     private AudioClip deathSound;
