@@ -5,7 +5,8 @@ using UnityEngine;
 public class DoomGame_Enemy : MonoBehaviour
 {
 
-    public static List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy>();
+    DoomGame_EnemySingleton singleton;
+    DoomGame_Player player;
 
     [SerializeField]
     Vector3 targetPosition = Vector3.zero;
@@ -27,12 +28,12 @@ public class DoomGame_Enemy : MonoBehaviour
 
     void Start()
     {
-        if(enemies.Contains(null))
-            enemies.Clear(); //this was clearing the list every time a new enemy spawned
-        enemies.Add(this);
         rend = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         mainCamera = Camera.main.transform;
+        singleton = mainCamera.GetComponent<DoomGame_EnemySingleton>();
+        singleton.enemies.Add(this);
+        player = mainCamera.GetComponent<DoomGame_Player>();
     }
 
     void Update()
@@ -57,7 +58,7 @@ public class DoomGame_Enemy : MonoBehaviour
     {
         if(delay > damageDelay)
         {
-            DoomGame_Player.Kill();
+            player.Kill();
             delay = 0;
         }
         delay += Time.deltaTime;
@@ -82,7 +83,7 @@ public class DoomGame_Enemy : MonoBehaviour
         Destroy(gameObject, deathAudio.length);
         Destroy(GetComponent<Collider>());
         rend.enabled = false;
-        enemies.Remove(this);
+        singleton.enemies.Remove(this);
         Destroy(this);
 
         CheckVictory();
@@ -90,6 +91,8 @@ public class DoomGame_Enemy : MonoBehaviour
 
     void CheckVictory()
     {
+        if(singleton.enemies.Count == 0)
+            MicrogameController.instance.setVictory(true);
 
     }
 

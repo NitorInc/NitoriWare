@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class DoomGame_Player : MonoBehaviour
 {
+    DoomGame_EnemySingleton enemySingleton;
     [SerializeField]
     Animator gunAnimator;
     Camera mainCamera;
+    new AudioSource audio;
+    [SerializeField]
+    AudioClip shootSound;
 
     void Start()
     {
         mainCamera = Camera.main;
+        enemySingleton = mainCamera.GetComponent<DoomGame_EnemySingleton>();
+        audio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -23,6 +29,7 @@ public class DoomGame_Player : MonoBehaviour
 
     void Shoot()
     {
+        audio.PlayOneShot(shootSound);
         gunAnimator.Play("doom_gun");
         gunAnimator.SetTrigger("shoot");
         RaycastHit hit;
@@ -33,10 +40,10 @@ public class DoomGame_Player : MonoBehaviour
     void CheckEnemies()
     {
         DoomGame_UI.rightArrow = DoomGame_UI.leftArrow = false;
-        for(int i = 0; i < DoomGame_Enemy.enemies.Count; i++)
+        for(int i = 0; i < enemySingleton.enemies.Count; i++)
         {
             Vector3 vec = mainCamera.WorldToViewportPoint(
-                DoomGame_Enemy.enemies[i].transform.position);
+                enemySingleton.enemies[i].transform.position);
             if(vec.z < mainCamera.nearClipPlane)
             {
                 if(vec.x > 0.5f)
@@ -54,9 +61,9 @@ public class DoomGame_Player : MonoBehaviour
         }
     }
 
-    public static void Kill()
+    public void Kill()
     {
-
+        MicrogameController.instance.setVictory(false, true);
     }
 
     /*
