@@ -22,15 +22,13 @@ public class ReimuDodgeBullet : MonoBehaviour {
 	}
 
 	void Update () {
-		if (trajectory != null)
-        {
+		if (trajectory != null) {
             Vector2 newPosition = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
             transform.position = newPosition;
         }
 	}
 
-    void SetTrajectory()
-    {
+    void SetTrajectory() {
         trajectory = (target.transform.position - transform.position).normalized;
     }
 }
