@@ -20,7 +20,14 @@ public class SeijaSpinArrows : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        currentScale = (float)(1.1f + Mathf.PingPong(Time.time * 0.5f, 0.2f));
-        transform.localScale = new Vector3(originalScaleValues.x * currentScale, originalScaleValues.y * currentScale, originalScaleValues.z);
+
+        if (!MicrogameController.instance.getVictory())
+        {
+            currentScale = (float)(1.1f + Mathf.PingPong(Time.time * 0.5f, 0.2f));
+            transform.localScale = new Vector3(originalScaleValues.x * currentScale, originalScaleValues.y * currentScale, originalScaleValues.z);
+        } else
+        {
+            transform.localScale = new Vector3 (0,0,0);
+        }
 	}
 }
