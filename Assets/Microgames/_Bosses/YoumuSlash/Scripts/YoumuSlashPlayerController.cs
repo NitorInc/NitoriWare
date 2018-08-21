@@ -181,6 +181,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (isFacingRight() != facingRight)
             setIdleFlipped(!isIdleFlipped());
         rigAnimator.SetBool("LookBack", false);
+        rigAnimator.SetBool("Upset", false);
         allowInput = false;
     }
     
@@ -336,6 +337,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
         attacking = true;
 
+        rigAnimator.SetBool("Scream", false);
         if (isHit)
         {
             //Hit successful
@@ -345,7 +347,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             switch (hitTarget.HitEffect)
             {
                 case (YoumuSlashBeatMap.TargetBeat.Effect.Scream):
-                    rigAnimator.SetTrigger("Scream");
+                    rigAnimator.SetBool("Scream", true);
                     nextIdleBeat++;
                     MicrogameController.instance.playSFX(screamClip);
                     holdAttack = true;
