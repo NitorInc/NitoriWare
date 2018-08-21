@@ -42,7 +42,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private float missReactionAnimationTime = .5f;
     [SerializeField]
-    private int upsetReactionBeatDuration = 6;
+    private int upsetResetHitCount = 6;
     [SerializeField]
     private float slashAnimationEffectTime;
 
@@ -66,7 +66,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     bool holdAttack;
     bool attackMissedNote;
     YoumuSlashBeatMap.TargetBeat nextTarget;
-    int upsetResetBeat;
+    int upsetResetHits;
 
     private void Start()
     {
@@ -98,8 +98,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
             handleIdleAnimation(beat);
         }
         rigAnimator.SetBool("IsAttacking", attacking);
-        if (beat == upsetResetBeat)
-            rigAnimator.SetBool("Upset", false);
         
         rigAnimator.SetTrigger("Beat");
         beatTriggerResetTimer = 2;
@@ -353,6 +351,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
             //Hit successful
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
+            if (upsetResetHits > 0)
+            {
+                upsetResetHits--;
+                if (upsetResetHits == 0)
+                    rigAnimator.SetBool("Upset", false);
+            }
 
             switch (hitTarget.HitEffect)
             {
@@ -382,7 +386,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             playMissReaction();
         else
             disableMissReaction();
-        upsetResetBeat = (int)timingData.CurrentBeat + upsetReactionBeatDuration;
+        upsetResetHits = upsetResetHitCount;
+        rigAnimator.SetBool("Upset", true);
     }
 
     void playMissReaction()
@@ -390,7 +395,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("NoteMissed", true);
         CancelInvoke("disableMissReaction");
         Invoke("disableMissReaction", missReactionAnimationTime);
-        rigAnimator.SetBool("Upset", true);
     }
 
     void disableMissReaction()
