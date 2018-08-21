@@ -64,6 +64,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     YoumuSlashBeatMap.TargetBeat.Direction lastSliceDirection;
     float slashCooldownTimer;
     bool holdAttack;
+    bool attackMissed;
     YoumuSlashBeatMap.TargetBeat nextTarget;
     int upsetResetBeat;
 
@@ -170,6 +171,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetTrigger("Idle");
         }
         rigAnimator.SetBool("AttackUp", false);
+        if (attackMissed)
+            playMissReaction();
         spriteTrail.EnableSpawn = false;
         attacking = false;
     }
@@ -182,6 +185,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             setIdleFlipped(!isIdleFlipped());
         rigAnimator.SetBool("LookBack", false);
         rigAnimator.SetBool("Upset", false);
+        disableMissReaction();
         allowInput = false;
     }
     
@@ -263,7 +267,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (nextTarget != currentNextTarget)
         {
             if (nextTarget != null && !nextTarget.slashed)
-                triggerMiss(true);
+                triggerMiss();
             nextTarget = currentNextTarget;
         }
 
@@ -299,6 +303,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         var hitTarget = getFirstHittableTarget(direction);
         bool isHit = hitTarget != null;
+        attackMissed = !isHit;
         if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
         if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
@@ -308,8 +313,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
             direction = hitTarget.HitDirection;
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
-        if (!isHit)
-            triggerMiss(false);
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);
@@ -323,6 +326,10 @@ public class YoumuSlashPlayerController : MonoBehaviour
         attackedUp = attackingUp;
         rigAnimator.SetBool("AttackMissed", !isHit);
         
+        attacking = true;
+        if (!isHit)
+            triggerMiss();
+
         bool facingRight = direction == YoumuSlashBeatMap.TargetBeat.Direction.Right;
         setRigFacingRight(facingRight);
         setIdleFlipped(false);
@@ -334,10 +341,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetTrigger("ResetLook");
         float facingDirection = (isRigFacingRight() ? -1f : 1f);
         spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection);
-
-        attacking = true;
-
+        
         rigAnimator.SetBool("Scream", false);
+        holdAttack = false;
         if (isHit)
         {
             //Hit successful
@@ -354,33 +360,38 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     break;
                 default:
                     MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
-                    holdAttack = false;
                     break;
             }
         }
         else
         {
             //Missed
-            holdAttack = false;
             MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
         }
 
         spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
     }
 
-    void triggerMiss(bool playIdleReaction)
+    void triggerMiss()
     {
-        if (playIdleReaction)
-        {
-            rigAnimator.SetBool("NoteMissed", true);
-            Invoke("disableMiss", missReactionAnimationTime);
-        }
-        rigAnimator.SetBool("Upset", true);
+        if (!attacking)
+            playMissReaction();
+        else
+            disableMissReaction();
         upsetResetBeat = (int)timingData.CurrentBeat + upsetReactionBeatDuration;
     }
 
-    void disableMiss()
+    void playMissReaction()
+    {
+        rigAnimator.SetBool("NoteMissed", true);
+        CancelInvoke("disableMissReaction");
+        Invoke("disableMissReaction", missReactionAnimationTime);
+        rigAnimator.SetBool("Upset", true);
+    }
+
+    void disableMissReaction()
     {
         rigAnimator.SetBool("NoteMissed", false);
+        CancelInvoke("disableMissReaction");
     }
 }
