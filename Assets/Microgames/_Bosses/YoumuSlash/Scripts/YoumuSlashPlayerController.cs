@@ -55,7 +55,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip screamClip;
     
-    int nextIdleBeat = -1;
+    int nextIdleBeat = -100;
     int untenseBeat = -1;
     bool attacking;
     int beatTriggerResetTimer;
@@ -182,6 +182,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
             setIdleFlipped(!isIdleFlipped());
         rigAnimator.SetBool("LookBack", false);
         allowInput = false;
+    }
+    
+    public void callGoCommand()
+    {
+        MicrogameController.instance.displayLocalizedCommand("commandb", "Go!");
     }
 
     void setRigFacingRight(bool facingRight)

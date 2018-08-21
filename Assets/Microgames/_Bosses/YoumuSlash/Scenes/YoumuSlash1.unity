@@ -2065,8 +2065,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   beatMap: {fileID: 11400000, guid: 89f9d2d12f0227d4cac08b8b666fd446, type: 2}
-  StartDelay: 0.5
-  debugBeatClip: {fileID: 0}
+  startDelay: 1
+  warmupBeats: 4
+  warmupBeatClip: {fileID: 8300000, guid: d0b4b24da72071f4585fb457c4aeb076, type: 3}
 --- !u!82 &334025766
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2669,7 +2670,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 699213541}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &520593128
 MonoBehaviour:
@@ -3986,8 +3987,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1669432354}
   - {fileID: 520593127}
+  - {fileID: 1669432354}
   - {fileID: 1159630517}
   - {fileID: 1150805252}
   - {fileID: 706802718}
@@ -5837,7 +5838,7 @@ MonoBehaviour:
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   events:
   - description: Start Input
-    beat: 14
+    beat: 12
     debugPause: 0
     unityEvent:
       m_PersistentCalls:
@@ -5856,6 +5857,17 @@ MonoBehaviour:
         - m_Target: {fileID: 949925404}
           m_MethodName: set_AllowInput
           m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: callGoCommand
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9505,6 +9517,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.simulateStartDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.displayCommand
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -10570,7 +10592,7 @@ Transform:
   - {fileID: 239711326}
   - {fileID: 949925405}
   m_Father: {fileID: 699213541}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1687469450
 Prefab:
@@ -12298,7 +12320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1973699467
 Transform:
   m_ObjectHideFlags: 0
