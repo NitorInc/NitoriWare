@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ReimuDodgeBullet : MonoBehaviour {
-
+    private float pi = Mathf.PI;
+    
     // In-editor variables
     [Header("Bullet target")]
     [SerializeField]
     private GameObject target;
+
+    [Header("Bullet distance")]
+    [SerializeField]
+    private float distance = 10f;
 
     [Header("Bullet speed")]
     [SerializeField]
@@ -16,9 +21,16 @@ public class ReimuDodgeBullet : MonoBehaviour {
     [Header("Bullet delay")]
     [SerializeField]
     private float delay = 1f;
+    
 
-    // Bullet direction
     private Vector2 direction;
+
+    void Awake () {
+        // Set starting position
+        float random_angle = Random.Range(0, 2 * pi);
+
+        transform.position = new Vector2(distance * Mathf.Cos(random_angle), distance * Mathf.Sin(random_angle));
+    }
 
 	// Use this for initialization
 	void Start () {
