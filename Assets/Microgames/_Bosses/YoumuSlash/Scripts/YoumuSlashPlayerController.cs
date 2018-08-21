@@ -43,6 +43,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private float missReactionAnimationTime = .5f;
     [SerializeField]
     private int upsetReactionBeatDuration = 6;
+    [SerializeField]
+    private float slashAnimationEffectTime;
 
     [SerializeField]
     private Vector2 sliceAngleRange;
@@ -332,7 +334,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (isHit)
         {
             //Hit successful
-            hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange));
+            hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
 
             switch (hitTarget.HitEffect)
