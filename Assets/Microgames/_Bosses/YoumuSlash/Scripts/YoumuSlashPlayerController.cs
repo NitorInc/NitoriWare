@@ -64,7 +64,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     YoumuSlashBeatMap.TargetBeat.Direction lastSliceDirection;
     float slashCooldownTimer;
     bool holdAttack;
-    bool attackMissed;
+    bool attackMissedNote;
     YoumuSlashBeatMap.TargetBeat nextTarget;
     int upsetResetBeat;
 
@@ -171,7 +171,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetTrigger("Idle");
         }
         rigAnimator.SetBool("AttackUp", false);
-        if (attackMissed)
+        if (attackMissedNote)
             playMissReaction();
         spriteTrail.EnableSpawn = false;
         attacking = false;
@@ -267,7 +267,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (nextTarget != currentNextTarget)
         {
             if (nextTarget != null && !nextTarget.slashed)
+            {
+                if (attacking)
+                    attackMissedNote = true;
                 triggerMiss();
+            }
             nextTarget = currentNextTarget;
         }
 
@@ -303,7 +307,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         var hitTarget = getFirstHittableTarget(direction);
         bool isHit = hitTarget != null;
-        attackMissed = !isHit;
+        attackMissedNote = false;
         if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
         if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
