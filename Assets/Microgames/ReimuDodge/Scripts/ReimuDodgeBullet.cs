@@ -19,30 +19,33 @@ public class ReimuDodgeBullet : MonoBehaviour
     [SerializeField]
     private float delay = 1f;
 
-    // Stores the direction of travel for the bullet
+    [Header("Manually set direction of travel (Normalized)")]
+    [SerializeField]
+    private Vector3 startingTrajectory;
+
     private Vector3 trajectory;
 
     // Use this for initialization
     void Start()
     {
-        // Invoke the setTrajectory method after the delay
-        Invoke("SetTrajectory", delay);
+		// Invoke the setTrajectory method after the delay
+		Invoke("SetTrajectory", delay);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Only start moving after the trajectory has been set
-        if (trajectory != null)
-        {
-            // Move the bullet a certain distance based on trajectory speed and time
-            transform.position = transform.position + (trajectory * speed * Time.deltaTime);
-        }
+		// Move the bullet a certain distance based on trajectory speed and time
+		transform.position = transform.position + (trajectory * speed * Time.deltaTime);
     }
 
     void SetTrajectory()
     {
-        // Calculate a trajectory towards the target
-        trajectory = (target.transform.position - transform.position).normalized;
+		if (target != null) {
+			// Calculate a trajectory towards the target
+			trajectory = (target.transform.position - transform.position).normalized;
+		} else {
+			trajectory = startingTrajectory.normalized;
+		}
     }
 }
