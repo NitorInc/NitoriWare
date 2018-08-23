@@ -14,6 +14,9 @@ public class ReimuDodgePlayer : MonoBehaviour
 	{
 		//Only kill Reimu if she isn't already dead
 		if (alive) Kill();
+		
+		//Now say we've lost the game
+		MicrogameController.instance.setVictory(victory: false, final: true);
 	}
 	void Kill()
 	{
