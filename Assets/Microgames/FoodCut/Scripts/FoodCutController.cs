@@ -44,6 +44,7 @@ public class FoodCutController : MonoBehaviour {
             transform.Translate(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed, 0f, 0f);
         }
 
+        // Knife will stop moving while animations are playing
         if (knifeChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutKnife")
             || xChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutX")) 
         {
@@ -63,18 +64,20 @@ public class FoodCutController : MonoBehaviour {
             transform.position = new Vector2(maxX, transform.position.y);
         }
 
+        // Checks to see if there is a dotted line to cut
         if (Input.GetKeyDown(KeyCode.Space) && currentTrigger != null)
         {
+            knifeChild.GetComponent<Animator>().Play("FoodCutKnife");
             cutCount++;
             Debug.Log("Object Cut");
             Destroy(currentTrigger.gameObject);
             currentTrigger = null;
-            knifeChild.GetComponent<Animator>().Play("FoodCutKnife");
-        } else if (Input.GetKeyDown(KeyCode.Space))
+        } else if (Input.GetKeyDown(KeyCode.Space) && isCutting == false)
         {
             xChild.GetComponent<Animator>().Play("FoodCutX");
         }
 
+        // Player wins if they cut the proper amount of lines
         if (cutCount == cutsNeeded)
             MicrogameController.instance.setVictory(victory: true, final: true);
     }

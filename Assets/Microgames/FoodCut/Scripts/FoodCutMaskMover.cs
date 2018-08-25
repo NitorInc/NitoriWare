@@ -21,4 +21,5 @@ public class FoodCutMaskMover : MonoBehaviour {
             transform.position = new Vector2((knife.transform.position.x + distance), transform.position.y);
         }
     }
+
 }
