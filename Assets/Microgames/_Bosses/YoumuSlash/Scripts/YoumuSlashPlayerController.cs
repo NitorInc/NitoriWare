@@ -45,6 +45,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private int upsetResetHitCount = 6;
     [SerializeField]
     private float slashAnimationEffectTime;
+    [SerializeField]
+    private float idleReturnAnimationDelay;
 
     [SerializeField]
     private Vector2 sliceAngleRange;
@@ -64,9 +66,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
     YoumuSlashBeatMap.TargetBeat.Direction lastSliceDirection;
     float slashCooldownTimer;
     bool holdAttack;
-    bool attackMissedNote;
+    bool noteMissReactionQueued;
     YoumuSlashBeatMap.TargetBeat nextTarget;
     int upsetResetHits;
+    float lastIdleTime;
+    float lastAttackTime;
 
     private void Start()
     {
@@ -168,11 +172,10 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.ResetTrigger("Attack");
             rigAnimator.SetTrigger("Idle");
         }
-        rigAnimator.SetBool("AttackUp", false);
-        if (attackMissedNote)
-            playMissReaction();
-        spriteTrail.EnableSpawn = false;
         attacking = false;
+        lastIdleTime = Time.time;
+        spriteTrail.EnableSpawn = false;
+        rigAnimator.SetBool("AttackUp", false);
     }
 
     //For animation purposes
@@ -183,7 +186,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             setIdleFlipped(!isIdleFlipped());
         rigAnimator.SetBool("LookBack", false);
         rigAnimator.SetBool("Upset", false);
-        disableMissReaction();
+        disableNoteMissReaction();
         allowInput = false;
     }
     
@@ -266,13 +269,25 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             if (nextTarget != null && !nextTarget.slashed)
             {
-                if (attacking)
-                    attackMissedNote = true;
+                if (canReactToMissedNote())
+                    playNoteMissReaction();
+                else
+                    noteMissReactionQueued = true;
                 triggerMiss();
             }
             nextTarget = currentNextTarget;
         }
+        else if (noteMissReactionQueued && canReactToMissedNote())
+        {
+            playNoteMissReaction();
+            noteMissReactionQueued = false;
+        }
 
+    }
+
+    bool canReactToMissedNote()
+    {
+        return !attacking && Time.time >= lastIdleTime + idleReturnAnimationDelay;
     }
 
     void handleInput()
@@ -305,7 +320,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         var hitTarget = getFirstHittableTarget(direction);
         bool isHit = hitTarget != null;
-        attackMissedNote = false;
         if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
         if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
@@ -315,6 +329,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             direction = hitTarget.HitDirection;
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
+        noteMissReactionQueued = false;
+        lastAttackTime = Time.time;
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);
@@ -327,7 +343,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("AttackUp", attackingUp);
         attackedUp = attackingUp;
         rigAnimator.SetBool("AttackMissed", !isHit);
-        
+        disableNoteMissReaction();
+
         attacking = true;
         if (!isHit)
             triggerMiss();
@@ -382,24 +399,20 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void triggerMiss()
     {
-        if (!attacking)
-            playMissReaction();
-        else
-            disableMissReaction();
         upsetResetHits = upsetResetHitCount;
         rigAnimator.SetBool("Upset", true);
     }
 
-    void playMissReaction()
+    void playNoteMissReaction()
     {
         rigAnimator.SetBool("NoteMissed", true);
-        CancelInvoke("disableMissReaction");
-        Invoke("disableMissReaction", missReactionAnimationTime);
+        CancelInvoke("disableNoteMissReaction");
+        Invoke("disableNoteMissReaction", missReactionAnimationTime);
     }
 
-    void disableMissReaction()
+    void disableNoteMissReaction()
     {
         rigAnimator.SetBool("NoteMissed", false);
-        CancelInvoke("disableMissReaction");
+        CancelInvoke("disableNoteMissReaction");
     }
 }
