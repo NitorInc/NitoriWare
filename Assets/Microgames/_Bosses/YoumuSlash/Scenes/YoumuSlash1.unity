@@ -1976,7 +1976,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -484190271
   m_SortingLayer: 1
-  m_SortingOrder: 39
+  m_SortingOrder: 45
   m_Sprite: {fileID: 21300000, guid: 6d6b3a69f09b5094d9d2cff453c6bc7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2065,8 +2065,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   beatMap: {fileID: 11400000, guid: 89f9d2d12f0227d4cac08b8b666fd446, type: 2}
-  StartDelay: 0.5
-  debugBeatClip: {fileID: 0}
+  startDelay: 1
+  warmupBeats: 4
+  warmupBeatClip: {fileID: 8300000, guid: d0b4b24da72071f4585fb457c4aeb076, type: 3}
 --- !u!82 &334025766
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2669,7 +2670,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 699213541}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &520593128
 MonoBehaviour:
@@ -3986,8 +3987,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1669432354}
   - {fileID: 520593127}
+  - {fileID: 1669432354}
   - {fileID: 1159630517}
   - {fileID: 1150805252}
   - {fileID: 706802718}
@@ -4775,9 +4776,15 @@ MonoBehaviour:
   facingSpriteTransform: {fileID: 1700740567}
   spriteTrail: {fileID: 409873476}
   spriteTrailStartOffset: 0.5
-  firstTargetStareMode: 1
+  firstTargetStareMode: 0
+  allowInput: 0
+  autoSlash: 1
   hitTimeFudge: {x: -0.1, y: 0.15}
-  autoSlash: 0
+  slashCooldown: 0.5
+  missReactionAnimationTime: 0.75
+  upsetResetHitCount: 2
+  slashAnimationEffectTime: 0
+  idleReturnAnimationDelay: 0.07
   sliceAngleRange: {x: 60, y: 120}
   debugSound: {fileID: 0}
   hitVoiceClip: {fileID: 8300000, guid: 98d6039b471c0ab4e943afd3fbc94dcd, type: 3}
@@ -5831,6 +5838,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   events:
+  - description: Start Input
+    beat: 12
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AutoSlash
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Squint
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: callGoCommand
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
   - description: Squint
     beat: 28
     debugPause: 0
@@ -5918,6 +5966,44 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - description: Dots Freeze Input
+    beat: 72
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: freezeInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - description: Dots Unfreeze Input
+    beat: 76
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
   - description: End Big Slash
     beat: 78.75
     debugPause: 0
@@ -5978,7 +6064,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - description: Eye Shift Eyes
+  - description: Eye Shift Animation and Freeze Input
     beat: 94
     debugPause: 0
     unityEvent:
@@ -5995,10 +6081,21 @@ MonoBehaviour:
             m_StringArgument: EyeShift
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: freezeInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - description: End Eye Shift
-    beat: 96
+  - description: Eye Shift Resume Bob
+    beat: 95.5
     debugPause: 0
     unityEvent:
       m_PersistentCalls:
@@ -6012,6 +6109,25 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: EnableBob
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - description: Eye Shift Unfreeze Input
+    beat: 96
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -6106,7 +6222,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - description: Sunglasses Fall
+  - description: Sunglasses Fall and Freeeze Input
     beat: 125
     debugPause: 0
     unityEvent:
@@ -6122,6 +6238,36 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: Sunglasses
             m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 949925404}
+          m_MethodName: freezeInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - description: Sunglasses Unfreeeze Input
+    beat: 128
+    debugPause: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 949925404}
+          m_MethodName: set_AllowInput
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -9231,7 +9377,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1564005390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 488, y: -6, z: -63.1}
+  m_LocalPosition: {x: 500, y: -6, z: -63.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 588601996}
@@ -9379,6 +9525,16 @@ Prefab:
     - target: {fileID: 4000010474567360, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.simulateStartDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.displayCommand
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
@@ -10445,7 +10601,7 @@ Transform:
   - {fileID: 239711326}
   - {fileID: 949925405}
   m_Father: {fileID: 699213541}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1687469450
 Prefab:
@@ -11783,7 +11939,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -484190271
   m_SortingLayer: 1
-  m_SortingOrder: 39
+  m_SortingOrder: 45
   m_Sprite: {fileID: 21300000, guid: 6d6b3a69f09b5094d9d2cff453c6bc7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12173,7 +12329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1973699467
 Transform:
   m_ObjectHideFlags: 0

@@ -14,9 +14,11 @@ public class YoumuSlashTimingController : MonoBehaviour
     [SerializeField]
     private YoumuSlashBeatMap beatMap;
     [SerializeField]
-    private float StartDelay = .5f;
+    private float startDelay = .5f;
     [SerializeField]
-    private AudioClip debugBeatClip;
+    private int warmupBeats;
+    [SerializeField]
+    private AudioClip warmupBeatClip;
 
     private AudioSource musicSource;
 
@@ -34,17 +36,24 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     void Start()
     {
-        lastInvokedBeat = -1;
+        lastInvokedBeat = -1 - warmupBeats;
         onBeat += checkForSongEnd;
-        AudioHelper.playScheduled(musicSource, StartDelay);
-        Invoke("callMusicStart", StartDelay);
+
+        Invoke("beginWarmup", startDelay);
+    }
+
+    void beginWarmup()
+    {
+        float musicStartTime = (float)warmupBeats * timingData.BeatDuration;
+        AudioHelper.playScheduled(musicSource, musicStartTime);
+        callOnBeat();
+        Invoke("callMusicStart", musicStartTime);
     }
 
     void callMusicStart()
     {
         if (!(onMusicStart == null))
             onMusicStart();
-        callOnBeat();
     }
 
     void callOnBeat()
@@ -54,9 +63,13 @@ public class YoumuSlashTimingController : MonoBehaviour
             onBeat(lastInvokedBeat);
 
         float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
-        Invoke("callOnBeat", nextBeatTime - musicSource.time);
+        if (lastInvokedBeat >= 0)
+            Invoke("callOnBeat", nextBeatTime - musicSource.time);
+        else
+            Invoke("callOnBeat", timingData.BeatDuration);
 
-        musicSource.PlayOneShot(debugBeatClip);
+        if (lastInvokedBeat < 0)
+            musicSource.PlayOneShot(warmupBeatClip);
     }
 
     private void Update()

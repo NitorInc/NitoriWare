@@ -8,6 +8,11 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
     Sprite trailSprite;
     [SerializeField]
     private bool enableSpawn;
+    public bool EnableSpawn
+    {
+        get { return enableSpawn; }
+        set { enableSpawn = value; }
+    }
     [SerializeField]
     private Transform fragmentParent;
     [SerializeField]

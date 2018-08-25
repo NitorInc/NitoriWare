@@ -20,8 +20,11 @@ public class YoumuSlashTarget : MonoBehaviour
     private float rightPitch = 1f;
 
     private YoumuSlashBeatMap.TargetBeat mapInstance;
+    public YoumuSlashBeatMap.TargetBeat MapInstance => mapInstance;
+
     private bool isRight;
     private AudioSource sfxSource;
+    private float slashAngle;
     
 	public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
@@ -37,10 +40,17 @@ public class YoumuSlashTarget : MonoBehaviour
         sfxSource.PlayOneShot(launchClip);
     }
 
-    public void slash(float angle)
+    public void slash(float angle, float effectActivationTime)
     {
-        body.slash(angle);
         mapInstance.slashed = true;
+        slashAngle = angle;
+        Invoke("activateSlashEffect", effectActivationTime);
+        body.freezeLaunchAnimation();
+    }
+
+    public void activateSlashEffect()
+    {
+        body.slash(slashAngle);
 
         sfxSource.panStereo = slashPan * (isRight ? 1f : -1f);
         sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
