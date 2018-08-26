@@ -8,6 +8,9 @@ public class ReimuDodgePlayer : MonoBehaviour
     [SerializeField]
     private AudioClip deathsound;
 
+    [SerializeField]
+    private float vol = 0.5f;
+
     private bool alive = true;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -15,6 +18,8 @@ public class ReimuDodgePlayer : MonoBehaviour
         if (alive)
         {
             Kill();
+
+            MicrogameController.instance.setVictory(victory: false, final: true);
         }
     }
 
@@ -28,7 +33,7 @@ public class ReimuDodgePlayer : MonoBehaviour
         FollowCursor followcursor = GetComponent<FollowCursor>();
         followcursor.enabled = false;
 
-        MicrogameController.instance.playSFX(deathsound, volume: 0.5f, panStereo: AudioHelper.getAudioPan(transform.position.x));
+        MicrogameController.instance.playSFX(deathsound, volume: vol, panStereo: AudioHelper.getAudioPan(transform.position.x));
 
         ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
         particleSystem.Play();
