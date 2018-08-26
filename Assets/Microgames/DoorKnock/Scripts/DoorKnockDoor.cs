@@ -22,6 +22,9 @@ public class DoorKnockDoor : MonoBehaviour {
     [SerializeField]
     private int speed;
 
+    [SerializeField]
+    private GameObject fist;
+
     private float screenWidth;
     private float screenHeight;
     private Vector2 direction;  
@@ -40,14 +43,13 @@ public class DoorKnockDoor : MonoBehaviour {
         collider = GetComponent<BoxCollider2D>();
         // Randomize starting position and movement direction
         NewDirection();
-        Teleport();
+        Teleport(false);
     }
 	
     // Update is called once per frame
     void Update() {
         // Test if sprite is clicked
         if (Input.GetMouseButtonDown(0) && intersecting) {
-            print(clicksToWin);
             OnClick(); 
         }
         if (shouldMove && direction != null && !win){
@@ -84,23 +86,23 @@ public class DoorKnockDoor : MonoBehaviour {
             else if (teleportOnClick){
                 Teleport();
             }
-            ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
+            ParticleSystem particleSystem = fist.GetComponentInChildren<ParticleSystem>();
             particleSystem.Play();
-            NewDirection();
+            
+            MicrogameController.instance.playSFX(
+                knockSound, volume: 0.5f,
+                panStereo: AudioHelper.getAudioPan(transform.position.x)
+            );
+            //NewDirection();
         }
-        MicrogameController.instance.playSFX(
-            knockSound, volume: 0.5f,
-            panStereo: AudioHelper.getAudioPan(transform.position.x)
-        );
-        NewDirection();
     }
     
     // Move to a random location
-    void Teleport() {
+    void Teleport(bool animate=true) {
         float newx = Random.Range(-screenWidth, screenWidth) / 2;
         float newy = Random.Range(-screenHeight, screenHeight) / 2;
         transform.position = new Vector2(newx, newy);
-        animator.SetTrigger("Clicked");
+        if (animate) animator.SetTrigger("Clicked");
     }
     
     // Set a different direction
