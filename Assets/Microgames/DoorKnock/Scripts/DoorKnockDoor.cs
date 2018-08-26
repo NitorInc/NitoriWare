@@ -93,7 +93,7 @@ public class DoorKnockDoor : MonoBehaviour {
                 knockSound, volume: 0.5f,
                 panStereo: AudioHelper.getAudioPan(transform.position.x)
             );
-            NewDirection();
+            //NewDirection();
         }
     }
     
