@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineDrawer : MonoBehaviour {
+public class PuppetStringLine : MonoBehaviour {
 	private LineRenderer line;
 	private Vector2 mousePosition;
 

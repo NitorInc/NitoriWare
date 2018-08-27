@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionHandler : MonoBehaviour {
+public class PuppetStringCollider : MonoBehaviour {
 
 	bool mouseOver;
 
