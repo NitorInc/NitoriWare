@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineCreator : MonoBehaviour {
+public class PuppetStringDrawer : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject line;
 
-	public CollisionHandler start;
-	public CollisionHandler goal;
+	private PuppetStringCollider start;
+	private PuppetStringCollider goal;
 
 	private Vector2 mousePosition;
 	private bool drawOn = false;
@@ -20,11 +20,11 @@ public class LineCreator : MonoBehaviour {
 
 		temp = GameObject.Find("Start");
 		//Debug.Log("Start: " + temp.GetComponent<Transform>().position);
-		start = temp.GetComponent<CollisionHandler>();
+		start = temp.GetComponent<PuppetStringCollider>();
 
 		temp = GameObject.Find("Goal");
 		//Debug.Log("Goal: " + temp.GetComponent<Transform>().position);
-		goal = temp.GetComponent<CollisionHandler>();
+		goal = temp.GetComponent<PuppetStringCollider>();
 
 	}
 	
@@ -65,7 +65,7 @@ public class LineCreator : MonoBehaviour {
 
 
 	//Checks whether the mouse location is in some collision box
-	private bool checkPosition(CollisionHandler obj)
+	private bool checkPosition(PuppetStringCollider obj)
 	{
 		//collision box logic for mouse position
 		//return true;
