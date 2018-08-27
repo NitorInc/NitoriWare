@@ -4,37 +4,64 @@ using UnityEngine;
 
 public class IcePath_Cirno : MonoBehaviour {
     // Cirno's position
-    public static int cirnoX, cirnoY;
+    public static int   cirnoX, cirnoY;           // Coordinate in grid array
+    public static float cirnoTrueX, cirnoTrueY;   // Coordinate in scene
 
-	// Use this for initialization
-	void Start () {
+    // Cirno's sway
+    int cirnoSway;
+
+    // Use this for initialization
+    void Start () {
         // Set starting position
         transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, cirnoY) + IcePath_Generate.origin;
-		
+
+        cirnoSway = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
         // Movement
         int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
         int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
 
-        if (canWalkInto(cirnoX + moveX, cirnoY - moveY)) {
-            cirnoX += moveX;
-            cirnoY -= moveY;
+        if (moveX != 0 ||
+            moveY != 0) {
 
-            transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, -cirnoY) + IcePath_Generate.origin;
+            if (canWalkInto(cirnoX + moveX, cirnoY - moveY)) {
+                cirnoX += moveX;
+                cirnoY -= moveY;
+
+                transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, -cirnoY) + IcePath_Generate.origin;
+
+                cirnoTrueX = transform.position.x;
+                cirnoTrueY = transform.position.y;
+
+                cirnoSway *= -1;
+            }
         }
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 8f * cirnoSway));
+
     }
+
+
 
     bool canWalkInto(int posX, int posY) {
         // Can Cirno walk here?
-        return (isWithin(posX, 0, IcePath_Generate.globalMapWidth - 1)  && // Is the position within the grid array?
-                isWithin(posY, 0, IcePath_Generate.globalMapHeight - 1) &&
-                IcePath_Generate.tile[posX, posY] != "." && // Is the tile not empty?
-                IcePath_Generate.tile[posX, posY] != "O" && // Is the tile not a lamp?
-                IcePath_Generate.tile[posX, posY] != "W" && // Is the tile not Wakasagihime?
-                IcePath_Generate.tile[posX, posY] != "@");  // You get the point.
+
+        if (isWithin(posX, 0, IcePath_Generate.globalMapWidth - 1) && // Is the position within the grid array?
+            isWithin(posY, 0, IcePath_Generate.globalMapHeight - 1)) {
+
+            string tile = IcePath_Generate.tile[posX, posY];
+
+            return (tile == "A" || // Is it the start isle?
+                    tile == "B" || // Is it the end isle?
+                    tile == "#");  // Is it an ice tile?
+
+        } else {
+            return false;
+        }
+
     }
 
     bool isWithin(float input, float min, float max) {
@@ -42,4 +69,5 @@ public class IcePath_Cirno : MonoBehaviour {
         return (input >= min &&
                 input <= max);
     }
+
 }

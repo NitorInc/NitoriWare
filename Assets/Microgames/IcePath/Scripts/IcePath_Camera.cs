@@ -19,6 +19,6 @@ public class IcePath_Camera : MonoBehaviour {
 	void Update () {
         transform.position = magnitude * new Vector2(Mathf.Cos(counter), Mathf.Cos(counter));
 
-        counter = (counter + 2 * pi/ speed) % 2 * pi;
+        counter = (counter + speed/ 2 * pi) % 2 * pi;
     }
 }

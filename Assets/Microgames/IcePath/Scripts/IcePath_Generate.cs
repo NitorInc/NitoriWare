@@ -28,6 +28,7 @@ public class IcePath_Generate : MonoBehaviour {
     [SerializeField] private GameObject prefabCirno;
     [SerializeField] private GameObject prefabIceCream;
     [SerializeField] private GameObject prefabWaka;
+    [SerializeField] private GameObject prefabFog;
     [SerializeField] private GameObject prefabLamp;
     [SerializeField] private GameObject prefabLily;
 
@@ -38,8 +39,12 @@ public class IcePath_Generate : MonoBehaviour {
     string map;
 
     // The grid for Cirno to walk around in
-    public static string[,] tile = new string[9, 7]; 
-    
+    public static string[,] tile = new string[9, 7];
+
+    // Fog-related
+    float fogTimer;
+    float fogSpawnY;
+
     // Use this for initialization
 	void Awake () {
         tileSize = spriteSize / 100;
@@ -49,11 +54,14 @@ public class IcePath_Generate : MonoBehaviour {
 
         origin = transform.position;
 
-        tile[8, 6] = "0";
+        tile[8, 6] = ".";
+
+        fogTimer = 1f;
+        fogSpawnY = 0;
 
         // Read the map files
-        int mapIndex = rand(1, 1);
-        string path = "Assets/Microgames/IcePath/Maps/Map" + mapDiff.ToString() + "0" + mapIndex.ToString() + ".txt";
+        int mapIndex = rand(1, 2);
+        string path = "Assets/Microgames/IcePath/Maps/IcePath_Map" + mapDiff.ToString() + "0" + mapIndex.ToString() + ".txt";
 
         StreamReader reader = new StreamReader(path, Encoding.UTF8);
         map = reader.ReadToEnd();
@@ -95,6 +103,13 @@ public class IcePath_Generate : MonoBehaviour {
 
         }
 
+        // Bring in a few fog
+        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+
         // Debug
         print(map);
 		
@@ -102,8 +117,19 @@ public class IcePath_Generate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        // Fog-related!!
+
+        if (fogTimer > 0) {
+            fogTimer -= Time.deltaTime;
+        } else {
+            Instantiate(prefabFog, new Vector2(24, rand(-12, 12)), Quaternion.identity);
+            Instantiate(prefabFog, new Vector2(-24, rand(-12, 12)), Quaternion.identity);
+
+            fogTimer = 3f;
+            print("New mist spawned");
+        }
+
+    }
 
     int rand (float min, float max) {
         // Round random range
