@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DoomGame_Player : MonoBehaviour
 {
-    DoomGame_EnemySingleton enemySingleton;
+    public List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy>();
     [SerializeField]
     Animator gunAnimator;
     Camera mainCamera;
@@ -15,7 +15,6 @@ public class DoomGame_Player : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        enemySingleton = mainCamera.GetComponent<DoomGame_EnemySingleton>();
         audio = GetComponent<AudioSource>();
     }
 
@@ -40,10 +39,10 @@ public class DoomGame_Player : MonoBehaviour
     void CheckEnemies()
     {
         DoomGame_UI.rightArrow = DoomGame_UI.leftArrow = false;
-        for(int i = 0; i < enemySingleton.enemies.Count; i++)
+        for(int i = 0; i < enemies.Count; i++)
         {
             Vector3 vec = mainCamera.WorldToViewportPoint(
-                enemySingleton.enemies[i].transform.position);
+                enemies[i].transform.position);
             if(vec.z < mainCamera.nearClipPlane)
             {
                 if(vec.x > 0.5f)
@@ -65,14 +64,4 @@ public class DoomGame_Player : MonoBehaviour
     {
         MicrogameController.instance.setVictory(false, true);
     }
-
-    /*
-    void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
-        blit.SetFloat("_Amount", bloodfx -= Time.deltaTime);
-        if(bloodfx < 0)
-            bloodfx = 0;
-        Graphics.Blit(source, destination, blit);
-    }
-    */
 }

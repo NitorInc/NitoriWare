@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DoomGame_Enemy : MonoBehaviour
 {
-
-    DoomGame_EnemySingleton singleton;
+    
     DoomGame_Player player;
 
     [SerializeField]
@@ -31,9 +30,8 @@ public class DoomGame_Enemy : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         mainCamera = Camera.main.transform;
-        singleton = mainCamera.GetComponent<DoomGame_EnemySingleton>();
-        singleton.enemies.Add(this);
         player = mainCamera.GetComponent<DoomGame_Player>();
+        player.enemies.Add(this);
     }
 
     void Update()
@@ -83,7 +81,7 @@ public class DoomGame_Enemy : MonoBehaviour
         Destroy(gameObject, deathAudio.length);
         Destroy(GetComponent<Collider>());
         rend.enabled = false;
-        singleton.enemies.Remove(this);
+        player.enemies.Remove(this);
         Destroy(this);
 
         CheckVictory();
@@ -91,7 +89,7 @@ public class DoomGame_Enemy : MonoBehaviour
 
     void CheckVictory()
     {
-        if(singleton.enemies.Count == 0)
+        if(player.enemies.Count == 0)
             MicrogameController.instance.setVictory(true);
 
     }

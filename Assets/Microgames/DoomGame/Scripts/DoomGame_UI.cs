@@ -12,7 +12,7 @@ public class DoomGame_UI : MonoBehaviour
 
     void Start()
     {
-        rightArrow = leftArrow = false;
+
     }
 
     void Update()
