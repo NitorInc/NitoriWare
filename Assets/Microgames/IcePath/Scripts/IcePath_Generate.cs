@@ -32,6 +32,14 @@ public class IcePath_Generate : MonoBehaviour {
     [SerializeField] private GameObject prefabLamp;
     [SerializeField] private GameObject prefabLily;
 
+    [Header("Fog-related")]
+    [SerializeField] private float fogTime;
+
+    float fogAlarm;
+
+    // Wakasagihime tiles
+    public static Vector2 wakaStart, wakaEnd;
+
     // Origin
     public static Vector2 origin;
 
@@ -40,10 +48,6 @@ public class IcePath_Generate : MonoBehaviour {
 
     // The grid for Cirno to walk around in
     public static string[,] tile = new string[9, 7];
-
-    // Fog-related
-    float fogTimer;
-    float fogSpawnY;
 
     // Use this for initialization
 	void Awake () {
@@ -56,8 +60,7 @@ public class IcePath_Generate : MonoBehaviour {
 
         tile[8, 6] = ".";
 
-        fogTimer = 1f;
-        fogSpawnY = 0;
+        fogAlarm = 0;
 
         // Read the map files
         int mapIndex = rand(1, 2);
@@ -68,7 +71,7 @@ public class IcePath_Generate : MonoBehaviour {
 
         // Generate the map!
         for (int i = 0; i < map.Length; i ++) {
-
+            
             // Which tile to spawn?
             string pos = map.Substring(i, 1);
             int posX = i % mapWidth;
@@ -76,25 +79,35 @@ public class IcePath_Generate : MonoBehaviour {
 
             Vector2 spawnPos = (Vector2)transform.position + tileSize * new Vector2(posX, -posY);
 
+            Quaternion quad = Quaternion.identity;
             switch (pos) {
-                case "A": // Starting isle tile
-                    Instantiate(prefabIsleTile, spawnPos, Quaternion.identity);
+                case "A": // Start isle tile
+                    Instantiate(prefabIsleTile, spawnPos, quad);
                     IcePath_Cirno.cirnoX = posX;
                     IcePath_Cirno.cirnoY = posY; break;
+
                 case "B": // Finish isle tile
-                    Instantiate(prefabIsleTile, spawnPos, Quaternion.identity);
-                    Instantiate(prefabIceCream, spawnPos, Quaternion.identity); break;
+                    Instantiate(prefabIsleTile, spawnPos, quad);
+                    Instantiate(prefabIceCream, spawnPos, quad); break;
+
                 case "#": // Ice tile
-                    Instantiate(prefabIceTile, spawnPos, Quaternion.identity); break;
+                    Instantiate(prefabIceTile,  spawnPos, quad); break;
 
-                case "W": // Wakasagihime spawn
-                    Instantiate(prefabWaka, spawnPos, Quaternion.identity); break;
+                case "a": // Wakasagihime start tile
+                    Instantiate(prefabWaka,     spawnPos, quad);
+                    wakaStart = spawnPos; break;
+                case "b": // Wakasagihime passing tile
+                    Instantiate(prefabIceTile, spawnPos, quad); break;
+                case "c": // Wakasagihime end tile
+                    wakaEnd =   spawnPos; break;
+
                 case "O": // Lamp
-                    Instantiate(prefabLamp, spawnPos, Quaternion.identity); break;
-
+                    Instantiate(prefabLamp, spawnPos, quad); break;
                 case "@": // Lilies
-                    Instantiate(prefabLily, spawnPos, Quaternion.identity); break;
+                    Instantiate(prefabLily, spawnPos, quad); break;
 
+                case ".": // Nothing
+                    break;
                 default:
                     break;
             }
@@ -104,11 +117,12 @@ public class IcePath_Generate : MonoBehaviour {
         }
 
         // Bring in a few fog
-        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
-        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
-        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
-        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
-        Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+
+        int n = 5;
+        while (n > 0) {
+            Instantiate(prefabFog, new Vector2(rand(-12, 12), rand(-12, 12)), Quaternion.identity);
+            n--;
+        }
 
         // Debug
         print(map);
@@ -119,13 +133,13 @@ public class IcePath_Generate : MonoBehaviour {
 	void Update () {
         // Fog-related!!
 
-        if (fogTimer > 0) {
-            fogTimer -= Time.deltaTime;
+        if (fogAlarm > 0) {
+            fogAlarm -= Time.deltaTime;
         } else {
-            Instantiate(prefabFog, new Vector2(24, rand(-12, 12)), Quaternion.identity);
-            Instantiate(prefabFog, new Vector2(-24, rand(-12, 12)), Quaternion.identity);
+            Instantiate(prefabFog, new Vector2(48, rand(-24, 24)), Quaternion.identity);
+            Instantiate(prefabFog, new Vector2(-48, rand(-24, 24)), Quaternion.identity);
 
-            fogTimer = 3f;
+            fogAlarm = fogTime;
             print("New mist spawned");
         }
 

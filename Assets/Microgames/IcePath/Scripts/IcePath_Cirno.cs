@@ -10,6 +10,8 @@ public class IcePath_Cirno : MonoBehaviour {
     // Cirno's sway
     int cirnoSway;
 
+    bool isHit = false;
+
     // Use this for initialization
     void Start () {
         // Set starting position
@@ -21,30 +23,60 @@ public class IcePath_Cirno : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        // Movement
-        int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
-        int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
+        // Hit Waka?
 
-        if (moveX != 0 ||
-            moveY != 0) {
+        if (IcePath_Generate.tile[cirnoX, cirnoY] == "b") {
+            if (!IcePath_Waka.isPassable) {
 
-            if (canWalkInto(cirnoX + moveX, cirnoY - moveY)) {
-                cirnoX += moveX;
-                cirnoY -= moveY;
-
-                transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, -cirnoY) + IcePath_Generate.origin;
-
-                cirnoTrueX = transform.position.x;
-                cirnoTrueY = transform.position.y;
-
-                cirnoSway *= -1;
+                if (!isHit) {
+                    Die();
+                    isHit = true;
+                }
+                
             }
         }
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 8f * cirnoSway));
+
+        if (isHit) {
+            // Fly away now
+            transform.position = transform.position + (new Vector3(-15, 15, 0) * Time.deltaTime);
+            transform.Rotate(new Vector3(0, 0, 90 * Time.deltaTime));
+
+        } else {
+
+            // Movement
+            int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
+            int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
+
+            // Player is moving
+            if (moveX != 0 ||
+                moveY != 0) {
+
+                // Valid movement?
+                if (canWalkInto(cirnoX + moveX, cirnoY - moveY)) {
+                    cirnoX += moveX;
+                    cirnoY -= moveY;
+
+                    transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, -cirnoY) + IcePath_Generate.origin;
+
+                    cirnoTrueX = transform.position.x;
+                    cirnoTrueY = transform.position.y;
+
+                    // Make Cirno sway side-to-side for every step
+                    cirnoSway *= -1;
+                }
+            }
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 8f * cirnoSway));
+
+        }
 
     }
 
+    void Die() {
+        // Explosion I guess
+        ParticleSystem particle = GetComponentInChildren<ParticleSystem>();
+        particle.Play();
 
+    }
 
     bool canWalkInto(int posX, int posY) {
         // Can Cirno walk here?
@@ -56,6 +88,7 @@ public class IcePath_Cirno : MonoBehaviour {
 
             return (tile == "A" || // Is it the start isle?
                     tile == "B" || // Is it the end isle?
+                    tile == "b" || // Is it Wakasagihime's passing tile?
                     tile == "#");  // Is it an ice tile?
 
         } else {
