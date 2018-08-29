@@ -21,6 +21,9 @@ public class IcePath_Generate : MonoBehaviour {
     public static string[,] globalTile = new string[10, 10];
     public static Vector2   globalWakaStart, globalWakaEnd;
 
+    public static int cirnoStartX;
+    public static int cirnoStartY;
+
     // Bring in static variables
     int mapDiff;
     int mapWidth;
@@ -29,7 +32,7 @@ public class IcePath_Generate : MonoBehaviour {
     Vector2 origin;
 
 
-    void Awake () {
+    void Start () {
         // Assign static variables
         mapDiff     = IcePath_Master.globalMapDiff;
         mapWidth    = IcePath_Master.globalMapWidth;
@@ -63,9 +66,10 @@ public class IcePath_Generate : MonoBehaviour {
             switch (readPos) {
                 case "A": // Start isle tile
                     Instantiate(prefabIsleTile, spawnPos, quad);
-                    
-                    IcePath_Cirno.cirnoGridX = tilePosX;
-                    IcePath_Cirno.cirnoGridY = tilePosY;
+                    Instantiate(prefabCirno, spawnPos, quad);
+
+                    cirnoStartX = tilePosX;
+                    cirnoStartY = tilePosY;
                     break;
 
                 case "B": // Finish isle tile

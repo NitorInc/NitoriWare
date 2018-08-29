@@ -22,7 +22,7 @@ public class IcePath_Cirno : MonoBehaviour {
     string[,] tile  = IcePath_Generate.globalTile;
 
 
-    void Awake () {
+    void Start () {
         // Bring in static variables
         mapWidth    = IcePath_Master.globalMapWidth;
         mapHeight   = IcePath_Master.globalMapHeight;
@@ -31,10 +31,10 @@ public class IcePath_Cirno : MonoBehaviour {
 
         tile        = IcePath_Generate.globalTile;
 
-    }
-
-    void Start () {
         // Set starting position
+        cirnoGridX = IcePath_Generate.cirnoStartX;
+        cirnoGridY = IcePath_Generate.cirnoStartY;
+
         transform.position = origin + tileSize * new Vector2(cirnoGridX, -cirnoGridY);
         cirnoGoalPos = transform.position;
 
