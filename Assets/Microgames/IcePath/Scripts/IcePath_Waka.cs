@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class IcePath_Waka : MonoBehaviour {
 
+    // How long until the next leap?
     [Header("Leap time")]
     [SerializeField]
-    private float leapTime;
-    float leapAlarm;
+    private float   leapTime;
+    float           leapAlarm;
 
+    // How long in the air?
     [Header("Air time")]
     [SerializeField]
-    private float airTime;
-    float airAlarm;
+    private float   airTime;
+    float           airAlarm;
 
     // Tile info
-    Vector2[] tilePos = new Vector2[2];
-    int tileCurrent;
+    Vector2[]   tilePos = new Vector2[2];
+    int         tileCurrent;
 
     public static bool isPassable = true;
 
 	// Use this for initialization
 	void Start () {
         // The tiles
-        tilePos[0] = IcePath_Generate.wakaStart;
-        tilePos[1] = IcePath_Generate.wakaEnd;
+        tilePos[0] = IcePath_Generate.globalWakaStart;
+        tilePos[1] = IcePath_Generate.globalWakaEnd;
 
         tileCurrent = 0;
 
@@ -33,41 +35,44 @@ public class IcePath_Waka : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         // Leap timing
 
         if (leapAlarm > 0) {
             leapAlarm -= Time.deltaTime;
         } else {
 
-            int start = tileCurrent;
-            int finish = tileCurrent == 0 ? 1 : 0;
+            // Prepare the variables
+            int start   = tileCurrent;
+            int finish  = tileCurrent == 0 ? 1 : 0;
 
-            Vector2 startTile = tilePos[start];
-            Vector2 finishTile = tilePos[finish];
+            Vector2 startTile   = tilePos[start];
+            Vector2 finishTile  = tilePos[finish];
 
-            Vector2 direction = (finishTile - startTile).normalized;
-            float dist = (finishTile - startTile).magnitude;
-            float speed = dist / airTime;
+            Vector2 direction   = (finishTile - startTile).normalized;
+            float dist          = (finishTile - startTile).magnitude;
+            float speed         = dist / airTime;
+
 
             // Leap into the air
-            if (airAlarm > 0) {
+
+            if ((((Vector2)transform.position) - finishTile).magnitude > 0.33f) {
                 transform.position = (Vector2)transform.position + (direction * speed * Time.deltaTime);
 
-                // Set if passable
-                isPassable = isWithin(airAlarm, 0.2f * airTime, 0.8f * airTime);
-
+                isPassable = isWithin(airAlarm, 0.2f * airTime, 0.4f * airTime);
                 airAlarm -= Time.deltaTime;
+
             } else {
                 transform.position = finishTile;
-
-                // Set if passable
-                isPassable = true;
-
                 tileCurrent = finish;
 
-                leapAlarm = leapTime;
+                isPassable = true;
                 airAlarm = airTime;
+
+                leapAlarm = leapTime;
+
             }
+
 
         }
 

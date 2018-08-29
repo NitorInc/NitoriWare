@@ -232,7 +232,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4687702772397950, guid: 2010ec3a5ed59b44a8796098def3ac92, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 198373554855985224, guid: 2010ec3a5ed59b44a8796098def3ac92,
         type: 2}
@@ -249,6 +249,11 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 331382037972538920, guid: 2010ec3a5ed59b44a8796098def3ac92,
+        type: 2}
+      propertyPath: m_MaskAlphaCutoff
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2010ec3a5ed59b44a8796098def3ac92, type: 2}
   m_IsPrefabParent: 0
@@ -260,7 +265,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 272325333}
+  - component: {fileID: 272325336}
   - component: {fileID: 272325334}
+  - component: {fileID: 272325335}
   m_Layer: 0
   m_Name: Origin
   m_TagString: Untagged
@@ -275,11 +282,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 272325332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 5, z: 0}
+  m_LocalPosition: {x: -8, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &272325334
 MonoBehaviour:
@@ -292,10 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d198cd869876cef468f3ce2e537a9b4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDiff: 1
-  spriteSize: 256
-  mapWidth: 9
-  mapHeight: 6
   prefabIsleTile: {fileID: 1131964512613396, guid: c0590ae3db117d94aadbe03ccf15a45d,
     type: 2}
   prefabIceTile: {fileID: 1152665541539572, guid: aab869a4ef3ecbb489fa5a76e5491323,
@@ -308,7 +311,34 @@ MonoBehaviour:
   prefabFog: {fileID: 1866169298394922, guid: af1f3c58bc45f0b4e9aa60b756f8955a, type: 2}
   prefabLamp: {fileID: 1207517792120166, guid: 4a1d41070d21a0341bf0637d6f425129, type: 2}
   prefabLily: {fileID: 1850168325627874, guid: 54d9b663d80c83c4089ebf77e0811076, type: 2}
-  fogTime: 2
+--- !u!114 &272325335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 272325332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696d73f0037bbe54a9522ada985b306b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabFog: {fileID: 1866169298394922, guid: af1f3c58bc45f0b4e9aa60b756f8955a, type: 2}
+  fogTime: 1
+--- !u!114 &272325336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 272325332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc763b905eb402242b47e30df3132531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapDiff: 3
+  mapWidth: 9
+  mapHeight: 9
+  spriteSize: 256
 --- !u!1001 &1692840176
 Prefab:
   m_ObjectHideFlags: 0
@@ -351,17 +381,17 @@ Prefab:
     - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
         type: 2}
       propertyPath: m_BackGroundColor.r
-      value: 0.50735295
+      value: 0.23529412
       objectReference: {fileID: 0}
     - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
         type: 2}
       propertyPath: m_BackGroundColor.g
-      value: 0.9592292
+      value: 0.9411765
       objectReference: {fileID: 0}
     - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
         type: 2}
       propertyPath: m_BackGroundColor.b
-      value: 1
+      value: 0.9411765
       objectReference: {fileID: 0}
     - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
         type: 2}

@@ -4,35 +4,51 @@ using UnityEngine;
 
 public class IcePath_Cirno : MonoBehaviour {
     // Cirno's position
-    public static int   cirnoX, cirnoY;           // Coordinate in grid array
-    public static float cirnoTrueX, cirnoTrueY;   // Coordinate in scene
+    public static int   cirnoGridX, cirnoGridY;   // Coordinate in grid array
+
+    Vector2 cirnoGoalPos;   // Goal position in scene
 
     // Cirno's sway
     int cirnoSway;
 
     bool isHit = false;
 
-    // Use this for initialization
+    // Bring in static variables
+    int mapWidth;
+    int mapHeight;
+    float tileSize;
+    Vector2 origin;
+
+    string[,] tile  = IcePath_Generate.globalTile;
+
+
+    void Awake () {
+        // Bring in static variables
+        mapWidth    = IcePath_Master.globalMapWidth;
+        mapHeight   = IcePath_Master.globalMapHeight;
+        tileSize    = IcePath_Master.globalTileSize;
+        origin      = IcePath_Master.globalOrigin;
+
+        tile        = IcePath_Generate.globalTile;
+
+    }
+
     void Start () {
         // Set starting position
-        transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, cirnoY) + IcePath_Generate.origin;
+        transform.position = origin + tileSize * new Vector2(cirnoGridX, -cirnoGridY);
+        cirnoGoalPos = transform.position;
 
         cirnoSway = 1;
 	}
 	
-	// Update is called once per frame
 	void Update () {
+        // Did Waka hit Cirno?
+        if (tile[cirnoGridX, cirnoGridY] == "b" &&
+            !IcePath_Waka.isPassable) {
 
-        // Hit Waka?
-
-        if (IcePath_Generate.tile[cirnoX, cirnoY] == "b") {
-            if (!IcePath_Waka.isPassable) {
-
-                if (!isHit) {
-                    Die();
-                    isHit = true;
-                }
-                
+            if (!isHit) {
+                Die();
+                isHit = true;
             }
         }
 
@@ -43,29 +59,37 @@ public class IcePath_Cirno : MonoBehaviour {
 
         } else {
 
-            // Movement
-            int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
-            int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
+            // Is Cirno locked into her current grid yet?
+            if (((Vector2)transform.position - cirnoGoalPos).magnitude > 0.33f) {
+                transform.position = Vector2.Lerp(transform.position, cirnoGoalPos, 0.5f);
 
-            // Player is moving
-            if (moveX != 0 ||
-                moveY != 0) {
+            } else
+            // Lock her into place and check for the next movement
+            {
+                transform.position = cirnoGoalPos;
 
-                // Valid movement?
-                if (canWalkInto(cirnoX + moveX, cirnoY - moveY)) {
-                    cirnoX += moveX;
-                    cirnoY -= moveY;
+                // Movement
+                int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
+                int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
 
-                    transform.position = IcePath_Generate.tileSize * new Vector2(cirnoX, -cirnoY) + IcePath_Generate.origin;
+                // Player is moving
+                if (moveX != 0 ||
+                    moveY != 0) {
 
-                    cirnoTrueX = transform.position.x;
-                    cirnoTrueY = transform.position.y;
+                    // Valid movement?
+                    if (canWalkInto(cirnoGridX + moveX, cirnoGridY - moveY)) {
+                        cirnoGridX += moveX;
+                        cirnoGridY -= moveY;
 
-                    // Make Cirno sway side-to-side for every step
-                    cirnoSway *= -1;
+                        cirnoGoalPos = origin + tileSize * new Vector2(cirnoGridX, -cirnoGridY);
+
+                        // Make Cirno sway side-to-side for every step
+                        cirnoSway *= -1;
+                    }
                 }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 8f * cirnoSway));
+
             }
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 8f * cirnoSway));
 
         }
 
@@ -81,15 +105,13 @@ public class IcePath_Cirno : MonoBehaviour {
     bool canWalkInto(int posX, int posY) {
         // Can Cirno walk here?
 
-        if (isWithin(posX, 0, IcePath_Generate.globalMapWidth - 1) && // Is the position within the grid array?
-            isWithin(posY, 0, IcePath_Generate.globalMapHeight - 1)) {
-
-            string tile = IcePath_Generate.tile[posX, posY];
-
-            return (tile == "A" || // Is it the start isle?
-                    tile == "B" || // Is it the end isle?
-                    tile == "b" || // Is it Wakasagihime's passing tile?
-                    tile == "#");  // Is it an ice tile?
+        if (isWithin(posX, 0, mapWidth - 1) && // Is the position within the grid array?
+            isWithin(posY, 0, mapHeight - 1)) {
+            
+            return (tile[posX, posY] == "A" || // Is it the start isle?
+                    tile[posX, posY] == "B" || // Is it the end isle?
+                    tile[posX, posY] == "b" || // Is it Wakasagihime's passing tile?
+                    tile[posX, posY] == "#");  // Is it an ice tile?
 
         } else {
             return false;
