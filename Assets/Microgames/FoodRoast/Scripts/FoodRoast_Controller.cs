@@ -6,6 +6,19 @@ namespace FoodRoast {
   public class FoodRoast_Controller : MonoBehaviour {
     public static FoodRoast_Controller singleton = null;
 
+    [System.Serializable]
+    struct AmbienceClip{
+      public AudioClip clip;
+      [Range(0.0f, 1.0f)]
+      public float volume;
+      public AmbienceClip(AudioClip _clip, float _volume){
+        clip = _clip;
+        volume = _volume;
+      }
+    }
+    [Header("Ambience")]
+    [SerializeField] private AmbienceClip[] AmbienceClips; 
+
     [Header("Difficulty")]
     [ReadOnly] public int PotatoesExists = 0;
     [SerializeField] private int CookedPotatoesRequirement = 1;
@@ -17,6 +30,9 @@ namespace FoodRoast {
     private void Start() {
       singleton = this;
       Reset();
+
+      foreach (var clip in AmbienceClips)
+        MicrogameController.instance.playSFX(clip.clip, volume: clip.volume);
     }
 
     private void Reset() {
