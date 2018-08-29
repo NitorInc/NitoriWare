@@ -12,13 +12,14 @@ public class KnifeDodgeController : MonoBehaviour {
 	public GameObject knifePrefab;
 	public GameObject knifeTargetPrefab;
     public GameObject blackoutController;
+    public GameObject whiteoutController;
 	public int numKnives = 14;
 	public float spawnDistance = 10.0f;
 	public int knivesRemoved = 4;
 	public float timeUntilStrike = 3.0f;
     public float knifeFreezeTime = 0.5f;
     public float knifeStopHeight = 3.0f;
-    public float blackOutAValue = 4.0f;
+    public float blackOutAValue = 255.0f;
     public float blackOutSpeed = 2.0f;
     public float parallaxMaxSpeed = 1.0f;
 
@@ -141,25 +142,26 @@ public class KnifeDodgeController : MonoBehaviour {
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
-            float parallaxSpeed = parallaxController.GetComponent<ParallaxBackground>().GetSpeed();
+            float parallaxSpeed = parallaxController.GetComponent<KnifeDodgeParallaxBackground>().GetSpeed();
             blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
             if (knifeList[i].transform.position.y > knifeStopHeight)
             {
-                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
+                parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.FLYING_IN);
-                blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = 0;
+                blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = 0;
             }
             else if (timeUntilStrike < 0.0f)
             {
-                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
+                parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.MOVING_TO_GROUND);
-                blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = 0;
+                blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = 0;
             }
             else
             {
-                parallaxController.GetComponent<ParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
+                parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, 0, Time.deltaTime));
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState((int)KnifeState.STOP_AND_ROTATE);
-                blackoutController.GetComponent<KnifeDodgeBlackoutController>().targetAlpha = blackOutAValue;
+                whiteoutController.GetComponent<KnifeDodgeWhiteOutController>().DoFlash();
+                blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = blackOutAValue;
             }
         }
 
