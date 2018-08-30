@@ -8,9 +8,11 @@ public class EikiJudge_Controller : MonoBehaviour
     public static EikiJudge_Controller controller;
 
     [SerializeField]
-    private int soulsNumber;
-    [SerializeField]
     private GameObject soulPrefab;
+    [Header("Set the number of souls to appear")]
+    public int soulsNumber;
+    [Header("check this if a soul must be late")]
+    public bool lastSoulIsLate = false;
 
     public List<EikiJudge_SoulController> soulsList = new List<EikiJudge_SoulController>();
     private Vector3 spawnPosition;
@@ -24,10 +26,12 @@ public class EikiJudge_Controller : MonoBehaviour
     private void Awake()
     {
         controller = this;
+        SpawnSouls();
     }
 
     private void Update()
     {
+        // If all souls have been sent AND game isn't lost and still
         if (soulsList.Count == 0 && !wasted && !gameWon)
         {
             gameWon = true;
@@ -71,9 +75,7 @@ public class EikiJudge_Controller : MonoBehaviour
         wasted = true;
         MicrogameController.instance.setVictory(victory: false, final: true);
     }
-
-
+    
     public enum Direction { none, left, right }
-    public enum SoulType { bad, good }
 
 }

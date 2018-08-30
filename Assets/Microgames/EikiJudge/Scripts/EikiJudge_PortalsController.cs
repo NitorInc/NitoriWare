@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EikiJudge_PortalsController : MonoBehaviour
 {
-    public static EikiJudge_PortalsController portalsController;
+    public static EikiJudge_PortalsController controller;
 
     public Transform heavenTransform;
     public Transform hellTransform;
@@ -14,11 +14,8 @@ public class EikiJudge_PortalsController : MonoBehaviour
     
     private void Awake()
     {
-        portalsController = this;
-    }
+        controller = this;
 
-    void Start()
-    {
         // randomly flip position of the heaven/hell portals
         if (Random.value > 0.5f)
         {
