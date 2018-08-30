@@ -78,6 +78,7 @@ public class EikiJudge_SoulController : MonoBehaviour
         {
             this.gameObject.SetActive(false);
             // TODO: Add an effect, particles, ripple on the door ?
+            // Maybe fade instead of just deactivate the gameobject ?
         }
 
         // Check if soul should be late
