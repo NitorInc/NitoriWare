@@ -142,6 +142,10 @@ public class KnifeDodgeController : MonoBehaviour {
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
+            bool allLanded = true;
+            allLanded &= !knifeList[i].GetComponent<Rigidbody2D>().simulated;
+            if (allLanded) MicrogameController.instance.setVictory(true, true);
+
             float parallaxSpeed = parallaxController.GetComponent<KnifeDodgeParallaxBackground>().GetSpeed();
             blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
             if (knifeList[i].transform.position.y > knifeStopHeight)
