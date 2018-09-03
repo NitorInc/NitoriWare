@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoonSoccerPlayerControls : MonoBehaviour {
     
-    // A Unity in-editor variable
+    // Player object speed
     [Header("Movement Speed")]
     [SerializeField]
     private float moveSpeed = 1f;
@@ -19,7 +19,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         updateKick();
 	}
     
-    
+    // Check player inputs and update object position
     void updateMovement ()
     {
         if (Input.GetKey(KeyCode.DownArrow))
@@ -32,7 +32,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         }
     }
     
-    
+    // Activate the ball object when Spacebar is pressed
     void updateKick ()
     {
      if (Input.GetKey(KeyCode.Space))

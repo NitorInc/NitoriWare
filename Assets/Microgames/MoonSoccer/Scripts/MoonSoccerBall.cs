@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MoonSoccerBall : MonoBehaviour {
     
-    // A Unity in-editor variable
     [Header("Movement Speed")]
     [SerializeField]
     private float moveSpeed = 1f;
@@ -14,23 +13,30 @@ public class MoonSoccerBall : MonoBehaviour {
 	void Update () {
 		if (gameObject.activeSelf)
         {
+            // Move to the right at the set movement speed
             transform.position = new Vector2(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y);
         }
     
 	}
     
-    
+    // Make this object active and set it's starting position
     public void activate (Vector2 position) 
     {
         transform.position = position;
         gameObject.SetActive(true);
     }
     
+    // Collision with other gameobjects
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.name == "GoalZone")
+        if (col.gameObject.name == "GoalZone")
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
+        }
+        else if (col.gameObject.name == "Kaguya")
+        {
+            Destroy(gameObject);
+            MicrogameController.instance.setVictory(victory: false, final: true);
         }
     }
 }
