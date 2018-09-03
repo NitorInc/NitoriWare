@@ -9,18 +9,16 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     [SerializeField]
     private float moveSpeed = 1f;
     
+    public MoonSoccerBall ballScript;
     
-	// Use this for initialization
-	void Start () 
-    {
-		
-	}
-	
+
 	// Update is called once per frame
 	void Update () 
     {
         updateMovement();
+        updateKick();
 	}
+    
     
     void updateMovement ()
     {
@@ -32,5 +30,16 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         {
             transform.position = new Vector2(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime);
         }
+    }
+    
+    
+    void updateKick ()
+    {
+     if (Input.GetKey(KeyCode.Space))
+     {
+         // TODO: Add kick animation
+         print("Kick");
+         ballScript.activate(transform.position);
+     }
     }
 }
