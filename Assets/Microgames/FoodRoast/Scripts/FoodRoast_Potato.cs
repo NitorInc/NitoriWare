@@ -16,14 +16,16 @@ namespace FoodRoast {
 
     [Header("Ripe Variables")]
     [ReadOnly] [SerializeField] private bool Ripe = false;
-    [SerializeField] private float TimeTillRipeness = 2.0f;
+    [ReadOnly] [SerializeField] private float TimeTillRipeness = 2.0f;
 
     // Color Debug Variables
     private static Color NotRipeColor = new Color(240 / 255f, 230 / 255f, 140 / 255f);
     private static Color RipeColor = new Color(139 / 255f, 69 / 255f, 19 / 255f);
 
     private void Start() {
+      TimeTillRipeness = FoodRoast_Controller.singleton.GetCookTime();
       SpriteRenderer.color = NotRipeColor;
+
       StartCoroutine(WaitTillRipenessCoroutine());
     }
 
