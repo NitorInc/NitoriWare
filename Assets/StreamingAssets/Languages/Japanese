@@ -1,4 +1,5 @@
 generic
+	name=日本語
 	gamename=NitorInc.
 	incomplete=注意：和訳はまだ完成しておりません。英語のままの場合がありますのでご了承ください。
 stage
@@ -16,6 +17,11 @@ stage
 		score=スコア: {0}
 		highscore=ハイスコア: {0}
 		newhighscore=ハイスコア更新！
+discord
+	scoreformat={0}つ目
+	scoreformatsingular={0}つ目
+	boss=ボスステ
+	menu=メニュー
 menu
 	yes=はい
 	no=いいえ
@@ -27,17 +33,12 @@ menu
 	on=オン
 	off=オフ
 	play=スタート
-	main
-		story=ストーリーモード
-			description=ハイスコアを目指せ！エンドレスモード！
-		compilation=アーケードモード
-		practice=プラクティスモード
-			description=地力を上げてハイスコアを目指そう！そして自慢ツイートしようぜ！
-		quit=やめる
-			prompt=本当にやめちゃう？
-		settings=オプション
-		credits=スタッフロール
 	gamemode=モードを選べ！
+		nitori=ストーリーモード
+			description=ハイスコアを目指せ！エンドレスモード！
+		arcade=アーケードモード
+		microgamepractice=プラクティスモード
+			description=地力を上げてハイスコアを目指そう！そして自慢ツイートしようぜ！
 		locked1={0}を完走したら開放するよ！
 		locked2={1}で{0}点達成したら開放するよ！
 		highscore=ハイスコア: {0}
@@ -48,9 +49,14 @@ menu
 		compilationfast=マクシマム・カッパシティモード
 			description=超スピード！？
 		compilationmystery=(名前を入力してください)
-			description=あぁ、悪いが設計図に不備が合ってな。ガイド機能が無かったりするけど、それでもいいかい？
+			description=あぁ、悪いが設計図を無くしちまったんだ。ガイド機能が無かったりするけど、それでもいいか？
 		compilationhard=胡瓜地獄
 			description=最狂の難易度！たった一つの残機！どれだけ生きられるかな？
+	main
+		quit=やめる
+			prompt=本当にやめちゃう？
+		settings=オプション
+		credits=スタッフロール
 	settings
 		resolution=解像度
 		fullscreen=フルスクリーン
@@ -81,6 +87,101 @@ nitori
 	storyfinished=なかなかやるじゃないか、盟友！\nあれ、なんだか物足りない顔してるなぁ。\nだろうと思って「{0}」を用意したんだ。是非やってみてくれよな！
 	compilationfinished=もう完走したのか？さすが盟友、はっやいなぁ。\nでも調子に乗っちゃいけないぜ。\n{0}はあくまで未完成品だからな！
 microgame
+	DatingSim
+		suika
+			fullname=いぶき  すいか
+			firstname=すいか
+			introdialogue=お前暇そうだな～なんか食べに行こうよ〜
+			right0
+				option=よろこんで～
+				response=よーし！ついて来い！
+			right1
+				option=いい店知ってるよ！行こ行こ！
+				response=わーい！任せるー！
+			wrong0
+				option=さっき食ったばかりだろう！
+				response=デリカシーがないねぇ…
+			wrong1
+				option=石でも食ってろ！
+				response=あいにく投げる方が好きでな。ほーら！
+			wrong2
+				option=お前一人でも大丈夫でしょう…
+				response=つまんねえなこいつ…
+		youmu
+			fullname=こんぱく  ようむ
+			firstname=ようむ
+			introdialogue=あなたのために育てた花よ。きれいでしょう？
+			right0
+				option=花よりも君のほうがきれいだよ。
+				response=ありがとう。
+			right1
+				option=すごく…きれいです。
+				response=気に入ってくれてよかった。
+			wrong0
+				option=え？頼んでないのに…
+				response=どれだけ鈍いんだこいつ…
+			wrong1
+				option=花なんか大嫌いだ！
+				response=花もあんたのことが嫌いだよ。
+			wrong2
+				option=これ造花っぽいな…
+				response=見る目がない人ねぇ…
+		yuuka
+			fullname=風見幽香
+			firstname=幽香
+			introdialogue=最近は全然来ないわね。他の女のとこにも行ったのかい？
+			right0
+				option=寂しい思いをさせてゴメン！
+				response=次はないわよ。
+			right1
+				option=浮気する度胸なんてないよ…
+				response=だろうね。
+			wrong0
+				option=いやぁ～実は…その…
+				response=なにごちゃごちゃ言ってんだ。
+			wrong1
+				option=れいむに惚れ直した！
+				response=もう一度言ってみろ。
+			wrong2
+				option=ちょっと急用が…
+				response=あぁん？なんだその言い訳は！
+		patchy
+			fullname=パチュリー・ノーレッジ
+			firstname=パチュリー
+			introdialogue=私が入れた紅茶…どう？おいしい？
+			right0
+				option=すごく美味しかった。
+				response=よかった…
+			right1
+				option=もう一杯頼む！
+				response=はい、お待ちどうー
+			wrong0
+				option=シュールな味だった…
+				response=下手でごめんね…
+			wrong1
+				option=こぼしちゃった…
+				response=そ、そうか…さっそく片付けないと…
+			wrong2
+				option=お茶なんか頼んでないぞ。
+				response=好きかと思ってた…
+		fakeconfig=Save\nLoad\nAuto\nLog\nConfig
+		command=好感度上げろ！
+		igname=ガールフレンド（東方）
+	ComicBubble
+		0
+			0=そこ大丈夫？やばくない？
+			1=大丈夫だって～
+		1
+			0=ちょっと待って！
+			1=服になんか付いてるよー
+			2=はいそこ！
+		2
+			0=掃除がめんどくさいわー
+			1=私しか来ないし掃除しなくても…
+			2=<i>あいたっ！</i>
+			3=<i>いってぇ！</i>
+		command=吹き出せ！
+		igname=ダイナミックフキダシ
 	FreezeFrogs
 		command=凍らせろ！
 		igname=かえる・こおる
@@ -116,6 +217,9 @@ microgame
 	TraceShape
 		command=塗れ！
 		igname=ぬりぬりチャレンジ
+	KogasaScare
+		command=脅せ！
+		igname=おどろかさ
 	RockBand
 		command=歌え！
 		igname=鳥獣伎楽
@@ -147,17 +251,95 @@ microgame
 		command=守れ！
 		igname=きゅっとしてドカーン
 	PaperThief
-		command=ゴールまで走れ！
+		command=ゴールへ走れ！
 		commandb=あぶない！
 		commandc=打ち砕け！
 		commandd=ぶっ倒せ！
 		igname=キュウリ大戦争
-	KogasaScare
-		igname=おどろかさ
+	KaguyaMemory
+		command=覚えろ！
+		commandb=選べ！
+		igname=六つ目の難題
+	SumiWheel
+		command=当てろ！
+		igname=オカルトウィール
+	MochiPound
+		command=つぶせ！
+		igname=ユニバーサルもちつき
+	RuukotoSweep
+		command=掃除しろ！
+		igname=る～ことのやる～こと
+	MaskPuzzle
+		command=直せ！
+		igname=割られたエモーション
+	YuukaWater
+		command=水をあげろ！
+		igname=ガーデニングマスター
+	KnifeDodge
+		command=避けろ！
+	NitoriLook
+		command=にとりを探せ！
+		igname=よりどりにとり
+	MamiPoser
+		command=偽物め！
+		igname=取られた狸の皮算用
+	DollDance
+		command=真似しろ！
+		igname=乙女文楽
+	CirnoBored
+		command=適当に！
+		commandb=楽しませろ！
+		commandc=助けろ！
+		igname=妖精の育ち方
+	HecShapes
+		command=入れろ！
+		igname=ヘルマッチング
+	RockPaperSatori
+		command=勝利しろ！
+		igname=イカサマじゃんけん
+	MarisaJizou
+		command=投げろ！
+		igname=ハットトリック
+	NueAbduct
+		command=連れ去れ！
+		igname=未確認幻想飛行アブダクション
+	ReimuDodge
+		command=逸らかせ！
+		igname=~
+	ClothesChoose
+		command=着させろ！
+		igname=ファッションドール
+	KyoukoEcho
+		command=反射しろ！
+		igname=コトダマデフレクション
+	BugSwat
+		command=叩け！
+		igname=リグルたたき
+	ClownTorch
+		command=火貸して！
+		igname=地獄式避寒術
+	BeachBall
+		command=投げろ！
+		igname=まんざいらく
+	YuugiBalance
+		command=落ち着け！
+		igname=四天王式皿回し
+	DoorKnock
+		command=叩け！
+	FoodCut
+		command=切れ！
+	MoneyTrap
+		command=おびき出せ！
+	KeineMath
+		command=解け！
+		igname=とけーね
+	DoomGame
+		igname=DOOM
 credits
 	intro={0} の制作に協力してくれた人たち
 	kapptain=製作総指揮、プログラム、チーム・カッパテン
-	leadart=美術監督、キャラクターデザイン
+	leadart=美術監督、キャラクターデザイン, にとり役
+	code=システム開発
 	UI=UIデザイン、ステージグラフィック
 	menumusic=タイトルBGM
 	stagemusic=ステージBGM
@@ -171,6 +353,7 @@ credits
 		management=翻訳監督
 	sfx=音響効果
 	voice=にとり役
+	site=ウェブデザイン
 	trailer=宣伝PV
 	socialmedia=プロモーション
 	touhou=このゲームは「東方Project」の二次創作品です

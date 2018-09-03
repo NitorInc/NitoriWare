@@ -17,6 +17,11 @@ stage
 		score=Skor: {0}
 		highscore=Skor tertinggi: {0}
 		newhighscore=Rekod terbaru!
+discord
+	scoreformat=Bermain {0}
+	scoreformatsingular=Bermain {0}
+	boss=Peringkat Bos
+	menu=Dalam Menu
 menu
 	yes=Ya
 	no=Tidak
@@ -28,17 +33,12 @@ menu
 	on=On
 	off=Off
 	play=Main
-	main
-		story=Mod Cerita
-			description=Main mod cerita tanpa henti! Dapatkan skor tertinggi selagi mampu!
-		compilation=Mod Arked
-		practice=Mod Latihan
-			description=Asah kemahiran permainan mikro anda di sini!
-		quit=Berhenti bermain
-			prompt=Anda pasti nak berhenti {0}?
-		settings=Tetapan
-		credits=Kredit
 	gamemode=Pilih mod permainan!
+		nitori=Mod Cerita
+			description=Main mod cerita tanpa henti! Dapatkan skor tertinggi selagi mampu!
+		arcade=Mod Arked
+		microgamepractice=Mod Latihan
+			description=Asah kemahiran permainan mikro anda di sini!
 		locked1=Terkunci! Habiskan {0} untuk membukanya.
 		locked2=Terkunci! Dapatkan {0} atau lebih dalam {1} untuk membukanya.
 		highscore=Rekod tertinggi {0}
@@ -52,6 +52,11 @@ menu
 			description=Alamak! Kita dah kehilangan pelan kerja. Tiada arahan akan diberi!
 		compilationhard=Neraka Timun
 			description=Semua susah! Satu nyawa sahaja! Berapa lama awak boleh bertahan?
+	main
+		quit=Berhenti bermain
+			prompt=Anda pasti nak berhenti {0}?
+		settings=Tetapan
+		credits=Kredit
 	settings
 		resolution=Resolusi Skrin
 		fullscreen=Skrin penuh
@@ -63,15 +68,15 @@ menu
 			3=Bagus
 			4=Cantik
 			5=Paling Cantik
-		volume=Bunyi
+		volume=Suara
 			master=Master
-			music=Musik
-			sfx=Efek Bunyi
+			music=Muzik
+			sfx=Efek Suara
 			voice=Suara
 	microgamecredits
-		art=Seni
-		code=Kod
-		music=Musik
+		art=Grafik: {0}
+		code=Kod: {0}
+		music=Muzik: {0}
 	splash
 		introa=Demo permainan ini adalah hasil daripada siri Touhou Project (東方Project) yang dibuat oleh ZUN
 		introb=Para peminat siri ini telah memberi sumbangan dari segi kod, muzik, seni, dan bakat yang lain untuk membuat sebuah koleksi permainan mikro.
@@ -82,6 +87,101 @@ nitori
 	storyfinished=Bagus, budak skema!\nRasanya engkau bukannya datang untuk melihat saja.\nSekarang, cubalah {0} untuk cabaran yang sebenar!
 	compilationfinished=Amboi! Kagumnya~\nTapi tunggulah apabila permainan ini sudah lengkap.\n{0} baru sahaja bermula!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Heeeey! Nak gi lepak ngan makan tak?
+			right0
+				option=Lumba ke kedai makan.
+				response=Yang kalah kena bayar!
+			right1
+				option=Ok lah, jom makan.
+				response=Yay!
+			wrong0
+				option=Tak kenyang ke?!
+				response=Mana syok makan sorang.
+			wrong1
+				option=Blah la, gemuk!
+				response=Ko bukannya kurus pun!
+			wrong2
+				option=Ko pergi je lah.
+				response=Aduh~! Spoil lah...
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Aku tanam bunga ni untuk kau.
+			right0
+				option=Cantiknya!
+				response=Terima kasih~
+			right1
+				option=Aww, sweet-nya
+				response=Aku pun tau kau sukakannya!
+			wrong0
+				option=HANTUUUU!!!
+				response=Mana ada lah!
+			wrong1
+				option=Aku tak suka bunga.
+				response=Bunga pun tak suka awak.
+			wrong2
+				option=Bunga ni mesti ciplak?
+				response=Entah, mungkin awek <i>kau</i> tu yang ciplak?
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Awak ada jumpa makwe mana-mana ke?
+			right0
+				option=Mana ada!
+				response=Bagus, jangan cari pasal.
+			right1
+				option=Awak je lah makwe saya!
+				response=Tahu pun.
+			wrong0
+				option=Uhh...
+				response=Apa yang "uhh..." tu?
+			wrong1
+				option=Aku suka Reimu!
+				response=Fikir baik-baik!
+			wrong2
+				option=Ada benda aku nak luahkan.
+				response=Oh, ye ke?
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Aku ada sediakan teh...
+			right0
+				option=Sedapnya!
+				response=Oh, ya ke?
+			right1
+				option=Nak lagi!
+				response=Sekejap ya!
+			wrong0
+				option=Peliknya rasa.
+				response=Maaf ya.
+			wrong1
+				option=*Tertumpah air teh*
+				response=<i>AAAAAAAHHHHHhhh!!!</i>
+			wrong2
+				option=Sejak bila aku mintak?
+				response=Aku... nak buat baik je.
+		fakeconfig=Simpan\nSambung\nAuto\nLog\nKonfig
+		command=Mengorat!
+		igname=Cinta Pertama
+	ComicBubble
+		0
+			0=Ko pasti ke ni selamat?
+			1=Rileks la!
+		1
+			0=Wei, k'jap!
+			1=Ada benda dekaaaat~
+			2=~SINI!
+		2
+			0=Payahnya nak kemas...
+			1=Buat apa kemas? Aku je yang datang.
+			2=<i>Woi!</i>
+			3=<i>Adoi!</i>
+		command=Berdialog!
+		igname=Lawak Tauhu
 	FreezeFrogs
 		command=Bekukan!
 		igname=Katak Beku
@@ -117,6 +217,9 @@ microgame
 	TraceShape
 		command=Isikan!
 		igname=Isi Tempat Kosong
+	KogasaScare
+		command=Takutkan!
+		igname=Lari dari Youkai
 	RockBand
 		command=Beraksi!
 		igname=Subwoofer
@@ -153,12 +256,88 @@ microgame
 		commandc=Tembak!
 		commandd=Tewaskan dia!
 		igname=Ke Arah Timun
-	KogasaScare
-		igname=Lari dari Youkai
+	KaguyaMemory
+		command=Perhatikan!
+		commandb=Pilih!
+		igname=Peti Minda
+	SumiWheel
+		command=Padankan!
+		igname=Malam Tilik
+	MochiPound
+		command=Tumbuk!
+		igname=Sampai Lumat
+	RuukotoSweep
+		command=Sapu!
+		igname=Penyucian Kuil
+	MaskPuzzle
+		command=Pasang!
+		igname=Baiki Muka
+	YuukaWater
+		command=Siram!
+		igname=Siram-menyiram
+	KnifeDodge
+		command=Elak!
+	NitoriLook
+		command=Cari Nitori!
+		igname=Kappa Mana?
+	MamiPoser
+		command=Bongkarkan!
+		igname=Penyamaran Tanuki
+	DollDance
+		command=Tiru!
+		igname=Pesta Boneka
+	CirnoBored
+		command=Jadi Baik!
+		commandb=Hiburkan!
+		commandc=Selamatkan dia!
+		igname=Rawatan Sejuk
+	HecShapes
+		command=Padankan!
+		igname=Pasangan dari Neraka
+	RockPaperSatori
+		command=Kalahkan!
+		igname=Gunting Batu Kertas
+	MarisaJizou
+		command=Baling!
+		igname=Topi Jizou
+	NueAbduct
+		command=Culik!
+		igname=Diculik Makhluk Asing
+	ReimuDodge
+		command=Elak!
+		igname=~
+	ClothesChoose
+		command=Padankan!
+		igname=Pakaian Hari Ini
+	KyoukoEcho
+		command=Tepis!
+		igname=Ulang Suara
+	BugSwat
+		command=Tampar!
+		igname=Pembasmi Youkai
+	ClownTorch
+		command=Nyalakan!
+		igname=Cahaya Harapan
+	BeachBall
+		command=Campakkan!
+		igname=Bola Baling
+	YuugiBalance
+		command=Imbangkan!
+		igname=Minuman yang Seimbang
+	DoorKnock
+		command=Ketukkan!
+	FoodCut
+		command=Potongkan!
+	MoneyTrap
+		command=Mengumpan!
+	KeineMath
+		command=Kirakan!
+		igname=Kiralah Sendiri
 credits
 	intro=Para peminat telah menjadikan {0} sebuah kenyataan
 	kapptain=Pengarah Kreatif, Programmer, "Kappten" Kumpulan
-	leadart=Ketua Artis, Reka Bentuk Karakter
+	leadart=Ketua Artis, Reka Bentuk Karakter, Suara Nitori
+	code=Kod Utama
 	UI=Menu dan Grafik Pentas
 	menumusic=Muzik Menu
 	stagemusic=Muzik Utama
@@ -166,13 +345,14 @@ credits
 		management=Pengurusan Permainan Mikro
 		managementalt=Pengurusan Kolaborasi
 		code=Kod Permainan Mikro
-		art=Seni Permainan Mikro
+		art=Grafik Permainan Mikro
 		music=Muzik Permainan Mikro
 	localization=Penyetempatan
 		management=Pengurus Penyetempatan
-	sfx=Efek Bunyi
+	sfx=Efek Suara
 	voice=Suara Nitori
-	trailer=Trailer Demo
+	site=Pereka Laman Web
+	trailer=Demonstrasi
 	socialmedia=Promosi/Media Sosial
 	touhou=Permainan ini adalah karya derivatif untuk siri Touhou Project, direka oleh ZUN
 	thanks=Ucapan Terima Kasih

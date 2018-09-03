@@ -9,14 +9,19 @@ stage
 	speedup=เร็วอีก!
 	boss=ด่านบอส
 	levelup=เลเวลอัพ!
+	pause=หยุดชั่วคราว
+		resume=เล่นต่อ {0}
 	quit=ออกจากเกม {0}
 	retry=เริ่มใหม่ {0}
-	pause
-		resume=เล่นต่อ {0}
 	gameover=จบเกม
 		score=คะแนนที่ได้: {0}
 		highscore=สถิติ: {0}
 		newhighscore=สถิติใหม่!
+discord
+	scoreformat={0} เกม
+	scoreformatsingular={0} เกม
+	boss=ด่านบอส
+	menu=อยู่ในเมนู
 menu
 	yes=ใช่
 	no=ไม่
@@ -28,17 +33,12 @@ menu
 	on=เปิด
 	off=ปิด
 	play=เริ่มเล่น
-	main
-		story=โหมดเนื้อเรื่อง
-			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
-		compilation=โหมดอาร์เคด
-		practice=ฝึกเล่น
-			description=เตรียมทักษะการเล่นไมโครเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
-		quit=ออกจากเกม
-			prompt=คุณต้องการที่จากออกจากเกมหรือไม่?
-		settings=ตั้งค่า
-		credits=ผู้จัดทำ
 	gamemode=เลือกโหมดเกม!
+		nitori=โหมดเนื้อเรื่อง
+			description=เล่นโหมดเนื้อเรื่องไม่รู้จบ! คุณจะทำคะแนนได้เท่าไหร่?
+		arcade=โหมดอาร์เคด
+		microgamepractice=ฝึกเล่น
+			description=เตรียมทักษะการเล่นไมโครเกมเอาไว้ให้ดี และทำสถิติให้สูงขึ้น จะได้นำไปอวดเพื่อนได้!
 		locked1=ยังเล่นไม่ได้จ้า! เล่น {0} ให้ผ่านก่อนนะ!
 		locked2=ยังเล่นไม่ได้จ้า! เล่น {1} ให้ได้ {0} คะแนนก่อนนะ!
 		highscore=สถิติ: {0}
@@ -52,6 +52,11 @@ menu
 			description=อุ้ย เราทำพิมพ์เขียวหาย ไม่มีการบอกคำสั่ง!
 		compilationhard=นรกแตงกวา
 			description=ในโหมดนี้ มีแต่เกมระดับยากที่สุดเท่านั้น โอกาสมีแค่ชีวิตเดียว จะทนได้นานแค่ไหนกันนะ?
+	main
+		quit=ออกจากเกม
+			prompt=คุณต้องการที่จะออกจากเกมแน่นะ?
+		settings=ตั้งค่า
+		credits=ผู้จัดทำ
 	settings
 		resolution=ขนาดหน้าจอ
 		fullscreen=เต็มจอ
@@ -73,15 +78,110 @@ menu
 		code=โค้ด : {0}
 		music=เพลง : {0}
 	splash
-		introa=เวอร์ชั่นทดลองนี้เป็นเกมที่ได้รับแรงบันดาลใจมาจากโทโฮโปรเจกต์ สร้างโดยท่าน ZUN
+		introa=เกมเวอร์ชั่นทดลองนี้เป็นงานสร้างสรรค์ต่อเนื่องของโทโฮโปรเจกต์ ซึ่งสร้างโดยท่าน ZUN
 		introb=แฟน ๆ ของซีรี่ส์นี่ได้ช่วยกันเขียนโค้ด แต่งเพลง วาดรูป และใช้ความสามารถต่าง ๆ นา ๆ ในการทำเกมนี้
-		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และคุณอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้
+		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้!
 		webglwarning=ถ้าตัวเกมในเว็บไซต์เล่นไม่ได้ ลองดาวน์โหลดจากลิ้งค์พวกนี้ดูสิ
 nitori
 	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
 	storyfinished=เยี่ยมมากนายเนิร์ด\nนายไม่น่าจะเป็นแค่นักช็อปเล่น ๆ สินะ\nลอง {0} ดูสิ!
 	compilationfinished=เฮ้ ไม่เลวนี่! \nนายรอเกมตัวเต็มออกมาก่อนนะ\n{0} มันเพิ่งจะเริ่มต้นเอง!
 microgame
+	DatingSim
+		suika
+			fullname=อิบุกิ ซุยกะ
+			firstname=ซุยกะ
+			introdialogue=เฮ้~~! นายน่ะว่างใช่ปะ ไปหาไรกินกันเถอะ
+			right0
+				option=แข่งกันไปที่ร้านอาหารนะ!
+				response=คนแพ้จ่ายนะ!
+			right1
+				option=อื้ม จัดไป!
+				response=เย้!
+			wrong0
+				option=เธอเพิ่งกินไปไม่ใช่เหรอ?!
+				response=บู่ว์ กินคนเดียวไม่สนุกเลย
+			wrong1
+				option=ไปไกล ๆ ซะ ยัยอ้วน!
+				response=นายก็ใช่ว่าจะผอมนะ ตาบ้า!
+			wrong2
+				option=เธอไปคนเดียวก็ได้นี่?
+				response=ช่างเถอะ นายมันเป็นคนน่าเบื่ออยู่แล้วนี่
+		youmu
+			fullname=คอนปาคุ โยวมุ
+			firstname=โยวมุ
+			introdialogue=ดอกไม้นี่ฉันปลูกให้คุณล่ะ
+			right0
+				option=สวยจังเลย!
+				response=ขอบคุณนะ~
+			right1
+				option=ฉันชอบมันมากเลยล่ะ
+				response=จริงเหรอ? ดีใจจังเลย!
+			wrong0
+				option=อ๊าา ผี!
+				response=นี่ล้อฉันเล่นใช่ไหม?
+			wrong1
+				option=ฉันเกลียดดอกไม้!
+				response=เธอไม่สมควรที่จะได้มันอยู่แล้ว
+			wrong2
+				option=ดอกไม้ปลอมชัด ๆ
+				response=ตาดีซะไม่มีนะยะ...
+		yuuka
+			fullname=คาซามิ ยูกะ
+			firstname=ยูกะ
+			introdialogue=นี่เธอไม่ได้ไปแอบชอบคนอื่นอยู่สินะ?
+			right0
+				option=แน่นอนว่าไม่!
+				response=ดี อย่าแม้แต่จะคิดล่ะ
+			right1
+				option=เธอเป็นคนเดียวสำหรับฉัน
+				response=คิดไว้งั้นอยู่แล้วล่ะ
+			wrong0
+				option=อืม...
+				response=หมายความว่าไงน่ะ
+			wrong1
+				option=ผมชอบเรย์มุ!
+				response=คิดใหม่อีกทีสิ
+			wrong2
+				option=พอดีมีธุระน่ะ
+				response=หา? ไม่ต้องมาโกหกเลย!
+		patchy
+			fullname=แพชูลี่ โนว์เลดจ์
+			firstname=แพชูลี่
+			introdialogue=หวังว่าจะชอบชาที่ฉันชงมานะ...
+			right0
+				option=อร่อยมากเลยล่ะ
+				response=ดีใจจัง...
+			right1
+				option=ขอเบิ้ลได้มั้ย?
+				response=ได้เลย!
+			wrong0
+				option=รสชาติแปลก ๆ นะ
+				response=ขอโทษนะ...
+			wrong1
+				option=*สะดุดล้ม*
+				response=กรี๊ดดดดดดดดดดด!!
+			wrong2
+				option=ไม่ได้สั่งชาซะหน่อย
+				response=ฉันคิดว่าคุณจะชอบซะอีก...
+		fakeconfig=เซฟ\nโหลด\nออโต้\nบันทึก\nตั้งค่า
+		command=เย้ายวน!
+		igname=เดทแรก
+	ComicBubble
+		0
+			0=แน่ใจ​นะ​ว่า​ปลอด​ภัย?
+			1=น่า​~​ ​ไม่​เป็น​ไร​หรอก
+		1
+			0=เฮ้​ ​รอ​เดี๋ยว​สิ!
+			1=เธอซ่อน​อะไร​ไว้​..
+			2=ตรง​นี้!
+		2
+			0=น่า​เบื่อ​จังน้า...
+			1=ทำไม​ต้อง​ทำ​ขนาด​นั้น​ถ้า​มี​แค่​ฉัน​คน​เดียว​ที่​มา​น่ะ?
+			2=<i>อ๊ะ!</i>
+			3=<i>โอ๊ย!</i>
+		command=เลือกบทพูด!
+		igname=มังกาสาป่วน
 	FreezeFrogs
 		command=ทำให้แข็ง!
 		igname=กบแช่แข็ง
@@ -117,18 +217,21 @@ microgame
 	TraceShape
 		command=ระบายสี!
 		igname=ต่อเติมไม่หยุด
+	KogasaScare
+		command=หลอก!
+		igname=หลอกหลอนโยไค
 	RockBand
 		command=แสดง!
 		igname=ไมค์หอน
 	ChenBike
 		command=บีบแตร!
-		igname=บีบแตรวนปายย
+		igname=บีบแตรวนปายยย
 	MasterSparkCode
 		command=ร่าย!
 		igname=ฝึกซ้อมยิงเป้า
 	OkuuFire
 		command=ควบคุม!
-		igname=ส่งโอคูวไป
+		igname=ส่งโอคูวไป!
 	YukariCake
 		command=รับ!
 		igname=โหยหาความหวาน
@@ -136,7 +239,7 @@ microgame
 		command=ปกป้อง!
 		igname=จุดอ่อนของแวมไพร์
 	SuikaShake
-		command=เขย่า!
+		command=สลัดออก!
 		igname=โอนิขี้เมา
 	TouhouSort
 		command=แบ่งตาม {0}!
@@ -146,19 +249,97 @@ microgame
 		igname=แยกประเภทโทโฮ
 	FlanGrab
 		command=ปกป้อง!
-		igname=ปกป้องคฤหาศน์
+		igname=ปกป้องคฤหาสน์
 	PaperThief
 		command=ไปให้ถึงจุดหมาย!
 		commandb=อันตราย!
 		commandc=ยิง!
 		commandd=เอาชนะเธอซะ!
 		igname=ไล่ล่าแตงกวา
-	KogasaScare
-		igname=หลอกหลอนโยไค
+	KaguyaMemory
+		command=จำ!
+		commandb=เลือก!
+		igname=ปริศนาความทรงจำ
+	SumiWheel
+		command=เลือก!
+		igname=ซีเนอร์สปินเนอร์
+	MochiPound
+		command=ตำ!
+		igname=ของฝากจากดวงจันทร์
+	RuukotoSweep
+		command=กวาด!
+		igname=กวาดลานศาลเจ้า
+	MaskPuzzle
+		command=ต่อ!
+		igname=ปริศนาหน้ากาก
+	YuukaWater
+		command=รดน้ำ!
+		igname=แด่ผกา
+	KnifeDodge
+		command=หลบ!
+	NitoriLook
+		command=หานิโทริ!
+		igname=เห็นนิโตริหนูไหม
+	MamiPoser
+		command=หาตัวปลอม!
+		igname=ทานุกิจำแลงกาย
+	DollDance
+		command=เลียนแบบ!
+		igname=ตุ๊กตาเท้าไฟ
+	CirnoBored
+		command=ทำตัวดี!
+		commandb=เอ็นเตอร์เทน!
+		commandc=ช่วยชีวิต!
+		igname=เยียวยาเย็นยะเยือก
+	HecShapes
+		command=วาง!
+		igname=จับคู่โลกันต์
+	RockPaperSatori
+		command=เอาชนะ!
+		igname=เป่ายิ้งฉุบ
+	MarisaJizou
+		command=ขว้าง!
+		igname=เอ้า! รับน้า~
+	NueAbduct
+		command=ลักพาตัว!
+		igname=ยู เอฟ โอ้วชิบ!
+	ReimuDodge
+		command=หลบ!
+		igname=~
+	ClothesChoose
+		command=เลือก!
+		igname=เสื้อผ้าหน้าผม
+	KyoukoEcho
+		command=สะท้อนกลับ!
+		igname=ไหนพูดอีกทีซิ
+	BugSwat
+		command=ตี!
+		igname=นักปราบวิกกี้
+	ClownTorch
+		command=จุดไฟ!
+		igname=จุดใต้ตำคลาวพีช
+	BeachBall
+		command=โยน!
+		igname=เอ้า โดด!
+	YuugiBalance
+		command=ทรงตัว!
+		igname=อย่าทำตกล่ะ
+	DoorKnock
+		command=เคาะ!
+	FoodCut
+		command=ตัด!
+	MoneyTrap
+		command=หลอกล่อ!
+	KeineMath
+		command=แก้โจทย์!
+		igname=คณิตคิดเร็ว
+	DoomGame
+		igname=กระต่ายอเวจี
 credits
 	intro={0} จะเกิดขึ้นไม่ได้หากขาดเขาพวกนี้!
 	kapptain=ผู้บริหารงาน โปรแกรมเมอร์ กัปตันทีม
-	leadart=หัวหน้านักวาด ดีไซน์เนอร์
+	leadart=หัวหน้านักวาด ดีไซน์เนอร์ เสียงนิโตริ
+	code=โค้ดระบบเกม
 	UI=เมนู และ กราฟิกต่าง ๆ
 	menumusic=เพลงหน้าหลัก
 	stagemusic=เพลงประจำด่าน
@@ -166,15 +347,16 @@ credits
 		management=บริหารเกมย่อย
 		managementalt=บริหารการร่วมมือ
 		code=โค้ดเกมย่อย
-		art=รูป / กราฟิกของเกมย่อย
+		art=รูป / กราฟิกเกมย่อย
 		music=เพลงประจำเกมย่อย
 	localization=การจัดการเรื่องภาษา
-		management=บริหารการจัดการเกี่ยวกับภาษา
-	sfx=ซาวนด์เอฟเฟกต์
+		management=การจัดการด้านภาษา
+	sfx=ซาวด์เอฟเฟกต์
 	voice=เสียงนิโตริ
+	site=ออกแบบหน้าเว็บ
 	trailer=คลิปตัวอย่าง
 	socialmedia=ฝ่ายกระจายข่าวสาร
-	touhou=เกมตัวนี้เป็นเกมที่มีพื้นรากมาจากโทโฮโปรเจกต์ โดย ZUN
+	touhou=แฟนเกมนี้เป็นงานสร้างสรรค์ต่อเนื่องของโทโฮโปรเจกต์ โดย ZUN
 	thanks=ขอขอบคุณ
 		discord=เซิร์ฟเวอร์ Discord โทโฮโปรเจกต์
 		playtesters=ผู้เล่นทดสอบทุกท่าน

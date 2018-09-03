@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Collections;
+using System.Linq;
 
 public class MicrogameController : MonoBehaviour
 {
@@ -39,10 +40,25 @@ public class MicrogameController : MonoBehaviour
 	{
 		instance = this;
 
-		string sceneName = gameObject.scene.name;
-		if (sceneName.Equals("Template"))
-			sceneName = "_Template1";
-		traits = MicrogameTraits.findMicrogameTraits(sceneName.Substring(0, sceneName.Length - 1), int.Parse(sceneName.Substring(sceneName.Length - 1, 1)));
+        //Find traits
+		string microgameID = gameObject.scene.name;
+        int difficulty = int.Parse(microgameID.Substring(microgameID.Length - 1, 1));
+
+        if (microgameID.Equals("Template"))
+			microgameID = "_Template1";
+        microgameID = microgameID.Substring(0, microgameID.Length - 1);
+
+        //Get traits from collection if available
+        if (GameController.instance != null)
+        {
+            var collectionMicrogame = MicrogameHelper.getMicrogames(includeBosses:true).FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            if (collectionMicrogame != null)
+                traits = collectionMicrogame.difficultyTraits[difficulty - 1];
+        }
+
+        //Get traits from project file if necessary
+        if (traits == null)
+            traits = MicrogameTraits.findMicrogameTraits(microgameID, difficulty);
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 
@@ -68,14 +84,14 @@ public class MicrogameController : MonoBehaviour
             victory = traits.defaultVictory;
             victoryDetermined = false;
 
-            traits.onAccessInStage(sceneName.Substring(0, sceneName.Length - 1));
+            traits.onAccessInStage(microgameID, difficulty);
         }
 		else if (!isBeingDiscarded())
 		{
 			//Normal Awake
 
 			StageController.instance.stageCamera.tag = "Camera";
-			Camera.main.GetComponent<AudioListener>().enabled = false;
+			//Camera.main.GetComponent<AudioListener>().enabled = false;
 
 			StageController.instance.microgameMusicSource.clip = traits.musicClip;
 
@@ -131,6 +147,7 @@ public class MicrogameController : MonoBehaviour
                     debugObjects.commandDisplay.play(traits.localizedCommand);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
+                Cursor.lockState = getTraits().cursorLockState;
                 //Cursor.lockState = CursorLockMode.Confined;
 
                 debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
@@ -140,16 +157,33 @@ public class MicrogameController : MonoBehaviour
         }
 	}
 
+    public void onPaused()
+    {
+        onPause.Invoke();
+    }
+
+    public void onUnPaused()
+    {
+        onUnPause.Invoke();
+    }
+
 	/// <summary>
 	/// Disables all root objects in microgame
 	/// </summary>
 	public void shutDownMicrogame()
 	{
 		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
-		for (int i = 0; i < rootObjects.Length; i++)
-		{
-			rootObjects[i].SetActive(false);
-		}
+        foreach (var rootObject in rootObjects)
+        {
+            rootObject.SetActive(false);
+
+            //Is there a better way to do this?
+            var monobehaviours = rootObject.GetComponentsInChildren<MonoBehaviour>();
+            foreach (var behaviour in monobehaviours)
+            {
+                behaviour.CancelInvoke();
+            }
+        }
 	}
 
 	bool isBeingDiscarded()
@@ -158,7 +192,8 @@ public class MicrogameController : MonoBehaviour
             return false;
 		return StageController.instance == null
             || StageController.instance.animationPart == StageController.AnimationPart.GameOver
-            || StageController.instance.animationPart == StageController.AnimationPart.WonStage;
+            || StageController.instance.animationPart == StageController.AnimationPart.WonStage
+            || PauseManager.exitedWhilePaused;
 	}
 
 	/// <summary>
@@ -189,12 +224,22 @@ public class MicrogameController : MonoBehaviour
         return sfxSource;
     }
 
-	/// <summary>
-	/// Call this to have the player win/lose a microgame, set final to true if the victory status will NOT be changed again
-	/// </summary>
-	/// <param name="victory"></param>
-	/// <param name="final"></param>
-	public void setVictory(bool victory, bool final)
+    /// <summary>
+    /// Call this to have the player win/lose a microgame. If victory status may change before the end of the microgame, add a second "false" bool parameter
+    /// </summary>
+    /// <param name="victory"></param>
+    /// <param name="final"></param>
+    public void setVictory(bool victory)
+    {
+        setVictory(victory, true);
+    }
+
+    /// <summary>
+    /// Call this to have the player win/lose a microgame, set 'final' to false if the victory status might be changed again before the microgame is up
+    /// </summary>
+    /// <param name="victory"></param>
+    /// <param name="final"></param>
+    public void setVictory(bool victory, bool final)
 	{
 		if (debugMode)
 		{

@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class Vibrate : MonoBehaviour
 {
 
-	//Simulates shaking or vibration by moving randomly within specified parameters
-	//Attach to a parent object, because it will directly edit localPosition
+    //Simulates shaking or vibration by moving randomly within specified parameters
+    //Attach to a parent object, because it will directly edit localPosition
+
+    private float currentSpeed;
 
 	[SerializeField]
 	private bool _vibrateOn = true;
@@ -16,9 +19,12 @@ public class Vibrate : MonoBehaviour
         {
 
             if (!value && resetOnStop)
-				resetPosition();
-			else if (value && resetOnStart)
-				resetVibrateGoal();
+                resetPosition();
+            else if (value && resetOnStart)
+            {
+                resetOffset();
+                resetVibrateGoal();
+            }
 			_vibrateOn = value;
 		}
 	}
@@ -26,9 +32,12 @@ public class Vibrate : MonoBehaviour
 	private Vector2 vibrateGoal, offset;
 	public bool relativeToStartPosition = true, resetOnStop, resetOnStart;
 
+    public bool enableInEditor = false;
 
-	void Awake()
+	protected void Awake()
 	{
+        if (!Application.isPlaying && !enableInEditor)
+            return;
 		resetOffset();
 		resetVibrateGoal();
 	}
@@ -36,6 +45,7 @@ public class Vibrate : MonoBehaviour
 	public void resetOffset()
 	{
 		offset = relativeToStartPosition ? (Vector2)transform.localPosition : Vector2.zero;
+        resetVibrateGoal();
     }
 
 	void setOffset(Vector3 position)
@@ -44,8 +54,11 @@ public class Vibrate : MonoBehaviour
 	}
 
 	void Update()
-	{
-		if (vibrateOn)
+    {
+        if (!Application.isPlaying && !enableInEditor)
+            return;
+
+        if (vibrateOn)
 			updateVibrate();
 	}
 
@@ -54,7 +67,7 @@ public class Vibrate : MonoBehaviour
 		transform.localPosition = new Vector3(0f, 0f, transform.localPosition.z);
 	}
 
-	void updateVibrate()
+	protected virtual void updateVibrate()
 	{
 		if (MathHelper.moveTowardsLocal2D(transform, vibrateGoal, vibrateSpeed))
 			resetVibrateGoal();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Linq;
 
 public class LocalizedText : MonoBehaviour
 {
@@ -22,8 +24,6 @@ public class LocalizedText : MonoBehaviour
 		set { _key = value; updateText(); }
     }
 
-    private TextLimitSize limitSize;    //Force update when text is changed
-
     [System.Serializable]
     public struct Parameter
     {
@@ -32,9 +32,36 @@ public class LocalizedText : MonoBehaviour
         public string keyDefaultString;
     }
 
+    [SerializeField]
+    private TMP_FontAsset defaultTMProFallbackFont;
+    [SerializeField]
+    private FallbackOverride[] TMProFallbackOverrideFonts;
+
+    [System.Serializable]
+    public class FallbackOverride
+    {
+        [SerializeField]
+        [Multiline]
+        private string languages;
+        public string Languages => languages;
+
+        [SerializeField]
+        private TMP_FontAsset fallback;
+        public TMP_FontAsset Fallback => fallback;
+
+        [SerializeField]
+        private bool useOverrideFontStyle;
+        public bool UseOverrideFontStyle => useOverrideFontStyle;
+        [SerializeField]
+        private FontStyles overrideFontStyle;
+        public FontStyles OverrideFontStyle => overrideFontStyle;
+    }
+
     private Text textComponent;
 	private TextMesh textMesh;
-    private LocalizationManager.Language loadedLanguage;
+    private TextMeshPro textMeshPro;
+    private TextMeshProUGUI textMeshProUGUI;
+    private Language loadedLanguage;
     private string initialText;
     private Font initialFont;
     private FontStyle initialStyle;
@@ -49,8 +76,9 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        limitSize = GetComponent<TextLimitSize>();
-        loadedLanguage = new LocalizationManager.Language();
+        textMeshPro = GetComponent<TextMeshPro>();
+        textMeshProUGUI = GetComponent<TextMeshProUGUI>();
+        loadedLanguage = null;
         initialText = getText();
         initialStyle = getStyle();
         initialFont = getFont();
@@ -59,9 +87,10 @@ public class LocalizedText : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (loadedLanguage.getLanguageID() != TextHelper.getLoadedLanguageID())
+        if (loadedLanguage?.getLanguageID() != TextHelper.getLoadedLanguageID()
+            && !(string.IsNullOrEmpty(loadedLanguage?.getLanguageID()) && string.IsNullOrEmpty(TextHelper.getLoadedLanguageID())))
         {
-            bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage.getLanguageID());
+            bool updateAttributes = !string.IsNullOrEmpty(loadedLanguage?.getLanguageID());
             loadedLanguage = TextHelper.getLoadedLanguage();
             if (applyToTextString)
             {
@@ -101,13 +130,13 @@ public class LocalizedText : MonoBehaviour
     /// <param name="key"></param>
     public void setKey(string key)
 	{
-		this._key = key;
+		_key = key;
 		updateText();
 	}
 
 	public void updateText()
 	{
-        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage.getLanguageID()))
+        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage?.getLanguageID()))
             return;
 
 		string value;
@@ -117,16 +146,6 @@ public class LocalizedText : MonoBehaviour
 			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
 		setText(value);
-
-        //if (limitSize != null)
-        //{
-        //    var component = GetComponent<TextLimitSize>();
-        //    component.updateScale();
-        //    //if (textComponent != null)
-        //    //    ((CanvasTextLimitSize)limitSize).updateScale();
-        //    //else if (textMesh != null)
-        //    //    ((TextMeshLimitSize)limitSize).updateScale();
-        //}
     }
 
     public void updateFont()
@@ -149,7 +168,13 @@ public class LocalizedText : MonoBehaviour
 			textComponent.text = text;
 		else if (textMesh != null)
 			textMesh.text = text;
-	}
+        if (textMeshPro != null)
+            textMeshPro.text = text;
+        if (textMeshProUGUI != null)
+            textMeshProUGUI.text = text;
+
+        SendMessage("OnTextLocalized", options: SendMessageOptions.DontRequireReceiver);
+    }
 
 	private string getText()
 	{
@@ -157,7 +182,12 @@ public class LocalizedText : MonoBehaviour
 			return textComponent.text;
 		if (textMesh != null)
 			return textMesh.text;
-		return "";
+        if (textMeshPro != null)
+            return textMeshPro.text;
+        if (textMeshProUGUI != null)
+            return textMeshProUGUI.text;
+
+        return "";
     }
 
     private void setFont(Font font)
@@ -166,6 +196,12 @@ public class LocalizedText : MonoBehaviour
             textComponent.font = font;
         else if (textMesh != null)
             textMesh.font = font;
+        if (textMeshPro != null)
+            setTMPFontFallback(textMeshPro.font);
+        if (textMeshProUGUI != null)
+            setTMPFontFallback(textMeshProUGUI.font);
+
+        SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
     private Font getFont()
@@ -174,6 +210,52 @@ public class LocalizedText : MonoBehaviour
             return textComponent.font;
         if (textMesh != null)
             return textMesh.font;
+        //if (textMeshPro != null)
+        //    return textMeshPro.font;
+        //if (textMeshProUGUI != null)
+        //    return textMeshProUGUI.font;
+        return null;
+    }
+
+    void setTMPFontFallback(TMP_FontAsset font)
+    {
+        var fallback = getTMProFallback();
+        if (fallback != null && !font.fallbackFontAssets.Contains(fallback))
+        {
+            if (!LocalizationManager.instance.modifiedFallbacks.ContainsKey(font))
+                LocalizationManager.instance.modifiedFallbacks.Add(font, new List<TMP_FontAsset>(font.fallbackFontAssets));
+            else
+                font.fallbackFontAssets = new List<TMP_FontAsset>(LocalizationManager.instance.modifiedFallbacks[font]);
+            font.fallbackFontAssets.Add(fallback);
+        }
+    }
+
+    TMP_FontAsset getTMProFallback()
+    {
+        var loadedLanguage = TextHelper.getLoadedLanguage();
+        foreach (var fallbackOverride in TMProFallbackOverrideFonts)
+        {
+            if (fallbackOverride.Languages.Contains(loadedLanguage.getLanguageID()))
+            {
+                if (fallbackOverride.UseOverrideFontStyle)
+                {
+
+                    if (textMeshPro != null)
+                        textMeshPro.fontStyle = fallbackOverride.OverrideFontStyle;
+                    if (textMeshProUGUI != null)
+                        textMeshProUGUI.fontStyle = fallbackOverride.OverrideFontStyle;
+                }
+
+                return fallbackOverride.Fallback;
+            }
+        }
+
+        if (loadedLanguage.tmproFallback != null)
+            return loadedLanguage.tmproFallback;
+
+        if (defaultTMProFallbackFont != null)
+            return defaultTMProFallbackFont;
+
         return null;
     }
 
@@ -183,6 +265,7 @@ public class LocalizedText : MonoBehaviour
             return textComponent.fontStyle;
         if (textMesh != null)
             return textMesh.fontStyle;
+        //TODO TextMeshPro fontstyle support
         return FontStyle.Normal;
     }
 
@@ -192,19 +275,10 @@ public class LocalizedText : MonoBehaviour
             textComponent.fontStyle = style;
         else if (textMesh != null)
             textMesh.fontStyle = style;
+        //TODO TextMeshPro fontstyle support
     }
 
-	string getPrefixedKey()
-	{
-		switch(keyPrefix)
-		{
-			//Handled seperately
-			//case (Prefix.CurrentMicrogame):
-			//	return "microgame." + gameObject.scene.name.Substring(0, gameObject.scene.name.Length - 1) + ".";
-			default:
-				return key;
-		}
-	}
+    string getPrefixedKey() => key;
 
     void updateTextEffects()
     {
@@ -212,9 +286,6 @@ public class LocalizedText : MonoBehaviour
 
         if (textComponent != null)
         {
-            //var fitter = GetComponent<CanvasTextLimitSize>();
-            //if (fitter != null)
-            //    fitter.updateScale();
             var outline = GetComponent<CanvasTextOutline>();
             if (outline != null)
             {
@@ -227,9 +298,6 @@ public class LocalizedText : MonoBehaviour
             var fitter = GetComponent<TextMeshLimitSize>();
             if (fitter != null)
                 fitter.updateScale();
-            var outline = GetComponent<TextOutline>();
-         //   if (outline != null)
-         //       outline.LateUpdate();
         }
 
     }

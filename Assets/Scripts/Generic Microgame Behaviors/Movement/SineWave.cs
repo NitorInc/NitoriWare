@@ -8,7 +8,7 @@ public class SineWave : MonoBehaviour
 	//Attach to a parent object, because it will directly edit localPosition
 
 	public float xSpeed, xAmplitude, xOffset, ySpeed, yAmplitude, yOffset;
-	public bool relativeToStartPosition;
+	public bool relativeToStartPosition = true;
 
     [SerializeField]
 	private Vector3 positionOffset;
@@ -69,6 +69,5 @@ public class SineWave : MonoBehaviour
         startTime = Time.time - timeSinceStart;
         xSpeed = newSpeed.x;
         ySpeed = newSpeed.y;
-        Debug.Log(xSpeed);
     }
 }

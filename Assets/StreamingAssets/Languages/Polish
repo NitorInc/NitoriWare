@@ -17,6 +17,11 @@ stage
 		score=Twój wynik: {0}
 		highscore=Najlepszy wynik: {0}
 		newhighscore=Nowy rekord!
+discord
+	scoreformat={0} Gry
+	scoreformatsingular={0} Gra
+	boss=Boss
+	menu=W menu
 menu
 	yes=Tak
 	no=Nie
@@ -28,17 +33,12 @@ menu
 	on=Włącz
 	off=Wyłącz
 	play=Graj
-	main
-		story=Tryb fabularny
-			description=Graj w tryb fabularny bez końca! Uzyskaj najlepszy wynik!
-		compilation=Tryb arcade
-		practice=Trening
-			description=Szlifuj swoje umiejętności w mikrograch i uzyskuj jak najwyższe wyniki żeby pochwalić się kolegom.
-		quit=Zakończ grę
-			prompt=Czy na pewno chcesz zakończyć {0}?
-		settings=Ustawienia
-		credits=Współtwórcy
 	gamemode=Wybierz tryb rozgrywki!
+		nitori=Tryb fabularny
+			description=Graj w tryb fabularny bez końca! Uzyskaj najlepszy wynik!
+		arcade=Tryb arcade
+		microgamepractice=Trening
+			description=Szlifuj swoje umiejętności w mikrograch i uzyskuj jak najwyższe wyniki żeby pochwalić się kolegom.
 		locked1=Zablokowane! Przejdź {0} aby odblokować.
 		locked2=Zablokowane! Uzyskaj {0} punktów lub więcej w {1} aby odblokować.
 		highscore=Najlepszy wynik: {0}
@@ -52,6 +52,11 @@ menu
 			description=Ups, zgubliśmy plany do tego trybu. Brak wskazówek!
 		compilationhard=Ogórkowe piekło
 			description=Tylko najtrudniejsze gry! Tylko jedno życie! Jak długo przetrwasz?
+	main
+		quit=Zakończ grę
+			prompt=Czy na pewno chcesz zakończyć {0}?
+		settings=Ustawienia
+		credits=Współtwórcy
 	settings
 		resolution=Rozdzielczość ekranu
 		fullscreen=Pełny ekran
@@ -79,9 +84,104 @@ menu
 		webglwarning=Jeżeli doświadczysz jakichś problemów z odtwarzaczem przeglądarkowym, spróbuj pobrać grę z poniżej podanych linków.
 nitori
 	storyintro=Wygląda na to, że mamy nowego klienta.\nZobaczmy jak poradzisz sobie z moimi grami.\nLepiej nie mrugaj za dużo bo nie nadążysz!
-	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu jedynie by zwiedzać.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
+	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu tylko na wczasach.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
 	compilationfinished=No no, jestem pod wrażeniem!\nCiekawe czy dasz sobie radę w pełnej grze!\nTo jedynie początek {0}!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Hej! Masz chwilkę? Chcesz pójść coś przekąsić?
+			right0
+				option=Kto pierwszy do straganu!
+				response=Ostatni stawia!
+			right1
+				option=Pewnie, w brzuchu mi burczy!
+				response=Hurra!
+			wrong0
+				option=Dopiero co jadłaś!
+				response=E tam. Jeść samej to nie to samo.
+			wrong1
+				option=Spadaj, grubasie!
+				response=Sam do najszczuplejszych nie należysz!
+			wrong2
+				option=Nie możesz iść sama?
+				response=Mogę. Niepotrzebnie pytałam.
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Wyhodowałam te kwiaty dla ciebie.
+			right0
+				option=Są przepiękne!
+				response=Dziękuję!
+			right1
+				option=Jak miło!
+				response=Cieszę się, że ci się podobają!
+			wrong0
+				option=Aaa, duch!
+				response=Chyba żartujesz.
+			wrong1
+				option=Nie cierpię kwiatów!
+				response=I tak na nie nie zasługujesz.
+			wrong2
+				option=Na pewno są sztuczne.
+				response=Na pewno masz <i>wielkie</i> powodzenie u kobiet.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Nie spotykałeś się z innymi dziewczynami?
+			right0
+				option=Jasne, że nie!
+				response=No, mam nadzieję.
+			right1
+				option=Jesteś moją jedyną!
+				response=Tak jak myślałam.
+			wrong0
+				option=No cóż...
+				response=Co ma znaczyć „no cóż”?
+			wrong1
+				option=Kocham Reimu!
+				response=Lepiej się zastanów.
+			wrong2
+				option=Och! Muszę coś zrobić.
+				response=O nie, nie wywiniesz się!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Mam nadzieję, że smakuje ci moja herbata.
+			right0
+				option=Jest wyśmienita.
+				response=Naprawdę? Cieszę się.
+			right1
+				option=Poproszę jeszcze jedną!
+				response=Jak najbardziej!
+			wrong0
+				option=Smakuje jakoś dziwnie.
+				response=Och, przepraszam.
+			wrong1
+				option=*Potknij się i rozlej gorącą herbatę*
+				response=<i>JAAAAAAŁAłałała!!</i>
+			wrong2
+				option=Nie prosiłem o herbatę.
+				response=Chciałam... ci zrobić przyjemność.
+		fakeconfig=Zapisz\nWczytaj\nAuto\nHistoria\nUstawienia
+		command=Flirtuj!
+		igname=Pierwsza randka
+	ComicBubble
+		0
+			0=Jesteś pewna, że to bezpieczne?
+			1=Bez obaw!
+		1
+			0=Hej, zaczekaj!
+			1=Masz coś oooo~
+			2=~TUTAJ!
+		2
+			0=Nie cierpię sprzątać...
+			1=Po co się wysilasz? I tak tylko ja tu przychodzę.
+			2=<i>Aj!</i>
+			3=<i>Ałć!</i>
+		command=Rozmawiaj!
+		igname=A gdzie puenta?
 	FreezeFrogs
 		command=Zamróź!
 		igname=Mroźne Żaby
@@ -117,6 +217,9 @@ microgame
 	TraceShape
 		command=Wypełnij!
 		igname=Malowanie z Nitori
+	KogasaScare
+		command=Wystrasz!
+		igname=Bój Się
 	RockBand
 		command=Daj czadu!
 		igname=SubWOOFer
@@ -153,12 +256,84 @@ microgame
 		commandc=Zestrzel!
 		commandd=Pokonaj ją!
 		igname=W pogoni za ogórkiem
-	KogasaScare
-		igname=Bój Się
+	KaguyaMemory
+		command=Obserwuj!
+		commandb=Wybierz!
+		igname=Cenne wspomnienie
+	SumiWheel
+		command=Runa!
+		igname=Runy fortuny
+	MochiPound
+		command=Ubij!
+		igname=Ryżobicie
+	RuukotoSweep
+		command=Zamieć!
+		igname=Pozamiatane
+	MaskPuzzle
+		command=Złóż!
+		igname=Maskładanka
+	YuukaWater
+		command=Podlej!
+		igname=Dziewczyna z konewką
+	KnifeDodge
+		command=Uniknij!
+	NitoriLook
+		command=Znajdź Nitori!
+		igname=Ukryta Nitori
+	MamiPoser
+		command=Oszust!
+		igname=Oszust
+	DollDance
+		command=Naśladuj!
+		igname=Teatr lalek
+	CirnoBored
+		command=Bądź miły!
+		commandb=Zabaw!
+		commandc=Uratuj ją!
+		igname=Oziębłe stosunki
+	HecShapes
+		command=Włóż!
+		igname=Świat na głowie
+	RockPaperSatori
+		command=Wygraj!
+		igname=Papier, kamień, telepata
+	MarisaJizou
+		command=Zrzuć!
+		igname=Czapki z głów
+	NueAbduct
+		command=Uprowadź!
+		igname=Porywająca opowieść
+	ReimuDodge
+		command=Uniknij!
+		igname=~
+	ClothesChoose
+		command=Dopasuj!
+		igname=Przymierzalnia
+	KyoukoEcho
+		command=Odbij!
+		igname=Coś ty powiedział?
+	BugSwat
+		command=Pacnij!
+		igname=Zakaz latania
+	ClownTorch
+		command=Podpal!
+		igname=Domowe ognisko
+	BeachBall
+		command=Wrzuć!
+		igname=Przez obręcz
+	YuugiBalance
+		command=Balansuj!
+		igname=Balansuj tak jak oni
+	DoorKnock
+		command=Zapukaj!
+	FoodCut
+		command=Pokrój!
+	MoneyTrap
+		command=Zwab!
 credits
 	intro={0} powstało dzięki niżej wymienionym fanom!
 	kapptain=Kierunek twórczy, Programista, "Kappitan" drużyny
-	leadart=Głowny artysta, Projektant postaci
+	leadart=Głowny artysta, Projektant postaci, Głos Nitori
 	UI=Grafika w menu i między mikrogrami
 	menumusic=Muzyka na ekranie startowym/w menu
 	stagemusic=Muzyka między mikrogrami

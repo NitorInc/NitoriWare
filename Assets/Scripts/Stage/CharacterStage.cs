@@ -20,13 +20,13 @@ public class CharacterStage : Stage
 
 	public override void onStageStart()
     {
-        base.onStageStart();
         roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
 			shuffleBatches();
 
-        //revisiting = false;
         revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
+
+        base.onStageStart();
     }
 
 	public override Microgame getMicrogame(int num)
@@ -45,7 +45,16 @@ public class CharacterStage : Stage
 		return microgamePool.bossMicrogame;
 	}
 
-	public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
+    public override string getDiscordState(int microgameIndex)
+    {
+        if (!microgamePool.skipBossMicrogame
+            && getMicrogame(microgameIndex).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+            return TextHelper.getLocalizedText("discord.boss", "Boss Stage");
+        else
+            return base.getDiscordState(microgameIndex);
+    }
+
+    public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
 	{
 		return Mathf.Min(microgame.baseDifficulty + roundsCompleted, 3);
 	}
@@ -115,8 +124,8 @@ public class CharacterStage : Stage
 	}
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
-	{
-		if (microgamePool.skipBossMicrogame)
+    {
+        if (microgamePool.skipBossMicrogame)
 		{
 			if (getMicrogame(microgame + 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
 			{
@@ -137,7 +146,8 @@ public class CharacterStage : Stage
             else
                 StageController.instance.lowerScore();
         }
-	}
+        base.onMicrogameEnd(microgame, victoryStatus);
+    }
 
 	void winStage()
     {

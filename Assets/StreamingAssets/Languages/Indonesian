@@ -17,6 +17,11 @@ stage
 		score=Skor kamu: {0}
 		highscore=Skor tertinggi: {0}
 		newhighscore=Rekor Baru!
+discord
+	scoreformat={0} Games
+	scoreformatsingular={0} Game
+	boss=Stage Boss
+	menu=Dalam Menu
 menu
 	yes=Ya
 	no=Tidak
@@ -28,17 +33,12 @@ menu
 	on=On
 	off=Off
 	play=Main
-	main
-		story=Mode Cerita
-			description=Mainkan cerita tanpa akhir! Seberapa tinggi skor yang bisa kamu capai?
-		compilation=Mode Arcade
-		practice=Mode Latihan
-			description=Latih kemampuan microgame-mu, capai nilai tertinggi untuk dipamerkan ke temanmu!
-		quit=Keluar Permainan
-			prompt=Yakin ingin keluar {0}?
-		settings=Pengaturan
-		credits=Para staff
 	gamemode=Pilih mode permainan!
+		nitori=Mode Cerita
+			description=Mainkan cerita tanpa akhir! Seberapa tinggi skor yang bisa kamu capai?
+		arcade=Mode Arcade
+		microgamepractice=Mode Latihan
+			description=Latih kemampuan microgame-mu, capai nilai tertinggi untuk dipamerkan ke temanmu!
 		locked1=Terkunci! Selesaikan {0} untuk membuka.
 		locked2=Terkunci! Capai skor {0} atau lebih {1} untuk membuka.
 		highscore=Skor Tertinggi: {0}
@@ -52,6 +52,11 @@ menu
 			description=Ups, cetak biru yang satu ini hilang. Tidak ada perintah atau input kontrol!
 		compilationhard=Neraka Timun
 			description=Semua permainan tersulit! Hanya satu nyawa! Dapatkah kamu bertahan?
+	main
+		quit=Keluar Permainan
+			prompt=Yakin ingin keluar {0}?
+		settings=Pengaturan
+		credits=Para staff
 	settings
 		resolution=Resolusi Layar
 		fullscreen=Layar Penuh
@@ -76,12 +81,106 @@ menu
 		introa=Demo ini adalah karya derivatif dari serial Touhou Project (東方Project) yang dibuat oleh ZUN.
 		introb=Banyak fans dari seri ini berkolaborasi dan berkontribusi dalam coding, musik, ilustrasi, dan berbagai hal lainnya demi membuat koleksi microgames ini.
 		introc=Jika kamu bisa berbahasa Inggris dan mau berkontribusi dalam permainan ini, silakan kunjungi {0} atau kamu bisa menyebarkan permainan ini!
-		webglwarning=Jika web player bermasalah, coba unduh lewat tautan dibawah.
+		webglwarning=Jika web player bermasalah, coba unduh lewat tautan di bawah.
 nitori
 	storyintro=Sepertinya kita kedatangan pelanggan baru.\nCoba kita lihat bagaimana kau memainkan permainan buatanku.\nJangan meleng!
 	storyfinished=Kerja bagus, gan.\nRupanya kamu nggak sekedar lihat-lihat.\nSekarang coba {0} untuk tantangan yang sesungguhnya!
 	compilationfinished=Mantab jiwa! Kamu benar-benar hebat!\nTapi tunggu sampai versi full.\n{0} baru saja dimulai!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Heeeeey! Lagi nyantai kan? Makan kuy!
+			right0
+				option=Kita balapan ke sana!
+				response=Yang kalah traktir ya!
+			right1
+				option=Sip, makan kuy!
+				response=Yes!
+			wrong0
+				option=Lah lo bukannya baru makan?!
+				response=Ah, ga seru kalo makannya sendiri.
+			wrong1
+				option=Makan sendiri, ndut!
+				response=Kayak lo kurus aja, bangsat!
+			wrong2
+				option=Pergi sendiri gih, sana.
+				response=Ya udah. Ga asik lo.
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Aku merawat bunga ini untukmu.
+			right0
+				option=Wah, indahnya!
+				response=Terimakasih~
+			right1
+				option=Ih, manis banget.
+				response=Aku senang kamu menyukainya!
+			wrong0
+				option=AAAH SETAAAAN!
+				response=Ha-ha. Lucu.
+			wrong1
+				option=Aku benci bunga!
+				response=Kamu nggak pantes dapat bunga ini.
+			wrong2
+				option=Pasti bunga palsu nih.
+				response=Pasti kamu <i>populer</i> di antara banyak cewek.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Kamu nggak selingkuh, kan?
+			right0
+				option=Nggak lah!
+				response=Bagus, jangan sampai ya.
+			right1
+				option=Hanya kamu untukku!
+				response=Sudah kuduga.
+			wrong0
+				option=Erm...
+				response=Apa maksudmu, hmm?
+			wrong1
+				option=Aku cinta Reimu!
+				response=Oh, gitu ya.
+			wrong2
+				option=Sori ya, aku ada janji.
+				response=Eits, jangan kabur!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Kuharap kau bisa menikmati teh buatanku.
+			right0
+				option=Tehnya enak.
+				response=Oh? Baguslah.
+			right1
+				option=Enak, nambah dong!
+				response=Baik, sebentar ya!
+			wrong0
+				option=Rasanya kok aneh ya....
+				response=Oh... Maaf.
+			wrong1
+				option=*Jatuh dan menumpahkan teh-nya*
+				response=<i>GYAAAAAAAAAAaaahh!!</i>
+			wrong2
+				option=Aku nggak bilang mau teh.
+				response=Ku... kukira kau ingin minum teh.
+		fakeconfig=Save\nLoad\nAuto\nLog\nPengaturan
+		command=Cintailah!
+		igname=Kencan Perdana
+	ComicBubble
+		0
+			0=Kamu yakin ini aman?
+			1=Santai!
+		1
+			0=Hei, tunggu!
+			1=Kamu punya sesuatu kaaann~
+			2=~DI SINI!
+		2
+			0=Beres-beres itu merepotkan ya...
+			1=Kenapa repot-repot kalau cuma aku yang datang?
+			2=<i>Aah!</i>
+			3=<i>Aduh!</i>
+		command=Dialog!
 	FreezeFrogs
 		command=Bekukan!
 		igname=Kodok Dingin Empuk
@@ -117,6 +216,9 @@ microgame
 	TraceShape
 		command=Isi!
 		igname=Isi yang Kosong
+	KogasaScare
+		command=Hantui!
+		igname=BAAyung
 	RockBand
 		command=Tampil!
 		igname=Pentas Seni
@@ -153,12 +255,80 @@ microgame
 		commandc=Tembak!
 		commandd=Kalahkan dia!
 		igname=Timun Timun Lompat
-	KogasaScare
-		igname=BAAyung
+	KaguyaMemory
+		command=Perhatikan!
+		commandb=Pilih!
+		igname=Ingatan Berharga
+	SumiWheel
+		command=Jelaskan!
+		igname=Tatap Mata Saya
+	MochiPound
+		command=Tumbuk!
+		igname=Memukul Mochi
+	RuukotoSweep
+		command=Sapu!
+		igname=Bersih-Bersih Kuil
+	MaskPuzzle
+		command=Pasangkan!
+		igname=Memperbaiki Topeng
+	YuukaWater
+		command=Siram!
+		igname=Menyiram Bunga
+	KnifeDodge
+		command=Menghindar!
+	NitoriLook
+		command=Temukan Nitori!
+		igname=Nitorilang
+	MamiPoser
+		command=Temukan peniru!
+		igname=Tanuki Peniru
+	DollDance
+		command=Ikuti!
+		igname=Pentas Boneka
+	CirnoBored
+		command=Jadilah baik!
+		commandb=Hibur!
+		commandc=Selamatkan dia!
+		igname=Perlakuan Dingin
+	HecShapes
+		command=Letakkan!
+	RockPaperSatori
+		command=Menangkan!
+		igname=Suit-ori
+	MarisaJizou
+		command=Lempar!
+		igname=Topinya Jatuh
+	NueAbduct
+		command=Culik!
+		igname=Penculikan Alien
+	ReimuDodge
+		command=Hindari!
+		igname=~
+	ClothesChoose
+		command=Pasangkan!
+	KyoukoEcho
+		command=Pantulkan!
+		igname=Coba Kuulang Lagi
+	BugSwat
+		command=Pukul!
+		igname=Ruang Wriggle
+	ClownTorch
+		command=Nyalakan!
+	BeachBall
+		command=Lempar!
+	YuugiBalance
+		command=Imbangi!
+		igname=Minuman Seimbang
+	DoorKnock
+		command=Ketuk Pintu!
+	FoodCut
+		command=Potong!
+	MoneyTrap
+		command=Pancing!
 credits
 	intro=Terima kasih kepada para fans yang membuat {0}!
 	kapptain=Direktur Kreatif, Programmer, "Kapptain" Tim
-	leadart=Lead Artist, Desain Karakter
+	leadart=Lead Artist, Desain Karakter, Suara Nitori
 	UI=Grafis Menu dan Stage
 	menumusic=Musik Menu Utama
 	stagemusic=Musik Stage

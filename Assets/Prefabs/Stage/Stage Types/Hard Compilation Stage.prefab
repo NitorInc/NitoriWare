@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1609306805112692}
+  m_IsPrefabParent: 1
+--- !u!1 &1609306805112692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4563191847157520}
+  - component: {fileID: 114427358911281394}
+  m_Layer: 0
+  m_Name: Hard Compilation Stage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4563191847157520
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1609306805112692}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114427358911281394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1609306805112692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80cd12954858f7744b894887620f3c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceSet: 1
+  displayName: Cucumber Hell
+  microgamesPerRound: 20
+  microgamesPerSpeedChange: 7
+  restriction: 1
+  nextRound:
+    animation: 6
+    beatDuration: 8
+    audioSource: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 8e218599efdc7c449a216c6e32e8f0e0, type: 3}
+    speedChange: 3
+    applySpeedChangeAtEnd: 1
+    scheduledPlayTime: 0
+  seed: 0
+  progressionScoreThreshold: 10

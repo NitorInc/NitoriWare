@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1693226401427844}
+  m_IsPrefabParent: 1
+--- !u!1 &1693226401427844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4049548441355844}
+  - component: {fileID: 114792473804834880}
+  m_Layer: 0
+  m_Name: MamiPoser Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4049548441355844
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693226401427844}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6436333, y: 0.1720462, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114792473804834880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693226401427844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77bcadae4637fe41b8884fa7de107a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mamizouPrefab: {fileID: 114965861442833538, guid: 0135d559f12852d4eb71cfb014a06641,
+    type: 2}
+  characterPrefabs:
+  - {fileID: 114578397124131924, guid: 91ad77124b40fcc48989c09a0bac1020, type: 2}
+  - {fileID: 114302663701113662, guid: a1a5cb71f15a37c46aa09a67745200da, type: 2}
+  - {fileID: 114302663701113662, guid: 71768609c7cf590468ab17d37660f3bd, type: 2}
+  smokePrefab: {fileID: 1149989987142438, guid: 50de8b6bf5ae5af44a269c50b813c45b,
+    type: 2}
+  correctSignPrefab: {fileID: 1308723782774362, guid: ee485e89d62d64b6591c091cdc918e41,
+    type: 2}
+  incorrectSignPrefab: {fileID: 1322373073481964, guid: 15076ccf6186e439c8e92889a4143591,
+    type: 2}
+  spawners:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  mamizouAppearDelay: 0.3
+  resultEffectsDelay: 0.3
+  lossSound: {fileID: 8300000, guid: ddceecf266d864981a25faefd2d06e8d, type: 3}
+  winSound: {fileID: 8300000, guid: 73c6f0eddab79461c9743b609a6b4357, type: 3}
+  smokeSound: {fileID: 8300000, guid: f1d11aae465924491af2d098dbd3b8b6, type: 3}

@@ -17,6 +17,11 @@ stage
 		score=Deine Punktzahl: {0}
 		highscore=Höchstpunktzahl: {0}
 		newhighscore=Neuer Rekord!
+discord
+	scoreformat={0} Spiele
+	scoreformatsingular={0} Spiel
+	boss=Boss Level
+	menu=Im Menü
 menu
 	yes=Ja
 	no=Nein
@@ -28,17 +33,12 @@ menu
 	on=Ein
 	off=Aus
 	play=Spielen
-	main
-		story=Story Modus
-			description=Spiele den Story Modus unendlich lang! Wie hoch kannst du punkten?
-		compilation=Arcade Modus
-		practice=Übungsraum
-			description=Schleife an deinen Minispiel-Skills und knacke den Highscore, damit du bei deinen Freunden angeben kannst!
-		quit=Spiel Verlassen
-			prompt=Bist du dir sicher, dass du {0} verlassen möchtest?
-		settings=Optionen
-		credits=Mitwirkende
 	gamemode=Wähle einen Spielmodus!
+		nitori=Story Modus
+			description=Spiele den Story Modus unendlich lang! Wie hoch kannst du punkten?
+		arcade=Arcade Modus
+		microgamepractice=Übungsraum
+			description=Schleife an deinen Minispiel-Skills und knacke den Highscore, damit du bei deinen Freunden angeben kannst!
 		locked1=Gesperrt! Schließe {0} ab, um das Spiel freizuschalten!
 		locked2=Gesperrt! Erreiche {0} oder mehr Punkte in {1} zum Freischalten
 		highscore=Höchstpunktzahl: {0}
@@ -50,8 +50,13 @@ menu
 			description=SUPER DUPER SCHNELL! Alle Minispiele in zufälliger Reihenfolge auf höchster Schwierigkeitsstufe.
 		compilationmystery=(Dokumentation wird benötigt)
 			description=Ups, wir haben die Blaupausen hierfür verloren! Kein Kommando oder Kontrollbefehl!
-		compilationhard=Gurken Hölle
+		compilationhard=Gurkenhölle
 			description=Alle Spiele auf der schwersten Stufe! Nur ein Leben! Wie lange kannst du es aushalten?
+	main
+		quit=Spiel Verlassen
+			prompt=Bist du dir sicher, dass du {0} verlassen möchtest?
+		settings=Optionen
+		credits=Mitwirkende
 	settings
 		resolution=Bildgröße
 		fullscreen=Vollbildmodus
@@ -82,6 +87,101 @@ nitori
 	storyfinished=Gut gemacht, Nerd.\nIch schätze du bist nicht nur ein Schaufenstergucker.\nJetzt versuche mal den {0}, um wirklich herausgefordert zu werden!
 	compilationfinished=Verdammt, ich bin beeindruckt!\nWarte nur auf die Vollversion des Spiels,\n{0} hat gerade erst angefangen!
 microgame
+	DatingSim
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Heeeey! Du hast doch Zeit, oder? Lass uns was essen gehen!
+			right0
+				option=Wer als Erster da ist!
+				response=Der Verlierer bezahlt!
+			right1
+				option=Hört sich gut an!
+				response=Yay!
+			wrong0
+				option=Hast du nicht gerade erst gegessen?!
+				response=Boo. Alleine essen ist langweilig.
+			wrong1
+				option=Verzieh dich, Fettsack!
+				response=Du bist auch nicht der Dünnste, Hohlkopf!
+			wrong2
+				option=Du kannst alleine gehen.
+				response=Na gut. Macht sowieso kein Spaß mit dir.
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Ich habe diese Blumen für dich gezüchtet.
+			right0
+				option=Sie sind wunderschön!
+				response=Dankeschön~
+			right1
+				option=Das ist so nett von dir.
+				response=Freut mich, dass du sie magst!
+			wrong0
+				option=Aaah, ein Geist!
+				response=Ist das dein Ernst?
+			wrong1
+				option=Ich hasse Blumen!
+				response=Du hast sie sowieso nicht verdient.
+			wrong2
+				option=Ich wette, die sind aus Plastik.
+				response=Ich wette, du hast eine <i>Menge</i> Glück bei Frauen.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Du hast dich nicht mit anderen Mädchen getroffen, oder?
+			right0
+				option=Natürlich nicht!
+				response=Gut, solltest du auch besser nicht.
+			right1
+				option=Du bist die Einzige für mich!
+				response=Hab ich mir gedacht.
+			wrong0
+				option=Na ja...
+				response=Was meinst du mit "na ja"?
+			wrong1
+				option=Ich liebe Reimu!
+				response=Denk nochmal genau drüber nach.
+			wrong2
+				option=Etwas ist dazwischen gekommen.
+				response=Oh, nein. Diesmal nicht!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli Knowledge
+			introdialogue=Ich hoffe dir gefällt mein Tee...
+			right0
+				option=Schmeckt wunderbar.
+				response=Oh? Da bin ich froh.
+			right1
+				option=Mehr, bitte!
+				response=Kommt sofort!
+			wrong0
+				option=Er schmeckt komisch.
+				response=Oh, tut mir Leid.
+			wrong1
+				option=*Fall hin und verschütte überall heißen Tee*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=Ich hab nie nach Tee gefragt.
+				response=Ich... hab gehofft, er würde dir gefallen.
+		fakeconfig=Speichern\nLaden\nAuto\nLog\nEinstellungen
+		command=Flirte!
+		igname=Um den Finger wickeln
+	ComicBubble
+		0
+			0=Denkst du wirklich, dass das sicher ist?
+			1=Alles gut!
+		1
+			0=Hey, warte!
+			1=Du hast etwas genaaauu~
+			2=~ DA!
+		2
+			0=Putzen ist so anstrengend...
+			1=Warum bemühst du dich, wenn ich dich als Einzige besuche?
+			2=<i>Aah!</i>
+			3=<i>Ouch!</i>
+		command=Dialog!
+		igname=Komm zur Pointe!
 	FreezeFrogs
 		command=Friere ein!
 		igname=Frostige Frösche
@@ -117,6 +217,9 @@ microgame
 	TraceShape
 		command=Ausmalen!
 		igname=Dingen neuen Anstrich verpassen
+	KogasaScare
+		command=Erschrecke!
+		igname=Fürchte den Youkai
 	RockBand
 		command=Rocke!
 		igname=Subwoofer
@@ -153,12 +256,90 @@ microgame
 		commandc=Abschießen!
 		commandd=Mach sie fertig!
 		igname=Die Gurkenjagd
-	KogasaScare
-		igname=Fürchte den Youkai
+	KaguyaMemory
+		command=Pass auf!
+		commandb=Auswählen!
+		igname=Schatzsuche
+	SumiWheel
+		command=Rune!
+		igname=Ist DAS deine Karte?
+	MochiPound
+		command=Hämmere!
+		igname=Mochi-Macher
+	RuukotoSweep
+		command=Fege!
+		igname=Heißer Feger
+	MaskPuzzle
+		command=Füge zusammen!
+		igname=Gefallene Maske
+	YuukaWater
+		command=Wasser!
+		igname=Gartenarbeit
+	KnifeDodge
+		command=Weich aus!
+	NitoriLook
+		command=Finde Nitori!
+		igname=Zimmerbesichtigung
+	MamiPoser
+		command=Betrüger!
+		igname=Der Betrüger
+	DollDance
+		command=Imitieren!
+		igname=Lass die Puppen tanzen!
+	CirnoBored
+		command=Sei nett!
+		commandb=Unterhalten!
+		commandc=Rette sie!
+		igname=Idiotentest
+	HecShapes
+		command=Platziere!
+		igname=Formidabel
+	RockPaperSatori
+		command=Gewinne!
+		igname=Satori, Stein, Papier
+	MarisaJizou
+		command=Werfe!
+		igname=Gut behütet
+	NueAbduct
+		command=Entführe!
+		igname=Alien Abtransport
+	ReimuDodge
+		command=Weiche aus!
+		igname=~
+	ClothesChoose
+		command=Kombiniere!
+		igname=Passt wie angegossen
+	KyoukoEcho
+		command=Reflektiere!
+		igname=Sprachbegabt
+	BugSwat
+		command=Zerquetsche!
+		igname=Käferkiller
+	ClownTorch
+		command=Zünd an!
+		igname=Nicht lange Fackeln
+	BeachBall
+		command=Wirf!
+		igname=Präzisionswurf
+	YuugiBalance
+		command=Balanciere!
+		igname=Balanceakt
+	DoorKnock
+		command=Klopf!
+	FoodCut
+		command=Schneide!
+	MoneyTrap
+		command=Locke!
+	KeineMath
+		command=Löse!
+		igname=Mathe-Ass
+	DoomGame
+		igname=Höllenhasen
 credits
 	intro={0} wurde durch folgende Fans möglich gemacht!
 	kapptain=Kreativdirektor, Programmierer, Team "Kappitän"
-	leadart=Lead Artist, Charakter Designer
+	leadart=Lead Artist, Charakter Designer, Nitori's Synchronsprecherin
+	code=Nicht-Minispiel bezogener Code
 	UI=Menü- und Hintergrundgrafiken
 	menumusic=Titel und Hauptmenü Musik
 	stagemusic=Stage Musik
@@ -172,6 +353,7 @@ credits
 		management=Lokalisierungs-Management
 	sfx=Soundeffekte
 	voice=Nitori's Synchronsprecherin
+	site=Webseiten-design
 	trailer=Demo Trailer
 	socialmedia=Social Media
 	touhou=Basierend auf dem Touhou Project von ZUN

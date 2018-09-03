@@ -1,68 +1,73 @@
 generic
 	name=简体中文
 	gamename=NitorInc.
-	incomplete=注意：这语言并不是完全被翻译的。有些词语会被英文词代替。
+	incomplete=警告：这个游戏的内容并未被完全翻译成中文，某些词句可能仍以英文显示。
 stage
 	control
-		key=喂，用键盘！
-		mouse=喂，用小老鼠！
-	speedup=快~点！
-	boss=头目阶段哦！
-	levelup=升级！
+		key=快用键盘！
+		mouse=快用鼠标！
+	speedup=快马加鞭！
+	boss=BOSS关卡哦！
+	levelup=难度提升！
 	pause=暂停
 		resume=继续 {0}
 	quit=退出 {0}
-	retry=试过 {0}
-	gameover=游戏结束！
+	retry=重试 {0}
+	gameover=满身疮痍！
 		score=得分：{0}
-		highscore=最高：{0}
+		highscore=纪录：{0}
 		newhighscore=新纪录！
+discord
+	scoreformat={0} 关
+	scoreformatsingular={0} 关
+	boss=BOSS关卡
+	menu=菜单中
 menu
 	yes=是
 	no=否
-	ok=OK
+	ok=好的
 	back=返回
-	backalt=往回去
+	backalt=上一步
 	confirm=确定
 	cancel=取消
 	on=开
 	off=关
 	play=开始游戏
+	gamemode=选择一个游戏模式！
+		nitori=故事模式
+			description=小游戏接二连三地袭来！你的极限分数是多高呢？
+		arcade=街机模式
+		microgamepractice=小游戏练习
+			description=磨练游戏技巧，创造新的高分吧！
+		locked1=未解锁！完成{0}才能解锁哦。
+		locked2=未解锁！在{1}得到{0}或更多分数才能解锁哦
+		highscore=最高纪录：{0}
+		compilationmode
+			description=挑战你的极限！不设立BOSS关卡的哦。
+		compilation=河童概略
+			description=普通的街机模式：依随机顺序游玩所有的小游戏。
+		compilationfast=河童到底
+			description=超级无敌快到爆！！
+		compilationmystery=（数据删除）
+			description=粗心的河童弄丢了所有的图纸! 没有任何提示的游戏模式！
+		compilationhard=黄瓜地狱
+			description=最高难度！只有一个残机！你能坚持多久？
 	main
-		story=故事模式
-			description=一直不停地玩故事模式！你的分数能拿多高呢？
-		compilation=街机模式
-		practice=游戏练习
-			description=磨练你的游戏技巧，创造新的最高分，然后再跟你朋友炫耀吧！
 		quit=退出游戏
 			prompt=你确定要退出{0}吗？
 		settings=设置
-		credits=片尾
-	gamemode=请选游戏模式！
-		locked1=未解锁！完成{0}才能解锁哦。
-		locked2=未解锁！在{1}得到{0}或多才能解锁哦
-		highscore=最高纪录：{0}
-		compilationmode
-			description=挑战一下你能承受几多关！没有头目关哦。
-		compilation=河童概略
-			description=普通街机模式：全部游戏会被“洗牌”。
-		compilationfast=河童到底
-			description=超级无敌快到爆！
-		compilationmystery=（须要文件）
-			description=糟了，本关的图纸弄丢了。呃。。。要怎样。。。你自己想吧。
-		compilationhard=黄瓜狱
-			description=最高难度！只有一条命！你能坚持多久？
+		credits=制作者名单
 	settings
 		resolution=屏幕解析度
 		fullscreen=全屏
 		language=语言
 		graphics=图像质量
-			0=最快
-			1=快
-			2=普通
-			3=清晰
-			4=高清
-			5=超清
+			0=极速
+			1=流畅
+			2=平衡
+			3=较高
+			4=高
+			5=绚丽
 		volume=音量
 			master=整体
 			music=音乐
@@ -73,109 +78,283 @@ menu
 		code=程序：{0}
 		music=音乐：{0}
 	splash
-		introa=这游戏的试玩版是东方Project的衍生作品，由ZUN 制作。
-		introb=许多东方Project的粉丝一同合作和贡献了编码，音乐，美术和许多天武来制作这系列的游戏。
-		introc=如果你会说英文或想在这游戏的完整版帮个忙的话，请浏览{0} 帮忙宣传的话也OK的~
-		webglwarning=如果网络播放器给你麻烦的话，可以试一试从下面的网址下载。
+		introa=本作品是上海アリス幻樂団的作品「東方Project」的二次创作。
+		introb=许多东方Project的粉丝一同合作，贡献了代码、音乐、美术和许多天赋来制作本游戏。
+		introc=如果你会英文或想给完整版帮个忙的话，请浏览{0}， 帮忙宣传的话也是可以的哟~
+		webglwarning=如果浏览器浏览网页时出现问题，请尝试下面的链接。
 nitori
-	storyintro=你终于肯来了哦？\n你觉得你承受到我最棒的游戏吗？\n你最好放马过来咯~
-	storyfinished=嘿，不错哦，傻瓜。\n看来你还真有天赋！（呱。。。）\n呵，现在试试看{0}吧！
-	compilationfinished=呵呵，好样的！\n啊不过呢，你等等完整版吧。\n{0} 才刚开始！
+	storyintro=看呐！我们有了一位新的顾客！\n敢接受我最棒的游戏的挑战吗？\n准备接招吧！
+	storyfinished=干得不错，小呆瓜。\n看来你并不是咸鱼一条嘛！\n那么，现在来试试看{0}吧！
+	compilationfinished=好样的！你的表现令我印象深刻！\n但是呢，你还是好好期待正式版吧。\n{0} 才刚刚开始！
 microgame
+	DatingSim
+		suika
+			fullname=伊吹 萃香
+			firstname=萃香
+			introdialogue=嘿！你现在有空对吧？一起去搓一顿如何！
+			right0
+				option=比一比谁先到餐馆！
+				response=输的人请客哦！
+			right1
+				option=好啊，走起！
+				response=太棒了！
+			wrong0
+				option=你不是刚刚才吃过吗？
+				response=切，一个人很无聊的
+			wrong1
+				option=少女醒醒，该减肥了
+				response=熊样！就你瘦！
+			wrong2
+				option=你可以自己去
+				response=你真鸡儿没意思
+		youmu
+			fullname=魂魄 妖梦
+			firstname=妖梦
+			introdialogue=这是在下种的花
+			right0
+				option=它们真漂亮！和你一样美。
+				response=承...承蒙夸奖
+			right1
+				option=闻起来真是香甜
+				response=你能喜欢，在下很开心
+			wrong0
+				option=啊啊啊！半人半灵出现了！
+				response=能不要取笑在下吗？
+			wrong1
+				option=我讨厌花！
+				response=你也不配喜欢它们
+			wrong2
+				option=这些花是假花吧？
+				response=真是没有眼光...
+		yuuka
+			fullname=风见 幽香
+			firstname=幽香
+			introdialogue=你没有背着我和其他人约过会，对吧？
+			right0
+				option=当然没有！
+				response=不错，你最好没有。
+			right1
+				option=你是我生命中唯一之爱！
+				response=油嘴滑舌
+			wrong0
+				option=呃……
+				response="呃..."是几个意思?
+			wrong1
+				option=我爱上灵梦了!
+				response=再给你一次组织语言的机会
+			wrong2
+				option=我还有事没做完...先失陪了...
+				response=不，你现在，有的是时间
+		patchy
+			fullname=帕秋莉 诺蕾姬
+			firstname=帕秋莉
+			introdialogue=希望你能喜欢我泡的茶...
+			right0
+				option=非常美味
+				response=是吗? 我很开心
+			right1
+				option=请再来一杯
+				response=乐意效劳
+			wrong0
+				option=尝起来很奇怪
+				response=我很遗憾...
+			wrong1
+				option=*手滑把热茶洒了出来*
+				response=<i>呀啊啊啊啊!</i>
+			wrong2
+				option=我从来没说过想要喝茶
+				response=我...以为你会喜欢
+		fakeconfig=保存\n读取\n自动\n记录\n设置
+		command=攻略她！
+		igname=情商检定
+	ComicBubble
+		0
+			0=这么做真的没问题吗？
+			1=没问题!
+		1
+			0=嘿！等等！
+			1=你脸上有...
+			2=东西！
+		2
+			0=打扫真是痛苦...
+			1=我无所谓哦? 反正只有我一个参拜客
+			2=<i>啊！</i>
+			3=<i>疼！</i>
+		command=完成对话！
+		igname=幻想乡日常
 	FreezeFrogs
-		command=冻结!
-		igname=冻冻青蛙
+		command=快冻结!
+		igname=冻青蛙
 	Slingshot
 		command=弹射!
-		igname=看鸟！
+		igname=愤怒的"小鸟"
 	ChenFood
-		command=别被吃哦！
+		command=别被吃掉哦！
 		igname=躲猫猫
 	Spider
-		command=喂！
+		command=投食！
 		igname=喂小小蜘蛛
 	Donation
-		command=收集三个！
-		igname=捐款~捐款~
+		command=收集三枚！
+		igname=赛钱~赛钱~
 	Wrench
-		command=锁上！
-		igname=扳手河童
+		command=拧紧！
+		igname=河童工程师
 	Potion
 		command=放进去！
 		ingredients=材料
-		igname=煮药中。。。
+		igname=雾雨制药
 	GhostFood
-		command=吃与嚼！
-		igname=幽食
+		command=嚼碎！
+		igname=舌尖上的冥界
 	Spaceship
 		command=发射!
-		igname=起~飞~
+		igname=妖怪登月计划
 	CupShuffle
-		command=专心哦！
+		command=看仔细！
 		commandb=选吧！
-		igname=纸杯游戏
+		igname=味增碗下针妙丸
 	TraceShape
 		command=填满！
-		igname=画涂画
+		igname=填充涂色
+	KogasaScare
+		command=吓她一跳!
+		igname=世界第一可怕唐伞
 	RockBand
-		command=表演！
-		igname=现场表演
+		command=演奏！
+		igname=鸟兽伎乐
 	ChenBike
-		command=按了那喇叭他！
-		igname=小心看路咯
+		command=按喇叭！
+		igname=喇叭警告
 	MasterSparkCode
-		command=爱你哦！
-		igname=爱。。。的颜色
+		command=施放！
+		igname=八卦炉测试
 	OkuuFire
-		command=调节！
-		igname=冷静点
+		command=快调节！
+		igname=可控核聚变
 	YukariCake
-		command=抢夺!
-		igname=甜点呢？
+		command=偷走！
+		igname=谁动了我的点心？
 	RemiCover
-		command=别被嗮到！
-		igname=吸血鬼的弱点。。。
+		command=躲在伞下！
+		igname=蕾米的宿敌
 	SuikaShake
-		command=摇掉！
-		igname=醉酒的妖怪
+		command=快摇掉！
+		igname=酒鬼摇一摇
 	TouhouSort
-		command=按{0}排序！
+		command=按{0}分类！
 		hat=头饰
-		wing=翅旁种类
+		wing=翅膀
 		ear=耳朵
 		igname=东方分分看
 	FlanGrab
-		command=守护！
-		igname=红魔楼守护
+		command=保护！
+		igname=红魔馆保卫战
 	PaperThief
 		command=抵达目标！
-		commandb=看着啊喂！
-		commandc=射！
+		commandb=小心呀！
+		commandc=击碎！
 		commandd=打败她！
-		igname=青瓜追逐
-	KogasaScare
-		igname=哇啊！妖怪？！
+		igname=荷取的奇妙冒险
+	KaguyaMemory
+		command=仔细看！
+		commandb=选一个!
+		igname=辉夜的难题
+	SumiWheel
+		command=挑选！
+		igname=深秘轮盘
+	MochiPound
+		command=敲！
+		igname=捣年糕
+	RuukotoSweep
+		command=清扫！
+		igname=打扫神社
+	MaskPuzzle
+		command=拼装!
+		igname=破碎的面具
+	YuukaWater
+		command=浇水！
+		igname=浇~花~
+	KnifeDodge
+		command=擦弹！
+	NitoriLook
+		command=找到荷取！
+		igname=荷取荷取在哪里
+	MamiPoser
+		command=找到猯藏！
+		igname=妖怪狸猫十变化
+	DollDance
+		command=模仿!
+		igname=少女文乐
+	CirnoBored
+		command=逗她开心！
+		commandb=逗她开心!
+		commandc=拯救她！
+		igname=“冷”处理
+	HecShapes
+		command=放置!
+		igname=地狱女神配对
+	RockPaperSatori
+		command=取胜！
+		igname=读心猜拳
+	MarisaJizou
+		command=丢掉！
+		igname=魔法使宅急便
+	NueAbduct
+		command=掠夺！
+		igname=UFO袭来！
+	ReimuDodge
+		command=擦弹！
+		igname=~
+	ClothesChoose
+		command=搭配！
+		igname=暖暖环游幻想乡
+	KyoukoEcho
+		command=反射！
+		igname=山彦式回声
+	BugSwat
+		command=降维打击！
+		igname=清除害虫
+	ClownTorch
+		command=点燃!
+		igname=兄弟传火吗？
+	BeachBall
+		command=投!
+		igname=万岁楽表演
+	YuugiBalance
+		command=保持平衡！
+		igname=勇仪的平衡表演
+	DoorKnock
+		command=敲！
+	FoodCut
+		command=切！
+	MoneyTrap
+		command=引人!
+	KeineMath
+		command=解决!
+		igname=加起来不对
 credits
-	intro={0}能成功全赖以下粉丝们的支持！
-	kapptain=主任，程序员，经理，"Kapptain“队长
-	leadart=主画家，角色设计师
-	UI=选单和阶段图学
-	menumusic=选单音乐
-	stagemusic=阶段音乐
+	intro={0}能成功全靠以下粉丝们的支持！
+	kapptain=总策划，程序，管理，Kapptain 团队
+	leadart=领衔美工，角色设计，荷取的语音
+	UI=菜单和关卡图像
+	menumusic=标题/菜单音乐
+	stagemusic=关卡音乐
 	microgame
-		management=游戏管理员
-		managementalt=协同合作管理员
+		management=小游戏管理
+		managementalt=协作管理
 		code=游戏程序
 		art=游戏美术
 		music=游戏音乐
-	localization=本土化家
-		management=本土化管理员
+	localization=本地化
+		management=本地化管理
 	sfx=音效
-	voice=Nitori 的语音
+	voice=荷取的语音
+	site=网站设计
 	trailer=试玩版预告片
 	socialmedia=宣传/社交媒体
-	touhou=这游戏是东方Project的衍生作品，由ZUN 制作。
-	thanks=特别感谢
-		discord=东方Project 的 Discord Server
-		playtesters=我们的试玩家
-		fans=还有一直帮我们努力宣传的粉丝！
+	touhou=本作品是上海アリス幻樂団的作品“東方Project”的二次创作。
+	thanks=特别鸣谢
+		discord=东方Project 的 Discord 服务器
+		playtesters=我们的游戏测试玩家
+		fans=还有一直帮我们努力宣传的粉丝们！
