@@ -11,6 +11,8 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     
     public MoonSoccerBall ballScript;
     
+    private bool hasKicked = false;
+    
 
 	// Update is called once per frame
 	void Update () 
@@ -35,11 +37,11 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // Activate the ball object when Spacebar is pressed
     void updateKick ()
     {
-     if (Input.GetKey(KeyCode.Space))
+     if (Input.GetKey(KeyCode.Space) && hasKicked == false)
      {
          // TODO: Add kick animation
-         print("Kick");
          ballScript.activate(transform.position);
+         hasKicked = true;
      }
     }
 }
