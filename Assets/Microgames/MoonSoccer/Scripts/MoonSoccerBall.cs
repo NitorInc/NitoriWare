@@ -23,6 +23,7 @@ public class MoonSoccerBall : MonoBehaviour {
     public void activate (Vector2 position) 
     {
         transform.position = position;
+        transform.position = new Vector2(transform.position.x, transform.position.y - 1);
         gameObject.SetActive(true);
     }
     
@@ -33,10 +34,11 @@ public class MoonSoccerBall : MonoBehaviour {
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
-        else if (col.gameObject.name == "Kaguya")
+        else
         {
             Destroy(gameObject);
             MicrogameController.instance.setVictory(victory: false, final: true);
+            // todo: check what object was touched and change their sprite to reflect that
         }
     }
 }
