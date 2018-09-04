@@ -13,9 +13,13 @@ namespace FoodRoast {
 
   [System.Serializable]
   public struct AmbienceClip {
-    public AudioClip clip;
+    [SerializeField] private AudioClip clip;
+    public AudioClip Clip { get { return clip; } }
+
     [Range(0.0f, 1.0f)]
-    public float volume;
+    [SerializeField] private float volume;
+    public float Volume { get { return volume; } }
+
     public AmbienceClip(AudioClip _clip, float _volume) {
       clip = _clip;
       volume = _volume;
@@ -23,67 +27,74 @@ namespace FoodRoast {
   }
 
   public class FoodRoast_Controller : MonoBehaviour {
-    public static FoodRoast_Controller _singleton = null;
-    public static FoodRoast_Controller singleton{
+    public static FoodRoast_Controller _instance = null;
+    public static FoodRoast_Controller Instance{
       get{
         // Unefficient, but we can't use script execution order.
-        if (_singleton == null){
-          _singleton = GameObject.Find("Controller").GetComponent<FoodRoast_Controller>();
+        if (_instance == null){
+          _instance = GameObject.Find("Controller").GetComponent<FoodRoast_Controller>();
         }
-        return _singleton;
+        return _instance;
       }
     }
 
     [Header("Ambience")]
-    [SerializeField] private AmbienceClip[] AmbienceClips; 
+    [SerializeField] private AmbienceClip[] ambienceClips; 
 
     [Header("Difficulty")]
-    [ReadOnly] public int PotatoesExists = 0;
-    [SerializeField] private int CookedPotatoesRequirement = 1;
-    [SerializeField] private PotatoCookTime[] PotatoCookTimes;
+    [ReadOnly] [SerializeField] private int potatoesExists = 0;
+    [SerializeField] private int cookedPotatoesRequirement = 1;
+    [SerializeField] private PotatoCookTime[] potatoCookTimes;
+    [SerializeField] private float potatoBurnTime;
+    public float GetPotatoBurnTime { get { return potatoBurnTime; } }
 
     [Header("Collected Potatoes")]
-    [ReadOnly] [SerializeField] private int UncookedPotatoesCollected = 0;
-    [ReadOnly] [SerializeField] private int CookedPotatoesCollected = 0;
+    [ReadOnly] [SerializeField] private int uncookedPotatoesCollected = 0;
+    [ReadOnly] [SerializeField] private int cookedPotatoesCollected = 0;
 
-    private List<PotatoCookTime> CookTimeList;
+    private List<PotatoCookTime> cookTimeList;
 
     private void Start() {
-      foreach (var clip in AmbienceClips)
-        MicrogameController.instance.playSFX(clip.clip, volume: clip.volume);
+      foreach (var clip in ambienceClips)
+        MicrogameController.instance.playSFX(clip.Clip, volume: clip.Volume);
     }
 
     public void AddCookedPotato() {
-      CookedPotatoesCollected++;
-      if (CookedPotatoesCollected >= CookedPotatoesRequirement) {
+      cookedPotatoesCollected++;
+      if (cookedPotatoesCollected >= cookedPotatoesRequirement) {
         MicrogameController.instance.setVictory(true);
       }
     }
 
     public void AddUncookedPotato(){
-      UncookedPotatoesCollected++;
-      if (UncookedPotatoesCollected > PotatoesExists - CookedPotatoesRequirement){
+      uncookedPotatoesCollected++;
+      if (uncookedPotatoesCollected > potatoesExists - cookedPotatoesRequirement){
         MicrogameController.instance.setVictory(false);
       }
     }
 
     public float GetCookTime(){
-      if (CookTimeList == null){
-        CookTimeList = new List<PotatoCookTime>(PotatoCookTimes);
+      if (cookTimeList == null){
+        cookTimeList = new List<PotatoCookTime>(potatoCookTimes);
       }
-      var index = Random.Range(0, CookTimeList.Count);
-      var time = CookTimeList[index].GetTime;
-      CookTimeList.RemoveAt(index);
+      if (cookTimeList.Count == 0){
+        Debug.LogError("cookTimeList empty! Did you forget to 'Update Potatoes' or did you call GetCookTime() too many times?");
+      }
+
+      var index = Random.Range(0, cookTimeList.Count);
+      var time = cookTimeList[index].GetTime;
+      cookTimeList.RemoveAt(index);
       return time;
     }
 
     //---   Editor Script
     public void UpdatePotatoes() {
-      PotatoesExists = GameObject.Find("Potatoes").transform.childCount;
+      potatoesExists = GameObject.Find("Potatoes").transform.childCount;
 
-      var temp = new PotatoCookTime[PotatoesExists];
-      System.Array.Copy(PotatoCookTimes, temp, Mathf.Min(PotatoCookTimes.Length, PotatoesExists));
-      PotatoCookTimes = temp;
+      var oldArray = potatoCookTimes ?? new PotatoCookTime[0];
+      var newArray = new PotatoCookTime[potatoesExists];
+      System.Array.Copy(oldArray, newArray, Mathf.Min(oldArray.Length, newArray.Length));
+      potatoCookTimes = newArray;
     }
   }
 

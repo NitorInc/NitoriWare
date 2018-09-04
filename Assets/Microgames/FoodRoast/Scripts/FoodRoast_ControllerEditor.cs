@@ -11,10 +11,10 @@ namespace FoodRoast{
     public override void OnInspectorGUI() {
       serializedObject.Update();
 
-      EditorGUILayout.PropertyField(serializedObject.FindProperty("AmbienceClips"), true);
+      EditorGUILayout.PropertyField(serializedObject.FindProperty("ambienceClips"), true);
 
-      var potatoesExist = serializedObject.FindProperty("PotatoesExists");
-      var cookedPotatoesRequirement = serializedObject.FindProperty("CookedPotatoesRequirement");
+      var potatoesExist = serializedObject.FindProperty("potatoesExists");
+      var cookedPotatoesRequirement = serializedObject.FindProperty("cookedPotatoesRequirement");
       EditorGUILayout.PropertyField(potatoesExist);
       EditorGUILayout.PropertyField(cookedPotatoesRequirement);
       if (potatoesExist.intValue < cookedPotatoesRequirement.intValue){
@@ -22,18 +22,23 @@ namespace FoodRoast{
       }
 
       EditorGUILayout.Space();
-      EditorGUILayout.LabelField("Cook Times");
-      var cookTimes = serializedObject.FindProperty("PotatoCookTimes");
+      EditorGUILayout.PropertyField(serializedObject.FindProperty("potatoBurnTime"));
+      EditorGUILayout.LabelField("Potato Cook Times  (Min-Max)");
+      var cookTimes = serializedObject.FindProperty("potatoCookTimes");
       for (var i = 0; i < cookTimes.arraySize; i++){
-        EditorGUILayout.PropertyField(cookTimes.GetArrayElementAtIndex(i));
+        var element = cookTimes.GetArrayElementAtIndex(i);
+        EditorGUILayout.PropertyField(element, new GUIContent(string.Format("Potato {0}", i + 1)));
+        if (element.FindPropertyRelative("minTime").floatValue > element.FindPropertyRelative("maxTime").floatValue){
+          EditorGUILayout.HelpBox("minValue is higher than maxValue", MessageType.Error);
+        }
       }
 
       if (GUILayout.Button("Update Potatoes")) {
         ((FoodRoast_Controller)target).UpdatePotatoes();
       }
 
-      EditorGUILayout.PropertyField(serializedObject.FindProperty("UncookedPotatoesCollected"));
-      EditorGUILayout.PropertyField(serializedObject.FindProperty("CookedPotatoesCollected"));
+      EditorGUILayout.PropertyField(serializedObject.FindProperty("uncookedPotatoesCollected"));
+      EditorGUILayout.PropertyField(serializedObject.FindProperty("cookedPotatoesCollected"));
 
       serializedObject.ApplyModifiedProperties();
     }

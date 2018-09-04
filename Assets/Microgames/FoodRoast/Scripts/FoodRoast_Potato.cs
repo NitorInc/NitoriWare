@@ -15,38 +15,44 @@ namespace FoodRoast {
     }
 
     [Header("Ripe Variables")]
-    [ReadOnly] [SerializeField] private bool Ripe = false;
-    [ReadOnly] [SerializeField] private float TimeTillRipeness = 2.0f;
+    [ReadOnly] [SerializeField] private bool Cooked = false;
 
     // Color Debug Variables
-    private static Color NotRipeColor = new Color(240 / 255f, 230 / 255f, 140 / 255f);
-    private static Color RipeColor = new Color(139 / 255f, 69 / 255f, 19 / 255f);
+    private static Color uncookedColor = new Color(240 / 255f, 230 / 255f, 140 / 255f);
+    private static Color cookedColor = new Color(139 / 255f, 69 / 255f, 19 / 255f);
+    private static Color burntColor = new Color(51 / 255f, 26 / 255f, 0 / 255f);
 
     private void Start() {
-      TimeTillRipeness = FoodRoast_Controller.singleton.GetCookTime();
-      SpriteRenderer.color = NotRipeColor;
-
-      StartCoroutine(WaitTillRipenessCoroutine());
+      SpriteRenderer.color = uncookedColor;
+      StartCoroutine(CookingCoroutine());
     }
 
     // Timer till cooked potatoes
-    private IEnumerator WaitTillRipenessCoroutine() {
-      yield return new WaitForSeconds(TimeTillRipeness);
-      RipenessProcedure();
+    private IEnumerator CookingCoroutine() {
+      yield return new WaitForSeconds(FoodRoast_Controller.Instance.GetCookTime());
+      CookedProcedure();
+      yield return new WaitForSeconds(FoodRoast_Controller.Instance.GetPotatoBurnTime);
+      BurntProcedure();
     }
 
     // Procedure that turns uncooked to cooked potatoes
-    private void RipenessProcedure() {
-      Ripe = true;
-      SpriteRenderer.color = RipeColor;
+    private void CookedProcedure() {
+      Cooked = true;
+      SpriteRenderer.color = cookedColor;
+    }
+
+    // Procedure that turns uncooked to cooked potatoes
+    private void BurntProcedure() {
+      Cooked = false;
+      SpriteRenderer.color = burntColor;
     }
 
     // Procedure when the potato is clicked
     private void OnMouseDown() {
-      if (Ripe) {
-        FoodRoast_Controller.singleton.AddCookedPotato();
+      if (Cooked) {
+        FoodRoast_Controller.Instance.AddCookedPotato();
       } else {
-        FoodRoast_Controller.singleton.AddUncookedPotato();
+        FoodRoast_Controller.Instance.AddUncookedPotato();
       }
       Destroy(gameObject);
     }

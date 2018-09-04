@@ -27,11 +27,16 @@ namespace FoodRoast {
     }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+      EditorGUI.LabelField(new Rect(position.position, new Vector2(EditorGUIUtility.labelWidth, position.size.y)), label);
+
       var size = position.size;
+      size.x -= EditorGUIUtility.labelWidth;
       size.x /= 2;
 
-      EditorGUI.PropertyField(new Rect(position.position, size), property.FindPropertyRelative("minTime"), new GUIContent("Min"));
-      EditorGUI.PropertyField(new Rect(position.position + new Vector2(size.x, 0), size), property.FindPropertyRelative("maxTime"), new GUIContent("Max"));
+      var minTime = property.FindPropertyRelative("minTime");
+      var maxTime = property.FindPropertyRelative("maxTime");
+      minTime.floatValue = EditorGUI.FloatField(new Rect(position.position + new Vector2(EditorGUIUtility.labelWidth, 0), size), minTime.floatValue);
+      maxTime.floatValue = EditorGUI.FloatField(new Rect(position.position + new Vector2(EditorGUIUtility.labelWidth + size.x, 0), size), maxTime.floatValue);
     }
   }
 
