@@ -11,7 +11,7 @@ public class ReimuDodgeBullet : MonoBehaviour
 
     [Header("How fast the bullet goes")]
     [SerializeField]
-    private float delay = 1f;
+    private float speed = 1f;
 
     [Header("Firing delay in seconds")]
     [SerializeField]

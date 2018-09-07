@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReimuDodgePlayer : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class ReimuDodgePlayer : MonoBehaviour
+{
+    
+    // This will happen when the player's hitbox collides with a bullet
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Test that this works
+        print("Player was hit!");
+    }
+    
+    
 }
