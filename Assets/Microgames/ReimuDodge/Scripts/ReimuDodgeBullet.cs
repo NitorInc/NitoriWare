@@ -34,7 +34,7 @@ public class ReimuDodgeBullet : MonoBehaviour
         if (trajectory != null)
         {
             // Move the bullet a certain distance based on trajectory speed and time
-            Vector2 newPosition = (Vector2)transform.position + (trajectory * Time.deltaTime);
+            Vector2 newPosition = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
             transform.position = newPosition;
         }    
 	}
