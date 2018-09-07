@@ -12,6 +12,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
     private Vector3 rootOriginalPosition;
     public Animator seijaAnim, spinAnim, charFlingAnim, objFlingAnim;
     public AudioClip flingClip, crashClip, spinClip;
+    public GameObject broomObject;
     private AudioSource _audioSource;
     private float lastAngle;
     private float currentAngleChange;
@@ -104,7 +105,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
                     break;
                 case 2:
                     moveValue += 1.5f * Time.deltaTime;
-                    transform.root.position = new Vector3(rootOriginalPosition.x + 2 * moveValue, rootOriginalPosition.y + 2 * Mathf.Sin(moveValue), rootOriginalPosition.z);
+                    transform.root.position = new Vector3(rootOriginalPosition.x + 1 * moveValue, -(rootOriginalPosition.y + 2 * Mathf.Sin(moveValue)), rootOriginalPosition.z);
                     break;
                 default:
                     break;
@@ -115,10 +116,17 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
             spinAnim.SetInteger("state", (int)SpinState.SpinOut);
-            seijaAnim.SetInteger("state", (int)State.Victory);
-            charFlingAnim.SetInteger("state", 1);
             objFlingAnim.SetInteger("state", 1);
-            transform.Rotate(Vector3.back * Time.deltaTime, angleDifference);
+            charFlingAnim.SetInteger("state", 1);     
+            if(moveType != 2)
+            {
+                seijaAnim.SetInteger("state", (int)State.Victory);
+                transform.Rotate(Vector3.back * Time.deltaTime, angleDifference);
+            }
+            if(moveType == 1)
+            {
+                broomObject.transform.Rotate(Vector3.forward * Time.deltaTime * 0.5f, angleDifference);
+            }
             if (!flingDone)
             {
                 PlayFling();
@@ -128,10 +136,13 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
             {
                 if (!crashDone)
                 {
-                    PlayCrash();
                     crashDone = true;
-                    CameraShake.instance.setScreenShake(.3f);
-                    CameraShake.instance.shakeSpeed = 15f;
+                    PlayCrash();
+                    if (moveType != 2)
+                    {
+                        CameraShake.instance.setScreenShake(.5f);
+                        CameraShake.instance.shakeSpeed = 15f;
+                    }
                 }
             } else
             {

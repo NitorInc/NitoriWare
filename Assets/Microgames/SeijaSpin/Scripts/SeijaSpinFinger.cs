@@ -13,7 +13,7 @@ public class SeijaSpinFinger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButton(0))
+        if (!MicrogameController.instance.getVictory() && Input.GetMouseButton(0))
         {
             Vector2 cursorLocation = (Vector2)(CameraHelper.getCursorPosition());
             transform.position = new Vector3(originalPosition.x + cursorLocation.x / 5, originalPosition.y + cursorLocation.y / 5, originalPosition.z);
