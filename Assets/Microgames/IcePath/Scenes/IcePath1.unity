@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 272325333}
   - component: {fileID: 272325335}
   - component: {fileID: 272325334}
+  - component: {fileID: 272325336}
   m_Layer: 0
   m_Name: MapOrigin
   m_TagString: Untagged
@@ -251,12 +252,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 2038032683}
-  prefabCirno: {fileID: 1868719221952568, guid: 726075b7afce9a548a67b4a7e16df298,
+  prefabCirno: {fileID: 1818377430667874, guid: 726075b7afce9a548a67b4a7e16df298,
     type: 2}
   prefabWaka: {fileID: 1481596973073570, guid: b2beeb400f8de3f459ec52b2265b8c8e, type: 2}
   prefabIceCream: {fileID: 1226381267511604, guid: e31481e5d7e4f234dbf52a644a73a736,
     type: 2}
-  prefabLamp: {fileID: 1672831996470658, guid: 5e39d168ffc4edb4f8d9f71dd984b6ba, type: 2}
+  prefabLamp: {fileID: 1003893217658346, guid: 5e39d168ffc4edb4f8d9f71dd984b6ba, type: 2}
   prefabIsleTile: {fileID: 1699852792906776, guid: 706338f667adf7540bd07dc81dd54e2a,
     type: 2}
   prefabIceTile: {fileID: 1567876497286090, guid: 808cfd5c6e38f4b469e515b96aba9003,
@@ -273,6 +274,86 @@ MonoBehaviour:
     type: 2}
   prefabFog: {fileID: 1866169298394922, guid: af1f3c58bc45f0b4e9aa60b756f8955a, type: 2}
   mapData: {fileID: 11400000, guid: e7fcc59faf90215489dd3bfc958c7f6c, type: 2}
+--- !u!82 &272325336
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 272325332}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3009e5731cd874f4582bdc4f84865e23, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.2
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &1022363291
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +494,7 @@ Prefab:
     - target: {fileID: 20000012241150868, guid: 72dba666113776b4dbc710553bb6dc53,
         type: 2}
       propertyPath: orthographic size
-      value: 4.75
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4000011321522988, guid: 72dba666113776b4dbc710553bb6dc53, type: 2}
       propertyPath: m_LocalScale.x
@@ -464,8 +545,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 1346708411}
-  speed: 0.02
-  magnitude: 0.02
+  zoomOutTime: 45
+  zoomState: 0
 --- !u!4 &2038032685
 Transform:
   m_ObjectHideFlags: 0

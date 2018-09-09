@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IcePath_script_Camera : MonoBehaviour {
-    float pi = Mathf.PI;
+    private float pi = Mathf.PI;
 
     [Header("Camera")]
     [SerializeField] private GameObject camera;
-    Camera cameraComponent;
-    private float cameraSize;
+    [SerializeField] private int zoomOutTime;
 
-    [Header("Gentle sway customize")]
-    [SerializeField] private float speed;
-    [SerializeField] private float magnitude;
-    private float counter;
+    private Camera   cameraComponent;
+    private float    cameraSize;
 
-    bool zoomOut = false;
+    [HideInInspector] public int zoomState = 0;
     
     void Start () {
         // Get the component
@@ -24,23 +21,33 @@ public class IcePath_script_Camera : MonoBehaviour {
         // Camera stuff
         cameraSize = 0.75f;
 
-        Invoke("ZoomOut", 60 * Time.deltaTime);
+        Invoke("ZoomOut", zoomOutTime * Time.deltaTime);
 	}
 	
-	// Update is called once per frame
 	void Update () {
         // Size
         cameraComponent.orthographicSize = cameraSize;
 
-        if (zoomOut) {
-            // Position
-            transform.position = Vector2.Lerp(transform.position, new Vector2(0, 0), 0.1f);
+        // Zoom state
+        // Zoom out from ice cream
+        if (zoomState == 1) {
             cameraSize = Mathf.Lerp(cameraSize, 5f, 0.1f);
+            transform.position = Vector2.Lerp(transform.position, new Vector2(0, 0), 0.1f);
+
+        } else
+        
+        // Zoom in to Cirno for victory
+        if (zoomState == 2) {
+            GameObject cirno = GameObject.Find("IcePath_prefab_Cirno(Clone)");
+
+            cameraSize = Mathf.Lerp(cameraSize, 1.25f, 0.1f);
+            transform.position = Vector2.Lerp(transform.position, cirno.transform.position + new Vector3(0, 0.25f, 0), 0.1f);
+
         }
     }
 
     void ZoomOut() {
-        // Zoom
-        zoomOut = true;
+        // Zoom out
+        zoomState = 1;
     }
 }

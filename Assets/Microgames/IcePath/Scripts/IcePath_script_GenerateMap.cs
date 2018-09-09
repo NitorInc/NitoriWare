@@ -61,7 +61,7 @@ public class IcePath_script_GenerateMap : MonoBehaviour {
         tile[_mapWidth, _mapHeight] = ".";
 
         // Read the map file
-        int mapIndex = rand(0, 2);
+        int mapIndex = rand(0, 1);
         string map = textMap[mapIndex].text;
 
         // Waka tiles indexer
@@ -118,9 +118,9 @@ public class IcePath_script_GenerateMap : MonoBehaviour {
                     wakaEnd[wakaIndex] = _origin + new Vector2(tilePosX + 1, -tilePosY);
 
                     waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
-                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
-
                     wakaObject[wakaIndex] = waka;
+
+                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
                     wakaScript._wakaIndex = wakaIndex;
                     break;
 
@@ -132,9 +132,9 @@ public class IcePath_script_GenerateMap : MonoBehaviour {
                     wakaEnd[wakaIndex] = _origin + new Vector2(tilePosX - 1, -tilePosY);
 
                     waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
-                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
-
                     wakaObject[wakaIndex] = waka;
+
+                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
                     wakaScript._wakaIndex = wakaIndex;
                     break;
 
@@ -146,9 +146,9 @@ public class IcePath_script_GenerateMap : MonoBehaviour {
                     wakaEnd[wakaIndex] = _origin + new Vector2(tilePosX, -(tilePosY + 1));
 
                     waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
-                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
-
                     wakaObject[wakaIndex] = waka;
+
+                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
                     wakaScript._wakaIndex = wakaIndex;
                     break;
 
@@ -160,9 +160,9 @@ public class IcePath_script_GenerateMap : MonoBehaviour {
                     wakaEnd[wakaIndex] = _origin + new Vector2(tilePosX, -(tilePosY - 1));
 
                     waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
-                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
-
                     wakaObject[wakaIndex] = waka;
+
+                    wakaScript = waka.GetComponent<IcePath_script_Waka>();
                     wakaScript._wakaIndex = wakaIndex;
                     break;
 

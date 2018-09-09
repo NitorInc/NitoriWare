@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class IcePath_script_Cirno : MonoBehaviour {
 
-    bool isHit = false;
+    private bool isHit = false;
+    private bool isWon = false;
+    
+    [Header("Hit audio")]
+    public AudioClip hitSound;
 
-    AudioSource audio;
+    Animator anim;
 
     // Cirno's position
-    [HideInInspector]   public int  cirnoGridX, cirnoGridY; // Current  position in grid array
-                        Vector2     cirnoEndPos;            // Next     position in scene 
+    [HideInInspector]   public int      cirnoGridX, cirnoGridY; // Current  position in grid array
+                        private Vector2 cirnoEndPos;            // Next     position in scene 
 
     // Get the grid map
-    string[,] _tile = IcePath_script_GenerateMap.tile;
+    private string[,] _tile = IcePath_script_GenerateMap.tile;
 
-    [Header("Map Data")]
+    [Header("Map data file")]
     public IcePath_script_MapData mapData;
 
     private int     _mapWidth, _mapHeight;
@@ -33,11 +37,23 @@ public class IcePath_script_Cirno : MonoBehaviour {
         transform.position = _origin + new Vector2(cirnoGridX, -cirnoGridY);
         cirnoEndPos = transform.position;
 
-        // Audio
-        audio = GetComponent<AudioSource>();
+        // Animation
+        anim = GetComponentInChildren<Animator>();
 	}
 	
 	void Update () {
+        // Is this the ice cream?
+        if (_tile[cirnoGridX, cirnoGridY] == "B" &&
+            transform.position == (Vector3)cirnoEndPos) {
+            if (!isWon) {
+                Win();
+                isWon = true;
+
+                MicrogameController.instance.setVictory(victory: true, final: true);
+
+            }
+        }
+
         // Is this a Waka passing?
         int wakaIndex;
 
@@ -48,21 +64,37 @@ public class IcePath_script_Cirno : MonoBehaviour {
 
             if (!wakaScript.isPassable) {
                 if (!isHit) {
+                    // Get hit
                     Die();
-                    audio.Play();
-
                     isHit = true;
+
+                    MicrogameController.instance.playSFX(hitSound, volume: 0.75f,
+                        panStereo: AudioHelper.getAudioPan(transform.position.x));
+
+                    MicrogameController.instance.setVictory(victory: false, final: true);
+
                 }
             }
 
         }
 
+        // Has Cirno been hit?
         if (isHit) {
-            // Fly away now
+            // Lose condition - fly away now
             transform.position = transform.position + (new Vector3(-8, 8, 0) * Time.deltaTime);
-            transform.Rotate(new Vector3(0, 0, 90 * Time.deltaTime));
+            transform.Rotate(new Vector3(0, 0, 270 * Time.deltaTime));
 
-        } else {
+        } else
+
+        // Has Cirno won?
+        if (isWon) {
+
+            /* oh. she has? alright */
+
+        } else
+        
+        // Move on as usual
+        {
 
             // Is Cirno locked into her current grid yet?
             if (((Vector2)transform.position - cirnoEndPos).magnitude > 0.33f) {
@@ -80,7 +112,6 @@ public class IcePath_script_Cirno : MonoBehaviour {
                 // Player is moving
                 if (moveX != 0 ||
                     moveY != 0) {
-
                     // Valid movement?
                     if (canWalkInto(cirnoGridX + moveX, cirnoGridY - moveY)) {
                         cirnoGridX += moveX;
@@ -100,6 +131,18 @@ public class IcePath_script_Cirno : MonoBehaviour {
         // Explosion I guess
         ParticleSystem particle = GetComponentInChildren<ParticleSystem>();
         particle.Play();
+
+    }
+
+    void Win() {
+        // Animation I guess
+        anim.SetBool("TriggerVictory", true);
+
+        // Zoom in on me!
+        GameObject camera = GameObject.Find("CameraMover");
+        IcePath_script_Camera cameraScript = camera.GetComponent<IcePath_script_Camera>();
+
+        cameraScript.zoomState = 2;
 
     }
 

@@ -8,18 +8,15 @@ public class IcePath_script_Waka : MonoBehaviour {
     [HideInInspector] public int _wakaIndex;
     
     [Header("Leap time")]
-    [SerializeField]
-    private float   leapTime;
-    float           leapAlarm;
-    
-    [Header("Air time")]
-    [SerializeField]
-    private float   airTime;
-    float           airAlarm;
+    [SerializeField] private float leapTime;
+    private float leapAlarm;
 
     // Tile info
-    Vector2[]   tilePos = new Vector2[2];
-    int         tileCurrent;
+    private Vector2[]   tilePos = new Vector2[2];
+    public int         tileCurrent = 0;
+
+    private int start = 0;
+    private int finish = 1;
 
     [HideInInspector] public bool isPassable = true;
     
@@ -28,50 +25,35 @@ public class IcePath_script_Waka : MonoBehaviour {
         tilePos[0] = IcePath_script_GenerateMap.wakaStart[_wakaIndex];
         tilePos[1] = IcePath_script_GenerateMap.wakaEnd[_wakaIndex];
 
-        tileCurrent = 0;
+        transform.position = tilePos[0];
 
-        airAlarm = airTime;
     }
 	
 	void Update () {
 
-        // Leap timing
+        Vector2 startTile    = tilePos[start];
+        Vector2 finishTile   = tilePos[finish];
 
+        // Leap
+        transform.position = Vector2.Lerp(transform.position, finishTile, 0.2f);
+
+        // Set if passable
+        bool isMoreThanMin = ((Vector2)transform.position - finishTile).magnitude > 0.33f;
+        bool isLessThanMax = ((Vector2)transform.position - finishTile).magnitude < 0.66f;
+
+        isPassable = !(isMoreThanMin && isLessThanMax);
+
+        // Leap timing
         if (leapAlarm > 0) {
             leapAlarm -= Time.deltaTime;
         } else {
 
-            // Prepare the variables
-            int start   = tileCurrent;
-            int finish  = tileCurrent == 0 ? 1 : 0;
+            tileCurrent = tileCurrent == 0 ? 1 : 0;
 
-            Vector2 startTile   = tilePos[start];
-            Vector2 finishTile  = tilePos[finish];
+            start   = tileCurrent;
+            finish  = tileCurrent == 0 ? 1 : 0;
 
-            Vector2 direction   = (finishTile - startTile).normalized;
-            float dist          = (finishTile - startTile).magnitude;
-            float speed         = dist / airTime;
-
-
-            // Leap into the air
-
-            if ((((Vector2)transform.position) - finishTile).magnitude > 0.33f) {
-                transform.position = (Vector2)transform.position + (direction * speed * Time.deltaTime);
-
-                isPassable = isWithin(airAlarm, 0.2f * airTime, 0.4f * airTime);
-                airAlarm -= Time.deltaTime;
-
-            } else {
-                transform.position = finishTile;
-                tileCurrent = finish;
-
-                isPassable = true;
-                airAlarm = airTime;
-
-                leapAlarm = leapTime;
-
-            }
-
+            leapAlarm = leapTime;
 
         }
 
