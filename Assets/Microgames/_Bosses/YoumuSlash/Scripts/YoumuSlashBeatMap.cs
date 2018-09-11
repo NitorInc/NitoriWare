@@ -77,7 +77,8 @@ public class YoumuSlashBeatMap : ScriptableObject
         public enum Effect
         {
             None,
-            Scream
+            Scream,
+            Burst
         }
 
         public bool isInHitRange(float beat, float minHitTime, float maxHitTime)

@@ -38,6 +38,7 @@ public class YoumuSlashTimingController : MonoBehaviour
     {
         lastInvokedBeat = -1 - warmupBeats;
         onBeat += checkForSongEnd;
+        onBeat += onBeatLocal;
 
         Invoke("beginWarmup", startDelay);
     }
@@ -61,10 +62,18 @@ public class YoumuSlashTimingController : MonoBehaviour
         lastInvokedBeat++;
         if (!(onBeat == null))
             onBeat(lastInvokedBeat);
+    }
 
-        float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
+    void onBeatLocal(int beat)
+    {
+        CancelInvoke("callOnBeat"); //This in case onBeat is force called from another script
+        lastInvokedBeat = beat; //So is this
+
         if (lastInvokedBeat >= 0)
+        {
+            float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
             Invoke("callOnBeat", nextBeatTime - musicSource.time);
+        }
         else
             Invoke("callOnBeat", timingData.BeatDuration);
 

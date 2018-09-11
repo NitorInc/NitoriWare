@@ -14,9 +14,13 @@ public class YoumuSlashTimingData : ScriptableObject
     private float bpm = 130f;
     public float Bpm => bpm;
 
-    public YoumuSlashBeatMap BeatMap { get; private set; }
+    [SerializeField]
+    private YoumuSlashBeatMap beatMap;
+    public YoumuSlashBeatMap BeatMap => beatMap;
 
     private AudioSource musicSource;
+    private int lastProcessedBeat;
+    public int LastProcessedBeat => lastProcessedBeat;
 
     public float CurrentBeat
     {
@@ -33,8 +37,15 @@ public class YoumuSlashTimingData : ScriptableObject
     public void initiate(AudioSource musicSource, YoumuSlashBeatMap beatMap)
     {
         this.musicSource = musicSource;
-        this.BeatMap = beatMap;
+        this.beatMap = beatMap;
         beatMap.initiate();
+        lastProcessedBeat = -999;
+        YoumuSlashTimingController.onBeat += updateBeatCount;
+    }
+
+    public void updateBeatCount(int beat)
+    {
+        lastProcessedBeat = beat;
     }
 
 }

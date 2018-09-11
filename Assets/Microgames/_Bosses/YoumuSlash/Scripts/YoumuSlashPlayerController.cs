@@ -90,12 +90,27 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
+        if (autoSlash)
+            Invoke("performAutoSlash", (target.HitBeat - timingData.CurrentBeat) * timingData.BeatDuration);
+        
         if ((!firstTargetStareMode || timingData.BeatMap.getFirstActiveTarget(timingData.CurrentBeat, hitTimeFudge.y) == target)
             && !attacking
             && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
-        if (autoSlash)
-            Invoke("performAutoSlash", (target.HitBeat - timingData.CurrentBeat) * timingData.BeatDuration);
+        if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
+        {
+            rigAnimator.ResetTrigger("UnSquint");
+            rigAnimator.SetTrigger("Squint");
+            rigAnimator.SetBool("ForceTense", true);
+            Invoke("unSquint", timingData.BeatDuration * 4f);
+        }
+    }
+
+    void unSquint()
+    {
+        rigAnimator.ResetTrigger("Squint");
+        rigAnimator.SetTrigger("UnSquint");
+        rigAnimator.SetBool("ForceTense", false);
     }
 
     void performAutoSlash()

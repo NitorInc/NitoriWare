@@ -19,6 +19,9 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
         animator.Play("TutorialBeat" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
+
+        if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
+            animator.Play("Burst Bars");
     }
 	
 	void onAttack(YoumuSlashBeatMap.TargetBeat target)
