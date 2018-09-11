@@ -42,12 +42,12 @@ public class FoodCutController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
         // Knife will stop moving while animations are playing
         if (knifeChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutKnife")
-            || xChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutX")) 
+            || xChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutX"))
         {
-        } else
+        }
+        else
         {
             isCutting = false;
         }
@@ -76,14 +76,15 @@ public class FoodCutController : MonoBehaviour {
 
             for (int i = 0; i < masks.Length; i++)
             {
-               masks[i].transform.position = new Vector2((xChild.transform.position.x + distance[i]), transform.position.y);
+                masks[i].transform.position = new Vector2((xChild.transform.position.x + distance[i]), transform.position.y);
             }
 
             cutCount++;
             Debug.Log("Object Cut");
             Destroy(currentTrigger.gameObject);
             currentTrigger = null;
-        } else if (Input.GetKeyDown(KeyCode.Space) && isCutting == false)
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && isCutting == false)
         {
             isCutting = true;
             xChild.GetComponent<Animator>().Play("FoodCutX");
