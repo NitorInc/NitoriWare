@@ -20,13 +20,17 @@ public class FoodCutController : MonoBehaviour {
     [SerializeField]
     private int cutsNeeded = 1;
 
+    [Header("Put distance of each mask from center here:")]
+    [SerializeField]
+    private float[] distance;
 
     private Collider2D knifeCollider;
     private int cutCount = 0;
     private Collider2D currentTrigger = null;
-    private bool isCutting = false;
+    public bool isCutting = false;
     public GameObject knifeChild;
     public GameObject xChild;
+    public GameObject[] masks;
 
 
     // Use this for initialization
@@ -38,20 +42,20 @@ public class FoodCutController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // Handle Movement
-        if (!isCutting)
-        {
-            transform.Translate(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed, 0f, 0f);
-        }
 
         // Knife will stop moving while animations are playing
         if (knifeChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutKnife")
             || xChild.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FoodCutX")) 
         {
-            isCutting = true;
         } else
         {
             isCutting = false;
+        }
+
+        // Handle Movement
+        if (!isCutting)
+        {
+            transform.Translate(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed, 0f, 0f);
         }
 
         // Restrict Movement
@@ -67,13 +71,21 @@ public class FoodCutController : MonoBehaviour {
         // Checks to see if there is a dotted line to cut
         if (Input.GetKeyDown(KeyCode.Space) && currentTrigger != null)
         {
+            isCutting = true;
             knifeChild.GetComponent<Animator>().Play("FoodCutKnife");
+
+            for (int i = 0; i < masks.Length; i++)
+            {
+               masks[i].transform.position = new Vector2((xChild.transform.position.x + distance[i]), transform.position.y);
+            }
+
             cutCount++;
             Debug.Log("Object Cut");
             Destroy(currentTrigger.gameObject);
             currentTrigger = null;
         } else if (Input.GetKeyDown(KeyCode.Space) && isCutting == false)
         {
+            isCutting = true;
             xChild.GetComponent<Animator>().Play("FoodCutX");
         }
 
