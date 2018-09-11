@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class YoumuSlashPlayerController : MonoBehaviour
 {
+    //On attack delegate, beat is null if attack is a miss
+    public delegate void AttackDelegate(YoumuSlashBeatMap.TargetBeat beat);
+    public static AttackDelegate onAttack;
+
     [SerializeField]
     private YoumuSlashTimingData timingData;
     [SerializeField]
@@ -71,6 +75,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
     int upsetResetHits;
     float lastIdleTime;
     float lastAttackTime;
+
+    private void Awake()
+    {
+        onAttack = null;
+    }
 
     private void Start()
     {
@@ -327,10 +336,14 @@ public class YoumuSlashPlayerController : MonoBehaviour
             return;
         else if (isHit)   //For force direction (auto-slash)
             direction = hitTarget.HitDirection;
+
+        //From here below slash is confirmed
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
         noteMissReactionQueued = false;
         lastAttackTime = Time.time;
+        if (!(onAttack == null))
+            onAttack(hitTarget);
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);

@@ -11,8 +11,9 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
     
 	void Start ()
     {
-        YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
         animator = GetComponent<Animator>();
+        YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
+        YoumuSlashPlayerController.onAttack += onAttack;
 	}
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
@@ -20,8 +21,9 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
         animator.Play("TutorialBeat" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
     }
 	
-	void Update ()
+	void onAttack(YoumuSlashBeatMap.TargetBeat target)
     {
-		
-	}
+        if (target != null)
+            animator.Play("ArrowGlow" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
+    }
 }
