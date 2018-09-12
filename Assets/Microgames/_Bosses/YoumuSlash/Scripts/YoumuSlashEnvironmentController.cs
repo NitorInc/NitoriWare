@@ -18,15 +18,23 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
-        animator.Play("TutorialBeat" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
+        setTrigger("Launch" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
 
         if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
-            animator.Play("Burst Bars");
+            setTrigger("Burst");
     }
 	
 	void onAttack(YoumuSlashBeatMap.TargetBeat target)
     {
         if (target != null)
-            animator.Play("ArrowGlow" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
+        {
+            setTrigger("Hit" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
+        }
+    }
+
+    void setTrigger(string name)
+    {
+        animator.ResetTrigger(name);
+        animator.SetTrigger(name);
     }
 }
