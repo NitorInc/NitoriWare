@@ -18,8 +18,6 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
-        setTrigger("Launch" + (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? "Right" : "Left"));
-
         if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
             setTrigger("Burst");
     }
