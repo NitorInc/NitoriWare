@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Microgame Assets/YoumuSlash/Beat Map")]
 public class YoumuSlashBeatMap : ScriptableObject
@@ -134,6 +135,11 @@ public class YoumuSlashBeatMap : ScriptableObject
                 return null;
         }
         return null;
+    }
+
+    public TargetBeat getNextLaunchingTarget(float beat)
+    {
+        return TargetBeats.FirstOrDefault(a => a.LaunchBeat >= beat);
     }
 
 }
