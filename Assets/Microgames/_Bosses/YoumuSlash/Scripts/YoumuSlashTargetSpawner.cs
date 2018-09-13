@@ -46,6 +46,12 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     void spawnTarget(YoumuSlashBeatMap.TargetBeat target)
     {
+        if (target.LaunchBeat % 1f == 0f
+            && timingData.LastProcessedBeat < (int)target.LaunchBeat)   //If whole number, force TimingController to call OnBeat, to make sure beat is called before launch
+        {
+            YoumuSlashTimingController.onBeat(timingData.LastProcessedBeat + 1);
+        }
+
         var newTargetInstance = Instantiate(target.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
         newTargetInstance.initiate(target);
     }

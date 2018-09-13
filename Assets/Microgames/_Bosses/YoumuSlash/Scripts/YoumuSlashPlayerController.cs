@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class YoumuSlashPlayerController : MonoBehaviour
 {
+    //On attack delegate, beat is null if attack is a miss
+    public delegate void AttackDelegate(YoumuSlashBeatMap.TargetBeat beat);
+    public static AttackDelegate onAttack;
+
     [SerializeField]
     private YoumuSlashTimingData timingData;
     [SerializeField]
@@ -72,6 +76,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
     float lastIdleTime;
     float lastAttackTime;
 
+    private void Awake()
+    {
+        onAttack = null;
+    }
+
     private void Start()
     {
         YoumuSlashTimingController.onBeat += onBeat;
@@ -81,12 +90,27 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
+        if (autoSlash)
+            Invoke("performAutoSlash", (target.HitBeat - timingData.CurrentBeat) * timingData.BeatDuration);
+        
         if ((!firstTargetStareMode || timingData.BeatMap.getFirstActiveTarget(timingData.CurrentBeat, hitTimeFudge.y) == target)
             && !attacking
             && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
-        if (autoSlash)
-            Invoke("performAutoSlash", (target.HitBeat - timingData.CurrentBeat) * timingData.BeatDuration);
+        if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
+        {
+            rigAnimator.ResetTrigger("UnSquint");
+            rigAnimator.SetTrigger("Squint");
+            rigAnimator.SetBool("ForceTense", true);
+            Invoke("unSquint", timingData.BeatDuration * 4f);
+        }
+    }
+
+    void unSquint()
+    {
+        rigAnimator.ResetTrigger("Squint");
+        rigAnimator.SetTrigger("UnSquint");
+        rigAnimator.SetBool("ForceTense", false);
     }
 
     void performAutoSlash()
@@ -327,10 +351,14 @@ public class YoumuSlashPlayerController : MonoBehaviour
             return;
         else if (isHit)   //For force direction (auto-slash)
             direction = hitTarget.HitDirection;
+
+        //From here below slash is confirmed
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
         noteMissReactionQueued = false;
         lastAttackTime = Time.time;
+        if (!(onAttack == null))
+            onAttack(hitTarget);
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);

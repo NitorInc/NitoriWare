@@ -22,8 +22,6 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     private AudioSource musicSource;
 
-    private int lastInvokedBeat;
-
     private void Awake()
     {
         onBeat = null;
@@ -31,13 +29,13 @@ public class YoumuSlashTimingController : MonoBehaviour
 
         musicSource = GetComponent<AudioSource>();
         musicSource.clip = timingData.MusicClip;
-        timingData.initiate(musicSource, beatMap);
+        timingData.initiate(musicSource, beatMap, warmupBeats);
     }
 
     void Start()
     {
-        lastInvokedBeat = -1 - warmupBeats;
         onBeat += checkForSongEnd;
+        onBeat += onBeatLocal;
 
         Invoke("beginWarmup", startDelay);
     }
@@ -58,17 +56,23 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     void callOnBeat()
     {
-        lastInvokedBeat++;
         if (!(onBeat == null))
-            onBeat(lastInvokedBeat);
+            onBeat(timingData.LastProcessedBeat + 1);
+    }
 
-        float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
-        if (lastInvokedBeat >= 0)
+    void onBeatLocal(int beat)
+    {
+        CancelInvoke("callOnBeat"); //This in case onBeat is force called from another script
+
+        if (beat >= 0)  //Reinvoke onBeat
+        {
+            float nextBeatTime = (beat + 1f) * timingData.BeatDuration;
             Invoke("callOnBeat", nextBeatTime - musicSource.time);
+        }
         else
             Invoke("callOnBeat", timingData.BeatDuration);
 
-        if (lastInvokedBeat < 0)
+        if (beat < 0)
             musicSource.PlayOneShot(warmupBeatClip);
     }
 
@@ -92,7 +96,7 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     void checkForSongEnd(int beat)
     {
-        if (lastInvokedBeat > 1 && !musicSource.isPlaying)
+        if (timingData.LastProcessedBeat > 1 && !musicSource.isPlaying)
             CancelInvoke();
     }
 
