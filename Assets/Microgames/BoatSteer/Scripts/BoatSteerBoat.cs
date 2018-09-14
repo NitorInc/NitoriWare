@@ -12,9 +12,6 @@ public class BoatSteerBoat : MonoBehaviour
 	private float headingPerSec = 90;
 
 	[SerializeField]
-	private float counterSteerFactor;
-
-	[SerializeField]
 	private float maxHeading;
 
 	private float heading;
@@ -68,11 +65,6 @@ public class BoatSteerBoat : MonoBehaviour
 			}
 		} else {
 			headingDelta = right ? headingDelta : -headingDelta;
-
-			if ((right && heading < 0) || (left && heading > 0)) {
-				// Countersteering
-				headingDelta *= counterSteerFactor * Mathf.Abs(heading) / maxHeading;
-			}
 
 			heading = Mathf.Clamp (heading + headingDelta, -maxHeading, maxHeading);
 		} 

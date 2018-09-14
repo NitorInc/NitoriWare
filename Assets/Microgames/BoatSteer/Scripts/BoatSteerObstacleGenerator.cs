@@ -24,19 +24,20 @@ public class BoatSteerObstacleGenerator {
 	private int cellCountX;
 	private int cellCountY;
 
-	public BoatSteerObstacleGenerator(float width, float height, float obstacleDistance) {
+	public BoatSteerObstacleGenerator(float width, float height, float obstacleDistance, int k) {
 		this.width = width;
 		this.height = height;
 		this.obstacleDistance = obstacleDistance;
 		obstacleDistance2 = obstacleDistance * obstacleDistance;
+		this.k = k;
+
+
 		cellSize = obstacleDistance/Mathf.Sqrt(2); // Actual size of grid cells in units
 		cellCountX = (int)Mathf.Ceil(width/cellSize);
 		cellCountY = (int)Mathf.Ceil(height/cellSize);
 
 		points = new List<Vector2>();
 		cells = new int[cellCountX * cellCountY];
-
-		GenerateObstacleField();
 	}
 
 	private bool CellCheck(Vector2 point, int x, int y) {
@@ -104,13 +105,14 @@ public class BoatSteerObstacleGenerator {
 		return true;
 	}
 
-	void GenerateObstacleField() {
+	public void GenerateObstacleField() {
 		// Reset 
 		points.Clear();
 		for (int i=0;i<cells.Length;i++) {
 			cells[i] = -1;
 		}
 
+		// Begin algorithm in earnest
 		List<Vector2> activeSet = new List<Vector2>();
 
 		//Insert initial point
