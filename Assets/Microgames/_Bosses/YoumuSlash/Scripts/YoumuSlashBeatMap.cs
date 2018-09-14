@@ -79,7 +79,9 @@ public class YoumuSlashBeatMap : ScriptableObject
         {
             None,
             Scream,
-            Burst
+            SlowBurst,
+            FastBurst,
+            RapidBurst
         }
 
         public bool isInHitRange(float beat, float minHitTime, float maxHitTime)

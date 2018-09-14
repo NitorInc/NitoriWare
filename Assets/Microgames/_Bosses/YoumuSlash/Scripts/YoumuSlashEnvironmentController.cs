@@ -18,8 +18,27 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
-        if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
+        if (target.HitEffect.ToString().EndsWith("Burst"))
+        {
+            animator.SetInteger("BurstLevel", getBurstValue(target.HitEffect));
             setTrigger("Burst");
+        }
+    }
+
+    int getBurstValue(YoumuSlashBeatMap.TargetBeat.Effect effect)
+    {
+        switch (effect)
+        {
+            case (YoumuSlashBeatMap.TargetBeat.Effect.SlowBurst):
+                return 1;
+            case (YoumuSlashBeatMap.TargetBeat.Effect.FastBurst):
+                return 2;
+            case (YoumuSlashBeatMap.TargetBeat.Effect.RapidBurst):
+                return 3;
+            default:
+                return 0;
+        }
+
     }
 	
 	void onAttack(YoumuSlashBeatMap.TargetBeat target)

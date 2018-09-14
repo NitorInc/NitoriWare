@@ -97,7 +97,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             && !attacking
             && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
-        if (target.HitEffect == YoumuSlashBeatMap.TargetBeat.Effect.Burst)
+        if (target.HitEffect.ToString().EndsWith("Burst"))
         {
             rigAnimator.ResetTrigger("UnSquint");
             rigAnimator.SetTrigger("Squint");
