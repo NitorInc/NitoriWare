@@ -9,19 +9,38 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     [SerializeField]
     private float moveSpeed = 1f;
     
+    // Minimum height allowed
     [Header("Minimum Height")]
     [SerializeField]
     private float minHeight = 1f;
     
+    // Maximum height allowed
     [Header("Maximum Height")]
     [SerializeField]
     private float maxHeight = 1f;
     
+    // The lenght between the leftmost and rightmost point the sprite can reach horizontally
+    [Header("X Movement Distance")]
+    [SerializeField]
+    private float xMovement = 1f; 
+    
+    // The total distance between the top and bottom boundaries of the vertical movement
+    private float moveDistance = 0f;
+    
+    // The starting x value of the object transform
+    private float startX = 0f;
+    
+    // Tells if the Space key has been pressed before
+    private bool hasKicked = false;
+        
     public MoonSoccerBall ballScript;
     
-    private bool hasKicked = false;
+    // Initialization 
+    void Start () {
+        moveDistance = (minHeight * -1) + maxHeight;
+        startX = transform.position.x;
+    }
     
-
 	// Update is called once per frame
 	void Update () 
     {
@@ -29,17 +48,22 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         updateKick();
 	}
     
-    // Check player inputs and update object position
+    // Check player inputs and update object position. X value is updated based on the y position
     void updateMovement ()
     {
+        float x = transform.position.x;
+        float y = transform.position.y;
         if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime);
+            y = transform.position.y - moveSpeed * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= maxHeight)
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime);
+            y = transform.position.y + moveSpeed * Time.deltaTime;
         }
+        moveDistance = (minHeight * -1) + maxHeight;
+        x = ((y - minHeight) / moveDistance) * xMovement;
+        transform.position = new Vector2(startX + x, y);
     }
     
     // Activate the ball object when Spacebar is pressed
