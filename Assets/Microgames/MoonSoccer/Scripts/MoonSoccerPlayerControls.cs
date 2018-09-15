@@ -9,6 +9,14 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     [SerializeField]
     private float moveSpeed = 1f;
     
+    [Header("Minimum Height")]
+    [SerializeField]
+    private float minHeight = 1f;
+    
+    [Header("Maximum Height")]
+    [SerializeField]
+    private float maxHeight = 1f;
+    
     public MoonSoccerBall ballScript;
     
     private bool hasKicked = false;
@@ -24,11 +32,11 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // Check player inputs and update object position
     void updateMovement ()
     {
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime);
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= maxHeight)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime);
         }

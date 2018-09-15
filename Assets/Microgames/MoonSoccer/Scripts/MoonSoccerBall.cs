@@ -14,7 +14,7 @@ public class MoonSoccerBall : MonoBehaviour {
 		if (gameObject.activeSelf)
         {
             // Move to the right at the set movement speed
-            transform.position = new Vector2(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y);
+            transform.position = new Vector2(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y);
         }
     
 	}
