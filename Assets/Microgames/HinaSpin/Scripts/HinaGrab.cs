@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using System;
 
 public class HinaGrab: MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class HinaGrab: MonoBehaviour
 			_grabbed = value;
 			if (_grabbed)
 			{
-				grabOffset = (Vector2)transform.position - (Vector2)HinaCam.GetCursorPosition();
-				onGrab.Invoke();
+				grabOffset = (Vector2)transform.position - HinaCam.GCP();
+                onGrab.Invoke();
 			}
 			else
 				onRelease.Invoke();
@@ -58,10 +59,9 @@ public class HinaGrab: MonoBehaviour
 
 	void updateGrab()
 	{
-		Vector3 position = HinaCam.GetCursorPosition();
+		Vector2 position = HinaCam.GCP();
 		if (!centerOnCursor)
-			position += (Vector3)grabOffset;
-		position.z = transform.position.z;
+			position += (Vector2)grabOffset;
 		transform.position = position;
 	}
 

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using static HinaGrab;
 public class HinaSpinMain : MonoBehaviour
 {
-	public static float lastPositionX;
-    public static double Score;
-    public static double ScoreRounded;
-    public static float lastPositionY;
-	public static float deltaX;
-	public static float deltaY;
+	public float lastPositionX;
+    public double Score;
+    public double ScoreRounded;
+    public float lastPositionY;
+	public float deltaX;
+	public float deltaY;
 	 void Start()
     {		
     }
