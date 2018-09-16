@@ -24,6 +24,8 @@ public class ReimuDodgeBullet : MonoBehaviour {
     {
         // Invoke the setTrajectory method after the delay
         Invoke("SetTrajectory", delay);
+        print("Look Bullet script- L 40");
+        
     }
 
     // Update is called once per frame
@@ -35,6 +37,7 @@ public class ReimuDodgeBullet : MonoBehaviour {
             // Move the bullet a certain distance based on trajectory speed and time
             Vector2 newPosition = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
             transform.position = newPosition;
+           /// SetTrajectory(); // this is more fun
         }
     }
 
