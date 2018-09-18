@@ -14,11 +14,10 @@ public class IcePath_GenerateMap : MonoBehaviour {
     [SerializeField] private GameObject prefabIsleTile;
     [SerializeField] private GameObject prefabIceTile;
 
-    [SerializeField] private GameObject prefabLily1;
-    [SerializeField] private GameObject prefabLily2;
+    [SerializeField] private GameObject prefabLily;
 
     // Map related
-    private TextAsset[] textMap = new TextAsset[5];
+    private TextAsset[] textMap = new TextAsset[10];
 
     public static string[,] tile = new string[10, 10];
 
@@ -49,12 +48,17 @@ public class IcePath_GenerateMap : MonoBehaviour {
         textMap[2] = mapData.c;
         textMap[3] = mapData.d;
         textMap[4] = mapData.e;
+        textMap[5] = mapData.f;
+        textMap[6] = mapData.g;
+        textMap[7] = mapData.h;
+        textMap[8] = mapData.i;
+        textMap[9] = mapData.j;
 
         // Initiate all tiles
         tile[_mapWidth, _mapHeight] = ".";
 
         // Read the map file
-        int mapIndex = rand(0, 2);
+        int mapIndex = rand(0, 5);
         string map = textMap[mapIndex].text;
 
         // Waka tiles indexer
@@ -124,6 +128,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
                         wakaObject[wakaIndex] = waka;
 
+                        waka.transform.Find("Rig").transform.localScale = new Vector3(-1, 1, 1);
+
                         wakaScript = waka.GetComponent<IcePath_Waka>();
                         wakaScript._wakaIndex = wakaIndex;
                         break;
@@ -152,16 +158,14 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
                         wakaObject[wakaIndex] = waka;
 
+                        waka.transform.Find("Rig").transform.localScale = new Vector3(-1, 1, 1);
+
                         wakaScript = waka.GetComponent<IcePath_Waka>();
                         wakaScript._wakaIndex = wakaIndex;
                         break;
-
-                    // Lillies
-                    case "q": // Lily 1
-                        Instantiate(prefabLily1, spawnPos, quad);
-                        break;
-                    case "w": // Lily 2
-                        Instantiate(prefabLily2, spawnPos, quad);
+                        
+                    case "q": // Lily
+                        Instantiate(prefabLily, spawnPos, quad);
                         break;
 
                     case ".": // Nothing

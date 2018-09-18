@@ -23,6 +23,11 @@ public class IcePath_MapData : ScriptableObject {
     public TextAsset c;
     public TextAsset d;
     public TextAsset e;
+    public TextAsset f;
+    public TextAsset g;
+    public TextAsset h;
+    public TextAsset i;
+    public TextAsset j;
 
     void Awake() {
         // Set the origin

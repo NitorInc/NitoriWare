@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IcePath_Waka : MonoBehaviour {
 
-    SpriteRenderer render;
+    Animator animator;
 
     [Header("Sprites")]
     [SerializeField] Sprite spriteIdle;
@@ -35,8 +35,8 @@ public class IcePath_Waka : MonoBehaviour {
 
         transform.position = tilePos[0];
 
-        // Sprite Renderer
-        render = transform.Find("Rig").Find("Leap").Find("Animation").GetComponent<SpriteRenderer>();
+        // Animator
+        animator = transform.Find("Rig").Find("Animation").GetComponent<Animator>();
 
     }
 	
@@ -55,6 +55,10 @@ public class IcePath_Waka : MonoBehaviour {
         isPassable = isFarFromCenter;
 
         // Leap timing
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("IcePath_WakaAnim")) {
+            animator.SetBool("hasLeaped", false);
+        }
+        
         if (leapAlarm > 0) {
 
             leapAlarm -= Time.deltaTime;
@@ -65,6 +69,11 @@ public class IcePath_Waka : MonoBehaviour {
 
             start   = tileCurrent;
             finish  = tileCurrent == 0 ? 1 : 0;
+
+            animator.SetBool("hasLeaped", true);
+
+            Transform rig = transform.Find("Rig").transform;
+            rig.localScale = new Vector3(rig.localScale.x * -1, 1, 1);
 
             leapAlarm = leapTime;
 
