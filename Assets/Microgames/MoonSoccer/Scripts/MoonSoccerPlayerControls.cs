@@ -5,9 +5,9 @@ using UnityEngine;
 public class MoonSoccerPlayerControls : MonoBehaviour {
     
     // Player object speed
-    [Header("Movement Speed")]
+    [Header("Final Movement Speed")]
     [SerializeField]
-    private float moveSpeed = 1f;
+    private float finalMoveSpeed = 1f;
     
     // Minimum height allowed
     [Header("Minimum Height")]
@@ -29,6 +29,8 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     
     // The starting x value of the object transform
     private float startX = 0f;
+    
+    private float acceleration = 0f;
     
     // Tells if the Space key has been pressed before
     private bool hasKicked = false;
@@ -53,14 +55,24 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     {
         float x = transform.position.x;
         float y = transform.position.y;
+        float accelerationSpeed = 0.3f;
         if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
         {
-            y = transform.position.y - moveSpeed * Time.deltaTime;
+            if (acceleration >= 0)
+                acceleration = 0;
+            if (acceleration >= finalMoveSpeed * -1)
+                acceleration -= accelerationSpeed;
         }
         else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= maxHeight)
         {
-            y = transform.position.y + moveSpeed * Time.deltaTime;
+            if (acceleration <= 0)
+                acceleration = 0;
+            if (acceleration <= finalMoveSpeed)
+                acceleration += accelerationSpeed;
         }
+        else
+            acceleration = 0;
+        y = transform.position.y + acceleration * Time.deltaTime;
         moveDistance = (minHeight * -1) + maxHeight;
         x = ((y - minHeight) / moveDistance) * xMovement;
         transform.position = new Vector2(startX + x, y);
@@ -69,11 +81,11 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // Activate the ball object when Spacebar is pressed
     void updateKick ()
     {
-     if (Input.GetKey(KeyCode.Space) && hasKicked == false)
-     {
-         // TODO: Add kick animation
-         ballScript.activate(transform.position);
-         hasKicked = true;
-     }
+        if (Input.GetKey(KeyCode.Space) && hasKicked == false)
+        {
+            // TODO: Add kick animation
+            ballScript.activate(transform.position);
+            hasKicked = true;
+        }
     }
 }
