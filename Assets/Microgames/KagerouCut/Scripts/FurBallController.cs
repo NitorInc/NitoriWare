@@ -5,10 +5,10 @@ using UnityEngine;
 public class FurBallController : MonoBehaviour {
     [SerializeField]
     GameObject sprite;
+    public float speed = 0.01f;
     
     private bool shouldShrink = false;
     private Transform t;
-    private float speed = 0.01f;
     private bool exists = true;
     void Start(){
         t = sprite.transform;
@@ -22,6 +22,10 @@ public class FurBallController : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D (Collider2D collider) { shouldShrink = true; }
-    void OnTriggerExit2D (Collider2D collider) { shouldShrink = false; }
+    void OnTriggerEnter2D (Collider2D collider) { 
+        if (collider.gameObject.tag == "Player") shouldShrink = true; 
+    }
+    void OnTriggerExit2D (Collider2D collider) { 
+        if (collider.gameObject.tag == "Player") shouldShrink = false; 
+    }
 }
