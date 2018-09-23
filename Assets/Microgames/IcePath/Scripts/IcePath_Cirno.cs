@@ -7,14 +7,26 @@ public class IcePath_Cirno : MonoBehaviour {
     private bool isHit = false;
     private bool hasWon = false;
     
-    [Header("Hit audio")]
+    [Header("Audio")]
     public AudioClip hitSound;
+    public AudioClip moveClip;
+    public AudioClip victoryClip;
 
     Animator anim;
 
+    [Header("Tilt settings")]
+    [SerializeField] private float  tiltAngle = 10f;
+    [SerializeField] private float  tiltSpeed = 100f;
+    [SerializeField] private        Transform tiltPivot;
+
+    private float tiltDirection;
+    private float currentAngle;
+    float getTiltAngleGoal() => tiltAngle * tiltDirection;
+
     // Cirno's position
     [HideInInspector]   public int      cirnoGridX, cirnoGridY; // Current  position in grid array
-                        private Vector2 cirnoEndPos;            // Next     position in scene 
+                        private Vector2 cirnoEndPos;            // Next     position in scene
+    private float cirnoSpeed = 0f;
 
     // Get the grid map
     private string[,] _tile;
@@ -39,6 +51,7 @@ public class IcePath_Cirno : MonoBehaviour {
 
         // Animation
         anim = GetComponentInChildren<Animator>();
+        tiltPivot.eulerAngles = Vector3.forward * getTiltAngleGoal();
 	}
 	
 	void Update () {
@@ -48,16 +61,20 @@ public class IcePath_Cirno : MonoBehaviour {
             if (!hasWon) {
                 Win();
                 hasWon = true;
-
+                tiltDirection = 0f;
             }
         }
+
+        //Update angle
+        currentAngle = Mathf.MoveTowards(currentAngle, getTiltAngleGoal(), tiltSpeed * Time.deltaTime);
+        tiltPivot.eulerAngles = Vector3.forward * currentAngle;
 
         // Is this a Waka passing?
         int wakaIndex;
 
         if (int.TryParse(_tile[cirnoGridX, cirnoGridY], out wakaIndex)) {
             // Is Waka passing through?
-            GameObject          waka        = IcePath_GenerateMap.wakaObject[wakaIndex];
+            GameObject   waka        = IcePath_GenerateMap.wakaObject[wakaIndex];
             IcePath_Waka wakaScript  = waka.GetComponent<IcePath_Waka>();
 
             if (!wakaScript.isPassable) {
@@ -80,7 +97,7 @@ public class IcePath_Cirno : MonoBehaviour {
         if (isHit) {
             // Lose condition - fly away now
             transform.position = transform.position + (new Vector3(-8, 8, 0) * Time.deltaTime);
-            transform.Rotate(new Vector3(0, 0, 270 * Time.deltaTime));
+            transform.Find("Spin Pivot").Find("Rig").Rotate(new Vector3(0, 0, 270 * Time.deltaTime));
 
         } else
 
@@ -95,8 +112,8 @@ public class IcePath_Cirno : MonoBehaviour {
         {
 
             // Is Cirno locked into her current grid yet?
-            if (((Vector2)transform.position - cirnoEndPos).magnitude > 0.33f) {
-                transform.position = Vector2.Lerp(transform.position, cirnoEndPos, 0.5f);
+            if (((Vector2)transform.position - cirnoEndPos).magnitude > 0.1f) {
+                MathHelper.moveTowards2D(transform, cirnoEndPos, 12f);
 
             } else
             // Lock her into place and check for the next movement
@@ -115,7 +132,16 @@ public class IcePath_Cirno : MonoBehaviour {
                         cirnoGridX += moveX;
                         cirnoGridY -= moveY;
 
+
                         cirnoEndPos = _origin + new Vector2(cirnoGridX, -cirnoGridY);
+
+                        MicrogameController.instance.playSFX(moveClip,
+                            pitchMult: Random.Range(.96f, 1.04f),
+                            panStereo: AudioHelper.getAudioPan(transform.position.x),
+                            volume: .5f);
+                        tiltDirection = tiltDirection == 0f ? -1f : -tiltDirection;
+                        if (moveX != 0 && (float)moveX != Mathf.Sign(tiltPivot.localScale.x))
+                            tiltPivot.localScale = new Vector3(-tiltPivot.localScale.x, tiltPivot.localScale.y, tiltPivot.localScale.z);
                     }
                 }
 
@@ -138,6 +164,7 @@ public class IcePath_Cirno : MonoBehaviour {
     void Win() {
         // Animation I guess
         MicrogameController.instance.setVictory(victory: true, final: true);
+        MicrogameController.instance.playSFX(victoryClip);
 
         anim.SetBool("hasWon", true);
 
@@ -152,9 +179,16 @@ public class IcePath_Cirno : MonoBehaviour {
             return (_tile[posX, posY] == "A" || // Is it the start isle?
                     _tile[posX, posY] == "B" || // Is it the end isle?
                     _tile[posX, posY] == "#" || // Is it an ice tile?
+                    _tile[posX, posY] == "@" || // Is it an isle tile?
                     _tile[posX, posY] == "0" || // Is it a Waka passing?
                     _tile[posX, posY] == "1" ||
-                    _tile[posX, posY] == "2");
+                    _tile[posX, posY] == "2" ||
+                    _tile[posX, posY] == "3" ||
+                    _tile[posX, posY] == "4" ||
+                    _tile[posX, posY] == "5" ||
+                    _tile[posX, posY] == "6" ||
+                    _tile[posX, posY] == "7" ||
+                    _tile[posX, posY] == "8");
 
         } else {
             return false;

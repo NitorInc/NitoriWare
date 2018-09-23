@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class IcePath_GenerateMap : MonoBehaviour {
 
+    [Header("Map override (set to 0 for default random)")]
+    [SerializeField] private int alwaysLoadMapNo;
+    // for default random map, set this to 0
+
     [Header("GameObject prefabs")]
     [SerializeField] private GameObject prefabCirno;
     [SerializeField] private GameObject prefabWaka;
@@ -13,26 +17,27 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
     [SerializeField] private GameObject prefabIsleTile;
     [SerializeField] private GameObject prefabIceTile;
+    [SerializeField] private GameObject prefabRockTile;
 
     [SerializeField] private GameObject prefabLily;
 
     // Map related
-    private TextAsset[] textMap = new TextAsset[10];
-
-    public static string[,] tile = new string[10, 10];
+    private TextAsset[]     textMap = new TextAsset[10];
+    public static string[,] tile    = new string[10, 10];
 
     // Waka related (max 3 Waka per level)
-    public static Vector2[] wakaStart = new Vector2[3];
-    public static Vector2[] wakaEnd = new Vector2[3];
-    public static Vector2[] wakaPass = new Vector2[3];
+    public static Vector2[] wakaStart = new Vector2[9];
+    public static Vector2[] wakaEnd = new Vector2[9];
+    public static Vector2[] wakaPass = new Vector2[9];
 
-    public static GameObject[] wakaObject = new GameObject[3];
+    public static GameObject[] wakaObject = new GameObject[9];
 
     [Header("Map Data")]
     public IcePath_MapData mapData;
 
     private Vector2 _origin;
     private float   _tileSize;
+    private int     _mapAmount;
     private int     _mapWidth, _mapHeight;
 
     void Start() {
@@ -40,25 +45,31 @@ public class IcePath_GenerateMap : MonoBehaviour {
         _origin = mapData.origin;
         _tileSize = mapData.tileSize;
 
-        _mapWidth = mapData.mapWidth;
-        _mapHeight = mapData.mapHeight;
+        _mapAmount  = mapData.mapAmount;
+        _mapWidth   = mapData.mapWidth;
+        _mapHeight  = mapData.mapHeight;
 
-        textMap[0] = mapData.a;
-        textMap[1] = mapData.b;
-        textMap[2] = mapData.c;
-        textMap[3] = mapData.d;
-        textMap[4] = mapData.e;
-        textMap[5] = mapData.f;
-        textMap[6] = mapData.g;
-        textMap[7] = mapData.h;
-        textMap[8] = mapData.i;
-        textMap[9] = mapData.j;
+        textMap[0] = mapData.no1;
+        textMap[1] = mapData.no2;
+        textMap[2] = mapData.no3;
+        textMap[3] = mapData.no4;
+        textMap[4] = mapData.no5;
+        textMap[5] = mapData.no6;
+        textMap[6] = mapData.no7;
+        textMap[7] = mapData.no8;
+        textMap[8] = mapData.no9;
+        textMap[9] = mapData.no10;
 
         // Initiate all tiles
         tile[_mapWidth, _mapHeight] = ".";
 
         // Read the map file
-        int mapIndex = rand(0, 5);
+        int mapIndex = rand(0, _mapAmount - 1);
+
+        if (alwaysLoadMapNo != 0) {
+            mapIndex = alwaysLoadMapNo - 1;
+        }
+
         string map = textMap[mapIndex].text;
 
         // Waka tiles indexer
@@ -103,23 +114,15 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         Instantiate(prefabIceTile, spawnPos, quad);
                         break;
 
+                    case "@": // Isle tile
+                        Instantiate(prefabIsleTile, spawnPos, quad);
+                        break;
+
                     // Wakas
                     case ">": // Waka passing - LEFT to RIGHT
                         Instantiate(prefabIceTile, spawnPos, quad);
-
-                        wakaStart[wakaIndex] = mapPos(xx - 1, -yy);
-                        wakaPass[wakaIndex] = mapPos(xx, -yy);
-                        wakaEnd[wakaIndex] = mapPos(xx + 1, -yy);
-
-                        waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
-                        wakaObject[wakaIndex] = waka;
-
-                        wakaScript = waka.GetComponent<IcePath_Waka>();
-                        wakaScript._wakaIndex = wakaIndex;
-                        break;
-
-                    case "<": // Waka passing - RIGHT to LEFT
-                        Instantiate(prefabIceTile, spawnPos, quad);
+                        Instantiate(prefabRockTile, mapPos(xx - 1, -yy), quad);
+                        Instantiate(prefabRockTile, mapPos(xx + 1, -yy), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx + 1, -yy);
                         wakaPass[wakaIndex] = mapPos(xx, -yy);
@@ -134,8 +137,26 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         wakaScript._wakaIndex = wakaIndex;
                         break;
 
+                    case "<": // Waka passing - RIGHT to LEFT
+                        Instantiate(prefabIceTile, spawnPos, quad);
+                        Instantiate(prefabRockTile, mapPos(xx - 1, -yy), quad);
+                        Instantiate(prefabRockTile, mapPos(xx + 1, -yy), quad);
+
+                        wakaStart[wakaIndex] = mapPos(xx - 1, -yy);
+                        wakaPass[wakaIndex] = mapPos(xx, -yy);
+                        wakaEnd[wakaIndex] = mapPos(xx + 1, -yy);
+
+                        waka = Instantiate(prefabWaka, wakaStart[wakaIndex], quad);
+                        wakaObject[wakaIndex] = waka;
+
+                        wakaScript = waka.GetComponent<IcePath_Waka>();
+                        wakaScript._wakaIndex = wakaIndex;
+                        break;
+
                     case "^": // Waka passing - BOTTOM to TOP
                         Instantiate(prefabIceTile, spawnPos, quad);
+                        Instantiate(prefabRockTile, mapPos(xx, -(yy - 1)), quad);
+                        Instantiate(prefabRockTile, mapPos(xx, -(yy + 1)), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx, -(yy - 1));
                         wakaPass[wakaIndex] = mapPos(xx, -yy);
@@ -150,6 +171,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
                     case "v": // Waka passing - TOP to BOTTOM
                         Instantiate(prefabIceTile, spawnPos, quad);
+                        Instantiate(prefabRockTile, mapPos(xx, -(yy - 1)), quad);
+                        Instantiate(prefabRockTile, mapPos(xx, -(yy + 1)), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx, -(yy + 1));
                         wakaPass[wakaIndex] = mapPos(xx, -yy);

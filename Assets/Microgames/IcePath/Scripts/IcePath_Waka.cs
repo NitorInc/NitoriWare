@@ -9,11 +9,16 @@ public class IcePath_Waka : MonoBehaviour {
     [Header("Sprites")]
     [SerializeField] Sprite spriteIdle;
     [SerializeField] Sprite spriteLeap;
+    [SerializeField] AudioClip splashClip;
 
     // My index
     [HideInInspector] public int _wakaIndex;
-    
+
+    static IcePath_Waka splashInstance;
+
     // Leap related
+    private Vector3 wakaSpeed = Vector3.zero;
+
     [Header("Leap time")]
     [SerializeField] private float leapTime;
     private float leapAlarm;
@@ -27,8 +32,13 @@ public class IcePath_Waka : MonoBehaviour {
 
     private int start = 0;
     private int finish = 1;
-    
-	void Start () {
+
+    private void Awake()
+    {
+        splashInstance = null;
+    }
+
+    void Start () {
         // The tiles
         tilePos[0] = IcePath_GenerateMap.wakaStart[_wakaIndex];
         tilePos[1] = IcePath_GenerateMap.wakaEnd[_wakaIndex];
@@ -38,6 +48,11 @@ public class IcePath_Waka : MonoBehaviour {
         // Animator
         animator = transform.Find("Rig").Find("Animation").GetComponent<Animator>();
 
+        leapAlarm = leapTime;
+
+        if (splashInstance == null)
+            splashInstance = this;
+
     }
 	
 	void Update () {
@@ -46,11 +61,14 @@ public class IcePath_Waka : MonoBehaviour {
         Vector2 finishTile   = tilePos[finish];
 
         // Leap
-        transform.position = Vector3.Lerp(transform.position, finishTile, 0.1f);
+        if (((Vector2)transform.position - finishTile).magnitude > .025f)
+            transform.position = Vector3.SmoothDamp(transform.position, finishTile, ref wakaSpeed, 0.2f, Mathf.Infinity, Time.deltaTime);
+        //else
+        //    transform.position = finishTile;
 
         // Set if passable
         Vector2 center = startTile + (finishTile - startTile) / 2;
-        bool isFarFromCenter = ((Vector2)transform.position - center).magnitude > 0.1f;
+        bool isFarFromCenter = ((Vector2)transform.position - center).magnitude > 0.25f;
 
         isPassable = isFarFromCenter;
 
@@ -77,9 +95,16 @@ public class IcePath_Waka : MonoBehaviour {
 
             leapAlarm = leapTime;
 
+            if (splashInstance == this && MicrogameTimer.instance.beatsLeft <= 15f)
+            {
+                MicrogameController.instance.playSFX(splashClip,
+                    volume: .35f);
+            }
+
         }
 
     }
+
 
     bool isWithin(float input, float min, float max) {
         // Is the value within this range?
