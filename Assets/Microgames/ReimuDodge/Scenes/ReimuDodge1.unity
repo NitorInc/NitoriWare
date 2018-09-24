@@ -254,6 +254,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1365994001}
+  - component: {fileID: 1365994002}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -275,6 +276,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1365994002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1365994000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1692840176
 Prefab:
   m_ObjectHideFlags: 0
@@ -326,6 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1949435272}
   - component: {fileID: 1949435271}
+  - component: {fileID: 1949435273}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -390,3 +403,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1949435273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1949435270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3fe52d1ef833a44bf799914aba3d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1365994000}
