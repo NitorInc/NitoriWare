@@ -10,6 +10,19 @@ public class IcePath_GenerateMap : MonoBehaviour {
     [SerializeField] private int alwaysLoadMapNo;
     // for default random map, set this to 0
 
+    [Header("Map data")]
+    public int mapAmount;
+    [SerializeField] private TextAsset no1;
+    [SerializeField] private TextAsset no2;
+    [SerializeField] private TextAsset no3;
+    [SerializeField] private TextAsset no4;
+    [SerializeField] private TextAsset no5;
+    [SerializeField] private TextAsset no6;
+    [SerializeField] private TextAsset no7;
+    [SerializeField] private TextAsset no8;
+    [SerializeField] private TextAsset no9;
+    [SerializeField] private TextAsset no10;
+
     [Header("GameObject prefabs")]
     [SerializeField] private GameObject prefabCirno;
     [SerializeField] private GameObject prefabWaka;
@@ -25,46 +38,32 @@ public class IcePath_GenerateMap : MonoBehaviour {
     private TextAsset[]     textMap = new TextAsset[10];
     public static string[,] tile    = new string[10, 10];
 
-    // Waka related (max 3 Waka per level)
-    public static Vector2[] wakaStart = new Vector2[9];
-    public static Vector2[] wakaEnd = new Vector2[9];
-    public static Vector2[] wakaPass = new Vector2[9];
+    // Waka related (max 9 Waka per level)
+    public static Vector2[] wakaStart   = new Vector2[9];
+    public static Vector2[] wakaEnd     = new Vector2[9];
+    public static Vector2[] wakaPass    = new Vector2[9];
 
     public static GameObject[] wakaObject = new GameObject[9];
 
-    [Header("Map Data")]
-    public IcePath_MapData mapData;
-
-    private Vector2 _origin;
-    private float   _tileSize;
-    private int     _mapAmount;
-    private int     _mapWidth, _mapHeight;
-
     void Start() {
-        // Assign privates
-        _origin = mapData.origin;
-        _tileSize = mapData.tileSize;
+        // Assign stuff
 
-        _mapAmount  = mapData.mapAmount;
-        _mapWidth   = mapData.mapWidth;
-        _mapHeight  = mapData.mapHeight;
-
-        textMap[0] = mapData.no1;
-        textMap[1] = mapData.no2;
-        textMap[2] = mapData.no3;
-        textMap[3] = mapData.no4;
-        textMap[4] = mapData.no5;
-        textMap[5] = mapData.no6;
-        textMap[6] = mapData.no7;
-        textMap[7] = mapData.no8;
-        textMap[8] = mapData.no9;
-        textMap[9] = mapData.no10;
+        textMap[0] = no1;
+        textMap[1] = no2;
+        textMap[2] = no3;
+        textMap[3] = no4;
+        textMap[4] = no5;
+        textMap[5] = no6;
+        textMap[6] = no7;
+        textMap[7] = no8;
+        textMap[8] = no9;
+        textMap[9] = no10;
 
         // Initiate all tiles
-        tile[_mapWidth, _mapHeight] = ".";
+        tile[9, 9] = ".";
 
         // Read the map file
-        int mapIndex = rand(0, _mapAmount - 1);
+        int mapIndex = rand(0, mapAmount - 1);
 
         if (alwaysLoadMapNo != 0) {
             mapIndex = alwaysLoadMapNo - 1;
@@ -72,18 +71,23 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
         string map = textMap[mapIndex].text;
 
-        // Waka tiles indexer
-        int wakaIndex = 0;
+        // Indexers
+        int finishIndex = 0;
+        int wakaIndex   = 0;
+
+        int finishRand;
+        int.TryParse(map.Substring(0, 1), out finishRand);
+
+        int finishHere; // Definitive finish tile
+        finishHere = rand(0, finishRand - 1);
 
         // Generate the map
 
-        for (int yy = 0; yy < _mapHeight; yy++) {
-            for (int xx = 0; xx < _mapWidth; xx++) {
+        for (int yy = 0; yy < 9; yy++) {
+            for (int xx = 0; xx < 9; xx++) {
 
                 // Determine spawn position
-                string readPos = map.Substring(_mapWidth * yy + xx + 2 * yy, 1); // Add 2 yy for new line keyword in string
-
-                Vector2 spawnPos = mapPos(xx, -yy);
+                string readPos = map.Substring(9 * yy + xx + 2 * yy, 1); // Add 2 yy for new line keyword in string
 
                 // Which tile to spawn?
                 Quaternion quad = Quaternion.identity;
@@ -96,9 +100,9 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
                 switch (readPos) {
                     case "A": // Start isle tile
-                        Instantiate(prefabIsleTile, spawnPos, quad);
+                        Instantiate(prefabIsleTile, mapPos(xx, -yy), quad);
 
-                        GameObject cirno = Instantiate(prefabCirno, spawnPos, quad);
+                        GameObject cirno = Instantiate(prefabCirno, mapPos(xx, -yy), quad);
                         IcePath_Cirno cirnoScript = cirno.GetComponent<IcePath_Cirno>();
 
                         cirnoScript.cirnoGridX = xx;
@@ -106,21 +110,27 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         break;
 
                     case "B": // Finish isle tile
-                        Instantiate(prefabIsleTile, spawnPos, quad);
-                        Instantiate(prefabIceCream, spawnPos, quad);
+                        
+                        // Is this the definitive finish tile?
+                        if (finishIndex == finishHere) {
+                            Instantiate(prefabIsleTile, mapPos(xx, -yy), quad);
+                            Instantiate(prefabIceCream, mapPos(xx, -yy), quad);
+                        } else {
+                            Instantiate(prefabIsleTile, mapPos(xx, -yy), quad);
+                        }
                         break;
 
                     case "#": // Ice tile
-                        Instantiate(prefabIceTile, spawnPos, quad);
+                        Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
                         break;
 
                     case "@": // Isle tile
-                        Instantiate(prefabIsleTile, spawnPos, quad);
+                        Instantiate(prefabIsleTile, mapPos(xx, -yy), quad);
                         break;
 
-                    // Wakas
-                    case ">": // Waka passing - LEFT to RIGHT
-                        Instantiate(prefabIceTile, spawnPos, quad);
+                    // Waka passing tiles
+                    case ">": // LEFT to RIGHT
+                        Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
                         Instantiate(prefabRockTile, mapPos(xx - 1, -yy), quad);
                         Instantiate(prefabRockTile, mapPos(xx + 1, -yy), quad);
 
@@ -137,8 +147,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         wakaScript._wakaIndex = wakaIndex;
                         break;
 
-                    case "<": // Waka passing - RIGHT to LEFT
-                        Instantiate(prefabIceTile, spawnPos, quad);
+                    case "<": // RIGHT to LEFT
+                        Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
                         Instantiate(prefabRockTile, mapPos(xx - 1, -yy), quad);
                         Instantiate(prefabRockTile, mapPos(xx + 1, -yy), quad);
 
@@ -153,8 +163,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         wakaScript._wakaIndex = wakaIndex;
                         break;
 
-                    case "^": // Waka passing - BOTTOM to TOP
-                        Instantiate(prefabIceTile, spawnPos, quad);
+                    case "^": // BOTTOM to TOP
+                        Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
                         Instantiate(prefabRockTile, mapPos(xx, -(yy - 1)), quad);
                         Instantiate(prefabRockTile, mapPos(xx, -(yy + 1)), quad);
 
@@ -169,8 +179,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         wakaScript._wakaIndex = wakaIndex;
                         break;
 
-                    case "v": // Waka passing - TOP to BOTTOM
-                        Instantiate(prefabIceTile, spawnPos, quad);
+                    case "v": // TOP to BOTTOM
+                        Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
                         Instantiate(prefabRockTile, mapPos(xx, -(yy - 1)), quad);
                         Instantiate(prefabRockTile, mapPos(xx, -(yy + 1)), quad);
 
@@ -188,7 +198,7 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         break;
                         
                     case "q": // Lily
-                        Instantiate(prefabLily, spawnPos, quad);
+                        Instantiate(prefabLily, mapPos(xx, -yy), quad);
                         break;
 
                     case ".": // Nothing
@@ -197,7 +207,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
                     default:
                         break;
                 }
-                // Write this down in the grid
+                // Write these down in the grid
+
                 if (readPos == "<" ||
                     readPos == ">" ||
                     readPos == "^" ||
@@ -205,8 +216,21 @@ public class IcePath_GenerateMap : MonoBehaviour {
                     // Write down Waka index if it is one
                     tile[xx, yy] = wakaIndex.ToString();
                     wakaIndex++;
-                }
-                else {
+                } else
+                
+                if (readPos == "B") {
+                    // Write down the definitive finish tile
+                    if (finishIndex == finishHere) {
+                        tile[xx, yy] = "B";
+                    } else {
+                    // Write down the dummy finish tiles
+                        tile[xx, yy] = "@";
+                    }
+                    finishIndex++;
+
+                } else
+
+                {
                     tile[xx, yy] = readPos;
                 }
 
@@ -216,7 +240,7 @@ public class IcePath_GenerateMap : MonoBehaviour {
     }
 
     Vector2 mapPos(float posX, float posY) {
-        return (_origin + _tileSize * new Vector2(posX, posY));
+        return (new Vector2(-4 + posX, 4 + posY));
     }
 
     int rand(float min, float max) {

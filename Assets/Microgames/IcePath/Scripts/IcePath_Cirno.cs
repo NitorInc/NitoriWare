@@ -6,13 +6,13 @@ public class IcePath_Cirno : MonoBehaviour {
 
     private bool isHit = false;
     private bool hasWon = false;
-    
+
+    Animator anim;
+
     [Header("Audio")]
     public AudioClip hitSound;
     public AudioClip moveClip;
     public AudioClip victoryClip;
-
-    Animator anim;
 
     [Header("Tilt settings")]
     [SerializeField] private float  tiltAngle = 10f;
@@ -31,22 +31,16 @@ public class IcePath_Cirno : MonoBehaviour {
     // Get the grid map
     private string[,] _tile;
 
-    [Header("Map data file")]
-    public IcePath_MapData mapData;
-
-    private int     _mapWidth, _mapHeight;
-    private Vector2 _origin;
+    private Vector2 origin;
 
     void Start () {
-        // Assign privates
-        _mapWidth    = mapData.mapWidth;
-        _mapHeight   = mapData.mapHeight;
-        _origin      = mapData.origin;
+        origin = new Vector2(-4, 4);
 
+        // Assign privates
         _tile        = IcePath_GenerateMap.tile;
 
         // Set starting position
-        transform.position = _origin + new Vector2(cirnoGridX, -cirnoGridY);
+        transform.position = mapPos(cirnoGridX, -cirnoGridY);
         cirnoEndPos = transform.position;
 
         // Animation
@@ -58,14 +52,16 @@ public class IcePath_Cirno : MonoBehaviour {
         // Is this the ice cream?
         if (_tile[cirnoGridX, cirnoGridY] == "B" &&
             transform.position == (Vector3)cirnoEndPos) {
+
             if (!hasWon) {
                 Win();
                 hasWon = true;
                 tiltDirection = 0f;
             }
+
         }
 
-        //Update angle
+        // Update angle
         currentAngle = Mathf.MoveTowards(currentAngle, getTiltAngleGoal(), tiltSpeed * Time.deltaTime);
         tiltPivot.eulerAngles = Vector3.forward * currentAngle;
 
@@ -80,6 +76,7 @@ public class IcePath_Cirno : MonoBehaviour {
             if (!wakaScript.isPassable) {
                 if (!isHit) {
                     // Get hit
+
                     Die();
                     isHit = true;
 
@@ -133,7 +130,7 @@ public class IcePath_Cirno : MonoBehaviour {
                         cirnoGridY -= moveY;
 
 
-                        cirnoEndPos = _origin + new Vector2(cirnoGridX, -cirnoGridY);
+                        cirnoEndPos = mapPos(cirnoGridX, -cirnoGridY);
 
                         MicrogameController.instance.playSFX(moveClip,
                             pitchMult: Random.Range(.96f, 1.04f),
@@ -173,8 +170,8 @@ public class IcePath_Cirno : MonoBehaviour {
     bool canWalkInto(int posX, int posY) {
         // Can Cirno walk here?
 
-        if (isWithin(posX, 0, _mapWidth - 1) && // Is the position within the grid array?
-            isWithin(posY, 0, _mapHeight - 1)) {
+        if (isWithin(posX, 0, 8) && // Is the position within the grid array?
+            isWithin(posY, 0, 8)) {
             
             return (_tile[posX, posY] == "A" || // Is it the start isle?
                     _tile[posX, posY] == "B" || // Is it the end isle?
@@ -194,6 +191,10 @@ public class IcePath_Cirno : MonoBehaviour {
             return false;
         }
 
+    }
+
+    Vector2 mapPos(float posX, float posY) {
+        return (new Vector2(-4 + posX, 4 + posY));
     }
 
     bool isWithin(float input, float min, float max) {
