@@ -16,15 +16,8 @@ public class BallCatching : MonoBehaviour {
     
     // Collision with the ball
     void OnTriggerEnter2D(Collider2D col) {
-        if (gameObject.name == "Background")
-        {
-            MicrogameController.instance.setVictory(victory: true, final: true);
-        }
-        else
-        {
-            Destroy(col.gameObject);
-            MicrogameController.instance.setVictory(victory: false, final: true);
-        }
+        Destroy(col.gameObject);
+        MicrogameController.instance.setVictory(victory: false, final: true);
     }
 }
 
