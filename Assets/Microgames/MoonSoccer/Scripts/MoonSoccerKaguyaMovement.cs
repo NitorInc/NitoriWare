@@ -58,7 +58,7 @@ public class MoonSoccerKaguyaMovement : MonoBehaviour {
             else
                 downward = true;
         }
-        x = ((y - minHeight) / moveDistance) * xMovement;
+        x = -((y - minHeight) / moveDistance) * xMovement;
         transform.position = new Vector2(startX + x, y);
 	}
 }
