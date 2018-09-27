@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4320940525036824}
   - component: {fileID: 61825418795779346}
   - component: {fileID: 114872623775081490}
+  - component: {fileID: 50700037788387198}
+  - component: {fileID: 114768956877782092}
   m_Layer: 0
   m_Name: Kaguya
   m_TagString: Untagged
@@ -71,6 +73,26 @@ Transform:
   m_Father: {fileID: 4320940525036824}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50700037788387198
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326502961931176}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61825418795779346
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -96,6 +118,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.65}
   m_EdgeRadius: 0
+--- !u!114 &114768956877782092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326502961931176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f939f4508ac61545b000f0208e3a4c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114872623775081490
 MonoBehaviour:
   m_ObjectHideFlags: 1

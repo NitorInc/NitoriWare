@@ -26,20 +26,4 @@ public class MoonSoccerBall : MonoBehaviour {
         transform.position = new Vector2(transform.position.x, transform.position.y - 1);
         gameObject.SetActive(true);
     }
-    
-    // Collision with other gameobjects
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.name == "GoalZone")
-        {
-            MicrogameController.instance.setVictory(victory: true, final: true);
-        }
-        else
-        {
-            Destroy(gameObject);
-            col.gameObject.catchBall();
-            MicrogameController.instance.setVictory(victory: false, final: true);
-            // todo: check what object was touched and change their sprite to reflect that
-        }
-    }
 }
