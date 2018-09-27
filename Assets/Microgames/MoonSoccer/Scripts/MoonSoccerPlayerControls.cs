@@ -53,29 +53,31 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // Check player inputs and update object position. X value is updated based on the y position
     void updateMovement ()
     {
-        float x = transform.position.x;
-        float y = transform.position.y;
-        float accelerationSpeed = 0.3f;
-        if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
-        {
-            if (acceleration >= 0)
+        if (MicrogameController.instance.getVictoryDetermined() != true) {
+            float x = transform.position.x;
+            float y = transform.position.y;
+            float accelerationSpeed = 0.3f;
+            if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
+            {
+                if (acceleration >= 0)
+                    acceleration = 0;
+                if (acceleration >= finalMoveSpeed * -1)
+                    acceleration -= accelerationSpeed;
+            }
+            else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= maxHeight)
+            {
+                if (acceleration <= 0)
+                    acceleration = 0;
+                if (acceleration <= finalMoveSpeed)
+                    acceleration += accelerationSpeed;
+            }
+            else
                 acceleration = 0;
-            if (acceleration >= finalMoveSpeed * -1)
-                acceleration -= accelerationSpeed;
+            y = transform.position.y + acceleration * Time.deltaTime;
+            moveDistance = (minHeight * -1) + maxHeight;
+            x = ((y - minHeight) / moveDistance) * xMovement;
+            transform.position = new Vector2(startX + x, y);
         }
-        else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= maxHeight)
-        {
-            if (acceleration <= 0)
-                acceleration = 0;
-            if (acceleration <= finalMoveSpeed)
-                acceleration += accelerationSpeed;
-        }
-        else
-            acceleration = 0;
-        y = transform.position.y + acceleration * Time.deltaTime;
-        moveDistance = (minHeight * -1) + maxHeight;
-        x = ((y - minHeight) / moveDistance) * xMovement;
-        transform.position = new Vector2(startX + x, y);
     }
     
     // Activate the ball object when Spacebar is pressed
