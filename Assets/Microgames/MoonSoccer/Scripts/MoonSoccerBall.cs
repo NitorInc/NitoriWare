@@ -37,6 +37,7 @@ public class MoonSoccerBall : MonoBehaviour {
         else
         {
             Destroy(gameObject);
+            col.gameObject.catchBall();
             MicrogameController.instance.setVictory(victory: false, final: true);
             // todo: check what object was touched and change their sprite to reflect that
         }
