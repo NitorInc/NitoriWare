@@ -21,14 +21,15 @@ public class IcePath_Waka : MonoBehaviour {
 
     [Header("Leap time")]
     [SerializeField] private float leapTime;
+    [SerializeField] private float leapDuration;
     private float leapAlarm;
 
     private bool isLeaping = true;
     [HideInInspector] public bool isPassable = true;
 
     // Tile info
-    private Vector2[]   tilePos = new Vector2[2];
-    public int          tileCurrent = 0;
+    private Vector2[] tilePos = new Vector2[2];
+    private int tileCurrent = 0;
 
     private int start = 0;
     private int finish = 1;
@@ -62,7 +63,7 @@ public class IcePath_Waka : MonoBehaviour {
 
         // Leap
         if (((Vector2)transform.position - finishTile).magnitude > .025f)
-            transform.position = Vector3.SmoothDamp(transform.position, finishTile, ref wakaSpeed, 0.2f, Mathf.Infinity, Time.deltaTime);
+            transform.position = Vector3.SmoothDamp(transform.position, finishTile, ref wakaSpeed, leapDuration, Mathf.Infinity, Time.deltaTime);
         //else
         //    transform.position = finishTile;
 

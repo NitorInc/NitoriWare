@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class IcePath_Cirno : MonoBehaviour {
 
+    [HideInInspector] public GameObject icecream;
+    [SerializeField] private int diff;
+
     private bool isHit = false;
     private bool hasWon = false;
 
@@ -34,6 +37,7 @@ public class IcePath_Cirno : MonoBehaviour {
     private Vector2 origin;
 
     void Start () {
+
         origin = new Vector2(-4, 4);
 
         // Assign privates
@@ -120,6 +124,12 @@ public class IcePath_Cirno : MonoBehaviour {
                 // Movement
                 int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0)  - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
                 int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0)     - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
+
+                if (moveX != 0) {
+                    moveY = 0;
+                } else {
+                    moveX = 0;
+                }
 
                 // Player is moving
                 if (moveX != 0 ||
