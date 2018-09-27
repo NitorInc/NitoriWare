@@ -42,23 +42,25 @@ public class MoonSoccerKaguyaMovement : MonoBehaviour {
     
 	// Update Kaguya's position by moving her vertically according to moveSpeed. X value is updated based on the y position
 	void Update () {
-        float x = transform.position.x;
-        float y = transform.position.y;
-		if (downward == true)
-        {
-            if (transform.position.y >= minHeight)
-                y = transform.position.y - moveSpeed * Time.deltaTime;
+        if (MicrogameController.instance.getVictoryDetermined() != true) {
+            float x = transform.position.x;
+            float y = transform.position.y;
+            if (downward == true)
+            {
+                if (transform.position.y >= minHeight)
+                    y = transform.position.y - moveSpeed * Time.deltaTime;
+                else
+                    downward = false;
+            }
             else
-                downward = false;
+            {
+                if (transform.position.y <= maxHeight)
+                    y = transform.position.y + moveSpeed * Time.deltaTime;
+                else
+                    downward = true;
+            }
+            x = -((y - minHeight) / moveDistance) * xMovement;
+            transform.position = new Vector2(startX + x, y);
         }
-        else
-        {
-            if (transform.position.y <= maxHeight)
-                y = transform.position.y + moveSpeed * Time.deltaTime;
-            else
-                downward = true;
-        }
-        x = -((y - minHeight) / moveDistance) * xMovement;
-        transform.position = new Vector2(startX + x, y);
 	}
 }
