@@ -11,6 +11,9 @@ public class YoumuSlashTargetBody : MonoBehaviour
     [SerializeField]
     private Animator rigAnimator;
 
+    public YoumuSlashTargetSlice LeftSlice => leftSlice;
+    public YoumuSlashTargetSlice RightSlice => rightSlice;
+
     [SerializeField]
     private Vector2 lauchRotSpeedRange;
 

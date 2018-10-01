@@ -6,6 +6,8 @@ public class YoumuSlashTargetSlice : MonoBehaviour
 {
     [SerializeField]
     private Transform imageTransform;
+    [SerializeField]
+    private Transform maskTransform;
     [Header("Edit sliced falling speeds here")]
     [SerializeField]
     private float direction = 1f;
@@ -52,6 +54,7 @@ public class YoumuSlashTargetSlice : MonoBehaviour
     }
 
     public Transform getImageTransform() => imageTransform;
+    public Transform getMaskTransform() => maskTransform;
     public bool isFalling() => falling;
 
     public void setFalling(bool falling) => this.falling = falling;

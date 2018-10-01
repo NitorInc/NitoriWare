@@ -394,7 +394,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (isHit)
         {
             //Hit successful
-            hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime);
+            hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime,
+                timingData.CurrentBeat - hitTarget.HitBeat);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
             if (upsetResetHits > 0)
             {

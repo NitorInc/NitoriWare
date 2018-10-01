@@ -18,6 +18,8 @@ public class YoumuSlashTarget : MonoBehaviour
     private float leftPitch = 1f;
     [SerializeField]
     private float rightPitch = 1f;
+    [SerializeField]
+    private float hitOffsetMult = 2f;
 
     private YoumuSlashBeatMap.TargetBeat mapInstance;
     public YoumuSlashBeatMap.TargetBeat MapInstance => mapInstance;
@@ -25,6 +27,7 @@ public class YoumuSlashTarget : MonoBehaviour
     private bool isRight;
     private AudioSource sfxSource;
     private float slashAngle;
+    private float slashTimeOffset;
     
 	public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
@@ -40,12 +43,14 @@ public class YoumuSlashTarget : MonoBehaviour
         sfxSource.PlayOneShot(launchClip);
     }
 
-    public void slash(float angle, float effectActivationTime)
+    public void slash(float angle, float effectActivationTime, float timeOffset)
     {
         mapInstance.slashed = true;
         slashAngle = angle;
         Invoke("activateSlashEffect", effectActivationTime);
         body.freezeLaunchAnimation();
+
+        slashTimeOffset = timeOffset;
     }
 
     public void activateSlashEffect()
@@ -55,5 +60,11 @@ public class YoumuSlashTarget : MonoBehaviour
         sfxSource.panStereo = slashPan * (isRight ? 1f : -1f);
         sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
         sfxSource.PlayOneShot(slashClip);
+
+        var distanceOffset = Vector3.down* slashTimeOffset * hitOffsetMult;
+        body.LeftSlice.getImageTransform().position += distanceOffset;
+        body.LeftSlice.getMaskTransform().position -= distanceOffset;
+        body.RightSlice.getImageTransform().position += distanceOffset;
+        body.RightSlice.getMaskTransform().position -= distanceOffset;
     }
 }
