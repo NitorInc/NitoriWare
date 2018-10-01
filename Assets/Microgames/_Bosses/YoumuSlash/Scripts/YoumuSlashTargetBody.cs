@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class YoumuSlashTargetBody : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class YoumuSlashTargetBody : MonoBehaviour
     private YoumuSlashTargetSlice rightSlice;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private Image baseImage;
 
     public YoumuSlashTargetSlice LeftSlice => leftSlice;
     public YoumuSlashTargetSlice RightSlice => rightSlice;
@@ -36,10 +39,19 @@ public class YoumuSlashTargetBody : MonoBehaviour
         rotSpeed = 0f;
     }
 
-    public void slash(float angle)
+    public void slash(float angle, Vector3 maskOffset)
     {
         setSlashedAngle(angle);
         enabled = false;
+
+        LeftSlice.getImageTransform().position += maskOffset;
+        LeftSlice.getMaskTransform().position -= maskOffset;
+        RightSlice.getImageTransform().position += maskOffset;
+        RightSlice.getMaskTransform().position -= maskOffset;
+
+        leftSlice.setImageActive(baseImage.sprite);
+        rightSlice.setImageActive(baseImage.sprite);
+        baseImage.enabled = false;
     }
 
     void setSlashedAngle(float angle)

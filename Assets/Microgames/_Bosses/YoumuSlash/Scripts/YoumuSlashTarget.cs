@@ -55,16 +55,11 @@ public class YoumuSlashTarget : MonoBehaviour
 
     public void activateSlashEffect()
     {
-        body.slash(slashAngle);
-
+        var distanceOffset = Vector3.down * slashTimeOffset * hitOffsetMult;
+        body.slash(slashAngle, distanceOffset);
+        
         sfxSource.panStereo = slashPan * (isRight ? 1f : -1f);
         sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
         sfxSource.PlayOneShot(slashClip);
-
-        var distanceOffset = Vector3.down* slashTimeOffset * hitOffsetMult;
-        body.LeftSlice.getImageTransform().position += distanceOffset;
-        body.LeftSlice.getMaskTransform().position -= distanceOffset;
-        body.RightSlice.getImageTransform().position += distanceOffset;
-        body.RightSlice.getMaskTransform().position -= distanceOffset;
     }
 }

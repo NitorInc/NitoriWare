@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class YoumuSlashTargetSlice : MonoBehaviour
 {
@@ -51,6 +52,13 @@ public class YoumuSlashTargetSlice : MonoBehaviour
         transform.localEulerAngles += Vector3.forward * rotSpeed * Time.deltaTime;
         speed += Vector2.down * gravityScale * Time.deltaTime;
         transform.position += (Vector3)speed * Time.deltaTime;
+    }
+
+    public void setImageActive(Sprite sprite)
+    {
+        var imageComponent = imageTransform.GetComponent<Image>();
+        imageComponent.sprite = sprite;
+        imageComponent.enabled = true;
     }
 
     public Transform getImageTransform() => imageTransform;
