@@ -387,7 +387,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("LookBack", false);
         rigAnimator.SetTrigger("ResetLook");
         float facingDirection = (isRigFacingRight() ? -1f : 1f);
-        spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection);
         
         rigAnimator.SetBool("Scream", false);
         holdAttack = false;
@@ -416,11 +415,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
                     break;
             }
+            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, timingData.CurrentBeat - hitTarget.HitBeat);
         }
         else
         {
             //Missed
             MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
+            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, 0f);
         }
 
         spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
