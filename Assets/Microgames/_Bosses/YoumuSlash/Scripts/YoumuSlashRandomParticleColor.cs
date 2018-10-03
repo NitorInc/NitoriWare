@@ -6,6 +6,8 @@ public class YoumuSlashRandomParticleColor : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem particles;
+    [SerializeField]
+    private float particlesToEmit = 14;
     
 	void Start ()
     {
@@ -20,7 +22,7 @@ public class YoumuSlashRandomParticleColor : MonoBehaviour
         var startColorModule = mainModule.startColor;
         var minColor = HSBColor.FromColor(startColorModule.colorMin);
         var maxColor = HSBColor.FromColor(startColorModule.colorMax);
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < particlesToEmit; i++)
         {
             var h = Random.Range(0f, 1f);
             minColor.h = h;
