@@ -387,8 +387,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("LookBack", false);
         rigAnimator.SetTrigger("ResetLook");
         float facingDirection = (isRigFacingRight() ? -1f : 1f);
-        var offset = AutoSlash ? 0f
-            : timingData.CurrentBeat - hitTarget.HitBeat;
 
 
         rigAnimator.SetBool("Scream", false);
@@ -396,6 +394,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (isHit)
         {
             //Hit successful
+            var offset = AutoSlash ? 0f
+                : timingData.CurrentBeat - hitTarget.HitBeat;
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime, offset);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
             if (upsetResetHits > 0)
