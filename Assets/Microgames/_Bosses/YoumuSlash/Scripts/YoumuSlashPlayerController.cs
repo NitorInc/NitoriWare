@@ -387,14 +387,16 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("LookBack", false);
         rigAnimator.SetTrigger("ResetLook");
         float facingDirection = (isRigFacingRight() ? -1f : 1f);
-        
+        var offset = AutoSlash ? 0f
+            : timingData.CurrentBeat - hitTarget.HitBeat;
+
+
         rigAnimator.SetBool("Scream", false);
         holdAttack = false;
         if (isHit)
         {
             //Hit successful
-            hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime,
-                timingData.CurrentBeat - hitTarget.HitBeat);
+            hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime, offset);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
             if (upsetResetHits > 0)
             {
@@ -415,7 +417,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
                     break;
             }
-            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, timingData.CurrentBeat - hitTarget.HitBeat);
+            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, offset);
         }
         else
         {

@@ -28,6 +28,13 @@ public class YoumuSlashTarget : MonoBehaviour
     private AudioSource sfxSource;
     private float slashAngle;
     private float slashTimeOffset;
+
+    public class SlashData
+    {
+        public float angle;
+        public float timeOffset;
+    }
+
     
 	public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
@@ -51,6 +58,13 @@ public class YoumuSlashTarget : MonoBehaviour
         body.freezeLaunchAnimation();
 
         slashTimeOffset = timeOffset;
+
+        var slashData = new SlashData
+        {
+            angle = angle,
+            timeOffset = timeOffset
+        };
+        BroadcastMessage("onSlash", slashData, SendMessageOptions.DontRequireReceiver);
     }
 
     public void activateSlashEffect()

@@ -165,6 +165,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1953986736012102
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4985619966836670}
+  - component: {fileID: 114416753488559770}
+  m_Layer: 0
+  m_Name: Particle Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1986157176647778
 GameObject:
   m_ObjectHideFlags: 1
@@ -222,8 +238,22 @@ Transform:
   m_Children:
   - {fileID: 224963364401166116}
   - {fileID: 224125228014343154}
+  - {fileID: 4985619966836670}
   m_Father: {fileID: 4197370013396524}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4985619966836670
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953986736012102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4280172822665462}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &82367996378595548
 AudioSource:
@@ -337,7 +367,7 @@ MonoBehaviour:
   maskTransform: {fileID: 224109852950742304}
   direction: 1
   rotSpeedRange: {x: 60, y: 100}
-  xSpeedRange: {x: 4, y: 6}
+  xSpeedRange: {x: 3, y: 6}
   ySpeedRange: {x: 18.75, y: 28.125}
   gravityScale: 150
   baseObject: {fileID: 114147480390047826}
@@ -476,6 +506,26 @@ MonoBehaviour:
   m_Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114416753488559770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953986736012102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08ef47040284ee42b98dcf05fa5f81c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goodParticles: {fileID: 1740987734094908, guid: bbf86820b34ac304bb0065ed543837b2,
+    type: 2}
+  normalParticles: {fileID: 1301585755387298, guid: 6c90b86a3f6f2bb4ba1f30a6a9a2e7e5,
+    type: 2}
+  badParticles: {fileID: 1932856027587400, guid: ecbd4ffc451948245a1cf56217e2545d,
+    type: 2}
+  goodThreshold: 0.03
+  normalThreshold: 0.085
+  positionOffset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &114470858581175484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -535,7 +585,7 @@ MonoBehaviour:
   maskTransform: {fileID: 224875744259693432}
   direction: -1
   rotSpeedRange: {x: 60, y: 100}
-  xSpeedRange: {x: 0, y: 2}
+  xSpeedRange: {x: 3, y: 6}
   ySpeedRange: {x: 18.75, y: 28.125}
   gravityScale: 150
   baseObject: {fileID: 114147480390047826}
