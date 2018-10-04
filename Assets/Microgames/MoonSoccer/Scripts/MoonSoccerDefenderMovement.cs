@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoonSoccerKaguyaMovement : MonoBehaviour {
+public class MoonSoccerDefenderMovement : MonoBehaviour {
     
-    // The speed of her vertical movement
+    // The speed of the vertical movement
     [Header("Movement Speed")]
     [SerializeField]
     private float moveSpeed = 1f;
@@ -20,7 +20,7 @@ public class MoonSoccerKaguyaMovement : MonoBehaviour {
     private float maxHeight = 1f;
     
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
-    [Header("X Movement Distance")]
+    [Header("Horizontal Movement Distance")]
     [SerializeField]
     private float xMovement = 1f;   
     
@@ -40,7 +40,7 @@ public class MoonSoccerKaguyaMovement : MonoBehaviour {
     }
 
     
-	// Update Kaguya's position by moving her vertically according to moveSpeed. X value is updated based on the y position
+	// Update the object's position by moving it vertically according to moveSpeed. X value is updated based on the y position
 	void Update () {
         if (MicrogameController.instance.getVictoryDetermined() != true) {
             float x = transform.position.x;

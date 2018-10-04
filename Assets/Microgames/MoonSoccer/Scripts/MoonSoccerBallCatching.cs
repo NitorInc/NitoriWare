@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallCatching : MonoBehaviour {
+public class MoonSoccerBallCatching : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
