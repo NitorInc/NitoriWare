@@ -5,26 +5,27 @@ using UnityEngine;
 public class MoonSoccerDefenderMovement : MonoBehaviour {
     
     // The speed of the vertical movement
-    [Header("Movement Speed")]
+    [Header("Vertical Movement Speed")]
     [SerializeField]
     private float moveSpeed = 1f;
 
     // Minimum height the object can reach before changing direction
-    [Header("Minimum Height")]
+    [Header("Vertical Movement Range")]
     [SerializeField]
     private float minHeight = 1f;
     
     // Maximum height the object can reach before changing direction
-    [Header("Maximum Height")]
     [SerializeField]
     private float maxHeight = 1f;
     
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
-    [Header("Horizontal Movement Distance")]
+    [Header("Horizontal Movement Length")]
     [SerializeField]
-    private float xMovement = 1f;   
+    private float xMovement = 1f;
     
-    // Bool to track the current movement direction
+    // The direction the object will start moving in
+    [Header("Initial Direction")]
+    [SerializeField]
     private bool downward = true;
     
     // The total distance between the top and bottom boundaries of the vertical movement
