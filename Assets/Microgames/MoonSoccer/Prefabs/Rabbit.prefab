@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50799282306111340}
   - component: {fileID: 114786490451252534}
   - component: {fileID: 114811289781388662}
+  - component: {fileID: 114765934503517312}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -66,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1810438782104424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -0.4, z: -0.050889928}
+  m_LocalPosition: {x: 0.5, y: -0.4, z: -0.050889928}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4369160979652918}
@@ -118,6 +119,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.4}
   m_EdgeRadius: 0
+--- !u!114 &114765934503517312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1810438782104424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38faf560dbc973c4db542bd9e065e402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114786490451252534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +155,7 @@ MonoBehaviour:
   moveSpeed: 1.2
   minHeight: -2.5
   maxHeight: 0.5
-  xMovement: 1.2
+  xMovement: 1
   downward: 0
 --- !u!212 &212890979365080090
 SpriteRenderer:

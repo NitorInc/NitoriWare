@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class MoonSoccerBunnyLook : MonoBehaviour {
     
+    // The ammount of time before the sprite turns around
     private float timer = 0f;
+    
+    // Reference to the object's spriteRenderer
     private SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
