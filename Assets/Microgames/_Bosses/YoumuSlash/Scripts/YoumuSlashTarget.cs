@@ -9,8 +9,6 @@ public class YoumuSlashTarget : MonoBehaviour
     [SerializeField]
     private AudioClip launchClip;
     [SerializeField]
-    private AudioClip slashClip;
-    [SerializeField]
     private float launchPan = .5f;
     [SerializeField]
     private float slashPan = .5f;
@@ -31,6 +29,7 @@ public class YoumuSlashTarget : MonoBehaviour
 
     public class SlashData
     {
+        public YoumuSlashBeatMap.TargetBeat target;
         public float angle;
         public float timeOffset;
     }
@@ -62,7 +61,8 @@ public class YoumuSlashTarget : MonoBehaviour
         var slashData = new SlashData
         {
             angle = angle,
-            timeOffset = timeOffset
+            timeOffset = timeOffset,
+            target = mapInstance
         };
         BroadcastMessage("onSlash", slashData, SendMessageOptions.DontRequireReceiver);
     }
@@ -71,9 +71,5 @@ public class YoumuSlashTarget : MonoBehaviour
     {
         var distanceOffset = Vector3.down * slashTimeOffset * hitOffsetMult;
         body.slash(slashAngle, distanceOffset);
-        
-        sfxSource.panStereo = slashPan * (isRight ? 1f : -1f);
-        sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
-        sfxSource.PlayOneShot(slashClip);
     }
 }

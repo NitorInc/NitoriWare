@@ -60,6 +60,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private AudioClip hitVoiceClip;
     [SerializeField]
     private AudioClip screamClip;
+    [SerializeField]
+    private float voicePan;
     
     int nextIdleBeat = -100;
     int untenseBeat = -1;
@@ -75,10 +77,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
     int upsetResetHits;
     float lastIdleTime;
     float lastAttackTime;
+    AudioSource sfxSource;
 
     private void Awake()
     {
         onAttack = null;
+        sfxSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -410,11 +414,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
                 case (YoumuSlashBeatMap.TargetBeat.Effect.Scream):
                     rigAnimator.SetBool("Scream", true);
                     nextIdleBeat++;
-                    MicrogameController.instance.playSFX(screamClip);
+                    playSfx(screamClip, direction, false);
                     holdAttack = true;
                     break;
                 default:
-                    MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
+                    playSfx(hitVoiceClip, direction, true);
                     break;
             }
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, offset);
@@ -422,7 +426,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         else
         {
             //Missed
-            MicrogameController.instance.playSFX(hitVoiceClip, pitchMult: Random.Range(.95f, 1.05f));
+            playSfx(hitVoiceClip, direction, true);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, 0f);
         }
 
@@ -433,6 +437,14 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         upsetResetHits = upsetResetHitCount;
         rigAnimator.SetBool("Upset", true);
+    }
+
+    void playSfx(AudioClip clip, YoumuSlashBeatMap.TargetBeat.Direction direction, bool varyPitch)
+    {
+        sfxSource.panStereo = voicePan *
+            (direction == YoumuSlashBeatMap.TargetBeat.Direction.Right ? 1f : -1f);
+        sfxSource.pitch = varyPitch ? Random.Range(.95f, 1.05f) : 1f;
+        sfxSource.PlayOneShot(clip);
     }
 
     void playNoteMissReaction()

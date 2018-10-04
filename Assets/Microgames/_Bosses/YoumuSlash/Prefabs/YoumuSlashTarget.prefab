@@ -174,8 +174,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4985619966836670}
   - component: {fileID: 114416753488559770}
+  - component: {fileID: 82430617819660374}
+  - component: {fileID: 114947333235224880}
   m_Layer: 0
-  m_Name: Particle Spawner
+  m_Name: Hit Effect Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,6 +263,86 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1799325238679454}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!82 &82430617819660374
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953986736012102}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -465,7 +547,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 114515151812749994}
   launchClip: {fileID: 8300000, guid: e7c3fac3d7897f14eaa241623ed62e1b, type: 3}
-  slashClip: {fileID: 8300000, guid: 479b31ec9d7e9f7498caf940b97e80a0, type: 3}
   launchPan: 0.75
   slashPan: 0.5
   leftPitch: 1
@@ -517,17 +598,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08ef47040284ee42b98dcf05fa5f81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goodThreshold: 0.035
+  normalThreshold: 0.09
   goodParticles: {fileID: 1740987734094908, guid: bbf86820b34ac304bb0065ed543837b2,
     type: 2}
   normalParticles: {fileID: 1301585755387298, guid: 6c90b86a3f6f2bb4ba1f30a6a9a2e7e5,
     type: 2}
   badParticles: {fileID: 1932856027587400, guid: ecbd4ffc451948245a1cf56217e2545d,
     type: 2}
-  goodThreshold: 0.035
-  normalThreshold: 0.09
   normalArc: 200
   badArc: 200
   positionOffset: {x: 0, y: 0.5, z: 0}
+  goodClip: {fileID: 8300000, guid: f18a1a91cca273041ae305eced0e656d, type: 3}
+  normalClip: {fileID: 8300000, guid: f18a1a91cca273041ae305eced0e656d, type: 3}
+  badClip: {fileID: 8300000, guid: 4bb80127a03fb184baf1bc97b2ee0c08, type: 3}
+  hitPan: 0.4
 --- !u!114 &114470858581175484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -591,6 +676,22 @@ MonoBehaviour:
   ySpeedRange: {x: 18.75, y: 28.125}
   gravityScale: 150
   baseObject: {fileID: 114147480390047826}
+--- !u!114 &114947333235224880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953986736012102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  volumeType: 2
 --- !u!222 &222239485813057830
 CanvasRenderer:
   m_ObjectHideFlags: 1
