@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnifeDodgeBlackoutController : MonoBehaviour {
+public class KnifeDodgeInversionController : MonoBehaviour {
     public float invertFilterAlpha
     {
         get;

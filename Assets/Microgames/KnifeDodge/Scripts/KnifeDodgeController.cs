@@ -11,7 +11,7 @@ public class KnifeDodgeController : MonoBehaviour {
     public GameObject parallaxController;
 	public GameObject knifePrefab;
 	public GameObject knifeTargetPrefab;
-    public GameObject blackoutController;
+    public GameObject inversionController;
     public GameObject whiteoutController;
 	public int numKnives = 14;
 	public float spawnDistance = 10.0f;
@@ -151,7 +151,7 @@ public class KnifeDodgeController : MonoBehaviour {
             if (allLanded) MicrogameController.instance.setVictory(true, true);
 
             float parallaxSpeed = parallaxController.GetComponent<KnifeDodgeParallaxBackground>().GetSpeed();
-            blackoutController.GetComponent<KnifeDodgeBlackoutController>().fadeSpeed = blackOutSpeed;
+            inversionController.GetComponent<KnifeDodgeInversionController>().fadeSpeed = blackOutSpeed;
             if (knifeList[i].transform.position.y > knifeStopHeight)
             {
                 parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
@@ -161,7 +161,7 @@ public class KnifeDodgeController : MonoBehaviour {
                 }
                 currentState = (int)KnifeState.FLYING_IN;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
-                blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = 0;
+                inversionController.GetComponent<KnifeDodgeInversionController>().invertFilterAlpha = 0;
             }
             else if (timeUntilStrike < 0.0f)
             {
@@ -172,7 +172,7 @@ public class KnifeDodgeController : MonoBehaviour {
                 }
                 currentState = (int)KnifeState.MOVING_TO_GROUND;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
-                blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = 0;
+                inversionController.GetComponent<KnifeDodgeInversionController>().invertFilterAlpha = 0;
             }
             else
             {
@@ -184,7 +184,7 @@ public class KnifeDodgeController : MonoBehaviour {
                 currentState = (int)KnifeState.STOP_AND_ROTATE;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
                 whiteoutController.GetComponent<KnifeDodgeWhiteOutController>().DoFlash();
-                blackoutController.GetComponent<KnifeDodgeBlackoutController>().invertFilterAlpha = blackOutAValue;
+                inversionController.GetComponent<KnifeDodgeInversionController>().invertFilterAlpha = blackOutAValue;
             }
         }
 
