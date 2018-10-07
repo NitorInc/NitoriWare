@@ -5,6 +5,7 @@ using UnityEngine;
 public class RazorController : MonoBehaviour {
 
     private float speed = 100f;
+    private bool has_moved = false;
     // Use this for initialization
     void Start () {
     	

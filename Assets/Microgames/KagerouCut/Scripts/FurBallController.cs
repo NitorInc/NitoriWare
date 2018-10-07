@@ -8,13 +8,16 @@ public class FurBallController : MonoBehaviour {
     public float speed = 0.01f;
     
     private bool shouldShrink = false;
+    private bool hasMoved = false;
     private Transform t;
-    private bool exists = true;
     void Start(){
         t = sprite.transform;
     }
     void Update(){
-        if (shouldShrink){
+        if (!hasMoved && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))){
+            hasMoved = true;
+        }
+        if (shouldShrink && hasMoved){
             if (t.localScale.x <= 0){
                 Destroy(this.gameObject); 
             }
