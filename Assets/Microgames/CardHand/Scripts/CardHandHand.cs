@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardHandHand : MonoBehaviour {
+    public int speedModifier = 10;
+
+    [Header("Updated by scripts. Changing here does nothing.")]
     public Vector3 target;
     public int dist = 1;
-
-    public int speedModifier = 10;
 
     void Start() {
     }
