@@ -5,11 +5,16 @@ using UnityEngine;
 public class KagerouCutController : MonoBehaviour {
     
     [SerializeField]
-    private KagCutCharacter[] characterPrefabs; 
+    private Sprite[] characterSprites; 
+    
+    [SerializeField]
+    private Sprite[] furballSprites;
 
     [SerializeField]
     private int furballCount = 0;
-    
+   
+    [SerializeField]
+    private KagCutCharacter characterPrefab;
     [SerializeField] 
     private RazorController razor;
     
@@ -22,11 +27,16 @@ public class KagerouCutController : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         furballs = new GameObject[furballCount];
-
-        int randChar = Random.Range(0, characterPrefabs.Length);
-	    KagCutCharacter character = Instantiate(characterPrefabs[randChar]);
-        
+        // Set the sprites
+        int randChar = Random.Range(0, characterSprites.Length);
+        Sprite charSprite = characterSprites[randChar];
+        Sprite furSprite = furballSprites[randChar];
+	    KagCutCharacter character = Instantiate(characterPrefab);
+        character.GetComponent<SpriteRenderer>().sprite = charSprite; 
         GameObject furball = character.transform.Find("FurBall").gameObject;
+        GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
+        spriteObj.GetComponent<SpriteRenderer>().sprite = furSprite; 
+        
         float angle = 0.4f;
         float[] angles= new float[furballCount];
         for (int i=0; i<furballCount; i++){
