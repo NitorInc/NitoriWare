@@ -17,7 +17,9 @@ public class KagerouCutController : MonoBehaviour {
     private KagCutCharacter characterPrefab;
     [SerializeField] 
     private RazorController razor;
-    
+    [SerializeField]
+    private GameObject background;
+
     [SerializeField]
     private float furspeed = 0.01f;
 
@@ -71,6 +73,7 @@ public class KagerouCutController : MonoBehaviour {
             }
         }
         if (!ballsLeft) {
+            background.GetComponent<Animator>().SetTrigger("Win");
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
 	}
