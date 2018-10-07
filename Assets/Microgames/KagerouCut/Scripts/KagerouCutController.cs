@@ -27,8 +27,19 @@ public class KagerouCutController : MonoBehaviour {
 	    KagCutCharacter character = Instantiate(characterPrefabs[randChar]);
         
         GameObject furball = character.transform.Find("FurBall").gameObject;
+        float angle = 0.4f;
+        float[] angles= new float[furballCount];
         for (int i=0; i<furballCount; i++){
-            float angle = Random.Range(0, -Mathf.PI);
+            angle = Random.Range(angle-0.5f, angle-Mathf.PI/furballCount-0.2f);
+            angles[i] = angle;
+        }
+        float center_shift = angles[0] + angles[furballCount-1] + Mathf.PI;
+        for (int i=0; i<furballCount; i++){
+            angles[i] -= center_shift;
+        }
+
+        for (int i=0; i<furballCount; i++){
+            angle = angles[i];
             float x = razor.transform.position.x + furDistance * Mathf.Cos(angle);
             float y = razor.transform.position.y + furDistance * Mathf.Sin(angle);
             GameObject newFur = Instantiate(furball, new Vector3(x, y, 0), Quaternion.identity);
