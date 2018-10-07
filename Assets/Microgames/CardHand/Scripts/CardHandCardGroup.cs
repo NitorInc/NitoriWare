@@ -25,7 +25,7 @@ public class CardHandCardGroup : MonoBehaviour {
     [Tooltip("Spacing width, in unity units")]
     public int cardWidth = 1;
 
-    [Header("Other importan objects")]
+    [Header("Other important objects")]
     [SerializeField]
     public GameObject handObject;
 
@@ -81,10 +81,11 @@ public class CardHandCardGroup : MonoBehaviour {
         if (selectedCard < 0) selectedCard = cardObjects.Count - 1;
         if (selectedCard >= cardObjects.Count) selectedCard = 0;
 
+        bool chosen = cardObjects[selectedCard].GetComponent<CardHandCard>().IsSelected();
         Vector3 target = new Vector3(
             cardObjects[selectedCard].transform.position.x,
-            cardObjects[selectedCard].transform.position.y - 0.75f,
-            cardObjects[selectedCard].transform.position.y
+            transform.position.y - 0.75f,
+            cardObjects[selectedCard].transform.position.z - 1
         );
 
         CardHandHand handScript = handObject.GetComponent<CardHandHand>();
@@ -114,6 +115,9 @@ public class CardHandCardGroup : MonoBehaviour {
             if (cardScript.value > -1)
                 theirSum += cardScript.value;
         }
+
+        if (ourSum > theirSum) print("Win");
+        else print("Loss");
 
         MicrogameController.instance.setVictory(ourSum > theirSum);
     }
