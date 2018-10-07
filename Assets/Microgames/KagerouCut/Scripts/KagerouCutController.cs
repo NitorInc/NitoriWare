@@ -45,6 +45,7 @@ public class KagerouCutController : MonoBehaviour {
             GameObject newFur = Instantiate(furball, new Vector3(x, y, 0), Quaternion.identity);
             FurBallController s = newFur.GetComponent<FurBallController>();
             s.speed = furspeed;
+            newFur.GetComponent<Animator>().SetFloat("offset", Random.Range(0f, 1f));
             furballs[i] = newFur;
         }
         furball.SetActive(false);
