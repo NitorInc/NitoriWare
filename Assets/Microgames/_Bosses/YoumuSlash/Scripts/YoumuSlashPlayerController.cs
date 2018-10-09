@@ -443,7 +443,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         sfxSource.panStereo = voicePan *
             (direction == YoumuSlashBeatMap.TargetBeat.Direction.Right ? 1f : -1f);
-        sfxSource.pitch = varyPitch ? Random.Range(.95f, 1.05f) : 1f;
+        sfxSource.pitch = (varyPitch ? Random.Range(.95f, 1.05f) : 1f)
+            * Time.timeScale;
         sfxSource.PlayOneShot(clip);
     }
 
