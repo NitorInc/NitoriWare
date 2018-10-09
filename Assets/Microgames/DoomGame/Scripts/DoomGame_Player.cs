@@ -11,6 +11,11 @@ public class DoomGame_Player : MonoBehaviour
     new AudioSource audio;
     [SerializeField]
     AudioClip shootSound;
+    [SerializeField]
+    Material screen;
+    bool dead = false;
+    float dead_lerp = 0;
+    float smooth_gun = 0;
 
     void Start()
     {
@@ -20,7 +25,13 @@ public class DoomGame_Player : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
+        float mX = Input.GetAxis("Mouse X");
+        transform.Rotate(Vector3.up, mX);
+        gunAnimator.transform.localPosition = Vector3.Lerp(
+            gunAnimator.transform.localPosition,
+            new Vector3(Mathf.Clamp(-mX / 50, -0.2f, 0.2f), -0.3f, 0.5f),
+            Time.deltaTime * 5);
+
         if(Input.GetMouseButtonDown(0))
             Shoot();
         CheckEnemies();
@@ -62,6 +73,15 @@ public class DoomGame_Player : MonoBehaviour
 
     public void Kill()
     {
+        dead = true;
         MicrogameController.instance.setVictory(false, true);
+    }
+
+    void OnRenderImage(RenderTexture source, RenderTexture destination)
+    {
+        if(dead)
+            dead_lerp = Mathf.Clamp(dead_lerp + Time.deltaTime * 2, 0, 1);
+        screen.SetFloat("_Amount", dead_lerp);
+        Graphics.Blit(source, destination, screen);
     }
 }
