@@ -13,7 +13,9 @@ public class MystiaServeMystia : MonoBehaviour
     private bool canSwitchSides;
     [SerializeField]
     private float notifyIconDuration;
-    
+
+    [SerializeField]
+    private Animator rigAnimator;
     [SerializeField]
     private GameObject notifyIcon;
     [SerializeField]
@@ -84,7 +86,10 @@ public class MystiaServeMystia : MonoBehaviour
     {
         MicrogameController.instance.setVictory(victory);
         if (!victory)
-            Destroy(gameObject);
+        {
+            rigAnimator.SetTrigger("Fail");
+            enabled = false;
+        }
     }
 
 
