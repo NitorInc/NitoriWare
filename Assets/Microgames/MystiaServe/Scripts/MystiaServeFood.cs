@@ -30,10 +30,14 @@ public class MystiaServeFood : MonoBehaviour
     Vector3 GoalPosition => Vector3.up * GoalY;
     float GoalY => ySeparation * transform.GetSiblingIndex();
 
+    Rigidbody2D rigidBoi;
+
     void Start ()
     {
         transform.localPosition = GoalPosition;
-	}
+        rigidBoi = GetComponent<Rigidbody2D>();
+        transform.position += Vector3.forward * transform.GetSiblingIndex() * .01f;
+    }
 	
 	void Update ()
     {
@@ -59,12 +63,22 @@ public class MystiaServeFood : MonoBehaviour
     {
         onTray = false;
         var direction = Mathf.Sign(transform.root.localScale.x);
-        var rigidBoi = GetComponent<Rigidbody2D>();
         rigidBoi.bodyType = RigidbodyType2D.Dynamic;
         transform.parent = null;
         rigidBoi.velocity = new Vector2(
             MathHelper.randomRangeFromVector(xSpeedRange) * direction,
             MathHelper.randomRangeFromVector(ySpeedRange));
         rigidBoi.angularVelocity = MathHelper.randomRangeFromVector(rotSpeedRange * direction);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        var floorTag = "MicrogameTag2";
+        if (collision.collider.tag.Equals(floorTag)
+            || collision.otherCollider.tag.Equals(floorTag))
+        {
+            rigidBoi.bodyType = RigidbodyType2D.Static;
+            enabled = false;
+        }
     }
 }

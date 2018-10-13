@@ -36,10 +36,10 @@ public class MystiaServeFoodManager : MonoBehaviour
     {
         if (ignoreSiblingCollisions)
         {
-            var colliders = GetComponentsInChildren<Collider2D>();
-            for (int i = 0; i < transform.childCount; i++)
+            var colliders = foods.Select(a => a.GetComponent<Collider2D>()).ToArray();
+            for (int i = 0; i < foods.Length; i++)
             {
-                for (int j = i + 1; j < transform.childCount; j++)
+                for (int j = i + 1; j < foods.Length; j++)
                 {
                     Physics2D.IgnoreCollision(colliders[i], colliders[j]);
                 }
