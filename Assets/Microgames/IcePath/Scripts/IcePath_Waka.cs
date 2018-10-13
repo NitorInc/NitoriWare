@@ -4,79 +4,108 @@ using UnityEngine;
 
 public class IcePath_Waka : MonoBehaviour {
 
-    // How long until the next leap?
-    [Header("Leap time")]
-    [SerializeField]
-    private float   leapTime;
-    float           leapAlarm;
+    Animator animator;
 
-    // How long in the air?
-    [Header("Air time")]
-    [SerializeField]
-    private float   airTime;
-    float           airAlarm;
+    [Header("Sprites")]
+    [SerializeField] Sprite spriteIdle;
+    [SerializeField] Sprite spriteLeap;
+    [SerializeField] AudioClip splashClip;
+
+    // My index
+    [HideInInspector] public int _wakaIndex;
+
+    static IcePath_Waka splashInstance;
+
+    // Leap related
+    private Vector3 wakaSpeed = Vector3.zero;
+
+    [Header("Leap time")]
+    [SerializeField] private float leapTime;
+    [SerializeField] private float leapDuration;
+    private float leapAlarm;
+
+    private bool isLeaping = true;
+    [HideInInspector] public bool isPassable = true;
 
     // Tile info
-    Vector2[]   tilePos = new Vector2[2];
-    int         tileCurrent;
+    private Vector2[] tilePos = new Vector2[2];
+    private int tileCurrent = 0;
 
-    public static bool isPassable = true;
+    private int start = 0;
+    private int finish = 1;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        splashInstance = null;
+    }
+
+    void Start () {
         // The tiles
-        tilePos[0] = IcePath_Generate.globalWakaStart;
-        tilePos[1] = IcePath_Generate.globalWakaEnd;
+        tilePos[0] = IcePath_GenerateMap.wakaStart[_wakaIndex];
+        tilePos[1] = IcePath_GenerateMap.wakaEnd[_wakaIndex];
 
-        tileCurrent = 0;
+        transform.position = tilePos[0];
 
-        airAlarm = airTime;
+        // Animator
+        animator = transform.Find("Rig").Find("Animation").GetComponent<Animator>();
+
+        leapAlarm = leapTime;
+
+        if (splashInstance == null)
+            splashInstance = this;
+
     }
 	
-	// Update is called once per frame
 	void Update () {
 
-        // Leap timing
+        Vector2 startTile    = tilePos[start];
+        Vector2 finishTile   = tilePos[finish];
 
+        // Leap
+        if (((Vector2)transform.position - finishTile).magnitude > .025f)
+            transform.position = Vector3.SmoothDamp(transform.position, finishTile, ref wakaSpeed, leapDuration, Mathf.Infinity, Time.deltaTime);
+        //else
+        //    transform.position = finishTile;
+
+        // Set if passable
+        Vector2 center = startTile + (finishTile - startTile) / 2;
+        bool isFarFromCenter = ((Vector2)transform.position - center).magnitude > 0.25f;
+
+        isPassable = isFarFromCenter;
+
+        // Leap timing
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("IcePath_WakaAnim")) {
+            animator.SetBool("hasLeaped", false);
+        }
+        
         if (leapAlarm > 0) {
+
             leapAlarm -= Time.deltaTime;
+
         } else {
 
-            // Prepare the variables
-            int start   = tileCurrent;
-            int finish  = tileCurrent == 0 ? 1 : 0;
+            tileCurrent = tileCurrent == 0 ? 1 : 0;
 
-            Vector2 startTile   = tilePos[start];
-            Vector2 finishTile  = tilePos[finish];
+            start   = tileCurrent;
+            finish  = tileCurrent == 0 ? 1 : 0;
 
-            Vector2 direction   = (finishTile - startTile).normalized;
-            float dist          = (finishTile - startTile).magnitude;
-            float speed         = dist / airTime;
+            animator.SetBool("hasLeaped", true);
 
+            Transform rig = transform.Find("Rig").transform;
+            rig.localScale = new Vector3(rig.localScale.x * -1, 1, 1);
 
-            // Leap into the air
+            leapAlarm = leapTime;
 
-            if ((((Vector2)transform.position) - finishTile).magnitude > 0.33f) {
-                transform.position = (Vector2)transform.position + (direction * speed * Time.deltaTime);
-
-                isPassable = isWithin(airAlarm, 0.2f * airTime, 0.4f * airTime);
-                airAlarm -= Time.deltaTime;
-
-            } else {
-                transform.position = finishTile;
-                tileCurrent = finish;
-
-                isPassable = true;
-                airAlarm = airTime;
-
-                leapAlarm = leapTime;
-
+            if (splashInstance == this && MicrogameTimer.instance.beatsLeft <= 15f)
+            {
+                MicrogameController.instance.playSFX(splashClip,
+                    volume: .35f);
             }
-
 
         }
 
-	}
+    }
+
 
     bool isWithin(float input, float min, float max) {
         // Is the value within this range?
