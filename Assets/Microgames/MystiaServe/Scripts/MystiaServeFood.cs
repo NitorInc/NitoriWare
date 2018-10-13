@@ -20,11 +20,11 @@ public class MystiaServeFood : MonoBehaviour
 
     private bool onTray = true;
     public bool OnTray => onTray;
-    private Sprite sprite;
-    public Sprite Sprite
+    private MystiaServeCustomer customer;
+    public MystiaServeCustomer Customer
     {
-        get { return sprite; }
-        set { sprite = value; GetComponent<SpriteRenderer>().sprite = sprite; }
+        get { return customer; }
+        set { customer = value; GetComponent<SpriteRenderer>().sprite = customer.Data.FoodSprite; }
     }
 
     Vector3 GoalPosition => Vector3.up * GoalY;
@@ -48,12 +48,11 @@ public class MystiaServeFood : MonoBehaviour
 
 	}
 
-    public Sprite serve()
+    public void serve()
     {
         onTray = false;
         transform.parent = null;
         gameObject.SetActive(false);
-        return sprite;
     }
 
     public void launch()

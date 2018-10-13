@@ -19,7 +19,7 @@ public class MystiaServeMystia : MonoBehaviour
     [SerializeField]
     private GameObject notifyIcon;
     [SerializeField]
-    private Transform customerContainer;
+    private MystiaServeCustomerManager customerManager;
 
     [SerializeField]
     private Sprite debugFoodSprite;
@@ -27,7 +27,7 @@ public class MystiaServeMystia : MonoBehaviour
     private float speed;
     bool launched;
     bool flipped = false;
-    private Queue<Collider2D> activeCustomers;
+    private Queue<MystiaServeCustomer> activeCustomers;
     private int customersLeft;
     private MystiaServeFoodManager foodManager;
 
@@ -37,26 +37,27 @@ public class MystiaServeMystia : MonoBehaviour
         Invoke("launch", launchDelay);
         Invoke("showIcon", launchDelay - notifyIconDuration);
         speed = MathHelper.randomRangeFromVector(speedRange);
-        activeCustomers = new Queue<Collider2D>();
-        customersLeft = customerContainer.childCount;
+        customersLeft = customerManager.Customers.Length;
+        activeCustomers = new Queue<MystiaServeCustomer>();
 
         if (canSwitchSides && MathHelper.randomBool())
         {
+            flipped = true;
             flipSide(transform);
             flipSide(notifyIcon.transform);
             speed = -speed;
-            flipped = true;
+            customerManager.reverseCustomerPositions();
         }
 
         foodManager = GetComponent<MystiaServeFoodManager>();
-        foodManager.createFood(Enumerable.Repeat(debugFoodSprite, customerContainer.childCount).ToArray(), flipped);
+        foodManager.createFood(customerManager.Customers);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("MicrogameTag1"))
         {
-            activeCustomers.Enqueue(collision);
+            activeCustomers.Enqueue(collision.GetComponent<MystiaServeCustomer>());
         }
     }
 
@@ -76,11 +77,11 @@ public class MystiaServeMystia : MonoBehaviour
             {
                 if (activeCustomers.Any())
                 {
-                    var foodSprite = foodManager.serveFood();
-
+                    foodManager.serveNextCustomer();
+                    
                     var customer = activeCustomers.Dequeue();
-                    customer.enabled = false;
-                    customer.gameObject.SetActive(false);
+                    customer.GetComponent<Collider2D>().enabled = false;
+                    customer.gameObject.SetActive(false);   //Debug
 
                     customersLeft--;
                     if (customersLeft <= 0)

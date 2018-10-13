@@ -14,23 +14,22 @@ public class MystiaServeFoodManager : MonoBehaviour
 
     private MystiaServeFood[] foods;
 
-    public void createFood(Sprite[] sprites, bool reverseOrder)
+    public void createFood(MystiaServeCustomer[] customers)
     {
-        if (reverseOrder)
-            sprites = sprites.Reverse().ToArray();
-
-        foods = new MystiaServeFood[sprites.Length];
+        foods = new MystiaServeFood[customers.Length];
         for (int i = 0; i < foods.Length; i++)
         {
             var newFood = Instantiate(foodPrefab, foodContainer).GetComponent<MystiaServeFood>();
-            newFood.Sprite = sprites[i];
+            newFood.Customer = customers[i];
             foods[i] = newFood;
         }
     }
 
-    public Sprite serveFood()
+    public MystiaServeCustomer serveNextCustomer()
     {
-        return foods.FirstOrDefault(a => a.OnTray).serve();
+        var food = foods.FirstOrDefault(a => a.OnTray);
+        food.serve();
+        return food.Customer;
     }
 
     public void launchFoods()

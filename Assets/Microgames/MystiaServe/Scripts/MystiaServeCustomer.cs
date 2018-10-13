@@ -6,8 +6,15 @@ public class MystiaServeCustomer : MonoBehaviour
 {
     [SerializeField]
     private Vector2 spawnXRange;
-    
-	void Start ()
+
+    private MystiaServeCustomerData.Customer data;
+    public MystiaServeCustomerData.Customer Data
+    {
+        get { return data; }
+        set { data = value; }
+    }
+
+	void Awake ()
     {
         var x = MathHelper.randomRangeFromVector(spawnXRange);
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
