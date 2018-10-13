@@ -36,7 +36,7 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
     // Map related
     private TextAsset[]     textMap = new TextAsset[10];
-    public static string[,] tile    = new string[10, 10];
+    public static string[,] tile    = new string[13, 10];
 
     // Waka related (max 9 Waka per level)
     public static Vector2[] wakaStart   = new Vector2[9];
@@ -60,7 +60,7 @@ public class IcePath_GenerateMap : MonoBehaviour {
         textMap[9] = no10;
 
         // Initiate all tiles
-        tile[9, 9] = ".";
+        tile[12, 9] = ".";
 
         // Read the map file
         int mapIndex = rand(0, mapAmount - 1);
@@ -84,10 +84,10 @@ public class IcePath_GenerateMap : MonoBehaviour {
         // Generate the map
 
         for (int yy = 0; yy < 9; yy++) {
-            for (int xx = 0; xx < 9; xx++) {
+            for (int xx = 0; xx < 12; xx++) {
 
                 // Determine spawn position
-                string readPos = map.Substring(9 * yy + xx + 2 * yy, 1); // Add 2 yy for new line keyword in string
+                string readPos = map.Substring(12 * yy + xx + 2 * yy, 1); // Add 2 yy for new line keyword in string
 
                 // Which tile to spawn?
                 Quaternion quad = Quaternion.identity;
@@ -240,7 +240,7 @@ public class IcePath_GenerateMap : MonoBehaviour {
     }
 
     Vector2 mapPos(float posX, float posY) {
-        return (new Vector2(-4 + posX, 4 + posY));
+        return (new Vector2(-5.5f + posX, 4 + posY));
     }
 
     int rand(float min, float max) {

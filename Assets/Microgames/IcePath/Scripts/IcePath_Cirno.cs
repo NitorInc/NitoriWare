@@ -38,7 +38,7 @@ public class IcePath_Cirno : MonoBehaviour {
 
     void Start () {
 
-        origin = new Vector2(-4, 4);
+        origin = new Vector2(-5.5f, 4);
 
         // Assign privates
         _tile        = IcePath_GenerateMap.tile;
@@ -113,7 +113,7 @@ public class IcePath_Cirno : MonoBehaviour {
         {
 
             // Is Cirno locked into her current grid yet?
-            if (((Vector2)transform.position - cirnoEndPos).magnitude > 0.1f) {
+            if (((Vector2)transform.position - cirnoEndPos).magnitude > 0.25f) {
                 MathHelper.moveTowards2D(transform, cirnoEndPos, 12f);
 
             } else
@@ -180,8 +180,8 @@ public class IcePath_Cirno : MonoBehaviour {
     bool canWalkInto(int posX, int posY) {
         // Can Cirno walk here?
 
-        if (isWithin(posX, 0, 8) && // Is the position within the grid array?
-            isWithin(posY, 0, 8)) {
+        if (isWithin(posX, 0, 11) && // Is the position within the grid array?
+            isWithin(posY, 0, 11)) {
             
             return (_tile[posX, posY] == "A" || // Is it the start isle?
                     _tile[posX, posY] == "B" || // Is it the end isle?
@@ -204,7 +204,7 @@ public class IcePath_Cirno : MonoBehaviour {
     }
 
     Vector2 mapPos(float posX, float posY) {
-        return (new Vector2(-4 + posX, 4 + posY));
+        return (new Vector2(-5.5f + posX, 4 + posY));
     }
 
     bool isWithin(float input, float min, float max) {
