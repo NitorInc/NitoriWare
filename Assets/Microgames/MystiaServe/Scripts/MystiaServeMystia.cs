@@ -21,10 +21,15 @@ public class MystiaServeMystia : MonoBehaviour
     [SerializeField]
     private Transform customerContainer;
 
+    [SerializeField]
+    private Sprite debugFoodSprite;
+
     private float speed;
     bool launched;
+    bool flipped = false;
     private Queue<Collider2D> activeCustomers;
     private int customersLeft;
+    private MystiaServeFoodManager foodManager;
 
     void Start()
     {
@@ -40,8 +45,11 @@ public class MystiaServeMystia : MonoBehaviour
             flipSide(transform);
             flipSide(notifyIcon.transform);
             speed = -speed;
+            flipped = true;
         }
 
+        foodManager = GetComponent<MystiaServeFoodManager>();
+        foodManager.createFood(Enumerable.Repeat(debugFoodSprite, customerContainer.childCount).ToArray(), flipped);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -68,6 +76,8 @@ public class MystiaServeMystia : MonoBehaviour
             {
                 if (activeCustomers.Any())
                 {
+                    var foodSprite = foodManager.serveFood();
+
                     var customer = activeCustomers.Dequeue();
                     customer.enabled = false;
                     customer.gameObject.SetActive(false);

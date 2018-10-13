@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4640645147241950}
+  - component: {fileID: 114097123969383708}
   - component: {fileID: 212860763087048614}
   - component: {fileID: 50978982499516234}
   - component: {fileID: 70550052251603898}
@@ -56,7 +57,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 15
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -77,6 +78,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.25}
   m_Size: {x: 0.82, y: 0.51}
   m_Direction: 1
+--- !u!114 &114097123969383708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043375403189958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a236ed04b413d42a96a5c0061639fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ySeparation: 0.35
+  yLerpSpeed: 7
+  xSpeedRange: {x: 10, y: 20}
+  ySpeedRange: {x: -10, y: 10}
+  rotSpeedRange: {x: -50, y: 400}
 --- !u!212 &212860763087048614
 SpriteRenderer:
   m_ObjectHideFlags: 1
