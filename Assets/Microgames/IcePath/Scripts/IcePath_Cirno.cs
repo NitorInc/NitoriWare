@@ -20,6 +20,7 @@ public class IcePath_Cirno : MonoBehaviour {
     [Header("Tilt settings")]
     [SerializeField] private float  tiltAngle = 10f;
     [SerializeField] private float  tiltSpeed = 100f;
+    [SerializeField] private float  moveSpeed = 30f;
     [SerializeField] private        Transform tiltPivot;
 
     private float tiltDirection;
@@ -55,7 +56,8 @@ public class IcePath_Cirno : MonoBehaviour {
 	void Update () {
         // Is this the ice cream?
         if (_tile[cirnoGridX, cirnoGridY] == "B" &&
-            transform.position == (Vector3)cirnoEndPos) {
+            MathHelper.Approximately(transform.position.x, cirnoEndPos.x, .01f) &&
+            MathHelper.Approximately(transform.position.y, cirnoEndPos.y, .01f)) {
 
             if (!hasWon) {
                 Win();
@@ -112,46 +114,38 @@ public class IcePath_Cirno : MonoBehaviour {
         // Move on as usual
         {
 
-            // Is Cirno locked into her current grid yet?
-            if (((Vector2)transform.position - cirnoEndPos).magnitude > 0.25f) {
-                MathHelper.moveTowards2D(transform, cirnoEndPos, 12f);
+            // Move Cirno towards grid if applicable
+            MathHelper.moveTowards2D(transform, cirnoEndPos, moveSpeed);
+            
+            // Movement
+            int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0)  - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
+            int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0)     - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
 
-            } else
-            // Lock her into place and check for the next movement
-            {
-                transform.position = cirnoEndPos;
+            if (moveX != 0) {
+                moveY = 0;
+            } else {
+                moveX = 0;
+            }
 
-                // Movement
-                int moveX = (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0)  - (Input.GetKeyDown(KeyCode.LeftArrow) ? 1 : 0);
-                int moveY = (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0)     - (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0);
+            // Player is moving
+            if (moveX != 0 ||
+                moveY != 0) {
+                // Valid movement?
+                if (canWalkInto(cirnoGridX + moveX, cirnoGridY - moveY)) {
+                    cirnoGridX += moveX;
+                    cirnoGridY -= moveY;
 
-                if (moveX != 0) {
-                    moveY = 0;
-                } else {
-                    moveX = 0;
+                    transform.position = cirnoEndPos;   //Snap to next block
+                    cirnoEndPos = mapPos(cirnoGridX, -cirnoGridY);
+
+                    MicrogameController.instance.playSFX(moveClip,
+                        pitchMult: Random.Range(.96f, 1.04f),
+                        panStereo: AudioHelper.getAudioPan(transform.position.x),
+                        volume: .5f);
+                    tiltDirection = tiltDirection == 0f ? -1f : -tiltDirection;
+                    if (moveX != 0 && (float)moveX != Mathf.Sign(tiltPivot.localScale.x))
+                        tiltPivot.localScale = new Vector3(-tiltPivot.localScale.x, tiltPivot.localScale.y, tiltPivot.localScale.z);
                 }
-
-                // Player is moving
-                if (moveX != 0 ||
-                    moveY != 0) {
-                    // Valid movement?
-                    if (canWalkInto(cirnoGridX + moveX, cirnoGridY - moveY)) {
-                        cirnoGridX += moveX;
-                        cirnoGridY -= moveY;
-
-
-                        cirnoEndPos = mapPos(cirnoGridX, -cirnoGridY);
-
-                        MicrogameController.instance.playSFX(moveClip,
-                            pitchMult: Random.Range(.96f, 1.04f),
-                            panStereo: AudioHelper.getAudioPan(transform.position.x),
-                            volume: .5f);
-                        tiltDirection = tiltDirection == 0f ? -1f : -tiltDirection;
-                        if (moveX != 0 && (float)moveX != Mathf.Sign(tiltPivot.localScale.x))
-                            tiltPivot.localScale = new Vector3(-tiltPivot.localScale.x, tiltPivot.localScale.y, tiltPivot.localScale.z);
-                    }
-                }
-
             }
 
         }
