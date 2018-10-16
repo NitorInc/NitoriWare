@@ -13,6 +13,10 @@ public class ReimuDodgeBullet : MonoBehaviour
     [SerializeField]
     private float delay = 1f;
 
+    [Header("Bullet follows target")]
+    [SerializeField]
+    private bool followTarget;
+
     [Header("Use constant speed?")]
     [SerializeField]
     private bool isSpeedConstant;
@@ -52,9 +56,11 @@ public class ReimuDodgeBullet : MonoBehaviour
             {
                 Vector2 newPosition = GetNewPosition();
                 transform.position = newPosition;
-                if (!hasHit) {
-                    this.trajectory = GetTrajectoryTowardsTarget();
-                }
+                if (followTarget) {
+                    if (!hasHit) {
+                        this.trajectory = GetTrajectoryTowardsTarget();
+                    }
+                }                
                 
             }
             
