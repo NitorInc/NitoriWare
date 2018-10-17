@@ -163,6 +163,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 57422831}
+  - component: {fileID: 57422832}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -184,6 +185,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &57422832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 57422830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1122085061
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,8 +205,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1122085063}
   - component: {fileID: 1122085062}
+  - component: {fileID: 1122085064}
   m_Layer: 0
-  m_Name: ReimuDodge_Bullet
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,6 +270,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1122085064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1122085061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6f1aee8da2f6a4ab6bcd7fb4d8e3be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 57422830}
+  speed: 50
+  delay: 5
 --- !u!1 &1236713593
 GameObject:
   m_ObjectHideFlags: 0
