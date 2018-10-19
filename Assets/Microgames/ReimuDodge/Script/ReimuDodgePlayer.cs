@@ -9,6 +9,7 @@ public class ReimuDodgePlayer : MonoBehaviour
     private AudioClip deathSound;
 
 
+
     private bool alive = true;
 
     // This will happen when the player's hitbox collides with a bullet
