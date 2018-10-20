@@ -37,7 +37,7 @@ public class CardHandCardGroup : MonoBehaviour {
     List<GameObject> cardObjects = new List<GameObject>();
     bool leftLast = false;
     bool rightLast = false;
-    bool returnLast = false;
+    bool spaceLast = false;
 
     void MakeCard(int num, float x) {
         GameObject newObject = new GameObject($"Card{cardObjects.Count}");
@@ -139,15 +139,14 @@ public class CardHandCardGroup : MonoBehaviour {
             PositionHand(true);
         } else rightLast = false;
 
-        if (Input.GetKeyDown(KeyCode.Return) && !returnLast) {
+        if (Input.GetKeyDown(KeyCode.Space) && !spaceLast) {
             if (selected < mustSelect && cardObjects[selectedCard].GetComponent<CardHandCard>().Select()) {
                 selected++;
                 
-                if (selected == mustSelect) {
+                if (selected == mustSelect)
                     EvaluateWin();
-                }
             }
-            returnLast = true;
-        } else returnLast = false;
+            spaceLast = true;
+        } else spaceLast = false;
     }
 }
