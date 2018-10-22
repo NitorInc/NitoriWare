@@ -28,7 +28,8 @@ public class KagerouCutController : MonoBehaviour {
 
     private float furDistance = 1.2f;
     private GameObject[] furballs;
-	
+    private KagCutCharacter character;
+
     // Use this for initialization
 	void Start () {
         furballs = new GameObject[furballCount];
@@ -38,7 +39,7 @@ public class KagerouCutController : MonoBehaviour {
         Sprite furSprite = furballSprites[randChar];
         Texture hairs = hairSprites[randChar];
 
-	    KagCutCharacter character = Instantiate(characterPrefab);
+	    character = Instantiate(characterPrefab);
         character.GetComponent<SpriteRenderer>().sprite = charSprite; 
         GameObject furball = character.transform.Find("FurBall").gameObject;
         GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
@@ -79,6 +80,7 @@ public class KagerouCutController : MonoBehaviour {
             }
         }
         if (!ballsLeft) {
+            character.GetComponent<Animator>().SetTrigger("Win");
             background.GetComponent<Animator>().SetTrigger("Win");
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
