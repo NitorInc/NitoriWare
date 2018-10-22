@@ -9,6 +9,7 @@ public class FurBallController : MonoBehaviour {
     
     private bool shouldShrink = false;
     private bool hasMoved = false;
+    private bool removed = false;
     private Transform t;
     void Start(){
         t = sprite.transform;
@@ -17,9 +18,11 @@ public class FurBallController : MonoBehaviour {
         if (!hasMoved && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))){
             hasMoved = true;
         }
-        if (shouldShrink && hasMoved){
+        if (gameObject.tag != "Finish" && shouldShrink && hasMoved){
             if (t.localScale.x <= 0){
-                Destroy(this.gameObject); 
+                GetComponent<ParticleSystem>().Play();
+                gameObject.tag = "Finish";
+                t.localScale = new Vector3(0f, 0f, 0f);
             }
             t.localScale -= new Vector3(speed, speed, speed);
         }

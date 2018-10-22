@@ -11,6 +11,9 @@ public class KagerouCutController : MonoBehaviour {
     private Sprite[] furballSprites;
 
     [SerializeField]
+    private Texture[] hairSprites;
+    
+    [SerializeField]
     private int furballCount = 0;
    
     [SerializeField]
@@ -33,11 +36,14 @@ public class KagerouCutController : MonoBehaviour {
         int randChar = Random.Range(0, characterSprites.Length);
         Sprite charSprite = characterSprites[randChar];
         Sprite furSprite = furballSprites[randChar];
+        Texture hairs = hairSprites[randChar];
+
 	    KagCutCharacter character = Instantiate(characterPrefab);
         character.GetComponent<SpriteRenderer>().sprite = charSprite; 
         GameObject furball = character.transform.Find("FurBall").gameObject;
         GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
         spriteObj.GetComponent<SpriteRenderer>().sprite = furSprite; 
+        furball.GetComponent<ParticleSystemRenderer>().material.mainTexture = hairs;
         
         float angle = 0.4f;
         float[] angles= new float[furballCount];
@@ -67,7 +73,7 @@ public class KagerouCutController : MonoBehaviour {
 	void Update () {
 		bool ballsLeft = false;
         foreach (GameObject ball in furballs){
-            if (ball != null){
+            if (ball.tag != "Finish"){
                 ballsLeft = true;
                 break;
             }
