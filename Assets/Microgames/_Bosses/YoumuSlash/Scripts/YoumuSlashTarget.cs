@@ -9,6 +9,8 @@ public class YoumuSlashTarget : MonoBehaviour
     [SerializeField]
     private YoumuSlashTargetBody body;
     [SerializeField]
+    private YoumuSlashHitEffectController hitEffects;
+    [SerializeField]
     private AudioClip launchClip;
     [SerializeField]
     private float launchPan = .5f;
@@ -87,5 +89,10 @@ public class YoumuSlashTarget : MonoBehaviour
     public void overrideImage(Sprite sprite)
     {
         body.BaseImage.sprite = sprite;
+    }
+
+    public void overrideSound(AudioClip overrideClip)
+    {
+        hitEffects.NormalClip = overrideClip;
     }
 }

@@ -27,9 +27,8 @@ public class YoumuSlashHitEffectController : MonoBehaviour
 
     [Header("Audio fields")]
     [SerializeField]
-    private AudioClip goodClip;
-    [SerializeField]
     private AudioClip normalClip;
+    public AudioClip NormalClip { get { return normalClip; } set { normalClip = value; } }
     [SerializeField]
     private AudioClip badClip;
     [SerializeField]
@@ -89,9 +88,10 @@ public class YoumuSlashHitEffectController : MonoBehaviour
         }
 
         //Play audio
-        var hitClip = getHitClip(hitLevel);
         sfxSource.panStereo = hitPan * ((data.target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right) ? 1f : -1f);
-        sfxSource.PlayOneShot(hitClip);
+        sfxSource.PlayOneShot(normalClip);
+        if (hitLevel == HitLevel.Bad)
+            sfxSource.PlayOneShot(badClip);
     }
 
     GameObject getParticlePrefab(HitLevel hitLevel)
@@ -104,21 +104,6 @@ public class YoumuSlashHitEffectController : MonoBehaviour
                 return normalParticles;
             case (HitLevel.Bad):
                 return badParticles;
-            default:
-                return null;
-        }
-    }
-
-    AudioClip getHitClip(HitLevel hitLevel)
-    {
-        switch (hitLevel)
-        {
-            case (HitLevel.Good):
-                return goodClip;
-            case (HitLevel.Normal):
-                return normalClip;
-            case (HitLevel.Bad):
-                return badClip;
             default:
                 return null;
         }

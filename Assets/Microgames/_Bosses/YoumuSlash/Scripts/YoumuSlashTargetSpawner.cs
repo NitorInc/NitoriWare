@@ -57,6 +57,8 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
             newTargetInstance.overrideAnimatorController(target.OverrideAnimator);
         if (target.OverrideImage != null)
             newTargetInstance.overrideImage(target.OverrideImage);
+        if (target.OverrideSound != null)
+            newTargetInstance.overrideSound(target.OverrideSound);
         newTargetInstance.initiate(target);
     }
 }

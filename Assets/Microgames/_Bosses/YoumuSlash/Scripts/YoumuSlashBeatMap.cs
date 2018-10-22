@@ -56,6 +56,10 @@ public class YoumuSlashBeatMap : ScriptableObject
         private Sprite overrideImage;
         public Sprite OverrideImage => overrideImage;
 
+        [SerializeField]
+        private AudioClip overrideSound;
+        public AudioClip OverrideSound => overrideSound;
+
         public enum Direction
         {
             Left,
