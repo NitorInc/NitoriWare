@@ -48,6 +48,14 @@ public class YoumuSlashBeatMap : ScriptableObject
         private bool forceUp;
         public bool ForceUp => forceUp;
 
+        [SerializeField]
+        private RuntimeAnimatorController overrideAnimator;
+        public RuntimeAnimatorController OverrideAnimator => overrideAnimator;
+
+        [SerializeField]
+        private Sprite overrideImage;
+        public Sprite OverrideImage => overrideImage;
+
         public enum Direction
         {
             Left,

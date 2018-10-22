@@ -11,8 +11,10 @@ public class YoumuSlashTargetBody : MonoBehaviour
     private YoumuSlashTargetSlice rightSlice;
     [SerializeField]
     private Animator rigAnimator;
+    public Animator RigAnimator => rigAnimator;
     [SerializeField]
     private Image baseImage;
+    public Image BaseImage => baseImage;
 
     public YoumuSlashTargetSlice LeftSlice => leftSlice;
     public YoumuSlashTargetSlice RightSlice => rightSlice;

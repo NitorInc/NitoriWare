@@ -72,4 +72,14 @@ public class YoumuSlashTarget : MonoBehaviour
         var distanceOffset = Vector3.down * slashTimeOffset * hitOffsetMult;
         body.onSlashDelay(slashAngle, distanceOffset);
     }
+
+    public void overrideAnimatorController(RuntimeAnimatorController animatorController)
+    {
+        body.RigAnimator.runtimeAnimatorController = animatorController;
+    }
+
+    public void overrideImage(Sprite sprite)
+    {
+        body.BaseImage.sprite = sprite;
+    }
 }
