@@ -5,6 +5,8 @@ using UnityEngine;
 public class YoumuSlashTarget : MonoBehaviour
 {
     [SerializeField]
+    private YoumuSlashTimingData timingData;
+    [SerializeField]
     private YoumuSlashTargetBody body;
     [SerializeField]
     private AudioClip launchClip;
@@ -54,7 +56,11 @@ public class YoumuSlashTarget : MonoBehaviour
         mapInstance.slashed = true;
         slashAngle = angle;
         Invoke("activateSlashEffect", effectActivationTime);
-        body.onSlashActivate();
+
+        var timeUntilNextBeat = timingData.BeatDuration - timeOffset;
+        var slashSpeed = 1f / (timeUntilNextBeat / timingData.BeatDuration);    //Speed slash animation should go to compensate for time offset (for yuyuko food)
+        slashSpeed = Mathf.Pow(slashSpeed, .5f);
+        body.onSlashActivate(slashSpeed);
 
         slashTimeOffset = timeOffset;
 
