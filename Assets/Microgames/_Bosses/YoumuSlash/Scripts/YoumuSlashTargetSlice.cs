@@ -11,6 +11,8 @@ public class YoumuSlashTargetSlice : MonoBehaviour
     private Transform maskTransform;
     [Header("Edit sliced falling speeds here")]
     [SerializeField]
+    private bool disableFall;
+    [SerializeField]
     private float direction = 1f;
     [SerializeField]
     private Vector2 rotSpeedRange;
@@ -41,7 +43,7 @@ public class YoumuSlashTargetSlice : MonoBehaviour
 
     void Update ()
     {
-        if (falling)
+        if (falling && !disableFall)
         {
             updateFallingTransform();
         }

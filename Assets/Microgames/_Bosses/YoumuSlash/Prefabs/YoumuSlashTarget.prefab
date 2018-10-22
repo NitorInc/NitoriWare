@@ -129,6 +129,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1530266482414524
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4527673294515662}
+  - component: {fileID: 212237840301988658}
+  m_Layer: 0
+  m_Name: Yuyuko
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1784871612043610
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,14 +251,28 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1200916991012292}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: -9, y: 5, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: -2.82, y: 0.46, z: 0}
+  m_LocalScale: {x: 0.2559466, y: 0.256155, z: 1}
   m_Children:
   - {fileID: 224963364401166116}
   - {fileID: 224125228014343154}
   - {fileID: 4985619966836670}
+  - {fileID: 4527673294515662}
   m_Father: {fileID: 4197370013396524}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4527673294515662
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530266482414524}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.39, y: -14.74, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4280172822665462}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4985619966836670
 Transform:
@@ -426,7 +456,7 @@ Animator:
   m_GameObject: {fileID: 1784871612043610}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7596149ba16fd241bd4125cc5cea6de, type: 2}
+  m_Controller: {fileID: 22100000, guid: 75b09235d49b0d14b83396f2060269a9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -447,6 +477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageTransform: {fileID: 224084547450213312}
   maskTransform: {fileID: 224109852950742304}
+  disableFall: 0
   direction: 1
   rotSpeedRange: {x: 180, y: 300}
   xSpeedRange: {x: 3, y: 6}
@@ -670,6 +701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageTransform: {fileID: 224700919501291890}
   maskTransform: {fileID: 224875744259693432}
+  disableFall: 0
   direction: -1
   rotSpeedRange: {x: 180, y: 300}
   xSpeedRange: {x: 3, y: 6}
@@ -692,6 +724,50 @@ MonoBehaviour:
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
   volumeType: 2
+--- !u!212 &212237840301988658
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530266482414524}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -484190271
+  m_SortingLayer: 1
+  m_SortingOrder: 100
+  m_Sprite: {fileID: 21300000, guid: a61ef72fb834c844292baa7857c44ff9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 7.45, y: 4.15}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!222 &222239485813057830
 CanvasRenderer:
   m_ObjectHideFlags: 1

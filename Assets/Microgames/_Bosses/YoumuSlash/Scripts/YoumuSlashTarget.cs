@@ -54,7 +54,7 @@ public class YoumuSlashTarget : MonoBehaviour
         mapInstance.slashed = true;
         slashAngle = angle;
         Invoke("activateSlashEffect", effectActivationTime);
-        body.freezeLaunchAnimation();
+        body.onSlashActivate();
 
         slashTimeOffset = timeOffset;
 
@@ -70,6 +70,6 @@ public class YoumuSlashTarget : MonoBehaviour
     public void activateSlashEffect()
     {
         var distanceOffset = Vector3.down * slashTimeOffset * hitOffsetMult;
-        body.slash(slashAngle, distanceOffset);
+        body.onSlashDelay(slashAngle, distanceOffset);
     }
 }
