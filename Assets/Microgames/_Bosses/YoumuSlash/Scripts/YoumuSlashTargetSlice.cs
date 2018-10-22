@@ -60,7 +60,7 @@ public class YoumuSlashTargetSlice : MonoBehaviour
     {
         var imageComponent = imageTransform.GetComponent<Image>();
         imageComponent.sprite = sprite;
-        imageComponent.enabled = true;
+        imageComponent.color = Color.white;
     }
 
     public Transform getImageTransform() => imageTransform;
