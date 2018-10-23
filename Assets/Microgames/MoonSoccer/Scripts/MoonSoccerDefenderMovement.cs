@@ -61,7 +61,8 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                     downward = true;
             }
             x = -((y - minHeight) / moveDistance) * xMovement;
-            transform.position = new Vector2(startX + x, y);
+            transform.position = new Vector3(startX + x, y, transform.position.z);
+        print(transform.position);
         }
 	}
 }

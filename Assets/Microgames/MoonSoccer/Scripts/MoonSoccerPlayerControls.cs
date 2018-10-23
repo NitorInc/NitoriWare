@@ -30,6 +30,11 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // The starting x value of the object transform
     private float startX = 0f;
     
+    // The acceleration of the character
+    [Header("Acceleration")]
+    [SerializeField]
+    private float accelerationSpeed = 0.3f;
+    
     private float acceleration = 0f;
     
     // Tells if the Space key has been pressed before
@@ -56,7 +61,6 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         if (MicrogameController.instance.getVictoryDetermined() != true) {
             float x = transform.position.x;
             float y = transform.position.y;
-            float accelerationSpeed = 0.3f;
             if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
             {
                 if (acceleration >= 0)
@@ -75,7 +79,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
                 acceleration = 0;
             y = transform.position.y + acceleration * Time.deltaTime;
             moveDistance = (minHeight * -1) + maxHeight;
-            x = ((y - minHeight) / moveDistance) * xMovement;
+            x = -((y - minHeight) / moveDistance) * xMovement;
             transform.position = new Vector2(startX + x, y);
         }
     }
