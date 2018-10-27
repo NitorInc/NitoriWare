@@ -44,7 +44,7 @@ public class IcePath_Waka : MonoBehaviour {
         tilePos[0] = IcePath_GenerateMap.wakaStart[_wakaIndex];
         tilePos[1] = IcePath_GenerateMap.wakaEnd[_wakaIndex];
 
-        transform.position = tilePos[0];
+        transform.position = tilePos[1];
 
         // Animator
         animator = transform.Find("Rig").Find("Animation").GetComponent<Animator>();

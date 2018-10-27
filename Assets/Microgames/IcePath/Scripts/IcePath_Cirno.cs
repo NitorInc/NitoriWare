@@ -54,6 +54,7 @@ public class IcePath_Cirno : MonoBehaviour {
 	}
 	
 	void Update () {
+
         // Is this the ice cream?
         if (_tile[cirnoGridX, cirnoGridY] == "B" &&
             MathHelper.Approximately(transform.position.x, cirnoEndPos.x, .01f) &&
@@ -71,11 +72,11 @@ public class IcePath_Cirno : MonoBehaviour {
         currentAngle = Mathf.MoveTowards(currentAngle, getTiltAngleGoal(), tiltSpeed * Time.deltaTime);
         tiltPivot.eulerAngles = Vector3.forward * currentAngle;
 
-        // Is this a Waka passing?
+        // Is this a Waka crossing?
         int wakaIndex;
 
         if (int.TryParse(_tile[cirnoGridX, cirnoGridY], out wakaIndex)) {
-            // Is Waka passing through?
+            // Is Waka crossing through?
             GameObject   waka        = IcePath_GenerateMap.wakaObject[wakaIndex];
             IcePath_Waka wakaScript  = waka.GetComponent<IcePath_Waka>();
 
@@ -86,7 +87,7 @@ public class IcePath_Cirno : MonoBehaviour {
                     Die();
                     isHit = true;
 
-                    MicrogameController.instance.playSFX(hitSound, volume: 0.75f,
+                    MicrogameController.instance.playSFX(hitSound, volume: 1.50f,
                         panStereo: AudioHelper.getAudioPan(transform.position.x));
 
                     MicrogameController.instance.setVictory(victory: false, final: true);
@@ -98,7 +99,7 @@ public class IcePath_Cirno : MonoBehaviour {
 
         // Has Cirno been hit?
         if (isHit) {
-            // Lose condition - fly away now
+            // Lose state - fly away now
             transform.position = transform.position + (new Vector3(-8, 8, 0) * Time.deltaTime);
             transform.Find("Spin Pivot").Find("Rig").Rotate(new Vector3(0, 0, 270 * Time.deltaTime));
 
@@ -175,7 +176,7 @@ public class IcePath_Cirno : MonoBehaviour {
         // Can Cirno walk here?
 
         if (isWithin(posX, 0, 11) && // Is the position within the grid array?
-            isWithin(posY, 0, 11)) {
+            isWithin(posY, 0, 8)) {
             
             return (_tile[posX, posY] == "A" || // Is it the start isle?
                     _tile[posX, posY] == "B" || // Is it the end isle?
