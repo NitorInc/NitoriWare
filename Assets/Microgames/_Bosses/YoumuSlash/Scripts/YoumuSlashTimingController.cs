@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class YoumuSlashTimingController : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class YoumuSlashTimingController : MonoBehaviour
     [SerializeField]
     private float startDelay = .5f;
     [SerializeField]
-    private int warmupBeats;
+    private int[] warmupBeats;
+    private Queue<int> warmupBeatQueue;
     [SerializeField]
     private AudioClip warmupBeatClip;
 
@@ -27,9 +29,11 @@ public class YoumuSlashTimingController : MonoBehaviour
         onBeat = null;
         onMusicStart = null;
 
+        warmupBeatQueue = new Queue<int>(warmupBeats);
+
         musicSource = GetComponent<AudioSource>();
         musicSource.clip = timingData.MusicClip;
-        timingData.initiate(musicSource, beatMap, warmupBeats);
+        timingData.initiate(musicSource, beatMap, warmupBeats.Count());
     }
 
     void Start()
@@ -42,7 +46,7 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     void beginWarmup()
     {
-        float musicStartTime = (float)warmupBeats * timingData.BeatDuration;
+        float musicStartTime = (float)warmupBeats.Sum() * timingData.BeatDuration;
         AudioHelper.playScheduled(musicSource, musicStartTime);
         callOnBeat();
         Invoke("callMusicStart", musicStartTime);
@@ -64,13 +68,14 @@ public class YoumuSlashTimingController : MonoBehaviour
     {
         CancelInvoke("callOnBeat"); //This in case onBeat is force called from another script
 
-        if (beat >= 0)  //Reinvoke onBeat
+        //Reinvoke onBeat
+        if (beat >= 0)  //Normal beat
         {
             float nextBeatTime = (beat + 1f) * timingData.BeatDuration;
             Invoke("callOnBeat", nextBeatTime - musicSource.time);
         }
-        else
-            Invoke("callOnBeat", timingData.BeatDuration);
+        else   //warmup beat
+            Invoke("callOnBeat", timingData.BeatDuration * warmupBeatQueue.Dequeue());  //Dequeue warmup beat
 
         if (beat < 0)
             musicSource.PlayOneShot(warmupBeatClip);
