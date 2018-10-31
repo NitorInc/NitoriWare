@@ -30,6 +30,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         set { allowInput = value; }
     }
     [SerializeField]
+    private string inputStartCommand = "Go!";
+    [SerializeField]
     private bool autoSlash;
     public bool AutoSlash
     {
@@ -220,7 +222,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     
     public void callGoCommand()
     {
-        MicrogameController.instance.displayLocalizedCommand("commandb", "Go!");
+        MicrogameController.instance.displayLocalizedCommand("commandb", inputStartCommand);
     }
 
     void setRigFacingRight(bool facingRight)
