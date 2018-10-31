@@ -30,9 +30,10 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
     [SerializeField] private GameObject prefabIsleTile;
     [SerializeField] private GameObject prefabIceTile;
-    [SerializeField] private GameObject prefabRockTile;
+    [SerializeField] private GameObject prefabWakaNestTile;
 
     [SerializeField] private GameObject prefabLily;
+    [SerializeField] private GameObject prefabRock;
 
     // Map related
     private TextAsset[]     textMap = new TextAsset[10];
@@ -76,7 +77,16 @@ public class IcePath_GenerateMap : MonoBehaviour {
         int wakaIndex   = 0;
 
         int finishRand;
-        int.TryParse(map.Substring(0, 1), out finishRand);
+
+        // Read map for number of finish tiles
+        string n = map.Substring(0, 1);
+
+        if (n == "0" || n == "1" || n == "2" || n == "3" || n == "4" ||
+            n == "5" || n == "6" || n == "7" || n == "8" || n == "9") {
+            int.TryParse(map.Substring(0, 1), out finishRand);
+        } else {
+            finishRand = 1;
+        }
 
         int finishHere; // Definitive finish tile
         finishHere = rand(0, finishRand - 1);
@@ -128,11 +138,11 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         Instantiate(prefabIsleTile, mapPos(xx, -yy), quad);
                         break;
 
-                    // Waka passing tiles
+                    // Waka crossing tiles
                     case ">": // LEFT to RIGHT
                         Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
-                        Instantiate(prefabRockTile, mapPos(xx - 1, -yy), quad);
-                        Instantiate(prefabRockTile, mapPos(xx + 1, -yy), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx - 1, -yy), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx + 1, -yy), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx + 1, -yy);
                         wakaPass[wakaIndex] = mapPos(xx, -yy);
@@ -149,8 +159,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
                     case "<": // RIGHT to LEFT
                         Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
-                        Instantiate(prefabRockTile, mapPos(xx - 1, -yy), quad);
-                        Instantiate(prefabRockTile, mapPos(xx + 1, -yy), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx - 1, -yy), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx + 1, -yy), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx - 1, -yy);
                         wakaPass[wakaIndex] = mapPos(xx, -yy);
@@ -165,8 +175,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
                     case "^": // BOTTOM to TOP
                         Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
-                        Instantiate(prefabRockTile, mapPos(xx, -(yy - 1)), quad);
-                        Instantiate(prefabRockTile, mapPos(xx, -(yy + 1)), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx, -(yy - 1)), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx, -(yy + 1)), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx, -(yy - 1));
                         wakaPass[wakaIndex] = mapPos(xx, -yy);
@@ -181,8 +191,8 @@ public class IcePath_GenerateMap : MonoBehaviour {
 
                     case "v": // TOP to BOTTOM
                         Instantiate(prefabIceTile, mapPos(xx, -yy), quad);
-                        Instantiate(prefabRockTile, mapPos(xx, -(yy - 1)), quad);
-                        Instantiate(prefabRockTile, mapPos(xx, -(yy + 1)), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx, -(yy - 1)), quad);
+                        Instantiate(prefabWakaNestTile, mapPos(xx, -(yy + 1)), quad);
 
                         wakaStart[wakaIndex] = mapPos(xx, -(yy + 1));
                         wakaPass[wakaIndex] = mapPos(xx, -yy);
@@ -199,6 +209,10 @@ public class IcePath_GenerateMap : MonoBehaviour {
                         
                     case "q": // Lily
                         Instantiate(prefabLily, mapPos(xx, -yy), quad);
+                        break;
+
+                    case "w": // Rock
+                        Instantiate(prefabRock, mapPos(xx, -yy), quad);
                         break;
 
                     case ".": // Nothing
