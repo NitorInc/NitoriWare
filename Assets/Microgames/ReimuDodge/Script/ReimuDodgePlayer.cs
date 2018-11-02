@@ -15,11 +15,16 @@ public class ReimuDodgePlayer : MonoBehaviour
     // This will happen when the player's hitbox collides with a bullet
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Only kill Reimu if she's still alive
-        if (alive)
-        {
-            Kill();
-        }
+           //only kill Reimu if she's still alive
+            if (alive)
+            {
+                Kill();
+
+                //Now tell the MicrogameController in the scene that the game is over
+                //ans we've lost forever
+                MicrogameController.instance.setVictory(victory: false, final: true);
+            }
+        
     }
 
     void Kill()
@@ -39,13 +44,14 @@ public class ReimuDodgePlayer : MonoBehaviour
         // Play the death sound effect
         // At a custom volume
         // And panned to the player's X Posision
-        MicrogameController.instance.playSFX(deathSound, volume: 1f,
+        MicrogameController.instance.playSFX(deathSound, volume: 0.5f,
             panStereo: AudioHelper.getAudioPan(transform.position.x));
 
         // Now get a reference to the death exposion and start it
         ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
         particleSystem.Play();
-    }
 
+    }
+    
 }
 

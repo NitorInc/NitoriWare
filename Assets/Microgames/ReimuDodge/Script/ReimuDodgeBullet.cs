@@ -10,11 +10,14 @@ public class ReimuDodgeBullet : MonoBehaviour {
 
     [Header("BulletSpeed")]
     [SerializeField]
-    private float speed = 1f;
+    private float speed;
 
     [Header("Firing delay in seconds")]
     [SerializeField]
-    private float delay = 1f;
+    private float delay;
+
+    [SerializeField]
+    private float waitingTime;
 
 
     //Stores the direction of travel for the bullet
@@ -33,7 +36,7 @@ public class ReimuDodgeBullet : MonoBehaviour {
         if (trajectory != null)
         {
             //Move the bullet a certain distance based on trajectory speed and time
-            Vector2 newPosistion = (Vector2)transform.position + (trajectory * Time.deltaTime);
+            Vector2 newPosistion = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
             transform.position = newPosistion;
         }
     }
