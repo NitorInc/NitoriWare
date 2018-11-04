@@ -36,6 +36,7 @@ public class KnifeDodgeController : MonoBehaviour {
 		NUM_DIRECTIONS
 	}
 
+    bool knifeMoveRight;
     int currentState;
 
     // Todo: how to get enum from KnifeDodgeKnife.cs
@@ -53,7 +54,9 @@ public class KnifeDodgeController : MonoBehaviour {
         SpawnTargets ();
 		CreateSafeZone ();
 		SpawnKnives ();
-	}
+        knifeMoveRight = (Random.value > 0.5f);
+
+    }
 
 	void SpawnTargets() {
 		knifeTargetsList = new List<GameObject> ();
@@ -129,7 +132,20 @@ public class KnifeDodgeController : MonoBehaviour {
 
 	// Deletes targets to create a safe zone.
 	void CreateSafeZone() {
-		int startingIndex = horizontalMovementKnives? Random.Range(0, knifeTargetsList.Count - knivesRemoved - 3) : Random.Range (0,knifeTargetsList.Count - knivesRemoved);
+		int startingIndex = Random.Range (0,knifeTargetsList.Count - knivesRemoved);
+
+        if (horizontalMovementKnives)
+        {
+            if (knifeMoveRight)
+            {
+                startingIndex = Random.Range(0, knifeTargetsList.Count - knivesRemoved - knivesRemoved);
+            }
+            else
+            {
+                startingIndex = Random.Range(knivesRemoved, knifeTargetsList.Count - knivesRemoved);
+            }
+        }
+
 		for (int i = startingIndex; i < startingIndex + knivesRemoved; i++) {
 			knifeTargetsList.RemoveAt (startingIndex);
 		}
@@ -186,7 +202,13 @@ public class KnifeDodgeController : MonoBehaviour {
 
                 if (horizontalMovementKnives)
                 {
-                    knifeList[i].transform.position += new Vector3(1, 0, 0) * Time.deltaTime;
+                    if (knifeMoveRight)
+                    {
+                        knifeList[i].transform.position += new Vector3(1, 0, 0) * Time.deltaTime;
+                    } else
+                    {
+                        knifeList[i].transform.position -= new Vector3(1, 0, 0) * Time.deltaTime;
+                    }
                 }
                 currentState = (int)KnifeState.STOP_AND_ROTATE;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
