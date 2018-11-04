@@ -138,11 +138,11 @@ public class KnifeDodgeController : MonoBehaviour {
         {
             if (knifeMoveRight)
             {
-                startingIndex = Random.Range(0, knifeTargetsList.Count - knivesRemoved - knivesRemoved);
+                startingIndex = Random.Range(0, (knifeTargetsList.Count - knivesRemoved) - knivesRemoved - 1);
             }
             else
             {
-                startingIndex = Random.Range(knivesRemoved, knifeTargetsList.Count - knivesRemoved);
+                startingIndex = Random.Range(knivesRemoved + 1, (knifeTargetsList.Count - knivesRemoved));
             }
         }
 
