@@ -11,6 +11,9 @@ public class KagerouCutController : MonoBehaviour {
     private Color[] hairColors;
     
     [SerializeField]
+    private AudioClip[] soundTracks;
+    
+    [SerializeField]
     private int furballCount = 0;
    
     [SerializeField]
@@ -34,15 +37,22 @@ public class KagerouCutController : MonoBehaviour {
         int randChar = Random.Range(0, characterSprites.Length);
         Sprite charSprite = characterSprites[randChar];
         Color hairColor = hairColors[randChar];
+        AudioClip music = soundTracks[randChar];
 
 	    character = Instantiate(characterPrefab);
         character.GetComponent<SpriteRenderer>().sprite = charSprite; 
+        
         GameObject furball = character.transform.Find("FurBall").gameObject;
         GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
         spriteObj.GetComponent<SpriteRenderer>().color = hairColor;
+        
         ParticleSystem.MainModule partMod = furball.GetComponent<ParticleSystem>().main;
         partMod.startColor = new ParticleSystem.MinMaxGradient(hairColor);
-        
+       
+        AudioSource player = MicrogameController.instance.GetComponent<AudioSource>();
+        player.clip = music;
+        player.Play();
+
         float angle = 0.4f;
         float[] angles= new float[furballCount];
         for (int i=0; i<furballCount; i++){
