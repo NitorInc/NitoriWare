@@ -6,12 +6,9 @@ public class KagerouCutController : MonoBehaviour {
     
     [SerializeField]
     private Sprite[] characterSprites; 
-    
-    [SerializeField]
-    private Sprite[] furballSprites;
 
     [SerializeField]
-    private Texture[] hairSprites;
+    private Color[] hairColors;
     
     [SerializeField]
     private int furballCount = 0;
@@ -36,15 +33,15 @@ public class KagerouCutController : MonoBehaviour {
         // Set the sprites
         int randChar = Random.Range(0, characterSprites.Length);
         Sprite charSprite = characterSprites[randChar];
-        Sprite furSprite = furballSprites[randChar];
-        Texture hairs = hairSprites[randChar];
+        Color hairColor = hairColors[randChar];
 
 	    character = Instantiate(characterPrefab);
         character.GetComponent<SpriteRenderer>().sprite = charSprite; 
         GameObject furball = character.transform.Find("FurBall").gameObject;
         GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
-        spriteObj.GetComponent<SpriteRenderer>().sprite = furSprite; 
-        furball.GetComponent<ParticleSystemRenderer>().material.mainTexture = hairs;
+        spriteObj.GetComponent<SpriteRenderer>().color = hairColor;
+        ParticleSystem.MainModule partMod = furball.GetComponent<ParticleSystem>().main;
+        partMod.startColor = new ParticleSystem.MinMaxGradient(hairColor);
         
         float angle = 0.4f;
         float[] angles= new float[furballCount];
