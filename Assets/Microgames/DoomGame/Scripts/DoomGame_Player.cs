@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class DoomGame_Player : MonoBehaviour
 {
+    [HideInInspector]
     public List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy>();
     [SerializeField]
+    DoomGame_UI ui;
+    [SerializeField]
     Animator gunAnimator;
-    Camera mainCamera;
+    //Camera mainCamera;
     new AudioSource audio;
     [SerializeField]
     AudioClip shootSound;
@@ -16,10 +19,11 @@ public class DoomGame_Player : MonoBehaviour
     bool dead = false;
     float dead_lerp = 0;
     float smooth_gun = 0;
+    int bullets = 6;
 
     void Start()
     {
-        mainCamera = Camera.main;
+        //mainCamera = Camera.main;
         audio = GetComponent<AudioSource>();
     }
 
@@ -34,11 +38,15 @@ public class DoomGame_Player : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
             Shoot();
-        CheckEnemies();
+        //CheckEnemies();
     }
 
     void Shoot()
     {
+        if(bullets <= 0)
+            return;
+        bullets--;
+        ui.UpdateAmmo(bullets);
         audio.PlayOneShot(shootSound);
         gunAnimator.Play("doom_gun");
         gunAnimator.SetTrigger("shoot");
@@ -46,7 +54,7 @@ public class DoomGame_Player : MonoBehaviour
         if(Physics.Raycast(transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer("MicrogameLayer1")))
             hit.collider.GetComponent<DoomGame_Enemy>().DamageSelf();
     }
-
+    /*
     void CheckEnemies()
     {
         DoomGame_UI.rightArrow = DoomGame_UI.leftArrow = false;
@@ -69,11 +77,12 @@ public class DoomGame_Player : MonoBehaviour
                     DoomGame_UI.rightArrow = true;
             }
         }
-    }
+    }*/
 
     public void Kill()
     {
         dead = true;
+        ui.Die();
         MicrogameController.instance.setVictory(false, true);
     }
 
