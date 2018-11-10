@@ -4,31 +4,47 @@ using UnityEngine;
 
 public class MoonSoccerDefenderMovement : MonoBehaviour {
     
-    
-    private enum VerticalMovementRange
+    // The possible ranges for the object's vertical movement
+    public enum VerticalMovementRange
     {
-        None,
         TopHalf,
         BottomHalf,
         FullScreen
     }
     
-    [Header("Vertical Movement")]
-    // The speed of the vertical movement
+    // Contain all the information relating to the object's movement
+    [System.Serializable]
+    public struct Layout 
+    {
+        public float moveSpeed;
+        public VerticalMovementRange movementRange;
+        public float startPosition;
+        public bool startsDownward;
+    }
+    
+    // Each object has 3 layout structs, and one will be picked at random at the start
+    [Header("Movement Layouts")]
     [SerializeField]
-    private float moveSpeed = 1f;
-
-    // Minimum height the object can reach before changing direction
+    public Layout layout1;
     [SerializeField]
-    private VerticalMovementRange movementRange;
+    public Layout layout2;
+    [SerializeField]
+    public Layout layout3;
     
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
     [Header("Horizontal Movement Length")]
     [SerializeField]
     private float xMovement = 1f;
     
-    // The direction the object will start moving in
-    private bool downward = true;
+    
+    // The upper, lower and middle bounds of the vertical movement. Which are used depends on the value of the VerticalMovementRange enum
+    [Header("Vertical Movement Ranges")]
+    [SerializeField]
+    private float yTop = 1.5f;
+    [SerializeField]
+    private float yMiddle = -0.5f;
+    [SerializeField]
+    private float yBottom = -2.9f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
     private float moveDistance = 0f;
@@ -36,21 +52,34 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     // The starting x value of the object transform
     private float startX = 0f;
     
-    
+    // The upper and lower bounds of the object's vertical movement
     private float minHeight = 0f;
     private float maxHeight = 0f;
     
+    private bool downward = true;
+    
+    private Layout chosenLayout;
+    
     // Initialization
     void Start () {
-        // Determine the min and max heights based on the selected movement range
-        switch  (movementRange)
+        // Get what the chosen layout is
+        int layout = GameObject.Find("LayoutPicker").GetComponent<MoonSoccerLayoutPick>().layout;
+        print(layout);
+        switch (layout)
         {
-            case VerticalMovementRange.None:
-            {
-                minHeight = 0f;
-                maxHeight = 0f;
+            case 0:
+                chosenLayout = layout1;
                 break;
-            }
+            case 1:
+                chosenLayout = layout2;
+                break;
+            case 2:
+                chosenLayout = layout3;
+                break;
+        }
+        // Set the bounds of the movement based on the layout's range
+        switch  (chosenLayout.movementRange)
+        {
             case VerticalMovementRange.TopHalf:
             {
                 minHeight = -0.5f;
@@ -72,6 +101,7 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
         }
         moveDistance = (minHeight * -1) + maxHeight;
         startX = transform.position.x;
+        downward = chosenLayout.startsDownward;
     }
 
     
@@ -83,14 +113,14 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             if (downward == true)
             {
                 if (transform.position.y >= minHeight)
-                    y = transform.position.y - moveSpeed * Time.deltaTime;
+                    y = transform.position.y - chosenLayout.moveSpeed * Time.deltaTime;
                 else
                     downward = false;
             }
             else
             {
                 if (transform.position.y <= maxHeight)
-                    y = transform.position.y + moveSpeed * Time.deltaTime;
+                    y = transform.position.y + chosenLayout.moveSpeed * Time.deltaTime;
                 else
                     downward = true;
             }

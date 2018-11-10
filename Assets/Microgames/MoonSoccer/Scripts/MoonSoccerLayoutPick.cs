@@ -8,6 +8,6 @@ public class MoonSoccerLayoutPick : MonoBehaviour {
 
 	// Determine the layout randomly before other objects start
 	void Awake () {
-		layout = Random.Range(0, 2);
+		layout = Random.Range(0, 3);
 	}
 }
