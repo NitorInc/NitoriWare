@@ -16,8 +16,11 @@ public class MoonSoccerBallCatching : MonoBehaviour {
     
     // Collision with the ball
     void OnTriggerEnter2D(Collider2D col) {
-        Destroy(col.gameObject);
-        MicrogameController.instance.setVictory(victory: false, final: true);
+        if (col.gameObject.name == "Ball")
+        {
+            Destroy(col.gameObject);
+            MicrogameController.instance.setVictory(victory: false, final: true);
+        }
     }
 }
 
