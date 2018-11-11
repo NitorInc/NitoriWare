@@ -50,7 +50,7 @@ public class SagumeLieText : MonoBehaviour
         // !!! DEBUG !!! if there's room for 3 truths, but we only have 2 on the list, it'll error.
         // this'll be fixed by either reducing answers, or making sure every question has 3 possible truths. 
         if (traits.QuestionPool[questionIndex].TruthResponses.Length < 3)
-        { unpickedTruths.Add("Debug truth! You shouldn't be seeing this!");
+        { unpickedTruths.Add("Not enough answers for this question!");
         };
 
         // go through the number of Answers. if it's the Lie position, make it a Lie. if it's the Truth position, make it a Truth then remove it from the list.
@@ -83,6 +83,14 @@ public class SagumeLieText : MonoBehaviour
     private Animator BackgroundAnimator;
     [SerializeField]
     private GameObject QuestionBox;
+    [SerializeField]
+    private GameObject Button0;
+    [SerializeField]
+    private GameObject Button1;
+    [SerializeField]
+    private GameObject Button2;
+    [SerializeField]
+    private GameObject Button3;
 
     public void SagumeVictory()
     {
@@ -108,6 +116,10 @@ public class SagumeLieText : MonoBehaviour
     public void AnswerCheck(int answerButtonClicked)
     {
         QuestionBox.SetActive(false);
+        Button0.SetActive(false);
+        Button1.SetActive(false);
+        Button2.SetActive(false);
+        Button3.SetActive(false);
 
         if (answerButtonClicked == liePosition)
             SagumeVictory();
