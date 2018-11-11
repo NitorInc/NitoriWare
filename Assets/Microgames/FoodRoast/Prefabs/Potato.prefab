@@ -35,13 +35,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316212028851600}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -186, y: -31, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -350, y: -140, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61514990167539284
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -58,14 +58,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 92, y: 48}
+    oldSize: {x: 95, y: 97}
     newSize: {x: 8, y: 6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 120, y: 72}
+  m_Size: {x: 120, y: 240}
   m_EdgeRadius: 0
 --- !u!114 &114665332220798780
 MonoBehaviour:
@@ -78,7 +78,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4161e53b81c134b94f40450f10faf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cooked: 0
+  PotatoSprites:
+  - Pack:
+    - {fileID: 21300000, guid: 368e6f009f37cdf4ea5c6c3ae23ffbe7, type: 3}
+    - {fileID: 21300000, guid: 61cd98c4cc62d0447a8b9b054f3df600, type: 3}
+    - {fileID: 21300000, guid: ccdcd8e6f5ecb674bbaa708c1da5bb40, type: 3}
+    - {fileID: 21300000, guid: 61cd98c4cc62d0447a8b9b054f3df600, type: 3}
+  - Pack:
+    - {fileID: 21300000, guid: 991cfed3578596748aab45cd8163d782, type: 3}
+    - {fileID: 21300000, guid: 716ca5dfe7ddb7742bcdf5220c727e03, type: 3}
+    - {fileID: 21300000, guid: da066eaf9b8cc5649bab38f4605585cb, type: 3}
+    - {fileID: 21300000, guid: 716ca5dfe7ddb7742bcdf5220c727e03, type: 3}
+  - Pack:
+    - {fileID: 21300000, guid: d3a53682512f6ef40abcff3ac938bb18, type: 3}
+    - {fileID: 21300000, guid: 131191063aee9424c8a8853befecd5e2, type: 3}
+    - {fileID: 21300000, guid: 52313803a7a4c294baffbec56088dcb1, type: 3}
+    - {fileID: 21300000, guid: 131191063aee9424c8a8853befecd5e2, type: 3}
+  StateDuration: 0.4
+  PotatoAnimationState: 0
+  PotatoCookedState: 0
 --- !u!212 &212421253629947294
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -113,7 +131,7 @@ SpriteRenderer:
   m_SortingLayerID: -484190271
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6319074a06fe86b4f9f30aa4ecfd2bc4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 368e6f009f37cdf4ea5c6c3ae23ffbe7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

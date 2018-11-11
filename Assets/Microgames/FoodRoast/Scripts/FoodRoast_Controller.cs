@@ -53,6 +53,7 @@ namespace FoodRoast {
     [ReadOnly] [SerializeField] private int cookedPotatoesCollected = 0;
 
     private List<PotatoCookTime> cookTimeList;
+    private List<int> randomAnimationStates;
 
     private void Start() {
       foreach (var clip in ambienceClips)
@@ -85,6 +86,19 @@ namespace FoodRoast {
       var time = cookTimeList[index].GetTime;
       cookTimeList.RemoveAt(index);
       return time;
+    }
+
+    public int GetAnimationState(int packLength){
+      if (randomAnimationStates == null) {
+        randomAnimationStates = new List<int>();
+        for (var i = 0; i < packLength; i++) {
+          randomAnimationStates.Add(i);
+        }
+      }
+      var index = Random.Range(0, randomAnimationStates.Count);
+      var state = randomAnimationStates[index];
+      randomAnimationStates.RemoveAt(index);
+      return state;
     }
 
     //---   Editor Script

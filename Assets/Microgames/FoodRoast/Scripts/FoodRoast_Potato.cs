@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace FoodRoast { 
+  public enum PotatoCookedState { Uncooked, Cooked, Burnt}
+
   [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
   public class FoodRoast_Potato : MonoBehaviour {
     private SpriteRenderer _SpriteRenderer;
@@ -14,17 +16,39 @@ namespace FoodRoast {
       }
     }
 
-    [Header("Ripe Variables")]
-    [ReadOnly] [SerializeField] private bool Cooked = false;
+    [System.Serializable]
+    private struct PotatoSpritePack {
+      public Sprite[] Pack;
+    }
 
-    // Color Debug Variables
-    private static Color uncookedColor = new Color(240 / 255f, 230 / 255f, 140 / 255f);
-    private static Color cookedColor = new Color(139 / 255f, 69 / 255f, 19 / 255f);
-    private static Color burntColor = new Color(51 / 255f, 26 / 255f, 0 / 255f);
+    [Header("Potato Sprites (0 - Uncooked, 1 - Cooked, 2 - Burnt)")]
+    [SerializeField] private PotatoSpritePack[] PotatoSprites;
+    private Sprite GetSprite => PotatoSprites[(int)PotatoCookedState].Pack[PotatoAnimationState];
+    private int GetPackLength => PotatoSprites[0].Pack.Length;
+
+    [Header("Animation States")]
+    [SerializeField] private float StateDuration = 0.33f;
+    [ReadOnly] [SerializeField] private int PotatoAnimationState = 0;
+    [ReadOnly] [SerializeField] private PotatoCookedState PotatoCookedState = 0;
 
     private void Start() {
-      SpriteRenderer.color = uncookedColor;
+      PotatoAnimationState = FoodRoast_Controller.Instance.GetAnimationState(GetPackLength);
+      PotatoCookedState = PotatoCookedState.Uncooked;
+      StartCoroutine(AnimationCoroutine());
       StartCoroutine(CookingCoroutine());
+    }
+
+    private IEnumerator AnimationCoroutine(){
+      float time = 0;
+      while (true) {
+        SpriteRenderer.sprite = GetSprite;
+        while (time < StateDuration) {
+          yield return null;
+          time += Time.deltaTime;
+        }
+        time -= StateDuration;
+        PotatoAnimationState = (PotatoAnimationState + 1) % GetPackLength;
+      }
     }
 
     // Timer till cooked potatoes
@@ -37,19 +61,19 @@ namespace FoodRoast {
 
     // Procedure that turns uncooked to cooked potatoes
     private void CookedProcedure() {
-      Cooked = true;
-      SpriteRenderer.color = cookedColor;
+      PotatoCookedState = PotatoCookedState.Cooked;
+      SpriteRenderer.sprite = GetSprite;
     }
 
     // Procedure that turns uncooked to cooked potatoes
     private void BurntProcedure() {
-      Cooked = false;
-      SpriteRenderer.color = burntColor;
+      PotatoCookedState = PotatoCookedState.Burnt;
+      SpriteRenderer.sprite = GetSprite;
     }
 
     // Procedure when the potato is clicked
     private void OnMouseDown() {
-      if (Cooked) {
+      if (PotatoCookedState == PotatoCookedState.Cooked) {
         FoodRoast_Controller.Instance.AddCookedPotato();
       } else {
         FoodRoast_Controller.Instance.AddUncookedPotato();
