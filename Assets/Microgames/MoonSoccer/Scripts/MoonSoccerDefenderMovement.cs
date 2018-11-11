@@ -18,7 +18,6 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     {
         public float moveSpeed;
         public VerticalMovementRange movementRange;
-        public float startPosition;
         public bool startsDownward;
     }
     
@@ -64,7 +63,6 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     void Start () {
         // Get what the chosen layout is
         int layout = GameObject.Find("LayoutPicker").GetComponent<MoonSoccerLayoutPick>().layout;
-        print(layout);
         switch (layout)
         {
             case 0:
@@ -82,20 +80,20 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
         {
             case VerticalMovementRange.TopHalf:
             {
-                minHeight = -0.5f;
-                maxHeight = 1.5f;
+                minHeight = yMiddle;
+                maxHeight = yTop;
                 break;
             }
             case VerticalMovementRange.BottomHalf:
             {
-                minHeight = -2.9f;
-                maxHeight = -0.5f;
+                minHeight = yBottom;
+                maxHeight = yMiddle;
                 break;
             }
             case VerticalMovementRange.FullScreen:
             {
-                minHeight = -2.9f;
-                maxHeight = 1.5f;
+                minHeight = yBottom;
+                maxHeight = yTop;
                 break;
             }
         }
