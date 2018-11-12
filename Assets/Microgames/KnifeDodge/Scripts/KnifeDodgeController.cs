@@ -26,6 +26,8 @@ public class KnifeDodgeController : MonoBehaviour {
     // Only applies if tiltedKnives enabled
     public bool tiltedKnives = true;
 	public bool tiltedKnivesRandomAngle = true;
+
+    public bool horizontalMovementKnives = false;
 	public float tiltedKnivesAngle = 0;
 	public int tiltedKnivesNumZeroTilt = 4;
     public enum KnifeDirections {
@@ -34,6 +36,7 @@ public class KnifeDodgeController : MonoBehaviour {
 		NUM_DIRECTIONS
 	}
 
+    bool knifeMoveRight;
     int currentState;
 
     // Todo: how to get enum from KnifeDodgeKnife.cs
@@ -51,7 +54,9 @@ public class KnifeDodgeController : MonoBehaviour {
         SpawnTargets ();
 		CreateSafeZone ();
 		SpawnKnives ();
-	}
+        knifeMoveRight = (Random.value > 0.5f);
+
+    }
 
 	void SpawnTargets() {
 		knifeTargetsList = new List<GameObject> ();
@@ -128,6 +133,19 @@ public class KnifeDodgeController : MonoBehaviour {
 	// Deletes targets to create a safe zone.
 	void CreateSafeZone() {
 		int startingIndex = Random.Range (0,knifeTargetsList.Count - knivesRemoved);
+
+        if (horizontalMovementKnives)
+        {
+            if (knifeMoveRight)
+            {
+                startingIndex = Random.Range(0, (knifeTargetsList.Count - knivesRemoved) - knivesRemoved - 1);
+            }
+            else
+            {
+                startingIndex = Random.Range(knivesRemoved + 1, (knifeTargetsList.Count - knivesRemoved));
+            }
+        }
+
 		for (int i = startingIndex; i < startingIndex + knivesRemoved; i++) {
 			knifeTargetsList.RemoveAt (startingIndex);
 		}
@@ -180,6 +198,17 @@ public class KnifeDodgeController : MonoBehaviour {
                 if (currentState != (int)KnifeState.STOP_AND_ROTATE)
                 {
                     GetComponents<AudioSource>()[2].Play();
+                }
+
+                if (horizontalMovementKnives)
+                {
+                    if (knifeMoveRight)
+                    {
+                        knifeList[i].transform.position += new Vector3(1, 0, 0) * Time.deltaTime;
+                    } else
+                    {
+                        knifeList[i].transform.position -= new Vector3(1, 0, 0) * Time.deltaTime;
+                    }
                 }
                 currentState = (int)KnifeState.STOP_AND_ROTATE;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
