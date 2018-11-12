@@ -28,6 +28,7 @@ public class KnifeDodgeController : MonoBehaviour {
 	public bool tiltedKnivesRandomAngle = true;
 
     public bool horizontalMovementKnives = false;
+    public float horizontalKnifeSpeed = 1f;
 	public float tiltedKnivesAngle = 0;
 	public int tiltedKnivesNumZeroTilt = 4;
     public enum KnifeDirections {
@@ -51,10 +52,10 @@ public class KnifeDodgeController : MonoBehaviour {
     void Start () {
         currentState = -1;
 
+        knifeMoveRight = (Random.value > 0.5f);
         SpawnTargets ();
 		CreateSafeZone ();
 		SpawnKnives ();
-        knifeMoveRight = (Random.value > 0.5f);
 
     }
 
@@ -136,14 +137,15 @@ public class KnifeDodgeController : MonoBehaviour {
 
         if (horizontalMovementKnives)
         {
-            if (knifeMoveRight)
+            int offset = 2;
+            startingIndex /= 2;
+            if (!knifeMoveRight)
             {
-                startingIndex = Random.Range(0, (knifeTargetsList.Count - knivesRemoved) - knivesRemoved - 1);
+                startingIndex += (knifeTargetsList.Count / 2);
+                startingIndex -= offset;
             }
             else
-            {
-                startingIndex = Random.Range(knivesRemoved + 1, (knifeTargetsList.Count - knivesRemoved));
-            }
+                startingIndex += offset;
         }
 
 		for (int i = startingIndex; i < startingIndex + knivesRemoved; i++) {
@@ -204,10 +206,10 @@ public class KnifeDodgeController : MonoBehaviour {
                 {
                     if (knifeMoveRight)
                     {
-                        knifeList[i].transform.position += new Vector3(1, 0, 0) * Time.deltaTime;
+                        knifeList[i].transform.position += new Vector3(horizontalKnifeSpeed, 0, 0) * Time.deltaTime;
                     } else
                     {
-                        knifeList[i].transform.position -= new Vector3(1, 0, 0) * Time.deltaTime;
+                        knifeList[i].transform.position -= new Vector3(horizontalKnifeSpeed, 0, 0) * Time.deltaTime;
                     }
                 }
                 currentState = (int)KnifeState.STOP_AND_ROTATE;
