@@ -16,6 +16,12 @@ public class MystiaServeCustomerData : ScriptableObject
         private Sprite customerSprite;
         public Sprite CustomerSprite => customerSprite;
         [SerializeField]
+        private Sprite servedSprite;
+        public Sprite ServedSprite => servedSprite;
+        [SerializeField]
+        private Sprite failSprite;
+        public Sprite FailSprite => failSprite;
+        [SerializeField]
         private Sprite foodSprite;
         public Sprite FoodSprite => foodSprite;
     }

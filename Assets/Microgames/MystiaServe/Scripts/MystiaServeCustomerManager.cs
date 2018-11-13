@@ -22,9 +22,8 @@ public class MystiaServeCustomerManager : MonoBehaviour
         {
             var newCustomer = customerContainer.GetChild(i).GetComponent<MystiaServeCustomer>();
             var chosenData = customerPool[Random.Range(0, customerPool.Count)];
-            newCustomer.Data = chosenData;
+            newCustomer.setData(chosenData);
             customerPool.Remove(chosenData);
-            newCustomer.GetComponent<SpriteRenderer>().sprite = newCustomer.Data.CustomerSprite;
             customers[i] = newCustomer;
         }
     }

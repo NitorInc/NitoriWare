@@ -28,6 +28,7 @@ public class MystiaServeFoodManager : MonoBehaviour
     public MystiaServeCustomer serveNextCustomer()
     {
         var food = foods.FirstOrDefault(a => a.OnTray);
+        food.Customer.serve();
         food.serve();
         return food.Customer;
     }
