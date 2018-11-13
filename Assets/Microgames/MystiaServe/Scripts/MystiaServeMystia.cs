@@ -82,13 +82,14 @@ public class MystiaServeMystia : MonoBehaviour
                     var customer = activeCustomers.Dequeue();
                     customer.GetComponent<Collider2D>().enabled = false;
                     customer.gameObject.SetActive(false);   //Debug
+                    rigAnimator.SetTrigger("Serve");
 
                     customersLeft--;
                     if (customersLeft <= 0)
                         setVictory(true);
                 }
                 else
-                setVictory(false);
+                    setVictory(false);
             }
         }
     }
