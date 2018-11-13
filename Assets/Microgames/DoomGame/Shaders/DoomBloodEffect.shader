@@ -42,10 +42,7 @@
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				return lerp(
-					tex2D(_MainTex, i.uv),
-					fixed4(1,0,0,1),
-					_Amount);
+				return lerp(tex2D(_MainTex, i.uv) * lerp(1, fixed4(1, 0, 0, 1),step(0.01,_Amount)),0,_Amount);
 		}
 		ENDCG
 	}
