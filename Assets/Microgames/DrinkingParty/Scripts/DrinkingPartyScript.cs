@@ -23,9 +23,13 @@ public class DrinkingPartyScript : MonoBehaviour
     private Vector3 Liquide1Pos;
     private Vector3 Liquide2Pos;
 
+    [SerializeField]
+    private AudioClip DrinkSound;
+
     private float Time0;
     private float TotalTime;
-    private int i;
+    private int i=0;
+    private float j=100;
 
     // Use this for initialization
     void Start()
@@ -99,6 +103,22 @@ public class DrinkingPartyScript : MonoBehaviour
         } 
     }
 
+    void PlaySound()
+    {
+        MicrogameController.instance.playSFX(DrinkSound, volume: 0.5f,
+            panStereo: AudioHelper.getAudioPan(transform.position.x));
+    }
+
+    void ConditionPlayingSound()
+    {
+        if(percent_bottle1 < j)
+        {
+            print("Play sound");
+            PlaySound();
+            j -= 10;
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -106,6 +126,7 @@ public class DrinkingPartyScript : MonoBehaviour
             //print("space key was pressed");
             percent_bottle1 = percent_bottle1 - percent_loose_click;
             SetBottleBar();
+            ConditionPlayingSound();
         }
         IAGameplay();
     }
