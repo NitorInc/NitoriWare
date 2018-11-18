@@ -7,9 +7,17 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     // The possible ranges for the object's vertical movement
     public enum VerticalMovementRange
     {
-        TopHalf,
-        BottomHalf,
+        TopScreenHalf,
+        BottomScreenHalf,
         FullScreen
+    }
+    
+    // The possible start positions within a character's movement range
+    public enum StartPosition
+    {
+        Top,
+        Bottom,
+        Middle
     }
     
     // Contain all the information relating to the object's movement
@@ -18,6 +26,7 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     {
         public float moveSpeed;
         public VerticalMovementRange movementRange;
+        public StartPosition startPosition;
         public bool startsDownward;
     }
     
@@ -78,13 +87,13 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
         // Set the bounds of the movement based on the layout's range
         switch  (chosenLayout.movementRange)
         {
-            case VerticalMovementRange.TopHalf:
+            case VerticalMovementRange.TopScreenHalf:
             {
                 minHeight = yMiddle;
                 maxHeight = yTop;
                 break;
             }
-            case VerticalMovementRange.BottomHalf:
+            case VerticalMovementRange.BottomScreenHalf:
             {
                 minHeight = yBottom;
                 maxHeight = yMiddle;
@@ -96,6 +105,19 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                 maxHeight = yTop;
                 break;
             }
+        }
+        switch (chosenLayout.startPosition)
+        {
+            case StartPosition.Top:
+                transform.position = new Vector3(transform.position.x, maxHeight, transform.position.z);
+                break;
+            case StartPosition.Bottom:
+                transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
+                break;
+            case StartPosition.Middle:
+                transform.position = new Vector3(transform.position.x, (maxHeight + minHeight) / 2, transform.position.z);
+                break;
+            
         }
         moveDistance = (minHeight * -1) + maxHeight;
         startX = transform.position.x;
