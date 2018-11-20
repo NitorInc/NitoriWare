@@ -27,7 +27,7 @@ public class MoonSoccerBall : MonoBehaviour {
     public void activate (Vector2 position) 
     {
         transform.position = position;
-        transform.position = new Vector2(transform.position.x, transform.position.y - 1);
+        transform.position = new Vector2(transform.position.x + 1.2f, transform.position.y - 1);
         gameObject.SetActive(true);
     }
 }
