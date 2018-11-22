@@ -16,6 +16,15 @@ namespace FoodRoast {
       }
     }
 
+    private ParticleSystem _Particles;
+    public ParticleSystem Particles {
+      get {
+        if (_Particles == null)
+          _Particles = GetComponentInChildren<ParticleSystem>();
+        return _Particles;
+      }
+    }
+
     [System.Serializable]
     private struct PotatoSpritePack {
       public Sprite[] Pack;
@@ -63,12 +72,28 @@ namespace FoodRoast {
     private void CookedProcedure() {
       PotatoCookedState = PotatoCookedState.Cooked;
       SpriteRenderer.sprite = GetSprite;
+
+      ChangeParticlesStartColorAlpha(.025f);
+      Particles.Play();
     }
 
     // Procedure that turns uncooked to cooked potatoes
     private void BurntProcedure() {
       PotatoCookedState = PotatoCookedState.Burnt;
       SpriteRenderer.sprite = GetSprite;
+
+      ChangeParticlesStartColorAlpha(.2f);
+      Particles.Play();
+    }
+
+    private void ChangeParticlesStartColorAlpha(float alpha){
+      var main = Particles.main;
+      var colorStruct = main.startColor;
+      var color = colorStruct.color;
+
+      color.a = alpha;
+      colorStruct.color = color;
+      main.startColor = colorStruct;
     }
 
     // Procedure when the potato is clicked
@@ -78,6 +103,9 @@ namespace FoodRoast {
       } else {
         FoodRoast_Controller.Instance.AddUncookedPotato();
       }
+      Particles.Stop();
+      Particles.transform.SetParent(null);
+
       Destroy(gameObject);
     }
   }
