@@ -73,7 +73,7 @@ namespace FoodRoast {
       PotatoCookedState = PotatoCookedState.Cooked;
       SpriteRenderer.sprite = GetSprite;
 
-      ChangeParticlesStartColorAlpha(.025f);
+      ChangeParticlesStartColorAlpha(.05f);
       Particles.Play();
     }
 
@@ -82,7 +82,7 @@ namespace FoodRoast {
       PotatoCookedState = PotatoCookedState.Burnt;
       SpriteRenderer.sprite = GetSprite;
 
-      ChangeParticlesStartColorAlpha(.2f);
+      ChangeParticlesStartColorAlpha(.4f);
       Particles.Play();
     }
 
