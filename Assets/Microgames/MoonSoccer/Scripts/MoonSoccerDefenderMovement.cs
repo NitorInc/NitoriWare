@@ -44,8 +44,14 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     [SerializeField]
     private float xMovement = 1f;
     
+    // The change in scale that happens when going all the way up the screen, in percentage
+    [Header("Scale Change From Perspective")]
+    [SerializeField]
+    private float scaleChange = 5f;
     
-    // The upper, lower and middle bounds of the vertical movement. Which are used depends on the value of the VerticalMovementRange enum
+    
+    // The upper, lower and middle bounds of the vertical movement 
+    // Which are used depends on the values of the VerticalMovementRange enum
     [Header("Vertical Movement Ranges")]
     [SerializeField]
     private float yTop = 1.5f;
@@ -123,7 +129,7 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                 break;
             
         }
-        moveDistance = (minHeight * -1) + maxHeight;
+        moveDistance = (yBottom * -1) + maxHeight;
         startX = transform.position.x;
         downward = chosenLayout.startsDownward;
     }
@@ -153,8 +159,9 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             transform.position = new Vector3(startX + x, y, transform.position.z);
             // Scale the character's size based on how high they are on screen
             float vDistance = 1 - ((y - yBottom) / moveDistance);
-            transform.localScale = new Vector3((startScale.x / 100f) * (95 + vDistance*5), (startScale.y / 100f) * (95 + vDistance*5), startScale.z);
-            print(transform.localScale);
+            transform.localScale = new Vector3((startScale.x / 100f) * (100-scaleChange + vDistance*scaleChange), 
+                                               (startScale.y / 100f) * (100-scaleChange + vDistance*scaleChange), 
+                                               startScale.z);
         }
 	}
 }
