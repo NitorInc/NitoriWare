@@ -64,14 +64,17 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     private float minHeight = 0f;
     private float maxHeight = 0f;
     
-    private bool downward = true;
+    private bool downward;
     
     private Layout chosenLayout;
+    
+    private Vector3 startScale;
     
     // Initialization
     void Start () {
         // Get what the chosen layout is
         int layout = GameObject.Find("LayoutPicker").GetComponent<MoonSoccerLayoutPick>().layout;
+        startScale = transform.localScale;
         switch (layout)
         {
             case 0:
@@ -106,6 +109,7 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                 break;
             }
         }
+        // Set the start position chosen in the inspector
         switch (chosenLayout.startPosition)
         {
             case StartPosition.Top:
@@ -144,8 +148,13 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                 else
                     downward = true;
             }
+            // Horizontal Movement based on how high they are on screen
             x = -((y - minHeight) / moveDistance) * xMovement;
             transform.position = new Vector3(startX + x, y, transform.position.z);
+            // Scale the character's size based on how high they are on screen
+            float vDistance = 1 - ((y - yBottom) / moveDistance);
+            transform.localScale = new Vector3((startScale.x / 100f) * (95 + vDistance*5), (startScale.y / 100f) * (95 + vDistance*5), startScale.z);
+            print(transform.localScale);
         }
 	}
 }

@@ -37,7 +37,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     
     private float acceleration = 0f;
     
-    // Tells if the Space key has been pressed before
+    // Whether the space key has been pressed yet or not
     private bool hasKicked = false;
         
     public MoonSoccerBall ballScript;
