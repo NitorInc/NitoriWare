@@ -52,13 +52,13 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     
     // The upper, lower and middle bounds of the vertical movement 
     // Which are used depends on the values of the VerticalMovementRange enum
-    [Header("Vertical Movement Ranges")]
+    [Header("Vertical Movement Range")]
     [SerializeField]
-    private float yTop = 1.5f;
+    private float TopY = 1.5f;
     [SerializeField]
-    private float yMiddle = -0.5f;
+    private float MiddleY = -0.5f;
     [SerializeField]
-    private float yBottom = -2.9f;
+    private float BottomY = -2.9f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
     private float moveDistance = 0f;
@@ -74,13 +74,13 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     
     private Layout chosenLayout;
     
+    // The scale of the sprite at the very start
     private Vector3 startScale;
     
     // Initialization
     void Start () {
         // Get what the chosen layout is
         int layout = GameObject.Find("LayoutPicker").GetComponent<MoonSoccerLayoutPick>().layout;
-        startScale = transform.localScale;
         switch (layout)
         {
             case 0:
@@ -98,20 +98,20 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
         {
             case VerticalMovementRange.TopScreenHalf:
             {
-                minHeight = yMiddle;
-                maxHeight = yTop;
+                minHeight = MiddleY;
+                maxHeight = TopY;
                 break;
             }
             case VerticalMovementRange.BottomScreenHalf:
             {
-                minHeight = yBottom;
-                maxHeight = yMiddle;
+                minHeight = BottomY;
+                maxHeight = MiddleY;
                 break;
             }
             case VerticalMovementRange.FullScreen:
             {
-                minHeight = yBottom;
-                maxHeight = yTop;
+                minHeight = BottomY;
+                maxHeight = TopY;
                 break;
             }
         }
@@ -129,8 +129,9 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                 break;
             
         }
-        moveDistance = (yBottom * -1) + maxHeight;
+        moveDistance = (BottomY * -1) + maxHeight;
         startX = transform.position.x;
+        startScale = transform.localScale;
         downward = chosenLayout.startsDownward;
     }
 
@@ -158,7 +159,7 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             x = -((y - minHeight) / moveDistance) * xMovement;
             transform.position = new Vector3(startX + x, y, transform.position.z);
             // Scale the character's size based on how high they are on screen
-            float vDistance = 1 - ((y - yBottom) / moveDistance);
+            float vDistance = 1 - ((y - BottomY) / moveDistance);
             transform.localScale = new Vector3((startScale.x / 100f) * (100-scaleChange + vDistance*scaleChange), 
                                                (startScale.y / 100f) * (100-scaleChange + vDistance*scaleChange), 
                                                startScale.z);

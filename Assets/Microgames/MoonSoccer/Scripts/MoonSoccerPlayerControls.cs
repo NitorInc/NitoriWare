@@ -5,24 +5,32 @@ using UnityEngine;
 public class MoonSoccerPlayerControls : MonoBehaviour {
     
     // Player object speed
-    [Header("Final Movement Speed")]
+    [Header("Movement Speed")]
     [SerializeField]
-    private float finalMoveSpeed = 1f;
+    private float maximumMoveSpeed = 1f;
     
-    // Minimum height allowed
-    [Header("Minimum Height")]
+    // The acceleration of the character
     [SerializeField]
-    private float minHeight = 1f;
-    
-    // Maximum height allowed
-    [Header("Maximum Height")]
-    [SerializeField]
-    private float maxHeight = 1f;
+    private float acceleration = 0.3f;
     
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
-    [Header("X Movement Distance")]
+    [Header("Horizontal Movement Length")]
     [SerializeField]
-    private float xMovement = 1f; 
+    private float xMovement = 1f;
+    
+    // The change in scale that happens when going all the way up the screen, in percentage
+    [Header("Scale Change From Perspective")]
+    [SerializeField]
+    private float scaleChange = 5f;
+    
+    [Header("Vertical Movement Range")]
+    [SerializeField]
+    private float TopY = 1.5f;
+    [SerializeField]
+    private float BottomY = -2.9f;
+    
+    // The current player acceleration
+    private float accelerationGained = 0f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
     private float moveDistance = 0f;
@@ -30,22 +38,19 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // The starting x value of the object transform
     private float startX = 0f;
     
-    // The acceleration of the character
-    [Header("Acceleration")]
-    [SerializeField]
-    private float accelerationSpeed = 0.3f;
-    
-    private float acceleration = 0f;
-    
     // Whether the space key has been pressed yet or not
     private bool hasKicked = false;
+    
+    // The scale of the sprite at the very start
+    private Vector3 startScale;
         
     public MoonSoccerBall ballScript;
     
     // Initialization 
     void Start () {
-        moveDistance = (minHeight * -1) + maxHeight;
+        moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
+        startScale = transform.localScale;
     }
     
 	// Update is called once per frame
@@ -61,26 +66,31 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         if (MicrogameController.instance.getVictoryDetermined() != true) {
             float x = transform.position.x;
             float y = transform.position.y;
-            if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= minHeight)
+            if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= BottomY)
             {
-                if (acceleration >= 0)
-                    acceleration = 0;
-                if (acceleration >= finalMoveSpeed * -1)
-                    acceleration -= accelerationSpeed;
+                if (accelerationGained >= 0)
+                    accelerationGained = 0;
+                if (accelerationGained >= maximumMoveSpeed * -1)
+                    accelerationGained -= acceleration;
             }
-            else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= maxHeight)
+            else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= TopY)
             {
-                if (acceleration <= 0)
-                    acceleration = 0;
-                if (acceleration <= finalMoveSpeed)
-                    acceleration += accelerationSpeed;
+                if (accelerationGained <= 0)
+                    accelerationGained = 0;
+                if (accelerationGained <= maximumMoveSpeed)
+                    accelerationGained += acceleration;
             }
             else
-                acceleration = 0;
-            y = transform.position.y + acceleration * Time.deltaTime;
-            moveDistance = (minHeight * -1) + maxHeight;
-            x = -((y - minHeight) / moveDistance) * xMovement;
-            transform.position = new Vector2(startX + x, y);
+                accelerationGained = 0;
+            y = transform.position.y + accelerationGained * Time.deltaTime;
+            moveDistance = (BottomY * -1) + TopY;
+            x = -((y - BottomY) / moveDistance) * xMovement;
+            transform.position = new Vector3(startX + x, y, transform.position.z);
+            // Scale the character's size based on how high they are on screen
+            float vDistance = 1 - ((y - BottomY) / moveDistance);
+            transform.localScale = new Vector3((startScale.x / 100f) * (100-scaleChange + vDistance*scaleChange), 
+                                               (startScale.y / 100f) * (100-scaleChange + vDistance*scaleChange), 
+                                               startScale.z);
         }
     }
     
