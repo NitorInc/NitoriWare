@@ -18,8 +18,4 @@ public class DatingSimCharacterPortrait : MonoBehaviour {
         sr.sprite = victory ? character.winPortrait : character.lossPortrait;
     }
 
-    //[System.Serializable]
-    //public class ListWrapper {
-    //    public List<Sprite> list;
-    //}
 }

@@ -7,7 +7,7 @@ public class MenuDropdown : MonoBehaviour
 {
     public Dropdown dropdown;
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Animator animator;
     [SerializeField]
@@ -19,7 +19,6 @@ public class MenuDropdown : MonoBehaviour
 #pragma warning restore 0649
 
     private int closedChildCount;
-    private bool hiding;
     private MenuDropdown[] neighbors;
     private bool wasOpenLastFrame;
     private int startFrame;
@@ -40,12 +39,9 @@ public class MenuDropdown : MonoBehaviour
             {
                 animator.SetBool("CanHighlight", false);
                 dropdown.Hide();
-                hiding = true;
             }
             return;
         }
-        else
-            hiding = false;
 
         animator.SetBool("CanHighlight", CameraHelper.isMouseOver(clickCollider) && !areAnyNeighborsOpen(true));
         
@@ -57,8 +53,6 @@ public class MenuDropdown : MonoBehaviour
         else if (!areAnyNeighborsOpen(true) && Input.GetMouseButtonUp(0) && CameraHelper.isMouseOver(clickCollider))
         {
             dropdown.Show();
-            //sfxSource.pitch = .8f;
-            //sfxSource.PlayOneShot(soundClip);
         }
 
         if (isOpen() && !wasOpenLastFrame)

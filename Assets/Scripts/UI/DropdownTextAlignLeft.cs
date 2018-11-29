@@ -6,8 +6,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class DropdownTextAlignLeft : MonoBehaviour
 {
-
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private Text textComponent;
     [SerializeField]
@@ -37,7 +36,6 @@ public class DropdownTextAlignLeft : MonoBehaviour
 
     void updateSize()
     {
-        //Debug.Log((rectTransform.sizeDelta.x - initialXSize));
         rectTransform.position = new Vector3(initialX + (rectTransform.sizeDelta.x - initialXSize), rectTransform.position.y, rectTransform.position.z);
         lastUpdatedText = textComponent.text;
     }

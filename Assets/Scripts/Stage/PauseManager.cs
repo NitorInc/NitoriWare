@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public static PauseManager instance;
+
     public static bool disablePause;
     public static bool exitedWhilePaused;
 
@@ -31,6 +33,7 @@ public class PauseManager : MonoBehaviour
     private AudioClip pauseClip;
 
 	private bool paused;
+    public bool Paused => paused;
 
 	PauseData pauseData;
 	//Varopis data stored on pause that gets reapplied on unpause
@@ -51,15 +54,20 @@ public class PauseManager : MonoBehaviour
         public CamPauseData(Camera camera)
         {
             this.camera = camera;
-            this.backgroundColor = camera.backgroundColor;
-            this.cullingMask = camera.cullingMask;
+            backgroundColor = camera.backgroundColor;
+            cullingMask = camera.cullingMask;
         }
     }
 
 
 	private float pauseTimer = 0f;
 
-	void Start ()
+    void Awake()
+    {
+        instance = this;
+    }
+
+    void Start ()
 	{
         transform.position = Vector3.zero;
 		paused = false;
@@ -77,23 +85,15 @@ public class PauseManager : MonoBehaviour
 		{
 			if (!paused)
 				pause();
-            //else
-            //	unPause();
-            //pauseTimer = Random.Range(.1f, .2f);
-        }
-        //else if (Input.GetKey(KeyCode.Q) && (paused  || StageController.instance.animationPart == StageController.AnimationPart.GameOver))
-        //{
-        //    //TODO make this a button function
-        //    if (paused)
-        //        quit();
-        //    SceneManager.LoadScene("Title");
-        //}
+      }
 	}
 
 	public void pause()
 	{
         if (disablePause)
             return;
+
+        paused = true;
 
         sfxSource.PlayOneShot(pauseClip);
 		pauseData.timeScale = Time.timeScale;
@@ -135,7 +135,6 @@ public class PauseManager : MonoBehaviour
                     cam.backgroundColor = Color.black;
                 }
             }
-			//MicrogameController.instance.getCommandDisplay().transform.FindChild("Text").gameObject.SetActive(false);
 		}
         if (MicrogameTimer.instance != null)
 		    MicrogameTimer.instance.gameObject.SetActive(false);
@@ -146,7 +145,6 @@ public class PauseManager : MonoBehaviour
         Cursor.lockState = GameController.DefaultCursorMode;
 
 		menu.gameObject.SetActive(true);
-		paused = true;
 	}
 
     /// <summary>
@@ -154,6 +152,7 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     public void quit()
     {
+        exitedWhilePaused = true;
         foreach (MonoBehaviour script in pauseData.disabledScripts)
         {
             if (script != null)
@@ -167,14 +166,14 @@ public class PauseManager : MonoBehaviour
         }
 
         GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftDuration);
-
-        exitedWhilePaused = true;
     }
 
 	public void unPause()
     {
         if (disablePause)
             return;
+
+        paused = false;
 
         foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
@@ -192,7 +191,6 @@ public class PauseManager : MonoBehaviour
                 camPauseData.camera.cullingMask = camPauseData.cullingMask;
             }
             MicrogameController.instance.onUnPaused();
-			//MicrogameController.instance.getCommandTransform().FindChild("Text").gameObject.SetActive(true);
         }
         if (MicrogameTimer.instance != null)
             MicrogameTimer.instance.gameObject.SetActive(true);
@@ -204,6 +202,5 @@ public class PauseManager : MonoBehaviour
         menu.gameObject.SetActive(false);
 
         onUnPause.Invoke();
-        paused = false;
     }
 }

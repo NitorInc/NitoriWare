@@ -73,7 +73,7 @@ public class RockPaperSatoriOpponent : MonoBehaviour
         Invoke("realShuffle", (float)fakeShuffleAmount * fakeShuffleDuration);
 
         //Recusively invoke after real shuffle
-        Invoke("invokeShuffleRound", ((float)fakeShuffleAmount * fakeShuffleDuration) + realShuffleDuration);
+        //Invoke("invokeShuffleRound", ((float)fakeShuffleAmount * fakeShuffleDuration) + realShuffleDuration);
 
     }
 

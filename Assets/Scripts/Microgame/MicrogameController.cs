@@ -51,11 +51,7 @@ public class MicrogameController : MonoBehaviour
         //Get traits from collection if available
         if (GameController.instance != null)
         {
-            var collectionMicrogame = GameController.instance.microgameCollection.getCollectionMicrogames(MicrogameCollection.Restriction.All)
-                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
-            if (collectionMicrogame == null)
-                collectionMicrogame = GameController.instance.microgameCollection.getCollectionBossMicrogames()
-                .FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            var collectionMicrogame = MicrogameHelper.getMicrogames(includeBosses:true).FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
                 traits = collectionMicrogame.difficultyTraits[difficulty - 1];
         }
@@ -88,7 +84,7 @@ public class MicrogameController : MonoBehaviour
             victory = traits.defaultVictory;
             victoryDetermined = false;
 
-            traits.onAccessInStage(microgameID);
+            traits.onAccessInStage(microgameID, difficulty);
         }
 		else if (!isBeingDiscarded())
 		{
@@ -177,10 +173,17 @@ public class MicrogameController : MonoBehaviour
 	public void shutDownMicrogame()
 	{
 		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
-		for (int i = 0; i < rootObjects.Length; i++)
-		{
-			rootObjects[i].SetActive(false);
-		}
+        foreach (var rootObject in rootObjects)
+        {
+            rootObject.SetActive(false);
+
+            //Is there a better way to do this?
+            var monobehaviours = rootObject.GetComponentsInChildren<MonoBehaviour>();
+            foreach (var behaviour in monobehaviours)
+            {
+                behaviour.CancelInvoke();
+            }
+        }
 	}
 
 	bool isBeingDiscarded()
@@ -189,7 +192,8 @@ public class MicrogameController : MonoBehaviour
             return false;
 		return StageController.instance == null
             || StageController.instance.animationPart == StageController.AnimationPart.GameOver
-            || StageController.instance.animationPart == StageController.AnimationPart.WonStage;
+            || StageController.instance.animationPart == StageController.AnimationPart.WonStage
+            || PauseManager.exitedWhilePaused;
 	}
 
 	/// <summary>

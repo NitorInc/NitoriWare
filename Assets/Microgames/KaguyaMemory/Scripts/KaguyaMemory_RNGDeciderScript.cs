@@ -16,15 +16,12 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
     private AudioClip whooshSound;
 
     private GameObject chosenItem;
-    private KaguyaMemory_Timing timeValues;
-    private int timer1 = 0;
 
     void Start()
     {
         //select an item
         chosenItem = items[Random.Range(0, maxItems)];
         chosenItem.GetComponent<KaguyaMemory_ItemScript>().isCorrect = true;
-        timeValues = timingMaster.GetComponent<KaguyaMemory_Timing>();
         KaguyaChan.transform.position += new Vector3(15, 0, 0);
 
         //randomize item positions
@@ -43,8 +40,6 @@ public class KaguyaMemory_RNGDeciderScript : MonoBehaviour
                 }
             }
         }
-
-        //Invoke("ShowItem", timeValues.throwItemAfterInitialOpen);
     }
 
     public void ShowItem()

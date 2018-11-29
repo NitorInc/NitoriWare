@@ -13,8 +13,6 @@ public class SceneButton : MonoBehaviour
         get { return _targetStage; }
         set { targetStage = value; }
     }
-    
-
 
     public virtual void press()
     {

@@ -124,7 +124,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738506391066124}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.41, y: 2.66, z: -1}
   m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
@@ -146,9 +146,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0056061745, y: 0}
+  m_Offset: {x: 0.023335326, y: 0}
   serializedVersion: 2
-  m_Radius: 1.4369371
+  m_Radius: 1.7108067
 --- !u!70 &70080184194167446
 CapsuleCollider2D:
   m_ObjectHideFlags: 1
@@ -161,8 +161,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0038702488, y: 0.0038702488}
-  m_Size: {x: 0.89477205, y: 2.261722}
+  m_Offset: {x: -0.0022901187, y: 0.003870292}
+  m_Size: {x: 0.7, y: 2.261722}
   m_Direction: 0
 --- !u!111 &111461100791384256
 Animation:
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562574587c00a5b4584fb0ae65afd6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victoryClip: {fileID: 8300000, guid: cef438e96c7daf94bbe70ccc0236a847, type: 3}
 --- !u!114 &114472908049212066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7b16b6eb2ce6f42b1ecd6ecad95515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victoryClip: {fileID: 0}
   velocityThreshold: 0.5
   torqueRange: 50
   forceRange: 300
@@ -218,6 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationName: hoop_move_lr
   AnimationScale: 1.5
+  tossSlowdownSpeed: 4
 --- !u!212 &212245864610932850
 SpriteRenderer:
   m_ObjectHideFlags: 1

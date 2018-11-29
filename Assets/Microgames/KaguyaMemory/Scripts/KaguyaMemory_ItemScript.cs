@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KaguyaMemory_ItemScript : MonoBehaviour {
 
+    public Color selectColor = Color.white;
     public GameObject rngMaster;
     public GameObject KaguyaChan;
     public GameObject correctIndicator;
@@ -17,14 +18,10 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     private Vector3 startingPosition;
     private bool isSelectable = false;
-    private Rigidbody2D rb2d;
     private Quaternion defaultRotation;
-    private bool isFinished = false;
-    private float initialY;
     private int floatDirection = 1;
     private bool isFloating = false;
     private float floatStartDelay = 0;
-    private KaguyaMemory_Timing timeValues;
 
     [SerializeField]
     private AudioClip correctSound;
@@ -32,29 +29,38 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
     [SerializeField]
     private AudioClip wrongSound;
 
-    // Use this for initialization
-    void Start () {
-        GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<SineWave>().enabled = false;
-        rb2d = GetComponent<Rigidbody2D>();
-        timeValues = timingMaster.GetComponent<KaguyaMemory_Timing>();
-        initialY = transform.position.y;
+    private SpriteRenderer _spriteRenderer;
+    private CapsuleCollider2D _capsuleCollider;
+    private CircleCollider2D _circleCollider;
+    private SineWave _sineWave;
+    private Rigidbody2D _rigidbody;
 
-        if (GetComponent<CapsuleCollider2D> () != null)
-        {
-            GetComponent<CapsuleCollider2D>().enabled = false;
-        }
-        if (GetComponent<CircleCollider2D>() != null)
-        {
-            GetComponent<CircleCollider2D>().enabled = false;
-        }
+    void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _capsuleCollider = GetComponent<CapsuleCollider2D>();
+        _circleCollider = GetComponent<CircleCollider2D>();
+        _sineWave = GetComponent<SineWave>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+
+        _spriteRenderer.enabled = false;
+        _sineWave.enabled = false;
+
+        if (_capsuleCollider != null)
+            _capsuleCollider.enabled = false;
+        if (_circleCollider != null)
+            _circleCollider.enabled = false;
 
         defaultRotation = transform.rotation;
-        GetComponent<Rigidbody2D>().gravityScale = 0;
+        _rigidbody.gravityScale = 0;
         initialScale = transform.localScale.x;
 
         Invoke("obtainStartingPosition", 0.01f);
-        //Invoke("appearSelectable", timeValues.doorOpenAfterClose);
     }
 
     void OnMouseDown()
@@ -79,10 +85,9 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
                 MicrogameController.instance.playSFX(wrongSound, volume: 0.5f,
                 panStereo: AudioHelper.getAudioPan(0));
             }
-            rb2d.velocity = new Vector2(0, 0);
+            _rigidbody.velocity = new Vector2(0, 0);
             theIndicator.transform.position = transform.position;
             rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished = true;
-            isFinished = true;
             isSelectable = false;
         }
         
@@ -94,20 +99,20 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
         {
             transform.rotation = defaultRotation;
         }
-        if (rb2d.angularVelocity != 0)
+        if (_rigidbody.angularVelocity != 0)
         {
-            rb2d.angularVelocity = 0;
+            _rigidbody.angularVelocity = 0;
         }
         
 
         if (isSelectable && rngMaster.GetComponent<KaguyaMemory_RNGDeciderScript>().finished == false && isFloating == true)
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y + (floatFactor * floatDirection));
-            if (rb2d.velocity.y > 3 && floatDirection == 1)
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y + (floatFactor * floatDirection));
+            if (_rigidbody.velocity.y > 3 && floatDirection == 1)
             {
                 floatDirection = -1;
             }
-            else if (rb2d.velocity.y < -3 && floatDirection == -1)
+            else if (_rigidbody.velocity.y < -3 && floatDirection == -1)
             {
                 floatDirection = 1;
             }
@@ -116,23 +121,21 @@ public class KaguyaMemory_ItemScript : MonoBehaviour {
 
     public void appearSelectable()
     {
-        GetComponent<SineWave>().enabled = true;
-        if (GetComponent<CapsuleCollider2D>() != null)
-        {
-            GetComponent<CapsuleCollider2D>().enabled = true;
-        }
-        if (GetComponent<CircleCollider2D>() != null)
-        {
-            GetComponent<CircleCollider2D>().enabled = true;
-        }
+        _sineWave.enabled = true;
+        if (_capsuleCollider != null)
+            _capsuleCollider.enabled = true;
+        if (_circleCollider != null)
+            _circleCollider.enabled = true;
+
+        _spriteRenderer.color = selectColor;
 
         transform.rotation = defaultRotation;
-        rb2d.angularVelocity = 0;
+        _rigidbody.angularVelocity = 0;
         transform.position = startingPosition;
-        GetComponent<SpriteRenderer>().enabled = true;
-        rb2d.velocity = new Vector2(0, 0);
+        _spriteRenderer.enabled = true;
+        _rigidbody.velocity = new Vector2(0, 0);
 
-        GetComponent<Rigidbody2D>().gravityScale = 0;
+        _rigidbody.gravityScale = 0;
         isSelectable = true;
 
         float currentX = transform.position.x + 7;

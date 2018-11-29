@@ -6,7 +6,7 @@ using UnityEngine;
 public class TextMeshLimitSize : TextLimitSize
 {
 
-#pragma warning disable 0649   //Serialized Fields
+#pragma warning disable 0649
     [SerializeField]
     private bool useWorldScaling;
     [SerializeField]
@@ -30,14 +30,7 @@ public class TextMeshLimitSize : TextLimitSize
     public override void updateScale()
     {
         setFontSize(defaultFontSize);
-        int beforeFontSize = getFontSize();
         base.updateScale();
-
-        //if (outline != null)
-        //{
-        //    outline.updateAttributes = true;
-        //    outline.LateUpdate();
-        //}
     }
 
     protected override string getText()

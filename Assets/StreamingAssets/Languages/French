@@ -61,10 +61,10 @@ menu
 		resolution=Résolution de l'écran
 		fullscreen=Plein Écran
 		language=Langue
-		graphics=Qualité Graphique
-			0=Très basse
-			1=Basse
-			2=Moyenne
+		graphics=Qualité des Graphismes
+			0=Plus rapide
+			1=Rapide
+			2=Simple
 			3=Bien
 			4=Beau
 			5=Fantastique
@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Casse-toi la grosse!
 				response=T'es pas le plus maigre, connard!
+			wrong2
+				option=Tu peux y aller toi-même.
+				response=Tant mieux, t'es chiant de toutes façons.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=Elles sont magnifiques!
 				response=Merci~
+			right1
+				option=C'est trop gentil.
+				response=Je suis contente qu'elles te plaisent.
 			wrong0
 				option=Aaah, un fantôme!
 				response=Tu te fous de moi?
 			wrong1
 				option=Je déteste les fleurs!
 				response=Tu ne les mérites pas de toutes façons.
+			wrong2
+				option=Je parie que ce sont des fausses.
+				response=Je parie que tu as <i>beaucoup</i> de chances avec les dames.
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -133,86 +142,161 @@ microgame
 			wrong1
 				option=J'aime Reimu!
 				response=Réfléchis-y à deux fois.
+			wrong2
+				option=Il s'est passé un truc.
+				response=Oh non, non!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=J'espère que tu aimes mon thé...
+			right0
+				option=Il est exquis.
+				response=Oh? Je suis contente.
+			right1
+				option=Plus, s'il te plait!
+				response=Tout de suite!
+			wrong0
+				option=Il a un goût bizarre.
+				response=Oh, je suis désolée.
+			wrong1
+				option=*Trébuche et renverse du thé chaud partout*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=Mais je n'ai jamais demandé du thé.
+				response=Je... Je pensais que tu en voudrais.
 		fakeconfig=Sauvegarder\nCharger\nAuto\nHistorique\nConfiguration
+		command=Drague!
+		igname=Premier Rendez-vous
+	ComicBubble
+		0
+			0=Es-tu sûre qu'il n'y a aucun danger?
+			1=C'est bon!
+		1
+			0=Hé, attends!
+			1=Tu as quelque chose juuuste~
+			2=~ICI!
+		2
+			0=C'est ennuyeux de nettoyer...
+			1=Pourquoi te déranger quand je suis la seule qui passe?
+			2=<i>Iiiiii!</i>
+			3=<i>Aie!</i>
+		command=Dialogue!
+		igname=Va à la Punchline!
 	FreezeFrogs
-		command=Gèle !
+		command=Gèle!
 		igname=Grenouilles gelées
 	Slingshot
-		command=Lance !
+		command=Lance!
 		igname=Tir d'aile
 	ChenFood
 		command=Ne te fais pas manger!
 		igname=Eperlan Succulent
 	Spider
-		command=Nourris !
+		command=Nourris!
 		igname=Nourris l'araignée
 	Donation
-		command=Collectes-en 3 !
+		command=Collectes-en 3!
 		igname=Attrape-sous
 	Wrench
 		command=Serre!
 		igname=Technologie Kappa
 	Potion
-		command=Fais tomber !
+		command=Fais tomber!
 		ingredients=Ingrédients
 		igname=La Marmite à Potion
 	GhostFood
-		command=Mange et mâche !
+		command=Mange et mâche!
 		igname=Nourriture Spectrale
 	Spaceship
-		command=Démarre !
+		command=Démarre!
 		igname=Programme Spatial Youkai
 	CupShuffle
-		command=Fais attention !
+		command=Fais attention!
 		commandb=Choisis!
 		igname=Cache-Youkai
 	TraceShape
-		command=Remplis !
+		command=Remplis!
 		igname=Remplissage de formes
 	KogasaScare
-		command=Effraie !
+		command=Effraie!
 		igname=Effrayez le Youkai
 	RockBand
-		command=Chante !
+		command=Chante!
 		igname=Sub-ouaf-er
 	ChenBike
-		command=Klaxonne !
+		command=Klaxonne!
 		igname=Klaxonnez-moi ça!
 	MasterSparkCode
-		command=Incante !
+		command=Incante!
 		igname=Cible d'Entraînement
 	OkuuFire
-		command=Règle !
+		command=Règle!
 		igname=Sang-Froid
 	YukariCake
-		command=Attrape !
+		command=Vole!
 		igname=Patrouille des Desserts
 	RemiCover
-		command=Fais de l'ombre !
+		command=Fais de l'ombre!
 		igname=Twilight: Protection
 	SuikaShake
-		command=Secoue !
-		igname=Au shaker, pas à la cuillère
+		command=Secoue!
+		igname=Au Shaker, Pas à la Cuillère
 	TouhouSort
-		command=Trie par {0} !
+		command=Trie par {0}!
 		hat=chapeau
 		wing=type d'aile
 		ear=oreilles
 		igname=Demoiselles de toutes sortes
 	FlanGrab
-		command=Protège !
-		igname=Sécurité de seconde main
+		command=Protège!
+		igname=Sécurité de Seconde Main
 	PaperThief
-		command=Atteins l'arrivée !
+		command=Atteins l'arrivée!
 		commandb=Attention!
-		commandc=Tire!
-		commandd=Détruis-la!
+		commandc=Détruis-la!
+		commandd=Abats-la!
 		igname=La Chasse au Concombre
+	KaguyaMemory
+		command=Observe!
+		commandb=Sélectionne!
+		igname=Souvenirs Chéris
+	SumiWheel
+		command=Identifie!
+		igname=J'ai tout vu
+	MochiPound
+		command=Pilonne!
+		igname=Pilonnage du Mochi
 	RuukotoSweep
 		command=Balaie!
 		igname=Nettoyage du Temple
+	MaskPuzzle
+		command=Assemble!
+		igname=Un vrai Casse-tête
+	YuukaWater
+		command=Arrose!
+		igname=Arrosage des Fleurs
+	KnifeDodge
+		command=Esquive!
+	NitoriLook
+		command=Trouve Nitori!
+		igname=Où est Nitori?
+	MamiPoser
+		command=Trouve l'imposteur!
+		igname=L'imposteur Tanuki
+	DollDance
+		command=Imite!
+		igname=Spectacle de Marionnettes
 	CirnoBored
 		command=Sois gentil!
+		commandb=Amuse!
+		commandc=Sauve-la!
+		igname=Traitement à Froid
+	HecShapes
+		command=Associe!
+		igname=Une Paire d'Enfer
+	RockPaperSatori
+		command=Gagne!
+		igname=Psyfoumi
 	MarisaJizou
 		command=Lance!
 		igname=Pluie de Chapeau
@@ -221,47 +305,57 @@ microgame
 		igname=Enlèvement par l'Alien
 	ReimuDodge
 		command=Esquive!
+		igname=~
+	ClothesChoose
+		command=Fais la paire!
+		igname=Le Look du Jour
 	KyoukoEcho
 		command=Renvoie!
+		igname=Permettez-moi de Reformuler
 	BugSwat
-		command=Ecrase!
+		command=Écrase!
+		igname=Sautillements dans la Salle
 	ClownTorch
 		command=Enflamme!
-	KaguyaMemoryl
-		commandb=Sélectionne!
-	KaguyaMemory
-		igname=Souvenirs chéris
-	MochiPound
-		igname=Pilonnage du Mochi
-	MaskPuzzle
-		igname=Un vrai casse-tête
-	YuukaWater
-		igname=Arrosage des Fleurs
-	NitoriLook
-		igname=Où est Nitori?
-	MamiPoser
-		igname=L'imposteur Tanuki
-	DollDance
-		igname=Spectacle de Marionnettes
-	RockPaperSatori
-		igname=Chifoumi
+		igname=Passage du Flambeau
+	BeachBall
+		command=Lance!
+		igname=Hula Hoop Basket
+	YuugiBalance
+		command=Garde l'équilibre!
+		igname=Boisson Équilibrée
+	DoorKnock
+		command=Tape!
+		igname=Toc Toc
+	FoodCut
+		command=Coupe!
+		igname=Fruit Ninja
+	MoneyTrap
+		command=Attire!
+	KeineMath
+		command=Résous!
+		igname=Cours de Maths avec Keine
+	DoomGame
+		igname=DOOM
 credits
 	intro={0} à été possible grâce au fans suivants !
 	kapptain=Directeur Créatif, Développeur, "Kappataine" d'équipe
 	leadart=Artiste en chef,  Concepteur de personnages, Voix de Nitori
+	code=Développeurs
 	UI=Graphismes des menus et stages
 	menumusic=Musique de l'écran d'accueil et menu
 	stagemusic=Musique des niveaux
 	microgame
 		management=Gestion des micro-jeux
 		managementalt=Gestion de la collaboration
-		code=Codeur des micro-jeux
-		art=Art des micro-jeux
+		code=Développeurs des micro-jeux
+		art=Artistes
 		music=Musique des micro-jeux
 	localization=Traduction
 		management=Gestion des traducteurs
 	sfx=Effet sonores
 	voice=Voix de Nitori
+	site=Concepteur du site Web
 	trailer=Trailer de la démo
 	socialmedia=Promotion et Réseaux sociaux
 	touhou=Ce jeu créé par les fans a été inspiré par Touhou Project (東方プロジェクト) dont le créateur est ZUN

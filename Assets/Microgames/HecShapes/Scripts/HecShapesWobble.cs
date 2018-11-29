@@ -18,10 +18,10 @@ public class HecShapesWobble : MonoBehaviour
 
     void Update()
     {
-        if (this.wobble)
+        if (wobble)
         {
-            float wobbleVector = Mathf.Sin(((Time.time - this.startTime) * this.speed) + Mathf.PI);
-            float wobbleRotation = this.magnitude * wobbleVector;
+            float wobbleVector = Mathf.Sin(((Time.time - startTime) * speed) + Mathf.PI);
+            float wobbleRotation = magnitude * wobbleVector;
 
             SetZRotation(wobbleRotation);
         }
@@ -39,13 +39,13 @@ public class HecShapesWobble : MonoBehaviour
 
     public void Wobble()
     {
-        this.startTime = Time.time;
-        this.wobble = true;
+        startTime = Time.time;
+        wobble = true;
     }
 
     public void Settle()
     {
         SetZRotation(0);
-        this.wobble = false;
+        wobble = false;
     }
 }

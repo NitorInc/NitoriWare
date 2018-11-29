@@ -51,11 +51,6 @@ public class SuikaShakeSuika : MonoBehaviour
         vibrate.vibrateSpeed *= Random.Range(.5f, 1.5f);
     }
 
- //   void Update ()
-	//{
-		
-	//}
-
 	public void setHealth(float health, Vector2 velocity)
 	{
 		this.health = health;
@@ -75,10 +70,6 @@ public class SuikaShakeSuika : MonoBehaviour
         if (direction < 0 || (direction == 0 && MathHelper.randomBool()))
             _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
 
-
-        //if (MathHelper.randomBool())
-        //    _rigidBody.velocity = new Vector2(-_rigidBody.velocity.x, _rigidBody.velocity.y);
-
 		_spriteRenderer.GetComponent<Vibrate>().vibrateOn = false;
 
         spriteRenderer.sprite = fallSprite;
@@ -86,13 +77,11 @@ public class SuikaShakeSuika : MonoBehaviour
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(15f, 30f));
-            //_rigidBody.AddTorque(Random.Range(50f, 150f));
         }
         else
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             transform.localRotation = Quaternion.Euler(0f, 0f, -Random.Range(15f, 30f));
-            //_rigidBody.AddTorque(-Random.Range(50f, 150f));
         }
         _rigidBody.AddTorque(15f + (30f * -_rigidBody.velocity.x * Random.Range(.5f, 1f)));
 
@@ -115,8 +104,9 @@ public class SuikaShakeSuika : MonoBehaviour
 
     public void generateOffset(Collider2D spawnCollider)
     {
-        float xOffset = spawnCollider.bounds.extents.x, yOffset = spawnCollider.bounds.extents.y;
-        transform.position += (Vector3)spawnCollider.offset + new Vector3(Random.Range(-xOffset, xOffset), Random.Range(-yOffset, yOffset), 0f);
+        Vector2 bounds = spawnCollider.bounds.extents;
+        transform.position += spawnCollider.transform.localPosition + (Vector3)spawnCollider.offset
+            + new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), 0f);
     }
 
 }

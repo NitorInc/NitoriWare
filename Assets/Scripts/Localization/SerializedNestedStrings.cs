@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 //Serialization uses tabs for group indentation, key=value for string value lines
 //ToString() returns serialized data
 
-class SerializedNestedStrings
+public class SerializedNestedStrings
 {
     private class StringData
     {
@@ -118,10 +118,6 @@ class SerializedNestedStrings
             existingStrings = new SerializedNestedStrings();
 
         deserializeData(existingStrings.rootData, serializedData.Split('\n'), 0, 0);
-
-        //debugDisplay(existingStrings.rootData, "");
-        //Debug.Log(existingStrings["name"]);
-
         return existingStrings;
     }
 

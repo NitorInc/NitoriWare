@@ -89,6 +89,8 @@ nitori
 microgame
 	DatingSim
 		suika
+			fullname=Suika Ibuki
+			firstname=Suika
 			introdialogue=Eiiii! Hai tempo libero, vero? Andiamo a mangiare qualcosa insieme.
 			right0
 				option=Corriamo al chiosco!
@@ -102,18 +104,31 @@ microgame
 			wrong1
 				option=Sparisci, cicciona!
 				response=Beh neanche tu sei magrissimo, stronzo!
+			wrong2
+				option=Puoi andare da sola.
+				response=Okay, tanto non sei divertente.
 		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
 			introdialogue=Ho coltivato questi fiori per te.
 			right0
 				option=Sono bellisismi!
 				response=Grazie~
+			right1
+				option=Che cosa dolce.
+				response=Sono contenta che ti piacciono!
 			wrong0
 				option=Aaah, un fantasma!
 				response=Mi stai prendendo in giro, vero?
 			wrong1
 				option=Odio i fiori!
 				response=Non te li meritavi comunque.
+			wrong2
+				option=Scommetto che sono falsi.
+				response=Scometto che hai <i> tanta <i> fortuna con le ragazze.
 		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
 			introdialogue=Non vai in giro con altre ragazze, vero?
 			right0
 				option=Certo che no!
@@ -125,9 +140,47 @@ microgame
 				option=Beh...
 				response=Cosa vuoi dire con "beh"?
 			wrong1
-				option=Io amo Reimu!
+				option=Io sono innamorato di Reimu!
 				response=Pensaci su di nuovo.
+			wrong2
+				option=C'é un imprevisto.
+				response=Oh, no che non lo farai!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Spero che ti piaccia il mio tè...
+			right0
+				option=È delizioso.
+				response=Oh? Sono contenta.
+			right1
+				option=Di piú, per favore!
+				response=Arriva subito!
+			wrong0
+				option=Ha un gusto strano.
+				response=Oh, scusa.
+			wrong1
+				option=*Incampa e rovescia il tè caldo dappertutto*
+				response=<i> EYAAAAAAAaaah!! <i>
+			wrong2
+				option=Non ho mai chiesto per del tè.
+				response=Io..pensavo che ti sarebbe piaciuto.
 		fakeconfig=Salva\nCarica\nAuto\nRegistro\nImpostazioni
+		command=Sii romantico!
+		igname=Primo appuntamento
+	ComicBubble
+		0
+			0=Sei sicura che non sia pericoloso?
+			1=Non preoccuparti!
+		1
+			0=Hey, aspetta!
+			1=Hai qualcosa qua, veeero~?
+			2=~QUA!
+		2
+			0=La pulizia é proprio una rottura..
+			1=Perchè preoccuparti di pulire se sono l'unica che viene a visitarti?
+			2=<i>Aah!</i>
+			3=<i>Ahia!</i>
+		command=Dialoga!
 	FreezeFrogs
 		command=Congela!
 		igname=Ghiaccioli di Rana
@@ -199,22 +252,69 @@ microgame
 		commandc=Attacca!
 		commandd=Dalle il colpo di grazia!
 		igname=Corsa del Cetriolo
+	KaguyaMemory
+		command=Ricordati!
+		commandb=Seleziona!
+	SumiWheel
+		command=Scegli!
+	MochiPound
+		command=Martella!
+		igname=Colpi-Mochi
 	RuukotoSweep
 		command=Spazza!
+		igname=Spazzamento del Santuario
+	MaskPuzzle
+		command=Monta!
+	YuukaWater
+		command=Annaffia!
+		igname=Innaffiamento dei fiori
+	KnifeDodge
+		command=Schiva!
+	NitoriLook
+		command=Trova Nitori!
+		igname=Dove é Nitori?
+	MamiPoser
+		command=Trova l'impostore!
+		igname=L'impostore
+	DollDance
+		command=Imita!
 	CirnoBored
 		command=Sii gentile!
+		commandb=Intrattieni!
+		commandc=Salvala!
+		igname=Trattamento gelato
+	HecShapes
+		command=Piazza!
+		igname=Combinazioni infernali
+	RockPaperSatori
+		command=Vinci!
+		igname=Sasso Carta Telepatia
 	MarisaJizou
 		command=Lancia!
 	NueAbduct
 		command=Rapisci!
+		igname=Abduzione Aliena
 	ReimuDodge
 		command=Schiva!
+		igname=~
+	ClothesChoose
+		command=Abbina!
 	KyoukoEcho
 		command=Rifletti!
+		igname=Fammi riformulare
 	BugSwat
 		command=Schiaccia!
 	ClownTorch
 		command=Infiamma!
+		igname=Passando la torcia
+	YuugiBalance
+		command=Bilancia!
+	DoorKnock
+		command=Bussa!
+	FoodCut
+		command=Taglia!
+	MoneyTrap
+		command=Attira!
 	KogasaScare
 		igname=BUH! Occhio all'Ombrello!
 credits

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class LocalizationManager : MonoBehaviour
 
 	public static LocalizationManager instance;
 
-    [SerializeField]
-    private Language[] languages;
+    public Dictionary<TMP_FontAsset, List<TMP_FontAsset>> modifiedFallbacks;
+
     [SerializeField]
     private string forceLanguage;
     
@@ -19,32 +20,8 @@ public class LocalizationManager : MonoBehaviour
 	private SerializedNestedStrings localizedText;
     private string languageString;
 
-    [System.Serializable]
-    public struct Language
-    {
-        [SerializeField]
-        private string languageID;
-        public string languageName;
-        public bool incomplete;
-        public bool disableSelect;
-        public string overrideFileName;
-        public Font overrideFont;
-        public bool forceUnbold;
-
-        public string getFileName()
-        {
-            return string.IsNullOrEmpty(overrideFileName) ? languageID : overrideFileName;
-        }
-
-        public string getLanguageID()
-        {
-            return languageID;
-        }
-    }
-
 	public void Awake ()
     {
-        loadedLanguage = new Language();
 		if (instance != null)
 		{
 			if (instance != this)
@@ -55,6 +32,9 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
+
+        modifiedFallbacks = new Dictionary<TMP_FontAsset, List<TMP_FontAsset>>();
+        loadedLanguage = new Language();
 
         string languageToLoad;
         string preferredLanguage = PrefsHelper.getPreferredLanguage();
@@ -67,6 +47,18 @@ public class LocalizationManager : MonoBehaviour
 		setLanguage(languageToLoad);
 	}
 
+    private void OnDestroy()
+    {
+        if (instance != this)
+            return;
+
+        foreach (var fallbackPair in modifiedFallbacks)
+        {
+            fallbackPair.Key.fallbackFontAssets = fallbackPair.Value;
+        }
+        modifiedFallbacks = null;
+    }
+
     public void setForcedLanguage(string language)
     {
         forceLanguage = language;
@@ -74,23 +66,8 @@ public class LocalizationManager : MonoBehaviour
     
 	public void setLanguage(string language)
 	{
-        StartCoroutine(loadLanguage(FindLanguage(language)));
-    }
-
-    public Language FindLanguage(string language)
-    {
-        foreach (Language checklanguage in languages)
-        {
-            if (checklanguage.getLanguageID().Equals(language, System.StringComparison.OrdinalIgnoreCase))
-                return checklanguage;
-        }
-        Debug.Log("Language " + language + " not found. Using English");
-        return languages[0];
-    }
-
-    public string getInLanguageName(string language)
-    {
-        return FindLanguage(language).languageName;
+        var lang = LanguagesData.instance.FindLanguage(language);
+        StartCoroutine(loadLanguage(lang));
     }
 
     IEnumerator loadLanguage(Language language)
@@ -115,11 +92,6 @@ public class LocalizationManager : MonoBehaviour
 
         loadedLanguage = language;
         languageString = "";
-    }
-
-    public Language[] getAllLanguages()
-    {
-        return languages;
     }
 
     public string getLoadedLanguageID()

@@ -5,6 +5,9 @@
 /// </summary>
 public class BeachBallCollisionObserver : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip victoryClip;
+
     protected Collider2D innerArea;
 
     protected Collider2D ballCollider;
@@ -37,12 +40,14 @@ public class BeachBallCollisionObserver : MonoBehaviour
 
     public virtual void OnTriggerStay2D(Collider2D other)
     {
-        if (!fired && ballPhysics.velocity.y < 0 && other == ballCollider)
+        if (!fired && ballPhysics.velocity.y < 0 && other == ballCollider
+            && !MicrogameController.instance.getVictoryDetermined())
         {
             fired = true;
             other.gameObject.GetComponent<BeachBallZSwitcher>().Switch();
 
             MicrogameController.instance.setVictory(victory: true, final: true);
+            MicrogameController.instance.playSFX(victoryClip);
         }
     }
 }

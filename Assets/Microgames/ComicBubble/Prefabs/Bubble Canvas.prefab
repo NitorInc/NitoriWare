@@ -204,8 +204,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Are you sure that is safe?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cbb0f4eeaaf8fe34b9a41888dc798d56, type: 2}
+  m_sharedMaterial: {fileID: 21931289984782040, guid: cbb0f4eeaaf8fe34b9a41888dc798d56,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -321,6 +322,11 @@ MonoBehaviour:
   castWidth: 0.1
   castHeight: 0.1
   textSpeed: 0.7
+  finishedSprite: {fileID: 0}
+  chirpClips: []
+  chirpRepeatTime: 0
+  chirpPitchRange: {x: 0, y: 0}
+  chirpVolume: 1
 --- !u!114 &114766533793404432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -358,6 +364,13 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
+  defaultTMProFallbackFont: {fileID: 11400000, guid: f23ccef793544804187de6c64ab18409,
+    type: 2}
+  TMProFallbackOverrideFonts:
+  - languages: "English\r\nGerman\r\nFrench\r\nSpanish\r\nIndonesian\r\nTurkish\r\nRussian\r\nPolish\r\nPortugese\r\nItalian\r\nDutch\r\nMalaysian\r\nHungarian\r\nUkrainian\r\nDanish\r\nRomanian\r\nSwedish\nVietnamese"
+    fallback: {fileID: 11400000, guid: 1b385bccc6c633b4483854b53f5c5ac8, type: 2}
+    useOverrideFontStyle: 1
+    overrideFontStyle: 1
 --- !u!212 &212719832185930618
 SpriteRenderer:
   m_ObjectHideFlags: 1

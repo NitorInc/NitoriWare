@@ -37,8 +37,6 @@ public static class PrefsHelper
 
     private static StoredPrefs loadPrefs()
     {
-        //setProgress(1); //Debug purposes;
-
         StoredPrefs newPrefs = new StoredPrefs();
         newPrefs.preferredLanguage = PlayerPrefs.GetString(PreferredLanguageKey, "");
         newPrefs.volumes = new float[volumeTypeCount];
@@ -101,7 +99,6 @@ public static class PrefsHelper
         storedPrefs.volumes[(int)type] = value;
         PlayerPrefs.SetFloat(VolumeKeyPrefix + type.ToString(), value);
     }
-
 
     /// <summary>
     /// Returns how many stages the player has beatsn, from story mode to arcade modes

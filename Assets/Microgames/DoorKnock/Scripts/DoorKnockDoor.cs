@@ -5,8 +5,11 @@ using UnityEngine;
 public class DoorKnockDoor : MonoBehaviour {
     
     [SerializeField]
-    private Collider2D clickCollider;
-	
+    private AudioClip knockSound;
+
+    [SerializeField]
+    private AudioClip openSound;
+    
     [SerializeField]
     private bool teleportOnClick;
 
@@ -19,24 +22,34 @@ public class DoorKnockDoor : MonoBehaviour {
     [SerializeField]
     private int speed;
 
+    [SerializeField]
+    private GameObject fist;
+
     private float screenWidth;
     private float screenHeight;
-    private Vector2 direction; 
+    private Vector2 direction;  
     private bool win = false;
+    private Animator animator;
+    private BoxCollider2D collider;
+    private bool intersecting = false;
 
     // Use this for initialization
-	void Start() {
+    void Start() {
         // Get the screen dimensions
         screenHeight = Camera.main.orthographicSize;    
         screenWidth = screenHeight * Screen.width / Screen.height;
+        
+        animator = GetComponentInChildren<Animator>(); 
+        collider = GetComponent<BoxCollider2D>();
+        // Randomize starting position and movement direction
         NewDirection();
- 	    Teleport();
+        Teleport(false);
     }
 	
-	// Update is called once per frame
-	void Update() {
+    // Update is called once per frame
+    void Update() {
         // Test if sprite is clicked
-        if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(clickCollider)) {
+        if (Input.GetMouseButtonDown(0) && intersecting) {
             OnClick(); 
         }
         if (shouldMove && direction != null && !win){
@@ -44,37 +57,52 @@ public class DoorKnockDoor : MonoBehaviour {
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
             transform.position = newPosition;
             // bounce if on edge
-            if (Mathf.Abs(transform.position.x) > screenWidth){
+            if (Mathf.Abs(transform.position.x) + collider.size.x/4 > screenWidth){
                 direction.x *= -1;
             }
-            if (Mathf.Abs(transform.position.y) > screenHeight){
+            if (Mathf.Abs(transform.position.y) + collider.size.y/4 > screenHeight){
                 direction.y *= -1;
             }
         }
-	}
+    }
+    //OnTriggerStay2D doesn't work as well
+    void OnTriggerEnter2D(Collider2D other){
+        intersecting = true;
+    }
+    void OnTriggerExit2D(Collider2D other){
+        intersecting = false;
+    }
     
     // When the object is clicked
     void OnClick() {
-        clicksToWin--;
-        if (clicksToWin <= 0 && !win){
-            // We win
-            win = true;
-            MicrogameController.instance.setVictory(victory: true, final: true);
-            WinAnimation();
+        if (!win) {
+            clicksToWin--;
+            if (clicksToWin <= 0){
+                // We win
+                win = true;
+                MicrogameController.instance.setVictory(victory: true, final: true);
+                Win();
+            }
+            else if (teleportOnClick){
+                Teleport();
+            }
+            ParticleSystem particleSystem = fist.GetComponentInChildren<ParticleSystem>();
+            particleSystem.Play();
+            
+            MicrogameController.instance.playSFX(
+                knockSound, volume: 0.5f,
+                panStereo: AudioHelper.getAudioPan(transform.position.x)
+            );
+            //NewDirection();
         }
-        // Don't teleport if we've won
-        else if (teleportOnClick && !win){
-            Teleport();
-        }
-        NewDirection();
     }
     
     // Move to a random location
-    void Teleport() {
+    void Teleport(bool animate=true) {
         float newx = Random.Range(-screenWidth, screenWidth) / 2;
         float newy = Random.Range(-screenHeight, screenHeight) / 2;
         transform.position = new Vector2(newx, newy);
-        StartCoroutine(Appear());
+        if (animate) animator.SetTrigger("Clicked");
     }
     
     // Set a different direction
@@ -84,33 +112,11 @@ public class DoorKnockDoor : MonoBehaviour {
     }
 
     // Winning animation
-    void WinAnimation(){
-        StartCoroutine(OpenDoors());
-    }
-
-    // Door opening animation
-    IEnumerator OpenDoors(){
-        int speed = 10;
-        Transform rigTransform = transform.Find("Rig").transform;
-        Transform doorL = rigTransform.Find("DoorPanelL").transform;
-        Transform doorR = rigTransform.Find("DoorPanelR").transform;
-        for (int i = 0; i < 180/speed; i++){
-            doorL.Rotate(new Vector3(0, speed, 0));
-            doorR.Rotate(new Vector3(0, -speed, 0));
-            yield return new WaitForFixedUpdate();
-        }
-        yield return null;
-    }
-
-    // popping back animation
-    IEnumerator Appear(){
-        Transform rigTransform = transform.Find("Rig").transform;
-        Vector2 origScale = rigTransform.localScale;
-        for (float i = 1.0f; i <= 11.0f; i+=0.7f){
-            rigTransform.localScale = origScale * i/10;
-            yield return new WaitForFixedUpdate();
-        }
-        rigTransform.localScale = origScale;
-        yield return null;
+    void Win(){
+        MicrogameController.instance.playSFX(
+            openSound, volume: 0.5f,
+            panStereo: AudioHelper.getAudioPan(transform.position.x)
+        );
+        animator.SetBool("Win", true);
     }
 }

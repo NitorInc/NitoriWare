@@ -21,14 +21,18 @@ public class DatingSimDialogueController : MonoBehaviour
 
         SetDialogue(DatingSimHelper.getSelectedCharacter().getLocalizedIntroDialogue());
 
+        textPlayer.enabled = false;
+        Invoke("EnableTextPlayer", introTextDelay);
+    }
+
+    void OnFontLocalized()
+    {
         if (introTextForceCompletionTime > 0f)
         {
             float newSpeed = textPlayer.getTotalVisibleChars() / introTextForceCompletionTime;
             textPlayer.setAdvanceSpeed(newSpeed);
         }
 
-        textPlayer.enabled = false;
-        Invoke("EnableTextPlayer", introTextDelay);
     }
 
     void EnableTextPlayer()
