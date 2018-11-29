@@ -46,6 +46,7 @@ public class DoomGame_Player : MonoBehaviour
         if(bullets <= 0)
             return;
         bullets--;
+        ui.Shoot();
         ui.UpdateAmmo(bullets);
         audio.PlayOneShot(shootSound);
         gunAnimator.Play("doom_gun");
@@ -78,6 +79,13 @@ public class DoomGame_Player : MonoBehaviour
             }
         }
     }*/
+
+    public void AddBullets(int value)
+    {
+        bullets += value;
+        if(bullets > 6) bullets = 6;
+        ui.UpdateAmmo(bullets);
+    }
 
     public void Kill()
     {

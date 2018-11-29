@@ -355,6 +355,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7af433af1da32c944a5f85b36a73401d, type: 3}
   deathAudio: {fileID: 8300000, guid: 0126b938ece75e345b1388bc0c1c664e, type: 3}
   particleSystem: {fileID: 2034070341}
+  path: []
 --- !u!95 &55112435
 Animator:
   serializedVersion: 3
@@ -7568,7 +7569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPosition: {x: 0, y: 0, z: 0}
-  moveSpeed: 15
+  moveSpeed: 20
   damageDelay: 0.5
   distanceToHit: 5
   hp: 2
@@ -7576,6 +7577,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7af433af1da32c944a5f85b36a73401d, type: 3}
   deathAudio: {fileID: 8300000, guid: 0126b938ece75e345b1388bc0c1c664e, type: 3}
   particleSystem: {fileID: 1524373614}
+  path:
+  - {x: 4.21, y: 0, z: -33.9}
+  - {x: 25.6, y: 0, z: -33.9}
 --- !u!4 &638423311
 Transform:
   m_ObjectHideFlags: 0
@@ -7583,7 +7587,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 638423305}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.6, y: 0, z: -33.9}
+  m_LocalPosition: {x: 4.21, y: 0, z: -33.9}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1524373616}
@@ -7595,6 +7599,19 @@ GameObject:
   m_PrefabParentObject: {fileID: 1000011626352336, guid: 72dba666113776b4dbc710553bb6dc53,
     type: 2}
   m_PrefabInternal: {fileID: 1692840176}
+--- !u!114 &838540862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 838540861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce3f6e4235059047aa318787daa551d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 55112434}
 --- !u!4 &838540868 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000011321522988, guid: 72dba666113776b4dbc710553bb6dc53,
@@ -11509,7 +11526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPosition: {x: 0, y: 0, z: 0}
-  moveSpeed: 15
+  moveSpeed: 20
   damageDelay: 0.5
   distanceToHit: 5
   hp: 2
@@ -11517,6 +11534,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7af433af1da32c944a5f85b36a73401d, type: 3}
   deathAudio: {fileID: 8300000, guid: 0126b938ece75e345b1388bc0c1c664e, type: 3}
   particleSystem: {fileID: 516361470}
+  path:
+  - {x: -5.75, y: 0, z: -34.1}
+  - {x: -25.2, y: 0, z: -34.1}
 --- !u!4 &1544859949
 Transform:
   m_ObjectHideFlags: 0
@@ -11524,7 +11544,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1544859943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.2, y: 0, z: -34.100002}
+  m_LocalPosition: {x: -5.75, y: 0, z: -34.100002}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 516361472}

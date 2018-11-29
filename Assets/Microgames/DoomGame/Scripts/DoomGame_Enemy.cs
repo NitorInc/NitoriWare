@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DoomGame_Enemy : MonoBehaviour
 {
-    
+
     DoomGame_Player player;
 
     [SerializeField]
@@ -20,13 +20,17 @@ public class DoomGame_Enemy : MonoBehaviour
     AudioClip deathAudio;
     [SerializeField]
     new ParticleSystem particleSystem;
+    [SerializeField]
+    Vector3[] path;
 
+    int pid;
     Vector3 direction;
     AudioSource audioSource;
     Transform mainCamera;
 
     void Start()
     {
+        if(path == null) path = new Vector3[0];
         rend = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         mainCamera = Camera.main.transform;
@@ -36,14 +40,26 @@ public class DoomGame_Enemy : MonoBehaviour
 
     void Update()
     {
-        targetPosition = new Vector3(mainCamera.position.x, transform.position.y, mainCamera.position.z);
+        if(pid < path.Length)
+        {
+            if(transform.position.x == path[pid].x && transform.position.z == path[pid].z)
+                pid++;
+            if(pid < path.Length)
+                targetPosition = new Vector3(path[pid].x, transform.position.y, path[pid].z);
+            else
+                targetPosition = new Vector3(mainCamera.position.x, transform.position.y, mainCamera.position.z) - direction * distanceToHit;
+        }
+        else
+        {
+            targetPosition = new Vector3(mainCamera.position.x, transform.position.y, mainCamera.position.z) - direction * distanceToHit;
+        }
 
         direction = Vector3.Normalize(transform.position - targetPosition);
 
-        if(Vector3.Distance(transform.position, targetPosition) < distanceToHit)
+        if(Vector3.Distance(transform.position, mainCamera.position) < distanceToHit + 0.01f)
             DamagePlayer();
         else
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition - direction * 5, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
     }
 
     void LateUpdate()
@@ -82,6 +98,7 @@ public class DoomGame_Enemy : MonoBehaviour
         Destroy(GetComponent<Collider>());
         rend.enabled = false;
         player.enemies.Remove(this);
+        player.AddBullets(1);
         Destroy(this);
 
         CheckVictory();
