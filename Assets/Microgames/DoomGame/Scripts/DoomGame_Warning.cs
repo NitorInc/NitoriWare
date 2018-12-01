@@ -6,6 +6,7 @@ public class DoomGame_Warning : MonoBehaviour
 {
 
     public DoomGame_Enemy[] enemies;
+    public GameObject[] activates;
 
     void Update()
     {
@@ -15,6 +16,8 @@ public class DoomGame_Warning : MonoBehaviour
                 return;
         }
         MicrogameController.instance.displayLocalizedCommand("danger", "Behind you!");
+        for(int i = 0; i < activates.Length; i++)
+            activates[i].SetActive(true);
         Destroy(this);
     }
 }

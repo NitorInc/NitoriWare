@@ -28,6 +28,8 @@ public class DoomGame_Enemy : MonoBehaviour
     AudioSource audioSource;
     Transform mainCamera;
 
+    public bool startDeactivated;
+
     void Start()
     {
         if(path == null) path = new Vector3[0];
@@ -36,6 +38,8 @@ public class DoomGame_Enemy : MonoBehaviour
         mainCamera = Camera.main.transform;
         player = mainCamera.GetComponent<DoomGame_Player>();
         player.enemies.Add(this);
+        if(startDeactivated)
+            gameObject.SetActive(false);
     }
 
     void Update()
@@ -98,7 +102,7 @@ public class DoomGame_Enemy : MonoBehaviour
         Destroy(GetComponent<Collider>());
         rend.enabled = false;
         player.enemies.Remove(this);
-        player.AddBullets(1);
+        player.AddBullets(2);
         Destroy(this);
 
         CheckVictory();
