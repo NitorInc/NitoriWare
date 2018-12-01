@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DoomGame_UI : MonoBehaviour
 {
     [SerializeField]
-    Image reisen, heart;
+    Image reisen, heart, crosshair;
     [SerializeField]
     Image[] ammo;
     [SerializeField]
@@ -41,6 +41,20 @@ public class DoomGame_UI : MonoBehaviour
         }
         else
             reisen.sprite = reisenSprites[id];
+        if(crosshair.color != Color.white)
+        {
+            crosshair.color = crosshair.color + new Color(0, 0, 0, Time.deltaTime);
+        }
+        if(crosshair.transform.localScale != Vector3.one)
+        {
+            crosshair.transform.localScale = Vector3.Lerp(crosshair.transform.localScale, Vector3.one, Time.deltaTime * 20);
+        }
+    }
+
+    public void Shoot()
+    {
+        crosshair.color = new Color(1, 1, 1, 0.3f);
+        crosshair.transform.localScale = Vector3.one * 10;
     }
 
     public void UpdateAmmo(int value)
