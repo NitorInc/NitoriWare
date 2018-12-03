@@ -17,11 +17,6 @@ public class DoomGame_UI : MonoBehaviour
     private float counter = 0;
     private int id = 0;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         counter += Time.deltaTime;

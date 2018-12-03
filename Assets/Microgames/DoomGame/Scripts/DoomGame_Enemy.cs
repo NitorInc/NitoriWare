@@ -26,7 +26,6 @@ public class DoomGame_Enemy : MonoBehaviour
     int pid;
     Vector3 direction;
     AudioSource audioSource;
-    Transform mainCamera;
 
     public bool startDeactivated;
 
@@ -35,8 +34,7 @@ public class DoomGame_Enemy : MonoBehaviour
         if(path == null) path = new Vector3[0];
         rend = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        mainCamera = Camera.main.transform;
-        player = mainCamera.GetComponent<DoomGame_Player>();
+        player = GameObject.FindObjectOfType<DoomGame_Player>();
         player.enemies.Add(this);
         if(startDeactivated)
             gameObject.SetActive(false);
@@ -51,16 +49,16 @@ public class DoomGame_Enemy : MonoBehaviour
             if(pid < path.Length)
                 targetPosition = new Vector3(path[pid].x, transform.position.y, path[pid].z);
             else
-                targetPosition = new Vector3(mainCamera.position.x, transform.position.y, mainCamera.position.z) - direction * distanceToHit;
+                targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z) - direction * distanceToHit;
         }
         else
         {
-            targetPosition = new Vector3(mainCamera.position.x, transform.position.y, mainCamera.position.z) - direction * distanceToHit;
+            targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z) - direction * distanceToHit;
         }
 
         direction = Vector3.Normalize(transform.position - targetPosition);
 
-        if(Vector3.Distance(transform.position, mainCamera.position) < distanceToHit + 0.01f)
+        if(Vector3.Distance(transform.position, player.transform.position) < distanceToHit + 0.01f)
             DamagePlayer();
         else
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
@@ -68,7 +66,7 @@ public class DoomGame_Enemy : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.rotation = mainCamera.rotation;
+        transform.rotation = player.transform.rotation;
     }
 
     float delay = 0;
