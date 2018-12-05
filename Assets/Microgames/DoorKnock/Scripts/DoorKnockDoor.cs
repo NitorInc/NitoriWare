@@ -22,16 +22,12 @@ public class DoorKnockDoor : MonoBehaviour {
     [SerializeField]
     private int speed;
 
-    [SerializeField]
-    private GameObject fist;
-
     private float screenWidth;
     private float screenHeight;
     private Vector2 direction;  
     private bool win = false;
     private Animator animator;
     private BoxCollider2D collider;
-    private bool intersecting = false;
 
     // Use this for initialization
     void Start() {
@@ -48,10 +44,6 @@ public class DoorKnockDoor : MonoBehaviour {
 	
     // Update is called once per frame
     void Update() {
-        // Test if sprite is clicked
-        if (Input.GetMouseButtonDown(0) && intersecting) {
-            OnClick(); 
-        }
         if (shouldMove && direction != null && !win){
             // Add the direction we're moving in to our position
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
@@ -64,13 +56,6 @@ public class DoorKnockDoor : MonoBehaviour {
                 direction.y *= -1;
             }
         }
-    }
-    //OnTriggerStay2D doesn't work as well
-    void OnTriggerEnter2D(Collider2D other){
-        intersecting = true;
-    }
-    void OnTriggerExit2D(Collider2D other){
-        intersecting = false;
     }
     
     // When the object is clicked
@@ -86,8 +71,6 @@ public class DoorKnockDoor : MonoBehaviour {
             else if (teleportOnClick){
                 Teleport();
             }
-            ParticleSystem particleSystem = fist.GetComponentInChildren<ParticleSystem>();
-            particleSystem.Play();
             
             MicrogameController.instance.playSFX(
                 knockSound, volume: 0.5f,
