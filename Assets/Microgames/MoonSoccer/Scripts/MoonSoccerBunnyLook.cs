@@ -19,11 +19,12 @@ public class MoonSoccerBunnyLook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		timer += Time.deltaTime;
-		if (timer > 1) {
-			spriteRenderer.flipX = !spriteRenderer.flipX;
-			timer = 0f;
+        if (MicrogameController.instance.getVictoryDetermined() != false) { 
+            timer += Time.deltaTime;
+            if (timer > 1) {
+                spriteRenderer.flipX = !spriteRenderer.flipX;
+                timer = 0f;
+            }
 		}
-		
 	}
 }
