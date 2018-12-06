@@ -10,14 +10,11 @@ public class MoonSoccerBunnyLook : MonoBehaviour {
     // Reference to the object's spriteRenderer
     private SpriteRenderer spriteRenderer;
 
-	// Use this for initialization
 	void Start () {
-    
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		
 	}
 	
-	// Update is called once per frame
+	// Flip the sprite horizontally on a timer but only after the minigame victory state has been set
 	void Update () {
         if (MicrogameController.instance.getVictoryDetermined() != false) { 
             timer += Time.deltaTime;

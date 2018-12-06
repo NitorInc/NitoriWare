@@ -3,18 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoonSoccerBallCatching : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     
-    // Collision with the ball
+    // Check for collision with the ball object and causes failure if it does
     void OnTriggerEnter2D(Collider2D col) {
         if (col.gameObject.name == "Ball")
         {

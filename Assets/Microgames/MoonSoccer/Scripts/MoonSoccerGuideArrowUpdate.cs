@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class MoonSoccerGuideArrowUpdate : MonoBehaviour {
 
+    // The speed of the arrow blinking
     [Header("Blinking Speed")]
     [SerializeField]
     private float blinkSpeed = 0.2f;
+    // The time it takes before the arrow disappears on its own
     [Header("Blinking Duration")]
     [SerializeField]
     private float blinkDuration = 1f;
 
     private float blinkTimer = 0f;
 
-	// Use this for initialization
+	// Set a timer for the arrow to destroy itself
 	void Start () {
 		Invoke("DestroySelf", blinkDuration);
 	}
 	
-	// Update is called once per frame
 	void Update () {
+        // The arrow stops right away once the player has pressed one of the used buttons
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.Space))
             Destroy(gameObject);
         
