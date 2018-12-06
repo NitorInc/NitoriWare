@@ -3,26 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorKnockFist : MonoBehaviour {
-
-	[SerializeField]
-    private Sprite resting;
+    private bool knocking = false;
+    private Animator anim;
 
     [SerializeField]
-    private Sprite knocking;
-	
-    private SpriteRenderer spriteRenderer;
+    private float coolDown = 0.1f;
+    [SerializeField]
+    private GameObject door;
 
+    private float timer = 0;
+    private bool intersecting = false;
     void Start() {
-        spriteRenderer = transform.Find("Rig").GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-	void Update () {
-	    if (Input.GetMouseButtonDown(0)) {
-            spriteRenderer.sprite = knocking;
+    void Update () {
+        if (timer > 0) timer -= Time.deltaTime;
+        if (MicrogameController.instance.getVictory()){
+            gameObject.SetActive(false);
         }
-        else if(Input.GetMouseButtonUp(0)){
-            spriteRenderer.sprite = resting;
+        else if (Input.GetMouseButtonDown(0) && timer <= 0) {
+            anim.SetTrigger("Knock");
+            ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
+            particleSystem.Play();
+            timer = coolDown;
+            if (intersecting) door.SendMessage("OnClick");
         }
-	}
+    } 
+
+    //OnTriggerStay2D doesn't work as well
+    void OnTriggerEnter2D(Collider2D other){
+        intersecting = true;
+    }
+    void OnTriggerExit2D(Collider2D other){
+        intersecting = false;
+    }
 }

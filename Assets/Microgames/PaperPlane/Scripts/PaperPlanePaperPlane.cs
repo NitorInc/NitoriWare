@@ -20,10 +20,12 @@ public class PaperPlanePaperPlane : MonoBehaviour
     Sprite[] sprites;
     SpriteRenderer spriteRenderer;
 
+    bool Control;
     Vector2 velocity;
 
     void Start()
     {
+        Control = false;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.gameObject.SetActive(false);
         velocity = Vector2.zero;
@@ -35,41 +37,48 @@ public class PaperPlanePaperPlane : MonoBehaviour
         spriteRenderer.gameObject.SetActive(true);
         velocity = new Vector2(speed, 0);
         spriteRenderer.sprite = sprites[1];
+        Control = true;
+    }
+
+    private void AddVelocity(bool up)
+    {
+        if(up)
+            velocity.y += turningSpeed * Time.deltaTime;
+        else
+            velocity.y += -turningSpeed * Time.deltaTime;
+        clampSpeed();
+
     }
 
     void Update()
     {
-        if (velocity != Vector2.zero)
+        if (Control)
         {
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                velocity.y += -turningSpeed * Time.deltaTime;
-                clampSpeed();
+                AddVelocity(false);
             }
             else if (Input.GetKey(KeyCode.UpArrow))
             {
-                velocity.y += turningSpeed * Time.deltaTime;
-                clampSpeed();
+                AddVelocity(true);
             }
             else
             {
-                if (velocity.y < -0.5f)
+                if (velocity.y < -1f)
                 {
-                    velocity.y -= -turningSpeed * Time.deltaTime;
-                    clampSpeed();
+                    AddVelocity(true);
                 }
-                else if (velocity.y > 0.5f)
+                else if (velocity.y > 1f)
                 {
-                    velocity.y -= turningSpeed * Time.deltaTime;
-                    clampSpeed();
+                    AddVelocity(false);
                 }
                 else velocity.y = 0;
             }
-            
-            transform.position += new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0);
-            if (transform.position.y < upperBounds.x) transform.position = new Vector3(transform.position.x, upperBounds.x, transform.position.z);
-            else if (transform.position.y > upperBounds.y) transform.position = new Vector3(transform.position.x, upperBounds.y, transform.position.z);
-        }
+            }
+        transform.position += new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0);
+        if (transform.position.y < upperBounds.x) transform.position = new Vector3(transform.position.x, upperBounds.x, transform.position.z);
+        else if (transform.position.y > upperBounds.y) transform.position = new Vector3(transform.position.x, upperBounds.y, transform.position.z);
+
 
         if (velocity.y > spriteChangeThreshold)
             spriteRenderer.sprite = sprites[0];
@@ -83,18 +92,60 @@ public class PaperPlanePaperPlane : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    { 
-        velocity = Vector2.zero;
+    {
 
-        if (collision.gameObject.tag == "MicrogameTag1")
+        switch (collision.gameObject.tag)
         {
-            MicrogameController.instance.setVictory(false, true);
+            case "MicrogameTag1":
+                MicrogameController.instance.setVictory(false, true);
+                velocity = Vector2.zero;
+                Control = false;
+                break;
+            case "MicrogameTag2":
+                MicrogameController.instance.setVictory(true, true);
+                velocity = Vector2.zero;
+                Control = false;
+                break;
+            case "MicrogameTag3":
+                MicrogameController.instance.setVictory(true, true);
+                Control = false;
+                StartCoroutine("WinTarget");
+                break;
+            default:
+                break;
         }
-        if (collision.gameObject.tag == "MicrogameTag2")
-        {
-            MicrogameController.instance.setVictory(true, true);
-        }
+    }
 
+    public BoxCollider2D target;
+    IEnumerable WinTarget()
+    {
+        float boundUp = target.transform.position.y + (target.size.y / 2);
+        float boundDown = target.transform.position.y - (target.size.y / 2);
+        while (velocity != Vector2.zero)
+        {
+            if (boundUp < transform.position.y)
+            {
+                AddVelocity(false);
+
+            }
+            else if (boundDown > transform.position.y)
+            {
+                AddVelocity(true);
+            }
+            else
+            {
+                if (velocity.y < -1f)
+                {
+                    AddVelocity(true);
+                }
+                else if (velocity.y > 1f)
+                {
+                    AddVelocity(false);
+                }
+                else velocity.y = 0;
+            }
+                yield return null;
+        }
     }
 
     void clampSpeed()

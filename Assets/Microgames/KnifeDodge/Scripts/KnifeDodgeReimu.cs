@@ -59,11 +59,12 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	public void Kill() {
 		bIsKilled = true;
 		GetComponent<BoxCollider2D> ().size = new Vector2 (0, 0);
-		transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, killLaunchSpeed);
+        GetComponent<Animator>().speed = 0;
+
+        transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, killLaunchSpeed);
 		transform.GetComponent<Rigidbody2D> ().angularVelocity = 80.0f;
 
 		MicrogameController.instance.setVictory (false, true);
-		// To implement later
 		CameraShake.instance.setScreenShake (.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
 	}

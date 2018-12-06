@@ -8,7 +8,7 @@ public class MoneyTrapPeople1 : MonoBehaviour {
 
     [Header("Reference to target (Jewel)")]
     [SerializeField]
-    private GameObject player;
+    private GameObject target;
 
     [Header("How fast person moves")]
     [SerializeField]
@@ -31,7 +31,7 @@ public class MoneyTrapPeople1 : MonoBehaviour {
 
     //Stores this person's state
     private State state;
-    // Stores the direction of movement
+    //Stores the direction of movement
     private Vector2 trajectory;
 
     // Use this for initialization
@@ -50,8 +50,6 @@ public class MoneyTrapPeople1 : MonoBehaviour {
             trajectory.y = -10f;
             transform.parent = null;
         }
-        // Test that this works
-        print("People hit:" + other.gameObject.name);
     }
 
     // Update is called once per frame
@@ -62,7 +60,7 @@ public class MoneyTrapPeople1 : MonoBehaviour {
         {
 
             //get the direction towards player from this object's position
-            trajectory = (player.transform.position - transform.position).normalized;
+            trajectory = (target.transform.position - transform.position).normalized;
             //nullify y axis for horizontal(x) movement only
             trajectory.y = 0f;
 
@@ -70,7 +68,7 @@ public class MoneyTrapPeople1 : MonoBehaviour {
             if (state == State.Following) {
 
                 //if person isn't too far away from the jewel
-                if (Mathf.Abs(transform.position.x - player.transform.position.x) < distanceLeave)
+                if (Mathf.Abs(transform.position.x - target.transform.position.x) < distanceLeave)
                 {
                     //move towards player's x position at defined speed
                     Vector2 newPosition = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
@@ -79,8 +77,8 @@ public class MoneyTrapPeople1 : MonoBehaviour {
                 else
                     state = State.Idle;
             }
-            //if person is idle
-            else if(state == State.Idle && Mathf.Abs(transform.position.x - player.transform.position.x) < proximityFollow)
+            //if person is idle and in range to follow target
+            else if(state == State.Idle && Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
             {
                 state = State.Following;
             }
