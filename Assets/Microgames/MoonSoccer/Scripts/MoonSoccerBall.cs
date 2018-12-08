@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class MoonSoccerBall : MonoBehaviour {
     
+    // The ball's movement speed
     [Header("Movement Speed")]
     [SerializeField]
     private float moveSpeed = 1f;
 
-    
-	// Update is called once per frame
-	void Update () {
+    	void Update () {
 		if (gameObject.activeSelf)
         {
             // Move to the right at the set movement speed
@@ -24,10 +23,11 @@ public class MoonSoccerBall : MonoBehaviour {
 	}
     
     // Make this object active and set it's starting position
+    // Called by the player object's script
     public void activate (Vector2 position) 
     {
         transform.position = position;
-        transform.position = new Vector2(transform.position.x, transform.position.y - 1);
+        transform.position = new Vector2(transform.position.x + 1.2f, transform.position.y - 1);
         gameObject.SetActive(true);
     }
 }
