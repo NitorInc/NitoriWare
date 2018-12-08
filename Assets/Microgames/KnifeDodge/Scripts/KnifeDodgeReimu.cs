@@ -7,7 +7,10 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	public float animSpeed = 1.5f;
 	public float animSpeedStopped = 0f;
 	public float killLaunchSpeed = 20.0f;
-	public GameObject leftBound;
+    public float killLaunchRotSpeed = 80.0f;
+    public float knifeStuckYOffset;
+
+    public GameObject leftBound;
 	public GameObject rightBound;
 	bool bIsKilled;
     Vector3 previousMoveDir;
@@ -51,21 +54,28 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "KnifeDodgeHazard") {
-			Kill ();
+		if (coll.gameObject.tag == "KnifeDodgeHazard" && !bIsKilled) {
+			Kill (coll.gameObject);
 		}
 	}
 
-	public void Kill() {
+	public void Kill(GameObject knife) {
 		bIsKilled = true;
 		GetComponent<BoxCollider2D> ().size = new Vector2 (0, 0);
         GetComponent<Animator>().speed = 0;
 
         transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, killLaunchSpeed);
-		transform.GetComponent<Rigidbody2D> ().angularVelocity = 80.0f;
+		transform.GetComponent<Rigidbody2D> ().angularVelocity = killLaunchRotSpeed;
 
 		MicrogameController.instance.setVictory (false, true);
 		CameraShake.instance.setScreenShake (.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
+
+        knife.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        knife.transform.parent = transform;
+        knife.transform.position = new Vector3(
+            knife.transform.position.x - ((knife.transform.position.x - transform.position.x) / 2f),
+            transform.position.y + knifeStuckYOffset,
+            knife.transform.position.z);
 	}
 }

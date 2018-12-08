@@ -568,7 +568,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -781,7 +781,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -861,7 +861,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -941,7 +941,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1022,6 +1022,8 @@ MonoBehaviour:
   parallaxMaxSpeed: 1
   tiltedKnives: 0
   tiltedKnivesRandomAngle: 0
+  horizontalMovementKnives: 0
+  horizontalKnifeSpeed: 1
   tiltedKnivesAngle: 11
   tiltedKnivesNumZeroTilt: 2
 --- !u!114 &114396505407066516
@@ -1065,7 +1067,9 @@ MonoBehaviour:
   speed: 7.5
   animSpeed: 1.5
   animSpeedStopped: 0
-  killLaunchSpeed: 20
+  killLaunchSpeed: 10
+  killLaunchRotSpeed: 160
+  knifeStuckYOffset: 1.7
   leftBound: {fileID: 1546856056731364}
   rightBound: {fileID: 1077220513654968}
 --- !u!114 &114889485751315346
