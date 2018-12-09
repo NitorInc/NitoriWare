@@ -37,11 +37,10 @@ namespace FoodRoast {
 
     [Header("Animation States")]
     [SerializeField] private float StateDuration = 0.33f;
-    [ReadOnly] [SerializeField] private int PotatoAnimationState = 0;
+    [SerializeField] private int PotatoAnimationState = 0;
     [ReadOnly] [SerializeField] private PotatoCookedState PotatoCookedState = 0;
 
     private void Start() {
-      PotatoAnimationState = FoodRoast_Controller.Instance.GetAnimationState(GetPackLength);
       PotatoCookedState = PotatoCookedState.Uncooked;
       StartCoroutine(AnimationCoroutine());
       StartCoroutine(CookingCoroutine());
@@ -75,6 +74,7 @@ namespace FoodRoast {
 
       ChangeParticlesStartColorAlpha(.05f);
       Particles.Play();
+      EmitParticles(4);
     }
 
     // Procedure that turns uncooked to cooked potatoes
@@ -84,6 +84,17 @@ namespace FoodRoast {
 
       ChangeParticlesStartColorAlpha(.4f);
       Particles.Play();
+      EmitParticles(4);
+
+      FoodRoast_Controller.Instance.AddUncookedPotato();
+    }
+
+    private void EmitParticles(int amount){
+      var shape = Particles.shape;
+      var tempArc = shape.arcMode;
+      shape.arcMode = ParticleSystemShapeMultiModeValue.Random;
+      Particles.Emit(amount);
+      shape.arcMode = tempArc;
     }
 
     private void ChangeParticlesStartColorAlpha(float alpha){
@@ -100,7 +111,7 @@ namespace FoodRoast {
     private void OnMouseDown() {
       if (PotatoCookedState == PotatoCookedState.Cooked) {
         FoodRoast_Controller.Instance.AddCookedPotato();
-      } else {
+      } else if (PotatoCookedState == PotatoCookedState.Uncooked) {
         FoodRoast_Controller.Instance.AddUncookedPotato();
       }
       Particles.Stop();

@@ -373,7 +373,7 @@ MonoBehaviour:
   potatoCookTimes:
   - minTime: 4
     maxTime: 6
-  potatoBurnTime: 3
+  potatoBurnTime: 2.5
   uncookedPotatoesCollected: 0
   cookedPotatoesCollected: 0
 --- !u!4 &1052852847
@@ -583,6 +583,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1522667835}
     m_Modifications:
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4845125812532066, guid: f685321169ed94c4aadbafc2f81fdb96, type: 2}
       propertyPath: m_LocalPosition.x
       value: -200
@@ -615,34 +620,69 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4845125812532066, guid: f685321169ed94c4aadbafc2f81fdb96, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 212421253629947294, guid: f685321169ed94c4aadbafc2f81fdb96,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 368e6f009f37cdf4ea5c6c3ae23ffbe7,
-        type: 3}
-    - target: {fileID: 61514990167539284, guid: f685321169ed94c4aadbafc2f81fdb96,
-        type: 2}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 95
-      objectReference: {fileID: 0}
-    - target: {fileID: 61514990167539284, guid: f685321169ed94c4aadbafc2f81fdb96,
-        type: 2}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 97
-      objectReference: {fileID: 0}
-    - target: {fileID: 61514990167539284, guid: f685321169ed94c4aadbafc2f81fdb96,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 240
-      objectReference: {fileID: 0}
     - target: {fileID: 1316212028851600, guid: f685321169ed94c4aadbafc2f81fdb96, type: 2}
       propertyPath: m_Name
       value: Potato (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_BurstCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: randomSeed
+      value: -82872067
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.scalar
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[1].cycleCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[1].repeatInterval
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: VelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: ShapeModule.arc.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234887225568296, guid: f685321169ed94c4aadbafc2f81fdb96,
+        type: 2}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f685321169ed94c4aadbafc2f81fdb96, type: 2}
