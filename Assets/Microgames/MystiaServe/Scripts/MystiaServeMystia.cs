@@ -23,6 +23,8 @@ public class MystiaServeMystia : MonoBehaviour
 
     [SerializeField]
     private Sprite debugFoodSprite;
+    [SerializeField]
+    private float earlyServeFailDelay = .1f;
 
     private float speed;
     bool launched;
@@ -30,9 +32,11 @@ public class MystiaServeMystia : MonoBehaviour
     private Queue<MystiaServeCustomer> activeCustomers;
     private int customersLeft;
     private MystiaServeFoodManager foodManager;
+    private bool servedEarly;
 
     void Start()
     {
+        servedEarly = false;
         var launchDelay = MathHelper.randomRangeFromVector(launchDelayRange);
         Invoke("launch", launchDelay);
         Invoke("showIcon", launchDelay - notifyIconDuration);
@@ -63,7 +67,7 @@ public class MystiaServeMystia : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag.Equals("MicrogameTag1") && activeCustomers.Any() && collision.enabled)
+        if (collision.tag.Equals("MicrogameTag1") && activeCustomers.Any() && collision.enabled && !servedEarly)
         {
             setVictory(false);
         }
@@ -73,7 +77,7 @@ public class MystiaServeMystia : MonoBehaviour
         if (launched)
         {
             transform.position += Vector3.right * speed * Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Space) && !MicrogameController.instance.getVictoryDetermined())
+            if (Input.GetKeyDown(KeyCode.Space) && !MicrogameController.instance.getVictoryDetermined() && !servedEarly)
             {
                 if (activeCustomers.Any())
                 {
@@ -88,9 +92,18 @@ public class MystiaServeMystia : MonoBehaviour
                         setVictory(true);
                 }
                 else
-                    setVictory(false);
+                {
+                    servedEarly = true;
+                    rigAnimator.SetTrigger("Serve");
+                    Invoke("setFail", earlyServeFailDelay);
+                }
             }
         }
+    }
+
+    void setFail()
+    {
+        setVictory(false);
     }
 
     void setVictory(bool victory)
