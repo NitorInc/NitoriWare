@@ -13,16 +13,23 @@ public class MystiaServeMystia : MonoBehaviour
     private bool canSwitchSides;
     [SerializeField]
     private float notifyIconDuration;
-    
+
+    [SerializeField]
+    private Animator rigAnimator;
     [SerializeField]
     private GameObject notifyIcon;
     [SerializeField]
-    private Transform customerContainer;
+    private MystiaServeCustomerManager customerManager;
+
+    [SerializeField]
+    private Sprite debugFoodSprite;
 
     private float speed;
     bool launched;
-    private Queue<Collider2D> activeCustomers;
+    bool flipped = false;
+    private Queue<MystiaServeCustomer> activeCustomers;
     private int customersLeft;
+    private MystiaServeFoodManager foodManager;
 
     void Start()
     {
@@ -30,23 +37,27 @@ public class MystiaServeMystia : MonoBehaviour
         Invoke("launch", launchDelay);
         Invoke("showIcon", launchDelay - notifyIconDuration);
         speed = MathHelper.randomRangeFromVector(speedRange);
-        activeCustomers = new Queue<Collider2D>();
-        customersLeft = customerContainer.childCount;
+        customersLeft = customerManager.Customers.Length;
+        activeCustomers = new Queue<MystiaServeCustomer>();
 
         if (canSwitchSides && MathHelper.randomBool())
         {
+            flipped = true;
             flipSide(transform);
             flipSide(notifyIcon.transform);
             speed = -speed;
+            customerManager.reverseCustomerPositions();
         }
 
+        foodManager = GetComponent<MystiaServeFoodManager>();
+        foodManager.createFood(customerManager.Customers);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("MicrogameTag1"))
         {
-            activeCustomers.Enqueue(collision);
+            activeCustomers.Enqueue(collision.GetComponent<MystiaServeCustomer>());
         }
     }
 
@@ -66,16 +77,18 @@ public class MystiaServeMystia : MonoBehaviour
             {
                 if (activeCustomers.Any())
                 {
+                    foodManager.serveNextCustomer();
+                    
                     var customer = activeCustomers.Dequeue();
-                    customer.enabled = false;
-                    customer.gameObject.SetActive(false);
+                    customer.GetComponent<Collider2D>().enabled = false;
+                    rigAnimator.SetTrigger("Serve");
 
                     customersLeft--;
                     if (customersLeft <= 0)
                         setVictory(true);
                 }
                 else
-                setVictory(false);
+                    setVictory(false);
             }
         }
     }
@@ -84,7 +97,10 @@ public class MystiaServeMystia : MonoBehaviour
     {
         MicrogameController.instance.setVictory(victory);
         if (!victory)
-            Destroy(gameObject);
+        {
+            rigAnimator.SetTrigger("Fail");
+            enabled = false;
+        }
     }
 
 
