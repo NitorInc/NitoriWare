@@ -10,6 +10,8 @@ public class MystiaServeFoodManager : MonoBehaviour
     [SerializeField]
     private GameObject foodPrefab;
     [SerializeField]
+    private MystiaServeFood tray;
+    [SerializeField]
     private bool ignoreSiblingCollisions;
 
     private MystiaServeFood[] foods;
@@ -38,12 +40,14 @@ public class MystiaServeFoodManager : MonoBehaviour
         if (ignoreSiblingCollisions)
         {
             var colliders = foods.Select(a => a.GetComponent<Collider2D>()).ToArray();
+            var trayCollider = tray.GetComponent<Collider2D>();
             for (int i = 0; i < foods.Length; i++)
             {
                 for (int j = i + 1; j < foods.Length; j++)
                 {
                     Physics2D.IgnoreCollision(colliders[i], colliders[j]);
                 }
+                Physics2D.IgnoreCollision(colliders[i], trayCollider);
             }
         }
 
@@ -51,5 +55,6 @@ public class MystiaServeFoodManager : MonoBehaviour
         {
             food.launch();
         }
+        tray.launch();
     }
 }

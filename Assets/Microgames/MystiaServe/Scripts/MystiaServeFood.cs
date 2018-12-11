@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MystiaServeFood : MonoBehaviour
 {
+    [SerializeField]
+    private bool isTray;
+
     [Header("Values for on tray")]
     [SerializeField]
     private float ySeparation;
@@ -36,12 +39,13 @@ public class MystiaServeFood : MonoBehaviour
     {
         transform.localPosition = GoalPosition;
         rigidBoi = GetComponent<Rigidbody2D>();
-        transform.position += Vector3.forward * transform.GetSiblingIndex() * .01f;
+        if (!isTray)
+            transform.position += Vector3.forward * transform.GetSiblingIndex() * .01f;
     }
 	
 	void Update ()
     {
-        if (onTray)
+        if (!isTray && onTray)
         {
             //Snap to goal Y (for when food is taken away)
 		    if (!MathHelper.Approximately(transform.localPosition.y, GoalY, .001f))
@@ -69,10 +73,18 @@ public class MystiaServeFood : MonoBehaviour
             MathHelper.randomRangeFromVector(xSpeedRange) * direction,
             MathHelper.randomRangeFromVector(ySpeedRange));
         rigidBoi.angularVelocity = MathHelper.randomRangeFromVector(rotSpeedRange * direction);
+        if (isTray)
+            GetComponent<SpriteRenderer>().enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isTray)
+        {
+            enabled = false;
+            return;
+        }
+
         var floorTag = "MicrogameTag2";
         if (collision.collider.tag.Equals(floorTag)
             || collision.otherCollider.tag.Equals(floorTag))
