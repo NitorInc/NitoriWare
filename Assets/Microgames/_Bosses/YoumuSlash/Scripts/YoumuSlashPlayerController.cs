@@ -42,6 +42,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
         set { autoSlash = value; }
     }
 
+    [SerializeField]
+    private int health = 3;
+    [SerializeField]
+    private int postMissBeatCooldown = 2;
+    [SerializeField]
+    private bool emptySwingsDepleteHealth = true;
     [Header("Timing window in seconds for hitting an object")]
     [SerializeField]
     private Vector2 hitTimeFudge;
@@ -83,6 +89,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     float lastIdleTime;
     float lastAttackTime;
     AudioSource sfxSource;
+    bool failQueued = false;
+    int nextMissableBeat = 0;
 
     private void Awake()
     {
@@ -278,6 +286,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("EyesClosed", closed);
     }
 
+    void queueFail()
+    {
+        failQueued = true;
+    }
+
     void fail()
     {
         enabled = false;
@@ -289,14 +302,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
             returnToIdle();
 
         onFail.Invoke();
+        MicrogameController.instance.setVictory(false);
     }
 
     void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            fail();
-        }
 
         if (beatTriggerResetTimer > 0)
         {
@@ -313,7 +323,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             if (!attackWasSuccess && slashCooldownTimer <= 0f)
                 returnToIdle();
         }
-        if (allowInput)
+        if (allowInput && !failQueued)
             handleInput();
         
         var currentNextTarget = getFirstActiveTarget();
@@ -321,17 +331,23 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             if (nextTarget != null && !nextTarget.slashed)
             {
-                if (canReactToMissedNote())
+                triggerMiss();
+                if (failQueued)
+                    fail();
+                else if (canReactToMissedNote())
                     playNoteMissReaction();
                 else
                     noteMissReactionQueued = true;
-                triggerMiss();
             }
             nextTarget = currentNextTarget;
         }
-        else if (noteMissReactionQueued && canReactToMissedNote())
+        else if (canReactToMissedNote())
         {
-            playNoteMissReaction();
+            if (failQueued)
+                fail();
+            else if (noteMissReactionQueued)
+                playNoteMissReaction();
+
             noteMissReactionQueued = false;
         }
 
@@ -380,7 +396,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         else if (isHit)   //For force direction (auto-slash)
             direction = hitTarget.HitDirection;
 
-        //From here below slash is confirmed
+        //From here below slash attempt is confirmed
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
         noteMissReactionQueued = false;
@@ -403,7 +419,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
         attacking = true;
         if (!isHit)
-            triggerMiss();
+            triggerMiss(emptySwingsDepleteHealth);
 
         bool facingRight = direction == YoumuSlashBeatMap.TargetBeat.Direction.Right;
         setRigFacingRight(facingRight);
@@ -457,10 +473,29 @@ public class YoumuSlashPlayerController : MonoBehaviour
         spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
     }
 
-    void triggerMiss()
+    void triggerMiss(bool depleteHealth = true)
     {
-        upsetResetHits = upsetResetHitCount;
-        rigAnimator.SetBool("Upset", true);
+        if (failQueued)
+            return;
+
+        if (depleteHealth && (timingData.CurrentBeat >= nextMissableBeat))
+        { 
+            health--;
+            nextMissableBeat = (int)Mathf.Ceil(timingData.CurrentBeat + postMissBeatCooldown);
+        }
+
+        if (health <= 0)
+        {
+            if (attacking)
+                queueFail();
+            else
+                fail();
+        }
+        else
+        {
+            upsetResetHits = upsetResetHitCount;
+            rigAnimator.SetBool("Upset", true);
+        }
     }
 
     void playSfx(AudioClip clip, YoumuSlashBeatMap.TargetBeat.Direction direction, bool varyPitch)
