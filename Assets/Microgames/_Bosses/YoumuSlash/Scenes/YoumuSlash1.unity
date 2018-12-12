@@ -2849,6 +2849,8 @@ GameObject:
   - component: {fileID: 334025765}
   - component: {fileID: 334025766}
   - component: {fileID: 334025767}
+  - component: {fileID: 334025769}
+  - component: {fileID: 334025768}
   m_Layer: 0
   m_Name: Timing Controller
   m_TagString: Untagged
@@ -2883,7 +2885,7 @@ MonoBehaviour:
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   beatMap: {fileID: 11400000, guid: 89f9d2d12f0227d4cac08b8b666fd446, type: 2}
   startDelay: 1.25
-  warmupBeats: 
+  warmupBeats: 020000000200000001000000010000000100000001000000
   warmupBeatClip: {fileID: 8300000, guid: d0b4b24da72071f4585fb457c4aeb076, type: 3}
 --- !u!82 &334025766
 AudioSource:
@@ -2981,6 +2983,34 @@ MonoBehaviour:
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
   volumeType: 2
+--- !u!95 &334025768
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 334025763}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 68d7943417f190d4e8950711dcd333b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &334025769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 334025763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b0fa3cbd7f8ac4e8916547475c93bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &349034643
 GameObject:
   m_ObjectHideFlags: 0
