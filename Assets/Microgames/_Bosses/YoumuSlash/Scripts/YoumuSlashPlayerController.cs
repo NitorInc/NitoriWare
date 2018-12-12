@@ -8,6 +8,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
     public delegate void AttackDelegate(YoumuSlashBeatMap.TargetBeat beat);
     public static AttackDelegate onAttack;
 
+    public delegate void FaiLDelegate();
+    public static FaiLDelegate onFail;
+
     [SerializeField]
     private YoumuSlashTimingData timingData;
     [SerializeField]
@@ -84,6 +87,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private void Awake()
     {
         onAttack = null;
+        onFail = null;
         sfxSource = GetComponent<AudioSource>();
     }
 
@@ -274,12 +278,24 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("EyesClosed", closed);
     }
 
+    void fail()
+    {
+        enabled = false;
+        YoumuSlashTimingController.onBeat = null;
+        CancelInvoke();
+
+        rigAnimator.SetTrigger("Fail");
+        if (attacking)
+            returnToIdle();
+
+        onFail.Invoke();
+    }
+
     void Update ()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigAnimator.SetTrigger("Fail");
-            GameObject.Find("Environment").GetComponent<Animator>().SetTrigger("Fail");
+            fail();
         }
 
         if (beatTriggerResetTimer > 0)
