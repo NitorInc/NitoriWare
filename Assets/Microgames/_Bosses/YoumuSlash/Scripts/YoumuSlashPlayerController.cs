@@ -297,7 +297,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         YoumuSlashTimingController.onBeat = null;
         CancelInvoke();
 
-        rigAnimator.SetTrigger("Fail");
+        rigAnimator.SetBool("Fail", true);
         if (attacking)
             returnToIdle();
 
@@ -478,7 +478,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (failQueued)
             return;
 
-        if (depleteHealth && (timingData.CurrentBeat >= nextMissableBeat))
+        if (depleteHealth && (timingData.CurrentBeat >= nextMissableBeat) && 
+            !(MicrogameController.instance.isDebugMode() && Input.GetKey(KeyCode.S)))
         { 
             health--;
             nextMissableBeat = (int)Mathf.Ceil(timingData.CurrentBeat + postMissBeatCooldown);
