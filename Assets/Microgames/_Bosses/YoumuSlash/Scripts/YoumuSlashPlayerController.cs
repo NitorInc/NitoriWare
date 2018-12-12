@@ -276,6 +276,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rigAnimator.SetTrigger("Fail");
+        }
+
         if (beatTriggerResetTimer > 0)
         {
             beatTriggerResetTimer--;
