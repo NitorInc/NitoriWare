@@ -279,6 +279,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rigAnimator.SetTrigger("Fail");
+            GameObject.Find("Environment").GetComponent<Animator>().SetTrigger("Fail");
         }
 
         if (beatTriggerResetTimer > 0)
