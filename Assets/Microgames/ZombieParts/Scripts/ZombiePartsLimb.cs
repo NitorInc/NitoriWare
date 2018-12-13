@@ -12,15 +12,12 @@ public class ZombiePartsLimb : MonoBehaviour {
 
 	[SerializeField]
 	private float returnSpeed = 5f;
-	[SerializeField]
-	private ParticleSystem blood;
 
 	private MouseGrabbable grabbable;
 	private Vector3 startPosition;
 	private bool completed = false;
 	private bool lastUpdateGrabbable = false;
 	private bool isReturning = true;
-	private bool stoppedBlood = false;
 
 
 	public bool GetComplete () {
@@ -60,12 +57,6 @@ public class ZombiePartsLimb : MonoBehaviour {
 			lastUpdateGrabbable = grabbable.grabbed;
 		} else {
 			MoveToPosition(correctPosition);
-			if (!stoppedBlood) {
-				stoppedBlood = true;
-				ParticleSystem.EmissionModule bloodEmissionReference = blood.emission;
-				bloodEmissionReference.rateOverDistanceMultiplier = 0f;
-				bloodEmissionReference.rateOverTimeMultiplier = 0f;
-			}
 		}
 	}
 
