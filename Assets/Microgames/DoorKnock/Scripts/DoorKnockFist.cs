@@ -13,8 +13,10 @@ public class DoorKnockFist : MonoBehaviour {
 
     private float timer = 0;
     private bool intersecting = false;
+    private ParticleSystem particleSystem;
     void Start() {
         anim = GetComponent<Animator>();
+        particleSystem = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -25,10 +27,11 @@ public class DoorKnockFist : MonoBehaviour {
         }
         else if (Input.GetMouseButtonDown(0) && timer <= 0) {
             anim.SetTrigger("Knock");
-            ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
-            particleSystem.Play();
             timer = coolDown;
-            if (intersecting) door.SendMessage("OnClick");
+            if (intersecting) {
+                door.SendMessage("OnClick");
+                particleSystem.Play();
+            }
         }
     } 
 
