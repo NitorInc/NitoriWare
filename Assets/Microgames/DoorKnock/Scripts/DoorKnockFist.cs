@@ -21,11 +21,14 @@ public class DoorKnockFist : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (timer > 0) timer -= Time.deltaTime;
-        if (MicrogameController.instance.getVictory()){
-            gameObject.SetActive(false);
-        }
-        else if (Input.GetMouseButtonDown(0) && timer <= 0) {
+        if (timer > 0) { 
+                timer -= Time.deltaTime;
+        } else if (MicrogameController.instance.getVictory()){
+            transform.localScale -= new Vector3(0.05f, 0.05f, 0.05f);
+            if (transform.localScale.x <= 0){
+                gameObject.SetActive(false);
+            }
+        } else if (Input.GetMouseButtonDown(0) && timer <= 0) {
             anim.SetTrigger("Knock");
             timer = coolDown;
             if (intersecting) {
