@@ -5,10 +5,11 @@ using UnityEngine;
 public class FurBallController : MonoBehaviour {
     [SerializeField]
     GameObject sprite;
-    public float speed = 0.01f;
+    public float speed = 0.3f;
     
     private bool shouldShrink = false;
     private bool hasMoved = false;
+    private bool finished = false;
     private Transform t;
     void Start(){
         t = sprite.transform;
@@ -17,11 +18,21 @@ public class FurBallController : MonoBehaviour {
         if (!hasMoved && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))){
             hasMoved = true;
         }
-        if (shouldShrink && hasMoved){
+        if (finished && t.localScale.x > 0) {
+            float s = 3*Time.deltaTime*speed;
+            t.localScale -= new Vector3(s, s, s);
             if (t.localScale.x <= 0){
-                Destroy(this.gameObject); 
+                GetComponent<ParticleSystem>().Play();
+                gameObject.tag = "Finish";
+                sprite.GetComponent<Renderer>().enabled = false;
+                t.localScale = new Vector3(0f, 0f, 0f);
             }
-            t.localScale -= new Vector3(speed, speed, speed);
+        } else if (gameObject.tag != "Finish" && shouldShrink && hasMoved){
+            float s = Time.deltaTime*speed;
+            t.localScale -= new Vector3(s, s, s);
+            if (t.localScale.x <= 0.06){
+                finished = true;
+            }
         }
     }
 

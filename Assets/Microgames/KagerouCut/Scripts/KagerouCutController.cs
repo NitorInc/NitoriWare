@@ -6,10 +6,13 @@ public class KagerouCutController : MonoBehaviour {
     
     [SerializeField]
     private Sprite[] characterSprites; 
+
+    [SerializeField]
+    private Color[] hairColors;
     
     [SerializeField]
-    private Sprite[] furballSprites;
-
+    private AudioClip[] soundTracks;
+    
     [SerializeField]
     private int furballCount = 0;
    
@@ -25,20 +28,31 @@ public class KagerouCutController : MonoBehaviour {
 
     private float furDistance = 1.2f;
     private GameObject[] furballs;
-	
+    private KagCutCharacter character;
+
     // Use this for initialization
 	void Start () {
         furballs = new GameObject[furballCount];
         // Set the sprites
         int randChar = Random.Range(0, characterSprites.Length);
         Sprite charSprite = characterSprites[randChar];
-        Sprite furSprite = furballSprites[randChar];
-	    KagCutCharacter character = Instantiate(characterPrefab);
+        Color hairColor = hairColors[randChar];
+        AudioClip music = soundTracks[randChar];
+
+	    character = Instantiate(characterPrefab);
         character.GetComponent<SpriteRenderer>().sprite = charSprite; 
+        
         GameObject furball = character.transform.Find("FurBall").gameObject;
         GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
-        spriteObj.GetComponent<SpriteRenderer>().sprite = furSprite; 
+        spriteObj.GetComponent<SpriteRenderer>().color = hairColor;
         
+        ParticleSystem.MainModule partMod = furball.GetComponent<ParticleSystem>().main;
+        partMod.startColor = new ParticleSystem.MinMaxGradient(hairColor);
+       
+        AudioSource player = MicrogameController.instance.GetComponent<AudioSource>();
+        player.clip = music;
+        player.Play();
+
         float angle = 0.4f;
         float[] angles= new float[furballCount];
         for (int i=0; i<furballCount; i++){
@@ -67,12 +81,13 @@ public class KagerouCutController : MonoBehaviour {
 	void Update () {
 		bool ballsLeft = false;
         foreach (GameObject ball in furballs){
-            if (ball != null){
+            if (ball.tag != "Finish"){
                 ballsLeft = true;
                 break;
             }
         }
         if (!ballsLeft) {
+            character.GetComponent<Animator>().SetTrigger("Win");
             background.GetComponent<Animator>().SetTrigger("Win");
             MicrogameController.instance.setVictory(victory: true, final: true);
         }
