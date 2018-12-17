@@ -24,7 +24,7 @@ public class DoorKnockFist : MonoBehaviour {
         if (timer > 0) { 
                 timer -= Time.deltaTime;
         } else if (MicrogameController.instance.getVictory()){
-            transform.localScale -= new Vector3(0.05f, 0.05f, 0.05f);
+            transform.localScale -= new Vector3(0.05f, 0.05f, 0.05f)*Time.timeScale;
             if (transform.localScale.x <= 0){
                 gameObject.SetActive(false);
             }
