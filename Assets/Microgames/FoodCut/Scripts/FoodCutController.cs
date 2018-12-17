@@ -37,6 +37,9 @@ public class FoodCutController : MonoBehaviour {
     [SerializeField]
     private float separationDeceleration = 0.2f;
 
+    [SerializeField]
+    private float cuttingMoveSpeedMult = .5f;
+
 
     private Collider2D knifeCollider;
     private int cutCount = 0;
@@ -54,7 +57,7 @@ public class FoodCutController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
+        transform.localPosition = new Vector2(Random.Range(minX, maxX), transform.position.y);
 
         
     }
@@ -115,19 +118,16 @@ public class FoodCutController : MonoBehaviour {
         }
 
         // Handle Movement
-        if (!isCutting)
-        {
-            transform.Translate(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed, 0f, 0f);
-        }
+        transform.Translate(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed * (isCutting ? cuttingMoveSpeedMult : 1f), 0f, 0f);
 
         // Restrict Movement
         if (transform.position.x <= minX)
         {
-            transform.position = new Vector2(minX, transform.position.y);
+            transform.localPosition = new Vector2(minX, transform.position.y);
         }
         else if (transform.position.x >= maxX)
         {
-            transform.position = new Vector2(maxX, transform.position.y);
+            transform.localPosition = new Vector2(maxX, transform.position.y);
         }
 
         // Checks to see if there is a dotted line to cut
@@ -135,7 +135,7 @@ public class FoodCutController : MonoBehaviour {
         {
             //Play animation
             isCutting = true;
-            knifeChild.GetComponent<Animator>().Play("FoodCutKnife");
+            knifeChild.GetComponent<Animator>().SetTrigger("Cut");
 
             //Create the right side of the meat and mask it
             GameObject rightMeat = (GameObject)Instantiate(meatHolder);
@@ -233,7 +233,10 @@ public class FoodCutController : MonoBehaviour {
 
         // Player wins if they cut the proper amount of lines
         if (cutCount == cutsNeeded)
+        {
             MicrogameController.instance.setVictory(victory: true, final: true);
+            enabled = false;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
