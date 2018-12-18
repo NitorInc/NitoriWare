@@ -10,6 +10,8 @@ public class DoorKnockFist : MonoBehaviour {
     private float coolDown = 0.1f;
     [SerializeField]
     private GameObject door;
+    [SerializeField]
+    private float shrinkSpeed = 4f;
 
     private float timer = 0;
     private bool intersecting = false;
@@ -24,7 +26,7 @@ public class DoorKnockFist : MonoBehaviour {
         if (timer > 0) { 
                 timer -= Time.deltaTime;
         } else if (MicrogameController.instance.getVictory()){
-            transform.localScale -= new Vector3(0.05f, 0.05f, 0.05f)*Time.timeScale;
+            transform.localScale -= new Vector3(1f, 1f, 1f) * Time.deltaTime * shrinkSpeed;
             if (transform.localScale.x <= 0){
                 gameObject.SetActive(false);
             }
