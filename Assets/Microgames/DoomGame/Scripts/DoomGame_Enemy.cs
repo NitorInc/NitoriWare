@@ -83,7 +83,8 @@ public class DoomGame_Enemy : MonoBehaviour
 
     public void DamageSelf()
     {
-        hp--;
+        particleSystem.Emit(20);
+           hp--;
         if(hp <= 0)
             Kill();
         else
