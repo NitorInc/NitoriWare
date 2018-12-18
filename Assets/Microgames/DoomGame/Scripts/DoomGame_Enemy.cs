@@ -22,6 +22,7 @@ public class DoomGame_Enemy : MonoBehaviour
     new ParticleSystem particleSystem;
     [SerializeField]
     Vector3[] path;
+    Coroutine hurtCr;
 
     int pid;
     Vector3 direction;
@@ -94,16 +95,32 @@ public class DoomGame_Enemy : MonoBehaviour
         audioSource.clip = deathAudio;
         audioSource.Play();
         particleSystem.transform.SetParent(null);
-        particleSystem.Emit(30);
+        float dist = Vector3.Distance(player.transform.position, transform.position);
+        particleSystem.startSpeed *= 1 + 0.05f * dist;
+        particleSystem.Emit(50 + (int)dist);
         Destroy(particleSystem.gameObject, 2);
-        Destroy(gameObject, deathAudio.length);
         Destroy(GetComponent<Collider>());
-        rend.enabled = false;
+        Destroy(gameObject, deathAudio.length);
+        StopCoroutine(hurtCr);
+        player.StartCoroutine(DeathAnimation());
         player.enemies.Remove(this);
-        player.AddBullets(2);
+        player.AddBullets(6);
+        player.shake += 0.6f;
         Destroy(this);
 
         CheckVictory();
+    }
+
+    IEnumerator DeathAnimation()
+    {
+        float t = 1;
+        while(t > 0)
+        {
+            rend.color = new Color(1, 0, 0, t);
+            t -= Time.deltaTime * 3;
+            rend.transform.localScale += Vector3.one * Time.deltaTime;
+            yield return null;
+        }
     }
 
     void CheckVictory()
@@ -116,7 +133,9 @@ public class DoomGame_Enemy : MonoBehaviour
     void Hurt()
     {
         StartCoroutine(Knockback(direction * 5));
-        StartCoroutine(DamageColor());
+        if(hurtCr != null)
+            StopCoroutine(hurtCr);
+        hurtCr = StartCoroutine(DamageColor());
         audioSource.pitch = Random.value * 0.2f + 0.9f;
         audioSource.clip = hurtAudio[Random.Range(0, hurtAudio.Length)];
         audioSource.Play();

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DoomGame_Player : MonoBehaviour
 {
+    [SerializeField]
+    bool useAmmo = true;
     [HideInInspector]
     public List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy>();
     [SerializeField]
@@ -15,20 +17,30 @@ public class DoomGame_Player : MonoBehaviour
     [SerializeField]
     AudioClip shootSound;
     [SerializeField]
-    Material screen;
-    bool dead = false;
-    float dead_lerp = 0;
+    public Material screen;
+    [HideInInspector]
+    public bool dead = false;
+    [HideInInspector]
+    public float dead_lerp = 0;
     float smooth_gun = 0;
     int bullets = 6;
+    Vector3 startPosition;
+    [HideInInspector]
+    public float shake = 0;
 
     void Start()
     {
+        startPosition = transform.position;
         mainCamera = Camera.main.transform;
         audio = GetComponent<AudioSource>();
     }
 
     void Update()
     {
+        transform.position = startPosition + Random.insideUnitSphere * shake;
+        shake -= Time.deltaTime * 3;
+        if(shake <= 0)
+            shake = 0;
         float mX = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up, mX);
         gunAnimator.transform.localPosition = Vector3.Lerp(
@@ -41,13 +53,14 @@ public class DoomGame_Player : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
             Shoot();
     }
-    
+
 
     void Shoot()
     {
-        if(bullets <= 0)
+        if(useAmmo && bullets <= 0)
             return;
-        bullets--;
+        if(useAmmo)
+            bullets--;
         ui.Shoot();
         ui.UpdateAmmo(bullets);
         audio.PlayOneShot(shootSound);
@@ -72,11 +85,4 @@ public class DoomGame_Player : MonoBehaviour
         MicrogameController.instance.setVictory(false, true);
     }
 
-    void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
-        if(dead)
-            dead_lerp = Mathf.Clamp(dead_lerp + Time.deltaTime * 2, 0, 1);
-        screen.SetFloat("_Amount", dead_lerp);
-        Graphics.Blit(source, destination, screen);
-    }
 }
