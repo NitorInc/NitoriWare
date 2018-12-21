@@ -17,6 +17,8 @@ public class YoumuSlashTargetSlice : MonoBehaviour
     private Vector2 ySpeedRange;
     [SerializeField]
     private float gravityScale;
+    [SerializeField]
+    private YoumuSlashTarget baseObject;
 
     private float rotSpeed;
     private Vector2 speed;
@@ -29,7 +31,8 @@ public class YoumuSlashTargetSlice : MonoBehaviour
 
     public void setSpeed()
     {
-        rotSpeed = MathHelper.randomRangeFromVector(rotSpeedRange) * direction;
+        rotSpeed = MathHelper.randomRangeFromVector(rotSpeedRange) * direction 
+            * (baseObject.MapInstance.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right ? -1f : 1f);
         speed = new Vector2(MathHelper.randomRangeFromVector(xSpeedRange * -direction), MathHelper.randomRangeFromVector(ySpeedRange));
     }
 

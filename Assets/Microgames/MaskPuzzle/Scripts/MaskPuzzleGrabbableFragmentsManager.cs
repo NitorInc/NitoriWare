@@ -16,11 +16,20 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     [Header("Fragments snap when closer than:")]
     public float maxSnapDistance = 1f;
 
-    [Header("On victory move mask to:")]
-    public Vector3 victoryGoal;
+    [System.Serializable]
+    public class Background
+    {
+        public GameObject backgroundImage;
 
-    [Header("On victory rotate the mask to:")]
-    public Vector3 victoryRotation;
+        [Header("On victory move mask to:")]
+        public Vector3 victoryGoal;
+
+        [Header("On victory rotate the mask to:")]
+        public Vector3 victoryRotation;
+    };
+
+    [Header("Backgrounds and victory mask positions")]
+    public Background[] backgroundVariants;
 
     [Header("How much fragments scale increases on grabbing")]
     public float grabScaleIncrease = .001f;
@@ -53,6 +62,10 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     private AudioClip victorySound;
 
     [Header("")]
+    // These get filled with a random choice from backgroundVariants during initialization
+    public Vector3 victoryGoal;
+    public Vector3 victoryRotation;
+
     public float victoryStartTime;
     public Vector3 victoryStartPosition;
     public Vector3 victoryStartRotation;
@@ -77,6 +90,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
     private const int FIRST_MASK_LAYER = 14;
 
     // Initialization - choose and prepare the mask that will be assembled by the player
+    // as well as the background and victory position
     void Start ()
     {
         // Choose a random mask
@@ -117,6 +131,21 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
 
             // Add the fragment to list
             fragments.Add(currentFragment.GetComponent<MaskPuzzleMaskFragment>());
+        }
+
+        // Choose a random background, ensure it's the only one visible,
+        // and copy its victory position values
+        if (backgroundVariants.Length > 0)
+        {
+            Background chosenBackground = backgroundVariants[Random.Range(0, backgroundVariants.Length)];
+
+            foreach (Background backgroundVariant in backgroundVariants)
+                if (backgroundVariant.backgroundImage != chosenBackground.backgroundImage)
+                    backgroundVariant.backgroundImage.SetActive(false);
+            chosenBackground.backgroundImage.SetActive(true);
+
+            victoryGoal = chosenBackground.victoryGoal;
+            victoryRotation = chosenBackground.victoryRotation;
         }
     }
 

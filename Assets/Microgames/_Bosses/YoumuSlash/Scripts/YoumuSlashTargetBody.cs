@@ -27,10 +27,15 @@ public class YoumuSlashTargetBody : MonoBehaviour
         transform.localEulerAngles += Vector3.forward * rotSpeed * Time.deltaTime;
     }
 
+    public void freezeLaunchAnimation()
+    {
+        rigAnimator.speed = 0f;
+        rotSpeed = 0f;
+    }
+
     public void slash(float angle)
     {
         setSlashedAngle(angle);
-        rigAnimator.speed = 0f;
         enabled = false;
     }
 

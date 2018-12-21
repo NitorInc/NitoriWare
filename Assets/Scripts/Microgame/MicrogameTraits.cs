@@ -75,7 +75,7 @@ public class MicrogameTraits : ScriptableObject
     }
 
     [SerializeField]
-    private string[] _credits;
+    private string[] _credits = { "", "", "" };
     public virtual string[] credits => _credits;
 
     private string _microgameId;
