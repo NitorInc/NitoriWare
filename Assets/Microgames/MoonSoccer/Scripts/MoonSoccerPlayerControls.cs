@@ -63,7 +63,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // Check player inputs and update object position. X value is updated based on the y position
     void updateMovement ()
     {
-        if (MicrogameController.instance.getVictoryDetermined() != true) {
+        if (MicrogameController.instance.getVictoryDetermined() != true || hasKicked == false) {
             float x = transform.position.x;
             float y = transform.position.y;
             if (Input.GetKey(KeyCode.DownArrow) && transform.position.y >= BottomY)
