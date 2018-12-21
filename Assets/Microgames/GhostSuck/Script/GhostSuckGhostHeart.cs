@@ -6,7 +6,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     [SerializeField]
     private bool touch, damageperiod, touchcheck, suck, inthezone, alive, acceldelay, settrajectorydeadactive, particlefired, justdid;
     [SerializeField]
-    private float ghostlife, ghostdamage, damageinterval, speed, angle, acceleration, accel, movespeed, panicspeed, relaxspeed, deaddelay, diespeed, disable;
+    private float ghostlife, ghostdamage, damageinterval, speed, angle, acceleration, accel, movespeed, panicspeed, relaxspeed, deaddelay, diespeed;
     [SerializeField]
     public float ghostsuckcount;
     [SerializeField]
@@ -15,12 +15,14 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private Vector2 trajectory, deadtrajectory;
     [Header("TargetDead")]
     [SerializeField]
-    private GameObject targetdead;
+    private GameObject targetdead, bakebakerig;
     [Header("Delay")]
     [SerializeField]
     private float delay = 1f;
     private Vector3 shrinking;
     private float add1, add2, sign1, sign2;
+    [SerializeField]
+    private Animator ghostAnimator;
 
     // Use this for initialization
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,6 +36,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
 
             inthezone = true;
             movespeed = panicspeed;
+            Animator ghostAnimator = GetComponentInChildren<Animator>();
+            ghostAnimator.Play("BakeBakePanic");
         }
         if (collision.gameObject.tag == "MicrogameTag2" && alive == false)
         {
@@ -41,8 +45,9 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             {
                 ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
                 particleSystem.Play();
+                Invoke("DisableObject", 0.1f);
             }
-            Invoke("DisableObject", disable);
+            
         }
     }
     void DisableObject()
@@ -50,8 +55,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.gameObject.SetActive(false);
         particlefired = true;
-        GhostSuckGhostHeart ghostsuckGhostHeart = GetComponent<GhostSuckGhostHeart>();
-        ghostsuckGhostHeart.enabled = false;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -60,6 +63,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             touch = false;
             inthezone = false;
             movespeed = relaxspeed;
+            Animator ghostAnimator = GetComponentInChildren<Animator>();
+            ghostAnimator.Play("BakeBakeMove");
         }
     }
 
@@ -68,7 +73,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         damageperiod = true;
         SetTrajectory();
         movespeed = relaxspeed;
-        disable = 0.1f;
         particlefired = false;
 
     }
@@ -116,77 +120,79 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (alive == true)
+        if (particlefired == false)
         {
-            updateMovement();
+            if (alive == true)
+            {
+                updateMovement();
+
+            }
+
+            if (alive == false)
+            {
+                updateRotation();
+                plummetuntoDeath();
+                if (settrajectorydeadactive == true)
+                {
+                    Invoke("SetTrajectoryDead", deaddelay);
+                    settrajectorydeadactive = false;
+                }
+                shrinking = transform.localScale;
+                shrinking.x = shrinking.x * 0.96f;
+                shrinking.y = shrinking.y * 0.96f;
+                transform.localScale = shrinking;
+            }
+
+            if (Input.GetKey(KeyCode.Mouse0) && alive == true)
+            {
+                suck = true;
+                if (inthezone == true)
+                {
+                    touch = true;
+
+                }
+            }
+            else
+            {
+                suck = false;
+                touch = false;
+            }
+            if (touch == true)
+            {
+                if (damageperiod == true)
+                {
+                    damageperiod = false;
+                    Invoke("TouchDamage", damageinterval);
+                }
+
+            }
+            if (alive == true)
+            {
+                if (transform.position.x < -4.5f)
+                {
+                    trajectory = new Vector2(-trajectory.x, trajectory.y);
+                    transform.Rotate(new Vector3(0, 180, 0));
+
+                }
+                if (transform.position.x > 4.5f)
+                {
+                    trajectory = new Vector2(-trajectory.x, trajectory.y);
+                    transform.Rotate(new Vector3(0, 180, 0));
+                }
+
+                if (transform.position.y > 3.0f)
+                {
+                    trajectory = new Vector2(trajectory.x, -trajectory.y);
+                }
+
+                if (transform.position.y < 0f)
+                {
+                    trajectory = new Vector2(trajectory.x, -trajectory.y);
+                }
+            }
+
 
         }
-
-        if (alive == false)
-        {
-            updateRotation();
-            plummetuntoDeath();
-            if (settrajectorydeadactive == true)
-            {
-                Invoke("SetTrajectoryDead", deaddelay);
-                settrajectorydeadactive = false;
-            }
-            shrinking = transform.localScale;
-            shrinking.x = shrinking.x * 0.96f;
-            shrinking.y = shrinking.y * 0.96f;
-            transform.localScale = shrinking;
-        }
-
-        if (Input.GetKey(KeyCode.Mouse0) && alive == true)
-        {
-            suck = true;
-            if (inthezone == true)
-            {
-                touch = true;
-
-            }
-        }
-        else
-        {
-            suck = false;
-            touch = false;
-        }
-        if (touch == true)
-        {
-            if (damageperiod == true)
-            {
-                damageperiod = false;
-                Invoke("TouchDamage", damageinterval);
-            }
-
-        }
-        if (alive == true)
-        {
-            if (transform.position.x < -4.5f)
-            {
-                trajectory = new Vector2(-trajectory.x, trajectory.y);
-                transform.Rotate(new Vector3(0, 180, 0));
-
-            }
-            if (transform.position.x > 4.5f)
-            {
-                trajectory = new Vector2(-trajectory.x, trajectory.y);
-                transform.Rotate(new Vector3(0, 180, 0));
-            }
-
-            if (transform.position.y > 3.0f)
-            {
-                trajectory = new Vector2(trajectory.x, -trajectory.y);
-            }
-
-            if (transform.position.y < 0f)
-            {
-                trajectory = new Vector2(trajectory.x, -trajectory.y);
-            }
-        }
-
-
-
     }
 
     void TouchDamage()
@@ -202,7 +208,19 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         {
             damageperiod = true;
             ghostlife -= ghostdamage;
+            rattle1();
         }
+    }
+
+    void rattle1()
+    {
+        bakebakerig.transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
+        Invoke("rattle2", 0.1f);
+    }
+
+    void rattle2()
+    {
+        bakebakerig.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
     }
 
     void updateRotation()
