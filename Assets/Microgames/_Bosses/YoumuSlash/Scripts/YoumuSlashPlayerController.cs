@@ -24,6 +24,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private float spriteTrailStartOffset;
     [SerializeField]
+    private Animator[] lifeIndicators;
+    [SerializeField]
     private bool firstTargetStareMode;
     [SerializeField]
     private bool allowInput;
@@ -483,6 +485,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         { 
             health--;
             nextMissableBeat = (int)Mathf.Ceil(timingData.CurrentBeat + postMissBeatCooldown);
+            lifeIndicators[health].SetTrigger("Miss");
         }
 
         if (health <= 0)
