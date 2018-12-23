@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class YoumuSlashOnBeatAnimation : MonoBehaviour
+public class YoumuSlashMyonAnimator : MonoBehaviour
 {
     [SerializeField]
     private string triggerName = "Beat";
+    [SerializeField]
+    private YoumuSlashPlayerController player;
 
     Animator beatAnimator;
 
@@ -17,6 +19,7 @@ public class YoumuSlashOnBeatAnimation : MonoBehaviour
 
     void onBeat(int beat)
     {
-        beatAnimator.SetTrigger(triggerName);
+        if (player.getBobEnabled())
+            beatAnimator.SetTrigger(triggerName);
     }
 }
