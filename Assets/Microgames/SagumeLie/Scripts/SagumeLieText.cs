@@ -91,6 +91,8 @@ public class SagumeLieText : MonoBehaviour
     private GameObject Button2;
     [SerializeField]
     private GameObject Button3;
+    [SerializeField]
+    private GameObject UIBG;
 
     public void SagumeVictory()
     {
@@ -120,6 +122,7 @@ public class SagumeLieText : MonoBehaviour
         Button1.SetActive(false);
         Button2.SetActive(false);
         Button3.SetActive(false);
+        UIBG.SetActive(false);
 
         if (answerButtonClicked == liePosition)
             SagumeVictory();
