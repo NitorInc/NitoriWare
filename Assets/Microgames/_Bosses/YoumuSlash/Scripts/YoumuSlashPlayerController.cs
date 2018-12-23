@@ -407,6 +407,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         lastAttackTime = Time.time;
         if (!(onAttack == null))
             onAttack(hitTarget);
+        if (!attackWasSuccess && emptySwingsDepleteHealth)
+            noteMissReactionQueued = true;
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);
