@@ -467,7 +467,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     playSfx(hitVoiceClip, direction, true);
                     break;
             }
-            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, offset);
+            if (!reAttacking)
+                spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, offset);
         }
         else
         {
