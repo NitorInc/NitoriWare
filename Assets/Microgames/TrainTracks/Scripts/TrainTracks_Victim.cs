@@ -67,10 +67,10 @@ public class TrainTracks_Victim : MonoBehaviour {
             victoryFrame++;
 
             if (victoryFrame <= jumpFrames) {
-                rotation = (70f / jumpFrames);
+                rotation = (-70f / jumpFrames);
                 angle += rotation;
                 radianAngle = (angle / 180) * Mathf.PI;
-                xoffset += Mathf.Cos(radianAngle) / (jumpFrames / 3);//(3.5f / jumpFrames);
+                xoffset += Mathf.Cos(radianAngle) / (jumpFrames / 11.33f);//(3.5f / jumpFrames);
                 yoffset += Mathf.Sin(radianAngle) / (jumpFrames / 3);//(2f / jumpFrames);
             } else {
                 rotation = 0;
@@ -87,7 +87,7 @@ public class TrainTracks_Victim : MonoBehaviour {
 
 
         }
-        scaleVector = new Vector3(1, scale, 1);
+        scaleVector = new Vector3(-1, scale, 1);
         transform.parent.transform.localScale = scaleVector;
         rotationVector = new Vector3(0, 0, rotation);
         transform.parent.transform.Rotate(rotationVector);

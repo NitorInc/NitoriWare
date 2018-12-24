@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrainTracks_Distortion : MonoBehaviour {
+public class TrainTracks_FrameChanger : MonoBehaviour {
 
     [SerializeField]
     private Sprite[] spriteArray;
