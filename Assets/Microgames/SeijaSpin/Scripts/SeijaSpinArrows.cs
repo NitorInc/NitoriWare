@@ -44,7 +44,16 @@ public class SeijaSpinArrows : MonoBehaviour {
             currentScale = (float)(1.1f + Mathf.PingPong(Time.time * 0.5f, 0.2f));
             transform.localScale = new Vector3(originalScaleValues.x * currentScale, originalScaleValues.y * currentScale, originalScaleValues.z);
             */
-            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + 1 * rotSpeed * System.Convert.ToInt32(flipped));
+            int rotationDirection;
+            if (flipped)
+            {
+                rotationDirection = 1;
+            }
+            else
+            {
+                rotationDirection = -1;
+            }
+            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + 1 * rotSpeed * rotationDirection);
             transform.localScale = new Vector3(originalScaleValues.x, originalScaleValues.y, originalScaleValues.z);
         } else
         {
