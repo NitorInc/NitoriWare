@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeijaSpinSpinningChar : MonoBehaviour {
+public class SeijaSpinSpinningChar : MonoBehaviour
+{
 
     public int spinCount;
     public int moveType;
@@ -48,16 +49,18 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         rootOriginalPosition = transform.root.position;
-        if(moveType == 2)
+        if (moveType == 2)
         {
-            transform.position = new Vector3 (transform.position.x - 4, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - 4, transform.position.y, transform.position.z);
         }
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         // Check if we can spin and whether the mouse is in position to
         if (totalSpin < spinCount * 360f)
         {
@@ -68,7 +71,8 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
                 {
                     lastVec2Angle = (Vector2)(CameraHelper.getCursorPosition() - transform.position);
                     lastAngle = lastVec2Angle.getAngle();
-                } else if (Input.GetMouseButton(0))
+                }
+                else if (Input.GetMouseButton(0))
                 {
                     spinAnim.SetInteger("state", (int)SpinState.Spinning);
                     currentAngle = (Vector2)(CameraHelper.getCursorPosition() - transform.position);
@@ -85,7 +89,8 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
                             transform.eulerAngles += Vector3.back * angleDifference;
                         }
                         lastAngle = currentAngleChange;
-                    } else if (angleDifference > 0)
+                    }
+                    else if (angleDifference > 0)
                     {
                         if (!GameObject.Find("Arrows").GetComponent<SeijaSpinArrows>().flipped)
                         {
@@ -101,7 +106,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
             {
                 case 1:
                     moveValue += 1.5f * Time.deltaTime;
-                    transform.root.position = new Vector3 (rootOriginalPosition.x + 2 * Mathf.Cos(moveValue), rootOriginalPosition.y + 2 * Mathf.Sin(moveValue), rootOriginalPosition.z);
+                    transform.root.position = new Vector3(rootOriginalPosition.x + 2 * Mathf.Cos(moveValue), rootOriginalPosition.y + 2 * Mathf.Sin(moveValue), rootOriginalPosition.z);
                     break;
                 case 2:
                     moveValue += 1.5f * Time.deltaTime;
@@ -117,13 +122,13 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
             MicrogameController.instance.setVictory(victory: true, final: true);
             spinAnim.SetInteger("state", (int)SpinState.SpinOut);
             objFlingAnim.SetInteger("state", 1);
-            charFlingAnim.SetInteger("state", 1);     
-            if(moveType != 2)
+            charFlingAnim.SetInteger("state", 1);
+            if (moveType != 2)
             {
                 seijaAnim.SetInteger("state", (int)State.Victory);
                 transform.Rotate(Vector3.back * Time.deltaTime, angleDifference);
             }
-            if(moveType == 1)
+            if (moveType == 1)
             {
                 broomObject.transform.Rotate(Vector3.forward * Time.deltaTime * 0.5f, angleDifference);
             }
@@ -144,11 +149,13 @@ public class SeijaSpinSpinningChar : MonoBehaviour {
                         CameraShake.instance.shakeSpeed = 15f;
                     }
                 }
-            } else
+            }
+            else
             {
                 crashTimer++;
             }
-        } else if (!Input.GetMouseButton(0) || !CameraHelper.isMouseOver(gameObject.GetComponent<CircleCollider2D>()))
+        }
+        else if (!Input.GetMouseButton(0) || !CameraHelper.isMouseOver(gameObject.GetComponent<CircleCollider2D>()))
         {
             spinAnim.SetInteger("state", (int)SpinState.Start);
         }
