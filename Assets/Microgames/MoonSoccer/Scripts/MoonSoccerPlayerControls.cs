@@ -11,7 +11,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     
     // The acceleration of the character
     [SerializeField]
-    private float acceleration = 0.3f;
+    private float timeBeforeMaxSpeed = 1f;
     
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
     [Header("Horizontal Movement Length")]
@@ -41,6 +41,9 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     // Whether the space key has been pressed yet or not
     private bool hasKicked = false;
     
+    // Acceleration gained per update
+    private float accelerationSpeed = 0f;
+    
     // The scale of the sprite at the very start
     private Vector3 startScale;
         
@@ -48,6 +51,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     
     // Initialization 
     void Start () {
+        accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
         startScale = transform.localScale;
@@ -71,14 +75,14 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
                 if (accelerationGained >= 0)
                     accelerationGained = 0;
                 if (accelerationGained >= maximumMoveSpeed * -1)
-                    accelerationGained -= acceleration;
+                    accelerationGained -= accelerationSpeed;
             }
             else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y <= TopY)
             {
                 if (accelerationGained <= 0)
                     accelerationGained = 0;
                 if (accelerationGained <= maximumMoveSpeed)
-                    accelerationGained += acceleration;
+                    accelerationGained += accelerationSpeed;
             }
             else
                 accelerationGained = 0;
