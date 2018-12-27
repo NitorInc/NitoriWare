@@ -21,8 +21,12 @@ public class YoumuSlashTimingController : MonoBehaviour
     private Queue<int> warmupBeatQueue;
     [SerializeField]
     private AudioClip warmupBeatClip;
+    [SerializeField]
+    private float finalSlashVictoryBeatDelay = 2f;
 
     private AudioSource musicSource;
+    private float victoryBeat;
+    private float initialTimeScale;
 
     private void Awake()
     {
@@ -34,6 +38,8 @@ public class YoumuSlashTimingController : MonoBehaviour
         musicSource = GetComponent<AudioSource>();
         musicSource.clip = timingData.MusicClip;
         timingData.initiate(musicSource, beatMap, warmupBeats.Count());
+        victoryBeat = timingData.BeatMap.TargetBeats.Last().HitBeat + finalSlashVictoryBeatDelay;
+        initialTimeScale = Time.timeScale;
     }
 
     void Start()
@@ -97,6 +103,17 @@ public class YoumuSlashTimingController : MonoBehaviour
                 Time.timeScale /= fastSpeed;
                 musicSource.pitch /= fastSpeed;
             }
+        }
+
+        checkForVictory();
+    }
+
+    void checkForVictory()
+    {
+        if (!MicrogameController.instance.getVictoryDetermined() && timingData.CurrentBeat >= victoryBeat)
+        {
+            Time.timeScale = initialTimeScale;
+            MicrogameController.instance.setVictory(true);
         }
     }
 
