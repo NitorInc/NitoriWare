@@ -40,7 +40,7 @@ public class YoumuSlashTimingEffectsController : MonoBehaviour
     private void LateUpdate()
     {
         if (MicrogameController.instance.getVictoryDetermined())
-            Time.timeScale = initialVolume;
+            Time.timeScale = initialTimeScale;
         else if (ended)
             Time.timeScale = timeScaleMult * initialTimeScale;
 
