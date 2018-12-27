@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class YoumuSlashMusicFail : MonoBehaviour
+public class YoumuSlashMusicEffectManager : MonoBehaviour
 {
     [SerializeField]
     private float pitchMult = 1f;
@@ -19,12 +19,12 @@ public class YoumuSlashMusicFail : MonoBehaviour
 	
 	void onFail()
     {
-        animator.enabled = true;
+        animator.SetTrigger("Fail");
 	}
 
     private void LateUpdate()
     {
-        if (animator.enabled)
+        if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory())
             musicSource.pitch = Time.timeScale * pitchMult;
     }
 }
