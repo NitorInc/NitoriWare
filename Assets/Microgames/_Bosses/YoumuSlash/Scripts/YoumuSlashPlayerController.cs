@@ -24,6 +24,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private float spriteTrailStartOffset;
     [SerializeField]
+    private Animator[] lifeIndicators;
+    [SerializeField]
     private bool firstTargetStareMode;
     [SerializeField]
     private bool allowInput;
@@ -271,6 +273,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("EnableBob", enable);
     }
 
+    public bool getBobEnabled() => rigAnimator.GetBool("EnableBob");
+
     public void setTenseEnabled(bool enable)
     {
         rigAnimator.SetBool("EnableTense", enable);
@@ -403,6 +407,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
         lastAttackTime = Time.time;
         if (!(onAttack == null))
             onAttack(hitTarget);
+        if (!attackWasSuccess && emptySwingsDepleteHealth)
+            noteMissReactionQueued = true;
 
         //Do animation stuff
         rigAnimator.SetBool("IsAttacking", true);
@@ -461,7 +467,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     playSfx(hitVoiceClip, direction, true);
                     break;
             }
-            spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, offset);
+            if (!reAttacking)
+                spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, offset);
         }
         else
         {
@@ -483,6 +490,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         { 
             health--;
             nextMissableBeat = (int)Mathf.Ceil(timingData.CurrentBeat + postMissBeatCooldown);
+            lifeIndicators[health].SetTrigger("Miss");
         }
 
         if (health <= 0)
