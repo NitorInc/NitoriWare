@@ -104,6 +104,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private void Start()
     {
         YoumuSlashTimingController.onBeat += onBeat;
+        YoumuSlashTimingController.onFinalNote += onFinalNote;
         YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
         nextTarget = getFirstActiveTarget();
     }
@@ -149,6 +150,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         
         rigAnimator.SetTrigger("Beat");
         beatTriggerResetTimer = 2;
+    }
+
+    void onFinalNote()
+    {
+        AllowInput = false;
     }
 
     void handleIdleAnimation(int beat)
