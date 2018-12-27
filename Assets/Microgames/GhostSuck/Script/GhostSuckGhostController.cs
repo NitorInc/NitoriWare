@@ -14,6 +14,7 @@ public class GhostSuckGhostController : MonoBehaviour {
     void Update() {
 
     }
+    //win game once certain number of ghosts are defeated
     void killaghost()
     {
         ghostcount = ghostcount - 1f;

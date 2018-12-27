@@ -24,7 +24,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     [SerializeField]
     private Animator ghostAnimator;
 
-    // Use this for initialization
+    // Collider2D stuff, determines whether a particular ghost is under mouse hitbox
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "MicrogameTag1")
@@ -39,6 +39,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             Animator ghostAnimator = GetComponentInChildren<Animator>();
             ghostAnimator.Play("BakeBakePanic");
         }
+        // interacts with hitbox on vacuum nozzle when dead, creates particles and invokes disableobject
         if (collision.gameObject.tag == "MicrogameTag2" && alive == false)
         {
             if (particlefired == false)
@@ -49,12 +50,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             }
             
         }
-    }
-    void DisableObject()
-    {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.gameObject.SetActive(false);
-        particlefired = true;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -67,7 +62,14 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             ghostAnimator.Play("BakeBakeMove");
         }
     }
-
+    //sets a boolean check that disables all update stuff
+    void DisableObject()
+    {
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.gameObject.SetActive(false);
+        particlefired = true;
+    }
+    
     void Start() {
         touch = false;
         damageperiod = true;
@@ -76,6 +78,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         particlefired = false;
 
     }
+    //randomly selects an angled initial trajectory for the ghost to follow
     void SetTrajectory()
     {
         add1 = Random.Range(0f, 2f);
@@ -103,11 +106,13 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         }           
 
     }
+    //sets a trajectory to the vacuum nozzle, triggered once ghost is defeated
     void SetTrajectoryDead()
     {
         deadtrajectory = (targetdead.transform.position - transform.position).normalized;
         settrajectorydeadactive = true;
     }
+    //moves ghost to vacuum nozzle
     void plummetuntoDeath()
     {
         if (deadtrajectory != null)
@@ -127,7 +132,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                 updateMovement();
 
             }
-
+            //shrinks the ghost
             if (alive == false)
             {
                 updateRotation();
@@ -142,7 +147,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                 shrinking.y = shrinking.y * 0.96f;
                 transform.localScale = shrinking;
             }
-
+            //periodically decreases ghost life if ghost is both under mouse and mouse is pressed
             if (Input.GetKey(KeyCode.Mouse0) && alive == true)
             {
                 suck = true;
@@ -166,27 +171,32 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                 }
 
             }
+            //redirects ghost upon reaching intended bounds
             if (alive == true)
             {
                 if (transform.position.x < -4.5f)
                 {
+                    transform.position = new Vector2(transform.position.x + 0.1f, transform.position.y);
                     trajectory = new Vector2(-trajectory.x, trajectory.y);
                     transform.Rotate(new Vector3(0, 180, 0));
 
                 }
                 if (transform.position.x > 4.5f)
                 {
+                    transform.position = new Vector2(transform.position.x - 0.1f, transform.position.y);
                     trajectory = new Vector2(-trajectory.x, trajectory.y);
                     transform.Rotate(new Vector3(0, 180, 0));
                 }
 
                 if (transform.position.y > 3.0f)
                 {
+                    transform.position = new Vector2(transform.position.x, transform.position.y - 0.1f);
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
                 }
 
                 if (transform.position.y < 0f)
                 {
+                    transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
                 }
             }
@@ -194,7 +204,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
 
         }
     }
-
+    //periodically reduces ghost life until it reaches zero to which it switches alive movement trajectory to dead ghost trajectory among other functions
     void TouchDamage()
     {
 
@@ -211,7 +221,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             rattle1();
         }
     }
-
+    //makes ghost shake when taking damage
     void rattle1()
     {
         bakebakerig.transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
@@ -222,7 +232,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     {
         bakebakerig.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
     }
-
+    //makes ghost spin when being sucked up
     void updateRotation()
     {
         angle = body.transform.eulerAngles.z + (-1f * speed * Time.deltaTime * acceleration);
@@ -239,13 +249,14 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         Vector2 newPosition = (Vector2)transform.position + (trajectory * movespeed * Time.deltaTime);
         transform.position = newPosition;
     }
-
+    //accelerates spinning of dead ghost
     void accelerateprotocol()
     {
         accel += 1f;
         acceleration += .5f;
         acceldelay = false;
     }
+    //communicates this ghost's death to a counting game object
     void ghostcountmodifier()
     {
         ghost.BroadcastMessage("killaghost", ghost);

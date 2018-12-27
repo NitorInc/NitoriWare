@@ -14,12 +14,7 @@ public class GhostSuckWrigglyJointsUpperArms : MonoBehaviour {
     [SerializeField]
     private float spaghetti, anglemultiplier;
 
-
-    // Use this for initialization
-    void Start () {
-        
-	}
-   
+//rotates arm things based on vector to connected arm things
     // Update is called once per frame
     void Update () {
         Vector2 toBody = (Vector2)(body.transform.position - transform.position).normalized;

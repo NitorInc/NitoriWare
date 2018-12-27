@@ -17,12 +17,6 @@ public class GhostSuckHands : MonoBehaviour {
 
     private Vector3 lastMousePosition;
 
-
-    // Use this for initialization
-    void Start () {
-        
-	}
-	
 	// Update is called once per frame
 	void Update () {
         
@@ -30,14 +24,10 @@ public class GhostSuckHands : MonoBehaviour {
 
         lastMousePosition = transform.position;
     }
+    //sets arm joints connected to vacuum to modified relative angle value based on mouse position and clamped by joints
         void updateBodyRotation()
     {
         float speed = (transform.position.x - lastMousePosition.x) / Time.deltaTime;
-        //	, angle = body.localRotation.eulerAngles.z;
-        //if (angle > 180f)
-        //	angle -= 360f;
-        //angle *= -1f;
-       
         float zRotation = tail.transform.eulerAngles.z + (-1f * speed * motorSpeedMult * Time.deltaTime);
         if (zRotation > 180f)
             zRotation -= 360f;

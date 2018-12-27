@@ -25,7 +25,7 @@ public class GhostSuckVacuumJoint : MonoBehaviour {
 
     private SpriteRenderer spriteRenderer;
 
-
+    //returns angle value based on cursor position
     void Update()
     {
         Vector3 relative = CameraHelper.getCursorPosition();
@@ -37,7 +37,7 @@ public class GhostSuckVacuumJoint : MonoBehaviour {
         lastMousePosition = transform.position;
 
     }
-
+    //uses angle value to determine where vacuum should be pointed, geometry gives me a headache
     private void setAngle()
     {
         if (angle > 180f)
@@ -50,14 +50,14 @@ public class GhostSuckVacuumJoint : MonoBehaviour {
             angle = 180f - angle;
 
     }
-
+    //sets a child object at the cursor to the relative angle for later use
     void updateRotation()
     {
         tiltreference.transform.rotation = Quaternion.Euler(0f, 0f, angle);
         if (updated == true)
             updated = false;
     }
-
+    //rotates vacuum along a clamped joint
     void updateBodyRotation()
     {
         float zRotation = tiltreference.transform.eulerAngles.z;

@@ -35,7 +35,7 @@ public class GhostSuckDoremyBody : MonoBehaviour {
             {
             suck = false;
         }
-
+        //determines rotation and what animations or sprites to show based on where mouse is and whether mouse is clicked or not
         Vector3 cursorPosition = CameraHelper.getCursorPosition();
         if (cursorPosition.x > 3 && cursorPosition.y < cursorPosition.x)
         {
