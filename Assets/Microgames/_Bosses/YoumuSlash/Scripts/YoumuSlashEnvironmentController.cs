@@ -15,6 +15,7 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
         YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
         YoumuSlashPlayerController.onAttack += onAttack;
         YoumuSlashPlayerController.onFail += onFail;
+        YoumuSlashPlayerController.onGameplayEnd += onGameplayEnd;
 	}
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
@@ -24,6 +25,11 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
             animator.SetInteger("BurstLevel", getBurstValue(target.HitEffect));
             setTrigger("Burst");
         }
+    }
+    
+    void onGameplayEnd()
+    {
+        setTrigger("GameplayEnd");
     }
 
     void onFail()

@@ -7,10 +7,8 @@ public class YoumuSlashTimingController : MonoBehaviour
 {
     public delegate void BeatDelegate(int beat);
     public delegate void SongStartDelegate();
-    public delegate void FinalNoteDelegate();
     public static BeatDelegate onBeat;
     public static SongStartDelegate onMusicStart;
-    public static FinalNoteDelegate onFinalNote;
 
     [SerializeField]
     private YoumuSlashTimingData timingData;
@@ -25,20 +23,17 @@ public class YoumuSlashTimingController : MonoBehaviour
     private AudioClip warmupBeatClip;
 
     private AudioSource musicSource;
-    private int finalNote;
 
     private void Awake()
     {
         onBeat = null;
         onMusicStart = null;
-        onFinalNote = null;
 
         warmupBeatQueue = new Queue<int>(warmupBeats);
 
         musicSource = GetComponent<AudioSource>();
         musicSource.clip = timingData.MusicClip;
         timingData.initiate(musicSource, beatMap, warmupBeats.Count());
-        finalNote = (int)beatMap.TargetBeats.Last().HitBeat;
     }
 
     void Start()
@@ -84,9 +79,7 @@ public class YoumuSlashTimingController : MonoBehaviour
 
         if (beat < 0)
             musicSource.PlayOneShot(warmupBeatClip);
-
-        if (beat == finalNote)
-            onFinalNote();
+        
     }
 
     private void Update()

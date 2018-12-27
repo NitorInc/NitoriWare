@@ -22,12 +22,12 @@ public class YoumuSlashTimingEffectsController : MonoBehaviour
 	void Start ()
     {
         YoumuSlashPlayerController.onFail += onFail;
-        YoumuSlashTimingController.onFinalNote += onFinalNote;
+        YoumuSlashPlayerController.onGameplayEnd += onGameplayEnd;
         initialTimeScale = Time.timeScale;
         initialVolume = musicSource.volume;
 	}
 
-    void onFinalNote()
+    void onGameplayEnd()
     {
         ended = true;
     }
