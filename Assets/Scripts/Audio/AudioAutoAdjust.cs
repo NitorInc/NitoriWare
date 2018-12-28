@@ -10,6 +10,8 @@ public class AudioAutoAdjust : MonoBehaviour
     [SerializeField]
     private bool preserveInitialPitch;
     [SerializeField]
+    private bool updateEachFrame = true;
+    [SerializeField]
     private PrefsHelper.VolumeType volumeType = PrefsHelper.VolumeType.SFX;
 	private AudioSource[] sources;
 
@@ -42,10 +44,13 @@ public class AudioAutoAdjust : MonoBehaviour
 
 	void Update()
 	{
-        if (tieToTimescale && Time.timeScale != instanceTimeScale)
-		    updatePitch();
-        if (tieToVolumeSettings && PrefsHelper.getVolume(volumeType) != instanceVolumeSetting)
-            updateVolume();
+        if (updateEachFrame)
+        {
+            if (tieToTimescale && Time.timeScale != instanceTimeScale)
+		        updatePitch();
+            if (tieToVolumeSettings && PrefsHelper.getVolume(volumeType) != instanceVolumeSetting)
+                updateVolume();
+        }
 	}
 
     public void updateVolume()

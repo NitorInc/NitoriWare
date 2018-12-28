@@ -8,6 +8,8 @@ public class YoumuSlashMyonAnimator : MonoBehaviour
     private string triggerName = "Beat";
     [SerializeField]
     private YoumuSlashPlayerController player;
+    [SerializeField]
+    private bool onlyPlayBeatIfYoumuBobs;
 
     Animator beatAnimator;
 
@@ -19,7 +21,7 @@ public class YoumuSlashMyonAnimator : MonoBehaviour
 
     void onBeat(int beat)
     {
-        if (player.getBobEnabled())
+        if (!onlyPlayBeatIfYoumuBobs || player.getBobEnabled())
             beatAnimator.SetTrigger(triggerName);
     }
 }
