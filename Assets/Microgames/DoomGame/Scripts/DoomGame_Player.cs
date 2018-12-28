@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoomGame_Player : MonoBehaviour
-{
+public class DoomGame_Player : MonoBehaviour {
     [SerializeField]
     bool useAmmo = true;
     [HideInInspector]
-    public List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy>();
+    public List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy> ();
     [SerializeField]
     DoomGame_UI ui;
     [SerializeField]
@@ -15,7 +14,7 @@ public class DoomGame_Player : MonoBehaviour
     Transform mainCamera;
     new AudioSource audio;
     [SerializeField]
-    AudioClip shootSound;
+    AudioClip shootSound, deadSound;
     [SerializeField]
     public Material screen;
     [HideInInspector]
@@ -28,61 +27,58 @@ public class DoomGame_Player : MonoBehaviour
     [HideInInspector]
     public float shake = 0;
 
-    void Start()
-    {
+    void Start () {
         startPosition = transform.position;
         mainCamera = Camera.main.transform;
-        audio = GetComponent<AudioSource>();
+        audio = GetComponent<AudioSource> ();
     }
 
-    void Update()
-    {
+    void Update () {
         transform.position = startPosition + Random.insideUnitSphere * shake;
         shake -= Time.deltaTime * 3;
-        if(shake <= 0)
+        if (shake <= 0)
             shake = 0;
-        float mX = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up, mX);
-        gunAnimator.transform.localPosition = Vector3.Lerp(
+        float mX = Input.GetAxis ("Mouse X");
+        transform.Rotate (Vector3.up, mX);
+        gunAnimator.transform.localPosition = Vector3.Lerp (
             gunAnimator.transform.localPosition,
-            new Vector3(Mathf.Clamp(-mX / 50, -0.2f, 0.2f), -0.3f, 0.5f),
+            new Vector3 (Mathf.Clamp (-mX / 50, -0.2f, 0.2f), -0.3f, 0.5f),
             Time.deltaTime * 5);
         mainCamera.transform.position = transform.position;
         mainCamera.transform.rotation = transform.rotation;
 
-        if(Input.GetMouseButtonDown(0))
-            Shoot();
+        if (Input.GetMouseButtonDown (0))
+            Shoot ();
     }
 
-
-    void Shoot()
-    {
-        if(useAmmo && bullets <= 0)
+    void Shoot () {
+        if (useAmmo && bullets <= 0 || dead)
             return;
-        if(useAmmo)
+        if (useAmmo)
             bullets--;
-        ui.Shoot();
-        ui.UpdateAmmo(bullets);
-        audio.PlayOneShot(shootSound);
-        gunAnimator.Play("doom_gun");
-        gunAnimator.SetTrigger("shoot");
+        ui.Shoot ();
+        ui.UpdateAmmo (bullets);
+        audio.PlayOneShot (shootSound);
+        gunAnimator.Play ("doom_gun");
+        gunAnimator.SetTrigger ("shoot");
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer("MicrogameLayer1")))
-            hit.collider.GetComponent<DoomGame_Enemy>().DamageSelf();
+        if (Physics.Raycast (transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer ("MicrogameLayer1")))
+            hit.collider.GetComponent<DoomGame_Enemy> ().DamageSelf ();
     }
 
-    public void AddBullets(int value)
-    {
+    public void AddBullets (int value) {
         bullets += value;
-        if(bullets > 6) bullets = 6;
-        ui.UpdateAmmo(bullets);
+        if (bullets > 6) bullets = 6;
+        ui.UpdateAmmo (bullets);
     }
 
-    public void Kill()
-    {
-        dead = true;
-        ui.Die();
-        MicrogameController.instance.setVictory(false, true);
+    public void Kill () {
+        if (!dead) {
+            dead = true;
+            ui.Die ();
+            MicrogameController.instance.setVictory (false, true);
+            AudioSource.PlayClipAtPoint (deadSound, transform.position);
+        }
     }
 
 }

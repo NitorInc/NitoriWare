@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4986883040598558}
   - component: {fileID: 82974401090714308}
   - component: {fileID: 114588044432790846}
-  - component: {fileID: 114795091363986600}
   m_Layer: 0
   m_Name: player
   m_TagString: MainCamera
@@ -521,11 +520,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74708e2a77ed45b499933719d41ccb53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useAmmo: 1
   enemies: []
   ui: {fileID: 114913062528294792}
   gunAnimator: {fileID: 95634132117123658}
   shootSound: {fileID: 8300000, guid: e5c826f488e67a74ea422bbea3832fb7, type: 3}
+  deadSound: {fileID: 8300000, guid: 26034bfe781dab84bb7a09bbcd816534, type: 3}
   screen: {fileID: 2100000, guid: d442f1e043162df42a5716a4748417dc, type: 2}
+  dead: 0
+  dead_lerp: 0
+  shake: 0
 --- !u!114 &114694919824032358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -607,27 +611,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114795091363986600
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1139943823602098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce3f6e4235059047aa318787daa551d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  activates:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &114913062528294792
 MonoBehaviour:
   m_ObjectHideFlags: 1
