@@ -9,15 +9,21 @@ public class AudioSourceAutoPan : MonoBehaviour
     [SerializeField]
     private float xPosBoundMult = 1f;
     
-	void Start ()
+	void Awake()
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
-	}
+        updatePan();
+    }
 	
-	void Update ()
+	void Update()
+    {
+        updatePan();
+	}
+
+    void updatePan()
     {
         if (audioSource.isPlaying)
             audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x, xPosBoundMult);
-	}
+    }
 }
