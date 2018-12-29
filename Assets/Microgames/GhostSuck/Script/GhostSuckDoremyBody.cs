@@ -12,8 +12,11 @@ public class GhostSuckDoremyBody : MonoBehaviour {
     [SerializeField]
     private Animator doremyanim;
     [SerializeField]
+    private AudioClip vacuumstart, vacuumpersist, vacuumstate;
+    [SerializeField]
     private bool suck = false;
     private bool turn = false;
+    private bool vacuumsoundready = true;
 
 
     private SpriteRenderer spriteRenderer;
@@ -21,19 +24,38 @@ public class GhostSuckDoremyBody : MonoBehaviour {
     void Start () {
         Animator doremyanim = GetComponentInChildren<Animator>();
         doremyanim.enabled = (false);
+        vacuumstate = vacuumstart;
     }
-    
 
+    void playVacuum()
+    {
+        MicrogameController.instance.playSFX(vacuumstate, volume: 0.4f, panStereo: AudioHelper.getAudioPan(transform.position.x));
+        vacuumstate = vacuumpersist;
+        Invoke("ResetVacuum", 1f);
+    }
+    void ResetVacuum()
+    {
+        vacuumsoundready = true;
+    }
 
     // Update is called once per frame
     void Update() {
         if (Input.GetKey(KeyCode.Mouse0))
         {
             suck = true;
+            if(vacuumsoundready == true)
+            {
+                vacuumsoundready = false;
+                playVacuum();
+            }
         }
         else
             {
             suck = false;
+            if (vacuumstate != vacuumstart)
+            {
+                vacuumstate = vacuumstart;
+            }
         }
         //determines rotation and what animations or sprites to show based on where mouse is and whether mouse is clicked or not
         Vector3 cursorPosition = CameraHelper.getCursorPosition();

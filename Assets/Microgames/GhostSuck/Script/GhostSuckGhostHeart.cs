@@ -27,33 +27,39 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     // Collider2D stuff, determines whether a particular ghost is under mouse hitbox
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "MicrogameTag1")
+        if (particlefired == false)
         {
-            if (suck == true && alive == true)
+            if (collision.gameObject.tag == "MicrogameTag1")
             {
-                touch = true;
-            }
 
-            inthezone = true;
-            movespeed = panicspeed;
-            Animator ghostAnimator = GetComponentInChildren<Animator>();
-            ghostAnimator.Play("BakeBakePanic");
-        }
-        // interacts with hitbox on vacuum nozzle when dead, creates particles and invokes disableobject
-        if (collision.gameObject.tag == "MicrogameTag2" && alive == false)
-        {
-            if (particlefired == false)
-            {
-                ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
-                particleSystem.Play();
-                Invoke("DisableObject", 0.1f);
+                if (suck == true && alive == true)
+                {
+                    touch = true;
+                }
+
+                inthezone = true;
+                movespeed = panicspeed;
+                Animator ghostAnimator = GetComponentInChildren<Animator>();
+                ghostAnimator.Play("BakeBakePanic");
             }
-            
+            // interacts with hitbox on vacuum nozzle when dead, creates particles and invokes disableobject
+            if (collision.gameObject.tag == "MicrogameTag2" && alive == false)
+            {
+                if (particlefired == false)
+                {
+                    ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
+                    particleSystem.Play();
+                    Invoke("DisableObject", 0.1f);
+                }
+
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "MicrogameTag1")
+        if (particlefired == false)
+        {
+            if (collision.gameObject.tag == "MicrogameTag1")
         {
             touch = false;
             inthezone = false;
@@ -61,6 +67,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             Animator ghostAnimator = GetComponentInChildren<Animator>();
             ghostAnimator.Play("BakeBakeMove");
         }
+        }
+           
     }
     //sets a boolean check that disables all update stuff
     void DisableObject()
