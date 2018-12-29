@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 4196373262034846}
   - component: {fileID: 114637444195234664}
   - component: {fileID: 82058472811088934}
+  - component: {fileID: 114065387002768962}
   m_Layer: 0
   m_Name: Roll Sound
   m_TagString: Untagged
@@ -621,6 +622,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114065387002768962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1466553046309606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fd465828780a941843164443ef872c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 82058472811088934}
+  xPosBoundMult: 1
 --- !u!114 &114159890064658104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -637,6 +651,7 @@ MonoBehaviour:
   canSwitchSides: 1
   notifyIconDuration: 0.5
   rollerbladeSource: {fileID: 82058472811088934}
+  serveClip: {fileID: 8300000, guid: 3112fe8b85509e042810de1cca771aab, type: 3}
   rigAnimator: {fileID: 95433539229028622}
   notifyIcon: {fileID: 0}
   customerManager: {fileID: 0}

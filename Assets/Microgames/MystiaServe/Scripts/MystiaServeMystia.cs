@@ -15,6 +15,8 @@ public class MystiaServeMystia : MonoBehaviour
     private float notifyIconDuration;
     [SerializeField]
     private AudioSource rollerbladeSource;
+    [SerializeField]
+    private AudioClip serveClip;
 
     [SerializeField]
     private Animator rigAnimator;
@@ -88,6 +90,7 @@ public class MystiaServeMystia : MonoBehaviour
                     var customer = activeCustomers.Dequeue();
                     customer.GetComponent<Collider2D>().enabled = false;
                     rigAnimator.SetTrigger("Serve");
+                    MicrogameController.instance.playSFX(serveClip, panStereo: AudioHelper.getAudioPan(transform.position.x));
 
                     customersLeft--;
                     if (customersLeft <= 0)
