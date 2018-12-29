@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FoodRoast { 
@@ -16,11 +17,11 @@ namespace FoodRoast {
       }
     }
 
-    private ParticleSystem _Particles;
-    public ParticleSystem Particles {
+    private ParticleSystem[] _Particles;
+    public ParticleSystem[] Particles {
       get {
         if (_Particles == null)
-          _Particles = GetComponentInChildren<ParticleSystem>();
+          _Particles = GetComponentsInChildren<ParticleSystem>();
         return _Particles;
       }
     }
@@ -73,8 +74,8 @@ namespace FoodRoast {
       SpriteRenderer.sprite = GetSprite;
 
       ChangeParticlesStartColorAlpha(.05f);
-      Particles.Play();
-      EmitParticles(4);
+      foreach(var particle in Particles)
+        particle.Play();
     }
 
     // Procedure that turns uncooked to cooked potatoes
@@ -83,28 +84,22 @@ namespace FoodRoast {
       SpriteRenderer.sprite = GetSprite;
 
       ChangeParticlesStartColorAlpha(.4f);
-      Particles.Play();
-      EmitParticles(4);
+      foreach (var particle in Particles)
+        particle.Play();
 
       FoodRoast_Controller.Instance.AddUncookedPotato();
     }
 
-    private void EmitParticles(int amount){
-      var shape = Particles.shape;
-      var tempArc = shape.arcMode;
-      shape.arcMode = ParticleSystemShapeMultiModeValue.Random;
-      Particles.Emit(amount);
-      shape.arcMode = tempArc;
-    }
-
     private void ChangeParticlesStartColorAlpha(float alpha){
-      var main = Particles.main;
-      var colorStruct = main.startColor;
-      var color = colorStruct.color;
+      foreach (var particle in Particles) {
+        var main = particle.main;
+        var colorStruct = main.startColor;
+        var color = colorStruct.color;
 
-      color.a = alpha;
-      colorStruct.color = color;
-      main.startColor = colorStruct;
+        color.a = alpha;
+        colorStruct.color = color;
+        main.startColor = colorStruct;
+      }
     }
 
     // Procedure when the potato is clicked
@@ -114,8 +109,10 @@ namespace FoodRoast {
       } else if (PotatoCookedState == PotatoCookedState.Uncooked) {
         FoodRoast_Controller.Instance.AddUncookedPotato();
       }
-      Particles.Stop();
-      Particles.transform.SetParent(null);
+      foreach (var particle in Particles) {
+        particle.Stop();
+        particle.transform.SetParent(null);
+      }
 
       Destroy(gameObject);
     }
