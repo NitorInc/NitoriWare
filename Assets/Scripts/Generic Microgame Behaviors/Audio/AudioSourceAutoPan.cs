@@ -16,7 +16,7 @@ public class AudioSourceAutoPan : MonoBehaviour
         updatePan();
     }
 	
-	void Update()
+	void LateUpdate()
     {
         updatePan();
 	}
