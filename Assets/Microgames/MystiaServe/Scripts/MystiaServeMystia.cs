@@ -13,6 +13,8 @@ public class MystiaServeMystia : MonoBehaviour
     private bool canSwitchSides;
     [SerializeField]
     private float notifyIconDuration;
+    [SerializeField]
+    private AudioSource rollerbladeSource;
 
     [SerializeField]
     private Animator rigAnimator;
@@ -98,6 +100,9 @@ public class MystiaServeMystia : MonoBehaviour
                     Invoke("setFail", earlyServeFailDelay);
                 }
             }
+
+            if (rollerbladeSource.isPlaying && CameraHelper.isObjectOffscreen(transform, 2f))
+                rollerbladeSource.Stop();
         }
     }
 
@@ -121,6 +126,7 @@ public class MystiaServeMystia : MonoBehaviour
     {
         launched = true;
         notifyIcon.SetActive(false);
+        rollerbladeSource.Play();
     }
 
     void showIcon()
