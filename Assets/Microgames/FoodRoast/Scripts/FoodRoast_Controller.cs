@@ -55,7 +55,12 @@ namespace FoodRoast {
     private List<PotatoCookTime> cookTimeList;
     private List<int> randomAnimationStates;
 
-    private void Start() {
+        private void Awake()
+        {
+            _instance = this;
+        }
+
+        private void Start() {
       foreach (var clip in ambienceClips)
         MicrogameController.instance.playSFX(clip.Clip, volume: clip.Volume);
     }
