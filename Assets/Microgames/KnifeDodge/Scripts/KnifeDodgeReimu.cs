@@ -26,20 +26,25 @@ public class KnifeDodgeReimu : MonoBehaviour {
 			moveDir.x = Input.GetAxisRaw ("Horizontal"); // get result of AD keys in X
             moveDir.z = 0;
             previousMoveDir = moveDir;
-
-        } else
+        }
+        else
         {
             transform.position += previousMoveDir * speed * Time.deltaTime;
             return;
         }
 
-		if (moveDir == Vector3.zero) {
+        if (bIsKilled)
+        {
+            GetComponent<Animator>().Play("Dead");
+        } else if (moveDir == Vector3.zero) {
 			GetComponent<Animator> ().speed = animSpeedStopped;
 			GetComponent<Animator> ().Play ("Standing");
 		} else {
 			GetComponent<Animator> ().speed = animSpeed;
 			GetComponent<Animator> ().Play ("Moving");
 		}
+
+        
 
 		// move this object at frame rate independent speed:
 		if (moveDir.x > 0
@@ -77,5 +82,7 @@ public class KnifeDodgeReimu : MonoBehaviour {
             knife.transform.position.x - ((knife.transform.position.x - transform.position.x) / 2f),
             transform.position.y + knifeStuckYOffset,
             knife.transform.position.z);
-	}
+
+        GetComponent<Animator>().Play("Dead");
+    }
 }
