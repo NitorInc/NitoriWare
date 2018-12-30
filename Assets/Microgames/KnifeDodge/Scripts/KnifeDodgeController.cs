@@ -163,6 +163,11 @@ public class KnifeDodgeController : MonoBehaviour {
 		return closest;
 	}
 
+    void playKnifeSound()
+    {
+        GetComponents<AudioSource>()[0].Play();
+    }
+
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
@@ -177,7 +182,7 @@ public class KnifeDodgeController : MonoBehaviour {
                 parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 if (currentState != (int)KnifeState.FLYING_IN)
                 {
-                    GetComponents<AudioSource>()[0].Play();
+                    Invoke("playKnifeSound", StageController.beatLength);
                 }
                 currentState = (int)KnifeState.FLYING_IN;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);

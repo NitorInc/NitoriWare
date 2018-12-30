@@ -53,6 +53,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().simulated = false;
             CameraShake.instance.setScreenShake(.15f);
             CameraShake.instance.shakeCoolRate = .5f;
+            enabled = false;
         }
 	}
 

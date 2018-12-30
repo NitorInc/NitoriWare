@@ -9,6 +9,7 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	public float killLaunchSpeed = 20.0f;
     public float killLaunchRotSpeed = 80.0f;
     public float knifeStuckYOffset;
+    public AudioClip killClip;
 
     public GameObject leftBound;
 	public GameObject rightBound;
@@ -75,6 +76,8 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		MicrogameController.instance.setVictory (false, true);
 		CameraShake.instance.setScreenShake (.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
+        print(killClip);
+        MicrogameController.instance.playSFX(killClip, panStereo: AudioHelper.getAudioPan(transform.position.x));
 
         knife.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         knife.transform.parent = transform;
@@ -84,5 +87,6 @@ public class KnifeDodgeReimu : MonoBehaviour {
             knife.transform.position.z);
 
         GetComponent<Animator>().Play("Dead");
+        enabled = false;
     }
 }
