@@ -29,9 +29,9 @@ public class GhostSuckDoremyBody : MonoBehaviour {
 
     void playVacuum()
     {
-        MicrogameController.instance.playSFX(vacuumstate, volume: 0.4f, panStereo: AudioHelper.getAudioPan(transform.position.x));
+        MicrogameController.instance.playSFX(vacuumstate, volume: 0.6f, pitchMult: 1.5f, panStereo: AudioHelper.getAudioPan(transform.position.x));
         vacuumstate = vacuumpersist;
-        Invoke("ResetVacuum", 1f);
+        Invoke("ResetVacuum", .65f);
     }
     void ResetVacuum()
     {

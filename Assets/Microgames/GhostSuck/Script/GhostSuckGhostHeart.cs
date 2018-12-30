@@ -23,6 +23,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private float add1, add2, sign1, sign2;
     [SerializeField]
     private Animator ghostAnimator;
+    [SerializeField]
+    private AudioClip ghostPop;
 
     // Collider2D stuff, determines whether a particular ghost is under mouse hitbox
     private void OnTriggerEnter2D(Collider2D collision)
@@ -76,6 +78,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.gameObject.SetActive(false);
         particlefired = true;
+        MicrogameController.instance.playSFX(ghostPop, volume: 1.5f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
     }
     
     void Start() {
@@ -84,7 +87,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         SetTrajectory();
         movespeed = relaxspeed;
         particlefired = false;
-
     }
     //randomly selects an angled initial trajectory for the ghost to follow
     void SetTrajectory()
@@ -151,8 +153,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     settrajectorydeadactive = false;
                 }
                 shrinking = transform.localScale;
-                shrinking.x = shrinking.x * 0.96f;
-                shrinking.y = shrinking.y * 0.96f;
+                shrinking.x = shrinking.x * 0.97f;
+                shrinking.y = shrinking.y * 0.97f;
                 transform.localScale = shrinking;
             }
             //periodically decreases ghost life if ghost is both under mouse and mouse is pressed
