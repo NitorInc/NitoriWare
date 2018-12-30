@@ -8,8 +8,20 @@ public class DoorKnockDoor : MonoBehaviour {
     private AudioClip knockSound;
 
     [SerializeField]
+    private AudioClip missSound;
+
+    [SerializeField]
     private AudioClip openSound;
+
+    [SerializeField]
+    private float knockVolume = .5f;
     
+    [SerializeField]
+    private float missVolume = .5f;
+
+    [SerializeField]
+    private float openVolume = .5f;
+
     [SerializeField]
     private bool teleportOnClick;
 
@@ -57,6 +69,13 @@ public class DoorKnockDoor : MonoBehaviour {
             }
         }
     }
+
+    public void MissKnock(float xPosition)
+    {
+        MicrogameController.instance.playSFX(
+            missSound, volume: missVolume,
+            panStereo: AudioHelper.getAudioPan(xPosition));
+    }
     
     // When the object is clicked
     void OnClick() {
@@ -73,7 +92,7 @@ public class DoorKnockDoor : MonoBehaviour {
             }
             
             MicrogameController.instance.playSFX(
-                knockSound, volume: 0.5f,
+                knockSound, volume: knockVolume,
                 panStereo: AudioHelper.getAudioPan(transform.position.x)
             );
             //NewDirection();
@@ -97,7 +116,7 @@ public class DoorKnockDoor : MonoBehaviour {
     // Winning animation
     void Win(){
         MicrogameController.instance.playSFX(
-            openSound, volume: 0.5f,
+            openSound, volume: openVolume,
             panStereo: AudioHelper.getAudioPan(transform.position.x)
         );
         animator.SetBool("Win", true);
