@@ -14,6 +14,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
     public Animator seijaAnim, spinAnim, charFlingAnim, objFlingAnim;
     public AudioClip flingClip, crashClip, spinClip;
     public GameObject broomObject;
+    private Component spinningArrows;
     private AudioSource _audioSource;
     private float lastAngle;
     private float currentAngleChange;
@@ -51,6 +52,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        spinningArrows = transform.Find("Arrows");
         rootOriginalPosition = transform.root.position;
         if (moveType == 2)
         {
@@ -83,7 +85,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                     // Only try to rotate if the direction makes sense
                     if (angleDifference < 0)
                     {
-                        if (GameObject.Find("Arrows").GetComponent<SeijaSpinArrows>().flipped)
+                        if (spinningArrows.GetComponent<SeijaSpinArrows>().flipped)
                         {
                             totalSpin += Mathf.Abs(angleDifference);
                             transform.eulerAngles += Vector3.back * angleDifference;
@@ -92,7 +94,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                     }
                     else if (angleDifference > 0)
                     {
-                        if (!GameObject.Find("Arrows").GetComponent<SeijaSpinArrows>().flipped)
+                        if (!spinningArrows.GetComponent<SeijaSpinArrows>().flipped)
                         {
                             totalSpin += Mathf.Abs(angleDifference);
                             transform.eulerAngles += Vector3.back * angleDifference;
