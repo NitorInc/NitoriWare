@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FoodRoast { 
@@ -16,11 +17,11 @@ namespace FoodRoast {
       }
     }
 
-    private ParticleSystem _Particles;
-    public ParticleSystem Particles {
+    private ParticleSystem[] _Particles;
+    public ParticleSystem[] Particles {
       get {
         if (_Particles == null)
-          _Particles = GetComponentInChildren<ParticleSystem>();
+          _Particles = GetComponentsInChildren<ParticleSystem>();
         return _Particles;
       }
     }
@@ -37,11 +38,10 @@ namespace FoodRoast {
 
     [Header("Animation States")]
     [SerializeField] private float StateDuration = 0.33f;
-    [ReadOnly] [SerializeField] private int PotatoAnimationState = 0;
+    [SerializeField] private int PotatoAnimationState = 0;
     [ReadOnly] [SerializeField] private PotatoCookedState PotatoCookedState = 0;
 
     private void Start() {
-      PotatoAnimationState = FoodRoast_Controller.Instance.GetAnimationState(GetPackLength);
       PotatoCookedState = PotatoCookedState.Uncooked;
       StartCoroutine(AnimationCoroutine());
       StartCoroutine(CookingCoroutine());
@@ -74,7 +74,8 @@ namespace FoodRoast {
       SpriteRenderer.sprite = GetSprite;
 
       ChangeParticlesStartColorAlpha(.05f);
-      Particles.Play();
+      foreach(var particle in Particles)
+        particle.Play();
     }
 
     // Procedure that turns uncooked to cooked potatoes
@@ -83,28 +84,35 @@ namespace FoodRoast {
       SpriteRenderer.sprite = GetSprite;
 
       ChangeParticlesStartColorAlpha(.4f);
-      Particles.Play();
+      foreach (var particle in Particles)
+        particle.Play();
+
+      FoodRoast_Controller.Instance.AddUncookedPotato();
     }
 
     private void ChangeParticlesStartColorAlpha(float alpha){
-      var main = Particles.main;
-      var colorStruct = main.startColor;
-      var color = colorStruct.color;
+      foreach (var particle in Particles) {
+        var main = particle.main;
+        var colorStruct = main.startColor;
+        var color = colorStruct.color;
 
-      color.a = alpha;
-      colorStruct.color = color;
-      main.startColor = colorStruct;
+        color.a = alpha;
+        colorStruct.color = color;
+        main.startColor = colorStruct;
+      }
     }
 
     // Procedure when the potato is clicked
     private void OnMouseDown() {
       if (PotatoCookedState == PotatoCookedState.Cooked) {
         FoodRoast_Controller.Instance.AddCookedPotato();
-      } else {
+      } else if (PotatoCookedState == PotatoCookedState.Uncooked) {
         FoodRoast_Controller.Instance.AddUncookedPotato();
       }
-      Particles.Stop();
-      Particles.transform.SetParent(null);
+      foreach (var particle in Particles) {
+        particle.Stop();
+        particle.transform.SetParent(null);
+      }
 
       Destroy(gameObject);
     }

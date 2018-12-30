@@ -88,19 +88,6 @@ namespace FoodRoast {
       return time;
     }
 
-    public int GetAnimationState(int packLength){
-      if (randomAnimationStates == null) {
-        randomAnimationStates = new List<int>();
-        for (var i = 0; i < packLength; i++) {
-          randomAnimationStates.Add(i);
-        }
-      }
-      var index = Random.Range(0, randomAnimationStates.Count);
-      var state = randomAnimationStates[index];
-      randomAnimationStates.RemoveAt(index);
-      return state;
-    }
-
     //---   Editor Script
     public void UpdatePotatoes() {
       potatoesExists = GameObject.Find("Potatoes").transform.childCount;
