@@ -11,6 +11,7 @@ public class DoorKnockFist : MonoBehaviour {
     [SerializeField]
     private GameObject door;
     [SerializeField]
+    private GameObject flash;
     private float shrinkSpeed = 4f;
 
     private float timer = 0;
@@ -25,6 +26,7 @@ public class DoorKnockFist : MonoBehaviour {
     void Update () {
         if (timer > 0) { 
                 timer -= Time.deltaTime;
+                flash.SetActive(false);
         } else if (MicrogameController.instance.getVictory()){
             transform.localScale -= new Vector3(1f, 1f, 1f) * Time.deltaTime * shrinkSpeed;
             if (transform.localScale.x <= 0){
@@ -36,6 +38,7 @@ public class DoorKnockFist : MonoBehaviour {
             if (intersecting) {
                 door.SendMessage("OnClick");
                 particleSystem.Play();
+                flash.SetActive(true);
             }
         }
     } 
