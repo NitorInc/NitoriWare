@@ -133,9 +133,10 @@ public class FoodCutController : MonoBehaviour {
         // Checks to see if there is a dotted line to cut
         if (Input.GetKeyDown(KeyCode.Space) && currentTrigger != null)
         {
-            //Play animation
+            //Play animation and sound
             isCutting = true;
             knifeChild.GetComponent<Animator>().SetTrigger("Cut");
+            gameObject.GetComponent<AudioSource>().Play();
 
             //Create the right side of the meat and mask it
             GameObject rightMeat = (GameObject)Instantiate(meatHolder);
@@ -245,7 +246,7 @@ public class FoodCutController : MonoBehaviour {
         {
             currentTrigger = other;
             currentLine = other.gameObject;
-            Debug.Log(currentTrigger);
+            //Debug.Log(currentTrigger);
         }
         else if (other.gameObject.GetComponent<FoodCutDetection>().fish)
         {
@@ -263,13 +264,13 @@ public class FoodCutController : MonoBehaviour {
         else if (other.gameObject.GetComponent<FoodCutDetection>().fish)
         {
             currentFish = other.gameObject;
-            Debug.Log(currentFish);
+            //Debug.Log(currentFish);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         currentTrigger = null;
-        Debug.Log(currentTrigger);
+        //Debug.Log(currentTrigger);
     }
 }
