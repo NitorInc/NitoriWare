@@ -28,6 +28,9 @@ public class FoodCutController : MonoBehaviour {
     [SerializeField]
     private GameObject meatHolder;
 
+    [SerializeField]
+    private AudioClip missClip;
+
 
     [Header("Starting speed of meat getting separated:")]
     [SerializeField]
@@ -230,6 +233,7 @@ public class FoodCutController : MonoBehaviour {
         {
             isCutting = true;
             xChild.GetComponent<Animator>().Play("FoodCutX");
+            MicrogameController.instance.playSFX(missClip);
         }
 
         // Player wins if they cut the proper amount of lines
