@@ -106,7 +106,8 @@ public static class PrefsHelper
     /// <returns></returns>
     public static GameProgress getProgress()
     {
-        return (GameProgress)PlayerPrefs.GetInt(ProgressKey, 0);
+        return GameProgress.AllCompilationComplete;
+        //return (GameProgress)PlayerPrefs.GetInt(ProgressKey, 0);
     }
 
     /// <summary>

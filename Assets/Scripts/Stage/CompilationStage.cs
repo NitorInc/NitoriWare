@@ -6,7 +6,9 @@ using System;
 
 public class CompilationStage : Stage
 {
-	[SerializeField]
+    public static string globalSeed = "0";
+
+    [SerializeField]
 	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
 	private MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.StageReady;
@@ -14,7 +16,7 @@ public class CompilationStage : Stage
     private bool exactRestriction = false;
 	[SerializeField]
 	protected Interruption nextRound;
-    [SerializeField]
+
     private int seed;
 
     //[SerializeField]	//Debug
@@ -29,6 +31,8 @@ public class CompilationStage : Stage
             : MicrogameHelper.getMicrogames(restriction);
 
         microgamePool = collectionMicrogameList.Select(a => new Microgame(a.microgameId)).ToList();
+        seed = int.Parse(globalSeed);
+        
         roundsCompleted = roundStartIndex = 0;
         
         shuffleRandom = new System.Random(seed == 0 ? (int)System.DateTime.Now.Ticks : seed);

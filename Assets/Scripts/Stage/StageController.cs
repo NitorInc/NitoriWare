@@ -69,6 +69,12 @@ public class StageController : MonoBehaviour
         WonStage        //10 - Player has won a character stage for the first time | 8 beats, ends stage
 	}
 
+    bool gameplayContdownStarted = false;
+    bool gameplayCountdownReached = false;
+    float gameplayStartTime;
+    Transform blocker;
+    TextMesh blockerText;
+
 	void Start()
 	{
 		beatLength = outroSource.clip.length / 4f;
@@ -76,9 +82,47 @@ public class StageController : MonoBehaviour
 		voicePlayer.loadClips(stage.getVoiceSet());
 
 		setAnimationPart(AnimationPart.Intro);
-		resetStage(Time.time, true);
         Cursor.visible = false;
-	}
+
+
+        Time.timeScale = 0f;
+        resetStage(Time.time, true);
+        PauseManager.disablePause = true;
+        AudioListener.pause = true;
+    }
+
+
+    void Update()
+    {
+        if (!gameplayContdownStarted)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                blocker = transform.Find("Blocker");
+                blockerText = blocker.GetComponentInChildren<TextMesh>();
+                gameplayStartTime = Time.realtimeSinceStartup + 4f;
+                gameplayContdownStarted = true;
+            }
+        }
+        else if (!gameplayCountdownReached)
+        {
+            var timeLeft = gameplayStartTime - Time.realtimeSinceStartup;
+            if (timeLeft > 0f)
+                blockerText.text = timeLeft >= 1f ? ((int)Mathf.Floor(timeLeft)).ToString() : "GO!";
+            else
+            {
+                blocker.gameObject.SetActive(false);
+                Time.timeScale = getSpeedMult();
+                AudioListener.pause = false;
+                PauseManager.disablePause = false;
+                updateToIntro();
+                introSource.pitch = getSpeedMult();
+                introSource.Play();
+                gameplayCountdownReached = true;
+            }
+        }
+    }
+    
 
 	void resetStage(float startTime, bool firstTime)
 	{
@@ -86,7 +130,8 @@ public class StageController : MonoBehaviour
 
 		microgameCount = 0;
 		speed = stage.getStartSpeed();
-		Time.timeScale = getSpeedMult();
+        if (!firstTime)
+		    Time.timeScale = getSpeedMult();
 		animationStartTime = startTime;
 
 		microgameQueue = new Queue<MicrogameInstance>();
@@ -100,7 +145,7 @@ public class StageController : MonoBehaviour
 			AudioHelper.playScheduled(introSource, startTime - Time.time);
         updateMicrogameTraits();
 
-		invokeIntroAnimations();
+		invokeIntroAnimations(!firstTime);
 	}
 
 	void Awake()
@@ -214,9 +259,10 @@ public class StageController : MonoBehaviour
 		introSource.pitch = getSpeedMult(endSpeed);
 	}
 
-	void invokeIntroAnimations()
+	void invokeIntroAnimations(bool includeIntro = true)
 	{
-		invokeAtBeat("updateToIntro", 0f);
+        if (includeIntro)
+		    invokeAtBeat("updateToIntro", 0f);
 
 		invokeAtBeat("updateCursorVisibility", 1f);
 
