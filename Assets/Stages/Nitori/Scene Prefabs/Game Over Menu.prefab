@@ -333,6 +333,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1518581293579560
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224073848903135230}
+  - component: {fileID: 222233827966746622}
+  - component: {fileID: 114954388951881928}
+  - component: {fileID: 114975101187097540}
+  - component: {fileID: 114199636346079494}
+  - component: {fileID: 114560790992900416}
+  m_Layer: 8
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1541926482119838
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,8 +476,9 @@ GameObject:
   - component: {fileID: 114916161371548402}
   - component: {fileID: 114282113000442870}
   - component: {fileID: 114124924860100616}
+  - component: {fileID: 114721698629050840}
   m_Layer: 8
-  m_Name: Text
+  m_Name: Mode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -881,10 +902,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 0
-  applyToTextString: 1
+  applyToTextString: 0
   applyToFont: 1
   _key: stage.gameover
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114133894810168110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -925,7 +948,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
-    m_FontSize: 100
+    m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -936,7 +959,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Over
+  m_Text: Game Mode
 --- !u!114 &114157347736910048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -950,6 +973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeInFirst: 1
   fadeSpeed: 1
+  startOnAwake: 0
   type: 1
 --- !u!114 &114166513679591216
 MonoBehaviour:
@@ -983,6 +1007,19 @@ MonoBehaviour:
   doubleResolution: 1024
   squareAlign: 0
   updateAttributes: 1
+--- !u!114 &114199636346079494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518581293579560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &114223342063450024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1100,6 +1137,8 @@ MonoBehaviour:
   - value: (R)
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114299607175603560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1119,6 +1158,8 @@ MonoBehaviour:
   - value: 
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114301593445144008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1157,6 +1198,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114321756567883404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1176,6 +1219,8 @@ MonoBehaviour:
   - value: 
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114321844286058016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1281,6 +1326,8 @@ MonoBehaviour:
   - value: 
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114351701743300022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1297,6 +1344,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114359773011953322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1313,6 +1362,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114363863153021020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1682,6 +1733,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &114560790992900416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518581293579560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 802eeaa3d714ff143b464702812c929a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyPrefix: 0
+  applyToTextString: 1
+  applyToFont: 1
+  _key: stage.gameover
+  parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114573379886387742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1849,6 +1918,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114721050046413878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1865,6 +1936,19 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
+--- !u!114 &114721698629050840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1716249543081280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2258ecee8efb5ed458355c079c343ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114736160966331932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2149,7 +2233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSize: {x: 850, y: 200}
-  defaultFontSize: 100
+  defaultFontSize: 50
   onlyUpdateOnTextChange: 1
   resetSizeFields: 0
   textComponent: {fileID: 114151253685955210}
@@ -2198,6 +2282,39 @@ MonoBehaviour:
   resetSizeFields: 0
   textComponent: {fileID: 114956022225563760}
   rectTransform: {fileID: 224044415140903002}
+--- !u!114 &114954388951881928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518581293579560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: af650bb61fb71764fb76105ef4bca8f0, type: 3}
+    m_FontSize: 100
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Game Over
 --- !u!114 &114956022225563760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2294,6 +2411,8 @@ MonoBehaviour:
   - value: 
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114970769899375128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2313,6 +2432,25 @@ MonoBehaviour:
   - value: (Q)
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
+--- !u!114 &114975101187097540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518581293579560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b8b7631b8b7204996356fa6d8229cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSize: {x: 850, y: 200}
+  defaultFontSize: 100
+  onlyUpdateOnTextChange: 1
+  resetSizeFields: 0
+  textComponent: {fileID: 114954388951881928}
+  rectTransform: {fileID: 224073848903135230}
 --- !u!114 &114990191439863026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2370,6 +2508,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1267468410593286}
+--- !u!222 &222233827966746622
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518581293579560}
 --- !u!222 &222256954575570890
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -2535,6 +2679,24 @@ RectTransform:
   m_AnchoredPosition: {x: 56.666668, y: 20}
   m_SizeDelta: {x: 33, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224073848903135230
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518581293579560}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_Children: []
+  m_Father: {fileID: 224306873313957382}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 247}
+  m_SizeDelta: {x: 603, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224182684082301418
 RectTransform:
   m_ObjectHideFlags: 1
@@ -2566,7 +2728,7 @@ RectTransform:
   m_LocalScale: {x: 0.55, y: 0.55, z: 0}
   m_Children: []
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2620,6 +2782,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 224073848903135230}
   - {fileID: 224661492284123970}
   - {fileID: 224995020983148930}
   - {fileID: 224702378426198268}
@@ -2683,7 +2846,7 @@ RectTransform:
   m_LocalScale: {x: 0.55, y: 0.55, z: 0}
   m_Children: []
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2721,7 +2884,7 @@ RectTransform:
   m_Children:
   - {fileID: 224029486634781338}
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2739,12 +2902,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: 603, y: 120}
+  m_AnchoredPosition: {x: 0, y: 117}
+  m_SizeDelta: {x: 304, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224690558863501818
 RectTransform:
@@ -2778,7 +2941,7 @@ RectTransform:
   m_Children:
   - {fileID: 224182684082301418}
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2869,7 +3032,7 @@ RectTransform:
   m_Children:
   - {fileID: 224277817237625654}
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2909,7 +3072,7 @@ RectTransform:
   m_LocalScale: {x: 0.55, y: 0.55, z: 0}
   m_Children: []
   m_Father: {fileID: 224306873313957382}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
