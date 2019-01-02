@@ -75,7 +75,8 @@ public class MicrogameTraits : ScriptableObject
     {
         Unfinished,
         StageReady,
-        Finished
+        Finished,
+        MagFest
     }
 
     [SerializeField]

@@ -10,6 +10,8 @@ public class CompilationStage : Stage
 	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
 	private MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.StageReady;
+    [SerializeField]
+    private bool exactRestriction = false;
 	[SerializeField]
 	protected Interruption nextRound;
     [SerializeField]
@@ -22,9 +24,11 @@ public class CompilationStage : Stage
 
 	public override void onStageStart()
 	{
-		microgamePool = (from microgame in MicrogameHelper.getMicrogames(restriction)
-                        select new Microgame(microgame.microgameId))
-                        .ToList();
+        var collectionMicrogameList = exactRestriction
+            ? MicrogameHelper.getMicrogames().Where(a => a.difficultyTraits[0].milestone == restriction).ToList()
+            : MicrogameHelper.getMicrogames(restriction);
+
+        microgamePool = collectionMicrogameList.Select(a => new Microgame(a.microgameId)).ToList();
         roundsCompleted = roundStartIndex = 0;
         
         shuffleRandom = new System.Random(seed == 0 ? (int)System.DateTime.Now.Ticks : seed);
