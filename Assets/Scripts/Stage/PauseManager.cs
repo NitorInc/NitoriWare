@@ -51,11 +51,13 @@ public class PauseManager : MonoBehaviour
         public Camera camera;
         public Color backgroundColor;
         public int cullingMask;
+        public CameraClearFlags clearFlags;
         public CamPauseData(Camera camera)
         {
             this.camera = camera;
             backgroundColor = camera.backgroundColor;
             cullingMask = camera.cullingMask;
+            clearFlags = camera.clearFlags;
         }
     }
 
@@ -132,6 +134,7 @@ public class PauseManager : MonoBehaviour
                 {
                     pauseData.camPauseDatas.Add(new CamPauseData(cam));
                     cam.cullingMask = 0;
+                    cam.clearFlags = CameraClearFlags.SolidColor;
                     cam.backgroundColor = Color.black;
                 }
             }
@@ -189,6 +192,7 @@ public class PauseManager : MonoBehaviour
             {
                 camPauseData.camera.backgroundColor = camPauseData.backgroundColor;
                 camPauseData.camera.cullingMask = camPauseData.cullingMask;
+                camPauseData.camera.clearFlags = camPauseData.clearFlags;
             }
             MicrogameController.instance.onUnPaused();
         }
