@@ -11,25 +11,33 @@ public class MenuMicrogamePracticeSpacer : MonoBehaviour
     private float spacing;
     [SerializeField]
     private Vector3 topRight;
+
+    [SerializeField]
+    private bool setActiveOnly;
     
 	void Start ()
     {
-        if (Application.isPlaying)
-            enabled = false;
 	}
 
 	void Update ()
     {
+        int j = 0;
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             var child = transform.GetChild(i);
-            if (child.name.ToLower().Contains("microgame")
-                || child.name.ToLower().Contains("boss"))
+            if (!Application.isPlaying && !setActiveOnly)
             {
-                child.transform.position = topRight
-                    + (Vector3.right * (i % rowSize) * spacing)
-                    + (Vector3.down * (i / rowSize) * spacing);
+                if (child.name.ToLower().Contains("microgame")
+                    || child.name.ToLower().Contains("boss"))
+                {
+                    child.transform.position = topRight
+                        + (Vector3.right * (j % rowSize) * spacing)
+                        + (Vector3.down * (j / rowSize) * spacing);
+                    j++;
+                }
             }
+            else if (!child.name.Contains("(0)") && Application.isPlaying)
+                child.gameObject.SetActive(transform.localScale.x > .011f);
         }
 	}
 }
