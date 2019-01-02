@@ -182,7 +182,7 @@ public class KnifeDodgeController : MonoBehaviour {
                 parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 if (currentState != (int)KnifeState.FLYING_IN)
                 {
-                    Invoke("playKnifeSound", StageController.beatLength);
+                    Invoke("playKnifeSound", StageController.beatLength * 1.5f);
                 }
                 currentState = (int)KnifeState.FLYING_IN;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
