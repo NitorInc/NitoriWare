@@ -41,9 +41,9 @@ public class MenuPracticeMicrogame : MonoBehaviour
 
         if (name.Contains("Boss"))
         {
-            //TODO multiple boss microgame support
+            int bossNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
             microgame = MicrogameHelper.getMicrogames(MicrogameTraits.Milestone.StageReady, true)
-                .FirstOrDefault(a => a.difficultyTraits[0].isBossMicrogame());
+                .Where(a => a.difficultyTraits[0].isBossMicrogame()).ToArray()[bossNumber];
         }
         else
         {

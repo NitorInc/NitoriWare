@@ -70,7 +70,7 @@ public class MicrogameTraits : ScriptableObject
 
     [SerializeField]
 	private Milestone _milestone = Milestone.Unfinished;
-	public virtual Milestone milestone => _milestone;
+	public virtual Milestone milestone => _milestone == Milestone.MagFest ? Milestone.StageReady : _milestone;
     public enum Milestone
     {
         Unfinished,
@@ -81,7 +81,9 @@ public class MicrogameTraits : ScriptableObject
 
     [SerializeField]
     private string[] _credits = { "", "", "" };
-    public virtual string[] credits => _credits;
+    public virtual string[] credits => (_credits == null || _credits.Length < 3)
+        ? new string[]{ "", "", "" }
+        : _credits;
 
     private string _microgameId;
     public string microgameId => _microgameId;
