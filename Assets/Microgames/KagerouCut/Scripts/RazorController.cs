@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RazorController : MonoBehaviour {
-
+    [SerializeField]
     private float speed = 120f;
     private bool has_moved = false;
     // Use this for initialization
