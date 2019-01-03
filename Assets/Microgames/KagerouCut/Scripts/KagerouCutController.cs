@@ -25,8 +25,9 @@ public class KagerouCutController : MonoBehaviour {
 
     [SerializeField]
     private float furspeed = 0.01f;
-
+    [SerializeField]
     private float furDistance = 1.2f;
+
     private GameObject[] furballs;
     private KagCutCharacter character;
 
@@ -53,15 +54,20 @@ public class KagerouCutController : MonoBehaviour {
         //player.clip = music;
         //player.Play();
 
-        float angle = 0.4f;
+        float angle = -0.1f;
         float[] angles= new float[furballCount];
         for (int i=0; i<furballCount; i++){
-            angle = Random.Range(angle-0.5f, angle-Mathf.PI/furballCount-0.2f);
+            angle = Random.Range(angle-0.2f, angle-Mathf.PI/furballCount-0.1f);
             angles[i] = angle;
         }
         float center_shift = angles[0] + angles[furballCount-1] + Mathf.PI;
         for (int i=0; i<furballCount; i++){
             angles[i] -= center_shift;
+            if (angles[i] < -Mathf.PI/2){
+                angles[i] -= 0.3f;
+            } else {
+                angles[i] += 0.3f;
+            }
         }
 
         for (int i=0; i<furballCount; i++){
