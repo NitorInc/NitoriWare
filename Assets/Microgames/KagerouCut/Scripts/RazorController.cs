@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RazorController : MonoBehaviour {
     [SerializeField]
-    private float speed = 120f;
+    private float speed = 180f;
     private bool has_moved = false;
     // Use this for initialization
     void Start () {
