@@ -64,7 +64,6 @@ public class KagerouCutController : MonoBehaviour {
             angles[i] = angle;
         }
         float centerShift = angles[0] + angles[furballCount-1] + Mathf.PI;
-        print(centerShift);
         for (int i=0; i<furballCount; i++){
             angles[i] -= centerShift/2+Random.Range(-0.1f, 0.1f);
             if (angles[i] < -Mathf.PI/2){
