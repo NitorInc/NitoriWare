@@ -6,7 +6,9 @@ public class FurBallController : MonoBehaviour {
     [SerializeField]
     GameObject sprite;
     public float speed = 0.3f;
+    public float particleRate = 0.1f;
     
+    private float particleTimer = 0.0f;
     private bool shouldShrink = false;
     private bool hasMoved = false;
     private bool finished = false;
@@ -22,12 +24,16 @@ public class FurBallController : MonoBehaviour {
             float s = 3*Time.deltaTime*speed;
             t.localScale -= new Vector3(s, s, s);
             if (t.localScale.x <= 0){
-                GetComponent<ParticleSystem>().Play();
                 gameObject.tag = "Finish";
                 sprite.GetComponent<Renderer>().enabled = false;
                 t.localScale = new Vector3(0f, 0f, 0f);
             }
         } else if (gameObject.tag != "Finish" && shouldShrink && hasMoved){
+            particleTimer += Time.deltaTime;
+            if (particleTimer > particleRate){
+                GetComponent<ParticleSystem>().Play();
+                particleTimer = 0.0f;
+            }
             float s = Time.deltaTime*speed;
             t.localScale -= new Vector3(s, s, s);
             if (t.localScale.x <= 0.06){

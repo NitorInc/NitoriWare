@@ -28,6 +28,9 @@ public class KagerouCutController : MonoBehaviour {
     [SerializeField]
     private float furDistance = 1.2f;
 
+    [SerializeField]
+    private float particleRate = 0.2f;
+    
     private GameObject[] furballs;
     private KagCutCharacter character;
 
@@ -60,9 +63,10 @@ public class KagerouCutController : MonoBehaviour {
             angle = Random.Range(angle-0.2f, angle-Mathf.PI/furballCount-0.1f);
             angles[i] = angle;
         }
-        float center_shift = angles[0] + angles[furballCount-1] + Mathf.PI;
+        float centerShift = angles[0] + angles[furballCount-1] + Mathf.PI;
+        print(centerShift);
         for (int i=0; i<furballCount; i++){
-            angles[i] -= center_shift;
+            angles[i] -= centerShift/2+Random.Range(-0.1f, 0.1f);
             if (angles[i] < -Mathf.PI/2){
                 angles[i] -= 0.3f;
             } else {
@@ -77,6 +81,7 @@ public class KagerouCutController : MonoBehaviour {
             GameObject newFur = Instantiate(furball, new Vector3(x, y, 0), Quaternion.identity);
             FurBallController s = newFur.GetComponent<FurBallController>();
             s.speed = furspeed;
+            s.particleRate = particleRate;
             newFur.GetComponent<Animator>().SetFloat("offset", Random.Range(0f, 1f));
             furballs[i] = newFur;
         }
