@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class YoumuSlashTargetSlice : MonoBehaviour
 {
     [SerializeField]
     private Transform imageTransform;
+    [SerializeField]
+    private Transform maskTransform;
     [Header("Edit sliced falling speeds here")]
+    [SerializeField]
+    private bool disableFall;
     [SerializeField]
     private float direction = 1f;
     [SerializeField]
@@ -38,7 +43,7 @@ public class YoumuSlashTargetSlice : MonoBehaviour
 
     void Update ()
     {
-        if (falling)
+        if (falling && !disableFall)
         {
             updateFallingTransform();
         }
@@ -51,7 +56,15 @@ public class YoumuSlashTargetSlice : MonoBehaviour
         transform.position += (Vector3)speed * Time.deltaTime;
     }
 
+    public void setImageActive(Sprite sprite)
+    {
+        var imageComponent = imageTransform.GetComponent<Image>();
+        imageComponent.sprite = sprite;
+        imageComponent.color = Color.white;
+    }
+
     public Transform getImageTransform() => imageTransform;
+    public Transform getMaskTransform() => maskTransform;
     public bool isFalling() => falling;
 
     public void setFalling(bool falling) => this.falling = falling;
