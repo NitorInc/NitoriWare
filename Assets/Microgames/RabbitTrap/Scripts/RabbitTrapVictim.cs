@@ -8,14 +8,21 @@ public class RabbitTrapVictim : MonoBehaviour {
     [SerializeField]
     private float speed;
 
+    [Header("Trap hitbox")]
+    [SerializeField]
+    private GameObject trapHitbox;
+
     private Vector2 trajectory;
 
     private float maxXPosition;
     private Vector2 maxPosition;
     private bool stopMovement;
 
+    private bool isTrapable;
+    
     // Use this for initialization
     void Start () {
+        print("Start");
         maxXPosition = -8;
         Vector2 maxPosition = new Vector2(maxXPosition, 0);
         trajectory = new Vector2(speed,0);
@@ -25,14 +32,26 @@ public class RabbitTrapVictim : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        SetTrapable();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (isTrapable)
+            {
+                print("Victory!");
+            } else
+            {
+                print("Lose!");
+            }
+        }        
+
         if (!stopMovement)
         {
             Vector2 newPosition = GetNewPosition();
             this.transform.position = newPosition;
 
             stopMovement = IsStopMovement();
-        }
-        
+        }        
     }
 
     Vector2 GetNewPosition()
@@ -51,5 +70,27 @@ public class RabbitTrapVictim : MonoBehaviour {
         }
     }
 
+    void SetTrapable()
+    {
+        if (IsVictimTrapable())
+        {
+            isTrapable = true;
+        }
+        else
+        {
+            isTrapable = false;
+        }
+    }
+
+    bool IsVictimTrapable()
+    {
+        if (this.GetComponent<Collider2D>().IsTouching(trapHitbox.GetComponent<Collider2D>()))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
 
 }
