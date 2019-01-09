@@ -15,6 +15,14 @@ public class RabbitTrapTrap : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if (Input.GetMouseButtonDown(0))
+        {
+            ActivateTrap();
+        }
+    }
+
+    void ActivateTrap()
+    {
+        this.transform.localScale = new Vector3(0, 0, 0);
+    }
 }
