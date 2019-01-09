@@ -10,7 +10,19 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     [Header("Trap hitbox")]
     [SerializeField]
-    private GameObject trapHitbox;
+    private GameObject trap;
+
+    [Header("Too soon stop location")]
+    [SerializeField]
+    private float tooSoonStopLocation;
+
+    [Header("On Time X stop location")]
+    [SerializeField]
+    private float onTimeXStopLocation;
+
+    [Header("On Time Y stop location")]
+    [SerializeField]
+    private float onTimeYStopLocation;
 
     private Vector2 trajectory;
 
@@ -19,12 +31,18 @@ public class RabbitTrapVictim : MonoBehaviour {
     private bool stopMovement;
 
     private bool isTrapable;
+
+    private enum trapStates {TooEarly, OnTime ,TooLate};
+    private trapStates trapState;
+
+    private bool isVictory = false;
     
     // Use this for initialization
     void Start () {
         print("Start");
+        trapState = trapStates.TooEarly;
         maxXPosition = -8;
-        Vector2 maxPosition = new Vector2(maxXPosition, 0);
+        maxPosition = new Vector2(maxXPosition, 0);
         trajectory = new Vector2(speed,0);
         stopMovement = false;        
 }
@@ -38,10 +56,10 @@ public class RabbitTrapVictim : MonoBehaviour {
         {
             if (isTrapable)
             {
-                print("Victory!");
+                SetVictory();
             } else
             {
-                print("Lose!");
+                SetLose();
             }
         }        
 
@@ -51,7 +69,15 @@ public class RabbitTrapVictim : MonoBehaviour {
             this.transform.position = newPosition;
 
             stopMovement = IsStopMovement();
-        }        
+        } else
+        {
+            if (this.isVictory)
+            {
+                trajectory = new Vector2(0,speed);
+                Vector2 newPosition = GetNewPosition();
+                this.transform.position = newPosition;
+            }
+        }
     }
 
     Vector2 GetNewPosition()
@@ -75,22 +101,56 @@ public class RabbitTrapVictim : MonoBehaviour {
         if (IsVictimTrapable())
         {
             isTrapable = true;
+            trapState = trapStates.OnTime;
         }
         else
         {
             isTrapable = false;
+            if (trapState==trapStates.OnTime)
+            {
+                trapState = trapStates.TooLate;
+            }
         }
     }
 
     bool IsVictimTrapable()
     {
-        if (this.GetComponent<Collider2D>().IsTouching(trapHitbox.GetComponent<Collider2D>()))
+        if (this.GetComponent<Collider2D>().IsTouching(trap.GetComponent<Collider2D>()))
         {
             return true;
         } else
         {
             return false;
         }
+    }
+
+    void SetVictory()
+    {
+        this.isVictory = true;
+        print("Victory!");
+        maxXPosition = onTimeXStopLocation;
+    }
+
+    void SetLose()
+    {
+        if (trapState == trapStates.TooEarly)
+        {
+            SetLoseEarly();
+        } else
+        {
+            SetLoseLate();
+        }
+    }
+
+    void SetLoseEarly()
+    {
+        print("Too early!");
+        maxXPosition = tooSoonStopLocation;        
+    }
+
+    void SetLoseLate()
+    {
+        print("Too late!");
     }
 
 }
