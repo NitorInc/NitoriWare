@@ -60,7 +60,8 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "KnifeDodgeHazard" && !bIsKilled) {
+        // If in contact with a knife
+		if (coll.gameObject.tag == "MicrogameTag2" && !bIsKilled) {
 			Kill (coll.gameObject);
 		}
 	}
