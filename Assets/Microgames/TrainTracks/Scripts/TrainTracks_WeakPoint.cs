@@ -11,6 +11,12 @@ public class TrainTracks_WeakPoint
     [SerializeField]
     private bool flipped;
 
+    [SerializeField]
+    private GameObject yukari;
+
+    [SerializeField]
+    private Sprite sadYukari;
+
     // Use this for initialization
     void Start() {
         weakpointCount = 2; //TODO: Figure out nice way to increment this without breaking R debugging
@@ -32,6 +38,7 @@ public class TrainTracks_WeakPoint
         weakpointCount--;
         if (weakpointCount == 0) {
             MicrogameController.instance.setVictory(victory: true, final: true);
+            yukari.GetComponent<SpriteRenderer>().sprite = sadYukari;
         }
         Destroy(transform.parent.gameObject);
     }
