@@ -26,9 +26,10 @@ public class YoumuSlashEventMap : MonoBehaviour
     void Start()
     {
         upcomingEvents = new Queue<Event>(events);
+        YoumuSlashPlayerController.onFail += onFail;
     }
 
-   void Update()
+    void Update()
     {
         if (!upcomingEvents.Any())
             return;
@@ -39,5 +40,10 @@ public class YoumuSlashEventMap : MonoBehaviour
             if (newEvent.debugPause)
                 Debug.Break();
         }
+    }
+
+    void onFail()
+    {
+        enabled = false;
     }
 }

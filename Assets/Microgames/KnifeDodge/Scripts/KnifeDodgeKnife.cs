@@ -29,7 +29,6 @@ public class KnifeDodgeKnife : MonoBehaviour {
         switch (state)
         {
             case (int)KnifeState.FLYING_IN:
-               // GetComponent<Rigidbody2D>().AddForce(-0.5f * transform.up * knifeSpeed);
                GetComponent<Rigidbody2D>().velocity = transform.up * -1.0f * knifeSpeed;
                 break;
 
@@ -54,6 +53,7 @@ public class KnifeDodgeKnife : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().simulated = false;
             CameraShake.instance.setScreenShake(.15f);
             CameraShake.instance.shakeCoolRate = .5f;
+            enabled = false;
         }
 	}
 

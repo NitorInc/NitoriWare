@@ -7,7 +7,11 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	public float animSpeed = 1.5f;
 	public float animSpeedStopped = 0f;
 	public float killLaunchSpeed = 20.0f;
-	public GameObject leftBound;
+    public float killLaunchRotSpeed = 80.0f;
+    public float knifeStuckYOffset;
+    public AudioClip killClip;
+
+    public GameObject leftBound;
 	public GameObject rightBound;
 	bool bIsKilled;
     Vector3 previousMoveDir;
@@ -23,20 +27,25 @@ public class KnifeDodgeReimu : MonoBehaviour {
 			moveDir.x = Input.GetAxisRaw ("Horizontal"); // get result of AD keys in X
             moveDir.z = 0;
             previousMoveDir = moveDir;
-
-        } else
+        }
+        else
         {
             transform.position += previousMoveDir * speed * Time.deltaTime;
             return;
         }
 
-		if (moveDir == Vector3.zero) {
+        if (bIsKilled)
+        {
+            GetComponent<Animator>().Play("Dead");
+        } else if (moveDir == Vector3.zero) {
 			GetComponent<Animator> ().speed = animSpeedStopped;
 			GetComponent<Animator> ().Play ("Standing");
 		} else {
 			GetComponent<Animator> ().speed = animSpeed;
 			GetComponent<Animator> ().Play ("Moving");
 		}
+
+        
 
 		// move this object at frame rate independent speed:
 		if (moveDir.x > 0
@@ -51,20 +60,33 @@ public class KnifeDodgeReimu : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "KnifeDodgeHazard") {
-			Kill ();
+		if (coll.gameObject.tag == "KnifeDodgeHazard" && !bIsKilled) {
+			Kill (coll.gameObject);
 		}
 	}
 
-	public void Kill() {
+	public void Kill(GameObject knife) {
 		bIsKilled = true;
 		GetComponent<BoxCollider2D> ().size = new Vector2 (0, 0);
-		transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, killLaunchSpeed);
-		transform.GetComponent<Rigidbody2D> ().angularVelocity = 80.0f;
+        GetComponent<Animator>().speed = 0;
+
+        transform.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, killLaunchSpeed);
+		transform.GetComponent<Rigidbody2D> ().angularVelocity = killLaunchRotSpeed;
 
 		MicrogameController.instance.setVictory (false, true);
-		// To implement later
 		CameraShake.instance.setScreenShake (.15f);
 		CameraShake.instance.shakeCoolRate = .5f;
-	}
+        print(killClip);
+        MicrogameController.instance.playSFX(killClip, panStereo: AudioHelper.getAudioPan(transform.position.x));
+
+        knife.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        knife.transform.parent = transform;
+        knife.transform.position = new Vector3(
+            knife.transform.position.x - ((knife.transform.position.x - transform.position.x) / 2f),
+            transform.position.y + knifeStuckYOffset,
+            knife.transform.position.z);
+
+        GetComponent<Animator>().Play("Dead");
+        enabled = false;
+    }
 }
