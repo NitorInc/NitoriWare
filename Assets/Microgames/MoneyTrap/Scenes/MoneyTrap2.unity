@@ -160,6 +160,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
+--- !u!82 &36294764 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82995288061661138, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+    type: 2}
+  m_PrefabInternal: {fileID: 36294763}
 --- !u!1 &108024381
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1472319171}
   - component: {fileID: 1472319174}
+  - component: {fileID: 1472319175}
   - component: {fileID: 1472319173}
   - component: {fileID: 1472319172}
   m_Layer: 0
@@ -556,6 +562,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1472319175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1472319170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37adfe57039e544798f31abe308243f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1555644031}
 --- !u!1 &1546978643
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1838566006}
   - component: {fileID: 1838566010}
-  - component: {fileID: 1838566009}
+  - component: {fileID: 1838566011}
   - component: {fileID: 1838566008}
   - component: {fileID: 1838566007}
   m_Layer: 0
@@ -791,26 +809,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.8, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1838566009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1838566005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0148f8a6bc785d499774f4e4104b743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1555644031}
-  speedX: 5.15
-  speedY: 15
-  proximityFollow: 5
-  fallSpeed: 1.8
-  isFacingRight: 0
-  gravity: 0.1
-  deathsound: {fileID: 0}
-  deathsoundsource: {fileID: 0}
 --- !u!212 &1838566010
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -855,6 +853,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1838566011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1838566005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f3bd50f637afd46aac0acb55368012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1555644031}
+  speedX: 5.15
+  speedY: 15
+  proximityFollow: 5
+  fallSpeed: 1.8
+  isFacingRight: 0
+  gravity: 0.1
+  deathsound: {fileID: 8300000, guid: 77acd067ac0843b4dbb7d7cfa0544fc6, type: 3}
+  deathsoundsource: {fileID: 36294764}
 --- !u!1 &1919115396
 GameObject:
   m_ObjectHideFlags: 0

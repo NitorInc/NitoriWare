@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoneyTrapPeople4easy : MonoBehaviour {
+public class MoneyTrapPeople4medium : MonoBehaviour {
 
     //Controls movement for people objects
 
