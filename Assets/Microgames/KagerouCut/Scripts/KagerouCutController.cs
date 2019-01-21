@@ -31,6 +31,8 @@ public class KagerouCutController : MonoBehaviour {
     [SerializeField]
     private float particleRate = 0.2f;
     
+    public bool shouldExplode = false;
+
     private GameObject[] furballs;
     private KagCutCharacter character;
 
@@ -48,10 +50,14 @@ public class KagerouCutController : MonoBehaviour {
         
         GameObject furball = character.transform.Find("FurBall").gameObject;
         GameObject spriteObj = furball.transform.Find("Sprite").gameObject;
+        GameObject furExplo = furball.transform.Find("FurExplosion").gameObject;
         spriteObj.GetComponent<SpriteRenderer>().color = hairColor;
         
         ParticleSystem.MainModule partMod = furball.GetComponent<ParticleSystem>().main;
-        partMod.startColor = new ParticleSystem.MinMaxGradient(hairColor);
+        ParticleSystem.MinMaxGradient partColor = new ParticleSystem.MinMaxGradient(hairColor); 
+        partMod.startColor = partColor;
+        partMod = furExplo.GetComponent<ParticleSystem>().main;
+        partMod.startColor = partColor;
        
         //AudioSource player = MicrogameController.instance.GetComponent<AudioSource>();
         //player.clip = music;
@@ -81,6 +87,7 @@ public class KagerouCutController : MonoBehaviour {
             FurBallController s = newFur.GetComponent<FurBallController>();
             s.speed = furspeed;
             s.particleRate = particleRate;
+            s.shouldExplode = shouldExplode;
             newFur.GetComponent<Animator>().SetFloat("offset", Random.Range(0f, 1f));
             furballs[i] = newFur;
         }
