@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoneyTrapPeople4 : MonoBehaviour {
+public class MoneyTrapPeople4easy : MonoBehaviour {
 
     //Controls movement for people objects
 
@@ -61,6 +61,8 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     private float lastJumpTrajY;
     //Store jump speedup progress
     private float speedup = 0;
+    //var for late starting
+    private float latestart = 1;
 
     // Use this for initialization
     void Start () {
@@ -68,7 +70,7 @@ public class MoneyTrapPeople4 : MonoBehaviour {
         state = State.Idle;
         floor = transform.position.y;
         deathsoundsource.clip = deathsound;
-	}
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -84,7 +86,23 @@ public class MoneyTrapPeople4 : MonoBehaviour {
 
     // Update is called once per frame
     void Update ()
-    { 
+    {
+        if (latestart > 0)
+            latestart--;
+        else if (latestart == 0)
+        {
+            //easy difficulty - start in the half screen opposed to the player's cursor position
+            Vector2 newpos = transform.position;
+            if (target.transform.position.x > 0)
+                newpos.x = -4.70f;
+            else
+                newpos.x = 4.70f;
+            Debug.Log(target.transform.position.x + " " + newpos.x);
+            transform.position = newpos;
+
+            latestart--;
+        }
+
         //if this person is still not trapped
         if (state != State.Falling)
         {
