@@ -24,10 +24,20 @@ public class FanBlowDustSpawner : MonoBehaviour
                 transform.position.z + (.001f * i)));
         }
 	}
-	
+
+    private void Update()
+    {
+        if (transform.childCount <= 0)
+        {
+            enabled = false;
+            MicrogameController.instance.setVictory(true);
+        }
+    }
+
     FanBlowDust createDust(Vector3 position)
     {
         var dustObject = Instantiate(dustPrefab, position, Quaternion.identity);
+        dustObject.transform.parent = transform;
         var dustComponent = dustObject.GetComponent<FanBlowDust>();
         dustComponent.Fan = fan;
         return dustComponent;
