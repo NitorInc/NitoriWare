@@ -25,6 +25,8 @@ public class FanBlowFanMovement : MonoBehaviour
     private float tiltAboutFaceSpedMult = 2f;
 
     private Vector2 lastPosition;
+    private float currentSpeed;
+    public float CurrentSpeed => currentSpeed;
 
     void Start ()
     {
@@ -44,6 +46,7 @@ public class FanBlowFanMovement : MonoBehaviour
         var positionDiff = (cursorPosition - lastPosition);
         if (positionDiff.magnitude > maxMoveSpeed * Time.deltaTime)
             positionDiff = positionDiff.resize(maxMoveSpeed * Time.deltaTime);
+        currentSpeed = positionDiff.magnitude / Time.deltaTime;
         transform.position = transform.position + (Vector3)positionDiff;
 
         if (cursorPosition != lastPosition)
