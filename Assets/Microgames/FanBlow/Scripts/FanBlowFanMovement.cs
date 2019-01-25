@@ -32,6 +32,7 @@ public class FanBlowFanMovement : MonoBehaviour
     {
         transform.position = CameraHelper.getCursorPosition(transform.position.z);
         lastPosition = transform.position;
+        cursorTransform.position = transform.position;
 	}
 	
 	void Update ()
