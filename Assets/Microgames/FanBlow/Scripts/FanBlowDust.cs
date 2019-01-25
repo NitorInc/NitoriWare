@@ -46,7 +46,7 @@ public class FanBlowDust : MonoBehaviour
 
     void updateScale()
     {
-        transform.localScale = Vector3.one * baseScale * Mathf.Lerp(scaleHealthBounds.x, scaleHealthBounds.y, health);
+        dustRenderer.transform.localScale = Vector3.one * baseScale * Mathf.Lerp(scaleHealthBounds.x, scaleHealthBounds.y, health);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
