@@ -19,10 +19,12 @@ public class FanBlowDust : MonoBehaviour
     private Vector2 baseScaleRandomRange;
     [SerializeField]
     private float damagePerSpeed = .1f;
+    public float DamagePerSpeed { get { return damagePerSpeed; } set { damagePerSpeed = value; } }
     [SerializeField]
     private float minDamageFanSpeed = 5f;
     [SerializeField]
     private float damageDistanceDropOffRate = .5f;
+    public float DamageDistanceDropOffRate{ get { return damageDistanceDropOffRate; } set { damageDistanceDropOffRate = value; } }
 
     [SerializeField]
     private FanBlowFanMovement fan;

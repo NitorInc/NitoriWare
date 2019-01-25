@@ -14,8 +14,12 @@ public class FanBlowDustSpawner : MonoBehaviour
     private GameObject dustPrefab;
     [SerializeField]
     private FanBlowFanMovement fan;
-    
-	void Start()
+    [SerializeField]
+    private float levelDustDamageMult = 1f;
+    [SerializeField]
+    private float levelDustDistanceDropoffMult = 1f;
+
+    void Start()
     {
         for (int i = 0; i < spawnCount; i++)
         {
@@ -40,6 +44,8 @@ public class FanBlowDustSpawner : MonoBehaviour
         dustObject.transform.parent = transform;
         var dustComponent = dustObject.GetComponent<FanBlowDust>();
         dustComponent.Fan = fan;
+        dustComponent.DamagePerSpeed *= levelDustDamageMult;
+        dustComponent.DamageDistanceDropOffRate *= levelDustDistanceDropoffMult;
         return dustComponent;
     }
 }
