@@ -5,10 +5,14 @@ using UnityEngine;
 public class FanBlowFanMovement : MonoBehaviour
 {
     [SerializeField]
+    private Transform cursorTransform;
+    [SerializeField]
     private Transform rotateTransform;
     [SerializeField]
     private Transform tiltTransform;
 
+    [SerializeField]
+    private float maxMoveSpeed;
     [SerializeField]
     private float maxTiltAngle;
     [SerializeField]
@@ -35,11 +39,14 @@ public class FanBlowFanMovement : MonoBehaviour
 
     void updatePosition()
     {
-        var currentPosition = (Vector2)transform.position;
+        var cursorPosition = (Vector2)cursorTransform.position;
+        var positionDiff = (cursorPosition - lastPosition);
+        if (positionDiff.magnitude > maxMoveSpeed * Time.deltaTime)
+            positionDiff = positionDiff.resize(maxMoveSpeed * Time.deltaTime);
+        transform.position = transform.position + (Vector3)positionDiff;
 
-        if (currentPosition != lastPosition)
+        if (cursorPosition != lastPosition)
         {
-            var positionDiff = (currentPosition - lastPosition);
 
             // Rotation first
             var currentRotation = rotateTransform.localEulerAngles.z;
@@ -72,7 +79,7 @@ public class FanBlowFanMovement : MonoBehaviour
             
             tiltTransform.localEulerAngles = Vector3.up * newTilt;
             
-            lastPosition = currentPosition;
+            lastPosition = (Vector2)transform.position;
         }
     }
 }

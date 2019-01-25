@@ -212,7 +212,7 @@ Transform:
   - {fileID: 1241385412}
   - {fileID: 1752432442}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &379126014
 GameObject:
@@ -223,7 +223,6 @@ GameObject:
   m_Component:
   - component: {fileID: 379126015}
   - component: {fileID: 379126016}
-  - component: {fileID: 379126017}
   m_Layer: 0
   m_Name: Fan
   m_TagString: Untagged
@@ -243,7 +242,7 @@ Transform:
   m_Children:
   - {fileID: 258439092}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &379126016
 MonoBehaviour:
@@ -256,24 +255,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d480fbce3f090ef4c822f0466deb1f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorTransform: {fileID: 748615182}
   rotateTransform: {fileID: 258439092}
   tiltTransform: {fileID: 818659053}
+  maxMoveSpeed: 100
   maxTiltAngle: 70
   rotateSpeedMult: 0.7
   tiltSpeedMoveSpeedPower: 1.5
   tiltSpeedMult: 10
-  tiltAboutFaceSpedMult: 6
---- !u!114 &379126017
+  tiltAboutFaceSpedMult: 5
+--- !u!1 &748615180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 748615182}
+  - component: {fileID: 748615181}
+  m_Layer: 0
+  m_Name: Cursor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &748615181
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 379126014}
+  m_GameObject: {fileID: 748615180}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &748615182
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 748615180}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.5783632, y: -0.5364032, z: -0.35342276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &818659052
 GameObject:
   m_ObjectHideFlags: 0
