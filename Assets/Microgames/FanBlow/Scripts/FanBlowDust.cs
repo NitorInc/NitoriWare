@@ -6,6 +6,12 @@ public class FanBlowDust : MonoBehaviour
 {
     [SerializeField]
     private Vibrate vibrate;
+    [SerializeField]
+    private ParticleSystem deathParticles;
+    [SerializeField]
+    private SpriteRenderer dustRenderer;
+    [SerializeField]
+    private Collider2D collideyBoi;
 
     [SerializeField]
     private Vector2 scaleHealthBounds;
@@ -54,10 +60,19 @@ public class FanBlowDust : MonoBehaviour
 
                 health -= fan.CurrentSpeed * Time.deltaTime * damagePerSpeed * damageMult;
                 if (health <= 0f)
-                    Destroy(gameObject);
+                    kill();
                 else
                     updateScale();
             }
         }
+    }
+
+    void kill()
+    {
+        collideyBoi.enabled = false;
+        enabled = false;
+        transform.parent = null;
+        deathParticles.Play();
+        dustRenderer.enabled = false;
     }
 }
