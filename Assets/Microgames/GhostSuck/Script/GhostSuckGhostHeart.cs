@@ -153,14 +153,13 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     settrajectorydeadactive = false;
                 }
                 shrinking = transform.localScale;
-                shrinking.x = shrinking.x * 0.97f;
-                shrinking.y = shrinking.y * 0.97f;
+                shrinking.x = shrinking.x * 0.95f;
+                shrinking.y = shrinking.y * 0.95f;
                 transform.localScale = shrinking;
             }
             //periodically decreases ghost life if ghost is both under mouse and mouse is pressed
-            if (Input.GetKey(KeyCode.Mouse0) && alive == true)
+            if (alive == true)
             {
-                suck = true;
                 if (inthezone == true)
                 {
                     touch = true;
@@ -169,7 +168,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             }
             else
             {
-                suck = false;
                 touch = false;
             }
             if (touch == true)
@@ -204,7 +202,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
                 }
 
-                if (transform.position.y < 0f)
+                if (transform.position.y < -1.5f)
                 {
                     transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
@@ -249,7 +247,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         body.transform.rotation = Quaternion.Euler(0f, 0f, angle);
         if (accel < 5f && acceldelay == false)
         {
-            Invoke("accelerateprotocol", 0.3f);
+            Invoke("accelerateprotocol", 0.2f);
             acceldelay = true;
 
         }
