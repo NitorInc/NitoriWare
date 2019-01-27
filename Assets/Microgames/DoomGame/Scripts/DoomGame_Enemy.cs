@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoomGame_Enemy : MonoBehaviour {
+public class DoomGame_Enemy : MonoBehaviour
+{
 
     DoomGame_Player player;
 
@@ -13,6 +14,8 @@ public class DoomGame_Enemy : MonoBehaviour {
     [SerializeField]
     int hp = 2;
     SpriteRenderer rend;
+    [SerializeField]
+    Sprite[] deathSprites;
     [SerializeField]
     AudioClip[] hurtAudio;
     [SerializeField]
@@ -29,7 +32,8 @@ public class DoomGame_Enemy : MonoBehaviour {
 
     public bool startDeactivated;
 
-    void Start () {
+    void Start ()
+    {
         if (path == null) path = new Vector3[0];
         rend = GetComponent<SpriteRenderer> ();
         audioSource = GetComponent<AudioSource> ();
@@ -39,15 +43,19 @@ public class DoomGame_Enemy : MonoBehaviour {
             gameObject.SetActive (false);
     }
 
-    void Update () {
-        if (pid < path.Length) {
+    void Update ()
+    {
+        if (pid < path.Length)
+        {
             if (transform.position.x == path[pid].x && transform.position.z == path[pid].z)
                 pid++;
             if (pid < path.Length)
                 targetPosition = new Vector3 (path[pid].x, transform.position.y, path[pid].z);
             else
                 targetPosition = new Vector3 (player.transform.position.x, transform.position.y, player.transform.position.z) - direction * distanceToHit;
-        } else {
+        }
+        else
+        {
             targetPosition = new Vector3 (player.transform.position.x, transform.position.y, player.transform.position.z) - direction * distanceToHit;
         }
 
@@ -59,20 +67,24 @@ public class DoomGame_Enemy : MonoBehaviour {
             transform.position = Vector3.MoveTowards (transform.position, targetPosition, moveSpeed * Time.deltaTime);
     }
 
-    void LateUpdate () {
+    void LateUpdate ()
+    {
         transform.rotation = player.transform.rotation;
     }
 
     float delay = 0;
-    void DamagePlayer () {
-        if (delay > damageDelay) {
+    void DamagePlayer ()
+    {
+        if (delay > damageDelay)
+        {
             player.Kill ();
             delay = 0;
         }
         delay += Time.deltaTime;
     }
 
-    public void DamageSelf () {
+    public void DamageSelf ()
+    {
         particleSystem.Emit (20);
         hp--;
         if (hp <= 0)
@@ -81,7 +93,8 @@ public class DoomGame_Enemy : MonoBehaviour {
             Hurt ();
     }
 
-    void Kill () {
+    void Kill ()
+    {
         audioSource.clip = deathAudio;
         audioSource.Play ();
         particleSystem.transform.SetParent (null);
@@ -90,6 +103,7 @@ public class DoomGame_Enemy : MonoBehaviour {
         particleSystem.Emit (50 + (int) dist);
         Destroy (particleSystem.gameObject, 2);
         Destroy (GetComponent<Collider> ());
+        Destroy (GetComponent<Animator> ());
         Destroy (gameObject, deathAudio.length);
         if (hurtCr != null)
             StopCoroutine (hurtCr);
@@ -102,22 +116,27 @@ public class DoomGame_Enemy : MonoBehaviour {
         CheckVictory ();
     }
 
-    IEnumerator DeathAnimation () {
+    IEnumerator DeathAnimation ()
+    {
         float t = 1;
-        while (t > 0) {
-            rend.color = new Color (1, 0, 0, t);
+        while (t > 0)
+        {
+            rend.sprite = deathSprites[(int) Mathf.Clamp ((1 - t) * deathSprites.Length, 0, deathSprites.Length - 1)];
+            rend.color = new Color (1, t, t, Mathf.Pow (t, 0.5f));
             t -= Time.deltaTime * 3;
             rend.transform.localScale += Vector3.one * Time.deltaTime;
             yield return null;
         }
     }
 
-    void CheckVictory () {
+    void CheckVictory ()
+    {
         if (player.enemies.Count == 0)
             MicrogameController.instance.setVictory (true);
     }
 
-    void Hurt () {
+    void Hurt ()
+    {
         StartCoroutine (Knockback (direction * 5));
         if (hurtCr != null)
             StopCoroutine (hurtCr);
@@ -127,9 +146,11 @@ public class DoomGame_Enemy : MonoBehaviour {
         audioSource.Play ();
     }
 
-    IEnumerator DamageColor () {
+    IEnumerator DamageColor ()
+    {
         float f = 0;
-        while (f < 1) {
+        while (f < 1)
+        {
             rend.color = Color.Lerp (Color.red, Color.white, f);
             f += Time.deltaTime * 5;
             yield return null;
@@ -137,8 +158,10 @@ public class DoomGame_Enemy : MonoBehaviour {
         rend.color = Color.white;
     }
 
-    IEnumerator Knockback (Vector3 force) {
-        while (force.sqrMagnitude > 0.01f) {
+    IEnumerator Knockback (Vector3 force)
+    {
+        while (force.sqrMagnitude > 0.01f)
+        {
             transform.position += force * Time.deltaTime * 10;
             force = Vector3.MoveTowards (force, Vector3.zero, Time.deltaTime * 50);
             yield return null;
