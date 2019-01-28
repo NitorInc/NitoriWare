@@ -7,7 +7,7 @@ public class MoonSoccerBallCatching : MonoBehaviour {
     // Check for collision with the ball object and causes failure if it does
     void OnTriggerEnter2D(Collider2D col) 
     {
-        if (col.gameObject.name == "Ball")
+        if (col.gameObject.name == "Ball" && !MicrogameController.instance.getVictoryDetermined())
         {
             if (gameObject.name == "Kaguya")
             // When the ball hits Kaguya
@@ -16,7 +16,8 @@ public class MoonSoccerBallCatching : MonoBehaviour {
                 MicrogameController.instance.setVictory(victory: false, final: true);
             // When the ball hits tewi
             } else if (gameObject.name == "Rabbit") { 
-                // TODO: actual little animation there
+                col.gameObject.GetComponent<MoonSoccerBall>().moveSpeed = -3;
+                col.gameObject.GetComponentInChildren<Animator>().Play("MoonSoccerBallBounce");
                 MicrogameController.instance.setVictory(victory: false, final: true);
             // When the ball hits the two defender characters
             } else {

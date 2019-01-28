@@ -7,6 +7,5 @@ public class MoonSoccerZOrdering : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y/2) * -100);
-        print(GetComponent<SpriteRenderer>().sortingOrder);
 	}
 }
