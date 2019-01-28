@@ -20,9 +20,16 @@ public class ReimuDodgeBullet : MonoBehaviour
     private float stop = 2.0f;
     private Vector2 trajectory;
     // Use this for initialization
+    private float startTime;
+    void Start(){
+        startTime = Time.time;
+    }
+    float sinceStart(){
+        return Time.time - startTime;
+    }
     private void SetTrajectory()
     {
-        if (target.alive && Time.time > delay && Time.time < stop)
+        if (target.alive && sinceStart() > delay && sinceStart() < stop)
         {
             trajectory = (target.transform.position - transform.position).normalized;
         }
