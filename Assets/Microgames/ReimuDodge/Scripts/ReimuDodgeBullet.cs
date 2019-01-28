@@ -12,11 +12,17 @@ public class ReimuDodgeBullet : MonoBehaviour
     [SerializeField]
     private float speed = 1.0f;
 
+    [Header("Seconds until bullet starts homing on target")]
+    [SerializeField]
+    private float delay = 0f;
+    [Header("Seconds until bullet stops homing on target")]
+    [SerializeField]
+    private float stop = 2.0f;
     private Vector2 trajectory;
     // Use this for initialization
     private void SetTrajectory()
     {
-        if (target.alive)
+        if (target.alive && Time.time > delay && Time.time < stop)
         {
             trajectory = (target.transform.position - transform.position).normalized;
         }
