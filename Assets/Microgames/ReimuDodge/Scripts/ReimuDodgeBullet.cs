@@ -5,26 +5,31 @@ using UnityEngine;
 public class ReimuDodgeBullet : MonoBehaviour
 {
 
-    [Header("The object the bullet flies towards")]
+    [Header("The player the bullet flies towards")]
     [SerializeField]
-    private GameObject target;
+    private ReimuDodgePlayer target;
     [Header("The speed the bullet moves in")]
     [SerializeField]
     private float speed = 1.0f;
 
     private Vector2 trajectory;
     // Use this for initialization
-    void Start()
+    private void SetTrajectory()
     {
-        trajectory = (target.transform.position - transform.position).normalized;
+        if (target.alive)
+        {
+            trajectory = (target.transform.position - transform.position).normalized;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        SetTrajectory();
         if (trajectory != null)
         {
-            transform.position = (Vector3)Vector2.MoveTowards((Vector2)transform.position, (Vector2)target.transform.position, Time.deltaTime * speed);
+            float step = Time.deltaTime * speed;
+            transform.position = (Vector2)transform.position + (step * trajectory);
         }
     }
 }

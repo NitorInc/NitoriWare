@@ -5,7 +5,7 @@ using UnityEngine;
 public class ReimuDodgePlayer : MonoBehaviour
 {
 
-    private bool alive = true;
+    public bool alive = true;
     [Header("Death Sound")]
     [SerializeField]
     private AudioClip death_sound;
@@ -16,6 +16,7 @@ public class ReimuDodgePlayer : MonoBehaviour
     {
         print("I'm hit!");
         Kill();
+        MicrogameController.instance.setVictory(victory: false, final: true);
     }
     // Displays reimus death effects and stops player control
     void Kill()
@@ -35,6 +36,6 @@ public class ReimuDodgePlayer : MonoBehaviour
             volume: 0.5f,
             panStereo: AudioHelper.getAudioPan(transform.position.x)
          );
-         deathEffect.Play();
+        deathEffect.Play();
     }
 }
