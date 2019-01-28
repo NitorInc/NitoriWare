@@ -36,10 +36,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4666414468203912}
-  - component: {fileID: 61801221878737804}
   - component: {fileID: 50565693318595968}
   - component: {fileID: 114868982513585606}
   - component: {fileID: 114610148707544892}
+  - component: {fileID: 70442041679225642}
   m_Layer: 0
   m_Name: Defender
   m_TagString: Untagged
@@ -94,8 +94,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &61801221878737804
-BoxCollider2D:
+--- !u!70 &70442041679225642
+CapsuleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -106,19 +106,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1, y: -1}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.7}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.2, y: -1}
+  m_Size: {x: 1, y: 0.5}
+  m_Direction: 1
 --- !u!114 &114016354732201568
 MonoBehaviour:
   m_ObjectHideFlags: 1

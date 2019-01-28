@@ -27,6 +27,7 @@ public class MoonSoccerBallCatching : MonoBehaviour {
             } else {
                 ballScript.moveSpeed = -18;
                 ballScript.vMoveSpeed = 14;
+				col.gameObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
                 MicrogameController.instance.setVictory(victory: false, final: true);
             }
         }
