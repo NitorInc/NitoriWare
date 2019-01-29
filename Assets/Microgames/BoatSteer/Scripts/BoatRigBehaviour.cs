@@ -23,9 +23,15 @@ public class BoatRigBehaviour : MonoBehaviour
 	[SerializeField]
 	private float murasaSteeringArmAngle;
 
+    [SerializeField]
+    private float boatTiltMult = 15f;
+
+    [SerializeField]
+    private float splashTiltMult = 10f;
+
     void Update() {
-		boat.transform.localRotation = Quaternion.Euler(0, 0, -boatObject.animationFactor * 15f);
-		boatSplash.transform.localRotation = Quaternion.Euler(0, 0, -boatObject.animationFactor * 10f);
+		boat.transform.localRotation = Quaternion.Euler(0, 0, -boatObject.animationFactor * boatTiltMult);
+		boatSplash.transform.localRotation = Quaternion.Euler(0, 0, -boatObject.animationFactor * splashTiltMult);
 		murasaSteeringArm.transform.localRotation = Quaternion.Euler(0, 0, (-boatObject.animationFactor)*murasaSteeringArmAngle);
     }
 }

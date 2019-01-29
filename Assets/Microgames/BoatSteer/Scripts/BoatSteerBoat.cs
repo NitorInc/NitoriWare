@@ -27,7 +27,10 @@ public class BoatSteerBoat : MonoBehaviour
 	[SerializeField]
 	private GameObject rig;
 
-	private bool crashed = false;
+    [SerializeField]
+    private float cameraTiltMult = 5f;
+
+    private bool crashed = false;
 
 	public float animationFactor {
 		get {
@@ -73,7 +76,7 @@ public class BoatSteerBoat : MonoBehaviour
 
 		backgroundCamera.transform.localPosition = new Vector3(animationFactor/10f, 0, 0);
 
-		float cameraTilt = -animationFactor*5f;
+		float cameraTilt = -animationFactor*cameraTiltMult;
 		backgroundCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
 		mainCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
 	}
