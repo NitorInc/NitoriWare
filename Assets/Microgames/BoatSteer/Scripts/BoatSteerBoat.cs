@@ -5,86 +5,93 @@ using UnityEngine;
 public class BoatSteerBoat : MonoBehaviour
 {
 	[SerializeField]
-	private float speed = 10;
+	public float speed = 16;
 
+    [SerializeField]
+    public float maxLateralSpeedFactor = 0.75f;
+
+    private float lateralSpeed = 0;
 
 	[SerializeField]
-	private float headingPerSec = 90;
+	float lateralAcceleration = 0.50f;
 
 	[SerializeField]
-	private float maxHeading;
+	private float lateralDeceleration = 0.5f;
 
-	private float heading;
+	[SerializeField]
+	private Camera mainCamera;
+
+	[SerializeField]
+	private Camera backgroundCamera;
 
 	[SerializeField]
 	private GameObject rig;
 
-	// Instead of doing this programatically I should probably use the animation system
-	// But hey, if it works, why knock it?
-	[SerializeField]
-	private GameObject boat;
-
-	[SerializeField]
-	private GameObject boatSplash;
-
-	[SerializeField]
-	private GameObject murasa;
-
-	[SerializeField]
-	private GameObject murasaSteeringArm;
-
-	[SerializeField]
-	private float murasaSteeringArmAngle;
-
 	private bool crashed = false;
 
-	// Use this for initialization
-	void Start ()
-	{
-		
+	public float animationFactor {
+		get {
+			return lateralSpeed / (speed * maxLateralSpeedFactor);
+		}
 	}
-	
-	// Update is called once per frame
+
 	void Update ()
 	{
 		if (crashed) {
-			rig.transform.localPosition += Time.deltaTime * (new Vector3 (0, -1, 0));
 			return;
 		}
-		bool left = Input.GetKey (KeyCode.LeftArrow);
-		bool right = Input.GetKey (KeyCode.RightArrow);
+		bool left = Input.GetKey(KeyCode.LeftArrow);
+		bool right = Input.GetKey(KeyCode.RightArrow);
 
-		float headingDelta = headingPerSec * Time.deltaTime;
-
+		// Lmao euler integration
 		if (left == right) {
-			// neutral steering - return to straight
-			if (heading > 0) {
-				heading = (heading < headingDelta ? 0 : heading - headingDelta);
-			} else {
-				heading = (heading > -headingDelta ? 0 : heading + headingDelta);
-			}
+			// Neutral input
+			lateralSpeed -= lateralSpeed * lateralDeceleration * Time.deltaTime;
 		} else {
-			headingDelta = right ? headingDelta : -headingDelta;
+			float maxLateralSpeed = speed*maxLateralSpeedFactor;
+			float accel = speed * lateralAcceleration * Time.deltaTime;
 
-			heading = Mathf.Clamp (heading + headingDelta, -maxHeading, maxHeading);
+			lateralSpeed += right ? accel : -accel;
+
+			// Some bonus countersteer just ofr you Gman8r <3
+			if ((right && lateralSpeed < 0 ) || (left && lateralSpeed > 0)) {
+				lateralSpeed += accel * (-lateralSpeed/maxLateralSpeed);
+			} 
+
+			if (lateralSpeed > maxLateralSpeed) {
+				lateralSpeed = maxLateralSpeed;
+			} else if (lateralSpeed < -maxLateralSpeed) {
+				lateralSpeed = -maxLateralSpeed;
+			}
 		} 
 
 		transform.localPosition += new Vector3 (
-			Mathf.Sin (Mathf.Deg2Rad * heading) * speed * Time.deltaTime, 
+			lateralSpeed * Time.deltaTime,
 			0,
-			Mathf.Cos (Mathf.Deg2Rad * heading) * speed * Time.deltaTime
+			speed * Time.deltaTime
 		);
-		boat.transform.localRotation = Quaternion.Euler (0, 0, -heading / 4f);
-		boatSplash.transform.localRotation = Quaternion.Euler (0, 0, -heading / 9f);
-		murasaSteeringArm.transform.localRotation = Quaternion.Euler (0, 0, (-heading/maxHeading)*murasaSteeringArmAngle);
 
-		Camera.main.transform.position = transform.position + new Vector3(0f, 1.732f, -1f);
-		Camera.main.transform.rotation = Quaternion.Euler(15, 0, -heading/8f);
+		backgroundCamera.transform.localPosition = new Vector3(animationFactor/10f, 0, 0);
+
+		float cameraTilt = -animationFactor*5f;
+		backgroundCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
+		mainCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
+	}
+
+	private void crash() {
+		if (crashed == true) {
+			return;
+		}
+		crashed = true;
+
+		Destroy(rig);
+		// TODO: Create sinking rig
 	}
 
 	void OnTriggerEnter (Collider other)
 	{
-		MicrogameController.instance.setVictory (false, true);
-		crashed = true;
+		MicrogameController.instance.setVictory(false, true);
+
+		crash();
 	}
 }
