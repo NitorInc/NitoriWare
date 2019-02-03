@@ -15,7 +15,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private Vector2 trajectory, deadtrajectory;
     [Header("TargetDead")]
     [SerializeField]
-    private GameObject targetdead, bakebakerig;
+    private GameObject targetdead, bakebakesprite;
     [Header("Delay")]
     [SerializeField]
     private float delay = 1f;
@@ -25,6 +25,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private Animator ghostAnimator;
     [SerializeField]
     private AudioClip ghostPop;
+    public ParticleSystem deathParticles, sweatParticles;
+    private ParticleSystem.MainModule ghostsweatModule, ghostdeathModule;
 
     // Collider2D stuff, determines whether a particular ghost is under mouse hitbox
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,14 +45,13 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                 movespeed = panicspeed;
                 Animator ghostAnimator = GetComponentInChildren<Animator>();
                 ghostAnimator.Play("BakeBakePanic");
+                sweatParticles.Play();
             }
             // interacts with hitbox on vacuum nozzle when dead, creates particles and invokes disableobject
             if (collision.gameObject.tag == "MicrogameTag2" && alive == false)
             {
                 if (particlefired == false)
                 {
-                    ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
-                    particleSystem.Play();
                     Invoke("DisableObject", 0.1f);
                 }
 
@@ -68,7 +69,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             movespeed = relaxspeed;
             Animator ghostAnimator = GetComponentInChildren<Animator>();
             ghostAnimator.Play("BakeBakeMove");
-        }
+            sweatParticles.Stop();
+            }
         }
            
     }
@@ -77,6 +79,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.gameObject.SetActive(false);
+        deathcloud();
         particlefired = true;
         MicrogameController.instance.playSFX(ghostPop, volume: 1.5f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
     }
@@ -87,6 +90,15 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         SetTrajectory();
         movespeed = relaxspeed;
         particlefired = false;
+        sweatParticles.Stop();
+        sweatParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+        deathParticles.Stop();
+        deathParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+    }
+    void Awake()
+    {
+        ghostsweatModule = sweatParticles.main;
+        ghostdeathModule = deathParticles.main;
     }
     //randomly selects an angled initial trajectory for the ghost to follow
     void SetTrajectory()
@@ -163,7 +175,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                 if (inthezone == true)
                 {
                     touch = true;
-
                 }
             }
             else
@@ -202,7 +213,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
                 }
 
-                if (transform.position.y < -1.5f)
+                if (transform.position.y < -0.5f)
                 {
                     transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
@@ -221,6 +232,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             alive = false;
             SetTrajectoryDead();
             ghostcountmodifier();
+            sweatParticles.Stop();
+            sweatParticles.gameObject.SetActive(false);
         }
         else
         {
@@ -232,13 +245,13 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     //makes ghost shake when taking damage
     void rattle1()
     {
-        bakebakerig.transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
+        bakebakesprite.transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
         Invoke("rattle2", 0.1f);
     }
 
     void rattle2()
     {
-        bakebakerig.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
+        bakebakesprite.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
     }
     //makes ghost spin when being sucked up
     void updateRotation()
@@ -269,6 +282,15 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     {
         ghost.BroadcastMessage("killaghost", ghost);
         movespeed = 0f;
+    }
+    void deathcloud()
+    {
+        deathParticles.Stop();
+        deathParticles.Play();
+    }
+    void sweat()
+    {
+        sweatParticles.Play();
     }
 
 
