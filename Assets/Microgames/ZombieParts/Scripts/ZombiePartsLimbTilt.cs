@@ -17,7 +17,7 @@ public class ZombiePartsLimbTilt : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 velocity = transform.position - lastPosition;
+		Vector3 velocity = (transform.position - lastPosition) / Time.deltaTime;
 		transform.eulerAngles = Vector3.forward * Mathf.LerpAngle(
 			transform.eulerAngles.z,
 			speedToTilt.Evaluate(velocity.x / Time.unscaledDeltaTime),
