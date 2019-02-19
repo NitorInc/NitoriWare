@@ -25,6 +25,13 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
     {
         upcomingTargets = new Queue<YoumuSlashBeatMap.TargetBeat>(timingData.BeatMap.TargetBeats);
         YoumuSlashTimingController.onMusicStart += enableSpawning;
+        YoumuSlashPlayerController.onFail += onFail;
+    }
+
+    void onFail()
+    {
+        spawningEnabled = false;
+        enabled = false;
     }
 
     void enableSpawning()

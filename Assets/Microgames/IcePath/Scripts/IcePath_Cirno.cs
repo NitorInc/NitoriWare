@@ -6,6 +6,7 @@ public class IcePath_Cirno : MonoBehaviour {
 
     [HideInInspector] public GameObject icecream;
     [SerializeField] private int diff;
+    [SerializeField] private AudioSource sfxSource;
 
     private bool isHit = false;
     private bool hasWon = false;
@@ -87,8 +88,7 @@ public class IcePath_Cirno : MonoBehaviour {
                     Die();
                     isHit = true;
 
-                    MicrogameController.instance.playSFX(hitSound, volume: 1.50f,
-                        panStereo: AudioHelper.getAudioPan(transform.position.x));
+                    sfxSource.PlayOneShot(hitSound);
 
                     MicrogameController.instance.setVictory(victory: false, final: true);
 

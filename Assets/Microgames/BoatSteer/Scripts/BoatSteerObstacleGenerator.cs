@@ -55,11 +55,22 @@ public class BoatSteerObstacleGenerator {
 	}
 
 	private bool TryInsertPoint(Vector2 point) {
+		if (point.x < 0f || point.x > width ||
+		    point.y < 0f || point.y > height ) {
+			// Point is out of bounds, fail immediately
+			return false;
+		}
+
 		int x = (int)Mathf.Floor(point.x/cellSize);	
 		int y = (int)Mathf.Floor(point.y/cellSize);	
 
-		// Check neighbouring cells
+		// Cap x and y indices to x and y counts, just in case
+		// we get some floating point shenanigans.
+		x = (x >= cellCountX) ? cellCountX : x;		
+		y = (y >= cellCountY) ? cellCountY : y;		
+
 		/*
+		    Check neighbouring cells.
 			Because every cell is of the size r/sqrt(2),
 			the cells we need to check are as follows
 			+---+---+---+---+---+
@@ -145,6 +156,8 @@ public class BoatSteerObstacleGenerator {
 			// Remove it from the active set
 			activeSet.RemoveAt(index);
 		}
+		// Randomize the order to make applying random changes to a subset of points easier
+		points.Shuffle();
 	}
 
 	public List<Vector2> GetPoints() {

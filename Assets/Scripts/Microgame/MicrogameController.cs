@@ -144,7 +144,7 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                    debugObjects.commandDisplay.play(traits.localizedCommand);
+                    debugObjects.commandDisplay.play(traits.localizedCommand, traits.commandAnimatorOverride);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
                 Cursor.lockState = getTraits().cursorLockState;
@@ -292,12 +292,13 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayCommand(string command)
+	public void displayCommand(string command, AnimatorOverrideController commandAnimatorOverride = null)
 	{
 		if (!commandDisplay.gameObject.activeInHierarchy)
 			commandDisplay.gameObject.SetActive(true);
 
-        commandDisplay.play(command);
+
+        commandDisplay.play(command, commandAnimatorOverride);
 	}
 
     /// <summary>
@@ -313,9 +314,9 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayLocalizedCommand(string key, string defaultString)
+	public void displayLocalizedCommand(string key, string defaultString, AnimatorOverrideController commandAnimatorOverride = null)
 	{
-		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString), commandAnimatorOverride);
 	}
 
     /// <summary>

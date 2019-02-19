@@ -55,7 +55,12 @@ namespace FoodRoast {
     private List<PotatoCookTime> cookTimeList;
     private List<int> randomAnimationStates;
 
-    private void Start() {
+        private void Awake()
+        {
+            _instance = this;
+        }
+
+        private void Start() {
       foreach (var clip in ambienceClips)
         MicrogameController.instance.playSFX(clip.Clip, volume: clip.Volume);
     }
@@ -86,19 +91,6 @@ namespace FoodRoast {
       var time = cookTimeList[index].GetTime;
       cookTimeList.RemoveAt(index);
       return time;
-    }
-
-    public int GetAnimationState(int packLength){
-      if (randomAnimationStates == null) {
-        randomAnimationStates = new List<int>();
-        for (var i = 0; i < packLength; i++) {
-          randomAnimationStates.Add(i);
-        }
-      }
-      var index = Random.Range(0, randomAnimationStates.Count);
-      var state = randomAnimationStates[index];
-      randomAnimationStates.RemoveAt(index);
-      return state;
     }
 
     //---   Editor Script

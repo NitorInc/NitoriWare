@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RazorController : MonoBehaviour {
-
-    private float speed = 100f;
+    [SerializeField]
+    private float speed = 180f;
     private bool has_moved = false;
     // Use this for initialization
     void Start () {
