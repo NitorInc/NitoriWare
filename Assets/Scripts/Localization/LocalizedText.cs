@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.Serialization;
 
 public class LocalizedText : MonoBehaviour
 {
@@ -32,22 +33,26 @@ public class LocalizedText : MonoBehaviour
         public string keyDefaultString;
     }
 
+    [FormerlySerializedAs("defaultTMProFallbackFont")]
     [SerializeField]
-    private TMP_FontAsset defaultTMProFallbackFont;
-    [SerializeField]
-    private FallbackOverride[] TMProFallbackOverrideFonts;
+    private TMP_FontAsset defaultTmpFont;
 
+    [FormerlySerializedAs("TMProFallbackOverrideFonts")]
+    [SerializeField]
+    private TMP_FontOverride[] tmpFontOverrides;
+    
     [System.Serializable]
-    public class FallbackOverride
+    public class TMP_FontOverride
     {
         [SerializeField]
         [Multiline]
         private string languages;
         public string Languages => languages;
 
+        [FormerlySerializedAs("fallback")]
         [SerializeField]
-        private TMP_FontAsset fallback;
-        public TMP_FontAsset Fallback => fallback;
+        private TMP_FontAsset font;
+        public TMP_FontAsset Font => font;
 
         [SerializeField]
         private bool useOverrideFontStyle;
@@ -230,7 +235,7 @@ public class LocalizedText : MonoBehaviour
     TMP_FontAsset getTMProFont()
     {
         var loadedLanguage = TextHelper.getLoadedLanguage();
-        foreach (var fontOverride in TMProFallbackOverrideFonts)
+        foreach (var fontOverride in tmpFontOverrides)
         {
             if (fontOverride.Languages.Contains(loadedLanguage.getLanguageID()))
             {
@@ -241,15 +246,15 @@ public class LocalizedText : MonoBehaviour
                         tmpText.fontStyle = fontOverride.OverrideFontStyle;
                 }
 
-                return fontOverride.Fallback;
+                return fontOverride.Font;
             }
         }
 
         if (loadedLanguage.tmproFallback != null)
             return loadedLanguage.tmproFallback;
 
-        if (defaultTMProFallbackFont != null)
-            return defaultTMProFallbackFont;
+        if (defaultTmpFont != null)
+            return defaultTmpFont;
 
         return null;
     }
