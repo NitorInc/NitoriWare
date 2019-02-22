@@ -59,8 +59,7 @@ public class LocalizedText : MonoBehaviour
 
     private Text textComponent;
 	private TextMesh textMesh;
-    private TextMeshPro textMeshPro;
-    private TextMeshProUGUI textMeshProUGUI;
+    private TMP_Text tmpText;
     private Language loadedLanguage;
     private string initialText;
     private Font initialFont;
@@ -76,8 +75,7 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        textMeshPro = GetComponent<TextMeshPro>();
-        textMeshProUGUI = GetComponent<TextMeshProUGUI>();
+        tmpText = GetComponent<TMP_Text>();
         loadedLanguage = null;
         initialText = getText();
         initialStyle = getStyle();
@@ -168,10 +166,8 @@ public class LocalizedText : MonoBehaviour
 			textComponent.text = text;
 		else if (textMesh != null)
 			textMesh.text = text;
-        if (textMeshPro != null)
-            textMeshPro.text = text;
-        if (textMeshProUGUI != null)
-            textMeshProUGUI.text = text;
+        if (tmpText != null)
+            tmpText.text = text;
 
         SendMessage("OnTextLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
@@ -182,10 +178,8 @@ public class LocalizedText : MonoBehaviour
 			return textComponent.text;
 		if (textMesh != null)
 			return textMesh.text;
-        if (textMeshPro != null)
-            return textMeshPro.text;
-        if (textMeshProUGUI != null)
-            return textMeshProUGUI.text;
+        if (tmpText != null)
+            return tmpText.text;
 
         return "";
     }
@@ -196,10 +190,8 @@ public class LocalizedText : MonoBehaviour
             textComponent.font = font;
         else if (textMesh != null)
             textMesh.font = font;
-        if (textMeshPro != null)
-            setTMPFontFallback(textMeshPro.font);
-        if (textMeshProUGUI != null)
-            setTMPFontFallback(textMeshProUGUI.font);
+        if (tmpText  != null)
+            setTMPFont();
 
         SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
@@ -217,36 +209,39 @@ public class LocalizedText : MonoBehaviour
         return null;
     }
 
-    void setTMPFontFallback(TMP_FontAsset font)
+    void setTMPFont()
     {
-        var fallback = getTMProFallback();
-        if (fallback != null && !font.fallbackFontAssets.Contains(fallback))
+        var font = getTMProFont();
+        if (font != null)
         {
-            if (!LocalizationManager.instance.modifiedFallbacks.ContainsKey(font))
-                LocalizationManager.instance.modifiedFallbacks.Add(font, new List<TMP_FontAsset>(font.fallbackFontAssets));
-            else
-                font.fallbackFontAssets = new List<TMP_FontAsset>(LocalizationManager.instance.modifiedFallbacks[font]);
-            font.fallbackFontAssets.Add(fallback);
+            // Save the font material before we change fonts
+            var fontMaterial = tmpText.fontMaterial;
+            
+            tmpText.font = font;
+            
+            // Now we have to apply the current font material's texture to the saved material
+            fontMaterial.SetTexture("_MainTex", tmpText.font.material.mainTexture);
+            // And set the fontMaterial back to the saved one
+            tmpText.fontMaterial = fontMaterial;
+            // It's just what we gotta do
         }
     }
 
-    TMP_FontAsset getTMProFallback()
+    TMP_FontAsset getTMProFont()
     {
         var loadedLanguage = TextHelper.getLoadedLanguage();
-        foreach (var fallbackOverride in TMProFallbackOverrideFonts)
+        foreach (var fontOverride in TMProFallbackOverrideFonts)
         {
-            if (fallbackOverride.Languages.Contains(loadedLanguage.getLanguageID()))
+            if (fontOverride.Languages.Contains(loadedLanguage.getLanguageID()))
             {
-                if (fallbackOverride.UseOverrideFontStyle)
+                if (fontOverride.UseOverrideFontStyle)
                 {
 
-                    if (textMeshPro != null)
-                        textMeshPro.fontStyle = fallbackOverride.OverrideFontStyle;
-                    if (textMeshProUGUI != null)
-                        textMeshProUGUI.fontStyle = fallbackOverride.OverrideFontStyle;
+                    if (tmpText != null)
+                        tmpText.fontStyle = fontOverride.OverrideFontStyle;
                 }
 
-                return fallbackOverride.Fallback;
+                return fontOverride.Fallback;
             }
         }
 
