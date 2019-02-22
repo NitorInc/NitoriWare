@@ -224,7 +224,7 @@ public class LocalizedText : MonoBehaviour
             
             tmpText.font = font;
             
-            // Now we have to apply the current font material's texture to the saved material
+            // Now to preserve the Material Preset, we have to apply the current font material's texture to the saved material
             fontMaterial.SetTexture("_MainTex", tmpText.font.material.mainTexture);
             // And set the fontMaterial back to the saved one
             tmpText.fontMaterial = fontMaterial;
