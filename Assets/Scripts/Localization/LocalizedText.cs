@@ -250,8 +250,8 @@ public class LocalizedText : MonoBehaviour
             }
         }
 
-        if (loadedLanguage.tmproFallback != null)
-            return loadedLanguage.tmproFallback;
+        if (loadedLanguage.tmpFont != null)
+            return loadedLanguage.tmpFont;
 
         if (defaultTmpFont != null)
             return defaultTmpFont;
