@@ -11,8 +11,6 @@ public class LocalizationManager : MonoBehaviour
 
 	public static LocalizationManager instance;
 
-    public Dictionary<TMP_FontAsset, List<TMP_FontAsset>> modifiedFallbacks;
-
     [SerializeField]
     private string forceLanguage;
     
@@ -32,8 +30,7 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
-
-        modifiedFallbacks = new Dictionary<TMP_FontAsset, List<TMP_FontAsset>>();
+        
         loadedLanguage = new Language();
 
         string languageToLoad;
@@ -46,18 +43,6 @@ public class LocalizationManager : MonoBehaviour
             languageToLoad = Application.systemLanguage.ToString();
 		setLanguage(languageToLoad);
 	}
-
-    private void OnDestroy()
-    {
-        if (instance != this)
-            return;
-
-        foreach (var fallbackPair in modifiedFallbacks)
-        {
-            fallbackPair.Key.fallbackFontAssets = fallbackPair.Value;
-        }
-        modifiedFallbacks = null;
-    }
 
     public void setForcedLanguage(string language)
     {
