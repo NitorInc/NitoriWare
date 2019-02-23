@@ -13,7 +13,10 @@ public class LocalizationManager : MonoBehaviour
 
     [SerializeField]
     private string forceLanguage;
-    
+
+    public delegate void LanguageChangedDelegate(Language language);
+    public static LanguageChangedDelegate onLanguageChanged;
+
     private Language loadedLanguage;
 	private SerializedNestedStrings localizedText;
     private string languageString;
@@ -30,7 +33,8 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
-        
+
+        onLanguageChanged = null;
         loadedLanguage = new Language();
 
         string languageToLoad;
@@ -77,6 +81,9 @@ public class LocalizationManager : MonoBehaviour
 
         loadedLanguage = language;
         languageString = "";
+        
+        if (onLanguageChanged != null)
+            onLanguageChanged(language);
     }
 
     public string getLoadedLanguageID()
