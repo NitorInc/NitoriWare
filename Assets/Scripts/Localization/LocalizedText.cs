@@ -268,7 +268,7 @@ public class LocalizedText : MonoBehaviour
         setTMPFont(fontData.tmpFontAsset);
     }
 
-    private void setTextFont(Font font)
+    public void setTextFont(Font font)
     {
         if (textComponent != null)
             textComponent.font = font;
@@ -280,7 +280,7 @@ public class LocalizedText : MonoBehaviour
         SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
-    private void setTMPFont(TMP_FontAsset fontAsset)
+    public void setTMPFont(TMP_FontAsset fontAsset)
     {
         if (tmpText == null)
             return;
