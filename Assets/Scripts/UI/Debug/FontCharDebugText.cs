@@ -46,7 +46,10 @@ public class FontCharDebugText : MonoBehaviour
         string fontName = "";
         if (localizedTextComponent.TextComponent != null)
         {
-            fontName = localizedTextComponent.TextComponent.font.name;
+            var font = localizedTextComponent.TextComponent.font;
+            fontName = font.name;
+
+            // This doesn't actually work
             GetComponent<Text>().text = $"{languageId}: ({fontName})\n" + charString;
         }
         if (localizedTextComponent.TMPText != null)

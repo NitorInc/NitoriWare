@@ -12,15 +12,21 @@ public class FontCharDebugTextGen : MonoBehaviour
     
 	void Start ()
     {
-        var languageIds = LanguagesData.instance.languages.Select(a => a.getLanguageID()).ToList();
-        languageIds.Add("All");
+        var languageIds = new List<string>();
         languageIds.Add("NonAsian");
+        languageIds.AddRange(LanguagesData.instance.languages
+            //.OrderByDescending(a => a.isAsian)
+            .Select(a => a.getLanguageID())
+            .ToList());
+        languageIds.Add("All");
+
 
         for (int i = 0; i < languageIds.Count; i++)
         {
             var languageId = languageIds[i];
             var newText = Instantiate(textPrefab, transform.position + (Vector3.right * textXSeparation * i), Quaternion.identity);
             newText.transform.position = transform.position + (Vector3.right * textXSeparation * i);
+            newText.transform.SetParent(transform);
             newText.GetComponent<FontCharDebugText>().languageId = languageId;
             newText.name = languageId;
         }
