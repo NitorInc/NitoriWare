@@ -207,7 +207,7 @@ public class LocalizedText : MonoBehaviour
             setStyleFromData(initialFontData);
     }
 
-    private void setText(string text)
+    public void setText(string text)
     {
         if (textComponent != null)
             textComponent.text = text;

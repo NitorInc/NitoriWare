@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 public class FontCharDebugText : MonoBehaviour
 {
@@ -27,14 +28,32 @@ public class FontCharDebugText : MonoBehaviour
         {
             var language = LanguagesData.instance.languages.FirstOrDefault(a => a.getLanguageID().Equals(languageId));
 
-            if (useAppropriateLanguageFont && language.tmpFont != null)
+            if (useAppropriateLanguageFont)
             {
-                localizedTextComponent.setTMPFont(language.tmpFont);
+                if (language.tmpFont != null)
+                {
+                    localizedTextComponent.setTMPFont(language.tmpFont);
+                }
+                if (language.overrideFont != null)
+                {
+                    localizedTextComponent.setTextFont(language.overrideFont);
+                }
             }
-
+            
             text = File.ReadAllText(Path.Combine(fullCharFolderPath, language.getFileName() + "Chars.txt"));
         }
 
-        GetComponent<TMP_Text>().text = $"{languageId}: ({localizedTextComponent.TMPText.font.name})\n" + text;
+        string fontName = "";
+        if (localizedTextComponent.TextComponent != null)
+        {
+            fontName = localizedTextComponent.TextComponent.font.name;
+            GetComponent<Text>().text = $"{languageId}: ({fontName})\n" + text;
+        }
+        if (localizedTextComponent.TMPText != null)
+        {
+            fontName = localizedTextComponent.TMPText.font.name;
+            GetComponent<TMP_Text>().text = $"{languageId}: ({fontName})\n" + text;
+        }
+        
     }
 }
