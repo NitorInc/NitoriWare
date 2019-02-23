@@ -98,8 +98,8 @@ public class LocalizedText : MonoBehaviour
         loadedLanguage = null;
         initialText = getText();
 
-        initialFontData = getFontDate();
-        currentFontData = getFontDate();
+        initialFontData = getFontData();
+        currentFontData = getFontData();
     }
 
     void Start()
@@ -138,7 +138,7 @@ public class LocalizedText : MonoBehaviour
         }
     }
 
-    private LocalizedTextFontData getFontDate()
+    private LocalizedTextFontData getFontData()
     {
         var newFont = new LocalizedTextFontData();
 
@@ -161,7 +161,8 @@ public class LocalizedText : MonoBehaviour
         return newFont;
     }
 
-    bool shouldChangeFont() => !applyToTextString || !getText().Equals(initialText);
+    bool shouldChangeFont() => true;
+    //bool shouldChangeFont() => !applyToTextString || !getText().Equals(initialText);
 
     /// <summary>
     /// Sets the key to load from and reloads the text with the new key
@@ -231,10 +232,9 @@ public class LocalizedText : MonoBehaviour
 
     public void updateFont()
     {
-        if (loadedLanguage.overrideFont != null)    // Regular font
-            setTextFont(loadedLanguage.overrideFont);
-        if (loadedLanguage.tmpFont != null)         // TMPro font
-            setTMPFont(loadedLanguage.tmpFont);
+        setTextFont(getFontForLanguage(loadedLanguage));
+
+        setTMPFont(getTMProFontForLanguage(loadedLanguage));
     }
 
     public Font getFontForLanguage(Language language)
