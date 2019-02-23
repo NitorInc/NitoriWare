@@ -63,8 +63,13 @@ public class LocalizedText : MonoBehaviour
     }
 
     private Text textComponent;
+    public Text TextComponent => textComponent;
     private TextMesh textMesh;
+    public TextMesh TextMeshComponent => textMesh;
     private TMP_Text tmpText;
+    public TMP_Text TMPText => tmpText;
+
+
     private Language loadedLanguage;
     private string initialText;
     private LocalizedTextFontData initialFontData;
@@ -85,7 +90,7 @@ public class LocalizedText : MonoBehaviour
         CurrentMicrogame
     }
 
-    void Start()
+    private void Awake()
     {
         textComponent = GetComponent<Text>();
         textMesh = GetComponent<TextMesh>();
@@ -95,6 +100,10 @@ public class LocalizedText : MonoBehaviour
 
         initialFontData = getFontDate();
         currentFontData = getFontDate();
+    }
+
+    void Start()
+    {
         updateText();
     }
 
@@ -209,7 +218,7 @@ public class LocalizedText : MonoBehaviour
         SendMessage("OnTextLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
-    private string getText()
+    public string getText()
     {
         if (textComponent != null)
             return textComponent.text;
