@@ -20,10 +20,10 @@ public class FontCharDebugText : MonoBehaviour
         var fullCharFolderPath = Path.Combine(Application.dataPath, charsFolderPath);
         
         var localizedTextComponent = GetComponent<LocalizedText>();
-        string text;
+        string charString;
 
         if (languageId.Equals("All") || languageId.Equals("NonAsian"))
-            text = File.ReadAllText(Path.Combine(fullCharFolderPath, languageId + "Chars.txt"));
+            charString = File.ReadAllText(Path.Combine(fullCharFolderPath, languageId + "Chars.txt"));
         else
         {
             var language = LanguagesData.instance.languages.FirstOrDefault(a => a.getLanguageID().Equals(languageId));
@@ -40,19 +40,44 @@ public class FontCharDebugText : MonoBehaviour
                 }
             }
             
-            text = File.ReadAllText(Path.Combine(fullCharFolderPath, language.getFileName() + "Chars.txt"));
+            charString = File.ReadAllText(Path.Combine(fullCharFolderPath, language.getFileName() + "Chars.txt"));
         }
 
         string fontName = "";
         if (localizedTextComponent.TextComponent != null)
         {
             fontName = localizedTextComponent.TextComponent.font.name;
-            GetComponent<Text>().text = $"{languageId}: ({fontName})\n" + text;
+            GetComponent<Text>().text = $"{languageId}: ({fontName})\n" + charString;
         }
         if (localizedTextComponent.TMPText != null)
         {
             fontName = localizedTextComponent.TMPText.font.name;
-            GetComponent<TMP_Text>().text = $"{languageId}: ({fontName})\n" + text;
+            GetComponent<TMP_Text>().text = $"{languageId}: ({fontName})\n" + charString;
+
+            var fontAsset = localizedTextComponent.TMPText.font;
+
+            var missingChars = new List<char>();
+            if (!fontAsset.HasCharacters(charString, out missingChars))
+            {
+                for (int i = 0; i < missingChars.Count; i++)
+                {
+                    var chr = missingChars[i];
+                    foreach (var fallback in fontAsset.fallbackFontAssets)
+                    {
+                        // angry message to the future WHY DOESN'T HASCHARACTER WORK ON FALLBACKS??
+                        if (fallback.characterDictionary.ContainsKey((int)chr))
+                        {
+                            missingChars.RemoveAt(i);
+                            i--;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (missingChars.Any())
+            {
+                Debug.LogWarning($"{languageId}: {fontName} has missing characters: {string.Join("", missingChars)}");
+            }
         }
         
     }
