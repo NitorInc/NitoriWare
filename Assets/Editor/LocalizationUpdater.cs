@@ -32,15 +32,18 @@ public class LocalizationUpdater : ScriptableObject
     [SerializeField]
     private string charsPath;
 
-
     public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
+        SerializedNestedStrings englishData = null;
         for (int i = 1; i <= subsheetCount; i++)
         {
             var sheet = GDocService.GetSpreadsheet(spreadsheetId, i);
             if (i == 1)
+            {
                 languages = generateLanguageDict(sheet);
+                englishData = languages.FirstOrDefault().Value;
+            }
 
             foreach (ListEntry row in sheet.Entries)
             {
@@ -51,8 +54,11 @@ public class LocalizationUpdater : ScriptableObject
                         rowKey = element.Value;
                     else if (languages.ContainsKey(element.LocalName) && !string.IsNullOrEmpty(element.Value))
                     {
+                        var languageData = languages[element.LocalName];
+                        var cleansedEntry = cleanseEntry(element.Value);
 
-                        languages[element.LocalName][rowKey] = cleanseEntry(element.Value);
+                        if (checkEntryIntegrity(languageData, rowKey, cleansedEntry, englishData))
+                            languageData[rowKey] = cleansedEntry;
                     }
                 }
             }
@@ -63,6 +69,10 @@ public class LocalizationUpdater : ScriptableObject
         {
             string name = getLanguageIdName(languageData.Value);
             File.WriteAllText(Path.Combine(fullLanguagesPath, name), languageData.Value.ToString());
+
+            var metaRecordedStatus = languageData.Value["meta.recorded"];
+            if (string.IsNullOrEmpty(metaRecordedStatus) || !metaRecordedStatus.Equals("Y", System.StringComparison.OrdinalIgnoreCase))
+                Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
         }
 
         Debug.Log("Language content updated");
@@ -110,10 +120,37 @@ public class LocalizationUpdater : ScriptableObject
         value = Regex.Replace(value, @"^ *", "");   //Remove leading whitespace
         value = Regex.Replace(value, @" *$", "");   //Remove trailing whitespace
         value = value.Replace("\n", "\\n");         //Format line breaks
-
-        //TODO Re-implement parameter count
-
         return value;
+    }
+
+    bool checkEntryIntegrity(SerializedNestedStrings languageData, string key, string value, SerializedNestedStrings englishData)
+    {
+        if (englishData != null && englishData != languageData)
+        {
+            // Check parameter counts
+            var paramCount = 0;
+            while (true)
+            {
+                if (!value.Contains("{" + paramCount.ToString() + "}"))
+                    break;
+                paramCount++;
+            }
+            var englishText = englishData[key];
+            if (englishText != null)
+            {
+                var englishParamCount = 0;
+                while (true)
+                {
+                    if (!englishText.Contains("{" + englishParamCount.ToString() + "}"))
+                        break;
+                    englishParamCount++;
+                }
+                if (paramCount != englishParamCount)
+                    Debug.LogWarning($"Language {getLanguageIdName(languageData)} has an inconsistent parameter count in key {key}");
+            }
+        }
+
+        return true;
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges
