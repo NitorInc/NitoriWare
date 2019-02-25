@@ -266,11 +266,18 @@ public class LocalizedText : MonoBehaviour
             }
         }
 
-        if (language.tmpFont != null)
-            return language.tmpFont;
+        //if (language.tmpFont != null)
+        //    return language.tmpFont;
 
         if (overrideDefaultTmpFont != null)
             return overrideDefaultTmpFont;
+
+        if (tmpText != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(tmpText.font))
+            return tmpText.font;
+
+        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage();
+        if (fallback != null)
+            return fallback;
 
         if (tmpText != null)
             return tmpText.font;

@@ -13,6 +13,8 @@ public class LocalizationManager : MonoBehaviour
 
     [SerializeField]
     private string forceLanguage;
+    [SerializeField]
+    private string fontAssetsDirectory;
 
     public delegate void LanguageChangedDelegate(Language language);
     public static LanguageChangedDelegate onLanguageChanged;
@@ -20,6 +22,7 @@ public class LocalizationManager : MonoBehaviour
     private Language loadedLanguage;
 	private SerializedNestedStrings localizedText;
     private string languageString;
+    private SerializedNestedStrings.StringData languageFontMetadata;
 
 	public void Awake ()
     {
@@ -78,6 +81,7 @@ public class LocalizationManager : MonoBehaviour
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
         Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
         PrefsHelper.setPreferredLanguage(language.getLanguageID());
+        languageFontMetadata = localizedText.getSubData("meta.font");
 
         loadedLanguage = language;
         languageString = "";
@@ -126,4 +130,48 @@ public class LocalizationManager : MonoBehaviour
         value = value.Replace("\\n", "\n");
 		return value;
 	}
+
+    private bool parseFontCompabilitySring(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return false;
+
+        value = value.ToUpper();
+        if (loadedLanguage.getLanguageID().Equals("ChineseSimplified")
+            || loadedLanguage.getLanguageID().Equals("Chinese"))
+        {
+            return value.Equals("S") || value.Equals("Y");
+        }
+        else if (loadedLanguage.getLanguageID().Equals("ChineseTraditional"))
+        {
+            return value.Equals("Y") || value.Equals("Y");
+        }
+        else
+            return value.Equals("Y");
+    }
+
+    public bool isTMPFontCompatibleWithLanguage(TMP_FontAsset font)
+    {
+        if (languageFontMetadata.subData.ContainsKey(font.name))
+        {
+            return parseFontCompabilitySring(languageFontMetadata.subData[font.name].value);
+        }
+        else
+            return false;
+    }
+
+    public TMP_FontAsset getFallBackFontForCurrentLanguage()
+    {
+        foreach (var fontKeyPair in languageFontMetadata.subData)
+        {
+            if (parseFontCompabilitySring(fontKeyPair.Value.value))
+            {
+                var fontAsset = Resources.Load<TMP_FontAsset>(Path.Combine(fontAssetsDirectory, fontKeyPair.Key));
+                if (fontAsset != null)
+                    return fontAsset;
+            }
+        }
+        return null;
+    }
+
 }
