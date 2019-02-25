@@ -38,7 +38,7 @@ menu
 			description=小游戏接二连三地袭来！你的极限分数是多高呢？
 		arcade=街机模式
 		microgamepractice=小游戏练习
-			description=磨练游戏技巧，创造新的高分，来向朋友炫耀吧！
+			description=磨练游戏技巧，创造新的高分吧！
 		locked1=未解锁！完成{0}才能解锁哦。
 		locked2=未解锁！在{1}得到{0}或更多分数才能解锁哦
 		highscore=最高纪录：{0}
@@ -49,9 +49,9 @@ menu
 		compilationfast=河童到底
 			description=超级无敌快到爆！！
 		compilationmystery=（数据删除）
-			description=糟糕，本关的图纸弄丢了。呃……要怎么办……你自己想吧。
+			description=粗心的河童弄丢了所有的图纸! 没有任何提示的游戏模式！
 		compilationhard=黄瓜地狱
-			description=最高难度！只有一个残机！你能撑多久？
+			description=最高难度！只有一个残机！你能坚持多久？
 	main
 		quit=退出游戏
 			prompt=你确定要退出{0}吗？
@@ -91,21 +91,103 @@ microgame
 		suika
 			fullname=伊吹 萃香
 			firstname=萃香
+			introdialogue=嘿！你现在有空对吧？一起去搓一顿如何！
+			right0
+				option=比一比谁先到餐馆！
+				response=输的人请客哦！
+			right1
+				option=好啊，走起！
+				response=太棒了！
+			wrong0
+				option=你不是刚刚才吃过吗？
+				response=切，一个人很无聊的
+			wrong1
+				option=少女醒醒，该减肥了
+				response=熊样！就你瘦！
+			wrong2
+				option=你可以自己去
+				response=你真鸡儿没意思
 		youmu
 			fullname=魂魄 妖梦
 			firstname=妖梦
+			introdialogue=这是在下种的花
+			right0
+				option=它们真漂亮！和你一样美。
+				response=承...承蒙夸奖
+			right1
+				option=闻起来真是香甜
+				response=你能喜欢，在下很开心
+			wrong0
+				option=啊啊啊！半人半灵出现了！
+				response=能不要取笑在下吗？
+			wrong1
+				option=我讨厌花！
+				response=你也不配喜欢它们
+			wrong2
+				option=这些花是假花吧？
+				response=真是没有眼光...
 		yuuka
 			fullname=风见 幽香
 			firstname=幽香
+			introdialogue=你没有背着我和其他人约过会，对吧？
+			right0
+				option=当然没有！
+				response=不错，你最好没有。
+			right1
+				option=你是我生命中唯一之爱！
+				response=油嘴滑舌
 			wrong0
 				option=呃……
+				response="呃..."是几个意思?
+			wrong1
+				option=我爱上灵梦了!
+				response=再给你一次组织语言的机会
+			wrong2
+				option=我还有事没做完...先失陪了...
+				response=不，你现在，有的是时间
+		patchy
+			fullname=帕秋莉 诺蕾姬
+			firstname=帕秋莉
+			introdialogue=希望你能喜欢我泡的茶...
+			right0
+				option=非常美味
+				response=是吗? 我很开心
+			right1
+				option=请再来一杯
+				response=乐意效劳
+			wrong0
+				option=尝起来很奇怪
+				response=我很遗憾...
+			wrong1
+				option=*手滑把热茶洒了出来*
+				response=<i>呀啊啊啊啊!</i>
+			wrong2
+				option=我从来没说过想要喝茶
+				response=我...以为你会喜欢
 		fakeconfig=保存\n读取\n自动\n记录\n设置
+		command=攻略她！
+		igname=情商检定
+	ComicBubble
+		0
+			0=这么做真的没问题吗？
+			1=没问题!
+		1
+			0=嘿！等等！
+			1=你脸上有...
+			2=东西！
+		2
+			0=打扫真是痛苦...
+			1=我无所谓哦? 反正只有我一个参拜客
+			2=<i>啊！</i>
+			3=<i>疼！</i>
+		command=完成对话！
+		igname=幻想乡日常
 	FreezeFrogs
 		command=快冻结!
-		igname=冻冻青蛙
+		igname=冻青蛙
 	Slingshot
 		command=弹射!
-		igname=看鸟！
+		igname=愤怒的"小鸟"
 	ChenFood
 		command=别被吃掉哦！
 		igname=躲猫猫
@@ -116,46 +198,46 @@ microgame
 		command=收集三枚！
 		igname=赛钱~赛钱~
 	Wrench
-		command=锁上！
-		igname=扳手河童
+		command=拧紧！
+		igname=河童工程师
 	Potion
 		command=放进去！
 		ingredients=材料
 		igname=雾雨制药
 	GhostFood
-		command=吞嚼！
+		command=嚼碎！
 		igname=舌尖上的冥界
 	Spaceship
 		command=发射!
 		igname=妖怪登月计划
 	CupShuffle
-		command=专心哦！
+		command=看仔细！
 		commandb=选吧！
-		igname=纸杯游戏
+		igname=味增碗下针妙丸
 	TraceShape
 		command=填满！
 		igname=填充涂色
 	KogasaScare
-		command=吓唬一下!
-		igname=哇啊！妖怪？！
+		command=吓她一跳!
+		igname=世界第一可怕唐伞
 	RockBand
-		command=表演！
-		igname=现场表演
+		command=演奏！
+		igname=鸟兽伎乐
 	ChenBike
 		command=按喇叭！
-		igname=小心看路咯
+		igname=喇叭警告
 	MasterSparkCode
 		command=施放！
 		igname=八卦炉测试
 	OkuuFire
 		command=快调节！
-		igname=冷静点
+		igname=可控核聚变
 	YukariCake
-		command=盗走！
+		command=偷走！
 		igname=谁动了我的点心？
 	RemiCover
 		command=躲在伞下！
-		igname=吸血鬼的弱点
+		igname=蕾米的宿敌
 	SuikaShake
 		command=快摇掉！
 		igname=酒鬼摇一摇
@@ -166,45 +248,91 @@ microgame
 		ear=耳朵
 		igname=东方分分看
 	FlanGrab
-		command=守护！
-		igname=守护红魔馆
+		command=保护！
+		igname=红魔馆保卫战
 	PaperThief
 		command=抵达目标！
 		commandb=小心呀！
 		commandc=击碎！
 		commandd=打败她！
-		igname=黄瓜追逐
+		igname=荷取的奇妙冒险
+	KaguyaMemory
+		command=仔细看！
+		commandb=选一个!
+		igname=辉夜的难题
+	SumiWheel
+		command=挑选！
+		igname=深秘轮盘
+	MochiPound
+		command=敲！
+		igname=捣年糕
 	RuukotoSweep
-		command=清除！
+		command=清扫！
 		igname=打扫神社
+	MaskPuzzle
+		command=拼装!
+		igname=破碎的面具
+	YuukaWater
+		command=浇水！
+		igname=浇~花~
+	KnifeDodge
+		command=擦弹！
+	NitoriLook
+		command=找到荷取！
+		igname=荷取荷取在哪里
+	MamiPoser
+		command=找到猯藏！
+		igname=妖怪狸猫十变化
+	DollDance
+		command=模仿!
+		igname=少女文乐
+	CirnoBored
+		command=逗她开心！
+		commandb=逗她开心!
+		commandc=拯救她！
+		igname=“冷”处理
+	HecShapes
+		command=放置!
+		igname=地狱女神配对
+	RockPaperSatori
+		command=取胜！
+		igname=读心猜拳
 	MarisaJizou
 		command=丢掉！
-		igname=发斗笠
+		igname=魔法使宅急便
 	NueAbduct
-		command=诱拐！
-		igname=外星人的劫掠
+		command=掠夺！
+		igname=UFO袭来！
 	ReimuDodge
-		command=快躲开！
+		command=擦弹！
+		igname=~
+	ClothesChoose
+		command=搭配！
+		igname=暖暖环游幻想乡
 	KyoukoEcho
 		command=反射！
+		igname=山彦式回声
 	BugSwat
-		command=用力拍！
+		command=降维打击！
+		igname=清除害虫
 	ClownTorch
-		command=放火！
-	KaguyaMemory
-		igname=宝物记忆
-	MochiPound
-		igname=捣年糕
-	MaskPuzzle
-		igname=碎掉的表情
-	YuukaWater
-		igname=浇~花~
-	NitoriLook
-		igname=寻找河童
-	DollDance
-		igname=跳舞的人偶
-	RockPaperSatori
-		igname=读心术
+		command=点燃!
+		igname=兄弟传火吗？
+	BeachBall
+		command=投!
+		igname=万岁楽表演
+	YuugiBalance
+		command=保持平衡！
+		igname=勇仪的平衡表演
+	DoorKnock
+		command=敲！
+	FoodCut
+		command=切！
+	MoneyTrap
+		command=引人!
+	KeineMath
+		command=解决!
+		igname=加起来不对
 credits
 	intro={0}能成功全靠以下粉丝们的支持！
 	kapptain=总策划，程序，管理，Kapptain 团队
@@ -222,6 +350,7 @@ credits
 		management=本地化管理
 	sfx=音效
 	voice=荷取的语音
+	site=网站设计
 	trailer=试玩版预告片
 	socialmedia=宣传/社交媒体
 	touhou=本作品是上海アリス幻樂団的作品“東方Project”的二次创作。

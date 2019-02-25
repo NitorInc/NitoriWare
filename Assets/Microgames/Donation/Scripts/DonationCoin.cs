@@ -16,12 +16,17 @@ public class DonationCoin : MonoBehaviour
 	public AudioSource bounceSource, grabSource;
 	public AudioClip bounceClip;
 	public AudioClip[] grabClips;
-	new public Collider2D collider;
+	private Collider2D coinCollider;
 
 	private bool outOfPlay;
 
+    private const float ZeroTimer = .35f;
+    private float zeroTime = 0f;
+    private Collider2D lastTouchedNeighbor;
+
 	void Awake()
 	{
+        coinCollider = GetComponent<Collider2D>();
 		if (isMainCoin)
 			reset();
 	}
@@ -42,15 +47,15 @@ public class DonationCoin : MonoBehaviour
 
 	void resetBody()
 	{
-		do
-		{
-			transform.position = new Vector3(Random.Range(minSpawnX, maxSpawnX), 6f, transform.position.z);
-		}
+        do
+        {
+            transform.position = new Vector3(Random.Range(minSpawnX, maxSpawnX), 6f, transform.position.z);
+        }
 
-		while (Mathf.Abs(transform.position.x) < maxSpawnX / 3f);
+        while (Mathf.Abs(transform.position.x) < maxSpawnX / 3f);
 
 
-		startTime = Random.Range(minStartTime, maxStartTime);
+        startTime = Random.Range(minStartTime + .01f, maxStartTime);
 		body.velocity = Vector2.zero;
 
 		transform.rotation = Quaternion.identity;
@@ -71,7 +76,7 @@ public class DonationCoin : MonoBehaviour
 			if (startTime <= 0f)
 			{
 				body.isKinematic = false;
-				collider.enabled = true;
+				coinCollider.enabled = true;
 				startTime = 0f;
 			}
 		}	
@@ -87,6 +92,20 @@ public class DonationCoin : MonoBehaviour
 		{
 			body.AddTorque(-body.velocity.x);
 		}
+        
+        float zeroThreshold = .01f;
+        if (!body.isKinematic
+            && MathHelper.Approximately(Mathf.Abs(body.velocity.x) + Mathf.Abs(body.velocity.y), 0f, zeroThreshold))
+        {
+            zeroTime += Time.deltaTime;
+            if (zeroTime >= ZeroTimer && lastTouchedNeighbor != null)
+            {
+                Physics2D.IgnoreCollision(coinCollider, lastTouchedNeighbor);
+                zeroTime = 0f;
+            }
+        }
+        else
+            zeroTime = 0f;
 
 
 		if (body.velocity.y > 0f && lastVelocity.y <= 0f)
@@ -126,7 +145,17 @@ public class DonationCoin : MonoBehaviour
 		return (transform.position.x / (Camera.main.orthographicSize * 4f / 3f)) * .9f;
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision) => coinCollision(collision);
+
+    private void OnCollisionStay2D(Collision2D collision) => coinCollision(collision);
+
+    void coinCollision(Collision2D collision)
+    {
+        if (collision.collider.name.Contains("Coin"))
+            lastTouchedNeighbor = collision.collider;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.name == "Reimu")
 		{

@@ -16,31 +16,34 @@ public class YoumuSlashEventMap : MonoBehaviour
     {
         public string description;
         public float beat;
+        public bool debugPause;
         public UnityEvent unityEvent;
     }
 
 
     private Queue<Event> upcomingEvents;
-    private Event nextEvent;
 
     void Start()
     {
         upcomingEvents = new Queue<Event>(events);
-        YoumuSlashTimingController.onMusicStart += InvokeNextEvent;
+        YoumuSlashPlayerController.onFail += onFail;
     }
 
-    void InvokeNextEvent()
+    void Update()
     {
         if (!upcomingEvents.Any())
             return;
-
-        nextEvent = upcomingEvents.Dequeue();
-        Invoke("triggerEvent", (nextEvent.beat - timingData.CurrentBeat) * timingData.BeatDuration);
+        else if (timingData.CurrentBeat >= upcomingEvents.Peek().beat)
+        {
+            var newEvent = upcomingEvents.Dequeue();
+            newEvent.unityEvent.Invoke();
+            if (newEvent.debugPause)
+                Debug.Break();
+        }
     }
 
-    void triggerEvent()
+    void onFail()
     {
-        nextEvent.unityEvent.Invoke();
-        InvokeNextEvent();
+        enabled = false;
     }
 }

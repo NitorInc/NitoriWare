@@ -5,11 +5,22 @@ using UnityEngine;
 public class YoumuSlashSpriteTrail : MonoBehaviour
 {
     [SerializeField]
+    Sprite trailSprite;
+    [SerializeField]
+    private bool enableSpawn;
+    public bool EnableSpawn
+    {
+        get { return enableSpawn; }
+        set { enableSpawn = value; }
+    }
+    [SerializeField]
     private Transform fragmentParent;
     [SerializeField]
     private float initialAlpha = 1f;
     [SerializeField]
     private float fragmentBrightness = 1f;
+    [SerializeField]
+    private float HitOffsetBrightnessDampMult = 1f;
     [SerializeField]
     private float fragmentSaturation = 1f;
     [SerializeField]
@@ -18,6 +29,8 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
     private float spawnDistance = .1f;
     [SerializeField]
     private float hueShiftPerFragment = .1f;
+    [SerializeField]
+    private int sortingOrderStart;
 
     private SpriteRenderer[] fragments;
     private int nextFragmentIndex;
@@ -25,6 +38,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
     private Vector2 lastPosition;
     private Vector3 initialPosition;
     private float currentHue;
+    private float currentHitOffset;
     
 	void Start ()
     {
@@ -33,14 +47,14 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         initialPosition = transform.position;
 	}
 
-    public void resetTrail(float xPosition, float facingDirection)
+    public void resetTrail(float xPosition, float offset)
     {
         if (fragments == null)
             Start();
 
         currentHue = Random.Range(0f, 1f);
+        currentHitOffset = Mathf.Abs(offset);
         lastPosition = new Vector3(xPosition, initialPosition.y, initialPosition.z);
-        fragmentParent.transform.localScale = new Vector3(facingDirection, 1f, 1f);
         distanceSpawnProgress = 0f;
         foreach (var fragment in fragments)
         {
@@ -58,7 +72,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
 
     private void OnDisable()
     {
-        if (fragments == null)
+        if (fragments == null || PauseManager.instance.Paused)
             return;
         foreach (var fragment in fragments)
         {
@@ -80,21 +94,24 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
             setAlpha(fragment, newAlpha);
         }
 
-        Vector2 diff = (Vector2)transform.position - lastPosition;
-        distanceSpawnProgress += diff.magnitude;
-        if (distanceSpawnProgress > spawnDistance)
+        if (enableSpawn)
         {
-            float initialProgress = distanceSpawnProgress - diff.magnitude;
-            float distanceToTravel = spawnDistance - initialProgress;
-            lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), distanceToTravel);
-            createFragment(lastPosition);
-            distanceSpawnProgress -= spawnDistance;
-        }
-        while(distanceSpawnProgress > spawnDistance)
-        {
-            lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), spawnDistance);
-            createFragment(lastPosition);
-            distanceSpawnProgress -= spawnDistance;
+            Vector2 diff = (Vector2)transform.position - lastPosition;
+            distanceSpawnProgress += diff.magnitude;
+            if (distanceSpawnProgress > spawnDistance)
+            {
+                float initialProgress = distanceSpawnProgress - diff.magnitude;
+                float distanceToTravel = spawnDistance - initialProgress;
+                lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), distanceToTravel);
+                createFragment(lastPosition);
+                distanceSpawnProgress -= spawnDistance;
+            }
+            while(distanceSpawnProgress > spawnDistance)
+            {
+                lastPosition = lastPosition + MathHelper.getVector2FromAngle(diff.getAngle(), spawnDistance);
+                createFragment(lastPosition);
+                distanceSpawnProgress -= spawnDistance;
+            }
         }
 
         lastPosition = transform.position;
@@ -107,9 +124,11 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragment.enabled = true;
         fragment.transform.position = new Vector3(position.x, position.y, fragment.transform.position.z);
         currentHue = (currentHue + hueShiftPerFragment) % 1f;
-        fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness).ToColor();
-        fragment.sortingOrder = nextFragmentIndex;
+        fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness - (currentHitOffset * HitOffsetBrightnessDampMult))
+            .ToColor();
+        fragment.sortingOrder = sortingOrderStart + nextFragmentIndex;
         setAlpha(fragment, initialAlpha);
+        fragment.sprite = trailSprite;
 
         nextFragmentIndex++;
         if (nextFragmentIndex >= fragments.Length)

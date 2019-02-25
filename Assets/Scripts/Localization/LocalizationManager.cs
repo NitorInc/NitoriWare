@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class LocalizationManager : MonoBehaviour
 
 	public void Awake ()
     {
-        loadedLanguage = new Language();
 		if (instance != null)
 		{
 			if (instance != this)
@@ -30,6 +30,8 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
+        
+        loadedLanguage = new Language();
 
         string languageToLoad;
         string preferredLanguage = PrefsHelper.getPreferredLanguage();

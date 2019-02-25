@@ -14,8 +14,17 @@ public class AdvancingText : MonoBehaviour
     [SerializeField]
     private UnityEvent onComplete;
 
+    private bool isComplete;
+    public bool IsComplete => isComplete;
+
     private TMP_Text textMeshProComponent;
     private float progress;
+    public float Progress
+    {
+        get { return progress; }
+        set { progress = value; updateChars(); }
+    }
+    
 
     void Awake()
     {
@@ -29,23 +38,32 @@ public class AdvancingText : MonoBehaviour
 
     public void resetAdvance()
     {
+        isComplete = false;
         progress = 0f;
         setVisibleChars(0);
     }
 
     void Update ()
     {
-        if (progress < getTotalVisibleChars())
+        if (progress < getTotalVisibleChars(false))
             updateText();
 	}
 
     void updateText()
     {
-        progress = Mathf.MoveTowards(progress, getTotalVisibleChars(), Time.deltaTime * advanceSpeed);
+        var totalVisibleChars = getTotalVisibleChars(false);
+        progress = Mathf.MoveTowards(progress, totalVisibleChars, Time.deltaTime * advanceSpeed);
+        updateChars();
+    }
 
+    void updateChars()
+    {
         setVisibleChars((int)Mathf.Floor(progress));
-        if (progress >= getTotalVisibleChars())
+        if (progress >= getTotalVisibleChars(false))
+        {
+            isComplete = true;
             onComplete.Invoke();
+        }
     }
 
     public float getAdvanceSpeed()
@@ -67,9 +85,12 @@ public class AdvancingText : MonoBehaviour
     {
         return textMeshProComponent.maxVisibleCharacters;
     }
+    
 
-    public int getTotalVisibleChars()
+    public int getTotalVisibleChars(bool forceMeshUpdate = true)
     {
-        return textMeshProComponent.text.Length;
+        if (forceMeshUpdate)
+            textMeshProComponent.ForceMeshUpdate();
+        return textMeshProComponent.GetParsedText().Length;
     }
 }

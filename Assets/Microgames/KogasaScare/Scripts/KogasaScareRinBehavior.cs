@@ -10,6 +10,8 @@ public class KogasaScareRinBehavior : MonoBehaviour
     private float walkRadius;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private KogasaScareKogasaBehaviour kogasa;
 
     private float startX;
     private bool walkingLeft = true;
@@ -18,6 +20,8 @@ public class KogasaScareRinBehavior : MonoBehaviour
     {
         startX = transform.position.x;
         rigAnimator.SetInteger("direction", walkingLeft ? -1 : 1);
+        if ((kogasa.transform.position.x > transform.position.x) != walkingLeft)
+            aboutFace(preservePosition:true);
     }
 	
 	void Update ()
@@ -25,17 +29,19 @@ public class KogasaScareRinBehavior : MonoBehaviour
         transform.Translate((walkingLeft ? Vector3.left : Vector3.right) * walkSpeed * Time.deltaTime);
         float walkX = transform.position.x - startX;
 
-        if (walkingLeft && walkX < -walkRadius)
+        if ((walkingLeft && walkX < -walkRadius)
+            || (!walkingLeft && walkX > walkRadius))
+            aboutFace();
+    }
+
+    void aboutFace(bool preservePosition = false)
+    {
+        walkingLeft = !walkingLeft;
+        rigAnimator.SetInteger("direction", walkingLeft ? -1 : 1);
+        if (!preservePosition)
         {
-            transform.position = new Vector3(startX - walkRadius, transform.position.y, transform.position.z);
-            walkingLeft = false;
-            rigAnimator.SetInteger("direction", 1);
-        }
-        else if (!walkingLeft && walkX > walkRadius)
-        {
-            transform.position = new Vector3(startX + walkRadius, transform.position.y, transform.position.z);
-            walkingLeft = true;
-            rigAnimator.SetInteger("direction", -1);
+            float xPosition = walkingLeft ? startX + walkRadius : startX - walkRadius;
+            transform.position = new Vector3(xPosition, transform.position.y, transform.position.z);
         }
     }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
+using UnityEngine.Serialization;
 
 public class LocalizedText : MonoBehaviour
 {
@@ -31,9 +33,38 @@ public class LocalizedText : MonoBehaviour
         public string keyDefaultString;
     }
 
+    [FormerlySerializedAs("defaultTMProFallbackFont")]
+    [SerializeField]
+    private TMP_FontAsset defaultTmpFont;
+
+    [FormerlySerializedAs("TMProFallbackOverrideFonts")]
+    [SerializeField]
+    private TMP_FontOverride[] tmpFontOverrides;
+    
+    [System.Serializable]
+    public class TMP_FontOverride
+    {
+        [SerializeField]
+        [Multiline]
+        private string languages;
+        public string Languages => languages;
+
+        [FormerlySerializedAs("fallback")]
+        [SerializeField]
+        private TMP_FontAsset font;
+        public TMP_FontAsset Font => font;
+
+        [SerializeField]
+        private bool useOverrideFontStyle;
+        public bool UseOverrideFontStyle => useOverrideFontStyle;
+        [SerializeField]
+        private FontStyles overrideFontStyle;
+        public FontStyles OverrideFontStyle => overrideFontStyle;
+    }
+
     private Text textComponent;
 	private TextMesh textMesh;
-    private TextMeshPro textMeshPro;
+    private TMP_Text tmpText;
     private Language loadedLanguage;
     private string initialText;
     private Font initialFont;
@@ -49,7 +80,7 @@ public class LocalizedText : MonoBehaviour
 	{
 		textComponent = GetComponent<Text>();
 		textMesh = GetComponent<TextMesh>();
-        textMeshPro = GetComponent<TextMeshPro>();
+        tmpText = GetComponent<TMP_Text>();
         loadedLanguage = null;
         initialText = getText();
         initialStyle = getStyle();
@@ -140,8 +171,10 @@ public class LocalizedText : MonoBehaviour
 			textComponent.text = text;
 		else if (textMesh != null)
 			textMesh.text = text;
-        if (textMeshPro != null)
-            textMeshPro.text = text;
+        if (tmpText != null)
+            tmpText.text = text;
+
+        SendMessage("OnTextLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
 	private string getText()
@@ -150,9 +183,10 @@ public class LocalizedText : MonoBehaviour
 			return textComponent.text;
 		if (textMesh != null)
 			return textMesh.text;
-        if (textMeshPro != null)
-            return textMeshPro.text;
-		return "";
+        if (tmpText != null)
+            return tmpText.text;
+
+        return "";
     }
 
     private void setFont(Font font)
@@ -161,7 +195,10 @@ public class LocalizedText : MonoBehaviour
             textComponent.font = font;
         else if (textMesh != null)
             textMesh.font = font;
-        //TODO TextMeshPro font support
+        if (tmpText  != null)
+            setTMPFont();
+
+        SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
     private Font getFont()
@@ -170,7 +207,55 @@ public class LocalizedText : MonoBehaviour
             return textComponent.font;
         if (textMesh != null)
             return textMesh.font;
-        //TODO TextMeshPro font support
+        //if (textMeshPro != null)
+        //    return textMeshPro.font;
+        //if (textMeshProUGUI != null)
+        //    return textMeshProUGUI.font;
+        return null;
+    }
+
+    void setTMPFont()
+    {
+        var font = getTMProFont();
+        if (font != null)
+        {
+            // Save the font material before we change fonts
+            var fontMaterial = tmpText.fontMaterial;
+            
+            tmpText.font = font;
+            
+            // Now to preserve the Material Preset, we have to apply the current font material's texture to the saved material
+            fontMaterial.SetTexture("_MainTex", tmpText.font.material.mainTexture);
+            // And set the fontMaterial back to the saved one
+            tmpText.fontMaterial = fontMaterial;
+            // It's just what we gotta do
+        }
+    }
+
+    TMP_FontAsset getTMProFont()
+    {
+        var loadedLanguage = TextHelper.getLoadedLanguage();
+        foreach (var fontOverride in tmpFontOverrides)
+        {
+            if (fontOverride.Languages.Contains(loadedLanguage.getLanguageID()))
+            {
+                if (fontOverride.UseOverrideFontStyle)
+                {
+
+                    if (tmpText != null)
+                        tmpText.fontStyle = fontOverride.OverrideFontStyle;
+                }
+
+                return fontOverride.Font;
+            }
+        }
+
+        if (loadedLanguage.tmpFont != null)
+            return loadedLanguage.tmpFont;
+
+        if (defaultTmpFont != null)
+            return defaultTmpFont;
+
         return null;
     }
 

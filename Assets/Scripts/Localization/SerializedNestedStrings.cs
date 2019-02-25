@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 //Serialization uses tabs for group indentation, key=value for string value lines
 //ToString() returns serialized data
 
-class SerializedNestedStrings
+public class SerializedNestedStrings
 {
     private class StringData
     {
@@ -100,11 +100,12 @@ class SerializedNestedStrings
         foreach (KeyValuePair<string, StringData> entry in baseData.subData)
         {
             result += new string('\t', nestLevel);
-            if (!string.IsNullOrEmpty(entry.Value.value))
-                result += entry.Key + "=" + (string)entry.Value.value + "\n";
+            result += entry.Key;
+                result +=
+                (!string.IsNullOrEmpty(entry.Value.value) ? "=" + (string)entry.Value.value : "")
+                + "\n";
             if (entry.Value.subData.Count > 0)
             {
-                result += entry.Key + "\n";
                 result += serialize(entry.Value, nestLevel + 1);
             }
         }

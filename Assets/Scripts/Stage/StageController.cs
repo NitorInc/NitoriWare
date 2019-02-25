@@ -343,7 +343,7 @@ public class StageController : MonoBehaviour
 
 		Time.timeScale = getSpeedMult();
 
-		commandDisplay.setText(microgameTraits.localizedCommand);
+		commandDisplay.setText(microgameTraits.localizedCommand, microgameTraits.commandAnimatorOverride);
         controlDisplay.setControlScheme(microgameTraits.controlScheme);
 
 		if (!introSource.isPlaying && !muteMusic)

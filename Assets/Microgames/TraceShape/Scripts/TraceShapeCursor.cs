@@ -34,7 +34,12 @@ public class TraceShapeCursor : MonoBehaviour
 		    updateTrace();
 	}
 
-	void updateTrace()
+    private void LateUpdate()
+    {
+        updateCursor();
+    }
+
+    void updateTrace()
 	{
 		//Enable emmissions if mouse is held down
 		ParticleSystem.EmissionModule emission = traceParticles.emission;

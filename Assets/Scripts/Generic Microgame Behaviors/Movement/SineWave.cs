@@ -69,6 +69,5 @@ public class SineWave : MonoBehaviour
         startTime = Time.time - timeSinceStart;
         xSpeed = newSpeed.x;
         ySpeed = newSpeed.y;
-        Debug.Log(xSpeed);
     }
 }

@@ -39,6 +39,10 @@ public class ComicBubble_ComicData {
     [SerializeField]
     private float speedAfterCompletion;
 
+    [Tooltip("Does it uses animator parameters?")]
+    [SerializeField]
+    private bool useAnimatorParameter;
+
     [Tooltip("Disable strip animator after completion?")]
     [SerializeField]
     private bool disableStripAnimator;
@@ -50,7 +54,9 @@ public class ComicBubble_ComicData {
     public float getSpeechSpeed() => speechSpeed;
     public float getDistanceAfterCompletion() => distanceAfterCompletion;
     public float getSpeedAfterCompletion() => speedAfterCompletion;
+    public bool usesAnimatorParameter() => useAnimatorParameter;
     public bool stripAnimatorCanBeDisabled() => disableStripAnimator; 
+    
 }
 
 public static class ComicBubble_ComicDataExtension
@@ -89,6 +95,11 @@ public static class ComicBubble_ComicDataExtension
     public static float getSpeedAfterCompletion(this List<ComicBubble_ComicData> dataList, int index)
     {
         return dataList[index].getSpeedAfterCompletion();
+    }
+
+    public static bool usesAnimatorParameter(this List<ComicBubble_ComicData> dataList, int index)
+    {
+        return dataList[index].usesAnimatorParameter();
     }
 
     public static bool stripAnimatorCanBeDisabled(this List<ComicBubble_ComicData> dataList, int index)

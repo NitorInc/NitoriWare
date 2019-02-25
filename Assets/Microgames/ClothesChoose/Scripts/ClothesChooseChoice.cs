@@ -56,17 +56,16 @@ public class ClothesChooseChoice : MonoBehaviour
         this.incorrectAction = incorrectAction;
     }
 
-    void OnGUI()
+    void Update()
     {
         if (listen)
         {
-            if (Event.current.Equals(Event.KeyboardEvent("right")))
+            if (Input.GetKeyDown("right"))
             {
                 animator.SetTrigger("ChooseRight");
                 Choose("right");
-
             }
-            else if (Event.current.Equals(Event.KeyboardEvent("left")))
+            else if (Input.GetKeyDown("left"))
             {
                 animator.SetTrigger("ChooseLeft");
                 Choose("left");

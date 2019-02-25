@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 4292880627724570}
   - component: {fileID: 114637843832790718}
   - component: {fileID: 82493303505704374}
+  - component: {fileID: 114598098558652304}
   m_Layer: 8
   m_Name: Pause Manager
   m_TagString: Untagged
@@ -513,6 +514,8 @@ MonoBehaviour:
   - value: (Esc)
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114060568708694474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1076,6 +1079,22 @@ MonoBehaviour:
   doubleResolution: 1024
   squareAlign: 0
   updateAttributes: 0
+--- !u!114 &114598098558652304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605610730045640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 0
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  volumeType: 2
 --- !u!114 &114602422570439250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1142,13 +1161,13 @@ MonoBehaviour:
   onPause:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   onUnPause:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   enableVigorousTesting: 0
   quitShiftDuration: 0.5
   scriptWhitelist: []
@@ -1305,6 +1324,8 @@ MonoBehaviour:
   - value: (Q)
     isKey: 0
     keyDefaultString: 
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114751623133892768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1368,6 +1389,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: stage.pause
   parameters: []
+  defaultTMProFallbackFont: {fileID: 0}
+  TMProFallbackOverrideFonts: []
 --- !u!114 &114931811322384850
 MonoBehaviour:
   m_ObjectHideFlags: 1

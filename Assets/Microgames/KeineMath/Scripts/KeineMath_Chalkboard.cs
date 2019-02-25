@@ -57,7 +57,6 @@ public class KeineMath_Chalkboard : MonoBehaviour {
     private int correctAnswer;
     private bool answered = false;
 
-    [SerializeField] private GameObject keine;
     [SerializeField] private GameObject keineAnimator;
     [SerializeField] private GameObject cheeringCrowd;
 
@@ -107,10 +106,16 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             for (int i = 0; i < termCount; i++)
             {
                 termList.Add(Random.Range(minTerm, (maxTerm + 1)));
-                if (termList[i] != 1) allones = false;
+                if (termList[i] != 1)
+                {
+                    allones = false;
+                }
             }
             //We don't want all 1s because it ruins the answer-generating algorithm and also is boring.
-            if (allones) termList[Random.Range(0, termCount)] += 1;
+            if (allones)
+            {
+                termList[Random.Range(0, termCount)] += 1;
+            }
             correctAnswer = 0;
             for(int i = 0; i < terms.Count; i++)
             {
@@ -169,8 +174,29 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         {
             //Generate an amount to be wrong by. Note the first offset generated will be 0 (i.e. correct answer)
             int sign = (Random.Range(1, 3) * 2) - 3; //Generates 1 or -1
-            if (correctAnswer == 1) sign = 1; //Answers of zero are not permitted
-            answerOffsets.Add(i * sign); //First wrong answer is off by 1, second wrong answer is off by 2
+            if (correctAnswer == 1 || (correctAnswer == 2 && i >= 2))
+            {
+                sign = 1; //Answers of zero are not permitted
+            }
+            answerOffset = i * sign;
+            if (i != 0 && 
+                (correctAnswer + (i * sign)) == terms[0].GetComponent<KeineMath_Term>().value + terms[1].GetComponent<KeineMath_Term>().value) {
+                //Special case: An incorrect answer equals the sum of the two terms.
+                //We modify the answer in this case because if the problem is subtraction...
+                //...we don't want the player adding by mistake because the answer to the addition is there.
+                //Process: If the above case where the sign HAS to be positive is present, AND the offset is positive...
+                //...increment the offset since we can't make it negative without causing problems.
+                //Otherwise, flip the sign as either it's allowed to be negative or it's already negative.
+                if ((correctAnswer == 1 || (correctAnswer == 2 && i >= 2)) && answerOffset > 0)
+                {
+                    answerOffset++;
+                }
+                else
+                {
+                    answerOffset *= -1;
+                }
+            }
+            answerOffsets.Add(answerOffset); //In normal circumstances first wrong answer is off by 1, second wrong answer is off by 2
         }
         for(int i = 1; i <= answerCount; i++)
         {
@@ -183,7 +209,10 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);
             newanswer.GetComponent<KeineMath_Answer>().value = answerValue;
-            if (answerOffset == 0) newanswer.GetComponent<KeineMath_Answer>().isCorrect = true;
+            if (answerOffset == 0)
+            {
+                newanswer.GetComponent<KeineMath_Answer>().isCorrect = true;
+            }
 
             //Set the color of this answer here.
             //Procedure: Generate random hue, iterate through existing hues, nudge hue up to get away from them.
@@ -200,7 +229,10 @@ public class KeineMath_Chalkboard : MonoBehaviour {
                 {
                     //Collision: Bump the hue up by the tolerance value, set it between 0 and 1 again, and give it another go.
                     hue += answerHueTolerance;
-                    if (hue > 1) hue -= 1;
+                    if (hue > 1)
+                    {
+                        hue -= 1;
+                    }
                     loopSafeguard++;
                     diff = hue - hues[j];
                     j = -1; //Gets incremented to 0 immediately
@@ -210,7 +242,10 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             Color answerColor = Color.HSVToRGB(hue, answerColorSaturation, 1);
             //Hack -- Manually adjust saturation for darker "problem" color(s)
             //This ended up being any color with a hue above 0.6
-            if (hue > 0.6) answerColor = Color.HSVToRGB(hue, answerColorSaturation - 0.075f, 1);
+            if (hue > 0.6)
+            {
+                answerColor = Color.HSVToRGB(hue, answerColorSaturation - 0.075f, 1);
+            }
             newanswer.GetComponent<KeineMath_Answer>().answerColor = answerColor;
         }
     }

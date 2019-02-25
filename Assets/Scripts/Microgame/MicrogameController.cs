@@ -51,7 +51,7 @@ public class MicrogameController : MonoBehaviour
         //Get traits from collection if available
         if (GameController.instance != null)
         {
-            var collectionMicrogame = MicrogameHelper.getMicrogames().FirstOrDefault(a => a.microgameId.Equals(microgameID));
+            var collectionMicrogame = MicrogameHelper.getMicrogames(includeBosses:true).FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
                 traits = collectionMicrogame.difficultyTraits[difficulty - 1];
         }
@@ -144,7 +144,7 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                    debugObjects.commandDisplay.play(traits.localizedCommand);
+                    debugObjects.commandDisplay.play(traits.localizedCommand, traits.commandAnimatorOverride);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
                 Cursor.lockState = getTraits().cursorLockState;
@@ -173,10 +173,17 @@ public class MicrogameController : MonoBehaviour
 	public void shutDownMicrogame()
 	{
 		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
-		for (int i = 0; i < rootObjects.Length; i++)
-		{
-			rootObjects[i].SetActive(false);
-		}
+        foreach (var rootObject in rootObjects)
+        {
+            rootObject.SetActive(false);
+
+            //Is there a better way to do this?
+            var monobehaviours = rootObject.GetComponentsInChildren<MonoBehaviour>();
+            foreach (var behaviour in monobehaviours)
+            {
+                behaviour.CancelInvoke();
+            }
+        }
 	}
 
 	bool isBeingDiscarded()
@@ -185,7 +192,8 @@ public class MicrogameController : MonoBehaviour
             return false;
 		return StageController.instance == null
             || StageController.instance.animationPart == StageController.AnimationPart.GameOver
-            || StageController.instance.animationPart == StageController.AnimationPart.WonStage;
+            || StageController.instance.animationPart == StageController.AnimationPart.WonStage
+            || PauseManager.exitedWhilePaused;
 	}
 
 	/// <summary>
@@ -284,12 +292,13 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayCommand(string command)
+	public void displayCommand(string command, AnimatorOverrideController commandAnimatorOverride = null)
 	{
 		if (!commandDisplay.gameObject.activeInHierarchy)
 			commandDisplay.gameObject.SetActive(true);
 
-        commandDisplay.play(command);
+
+        commandDisplay.play(command, commandAnimatorOverride);
 	}
 
     /// <summary>
@@ -305,9 +314,9 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayLocalizedCommand(string key, string defaultString)
+	public void displayLocalizedCommand(string key, string defaultString, AnimatorOverrideController commandAnimatorOverride = null)
 	{
-		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString), commandAnimatorOverride);
 	}
 
     /// <summary>

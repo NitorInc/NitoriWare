@@ -18,7 +18,7 @@ stage
 		highscore=Рекорд: {0}
 		newhighscore=Новый рекорд!
 discord
-	scoreformat={0} Игры
+	scoreformat={0} Игр
 	scoreformatsingular={0} Игра
 	boss=Босс
 	menu=В меню
@@ -104,6 +104,9 @@ microgame
 			wrong1
 				option=Отвали, толстуха!
 				response=Ты сам-то не особо худой, придурок!
+			wrong2
+				option=Сама иди.
+				response=Ну и ладно, все равно ты так себе.
 		youmu
 			fullname=Ёму Конпаку
 			firstname=Ёму
@@ -111,12 +114,18 @@ microgame
 			right0
 				option=Они прекрасны!
 				response=Спасибо~
+			right1
+				option=Это так мило.
+				response=Рада, что тебе понравилось.
 			wrong0
 				option=Ааа! Призрак!
 				response=Да ты шутишь.
 			wrong1
 				option=Я ненавижу цветы!
 				response=Ты всё равно их не заслужил.
+			wrong2
+				option=Наверняка искусственные.
+				response=Наверняка на личном фронте у тебя дела <i>хороши</i>.
 		yuuka
 			fullname=Юка Кадзами
 			firstname=Юка
@@ -133,7 +142,45 @@ microgame
 			wrong1
 				option=Я влюблен в Рейму!
 				response=Подумай ещё раз.
+			wrong2
+				option=У меня встал вопрос....
+				response=Ты серьезно!?
+		patchy
+			fullname=Пачули Нолидж
+			firstname=Пачули
+			introdialogue=Надеюсь тебе понравится мой чай...
+			right0
+				option=Очень вкусно.
+				response=Ох, я рада.
+			right1
+				option=Можно еще чая?
+				response=Конечно, сейчас.
+			wrong0
+				option=У него странный вкус.
+				response=Ох, извини.
+			wrong1
+				option=*Спотыкается и проливает горячий чай повсюду*
+				response=<i>АААааайййаай</i>
+			wrong2
+				option=Я не просил чай.
+				response=Я... думала, что тебе понравится.
 		fakeconfig=Сохр.\nЗагр.\nАвто.\nИстория\nНастр.
+		command=Романтика!
+		igname=Первое свидание
+	ComicBubble
+		0
+			0=Ты уверена что это безопасно?
+			1=Всё в порядке!
+		1
+			0=Эй, Подожди!
+			1=У тебя что-то воооот~
+			2=~ЗДЕСЬ!
+		2
+			0=Уборка так надоедает...
+			1=Зачем заморачиваться, когда прихожу только я?
+			2=<i>Ой!</i>
+			3=<i>Ай!</i>
+		command=Скажи!
 	FreezeFrogs
 		command=Заморозь!
 		igname=Замороженные лягушки
@@ -208,54 +255,101 @@ microgame
 		commandc=Стреляй!
 		commandd=Стреляй в неё!
 		igname=Огурцовая гонка
+	KaguyaMemory
+		command=Наблюдай!
+		commandb=Выбери!
+		igname=Ценная память
+	SumiWheel
+		command=Руны!
+		igname=Мои глаза открыты
+	MochiPound
+		command=Отбивай!
+		igname=Отбитие моти
 	RuukotoSweep
 		command=Подмети!
+		igname=От забора до обеда
+	MaskPuzzle
+		command=Собери!
+		igname=Голово-ломка
+	YuukaWater
+		command=Полей!
+		igname=Поливание цветов
+	KnifeDodge
+		command=Увернись!
+	NitoriLook
+		command=Найди Нитори!
+		igname=Прячущаяся Нитори
+	MamiPoser
+		command=Найди Мамидзо!
+		igname=Самозванец
+	DollDance
+		command=Повтори!
+		igname=Кукольный танец
 	CirnoBored
 		command=Будь хорошей!
+		commandb=Развлекайся!
+		commandc=Спаси ее!
+		igname=Холодное обращение
+	HecShapes
+		command=Вставь!
+		igname=Адское соответствие
+	RockPaperSatori
+		command=Победи!
+		igname=Камень-ножницы-Сатори
 	MarisaJizou
 		command=Сбрось!
+		igname=Раздача шляп
 	NueAbduct
 		command=Похить!
 		igname=Похищение
 	ReimuDodge
 		command=Увернись!
+		igname=~
+	ClothesChoose
+		command=Сопоставь!
+		igname=С иголочки
 	KyoukoEcho
 		command=Отрази!
+		igname=Позвольте мне перефразировать это
 	BugSwat
 		command=Прибей!
 	ClownTorch
 		command=Подожги!
-	KaguyaMemoryl
-		commandb=Выбери!
-	KaguyaMemory
-		igname=Ценная память
-	MaskPuzzle
-		igname=Голово-ломка
-	YuukaWater
-		igname=Поливание цветов
-	NitoriLook
-		igname=Прячущаяся Нитори
-	DollDance
-		igname=Кукольный танец
-	RockPaperSatori
-		igname=Камень-ножницы-Сатори
+		igname=Подача факела
+	BeachBall
+		command=Забрось!
+	YuugiBalance
+		command=Балансируй!
+		igname=Сбалансированное питье
+	DoorKnock
+		command=Постучи!
+	FoodCut
+		command=Порежь еду!
+	MoneyTrap
+		command=Замани!
+	KeineMath
+		command=Посчитай!
+	DoomGame
+		igname=Ад для Рейсен
 credits
 	intro={0} была создана благодаря нашим фанатам!
 	kapptain=Креативный директор, программист, "Каппитан" команды
 	leadart=Ведущий художник, дизайн персонажей, Голос Нитори
+	code=Программирование
 	UI=Меню и графика
 	menumusic=Музыка меню
 	stagemusic=Музыка уровней
 	microgame
 		management=Менеджер микро игр
 		managementalt=Менеджер совместной работы
-		code=Программа
+		code=Программирование микроигр
 		art=Графика
 		music=Музыка
 	localization=Локализаторы
 		management=Менеджмент перевода
 	sfx=Звуковые эффекты
 	voice=Голос Нитори
+	site=Дизайн веб-сайта
 	trailer=Трейлер демо-версии
 	socialmedia=Социальные медиа
 	touhou=Основано на Touhou Project авторства ZUN
