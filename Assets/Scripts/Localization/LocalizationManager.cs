@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using System.Linq;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -144,7 +145,7 @@ public class LocalizationManager : MonoBehaviour
         }
         else if (loadedLanguage.getLanguageID().Equals("ChineseTraditional"))
         {
-            return value.Equals("Y") || value.Equals("Y");
+            return value.Equals("T") || value.Equals("Y");
         }
         else
             return value.Equals("Y");
@@ -160,11 +161,15 @@ public class LocalizationManager : MonoBehaviour
             return false;
     }
 
-    public TMP_FontAsset getFallBackFontForCurrentLanguage()
+    public TMP_FontAsset getFallBackFontForCurrentLanguage(TMP_FontAsset[] blacklist = null)
     {
+        if (blacklist == null)
+            blacklist = new TMP_FontAsset[0];
+        var blackListNames = blacklist.Select(a => a.name);
         foreach (var fontKeyPair in languageFontMetadata.subData)
         {
-            if (parseFontCompabilitySring(fontKeyPair.Value.value))
+            if (parseFontCompabilitySring(fontKeyPair.Value.value)
+                && !blackListNames.Contains(fontKeyPair.Key))
             {
                 var fontAsset = Resources.Load<TMP_FontAsset>(Path.Combine(fontAssetsDirectory, fontKeyPair.Key));
                 if (fontAsset != null)

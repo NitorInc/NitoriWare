@@ -32,35 +32,11 @@ public class LocalizedText : MonoBehaviour
         public bool isKey;
         public string keyDefaultString;
     }
-
-    [FormerlySerializedAs("defaultTMProFallbackFont")]
+    
     [SerializeField]
-    private TMP_FontAsset overrideDefaultTmpFont;
-
-    [FormerlySerializedAs("TMProFallbackOverrideFonts")]
+    private TMP_FontAsset[] tmproFontFallbackList;
     [SerializeField]
-    private TMP_FontOverride[] tmpFontOverrides;
-
-    [System.Serializable]
-    public class TMP_FontOverride
-    {
-        [SerializeField]
-        [Multiline]
-        private string languages;
-        public string Languages => languages;
-
-        [FormerlySerializedAs("fallback")]
-        [SerializeField]
-        private TMP_FontAsset font;
-        public TMP_FontAsset Font => font;
-
-        [SerializeField]
-        private bool useOverrideFontStyle;
-        public bool UseOverrideFontStyle => useOverrideFontStyle;
-        [SerializeField]
-        private FontStyles overrideFontStyle;
-        public FontStyles OverrideFontStyle => overrideFontStyle;
-    }
+    private TMP_FontAsset[] tmproFontBlacklist;
 
     private Text textComponent;
     public Text TextComponent => textComponent;
@@ -251,31 +227,16 @@ public class LocalizedText : MonoBehaviour
 
     public TMP_FontAsset getTMProFontForLanguage(Language language)
     {
-        foreach (var fontOverride in tmpFontOverrides)
-        {
-            if (fontOverride.Languages.Contains(language.getLanguageID()))
-            {
-                if (fontOverride.UseOverrideFontStyle)
-                {
-
-                    if (tmpText != null)
-                        tmpText.fontStyle = fontOverride.OverrideFontStyle;
-                }
-
-                return fontOverride.Font;
-            }
-        }
-
-        //if (language.tmpFont != null)
-        //    return language.tmpFont;
-
-        if (overrideDefaultTmpFont != null)
-            return overrideDefaultTmpFont;
-
         if (tmpText != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(tmpText.font))
             return tmpText.font;
+        
+        foreach (var fallbackFont in tmproFontFallbackList)
+        {
+            if (LocalizationManager.instance.isTMPFontCompatibleWithLanguage(fallbackFont))
+                return fallbackFont;
+        }
 
-        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage();
+        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage(blacklist:tmproFontBlacklist);
         if (fallback != null)
             return fallback;
 
