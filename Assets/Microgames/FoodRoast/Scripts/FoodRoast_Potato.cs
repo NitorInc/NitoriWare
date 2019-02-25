@@ -130,7 +130,7 @@ namespace FoodRoast
             foreach (var particle in Particles)
                 particle.Play();
 
-            MicrogameController.instance.setVictory(false);
+            FoodRoast_VictoryController.Instance.setVictory(false);
             MicrogameController.instance.playSFX(failSound);
 
         }
