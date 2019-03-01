@@ -24,6 +24,16 @@ public class RabbitTrapVictim : MonoBehaviour {
     [SerializeField]
     private float onTimeYStopLocation;
 
+    [SerializeField]
+    private float[] stopsAndWaitTime;
+
+    [Header("Prefabs")]
+    [SerializeField]
+    private GameObject PauseTrigger;
+
+    [SerializeField]
+    private GameObject SpeedChangeTrigger;
+
     private Vector2 trajectory;
 
     private float maxXPosition;
@@ -151,6 +161,23 @@ public class RabbitTrapVictim : MonoBehaviour {
     void SetLoseLate()
     {
         print("Too late!");
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag=="MicrogameTag1")
+        {
+            //print("PauseTrigger");
+            //other.gameObject.gEt;
+
+        }
+
+        if (other.tag == "MicrogameTag2")
+        {
+            //print("SpeedChangeTrigger");
+            //(SpeedChangeTrigger)other;
+        }
+
     }
 
 }
