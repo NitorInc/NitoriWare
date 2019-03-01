@@ -30,7 +30,18 @@ public class LocalizationUpdaterEditor : Editor
         }
 
         GUILayout.Label("");
-        GUILayout.Label("TO ADD OR EDIT LANGUAGES THEMSELVES, edit Languages Data.");
+        GUILayout.Label("Check and log whether TMP FontAssets are");
+        GUILayout.Label("missing characters and have to be rebuilt");
+        GUILayout.Label("(call this after Update Chars Files):");
+        if (GUILayout.Button("Check Font Chars"))
+        {
+            updater.checkFontChars();
+        }
+
+        GUILayout.Label("");
+        GUILayout.Label("TO ADD OR EDIT LANGUAGES OR FONTS THEMSELVES, edit Languages Data.");
+        GUILayout.Label("Same with adding fonts.");
+        GUILayout.Label("----------------------");
         DrawDefaultInspector();
     }
 }

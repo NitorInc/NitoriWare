@@ -1,13 +1,15 @@
 generic
+	idname=French
+	addedtogame=Y
 	name=Français
 	gamename=NitorInc.
 	incomplete=ATTENTION: Cette langue n'est pas entièrement traduite. Certains textes peuvent apparaître en anglais.
 stage
 	control
-		key=PRAN TON KLAVIER
-		mouse=PRAN TA SURI
+		key=A TON CLAVIER!
+		mouse=A TA SOURIS!
 	speedup=PLUS VITE !
-	boss=C LE BOSS
+	boss=C'EST LE BOSS!
 	levelup=NIVEAU SUPERIEUR !
 	pause=Jeu en pause
 		resume=Reprendre {0}
@@ -54,7 +56,7 @@ menu
 			description=Les jeux les plus difficiles! Seulement une vie. Combien de temps pouvez-vous durer?
 	main
 		quit=Quitter le jeu
-			prompt=Êtes-vous sûr de vouloir quitter? {0}
+			prompt=Êtes-vous sûr de vouloir quitter {0}?
 		settings=Options
 		credits=Crédits
 	settings
@@ -82,106 +84,7 @@ menu
 		introb=Beaucoup de fans de la série ont collaboré et contribué au code, à la musique, aux graphismes pour créer cette collection de mini-jeux.
 		introc=Si vous parlez anglais et souhaitez contribuer à la création du jeu, veuillez vous rendre sur {0} ou faites simplement parler de nous!
 		webglwarning=Si vous rencontrez des problèmes avec la version web, essayez les liens de téléchargement plus bas.
-nitori
-	storyintro=On dirait qu'on a un nouveau client.\nVoyons comment tu t'en sors sur mes jeux.\nMieux vaut ne pas cligner des yeux!
-	storyfinished=Bien joué, petit geek.\nTu ne m'as pas l'air d'être un lèche-vitrine.\nMaintenant essaye {0} pour un vrai défi!
-	compilationfinished=Eh bien, je suis impressionnée!\nMais un peu de patience avant que le jeu complet soit terminé.\n{0} a juste commencé!
 microgame
-	DatingSim
-		suika
-			fullname=Suika Ibuki
-			firstname=Suika
-			introdialogue=Hééééé! T'es libre non? On se prend un truc à bouffer?
-			right0
-				option=On fait la course jusqu'au snack-bar!
-				response=Le perdant paye!
-			right1
-				option=Ouais, allons acheter à bouffer!
-				response=Yes!
-			wrong0
-				option=Tu viens pas de manger?
-				response=Beuh. C'est pas cool de manger seule.
-			wrong1
-				option=Casse-toi la grosse!
-				response=T'es pas le plus maigre, connard!
-			wrong2
-				option=Tu peux y aller toi-même.
-				response=Tant mieux, t'es chiant de toutes façons.
-		youmu
-			fullname=Youmu Konpaku
-			firstname=Youmu
-			introdialogue=J'ai fait pousser ces fleurs pour toi.
-			right0
-				option=Elles sont magnifiques!
-				response=Merci~
-			right1
-				option=C'est trop gentil.
-				response=Je suis contente qu'elles te plaisent.
-			wrong0
-				option=Aaah, un fantôme!
-				response=Tu te fous de moi?
-			wrong1
-				option=Je déteste les fleurs!
-				response=Tu ne les mérites pas de toutes façons.
-			wrong2
-				option=Je parie que ce sont des fausses.
-				response=Je parie que tu as <i>beaucoup</i> de chances avec les dames.
-		yuuka
-			fullname=Yuuka Kazami
-			firstname=Yuuka
-			introdialogue=T'étais avec d'autres filles?
-			right0
-				option=Bien sûr que non!
-				response=Bien, tu ferais mieux de rester loin d'elles.
-			right1
-				option=Tu es la seule qui compte pour moi!
-				response=C'est bien ce que je pensais.
-			wrong0
-				option=Et bien...
-				response=Comment ça, "Et bien"?
-			wrong1
-				option=J'aime Reimu!
-				response=Réfléchis-y à deux fois.
-			wrong2
-				option=Il s'est passé un truc.
-				response=Oh non, non!
-		patchy
-			fullname=Patchouli Knowledge
-			firstname=Patchouli
-			introdialogue=J'espère que tu aimes mon thé...
-			right0
-				option=Il est exquis.
-				response=Oh? Je suis contente.
-			right1
-				option=Plus, s'il te plait!
-				response=Tout de suite!
-			wrong0
-				option=Il a un goût bizarre.
-				response=Oh, je suis désolée.
-			wrong1
-				option=*Trébuche et renverse du thé chaud partout*
-				response=<i>EEYYAAAAAAAAAAaahh!!</i>
-			wrong2
-				option=Mais je n'ai jamais demandé du thé.
-				response=Je... Je pensais que tu en voudrais.
-		fakeconfig=Sauvegarder\nCharger\nAuto\nHistorique\nConfiguration
-		command=Drague!
-		igname=Premier Rendez-vous
-	ComicBubble
-		0
-			0=Es-tu sûre qu'il n'y a aucun danger?
-			1=C'est bon!
-		1
-			0=Hé, attends!
-			1=Tu as quelque chose juuuste~
-			2=~ICI!
-		2
-			0=C'est ennuyeux de nettoyer...
-			1=Pourquoi te déranger quand je suis la seule qui passe?
-			2=<i>Iiiiii!</i>
-			3=<i>Aie!</i>
-		command=Dialogue!
-		igname=Va à la Punchline!
 	FreezeFrogs
 		command=Gèle!
 		igname=Grenouilles gelées
@@ -277,15 +180,19 @@ microgame
 		igname=Arrosage des Fleurs
 	KnifeDodge
 		command=Esquive!
+		igname=Tempête de Couteau
 	NitoriLook
 		command=Trouve Nitori!
 		igname=Où est Nitori?
 	MamiPoser
 		command=Trouve l'imposteur!
-		igname=L'imposteur Tanuki
+		igname=L'imposteur
 	DollDance
 		command=Imite!
 		igname=Spectacle de Marionnettes
+	YoumuSlash
+		command=Observe...
+		commandb=Tranche!
 	CirnoBored
 		command=Sois gentil!
 		commandb=Amuse!
@@ -298,7 +205,7 @@ microgame
 		command=Gagne!
 		igname=Psyfoumi
 	MarisaJizou
-		command=Lance!
+		command=Couvre!
 		igname=Pluie de Chapeau
 	NueAbduct
 		command=Enlève!
@@ -312,6 +219,86 @@ microgame
 	KyoukoEcho
 		command=Renvoie!
 		igname=Permettez-moi de Reformuler
+	DatingSim
+		command=Drague!
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Hééééé! T'es libre non? On se prend un truc à bouffer?
+			right0
+				option=On fait la course jusqu'au snack-bar!
+				response=Le perdant paye!
+			right1
+				option=Ouais, allons acheter à bouffer!
+				response=Yes!
+			wrong0
+				option=Tu viens pas de manger?
+				response=Beuh. C'est pas cool de manger seule.
+			wrong1
+				option=Casse-toi la grosse!
+				response=T'es pas le plus maigre, connard!
+			wrong2
+				option=Tu peux y aller toi-même.
+				response=Tant mieux, t'es chiant de toutes façons.
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=J'ai fait pousser ces fleurs pour toi.
+			right0
+				option=Elles sont magnifiques!
+				response=Merci~
+			right1
+				option=C'est trop gentil.
+				response=Je suis contente qu'elles te plaisent.
+			wrong0
+				option=Aaah, un fantôme!
+				response=Tu te fous de moi?
+			wrong1
+				option=Je déteste les fleurs!
+				response=Tu ne les mérites pas de toutes façons.
+			wrong2
+				option=Je parie que ce sont des fausses.
+				response=Je parie que tu as <i>beaucoup</i> de chances avec les dames.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=T'étais avec d'autres filles?
+			right0
+				option=Bien sûr que non!
+				response=Bien, tu ferais mieux de rester loin d'elles.
+			right1
+				option=Tu es la seule qui compte pour moi!
+				response=C'est bien ce que je pensais.
+			wrong0
+				option=Et bien...
+				response=Comment ça, "Et bien"?
+			wrong1
+				option=J'aime Reimu!
+				response=Réfléchis-y à deux fois.
+			wrong2
+				option=Il s'est passé un truc.
+				response=Oh non, non!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=J'espère que tu aimes mon thé...
+			right0
+				option=Il est exquis.
+				response=Oh? Je suis contente.
+			right1
+				option=Plus, s'il te plait!
+				response=Tout de suite!
+			wrong0
+				option=Il a un goût bizarre.
+				response=Oh, je suis désolée.
+			wrong1
+				option=*Trébuche et renverse du thé chaud partout*
+				response=<i>EEYYAAAAAAAAAAaahh!!</i>
+			wrong2
+				option=Mais je n'ai jamais demandé du thé.
+				response=Je... Je pensais que tu en voudrais.
+		fakeconfig=Sauvegarder\nCharger\nAuto\nHistorique\nConfiguration
+		igname=Premier Rendez-vous
 	BugSwat
 		command=Écrase!
 		igname=Sautillements dans la Salle
@@ -324,6 +311,21 @@ microgame
 	YuugiBalance
 		command=Garde l'équilibre!
 		igname=Boisson Équilibrée
+	ComicBubble
+		command=Dialogue!
+		0
+			0=Es-tu sûre qu'il n'y a aucun danger?
+			1=C'est bon!
+		1
+			0=Hé, attends!
+			1=Tu as quelque chose juuuste~
+			2=~ICI!
+		2
+			0=C'est ennuyeux de nettoyer...
+			1=Pourquoi te déranger quand je suis la seule qui passe?
+			2=<i>Iiiiii!</i>
+			3=<i>Aie!</i>
+		igname=Va à la Punchline!
 	DoorKnock
 		command=Tape!
 		igname=Toc Toc
@@ -334,9 +336,29 @@ microgame
 		command=Attire!
 	KeineMath
 		command=Résous!
-		igname=Cours de Maths avec Keine
+		igname=Fais la Math
 	DoomGame
+		command=Abats-les!
+		danger=Derrière toi!
 		igname=DOOM
+	MystiaServe
+		command=Sers!
+	BoatSteer
+		command=Pilote!
+	SeijaSpin
+		command=Tourne!
+	IcePath
+		command=Fraie toi un chemin!
+	KagerouCut
+		command=Rase!
+	AwooClicker
+		igname=Photograwoof
+	HinaSpin
+		igname=Youkai Dynamo
+nitori
+	storyintro=On dirait qu'on a un nouveau client.\nVoyons comment tu t'en sors sur mes jeux.\nMieux vaut ne pas cligner des yeux!
+	storyfinished=Bien joué, petit geek.\nTu ne m'as pas l'air d'être un lèche-vitrine.\nMaintenant essaye {0} pour un vrai défi!
+	compilationfinished=Eh bien, je suis impressionnée!\nMais un peu de patience avant que le jeu complet soit terminé.\n{0} a juste commencé!
 credits
 	intro={0} à été possible grâce au fans suivants !
 	kapptain=Directeur Créatif, Développeur, "Kappataine" d'équipe
@@ -363,3 +385,17 @@ credits
 		discord=Le Discord de Touhou Project
 		playtesters=Tous nos testeurs
 		fans=Et tous les fans qui ont fait passer le message!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=Y
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?

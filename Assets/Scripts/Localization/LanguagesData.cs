@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [CreateAssetMenu(menuName = "Control/Languages Data")]
 public class LanguagesData : ScriptableObjectSingleton<LanguagesData>
@@ -11,6 +12,17 @@ public class LanguagesData : ScriptableObjectSingleton<LanguagesData>
     [SerializeField]
     private Language[] _languages;
     public Language[] languages => _languages;
+
+    [System.Serializable]
+    public class LanguageTMPFont
+    {
+        public string idName;
+        public TMP_FontAsset fontAsset;
+    }
+
+    [SerializeField]
+    private LanguageTMPFont[] _languageTMPFonts;
+    public LanguageTMPFont[] languageTMPFonts => _languageTMPFonts;
 
     public Language FindLanguage(string language)
     {

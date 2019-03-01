@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using System.Linq;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -13,10 +14,16 @@ public class LocalizationManager : MonoBehaviour
 
     [SerializeField]
     private string forceLanguage;
-    
+    [SerializeField]
+    private string fontAssetsDirectory;
+
+    public delegate void LanguageChangedDelegate(Language language);
+    public static LanguageChangedDelegate onLanguageChanged;
+
     private Language loadedLanguage;
 	private SerializedNestedStrings localizedText;
     private string languageString;
+    private SerializedNestedStrings.StringData languageFontMetadata;
 
 	public void Awake ()
     {
@@ -30,7 +37,8 @@ public class LocalizationManager : MonoBehaviour
 			instance = this;
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
-        
+
+        onLanguageChanged = null;
         loadedLanguage = new Language();
 
         string languageToLoad;
@@ -46,11 +54,15 @@ public class LocalizationManager : MonoBehaviour
 
     public void setForcedLanguage(string language)
     {
+        print("setting forced language to " + language);
         forceLanguage = language;
     }
+
+    public string getForcedLanguage() => forceLanguage;
     
 	public void setLanguage(string language)
 	{
+        print("setting language to " + language);
         var lang = LanguagesData.instance.FindLanguage(language);
         StartCoroutine(loadLanguage(lang));
     }
@@ -74,9 +86,13 @@ public class LocalizationManager : MonoBehaviour
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
         Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
         PrefsHelper.setPreferredLanguage(language.getLanguageID());
+        languageFontMetadata = localizedText.getSubData("meta.font");
 
         loadedLanguage = language;
         languageString = "";
+        
+        if (onLanguageChanged != null)
+            onLanguageChanged(language);
     }
 
     public string getLoadedLanguageID()
@@ -119,4 +135,50 @@ public class LocalizationManager : MonoBehaviour
         value = value.Replace("\\n", "\n");
 		return value;
 	}
+
+    public static bool parseFontCompabilityString(Language language, string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return false;
+
+        value = value.ToUpper();
+        if (language.getLanguageID().Equals("ChineseSimplified")
+            || language.getLanguageID().Equals("Chinese"))
+        {
+            return value.Equals("S") || value.Equals("Y");
+        }
+        else if (language.getLanguageID().Equals("ChineseTraditional"))
+        {
+            return value.Equals("T") || value.Equals("Y");
+        }
+        else
+            return value.Equals("Y");
+    }
+
+    public bool isTMPFontCompatibleWithLanguage(TMP_FontAsset font)
+    {
+        var languageFont = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.fontAsset == font);
+        if (languageFont == null)
+            return false;
+        if (languageFontMetadata.subData.ContainsKey(languageFont.idName))
+            return parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[languageFont.idName].value);
+        else
+            return false;
+    }
+    
+
+    public TMP_FontAsset getFallBackFontForCurrentLanguage(TMP_FontAsset[] blacklist = null)
+    {
+        if (blacklist == null)
+            blacklist = new TMP_FontAsset[0];
+
+        return LanguagesData.instance.languageTMPFonts
+            .FirstOrDefault(a =>
+                a.fontAsset != null
+                && !blacklist.Contains(a.fontAsset)
+                && languageFontMetadata.subData.ContainsKey(a.idName)
+                && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.idName].value))
+            .fontAsset;
+    }
+
 }
