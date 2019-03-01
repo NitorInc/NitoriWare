@@ -1,4 +1,6 @@
 generic
+	idname=Ukrainian
+	addedtogame=Y
 	name=Українська
 	gamename=NitorInc.
 	incomplete=УВАГА: Гра не є цілковито перекладеною на українську мову. Частина тексту може бути на англійській.
@@ -10,13 +12,18 @@ stage
 	boss=БОС
 	levelup=НАСТУПНИЙ РІВЕНЬ!
 	pause=Пауза
-		resume=Продовжити
+		resume=Продовжити {0}
 	quit=Покинути гру {0}
-	retry=Почати з початку
+	retry=Почати з початку {0}
 	gameover=Гра закінчена
 		score=Кількість очок: {0}
 		highscore=Рекорд: {0}
 		newhighscore=Новий рекорд!
+discord
+	scoreformat={0} ігор
+	scoreformatsingular={0} гра
+	boss=Бос
+	menu=В меню
 menu
 	yes=Так
 	no=Ні
@@ -30,7 +37,7 @@ menu
 	play=Грати
 	gamemode=Оберіть режим гри!
 		nitori=Сюжетний режим
-			description=Грайте у сюжетний режим, скільки Вам влізе! Який же у Вас буде рекорд?
+			description=Грайте у сюжетний режим, скільки вам влізе! Який же у вас буде рекорд?
 		arcade=Аркадний режим
 		microgamepractice=Режим практики
 			description=Відточіть свої навички та встановлюйте нові рекорди!
@@ -39,11 +46,200 @@ menu
 		highscore=Рекорд: {0}
 		compilationmode
 			description=Грайте у стільки мікро-ігор, скільки зможете. Без босів!
+		compilation=Енциклопедія каппи
+			description=Звичайний Аркадний Режим: грайте в усі мікро-ігри у випадковому порядку.
+		compilationfast=Каппаксимальна потужність!
+			description=СУПЕР-ПУПЕР ШВИДКО!!
+		compilationmystery=(Потребує Документації)
+			description=Упс, ми загубили всі креслення до цього режиму. Ніяких підказок до схеми керування!
+		compilationhard=Огіркове Пекло
+			description=Найважчі ігри! Лише одне життя! Як довго ти протримаєшся?
 	main
 		quit=Вийти
 			prompt=Ви впевнені, що хочете вийти з {0}?
 		settings=Настройки
 		credits=Титри
+	settings
+		resolution=Розширення Екрану
+		fullscreen=На повний екран
+		language=Мова
+		graphics=Якість графіки
+			0=Найшвидше
+			1=Швидко
+			2=Просто
+			3=Добре
+			4=Прекрасно
+			5=Фантастично
+		volume=Гучність
+			master=Загальна
+			music=Музика
+			sfx=Звукові ефекти
+			voice=Голос
+	microgamecredits
+		art=Графіка: {0}
+		code=Код гри: {0}
+		music=Музика: {0}
+	splash
+		introa=Це демо гри, заснованої на Touhou Project (東方Project). Розробник оригіналу - ZUN.
+		introb=Багато фанатів зібрались разом та приклали свої зуссиля та таланти, аби створити цю колекцію мікро-ігор.
+		introc=Якщо ви бажаєте допомогти розробці, то відвідайте {0}; або ж розкажіть іншим!
+		webglwarning=Якщо у вас виникли проблеми з грою в браузері, спробуйте завантажити гру, перейшоаши по одному з посилань нижче.
 microgame
+	FreezeFrogs
+		command=Заморозь!
+	Slingshot
+		command=Рогатка!
+	ChenFood
+		command=Не стань їжею!
+	Spider
+		command=Годуй!
+	Donation
+		command=Злови 3!
+	Wrench
+		command=Закрути!
+	Potion
+		command=Закинь!
+		ingredients=Інгредієнти
+	GhostFood
+		command=Їж та жуй!
+	Spaceship
+		command=Вперед!
+	CupShuffle
+		command=Не відволікайся!
+		commandb=Вибери!
+	TraceShape
+		command=Заповни!
+	KogasaScare
+		command=Налякай!
+	RockBand
+		command=Зіграй!
+	ChenBike
+		command=Бібікай!
+	MasterSparkCode
+		command=Зачаруй!
+	OkuuFire
+		command=Регулюй!
+	DatingSim
+		suika
+			fullname=Суйка Ібукі
+			firstname=Суйка
+			introdialogue=Агов! Ти вільний, чи не так? Давай візьмемо щось поїсти.
+			right0
+				option=Давай хто перший до прилавка!
+				response=Той, хто програв, платить!
+			right1
+				option=Пішли!
+				response=Ура!
+			wrong0
+				option=Хіба ти не їла тільки що?!
+				response=Буу. Їсти наодинці зовсім не весело.
+			wrong1
+				option=Йди геть, товстуха!
+				response=Та ти і сам не особливо стрункий, козел!
+			wrong2
+				option=Сама йди.
+				response=Ну і добре, з тобою і так не дуже цікаво.
+		youmu
+			fullname=Йому Конпаку
+			firstname=Йому
+			introdialogue=Ці квіти дле тебе.
+			right0
+				option=Які вони гарні!
+				response=Дякую~
+			right1
+				option=Це так мило!
+				response=Я рада, що тобі сподобалось!
+			wrong0
+				option=Ааааа, привид!
+				response=Це, певне, якийсь жарт.
+			wrong1
+				option=Я ненавиджу квіти!
+				response=Ти і так того не вартий.
+			wrong2
+				option=Готоаий закластися, що ці несправжні.
+				response=Тобі, напевне, <i>дуже</i> щастить з жінками.
+		yuuka
+			fullname=Юка Кадзамі
+			firstname=Юка
+			introdialogue=Ти ж не зраджуєш мене, правда?
+			right0
+				option=Звичайно ж ні!
+				response=Добре, адже тобі було б непереливки.
+			right1
+				option=Ти єдина для мене!
+				response=Так і знала.
+			wrong0
+				option=Нууу...
+				response=І що це "нууу" має означати?
+			wrong1
+				option=Я кохаю Рейму!
+				response=Подумай ще раз.
+			wrong2
+				option=У мене виникло питання.
+				response=Ти що, серйозно?!
+		patchy
+			fullname=Пачулі Нолідж
+			firstname=Пачулі
+			introdialogue=Я сподіваюсь, тобі сподобається мій чай...
+			right0
+				option=Дуже смачно.
+				response=О? Я рада.
+			right1
+				option=Ще, будь ласка!
+				response=Зараз буде!
+			wrong0
+				option=Смакує, еее... цікаво.
+				response=О, мої вибачення.
+			wrong1
+				option=*спотикнутись та пролити гарячий чай*
+				response=<i>ААААААААААЙАйай!!</i>
+			wrong2
+				option=Я не просив чаю.
+				response=Я... думала, що тобі сподобається.
+		fakeconfig=Зберегти<line break> Завантажити<line break> Авто<line break> Лог<line break> Конгіфурація
+	ComicBubble
+		0
+			0=Ти впевнений, що це безпечно?
+			1=Все під контролем!
+		1
+			0=Агов, зачекай!
+			1=У тебе щось тут є, пряяямо~
+			2=~ТУТ!
+		2
+			0=Прибирання так надокучає...
+			1=Для чого ж так морочитись, коли приходжу лише я?
+			2=<i>Ааа!</i>
+			3=<i>Ау!</i>
+	TouhouSort
+		hat=капелюхи
+		wing=крила
+		ear=вуха
+	PaperThief
+		commandb=Обережно!
+		commandc=Стріляй!
+		commandd=Переможи її!
+	KaguyaMemory
+		commandb=Вибери!
+	CirnoBored
+		commandb=Розвесели її!
+		commandc=Врятуй її!
 	ReimuDodge
 		igname=~
+nitori
+	storyintro=Схоже, у нас новий замовник. Подивимось, як ти впораєшся з моїми іграми. Краще не кліпати!
+	storyfinished=Непогано, ботан. Виявляється, ти не якийсь-то новак. Тепер поглянемо, чи по зубам тобі {0}!
+	compilationfinished=Що ж, я вражена! Проте це була лише розминка! Це був тільки початок {0}!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=N
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?
