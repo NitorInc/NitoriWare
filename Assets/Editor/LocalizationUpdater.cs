@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using TMPro;
 
 [CreateAssetMenu(menuName = "Localization/Localization Updater")]
 [ExecuteInEditMode]
@@ -151,6 +152,70 @@ public class LocalizationUpdater : ScriptableObject
         }
 
         return true;
+    }
+
+    public void checkFontChars()
+    {
+        string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
+        string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
+        var errorStrings = new List<string>();
+        foreach (var language in LanguagesData.instance.languages)
+        {
+            var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
+            var fontDict = SerializedNestedStrings.deserialize(File.ReadAllText(filePath)).getSubData("meta.font").subData;
+            foreach (var fontKVPair in fontDict)
+            {
+                if (LocalizationManager.parseFontCompabilityString(language, fontKVPair.Value.value))
+                {
+                    // Font is marked as compatible
+                    var font = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
+                    if (font == null || font.fontAsset == null)
+                        continue;
+                    var charString = File.ReadAllText(Path.Combine(fullCharsPath, language.getFileName() + "Chars.txt"));
+                    // Toohoo is in DefaultEmpty
+                    charString = charString.Replace('東', ' ');
+                    charString = charString.Replace('方', ' ');
+                    charString = string.Join("", charString.Distinct());
+                    List<char> currentChars = charString.ToCharArray().ToList();
+                    currentChars.Add('a');
+
+                    // Check fonts AND fallbacks
+                    var fallbackList = new List<TMP_FontAsset>();
+                    fallbackList.Add(font.fontAsset);                           // Current language
+                    fallbackList.AddRange(font.fontAsset.fallbackFontAssets);   // language's fallbacks
+                    fallbackList.AddRange(TMP_Settings.fallbackFontAssets);     // Global fallbacks
+                    fallbackList = fallbackList.Distinct().ToList();
+
+                    foreach (var fontAsset in fallbackList)
+                    {
+                        var missingChars = new List<char>();
+                        // NO idea why but the hasCharacters() function seems to just be true all the time, so also check for null/any
+
+                        missingChars = currentChars.Where(a => !fontAsset.characterDictionary.ContainsKey((int)a)).ToList();
+
+                        if (missingChars != null && missingChars.Any())
+                        {
+                            currentChars = missingChars;
+                        }
+                        else
+                        {
+                            currentChars = null;
+                            break;
+                        }
+                    }
+                    if (currentChars != null && currentChars.Any())
+                        errorStrings.Add($"{font.fontAsset.name} is missing {language.getFileName()} character(s)  " +
+                        $"{string.Join("", currentChars)}");
+                }
+            }
+        }
+        errorStrings.Sort();
+        foreach (var errorString in errorStrings)
+        {
+            Debug.LogWarning(errorString);
+        }
+
+        Debug.Log("Font character analysis complete");
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges
