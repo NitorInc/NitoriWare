@@ -41,7 +41,6 @@ public class EikiJudge_SoulController : MonoBehaviour
             soulRenderer.sprite = badSoulSprite;
             rightPortalDirection = EikiJudge_PortalsController.controller.hellDirection;
         }
-        print("soul " + soulListPosition + " right portal is " + rightPortalDirection);
 
         // If this soul must be late
         if (EikiJudge_Controller.controller.lastSoulIsLate && (soulListPosition + 1) == EikiJudge_Controller.controller.soulsNumber)
@@ -50,7 +49,8 @@ public class EikiJudge_SoulController : MonoBehaviour
         }
 
         // Put some delay before moving in front of Eiki
-        Invoke("MoveToCourtDelay", delay * soulListPosition);
+        // delay is multiplied by index, so the first delay is null (multiplied by index 0)
+        Invoke("MoveToCourt", delay * soulListPosition);
 
     }
 
@@ -93,9 +93,8 @@ public class EikiJudge_SoulController : MonoBehaviour
     }
 
     // Delayed move
-    private void MoveToCourtDelay()
+    private void MoveToCourt()
     {
-
         moveToCourt = true;
     }
 

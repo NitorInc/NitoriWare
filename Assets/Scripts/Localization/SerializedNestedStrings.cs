@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 public class SerializedNestedStrings
 {
-    private class StringData
+    public class StringData
     {
         public string value;
         public Dictionary<string, StringData> subData;
@@ -27,9 +27,25 @@ public class SerializedNestedStrings
         rootData = new StringData();
     }
 
-    public object getData()
+    public StringData getData()
     {
         return rootData;
+    }
+
+    public StringData getSubData(string keyPrefix)
+    {
+        var prefixParts = keyPrefix.Split('.');
+        var currentData = rootData;
+        foreach (var prefixPart in prefixParts)
+        {
+            if (currentData.subData.ContainsKey(prefixPart))
+            {
+                currentData = currentData.subData[prefixPart];
+            }
+            else
+                return null;
+        }
+        return currentData;
     }
 
     public string this[string index]
