@@ -50,18 +50,12 @@ public class MoonSoccerDefender : MonoBehaviour {
             { 
                 Destroy(col.gameObject);
                 MicrogameController.instance.setVictory(victory: false, final: true);
-            // When the ball hits Tewi it plays the ball bounce animation
-            } else if (gameObject.name == "Rabbit") { 
+            // When the ball anyone else
+            } else { 
                 ballScript.moveSpeed = -3;
                 col.gameObject.GetComponentInChildren<Animator>().Play("MoonSoccerBallBounce");
                 MicrogameController.instance.setVictory(victory: false, final: true);
-            // When the ball hits the two defender characters it flies off into space
-            } else {
-                ballScript.moveSpeed = -18;
-                ballScript.vMoveSpeed = 14;
-				col.gameObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
-                MicrogameController.instance.setVictory(victory: false, final: true);
-            }
+			}
         }
     }
 }
