@@ -121,7 +121,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         {
             sign2 = 1f;
         }
-        trajectory = new Vector2(2f * sign1, Mathf.Round(Random.Range(0f, 2f)) * sign2);
+        trajectory = new Vector2(Mathf.Round(Random.Range(1f, 4f)) * sign1, Mathf.Round(Random.Range(0f, 2f)) * sign2);
         if (trajectory.x > 0f)
         {
             transform.Rotate(new Vector3(0, 180, 0));
