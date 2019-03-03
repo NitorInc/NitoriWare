@@ -7,6 +7,8 @@ public class AudioSourceAutoPan : MonoBehaviour
     [SerializeField]
     private AudioSource audioSource;
     [SerializeField]
+    private float xPosScaleMult = 1f;
+    [SerializeField]
     private float xPosBoundMult = 1f;
     
 	void Awake()
@@ -24,6 +26,10 @@ public class AudioSourceAutoPan : MonoBehaviour
     void updatePan()
     {
         if (audioSource.isPlaying)
-            audioSource.panStereo = AudioHelper.getAudioPan(transform.position.x, xPosBoundMult);
+        {
+            var pan = AudioHelper.getAudioPan(transform.position.x, xPosBoundMult) * xPosScaleMult;
+            pan = Mathf.Clamp(pan, -1f, 1f);
+            audioSource.panStereo = pan;
+        }
     }
 }
