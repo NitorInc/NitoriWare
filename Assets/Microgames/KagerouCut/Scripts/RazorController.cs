@@ -14,8 +14,13 @@ public class RazorController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         int direction = 0;
-        if (Input.GetKey(KeyCode.LeftArrow)) direction = -1;
-        else if (Input.GetKey(KeyCode.RightArrow)) direction = 1;
+        if (Input.GetKey(KeyCode.LeftArrow) &&
+                transform.rotation.z > -Mathf.PI/4) {
+            direction = -1;
+        } else if (Input.GetKey(KeyCode.RightArrow) &&
+                transform.rotation.z < Mathf.PI/4) { 
+            direction = 1;
+        }
 
         transform.Rotate(0f, 0f, direction * Time.deltaTime * speed);
     }
