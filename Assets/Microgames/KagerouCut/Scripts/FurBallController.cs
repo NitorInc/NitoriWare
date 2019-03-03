@@ -8,6 +8,7 @@ public class FurBallController : MonoBehaviour {
     public float speed = 0.3f;
     public float particleRate = 0.1f;
     public bool shouldExplode = false;
+    public AudioSource sfxSource;
     public AudioClip poofSound;
 
     private float particleTimer = 0.0f;
@@ -45,7 +46,7 @@ public class FurBallController : MonoBehaviour {
             t.localScale -= new Vector3(s, s, s);
             if (t.localScale.x <= 0.06){
                 finished = true;
-                MicrogameController.instance.playSFX(poofSound);
+                sfxSource.PlayOneShot(poofSound);
                 if (shouldExplode){
                     hairEmitter.Play(true);
                 }

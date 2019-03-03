@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class KagCutCharacter : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+    [SerializeField]
+    private Vibrate vibrate;
+    
+	void Start ()
+    {
+        //vibrate = GetComponent<Vibrate>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        if (MicrogameController.instance.getVictory())
+        {
+            vibrate.enabled = true;
+            //vibrate.vibrateSpeed *= 2f;
+            vibrate.vibrateMaxX *= 2f;
+            vibrate.vibrateMaxY *= 2f;
+            enabled = false;
+        }
 	}
 }

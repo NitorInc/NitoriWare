@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4325063683134882}
   - component: {fileID: 114323614177514442}
-  - component: {fileID: 82078589363857434}
   - component: {fileID: 114868227718527746}
   m_Layer: 0
   m_Name: KagerouCutController
@@ -42,86 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &82078589363857434
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1933572635501704}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bf0ada2d4eddd4a5382da7f8c205d2d8, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!114 &114323614177514442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,17 +52,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed88ddc9483c4214a067ffc7d7da88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSprites:
-  - {fileID: 21300000, guid: 8f7abb5d2f6ee4d56ad2fb605faac14f, type: 3}
-  hairColors:
-  - {r: 0.29803923, g: 0.8980392, b: 0.39215687, a: 1}
-  furballCount: 5
-  characterPrefab: {fileID: 114977724529402630, guid: cfd39ba1bd6f1469aaea3e225dc39900,
+  hairColor: {r: 0.6, g: 0.3372549, b: 0.20000002, a: 1}
+  furballCount: 3
+  character: {fileID: 0}
+  furballPrefab: {fileID: 1464353459053500, guid: ab6804a670d270c4e8488a5224bedcc5,
     type: 2}
   razor: {fileID: 0}
   background: {fileID: 0}
+  victoryClip: {fileID: 8300000, guid: 9a6db70eaa747a041bc96dec8df1108c, type: 3}
   furspeed: 0.25
-  furDistance: 1.7
+  furDistance: 2.125
+  furAngleRange: {x: 220, y: 260}
+  furAngleRangeRight: {x: 280, y: 320}
   particleRate: 0.05
   shouldExplode: 1
 --- !u!114 &114868227718527746
