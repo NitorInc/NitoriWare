@@ -122,7 +122,7 @@ public class DoomGame_Enemy : MonoBehaviour {
         if (hurtCr != null)
             StopCoroutine (hurtCr);
         hurtCr = StartCoroutine (DamageColor ());
-        audioSource.pitch = Random.value * 0.2f + 0.9f;
+        audioSource.pitch = (Random.value * 0.2f + 0.9f);
         audioSource.clip = hurtAudio[Random.Range (0, hurtAudio.Length)];
         audioSource.Play ();
     }

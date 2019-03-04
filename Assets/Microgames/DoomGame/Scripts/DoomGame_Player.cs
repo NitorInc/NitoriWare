@@ -87,7 +87,8 @@ public class DoomGame_Player : MonoBehaviour
             dead = true;
             ui.Die ();
             MicrogameController.instance.setVictory (false, true);
-            AudioSource.PlayClipAtPoint (deadSound, transform.position);
+            MicrogameController.instance.playSFX(deadSound);
+            //AudioSource.PlayClipAtPoint (deadSound, transform.position);
         }
     }
 
