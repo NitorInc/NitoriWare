@@ -49,8 +49,7 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     private bool isVictory = false;
 
-    private bool isMovementPaused = false;
-    private float currentPauseFrame = 0;
+    private float pauseTimeLeft = 0;
     
     // Use this for initialization
     void Start () {
@@ -80,9 +79,9 @@ public class RabbitTrapVictim : MonoBehaviour {
 
         if (!victimOutOfBounds)
         {
-            if (currentPauseFrame>0)
+            if (pauseTimeLeft>0)
             {
-                currentPauseFrame--;
+                this.pauseTimeLeft = this.pauseTimeLeft - Time.deltaTime;
             } else
             {
                 Vector2 newPosition = GetNewPosition();
@@ -177,9 +176,7 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     void PauseVictimMovement(float pauseTime)
     {
-        
-        this.isMovementPaused = true;
-        this.currentPauseFrame = pauseTime * framesPerSecond;
+        this.pauseTimeLeft = pauseTime;
     }
 
     void OnTriggerEnter2D(Collider2D other)
