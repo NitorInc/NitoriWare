@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoomGame_Player : MonoBehaviour {
+public class DoomGame_Player : MonoBehaviour
+{
     [SerializeField]
     bool useAmmo = true;
     [HideInInspector]
@@ -14,7 +15,7 @@ public class DoomGame_Player : MonoBehaviour {
     Transform mainCamera;
     new AudioSource audio;
     [SerializeField]
-    AudioClip shootSound, deadSound;
+    AudioClip shootSound, deadSound, emptyClipSound;
     [SerializeField]
     public Material screen;
     [HideInInspector]
@@ -27,13 +28,15 @@ public class DoomGame_Player : MonoBehaviour {
     [HideInInspector]
     public float shake = 0;
 
-    void Start () {
+    void Start ()
+    {
         startPosition = transform.position;
         mainCamera = Camera.main.transform;
         audio = GetComponent<AudioSource> ();
     }
 
-    void Update () {
+    void Update ()
+    {
         transform.position = startPosition + Random.insideUnitSphere * shake;
         shake -= Time.deltaTime * 3;
         if (shake <= 0)
@@ -51,14 +54,18 @@ public class DoomGame_Player : MonoBehaviour {
             Shoot ();
     }
 
-    void Shoot () {
+    void Shoot ()
+    {
         if (useAmmo && bullets <= 0 || dead)
+        {
+            audio.PlayOneShot (emptyClipSound, 0.8f);
             return;
+        }
         if (useAmmo)
             bullets--;
         ui.Shoot ();
         ui.UpdateAmmo (bullets);
-        audio.PlayOneShot (shootSound);
+        audio.PlayOneShot (shootSound, 0.6f);
         gunAnimator.Play ("doom_gun");
         gunAnimator.SetTrigger ("shoot");
         RaycastHit hit;
@@ -66,14 +73,17 @@ public class DoomGame_Player : MonoBehaviour {
             hit.collider.GetComponent<DoomGame_Enemy> ().DamageSelf ();
     }
 
-    public void AddBullets (int value) {
+    public void AddBullets (int value)
+    {
         bullets += value;
         if (bullets > 6) bullets = 6;
         ui.UpdateAmmo (bullets);
     }
 
-    public void Kill () {
-        if (!dead) {
+    public void Kill ()
+    {
+        if (!dead)
+        {
             dead = true;
             ui.Die ();
             MicrogameController.instance.setVictory (false, true);
