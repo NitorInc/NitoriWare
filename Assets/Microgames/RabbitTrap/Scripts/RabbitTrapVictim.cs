@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RabbitTrapVictim : MonoBehaviour {
 
+    private readonly float framesPerSecond = 60;
+
     [Header("Travel speed")]
     [SerializeField]
     private float speed;
@@ -27,18 +29,18 @@ public class RabbitTrapVictim : MonoBehaviour {
     [SerializeField]
     private float[] stopsAndWaitTime;
 
-    [Header("Prefabs")]
-    [SerializeField]
-    private GameObject PauseTrigger;
+    //[Header("Prefabs")]
+    //[SerializeField]
+    //private GameObject PauseTrigger;
 
-    [SerializeField]
-    private GameObject SpeedChangeTrigger;
+    //[SerializeField]
+    //private GameObject SpeedChangeTrigger;
 
     private Vector2 trajectory;
 
     private float maxXPosition;
     private Vector2 maxPosition;
-    private bool stopMovement;
+    private bool victimOutOfBounds;
 
     private bool isTrapable;
 
@@ -46,6 +48,9 @@ public class RabbitTrapVictim : MonoBehaviour {
     private trapStates trapState;
 
     private bool isVictory = false;
+
+    private bool isMovementPaused = false;
+    private float currentPauseFrame = 0;
     
     // Use this for initialization
     void Start () {
@@ -54,7 +59,7 @@ public class RabbitTrapVictim : MonoBehaviour {
         maxXPosition = -8;
         maxPosition = new Vector2(maxXPosition, 0);
         trajectory = new Vector2(speed,0);
-        stopMovement = false;        
+        victimOutOfBounds = false;        
 }
 	
 	// Update is called once per frame
@@ -73,12 +78,19 @@ public class RabbitTrapVictim : MonoBehaviour {
             }
         }        
 
-        if (!stopMovement)
+        if (!victimOutOfBounds)
         {
-            Vector2 newPosition = GetNewPosition();
-            this.transform.position = newPosition;
+            if (currentPauseFrame>0)
+            {
+                currentPauseFrame--;
+            } else
+            {
+                Vector2 newPosition = GetNewPosition();
+                this.transform.position = newPosition;
+            }
+            
 
-            stopMovement = IsStopMovement();
+            victimOutOfBounds = IsVictimOutOfBounds();
         } else
         {
             if (this.isVictory)
@@ -95,7 +107,7 @@ public class RabbitTrapVictim : MonoBehaviour {
         return (Vector2)transform.position + (trajectory * Time.deltaTime * -speed);
     }
 
-    bool IsStopMovement()
+    bool IsVictimOutOfBounds()
     {
         if (this.transform.position.x<maxXPosition)
         {
@@ -163,12 +175,24 @@ public class RabbitTrapVictim : MonoBehaviour {
         print("Too late!");
     }
 
+    void PauseVictimMovement(float pauseTime)
+    {
+        
+        this.isMovementPaused = true;
+        this.currentPauseFrame = pauseTime * framesPerSecond;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag=="MicrogameTag1")
         {
-            //print("PauseTrigger");
-            //other.gameObject.gEt;
+            RabbitTrapPauseTrigger pauseTrigger = other.gameObject.GetComponent<RabbitTrapPauseTrigger>();
+            if (!pauseTrigger.HasTriggered)
+            {
+                print("Pause victim");
+                this.PauseVictimMovement(pauseTrigger.PauseTime);
+                pauseTrigger.HasTriggered = true;
+            }
 
         }
 

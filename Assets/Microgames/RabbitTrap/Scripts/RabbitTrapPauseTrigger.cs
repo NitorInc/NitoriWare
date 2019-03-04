@@ -8,7 +8,7 @@ public class RabbitTrapPauseTrigger : MonoBehaviour {
     private float pauseTime = 0;
 
     private bool hasTriggered = false;
-
+    
     public float PauseTime
     {
         get
