@@ -10,6 +10,10 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
     [SerializeField]
     private GameObject target;
 
+    [Header("Reference to the trap")]
+    [SerializeField]
+    private GameObject trapobj;
+
     [Header("How fast person moves horizontaly")]
     [SerializeField]
     private float speedX = 10f;
@@ -91,14 +95,24 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
             latestart--;
         else if (latestart == 0)
         {
-            //easy difficulty - start in the half screen opposed to the player's cursor position
+            //medium difficulty  -  start in the half screen opposed to the player's cursor position
+            //                      and place the trap opposite the person
             Vector2 newpos = transform.position;
+            Vector2 trapnewpos = transform.position;
+            trapnewpos.y = trapobj.transform.position.y;
             if (target.transform.position.x > 0)
+            {
                 newpos.x = -4.70f;
+                trapnewpos.x = 4.5f;
+            }
             else
+            {
                 newpos.x = 4.70f;
+                trapnewpos.x = -4.5f;
+            }
             Debug.Log(target.transform.position.x + " " + newpos.x);
             transform.position = newpos;
+            trapobj.transform.position = trapnewpos;
 
             latestart--;
         }
