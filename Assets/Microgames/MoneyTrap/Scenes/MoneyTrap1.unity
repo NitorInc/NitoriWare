@@ -304,6 +304,31 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
+--- !u!1 &663276869 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1378003589159588, guid: 90a8d7f4fe2027847bed6ae7052bb6b0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1153500662}
+--- !u!114 &663276870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663276869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 230f2aae2911a1c4886157ca9924459c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1035546100}
+  speedX: 5.15
+  speedY: 15
+  proximityFollow: 4.3
+  fallSpeed: 1.8
+  isFacingRight: 1
+  gravity: 0.1
+  deathsound: {fileID: 8300000, guid: 77acd067ac0843b4dbb7d7cfa0544fc6, type: 3}
+  deathsoundsource: {fileID: 36294764}
 --- !u!1 &808195621
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,7 +612,8 @@ Prefab:
       propertyPath: m_SpriteTilingProperty.newSize.y
       value: 4.83
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114472420682940316, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1153500663 stripped

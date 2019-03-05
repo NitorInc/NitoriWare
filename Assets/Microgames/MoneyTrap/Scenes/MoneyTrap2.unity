@@ -557,7 +557,8 @@ Prefab:
       propertyPath: deathsoundsource
       value: 
       objectReference: {fileID: 36294764}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114472420682940316, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &892188114 stripped
@@ -565,6 +566,31 @@ Transform:
   m_PrefabParentObject: {fileID: 4453482478294116, guid: 90a8d7f4fe2027847bed6ae7052bb6b0,
     type: 2}
   m_PrefabInternal: {fileID: 892188113}
+--- !u!1 &892188115 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1378003589159588, guid: 90a8d7f4fe2027847bed6ae7052bb6b0,
+    type: 2}
+  m_PrefabInternal: {fileID: 892188113}
+--- !u!114 &892188116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 892188115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f3bd50f637afd46aac0acb55368012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2130820175}
+  speedX: 5.15
+  speedY: 15
+  proximityFollow: 4.3
+  fallSpeed: 1.8
+  isFacingRight: 1
+  gravity: 0.1
+  deathsound: {fileID: 8300000, guid: 77acd067ac0843b4dbb7d7cfa0544fc6, type: 3}
+  deathsoundsource: {fileID: 36294764}
 --- !u!1001 &1692840176
 Prefab:
   m_ObjectHideFlags: 0
