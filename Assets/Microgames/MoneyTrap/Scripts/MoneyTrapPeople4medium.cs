@@ -42,13 +42,17 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
     [SerializeField]
     private float gravity = 0.1f;
 
+    [Header("Hopping audio clip")]
+    [SerializeField]
+    private AudioClip hopsound;
+
     [Header("Death audio clip")]
     [SerializeField]
     private AudioClip deathsound;
 
-    [Header("Death audio source")]
+    [Header("Audio source")]
     [SerializeField]
-    private AudioSource deathsoundsource;
+    private AudioSource soundsource;
 
     //Possible states for the person
     enum State {Idle, Following, Falling};
@@ -73,7 +77,7 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
         //the person starts free
         state = State.Idle;
         floor = transform.position.y;
-        deathsoundsource.clip = deathsound;
+        soundsource.clip = hopsound;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -144,6 +148,9 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
                     //if person isn't too far away from the jewel
                     if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
                     {
+                        //Play hopping sound
+                        soundsource.Play();
+
                         //move towards player's x position at defined speed
                         Vector2 newPosition = transform.position;
                         if (speedup < 1)
@@ -220,8 +227,11 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
                 Vector2 newPosition = transform.position;
 
                 //play death sound
-                if (deathsoundsource!= null)
-                    deathsoundsource.Play();
+                if (soundsource != null)
+                {
+                    soundsource.clip = deathsound;
+                    soundsource.Play();
+                }
 
                 //grind x acceleration to a halt
                 newPosition.x += Mathf.Lerp(newPosition.x, trajectory.x, 0.5f) * Time.deltaTime;
