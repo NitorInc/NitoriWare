@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RabbitTrapVictim : MonoBehaviour {
 
-    private readonly float framesPerSecond = 60;
+    private readonly string pauseTag = "MicrogameTag1";
+    private readonly string speedTag = "MicrogameTag2";
 
     [Header("Travel speed")]
     [SerializeField]
@@ -28,14 +29,7 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     [SerializeField]
     private float[] stopsAndWaitTime;
-
-    //[Header("Prefabs")]
-    //[SerializeField]
-    //private GameObject PauseTrigger;
-
-    //[SerializeField]
-    //private GameObject SpeedChangeTrigger;
-
+    
     private Vector2 trajectory;
 
     private float maxXPosition;
@@ -53,7 +47,6 @@ public class RabbitTrapVictim : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
-        print("Start");
         trapState = trapStates.TooEarly;
         maxXPosition = -8;
         maxPosition = new Vector2(maxXPosition, 0);
@@ -84,8 +77,7 @@ public class RabbitTrapVictim : MonoBehaviour {
                 this.pauseTimeLeft = this.pauseTimeLeft - Time.deltaTime;
             } else
             {
-                Vector2 newPosition = GetNewPosition();
-                this.transform.position = newPosition;
+                moveVictim();
             }
             
 
@@ -99,6 +91,12 @@ public class RabbitTrapVictim : MonoBehaviour {
                 this.transform.position = newPosition;
             }
         }
+    }
+
+    void moveVictim()
+    {
+        Vector2 newPosition = GetNewPosition();
+        this.transform.position = newPosition;
     }
 
     Vector2 GetNewPosition()
@@ -179,24 +177,32 @@ public class RabbitTrapVictim : MonoBehaviour {
         this.pauseTimeLeft = pauseTime;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void ChangeVictimSpeed(float newSpeed)
     {
-        if (other.tag=="MicrogameTag1")
+        this.speed = newSpeed;
+    }
+
+    void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if (trigger.tag==this.pauseTag)
         {
-            RabbitTrapPauseTrigger pauseTrigger = other.gameObject.GetComponent<RabbitTrapPauseTrigger>();
+            RabbitTrapPauseTrigger pauseTrigger = trigger.gameObject.GetComponent<RabbitTrapPauseTrigger>();
             if (!pauseTrigger.HasTriggered)
             {
-                print("Pause victim");
                 this.PauseVictimMovement(pauseTrigger.PauseTime);
                 pauseTrigger.HasTriggered = true;
             }
 
         }
 
-        if (other.tag == "MicrogameTag2")
+        if (trigger.tag == speedTag)
         {
-            //print("SpeedChangeTrigger");
-            //(SpeedChangeTrigger)other;
+            RabbitTrapSpeedChangeTrigger speedTrigger = trigger.gameObject.GetComponent<RabbitTrapSpeedChangeTrigger>();
+            if (!speedTrigger.HasTriggered)
+            {
+                this.ChangeVictimSpeed(speedTrigger.NewSpeed);
+                speedTrigger.HasTriggered = true;
+            }
         }
 
     }
