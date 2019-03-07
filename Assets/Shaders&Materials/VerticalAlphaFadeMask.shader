@@ -2,7 +2,12 @@
 {
 	Properties
 	{
-		_MainTex("Texture", 2D) = "white" {}       
+		_MainTex("Texture", 2D) = "white" {}
+		_YUpper1("Y Upper Alpha1", Float) = 2.5
+		_YUpper0("Y Upper Alpha0", Float) = 4.5
+		_YLower1("Y Lower Alpha1", Float) = -2.5
+		_YLower0("Y Lower Alpha0", Float) = -4.5
+
 		
          // required for UI.Mask
          _StencilComp ("Stencil Comparison", Float) = 8
@@ -75,22 +80,22 @@
 			}
 
 			sampler2D _MainTex;
+			float _YUpper1;
+			float _YUpper0;
+			float _YLower1;
+			float _YLower0;
 
 			float4 frag(v2f i) : SV_Target
 			{
 				float4 color = tex2D(_MainTex, i.uv);
                 color *= i.uvColor;
 				
-				float yUpper1 = 2.5;
-				float yUpper0 = 4.5;
-				float yLower1 = -2.5;
-				float yLower0 = -4.5;
 				float yPos = i.wpos.y;
 
-				if (yPos > yUpper1)
-					color.a *= 1 - ((yPos - yUpper1) / (yUpper0 - yUpper1));
-				else if (yPos < yLower1)
-					color.a *= (yPos - yLower0) / (yLower1 - yLower0);
+				if (yPos > _YUpper1)
+					color.a *= 1 - ((yPos - _YUpper1) / (_YUpper0 - _YUpper1));
+				else if (yPos < _YLower1)
+					color.a *= (yPos - _YLower0) / (_YLower1 - _YLower0);
 
 				if (color.a < 0)
 					color.a = 0;
