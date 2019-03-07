@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MenuPracticeMicrogameSpawner : MonoBehaviour
 {
+    private static float savedYPosition = 0;
+
     [SerializeField]
     private MenuPracticeMicrogame microgamePrefab;
     [SerializeField]
@@ -17,6 +19,10 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     private int columnCount = 5;
     [SerializeField]
     private int zLevel = 0;
+    [SerializeField]
+    private RectTransform contentTransform;
+    [SerializeField]
+    private RectTransform collectionTransform;
 
     [Header("Passed down local references")]
     [SerializeField]
@@ -31,15 +37,28 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     void Start()
     {
         var microgames = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady, includeBosses: false);
+        int maxYIndex = 0;
         for (int i = 0; i < microgames.Count; i++)
         {
             var xIndex = i % columnCount;
             var yIndex = (i - (i % columnCount)) / columnCount;
-            print(xIndex + ", " + yIndex);
+            maxYIndex = yIndex;
             var xPos = topLeftPos.x + (xIndex * separationDistance);
             var yPos = topLeftPos.y - (yIndex * separationDistance);
             spawnPrefab(xPos, yPos, i);
         }
+
+        var scrollAreaShift = separationDistance * maxYIndex;
+        contentTransform.sizeDelta += Vector2.up * scrollAreaShift;
+        collectionTransform.anchoredPosition += Vector2.up * scrollAreaShift / 2f;
+        if (GameMenu.subMenu == GameMenu.SubMenu.Practice
+            || GameMenu.subMenu == GameMenu.SubMenu.PracticeSelect)
+            contentTransform.anchoredPosition += Vector2.up * savedYPosition;
+    }
+
+    private void Update()
+    {
+        savedYPosition = contentTransform.anchoredPosition.y;
     }
 
     void spawnPrefab(float x, float y, int index)

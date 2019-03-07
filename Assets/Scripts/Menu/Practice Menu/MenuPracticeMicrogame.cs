@@ -92,7 +92,6 @@ public class MenuPracticeMicrogame : MonoBehaviour
                 {
                     if (transform.moveTowards2D(selectStartPosition, moveSpeed))
                     {
-                        print(selectStartPosition);
                         transform.SetSiblingIndex(initialSiblingIndex);
                         transform.localPosition = initialLocalPosition;
                         GameMenu.shifting = false;
