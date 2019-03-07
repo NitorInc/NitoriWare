@@ -19,6 +19,8 @@ public class MenuPracticeMicrogame : MonoBehaviour
     [SerializeField]
     private Image icon;
     [SerializeField]
+    private Vector3 centerPosition;
+    [SerializeField]
     private Vector3 scaleAtCenter;
     [SerializeField]
     private float timeToCenter;
@@ -27,7 +29,8 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private static List<MicrogameCollection.Microgame> microgamePool;
     private static MenuPracticeMicrogame selectedInstance;
 
-    private Vector3 initialPosition;
+    private Vector3 selectStartPosition;
+    private Vector2 initialLocalPosition;
     private Vector3 initialScale;
     private int initialSiblingIndex;
     
@@ -58,7 +61,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         }
         
         initialScale = transform.localScale;
-        initialPosition = transform.localPosition;
+        initialLocalPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
 
         Sprite iconSprite = microgame.menuIcon;
@@ -72,35 +75,37 @@ public class MenuPracticeMicrogame : MonoBehaviour
         {
             if (GameMenu.shifting)
             {
-                
-                float moveSpeed = ((Vector2)initialPosition).magnitude / timeToCenter;
+                float moveSpeed = ((Vector2)(selectStartPosition - centerPosition)).magnitude / timeToCenter;
                 if (GameMenu.subMenu == GameMenu.SubMenu.PracticeSelect)    //Moving towards center
                 {
-                    if (transform.moveTowardsLocal2D(Vector2.zero, moveSpeed))
+                    if (transform.moveTowards2D(centerPosition, moveSpeed))
                     {
                         GameMenu.shifting = false;
                     }
                 }
                 else                                                        //Moving away from center
                 {
-                    if (transform.moveTowardsLocal2D(initialPosition, moveSpeed))
+                    if (transform.moveTowards2D(selectStartPosition, moveSpeed))
                     {
+                        print(selectStartPosition);
                         transform.SetSiblingIndex(initialSiblingIndex);
+                        transform.localPosition = initialLocalPosition;
                         GameMenu.shifting = false;
                         selectedInstance = null;
                     }
                 }
                 transform.localScale = Vector3.Lerp(scaleAtCenter, initialScale,
-                    ((Vector2)transform.localPosition).magnitude / ((Vector2)initialPosition).magnitude);
+                    ((Vector2)(transform.position - centerPosition)).magnitude
+                    / ((Vector2)(selectStartPosition - centerPosition)).magnitude);
             }
         }
-        else if (GameMenu.shifting) //Stay constant scale when shifting to/from practice menu
-        {
-            float mult = 1f / transform.parent.localScale.x;
-            transform.localScale = initialScale * mult;
+        //else if (GameMenu.shifting) //Stay constant scale when shifting to/from practice menu
+        //{
+        //    float mult = 1f / transform.parent.localScale.x;
+        //    transform.localScale = initialScale * mult;
 
-            transform.localPosition = transform.parent.localScale.x <= .011f ? Vector3.zero : initialPosition;
-        }
+        //    transform.localPosition = transform.parent.localScale.x <= .011f ? Vector3.zero : initialPosition;
+        //}
         else
             transform.localScale = initialScale;
 
@@ -110,6 +115,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
     public void select()
     {
         selectedInstance = this;
+        selectStartPosition = transform.position;
         transform.SetAsLastSibling();
         MicrogameStage.microgameId = microgame.microgameId;
 
