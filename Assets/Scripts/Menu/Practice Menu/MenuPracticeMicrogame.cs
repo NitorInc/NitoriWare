@@ -12,8 +12,13 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private MenuButton menuButton;
     [SerializeField]
     private Text nameText;
+    public Text NameText { get { return nameText; } set { nameText = value; } }
     [SerializeField]
     private Text[] creditsTexts;
+    public Text[] CreditsTexts { get { return creditsTexts; } set { creditsTexts = value; } }
+    [SerializeField]
+    private GameMenu rootMenu;
+    public GameMenu RootMenu { get { return rootMenu; } set { rootMenu = value; } }
     [SerializeField]
     private string[] creditsKeys;
     [SerializeField]
@@ -115,6 +120,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
     public void select()
     {
         selectedInstance = this;
+        rootMenu.shift((int)GameMenu.SubMenu.PracticeSelect);
         selectStartPosition = transform.position;
         transform.SetAsLastSibling();
         MicrogameStage.microgameId = microgame.microgameId;
