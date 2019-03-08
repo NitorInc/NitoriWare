@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GhostSuckGhostHeart : MonoBehaviour {
     [SerializeField]
-    private bool touch, damageperiod, touchcheck, suck, inthezone, alive, acceldelay, settrajectorydeadactive, particlefired, justdid;
+    private bool touch, touchcheck, suck, rattler, inthezone, alive, acceldelay, settrajectorydeadactive, particlefired, justdid;
     [SerializeField]
-    private float ghostlife, ghostdamage, damageinterval, speed, angle, acceleration, accel, movespeed, panicspeed, relaxspeed, deaddelay, diespeed;
+    private float ghostlife, ghostdamage, speed, angle, acceleration, accel, movespeed, panicspeed, relaxspeed, deaddelay, diespeed;
     [SerializeField]
     public float ghostsuckcount;
     [SerializeField]
@@ -52,7 +52,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             {
                 if (particlefired == false)
                 {
-                    Invoke("DisableObject", 0.1f);
+                    Invoke("DisableObject", 0f);
                 }
 
             }
@@ -86,8 +86,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     
     void Start() {
         touch = false;
-        damageperiod = true;
         SetTrajectory();
+        rattler = true;
         movespeed = relaxspeed;
         particlefired = false;
         sweatParticles.Stop();
@@ -183,10 +183,23 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             }
             if (touch == true)
             {
-                if (damageperiod == true)
+                ghostlife = ghostlife - ghostdamage * Time.deltaTime;
+                if (ghostlife < 0)
                 {
-                    damageperiod = false;
-                    Invoke("TouchDamage", damageinterval);
+                    alive = false;
+                    SetTrajectoryDead();
+                    ghostcountmodifier();
+                    sweatParticles.Stop();
+                    sweatParticles.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (rattler == true)
+                    {
+                        rattle1();
+                        rattler = false;
+                    }
+                   
                 }
 
             }
@@ -223,25 +236,6 @@ public class GhostSuckGhostHeart : MonoBehaviour {
 
         }
     }
-    //periodically reduces ghost life until it reaches zero to which it switches alive movement trajectory to dead ghost trajectory among other functions
-    void TouchDamage()
-    {
-
-        if (ghostlife < 0)
-        {
-            alive = false;
-            SetTrajectoryDead();
-            ghostcountmodifier();
-            sweatParticles.Stop();
-            sweatParticles.gameObject.SetActive(false);
-        }
-        else
-        {
-            damageperiod = true;
-            ghostlife -= ghostdamage;
-            rattle1();
-        }
-    }
     //makes ghost shake when taking damage
     void rattle1()
     {
@@ -252,6 +246,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     void rattle2()
     {
         bakebakesprite.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
+        rattler = true;
     }
     //makes ghost spin when being sucked up
     void updateRotation()

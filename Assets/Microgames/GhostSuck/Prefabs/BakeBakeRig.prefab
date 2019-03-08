@@ -200,18 +200,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   touch: 0
-  damageperiod: 0
   touchcheck: 1
   suck: 0
+  rattler: 0
   inthezone: 0
   alive: 1
   acceldelay: 1
   settrajectorydeadactive: 0
   particlefired: 0
   justdid: 0
-  ghostlife: 60
-  ghostdamage: 5
-  damageinterval: 0.05
+  ghostlife: 10
+  ghostdamage: 15
   speed: 400
   angle: 0
   acceleration: 1
@@ -5393,7 +5392,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    randomizeRotationDirection: 0
+    randomizeRotationDirection: 0.5
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
@@ -9454,13 +9453,13 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_SortMode: 0
   m_MinParticleSize: 0.1
   m_MaxParticleSize: 1
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
-  m_LengthScale: 2
+  m_LengthScale: 6
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_RenderAlignment: 0
