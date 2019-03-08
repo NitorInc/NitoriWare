@@ -31,39 +31,31 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private float timeToCenter;
 #pragma warning restore 0649
 
-    private static List<MicrogameCollection.Microgame> microgamePool;
     private static MenuPracticeMicrogame selectedInstance;
-
-    private Vector3 selectStartPosition;
+    
     private Vector2 initialLocalPosition;
     private Vector3 initialScale;
     private int initialSiblingIndex;
+    private float centerArrivalTime;
     
     private MicrogameCollection.Microgame microgame;
 
 	void Start()
 	{
         selectedInstance = null;
-        if (microgamePool == null)
-            microgamePool = MicrogameHelper.getMicrogames(MicrogameTraits.Milestone.StageReady);
 
-        if (name.Contains("Boss"))
+        int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
+        var isBoss = name.Contains("Boss");
+        var microgamePool = !isBoss ?
+            MenuPracticeMicrogameSpawner.standardMicrogamePool :
+            MenuPracticeMicrogameSpawner.microgameBossPool;
+        if (microgameNumber >= microgamePool.Count)
         {
-            //TODO multiple boss microgame support
-            microgame = MicrogameHelper.getMicrogames(MicrogameTraits.Milestone.StageReady, true)
-                .FirstOrDefault(a => a.difficultyTraits[0].isBossMicrogame());
+            gameObject.SetActive(false);
+            return;
         }
         else
-        {
-            int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
-            if (microgameNumber >= microgamePool.Count)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-            else
-                microgame = microgamePool[microgameNumber];
-        }
+            microgame = microgamePool[microgameNumber];
         
         initialScale = transform.localScale;
         initialLocalPosition = transform.localPosition;
@@ -80,27 +72,38 @@ public class MenuPracticeMicrogame : MonoBehaviour
         {
             if (GameMenu.shifting)
             {
-                float moveSpeed = ((Vector2)(selectStartPosition - centerPosition)).magnitude / timeToCenter;
                 if (GameMenu.subMenu == GameMenu.SubMenu.PracticeSelect)    //Moving towards center
                 {
-                    if (transform.moveTowards2D(centerPosition, moveSpeed))
+                    var startWorldPosition = transform.parent.TransformPoint(initialLocalPosition);
+                    var timeUntilCenter = Mathf.Max(centerArrivalTime - Time.time, 0f);
+                    var moveSpeed = timeUntilCenter > 0f ?
+                        ((Vector2)(transform.position - centerPosition)).magnitude / timeUntilCenter
+                        : 0f;
+                    //transform.moveTowards2D(centerPosition, moveSpeed);
+                    transform.position = Vector3.Lerp(centerPosition, startWorldPosition, timeUntilCenter / timeToCenter);
+                    if (timeUntilCenter <= 0f)
                     {
+                        transform.position = centerPosition;
                         GameMenu.shifting = false;
                     }
+                    transform.localScale = Vector3.Lerp(scaleAtCenter, initialScale, timeUntilCenter / timeToCenter);
                 }
                 else                                                        //Moving away from center
                 {
-                    if (transform.moveTowards2D(selectStartPosition, moveSpeed))
+                    var startWorldPosition = transform.parent.TransformPoint(initialLocalPosition);
+                    float moveSpeed = ((Vector2)(startWorldPosition - centerPosition)).magnitude / timeToCenter;
+                    if (transform.moveTowards2D(startWorldPosition, moveSpeed))
                     {
+                        transform.position = startWorldPosition;
                         transform.SetSiblingIndex(initialSiblingIndex);
                         transform.localPosition = initialLocalPosition;
                         GameMenu.shifting = false;
                         selectedInstance = null;
                     }
+                    transform.localScale = Vector3.Lerp(scaleAtCenter, initialScale,
+                        ((Vector2)(transform.position - centerPosition)).magnitude
+                        / ((Vector2)(startWorldPosition - centerPosition)).magnitude);
                 }
-                transform.localScale = Vector3.Lerp(scaleAtCenter, initialScale,
-                    ((Vector2)(transform.position - centerPosition)).magnitude
-                    / ((Vector2)(selectStartPosition - centerPosition)).magnitude);
             }
         }
         //else if (GameMenu.shifting) //Stay constant scale when shifting to/from practice menu
@@ -120,9 +123,9 @@ public class MenuPracticeMicrogame : MonoBehaviour
     {
         selectedInstance = this;
         rootMenu.shift((int)GameMenu.SubMenu.PracticeSelect);
-        selectStartPosition = transform.position;
         transform.SetAsLastSibling();
         MicrogameStage.microgameId = microgame.microgameId;
+        centerArrivalTime = Time.time + timeToCenter;
 
         nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", microgame.microgameId);
         for (int i = 0; i < creditsTexts.Length; i++)

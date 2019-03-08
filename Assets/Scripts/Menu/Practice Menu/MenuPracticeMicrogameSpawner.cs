@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class MenuPracticeMicrogameSpawner : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     private RectTransform contentTransform;
     [SerializeField]
     private RectTransform collectionTransform;
+    [SerializeField]
+    private RectTransform scrollViewTransform;
+    [SerializeField]
+    private Scrollbar verticalScrollbar;
 
     [Header("Passed down local references")]
     [SerializeField]
@@ -34,20 +39,35 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     [SerializeField]
     private GameMenu rootMenu;
 
+    public static List<MicrogameCollection.Microgame> standardMicrogamePool;
+    public static List<MicrogameCollection.Microgame> microgameBossPool;
+
     void Start()
     {
-        var microgames = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady, includeBosses: false);
+        // Create microgames
+        standardMicrogamePool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady);
+        microgameBossPool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady, includeBosses: true)
+            .Where(a => a.difficultyTraits[0].isBossMicrogame()).ToList();
         int maxYIndex = 0;
-        for (int i = 0; i < microgames.Count; i++)
+
+        var standardCount = standardMicrogamePool.Count;
+        var totalCount = standardCount + microgameBossPool.Count();
+        for (int i = 0; i < totalCount; i++)
         {
+            bool isBoss = i >= standardCount;
+
             var xIndex = i % columnCount;
             var yIndex = (i - (i % columnCount)) / columnCount;
             maxYIndex = yIndex;
             var xPos = topLeftPos.x + (xIndex * separationDistance);
             var yPos = topLeftPos.y - (yIndex * separationDistance);
-            spawnPrefab(xPos, yPos, i);
+            spawnPrefab(xPos, yPos, 
+                isBoss ? i - standardCount : i,
+                isBoss);
         }
 
+
+        // Expand scroll area and cheat some scroll view values
         var scrollAreaShift = separationDistance * maxYIndex;
         contentTransform.sizeDelta += Vector2.up * scrollAreaShift;
         collectionTransform.anchoredPosition += Vector2.up * scrollAreaShift / 2f;
@@ -61,13 +81,15 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
         savedYPosition = contentTransform.anchoredPosition.y;
     }
 
-    void spawnPrefab(float x, float y, int index)
+    void spawnPrefab(float x, float y, int index, bool isBoss)
     {
         var newMicrogame = GameObject.Instantiate(microgamePrefab, parentObject);
         newMicrogame.GetComponent<MenuButton>().SfxSource = buttonSfxSource;
         newMicrogame.transform.SetSiblingIndex(index);
         newMicrogame.transform.localPosition = new Vector3(x, y, zLevel);
-        newMicrogame.name = $"Microgame ({index.ToString()})";
+        newMicrogame.name = !isBoss ?
+            $"Microgame ({index.ToString()})"
+            : $"Boss ({index.ToString()})";
         newMicrogame.NameText = nameText;
         newMicrogame.CreditsTexts = creditsTexts;
         newMicrogame.RootMenu = rootMenu;
