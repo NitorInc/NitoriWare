@@ -21,6 +21,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     [SerializeField]
     private int zLevel = 0;
     [SerializeField]
+    private float disableYThreshold = 5f;
+    [SerializeField]
     private RectTransform contentTransform;
     [SerializeField]
     private RectTransform collectionTransform;
@@ -39,6 +41,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     [SerializeField]
     private GameMenu rootMenu;
 
+    private List<MenuPracticeMicrogame> spawnedMicrogames;
+
     public static List<MicrogameCollection.Microgame> standardMicrogamePool;
     public static List<MicrogameCollection.Microgame> microgameBossPool;
 
@@ -49,6 +53,7 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
         microgameBossPool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady, includeBosses: true)
             .Where(a => a.difficultyTraits[0].isBossMicrogame()).ToList();
         int maxYIndex = 0;
+        spawnedMicrogames = new List<MenuPracticeMicrogame>();
 
         var standardCount = standardMicrogamePool.Count;
         var totalCount = standardCount + microgameBossPool.Count();
@@ -79,6 +84,15 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     private void Update()
     {
         savedYPosition = contentTransform.anchoredPosition.y;
+        foreach (var microgame in spawnedMicrogames)
+        {
+            bool isActive = microgame.gameObject.activeInHierarchy;
+            bool shouldBeActive = Mathf.Abs(microgame.transform.position.y) < disableYThreshold;
+            if (MenuPracticeMicrogame.SelectedInstance == microgame)
+                shouldBeActive = true;
+            if (isActive != shouldBeActive)
+                microgame.gameObject.SetActive(!isActive);
+        }
     }
 
     void spawnPrefab(float x, float y, int index, bool isBoss)
@@ -93,5 +107,6 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
         newMicrogame.NameText = nameText;
         newMicrogame.CreditsTexts = creditsTexts;
         newMicrogame.RootMenu = rootMenu;
+        spawnedMicrogames.Add(newMicrogame);
     }
 }

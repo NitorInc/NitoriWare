@@ -32,6 +32,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
 #pragma warning restore 0649
 
     private static MenuPracticeMicrogame selectedInstance;
+    public static MenuPracticeMicrogame SelectedInstance => selectedInstance;
     
     private Vector2 initialLocalPosition;
     private Vector3 initialScale;
