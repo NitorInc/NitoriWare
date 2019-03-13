@@ -6,9 +6,13 @@ public class KagCutCharacter : MonoBehaviour {
 
     [SerializeField]
     private Vibrate vibrate;
-    
+ 
 	void Start ()
     {
+        
+		KagerouCutController.Dog dog = (MicrogameController.instance.getTraits() as KagCutTraits).dog;
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        sprite.sprite = dog.sprite;
         //vibrate = GetComponent<Vibrate>();
 	}
 	

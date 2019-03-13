@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KagerouCutController : MonoBehaviour {
-    
-    [SerializeField]
-    private Color hairColor;
-    
+     
 //    [SerializeField]
 //    private AudioClip[] soundTracks;
     
@@ -40,8 +37,17 @@ public class KagerouCutController : MonoBehaviour {
 
     private GameObject[] furballs;
 
+    [System.Serializable]
+    public struct Dog {
+        public AudioClip bgm;
+        public Sprite sprite;
+        public Color color;
+    }
+
     // Use this for initialization
 	void Start () {
+		Dog dog = (MicrogameController.instance.getTraits() as KagCutTraits).dog;
+        Color hairColor = dog.color;
         furballs = new GameObject[furballCount];
         // Set the sprites
         //AudioClip music = soundTracks[randChar];
@@ -59,25 +65,6 @@ public class KagerouCutController : MonoBehaviour {
         partMod = furExplo.GetComponent<ParticleSystem>().main;
         partMod.startColor = partColor;
 
-        //AudioSource player = MicrogameController.instance.GetComponent<AudioSource>();
-        //player.clip = music;
-        //player.Play();
-
-        //float angle = -0.1f;
-        //float[] angles= new float[furballCount];
-        //for (int i=0; i<furballCount; i++){
-        //    angle = Random.Range(angle-0.2f, angle-Mathf.PI/furballCount-0.1f);
-        //    angles[i] = angle;
-        //}
-        //float centerShift = angles[0] + angles[furballCount-1] + Mathf.PI;
-        //for (int i=0; i<furballCount; i++){
-        //    angles[i] -= centerShift/2+Random.Range(-0.1f, 0.1f);
-        //    if (angles[i] < -Mathf.PI/2){
-        //        angles[i] -= 0.3f;
-        //    } else {
-        //        angles[i] += 0.3f;
-        //    }
-        //}
 
         bool flipHairAngle = MathHelper.randomBool();
         for (int i=0; i<furballCount; i++){
