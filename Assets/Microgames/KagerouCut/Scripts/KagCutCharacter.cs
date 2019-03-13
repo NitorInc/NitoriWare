@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class KagCutCharacter : MonoBehaviour {
 
-    [SerializeField]
-    private Vibrate vibrate;
+    //[SerializeField]
+    //private Vibrate vibrate;
  
 	void Start ()
     {
@@ -18,13 +18,13 @@ public class KagCutCharacter : MonoBehaviour {
 	
 	void Update ()
     {
-        if (MicrogameController.instance.getVictory())
-        {
-            vibrate.enabled = true;
-            //vibrate.vibrateSpeed *= 2f;
-            vibrate.vibrateMaxX *= 2f;
-            vibrate.vibrateMaxY *= 2f;
-            enabled = false;
-        }
+        //if (MicrogameController.instance.getVictory())
+        //{
+        //    vibrate.enabled = true;
+        //    //vibrate.vibrateSpeed *= 2f;
+        //    vibrate.vibrateMaxX *= 2f;
+        //    vibrate.vibrateMaxY *= 2f;
+        //    enabled = false;
+        //}
 	}
 }
