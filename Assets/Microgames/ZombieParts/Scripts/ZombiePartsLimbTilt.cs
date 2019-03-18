@@ -15,6 +15,12 @@ public class ZombiePartsLimbTilt : MonoBehaviour {
 
 	private ZombiePartsLimb limb;
 	private Vector3 lastPosition = Vector3.zero;
+	private float initialAngle;
+
+
+	public void SetInitialRotationAngle (float initialAngle) {
+		this.initialAngle = initialAngle;
+	}
 
 
 	// Use this for initialization
@@ -22,6 +28,7 @@ public class ZombiePartsLimbTilt : MonoBehaviour {
 		lastPosition = transform.position;
 		limb = GetComponent<ZombiePartsLimb>();
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -30,10 +37,11 @@ public class ZombiePartsLimbTilt : MonoBehaviour {
 
 		transform.eulerAngles = Vector3.forward * Mathf.LerpAngle(
 			transform.eulerAngles.z,
-			speedToTilt.Evaluate(velocity.x / Time.unscaledDeltaTime),
+			initialAngle + speedToTilt.Evaluate(velocity.x / Time.unscaledDeltaTime),
 			Time.deltaTime * activeSmoothness
 		);
 
 		lastPosition = transform.position;
 	}
+
 }
