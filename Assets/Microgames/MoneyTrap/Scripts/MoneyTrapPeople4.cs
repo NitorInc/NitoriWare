@@ -71,7 +71,6 @@ public class MoneyTrapPeople4 : MonoBehaviour {
         //the person starts free
         state = State.Idle;
         floor = transform.position.y;
-        soundsource.clip = hopsound;
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -117,7 +116,11 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                     if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
                     {
                         //Play hopping sound
-                        soundsource.Play();
+                        if (soundsource != null && hopsound != null)
+                        {
+                            soundsource.clip = hopsound;
+                            soundsource.Play();
+                        }
 
                         //move towards player's x position at defined speed
                         Vector2 newPosition = transform.position;
@@ -195,7 +198,7 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 Vector2 newPosition = transform.position;
 
                 //play death sound
-                if (soundsource != null)
+                if (soundsource != null && deathsound != null)
                 {
                     soundsource.clip = deathsound;
                     soundsource.Play();
