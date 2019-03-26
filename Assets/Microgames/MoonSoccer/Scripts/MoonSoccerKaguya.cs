@@ -32,6 +32,12 @@ public class MoonSoccerKaguya : MonoBehaviour {
     private float TopY = 1.5f;
     [SerializeField]
     private float BottomY = -2.9f;
+	
+    
+    [Header("Delay Before Movement")]
+    [SerializeField]
+    private float delay = 0;
+	
    
    
     // The current acceleration
@@ -54,6 +60,8 @@ public class MoonSoccerKaguya : MonoBehaviour {
 	
 	// The player's transform used for tracking
 	private Transform playerTransform;
+	
+	private bool isMoving;
     
     // Initialization 
     void Start () {
@@ -63,6 +71,7 @@ public class MoonSoccerKaguya : MonoBehaviour {
 		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
         startScale = transform.localScale;
 		playerTransform = GameObject.Find("Mokou").GetComponent<Transform>();
+		Invoke("StartMoving", delay);
     }
     
 	// Update is called once per frame
@@ -71,26 +80,28 @@ public class MoonSoccerKaguya : MonoBehaviour {
         if (MicrogameController.instance.getVictoryDetermined() != true || hasKicked == false) {
             float x = transform.position.x;
             float y = transform.position.y;
-			if (playerTransform.position.y == transform.position.y ) {
-				accelerationGained = 0;
+			if (isMoving == true) {
+				if (playerTransform.position.y == transform.position.y ) {
+					accelerationGained = 0;
+				}
+				else if (playerTransform.position.y < transform.position.y && transform.position.y >= BottomY)
+				{
+					if (accelerationGained >= 0 && !keepMomentum)
+						accelerationGained = 0;
+					if (accelerationGained >= maximumMoveSpeed * -1)
+						accelerationGained -= accelerationSpeed;
+				}
+				else if (playerTransform.position.y > transform.position.y && transform.position.y <= TopY)
+				{
+					if (accelerationGained <= 0 && !keepMomentum)
+						accelerationGained = 0;
+					if (accelerationGained <= maximumMoveSpeed)
+						accelerationGained += accelerationSpeed;
+				}
+				else
+					accelerationGained = 0;
+				y = transform.position.y + accelerationGained * Time.deltaTime;
 			}
-            else if (playerTransform.position.y < transform.position.y && transform.position.y >= BottomY)
-            {
-                if (accelerationGained >= 0 && !keepMomentum)
-                    accelerationGained = 0;
-                if (accelerationGained >= maximumMoveSpeed * -1)
-                    accelerationGained -= accelerationSpeed;
-            }
-            else if (playerTransform.position.y > transform.position.y && transform.position.y <= TopY)
-            {
-                if (accelerationGained <= 0 && !keepMomentum)
-                    accelerationGained = 0;
-                if (accelerationGained <= maximumMoveSpeed)
-                    accelerationGained += accelerationSpeed;
-            }
-            else
-                accelerationGained = 0;
-            y = transform.position.y + accelerationGained * Time.deltaTime;
             moveDistance = (BottomY * -1) + TopY;
             x = -((y - BottomY) / moveDistance) * horizontalMovement;
             transform.position = new Vector3(startX + x, y, transform.position.z);
@@ -101,4 +112,8 @@ public class MoonSoccerKaguya : MonoBehaviour {
                                                startScale.z);
         }
     }
+	
+	void StartMoving () {
+		isMoving = true;
+	}
 }
