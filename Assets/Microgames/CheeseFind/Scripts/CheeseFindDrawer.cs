@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class CheeseFindDrawer : MonoBehaviour {
     private bool _isLocked = true;
-    private bool _isPulling = false;
-    private bool _isOpen = false;
+    public bool isLocked {
+        get { return _isLocked; }
+        set { _isLocked = value; }
+    }
 
-    private float _pullFactor = 1f;
-    private float _pullLimit = .5f;
-    //private float _objectFactor = 0f;
+    private bool _isOpen = true;
+    public bool isOpen {
+        get { return _isOpen; }
+        set { _isOpen = value; }
+    }
 
     private CheeseFindController _controller;
+    public CheeseFindController controller {
+        get { return _controller; }
+        set { _controller = value; }
+    }
+
+    private bool _isPulling = false;
+    private float _pullFactor = 1f;
+    private float _pullLimit = .5f;
+
 
 	void Start() {
 	}
 
     public void SetController(CheeseFindController controller) {
         _controller = controller;
-    }
-
-    public void CloseDrawer() {
-        _isLocked = false;
-        //TODO: Should be unlocked only after the closing animation is completed, _isLocked must be set by the CheeseFindController.
     }
 	
 	void Update() {
@@ -46,7 +54,7 @@ public class CheeseFindDrawer : MonoBehaviour {
             }
         }*/
 
-        if(!_isLocked && !_isPulling && _pullFactor > 0f) {
+        if((!_isLocked && !_isPulling && _pullFactor > 0f) || _isOpen) {
             _pullFactor -=  Time.deltaTime;
             if(_pullFactor < 0f)
                 _pullFactor = 0f;

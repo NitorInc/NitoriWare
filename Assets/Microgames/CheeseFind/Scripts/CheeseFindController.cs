@@ -7,6 +7,10 @@ public class CheeseFindController : MonoBehaviour {
         InitState
     };
 
+    [Header("Camera")]
+    [SerializeField]
+    private Camera camera;
+
     [Header("List of all drawers")]
     [SerializeField]
     private GameObject[] drawerObjects;
@@ -15,8 +19,10 @@ public class CheeseFindController : MonoBehaviour {
     [SerializeField]
     private GameObject[] itemObjects;
 
+    private CheeseFindCamera _cameraScript;
 
-    private List<CheeseFindDrawer> _drawerScripts;
+    private CheeseFindDrawer[] _drawerScripts;
+    private CheeseFindItem[] _itemScripts;
 
     private GameState _currentState = GameState.InitState;
 
@@ -26,22 +32,51 @@ public class CheeseFindController : MonoBehaviour {
      */
 
 	void Start () {
-        _drawerScripts = new List<CheeseFindDrawer>();
-		foreach(GameObject drawerObject in drawerObjects) {
-            CheeseFindDrawer drawer = drawerObject.GetComponent<CheeseFindDrawer>();
-            _drawerScripts.Add(drawer);
+        _drawerScripts = new CheeseFindDrawer[drawerObjects.Length];
+        _itemScripts = new CheeseFindItem[itemObjects.Length];
 
-            drawer.SetController(this);
+		for(int i = 0; i < drawerObjects.Length; i ++) {
+            CheeseFindDrawer drawerScript = drawerObjects[i].GetComponent<CheeseFindDrawer>();
+            _drawerScripts[i] = drawerScript;
+
+            drawerScript.controller = this;
         }
-        //TODO: Items animation.
-        //TODO: Call this only after the items animation is completed. Then, after the drawers are closed, let the player interact with them.
-        CloseAllDrawers();
+
+		for(int i = 0; i < itemObjects.Length; i ++) {
+            CheeseFindItem itemScript = itemObjects[i].GetComponent<CheeseFindItem>();
+            _itemScripts[i] = itemScript;
+        }
+
+        _cameraScript = camera.GetComponent<CheeseFindCamera>();
+
+        StartCoroutine(HideItem());
 	}
 
-    void CloseAllDrawers() {
-		foreach(CheeseFindDrawer drawer in _drawerScripts) {
-            drawer.CloseDrawer();
+    private IEnumerator HideItem() {
+        //TODO: Items animation.
+        
+		yield return new WaitForSeconds(1f);
+        foreach(CheeseFindDrawer drawer in _drawerScripts) {
+            drawer.isOpen = false;
         }
+
+        _cameraScript.MoveCameraDown();
+
+		yield return new WaitForSeconds(1f);
+
+        //TODO: Unlock drawers here.
+        foreach(CheeseFindDrawer drawer in _drawerScripts) {
+            drawer.isLocked = false;
+        }
+
+        //TODO: Replace with displayLocalizedCommand when the text is localized.
+		MicrogameController.instance.displayCommand("Find!");
+
+
+    }
+
+    void CloseAllDrawers() {
+		
         //Invoke("StartGame", 1f);
     }
 
