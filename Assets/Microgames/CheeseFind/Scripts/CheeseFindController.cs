@@ -54,8 +54,15 @@ public class CheeseFindController : MonoBehaviour {
 
     private IEnumerator HideItem() {
         //TODO: Items animation.
-        
 		yield return new WaitForSeconds(1f);
+        
+
+        _itemScripts[0].MoveTo(_drawerScripts[0].transform.parent.position, 1f);
+
+
+		yield return new WaitForSeconds(1f);
+        
+
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isOpen = false;
         }
@@ -64,20 +71,11 @@ public class CheeseFindController : MonoBehaviour {
 
 		yield return new WaitForSeconds(1f);
 
-        //TODO: Unlock drawers here.
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isLocked = false;
         }
-
         //TODO: Replace with displayLocalizedCommand when the text is localized.
 		MicrogameController.instance.displayCommand("Find!");
-
-
-    }
-
-    void CloseAllDrawers() {
-		
-        //Invoke("StartGame", 1f);
     }
 
     void StartGame() {

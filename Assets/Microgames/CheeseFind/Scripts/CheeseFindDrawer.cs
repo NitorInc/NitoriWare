@@ -34,30 +34,12 @@ public class CheeseFindDrawer : MonoBehaviour {
     }
 	
 	void Update() {
-        /*print(_objectFactor);
-        if(_currentState == DrawerState.HiddingState) {
-            _objectFactor += Time.deltaTime;
-            if(_objectFactor > 1f)
-                _objectFactor = 1f;
-
-            Vector3 objectPos = new Vector3(
-                transform.position.x,
-                transform.position.y + Mathf.Lerp(2f, 0f, EaseInOutSine(_pullFactor)),
-                transform.position.z);
-
-            cheeseObject.transform.position = objectPos;
-            mouseObject.transform.position = objectPos;
-
-            if(_objectFactor >= 1f) {
-                _isLocked = false;
-                _currentState = DrawerState.ClosedState;
+        if(!_isPulling && _pullFactor > 0f) {
+            if(!_isOpen) {
+                _pullFactor -=  Time.deltaTime;
+                if(_pullFactor < 0f)
+                    _pullFactor = 0f;
             }
-        }*/
-
-        if((!_isLocked && !_isPulling && _pullFactor > 0f) || _isOpen) {
-            _pullFactor -=  Time.deltaTime;
-            if(_pullFactor < 0f)
-                _pullFactor = 0f;
 
             Vector3 drawerPos = new Vector3(
                 transform.parent.position.x,
@@ -68,8 +50,6 @@ public class CheeseFindDrawer : MonoBehaviour {
 
         float scaleFactor = .25f * _pullFactor + 1f;
 		transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
-
-        
 	}
 
     void OnMouseDown() {
@@ -108,6 +88,7 @@ public class CheeseFindDrawer : MonoBehaviour {
         if(_pullFactor >= 1f) {
             _isPulling = false;
             _isLocked = true;
+            _isOpen = true;
         }
 
         //TODO: Pulling animation

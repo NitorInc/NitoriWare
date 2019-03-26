@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheeseFindCamera : MonoBehaviour {
+    [Header("Camera offset")]
+    [SerializeField]
+    private float offset = 1f;
+
     private float _originY;
     private float _destinationY;
     private float _cameraFactor = 0f;
@@ -14,7 +18,7 @@ public class CheeseFindCamera : MonoBehaviour {
 
 	void Start () {
         _destinationY = transform.position.y;
-        _originY = _destinationY + 1f;
+        _originY = _destinationY + offset;
         transform.position = new Vector3(transform.position.x, _originY, transform.position.z);
 	}
 	
