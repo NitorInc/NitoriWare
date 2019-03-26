@@ -26,11 +26,6 @@ public class CheeseFindController : MonoBehaviour {
 
     private GameState _currentState = GameState.InitState;
 
-    /*
-        mouseObject.SetActive(false);
-        cheeseObject.transform.position += new Vector3(0f, 2f, 0f);
-     */
-
 	void Start () {
         _drawerScripts = new CheeseFindDrawer[drawerObjects.Length];
         _itemScripts = new CheeseFindItem[itemObjects.Length];
@@ -54,21 +49,25 @@ public class CheeseFindController : MonoBehaviour {
 
     private IEnumerator HideItem() {
         //TODO: Items animation.
+
+
+		yield return new WaitForSeconds(2f);
+        
+        int drawerIndex = Random.Range(0, _drawerScripts.Length);
+        int itemIndex = Random.Range(0, _itemScripts.Length);
+        _drawerScripts[drawerIndex].item = _itemScripts[itemIndex];
+
+        for(int i = 0; i < _itemScripts.Length; i ++) {
+            if(i == itemIndex)
+                continue;
+            _itemScripts[i].MoveAway(1f);
+        }
 		yield return new WaitForSeconds(1f);
         
-
-        _itemScripts[0].MoveTo(_drawerScripts[0].transform.parent.position, 1f);
-
-
-		yield return new WaitForSeconds(1f);
-        
-
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isOpen = false;
         }
-
         _cameraScript.MoveCameraDown();
-
 		yield return new WaitForSeconds(1f);
 
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
@@ -78,10 +77,11 @@ public class CheeseFindController : MonoBehaviour {
 		MicrogameController.instance.displayCommand("Find!");
     }
 
-    void StartGame() {
+    public void SetVictory(bool isVictorious) {
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
-        //    drawer.UnlockDrawer();
+            drawer.isLocked = true;
         }
+        MicrogameController.instance.setVictory(isVictorious, true);
     }
 	
 	void Update () {
@@ -92,6 +92,4 @@ public class CheeseFindController : MonoBehaviour {
             break;
         }
 	}
-
-    //MicrogameController.instance.setVictory(victory: true, final: true);
 }

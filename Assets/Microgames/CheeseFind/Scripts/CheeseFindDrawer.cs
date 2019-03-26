@@ -21,17 +21,29 @@ public class CheeseFindDrawer : MonoBehaviour {
         set { _controller = value; }
     }
 
+    private bool _hasItem = false;
+    
+    private CheeseFindItem _item;
+    public CheeseFindItem item {
+        get { return _item; }
+        set {
+            if(value == null) {
+                _item = null;
+                _hasItem = false;
+                return;
+            }
+            _item = value;
+            _hasItem = true;
+            _item.MoveTo(transform.parent.position, 1f);
+        }
+    }
+
     private bool _isPulling = false;
     private float _pullFactor = 1f;
     private float _pullLimit = .5f;
 
-
 	void Start() {
 	}
-
-    public void SetController(CheeseFindController controller) {
-        _controller = controller;
-    }
 	
 	void Update() {
         if(!_isPulling && _pullFactor > 0f) {
@@ -64,10 +76,7 @@ public class CheeseFindDrawer : MonoBehaviour {
     void OnMouseUp() {
         if(_isLocked || !_isPulling)
             return;
-
         _isPulling = false;
-
-        //TODO: If the pulling is not complete, revert to the init state, else lock open the drawer
     }
 
     void OnMouseDrag() {
@@ -89,10 +98,17 @@ public class CheeseFindDrawer : MonoBehaviour {
             _isPulling = false;
             _isLocked = true;
             _isOpen = true;
-        }
 
-        //TODO: Pulling animation
-        //TODO: Lock open the drawer if the pull is complete
+            //TODO: Added effects
+
+            if(_hasItem) {
+                _item.MoveTo(transform.parent.position + new Vector3(0f, 3f, 0f), 1f);
+                _controller.SetVictory(true);
+            }
+            else {
+                _controller.SetVictory(false);
+            }
+        }
     }
 
     float EaseInOutSine(float t) {

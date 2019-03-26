@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheeseFindItem : MonoBehaviour {
-
     //TODO: Select a random sprite from a list
-    //TODO: Item Movement
 
     private bool _isMoving = false;
     private float _movingTime = 0f;
     private float _movingDuration = 0f;
     private Vector3 _origin;
     private Vector3 _destination;
+
+    private bool _isHovering = true;
+    private Vector3 _position;
     
 	void Start () {
-		
+		_position = transform.position;
 	}
 	
 	void Update () {
@@ -27,9 +28,13 @@ public class CheeseFindItem : MonoBehaviour {
             }
 		    transform.position = Vector3.Lerp(_origin, _destination, EaseInOutSine(movingFactor));
         }
+        else if(_isHovering) {
+            transform.position = _position + new Vector3(0f, Mathf.Sin(Time.time * 15f) * .1f, 0f);
+        }
 	}
 
     public void MoveTo(Vector3 destination, float duration) {
+        _isHovering = false;
         if(duration <= 0f) {
             transform.position = destination;
             return;
@@ -39,6 +44,10 @@ public class CheeseFindItem : MonoBehaviour {
         _movingDuration = duration;
         _origin = transform.position;
         _destination = destination;
+    }
+
+    public void MoveAway(float duration) {
+        MoveTo(transform.position + new Vector3(0f, 10f, 0f), duration);
     }
 
     float EaseInOutSine(float t) {
