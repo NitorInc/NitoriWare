@@ -21,8 +21,8 @@ public class MoonSoccerGuideArrowUpdate : MonoBehaviour {
 	}
 	
 	void Update () {
-        // The arrow stops right away once the player has pressed one of the used buttons
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.Space))
+        // The arrow stops right away once the ball is sent
+        if (Input.GetKey(KeyCode.Space))
             Destroy(gameObject);
         
 		blinkTimer += Time.deltaTime;
