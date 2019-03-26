@@ -406,7 +406,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4320940525036824, guid: 4d3876374c8bee84f81614807de84788, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 4320940525036824, guid: 4d3876374c8bee84f81614807de84788, type: 2}
       propertyPath: m_LocalScale.x
@@ -436,10 +436,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 722c32f5a2c9b384ca89ba007b659b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumMoveSpeed: 1.8
-  timeBeforeMaxSpeed: 6
-  xMovement: 1
-  scaleChange: 5
+  maximumMoveSpeed: 1.5
+  timeBeforeMaxSpeed: 8
+  keepMomentum: 0
+  horizontalMovement: 1
+  sizeChange: 5
   TopY: 1.5
   BottomY: -2.6
 --- !u!1001 &1301784671
@@ -512,6 +513,11 @@ Prefab:
     - target: {fileID: 114791157984220408, guid: bd5ebf7dbea420d4d8b6944b6f206292,
         type: 2}
       propertyPath: xMovement
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114791157984220408, guid: bd5ebf7dbea420d4d8b6944b6f206292,
+        type: 2}
+      propertyPath: horizontalMovement
       value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
