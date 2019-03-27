@@ -4,29 +4,12 @@ using UnityEngine;
 
 public class MoonSoccerDefenderMovement : MonoBehaviour {
     
-    // The possible ranges for the object's vertical movement
-    public enum VerticalMovementRange
-    {
-        TopScreenHalf,
-        BottomScreenHalf,
-        FullScreen
-    }
-    
-    // The possible start positions within a character's movement range
-    public enum StartPosition
-    {
-        Top,
-        Bottom,
-        Middle
-    }
-    
     // Contain all the information relating to the object's movement
     [System.Serializable]
     public struct Layout 
     {
         public float moveSpeed;
-        public VerticalMovementRange movementRange;
-        public StartPosition startPosition;
+        public float startVerticalPosition;
         public bool startsDownward;
     }
     
@@ -55,9 +38,6 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     [Header("Vertical Movement Range")]
     [SerializeField]
     private float TopY = 1.5f;
-    [SerializeField]
-    private float MiddleY = -0.5f;
-    [SerializeField]
     private float BottomY = -2.9f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
@@ -65,10 +45,6 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     
     // The starting x value of the object transform
     private float startX = 0f;
-    
-    // The upper and lower bounds of the object's vertical movement
-    private float minHeight = 0f;
-    private float maxHeight = 0f;
     
     private bool downward;
     
@@ -93,43 +69,8 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
                 chosenLayout = layout3;
                 break;
         }
-        // Set the bounds of the movement based on the layout's range
-        switch  (chosenLayout.movementRange)
-        {
-            case VerticalMovementRange.TopScreenHalf:
-            {
-                minHeight = MiddleY;
-                maxHeight = TopY;
-                break;
-            }
-            case VerticalMovementRange.BottomScreenHalf:
-            {
-                minHeight = BottomY;
-                maxHeight = MiddleY;
-                break;
-            }
-            case VerticalMovementRange.FullScreen:
-            {
-                minHeight = BottomY;
-                maxHeight = TopY;
-                break;
-            }
-        }
-        // Set the start position chosen in the inspector
-        switch (chosenLayout.startPosition)
-        {
-            case StartPosition.Top:
-                transform.position = new Vector3(transform.position.x, maxHeight, transform.position.z);
-                break;
-            case StartPosition.Bottom:
-                transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
-                break;
-            case StartPosition.Middle:
-                transform.position = new Vector3(transform.position.x, (maxHeight + minHeight) / 2, transform.position.z);
-                break;
-            
-        }
-        moveDistance = (BottomY * -1) + maxHeight;
+		transform.position = new Vector3(transform.position.x, chosenLayout.startVerticalPosition, transform.position.z);
+        moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
         startScale = transform.localScale;
         downward = chosenLayout.startsDownward;
@@ -143,20 +84,20 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             float y = transform.position.y;
             if (downward == true)
             {
-                if (transform.position.y >= minHeight)
+                if (transform.position.y >= BottomY)
                     y = transform.position.y - chosenLayout.moveSpeed * Time.deltaTime;
                 else
                     downward = false;
             }
             else
             {
-                if (transform.position.y <= maxHeight)
+                if (transform.position.y <= TopY)
                     y = transform.position.y + chosenLayout.moveSpeed * Time.deltaTime;
                 else
                     downward = true;
             }
             // Horizontal Movement based on how high they are on screen
-            x = -((y - minHeight) / moveDistance) * xMovement;
+            x = -((y - BottomY) / moveDistance) * xMovement;
             transform.position = new Vector3(startX + x, y, transform.position.z);
             // Scale the character's size based on how high they are on screen
             float vDistance = 1 - ((y - BottomY) / moveDistance);
