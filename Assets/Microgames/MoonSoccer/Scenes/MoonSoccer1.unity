@@ -433,17 +433,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1236470074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 722c32f5a2c9b384ca89ba007b659b9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 82c1a578881840742a1b49c446ee538e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumMoveSpeed: 1.5
-  timeBeforeMaxSpeed: 8
-  keepMomentum: 0
-  horizontalMovement: 1
-  sizeChange: 5
-  TopY: 1.5
-  BottomY: -2.6
-  delay: 0.3
+  layout1:
+    moveSpeed: 4
+    movementRange: 2
+    startPosition: 1
+    startsDownward: 0
+  layout2:
+    moveSpeed: 4
+    movementRange: 2
+    startPosition: 2
+    startsDownward: 0
+  layout3:
+    moveSpeed: 4
+    movementRange: 2
+    startPosition: 0
+    startsDownward: 0
+  xMovement: 1
+  scaleChange: 5
+  TopY: 1.1
+  MiddleY: -0.5
+  BottomY: -2.3
 --- !u!1001 &1301784671
 Prefab:
   m_ObjectHideFlags: 0
@@ -504,12 +516,12 @@ Prefab:
     - target: {fileID: 114791157984220408, guid: bd5ebf7dbea420d4d8b6944b6f206292,
         type: 2}
       propertyPath: TopY
-      value: 1.2
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 114791157984220408, guid: bd5ebf7dbea420d4d8b6944b6f206292,
         type: 2}
       propertyPath: BottomY
-      value: -2.7
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 114791157984220408, guid: bd5ebf7dbea420d4d8b6944b6f206292,
         type: 2}
