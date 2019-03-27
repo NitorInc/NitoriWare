@@ -4,24 +4,11 @@ using UnityEngine;
 
 public class MoonSoccerDefenderMovement : MonoBehaviour {
     
-    // Contain all the information relating to the object's movement
-    [System.Serializable]
-    public struct Layout 
-    {
+    // Movement speed
+    [Header("Movement Speed")]
+    [SerializeField]
         public float moveSpeed;
-        public float startVerticalPosition;
-        public bool startsDownward;
-    }
-    
-    // Each object has 3 layout structs, and one will be picked at random at the start
-    [Header("Movement Layouts")]
-    [SerializeField]
-    public Layout layout1;
-    [SerializeField]
-    public Layout layout2;
-    [SerializeField]
-    public Layout layout3;
-    
+	
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
     [Header("Horizontal Movement Length")]
     [SerializeField]
@@ -48,32 +35,16 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     
     private bool downward;
     
-    private Layout chosenLayout;
-    
     // The scale of the sprite at the very start
     private Vector3 startScale;
     
     // Initialization
     void Start () {
-        // Get what the chosen layout is
-        int layout = GameObject.Find("LayoutPicker").GetComponent<MoonSoccerLayoutPick>().layout;
-        switch (layout)
-        {
-            case 0:
-                chosenLayout = layout1;
-                break;
-            case 1:
-                chosenLayout = layout2;
-                break;
-            case 2:
-                chosenLayout = layout3;
-                break;
-        }
-		transform.position = new Vector3(transform.position.x, chosenLayout.startVerticalPosition, transform.position.z);
+		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
         startScale = transform.localScale;
-        downward = chosenLayout.startsDownward;
+        downward = (bool)(Random.value > 0.5f);;
     }
 
     
@@ -85,14 +56,14 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             if (downward == true)
             {
                 if (transform.position.y >= BottomY)
-                    y = transform.position.y - chosenLayout.moveSpeed * Time.deltaTime;
+                    y = transform.position.y - moveSpeed * Time.deltaTime;
                 else
                     downward = false;
             }
             else
             {
                 if (transform.position.y <= TopY)
-                    y = transform.position.y + chosenLayout.moveSpeed * Time.deltaTime;
+                    y = transform.position.y + moveSpeed * Time.deltaTime;
                 else
                     downward = true;
             }
