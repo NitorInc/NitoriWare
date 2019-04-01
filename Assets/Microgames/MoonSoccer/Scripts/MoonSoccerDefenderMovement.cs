@@ -25,7 +25,8 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     [Header("Vertical Movement Range")]
     [SerializeField]
     private float TopY = 1.5f;
-    private float BottomY = -2.9f;
+    [SerializeField]
+    private float BottomY = -2.3f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
     private float moveDistance = 0f;
