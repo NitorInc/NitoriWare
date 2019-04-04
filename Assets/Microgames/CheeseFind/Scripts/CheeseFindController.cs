@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CheeseFindController : MonoBehaviour {
@@ -19,12 +20,18 @@ public class CheeseFindController : MonoBehaviour {
     [SerializeField]
     private GameObject[] itemObjects;
 
+    [Header("Number of cheese to find")]
+    [SerializeField]
+    private int maxItemsToFind;
+
     private CheeseFindCamera _cameraScript;
 
     private CheeseFindDrawer[] _drawerScripts;
     private CheeseFindItem[] _itemScripts;
 
     private GameState _currentState = GameState.InitState;
+
+    private int currentItemsFound = 0;
 
 	void Start () {
         _drawerScripts = new CheeseFindDrawer[drawerObjects.Length];
@@ -50,16 +57,27 @@ public class CheeseFindController : MonoBehaviour {
     private IEnumerator HideItem() {
         //TODO: Items animation.
 
+        List<CheeseFindDrawer> drawers = _drawerScripts.ToList();
+        List<CheeseFindItem> items = _itemScripts.ToList();
 
-		yield return new WaitForSeconds(2f);
-        
-        int drawerIndex = Random.Range(0, _drawerScripts.Length);
-        int itemIndex = Random.Range(0, _itemScripts.Length);
-        _drawerScripts[drawerIndex].item = _itemScripts[itemIndex];
+        for(int i = 0; i < maxItemsToFind; i ++) {
+            int drawerIndex = Random.Range(0, drawers.Count);
+            int itemIndex = Random.Range(0, items.Count);
+
+            drawers[drawerIndex].item = items[itemIndex];
+            items[itemIndex].isUsed = true;
+
+            drawers.RemoveAt(drawerIndex);
+            items.RemoveAt(itemIndex);
+        }
+
+		yield return new WaitForSeconds(1f);
 
         for(int i = 0; i < _itemScripts.Length; i ++) {
-            if(i == itemIndex)
+            if(_itemScripts[i].isUsed) {
+                _itemScripts[i].MoveTo(_itemScripts[i].drawerPosition, 1f);
                 continue;
+            }
             _itemScripts[i].MoveAway(1f);
         }
 		yield return new WaitForSeconds(1f);
@@ -82,6 +100,14 @@ public class CheeseFindController : MonoBehaviour {
             drawer.isLocked = true;
         }
         MicrogameController.instance.setVictory(isVictorious, true);
+    }
+
+    public void AddPoint(int points) {
+        currentItemsFound += points;
+        if(currentItemsFound >= maxItemsToFind) {
+            currentItemsFound = maxItemsToFind;
+            SetVictory(true);
+        }
     }
 	
 	void Update () {

@@ -5,6 +5,14 @@ using UnityEngine;
 public class CheeseFindItem : MonoBehaviour {
     //TODO: Select a random sprite from a list
 
+    private bool _isUsed = false;
+    public bool isUsed {
+        get { return _isUsed; }
+        set { _isUsed = value; }
+    }
+
+    public Vector3 drawerPosition;
+
     private bool _isMoving = false;
     private float _movingTime = 0f;
     private float _movingDuration = 0f;

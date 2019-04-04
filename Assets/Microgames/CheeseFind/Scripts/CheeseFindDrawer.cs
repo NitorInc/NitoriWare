@@ -34,7 +34,7 @@ public class CheeseFindDrawer : MonoBehaviour {
             }
             _item = value;
             _hasItem = true;
-            _item.MoveTo(transform.parent.position, 1f);
+            _item.drawerPosition = transform.parent.position;
         }
     }
 
@@ -103,7 +103,7 @@ public class CheeseFindDrawer : MonoBehaviour {
 
             if(_hasItem) {
                 _item.MoveTo(transform.parent.position + new Vector3(0f, 3f, 0f), 1f);
-                _controller.SetVictory(true);
+                _controller.AddPoint(1);
             }
             else {
                 _controller.SetVictory(false);
