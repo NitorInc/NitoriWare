@@ -39,13 +39,13 @@
 
 			sampler2D _MainTex;
 			fixed _Amount;
+			fixed _Flash;
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				return lerp(
-					tex2D(_MainTex, i.uv),
-					fixed4(1,0,0,1),
-					_Amount);
+				fixed4 col = tex2D(_MainTex, i.uv);
+				col = col + col * _Flash;
+				return lerp(col * lerp(1, fixed4(1, 0, 0, 1),step(0.01,_Amount)),0,_Amount);
 		}
 		ENDCG
 	}

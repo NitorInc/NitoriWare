@@ -38,6 +38,14 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     [SerializeField]
     private float gravity = 0.1f;
 
+    [Header("Death audio clip")]
+    [SerializeField]
+    private AudioClip deathsound;
+
+    [Header("Death audio source")]
+    [SerializeField]
+    private AudioSource deathsoundsource;
+
     //Possible states for the person
     enum State {Idle, Following, Falling};
 
@@ -59,6 +67,7 @@ public class MoneyTrapPeople4 : MonoBehaviour {
         //the person starts free
         state = State.Idle;
         floor = transform.position.y;
+        deathsoundsource.clip = deathsound;
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -177,6 +186,10 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 //move downwards into touhou hell
 
                 Vector2 newPosition = transform.position;
+
+                //play death sound
+                if (deathsoundsource!= null)
+                    deathsoundsource.Play();
 
                 //grind x acceleration to a halt
                 newPosition.x += Mathf.Lerp(newPosition.x, trajectory.x, 0.5f) * Time.deltaTime;

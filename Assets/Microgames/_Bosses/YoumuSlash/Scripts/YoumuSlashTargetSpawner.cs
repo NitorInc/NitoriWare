@@ -25,6 +25,13 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
     {
         upcomingTargets = new Queue<YoumuSlashBeatMap.TargetBeat>(timingData.BeatMap.TargetBeats);
         YoumuSlashTimingController.onMusicStart += enableSpawning;
+        YoumuSlashPlayerController.onFail += onFail;
+    }
+
+    void onFail()
+    {
+        spawningEnabled = false;
+        enabled = false;
     }
 
     void enableSpawning()
@@ -53,6 +60,12 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
         }
 
         var newTargetInstance = Instantiate(target.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
+        if (target.OverrideAnimator != null)
+            newTargetInstance.overrideAnimatorController(target.OverrideAnimator);
+        if (target.OverrideImage != null)
+            newTargetInstance.overrideImage(target.OverrideImage);
+        if (target.OverrideSound != null)
+            newTargetInstance.overrideSound(target.OverrideSound);
         newTargetInstance.initiate(target);
     }
 }

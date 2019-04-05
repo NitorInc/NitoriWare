@@ -26,6 +26,9 @@ public class KnifeDodgeController : MonoBehaviour {
     // Only applies if tiltedKnives enabled
     public bool tiltedKnives = true;
 	public bool tiltedKnivesRandomAngle = true;
+
+    public bool horizontalMovementKnives = false;
+    public float horizontalKnifeSpeed = 1f;
 	public float tiltedKnivesAngle = 0;
 	public int tiltedKnivesNumZeroTilt = 4;
     public enum KnifeDirections {
@@ -34,6 +37,7 @@ public class KnifeDodgeController : MonoBehaviour {
 		NUM_DIRECTIONS
 	}
 
+    bool knifeMoveRight;
     int currentState;
 
     // Todo: how to get enum from KnifeDodgeKnife.cs
@@ -48,10 +52,12 @@ public class KnifeDodgeController : MonoBehaviour {
     void Start () {
         currentState = -1;
 
+        knifeMoveRight = (Random.value > 0.5f);
         SpawnTargets ();
 		CreateSafeZone ();
 		SpawnKnives ();
-	}
+
+    }
 
 	void SpawnTargets() {
 		knifeTargetsList = new List<GameObject> ();
@@ -128,6 +134,20 @@ public class KnifeDodgeController : MonoBehaviour {
 	// Deletes targets to create a safe zone.
 	void CreateSafeZone() {
 		int startingIndex = Random.Range (0,knifeTargetsList.Count - knivesRemoved);
+
+        if (horizontalMovementKnives)
+        {
+            int offset = 2;
+            startingIndex /= 2;
+            if (!knifeMoveRight)
+            {
+                startingIndex += (knifeTargetsList.Count / 2);
+                startingIndex -= offset;
+            }
+            else
+                startingIndex += offset;
+        }
+
 		for (int i = startingIndex; i < startingIndex + knivesRemoved; i++) {
 			knifeTargetsList.RemoveAt (startingIndex);
 		}
@@ -143,6 +163,11 @@ public class KnifeDodgeController : MonoBehaviour {
 		return closest;
 	}
 
+    void playKnifeSound()
+    {
+        GetComponents<AudioSource>()[0].Play();
+    }
+
 	void Update() {
         for (int i = 0; i < knifeList.Count; i++)
         {
@@ -157,7 +182,7 @@ public class KnifeDodgeController : MonoBehaviour {
                 parallaxController.GetComponent<KnifeDodgeParallaxBackground>().SetSpeed(Mathf.Lerp(parallaxSpeed, parallaxMaxSpeed, Time.deltaTime));
                 if (currentState != (int)KnifeState.FLYING_IN)
                 {
-                    GetComponents<AudioSource>()[0].Play();
+                    Invoke("playKnifeSound", StageController.beatLength * 1.5f);
                 }
                 currentState = (int)KnifeState.FLYING_IN;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);
@@ -180,6 +205,17 @@ public class KnifeDodgeController : MonoBehaviour {
                 if (currentState != (int)KnifeState.STOP_AND_ROTATE)
                 {
                     GetComponents<AudioSource>()[2].Play();
+                }
+
+                if (horizontalMovementKnives)
+                {
+                    if (knifeMoveRight)
+                    {
+                        knifeList[i].transform.position += new Vector3(horizontalKnifeSpeed, 0, 0) * Time.deltaTime;
+                    } else
+                    {
+                        knifeList[i].transform.position -= new Vector3(horizontalKnifeSpeed, 0, 0) * Time.deltaTime;
+                    }
                 }
                 currentState = (int)KnifeState.STOP_AND_ROTATE;
                 knifeList[i].GetComponent<KnifeDodgeKnife>().SetState(currentState);

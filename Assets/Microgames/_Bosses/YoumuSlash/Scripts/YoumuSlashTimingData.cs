@@ -34,11 +34,11 @@ public class YoumuSlashTimingData : ScriptableObject
 
     public float BeatDuration => 60f / bpm;
 
-    public void initiate(AudioSource musicSource, YoumuSlashBeatMap beatMap, int warmupBeats)
+    public void initiate(AudioSource musicSource, YoumuSlashBeatMap beatMap, int warmupBeatCount)
     {
         this.musicSource = musicSource;
         this.beatMap = beatMap;
-        lastProcessedBeat = -1 - warmupBeats;
+        lastProcessedBeat = -1 - warmupBeatCount;
         beatMap.initiate();
         YoumuSlashTimingController.onBeat += updateBeatCount;
     }
