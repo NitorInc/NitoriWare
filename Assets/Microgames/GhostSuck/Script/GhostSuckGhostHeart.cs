@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GhostSuckGhostHeart : MonoBehaviour {
     [SerializeField]
-    private bool touch, damageperiod, touchcheck, suck, inthezone, alive, acceldelay, settrajectorydeadactive, particlefired, justdid;
+    private bool touch, touchcheck, suck, rattler, inthezone, alive, acceldelay, settrajectorydeadactive, particlefired, justdid;
     [SerializeField]
-    private float ghostlife, ghostdamage, damageinterval, speed, angle, acceleration, accel, movespeed, panicspeed, relaxspeed, deaddelay, diespeed;
+    private float ghostlife, ghostdamage, speed, angle, acceleration, accel, movespeed, panicspeed, relaxspeed, deaddelay, diespeed;
     [SerializeField]
     public float ghostsuckcount;
     [SerializeField]
@@ -15,7 +15,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private Vector2 trajectory, deadtrajectory;
     [Header("TargetDead")]
     [SerializeField]
-    private GameObject targetdead, bakebakerig;
+    private GameObject targetdead, bakebakesprite;
     [Header("Delay")]
     [SerializeField]
     private float delay = 1f;
@@ -25,6 +25,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private Animator ghostAnimator;
     [SerializeField]
     private AudioClip ghostPop;
+    public ParticleSystem deathParticles, sweatParticles;
+    private ParticleSystem.MainModule ghostsweatModule, ghostdeathModule;
 
     // Collider2D stuff, determines whether a particular ghost is under mouse hitbox
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,15 +45,14 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                 movespeed = panicspeed;
                 Animator ghostAnimator = GetComponentInChildren<Animator>();
                 ghostAnimator.Play("BakeBakePanic");
+                sweatParticles.Play();
             }
             // interacts with hitbox on vacuum nozzle when dead, creates particles and invokes disableobject
             if (collision.gameObject.tag == "MicrogameTag2" && alive == false)
             {
                 if (particlefired == false)
                 {
-                    ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
-                    particleSystem.Play();
-                    Invoke("DisableObject", 0.1f);
+                    Invoke("DisableObject", 0f);
                 }
 
             }
@@ -68,7 +69,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             movespeed = relaxspeed;
             Animator ghostAnimator = GetComponentInChildren<Animator>();
             ghostAnimator.Play("BakeBakeMove");
-        }
+            sweatParticles.Stop();
+            }
         }
            
     }
@@ -77,16 +79,26 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.gameObject.SetActive(false);
+        deathcloud();
         particlefired = true;
         MicrogameController.instance.playSFX(ghostPop, volume: 1.5f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
     }
     
     void Start() {
         touch = false;
-        damageperiod = true;
         SetTrajectory();
+        rattler = true;
         movespeed = relaxspeed;
         particlefired = false;
+        sweatParticles.Stop();
+        sweatParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+        deathParticles.Stop();
+        deathParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+    }
+    void Awake()
+    {
+        ghostsweatModule = sweatParticles.main;
+        ghostdeathModule = deathParticles.main;
     }
     //randomly selects an angled initial trajectory for the ghost to follow
     void SetTrajectory()
@@ -109,7 +121,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         {
             sign2 = 1f;
         }
-        trajectory = new Vector2(2f * sign1, Mathf.Round(Random.Range(0f, 2f)) * sign2);
+        trajectory = new Vector2(Mathf.Round(Random.Range(1f, 4f)) * sign1, Mathf.Round(Random.Range(0f, 2f)) * sign2);
         if (trajectory.x > 0f)
         {
             transform.Rotate(new Vector3(0, 180, 0));
@@ -153,31 +165,41 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     settrajectorydeadactive = false;
                 }
                 shrinking = transform.localScale;
-                shrinking.x = shrinking.x * 0.97f;
-                shrinking.y = shrinking.y * 0.97f;
+                shrinking.x = shrinking.x * 0.95f;
+                shrinking.y = shrinking.y * 0.95f;
                 transform.localScale = shrinking;
             }
             //periodically decreases ghost life if ghost is both under mouse and mouse is pressed
-            if (Input.GetKey(KeyCode.Mouse0) && alive == true)
+            if (alive == true)
             {
-                suck = true;
                 if (inthezone == true)
                 {
                     touch = true;
-
                 }
             }
             else
             {
-                suck = false;
                 touch = false;
             }
             if (touch == true)
             {
-                if (damageperiod == true)
+                ghostlife = ghostlife - ghostdamage * Time.deltaTime;
+                if (ghostlife < 0)
                 {
-                    damageperiod = false;
-                    Invoke("TouchDamage", damageinterval);
+                    alive = false;
+                    SetTrajectoryDead();
+                    ghostcountmodifier();
+                    sweatParticles.Stop();
+                    sweatParticles.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (rattler == true)
+                    {
+                        rattle1();
+                        rattler = false;
+                    }
+                   
                 }
 
             }
@@ -204,7 +226,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
                 }
 
-                if (transform.position.y < 0f)
+                if (transform.position.y < -0.5f)
                 {
                     transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
                     trajectory = new Vector2(trajectory.x, -trajectory.y);
@@ -214,33 +236,17 @@ public class GhostSuckGhostHeart : MonoBehaviour {
 
         }
     }
-    //periodically reduces ghost life until it reaches zero to which it switches alive movement trajectory to dead ghost trajectory among other functions
-    void TouchDamage()
-    {
-
-        if (ghostlife < 0)
-        {
-            alive = false;
-            SetTrajectoryDead();
-            ghostcountmodifier();
-        }
-        else
-        {
-            damageperiod = true;
-            ghostlife -= ghostdamage;
-            rattle1();
-        }
-    }
     //makes ghost shake when taking damage
     void rattle1()
     {
-        bakebakerig.transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
+        bakebakesprite.transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
         Invoke("rattle2", 0.1f);
     }
 
     void rattle2()
     {
-        bakebakerig.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
+        bakebakesprite.transform.position = new Vector2(transform.position.x + 0.05f, transform.position.y);
+        rattler = true;
     }
     //makes ghost spin when being sucked up
     void updateRotation()
@@ -249,7 +255,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         body.transform.rotation = Quaternion.Euler(0f, 0f, angle);
         if (accel < 5f && acceldelay == false)
         {
-            Invoke("accelerateprotocol", 0.3f);
+            Invoke("accelerateprotocol", 0.2f);
             acceldelay = true;
 
         }
@@ -271,6 +277,15 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     {
         ghost.BroadcastMessage("killaghost", ghost);
         movespeed = 0f;
+    }
+    void deathcloud()
+    {
+        deathParticles.Stop();
+        deathParticles.Play();
+    }
+    void sweat()
+    {
+        sweatParticles.Play();
     }
 
 
