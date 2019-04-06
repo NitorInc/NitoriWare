@@ -33,7 +33,7 @@ public class NitoriLookTarget : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.rotation = Camera.main.transform.rotation;
+        transform.rotation = MainCameraSingleton.instance.transform.rotation;
         updateVictoryLogic();
     }
 

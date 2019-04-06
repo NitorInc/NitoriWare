@@ -25,7 +25,7 @@ public class HinaCam
         else if (cameraCollisionResults.calculatedHits.ContainsKey(layerMask))
             return (cameraCollisionResults.calculatedHits[layerMask].collider == collider);
 
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray mouseRay = MainCameraSingleton.instance.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, distance, layerMask);
         cameraCollisionResults.calculatedHits[layerMask] = hit;
         return (hit.collider == collider);
@@ -33,9 +33,9 @@ public class HinaCam
 
     public static Vector2 GCP()
     {
-        camSize = Camera.main.orthographicSize - 3f;
-        Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        position.x = Mathf.Clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f), Camera.main.transform.position.x + (camSize * 4f / 3f));
+        camSize = MainCameraSingleton.instance.orthographicSize - 3f;
+        Vector2 position = MainCameraSingleton.instance.ScreenToWorldPoint(Input.mousePosition);
+        position.x = Mathf.Clamp(position.x, MainCameraSingleton.instance.transform.position.x - (camSize * 4f / 3f), MainCameraSingleton.instance.transform.position.x + (camSize * 4f / 3f));
         position.y = 0f;
         return position;
     }

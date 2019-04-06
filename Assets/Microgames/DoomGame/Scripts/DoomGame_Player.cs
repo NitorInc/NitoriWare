@@ -31,7 +31,7 @@ public class DoomGame_Player : MonoBehaviour
     void Start ()
     {
         startPosition = transform.position;
-        mainCamera = Camera.main.transform;
+        mainCamera = MainCameraSingleton.instance.transform;
         audio = GetComponent<AudioSource> ();
     }
 

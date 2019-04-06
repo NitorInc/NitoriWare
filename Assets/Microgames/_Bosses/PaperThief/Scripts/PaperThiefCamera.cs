@@ -40,7 +40,7 @@ public class PaperThiefCamera : MonoBehaviour
 	{
 		instance = this;
 		boxCollider = GetComponent<BoxCollider2D>();
-		goalSize = Camera.main.orthographicSize;
+		goalSize = MainCameraSingleton.instance.orthographicSize;
 		goalPosition = transform.localPosition;
 		startTime = Time.time;
 		scroll = true;
@@ -61,7 +61,7 @@ public class PaperThiefCamera : MonoBehaviour
 	public void setGoalSize(float goalSize)
 	{
 		this.goalSize = goalSize;
-		lerpSize = Camera.main.orthographicSize;
+		lerpSize = MainCameraSingleton.instance.orthographicSize;
 		lerpSizeDistance = ((Vector2)(goalPosition - transform.localPosition)).magnitude;
 		mustShift = true;
 	}
@@ -115,11 +115,11 @@ public class PaperThiefCamera : MonoBehaviour
 	{
 		if (transform.moveTowardsLocal2D((Vector2)goalPosition, shiftSpeed))
 		{
-			Camera.main.orthographicSize = goalSize;
+			MainCameraSingleton.instance.orthographicSize = goalSize;
 			mustShift = false;
 		}
 		else
-			Camera.main.orthographicSize = Mathf.Lerp(goalSize, lerpSize, ((Vector2)(goalPosition - transform.localPosition)).magnitude / lerpSizeDistance);
+			MainCameraSingleton.instance.orthographicSize = Mathf.Lerp(goalSize, lerpSize, ((Vector2)(goalPosition - transform.localPosition)).magnitude / lerpSizeDistance);
 	}
 
 	void updateFollow()
@@ -141,7 +141,7 @@ public class PaperThiefCamera : MonoBehaviour
             camPosition = transform.localPosition;
         setGoalPosition(new Vector3(nitoriPosition.x, camPosition.y, camPosition.z));
         setShiftSpeed(nitoriFollowSpeed);
-        setGoalSize(Camera.main.orthographicSize);
+        setGoalSize(MainCameraSingleton.instance.orthographicSize);
     }
 
     public void startChase()

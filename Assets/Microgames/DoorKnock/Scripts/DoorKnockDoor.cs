@@ -44,7 +44,7 @@ public class DoorKnockDoor : MonoBehaviour {
     // Use this for initialization
     void Start() {
         // Get the screen dimensions
-        screenHeight = Camera.main.orthographicSize;    
+        screenHeight = MainCameraSingleton.instance.orthographicSize;    
         screenWidth = screenHeight * 4f / 3f;
         
         animator = GetComponentInChildren<Animator>(); 
