@@ -10,15 +10,20 @@ public class GhostSuckGhostController : MonoBehaviour {
     public Vector2 ghostcolorRange;
     // Use this for initialization
     void Start() {
+        ghostcount = ghostrig.Length;
         for (int i = 0; i < ghostrig.Length; ghostrig[i++].gameObject.SetActive(true))
         {
+            int tries = 1000;
             do
             {
                 ghostrig[i].transform.position = new Vector3(Random.Range(-4.5f, 4.5f), Random.Range(0f, 4f), transform.position.z);
+                tries--;
             }
-            while (isInCenter(ghostrig[i].transform.position) || isNearOtherGhost(i, 1f) || (ghostrig[i].transform.position - transform.position).magnitude < 4f);
+            while ((Mathf.Abs(ghostrig[i].transform.position.x - CameraHelper.getCursorPosition().x) < 2f)
+                && tries > 0);
 
-            
+            if (tries <= 0)
+                print("TOO MANY GHOST POSITION TRIES");
 
         }
         for (int i = 0; i < ghostrig.Length; ghostrig[i++].gameObject.SetActive(true))

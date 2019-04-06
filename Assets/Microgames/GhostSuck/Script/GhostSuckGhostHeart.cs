@@ -25,8 +25,12 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     private Animator ghostAnimator;
     [SerializeField]
     private AudioClip ghostPop;
+    [SerializeField]
+    private AudioClip ghostTrajectoryFling;
     public ParticleSystem deathParticles, sweatParticles;
     private ParticleSystem.MainModule ghostsweatModule, ghostdeathModule;
+
+    float sweatStartRate;
 
     // Collider2D stuff, determines whether a particular ghost is under mouse hitbox
     private void OnTriggerEnter2D(Collider2D collision)
@@ -84,14 +88,17 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         MicrogameController.instance.playSFX(ghostPop, volume: 1.5f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
     }
     
-    void Start() {
+    void Start()
+    {
         touch = false;
         SetTrajectory();
         rattler = true;
         movespeed = relaxspeed;
         particlefired = false;
-        sweatParticles.Stop();
-        sweatParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+        //sweatParticles.Stop();
+        //sweatParticles.SetParticles(new ParticleSystem.Particle[0], 0);
+        var emission = sweatParticles.emission;
+        emission.enabled = false;
         deathParticles.Stop();
         deathParticles.SetParticles(new ParticleSystem.Particle[0], 0);
     }
@@ -172,9 +179,15 @@ public class GhostSuckGhostHeart : MonoBehaviour {
             //periodically decreases ghost life if ghost is both under mouse and mouse is pressed
             if (alive == true)
             {
+                var emission = sweatParticles.emission;
                 if (inthezone == true)
                 {
                     touch = true;
+                    emission.enabled = true;
+                }
+                else
+                {
+                    emission.enabled = false;
                 }
             }
             else
@@ -191,6 +204,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     ghostcountmodifier();
                     sweatParticles.Stop();
                     sweatParticles.gameObject.SetActive(false);
+                    MicrogameController.instance.playSFX(ghostTrajectoryFling, volume: 1f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
                 }
                 else
                 {
