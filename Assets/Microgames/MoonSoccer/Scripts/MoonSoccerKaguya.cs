@@ -65,9 +65,9 @@ public class MoonSoccerKaguya : MonoBehaviour {
         accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
-		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
         startScale = transform.localScale;
 		playerTransform = GameObject.Find("Mokou").GetComponent<Transform>();
+        transform.position = new Vector3(transform.position.x, playerTransform.position.y, transform.position.y);
 		// Fill the tracking queue with Kaguya's starting position to add a delay before she moves
         for (int i = 0; i < delay; i++) {
 			movementQueue.Enqueue(transform.position.y);

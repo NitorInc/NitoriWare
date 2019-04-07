@@ -51,7 +51,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     public MoonSoccerBall ballScript;
     
     // Initialization 
-    void Start () {
+    void Awake () {
         accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
