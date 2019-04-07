@@ -4,41 +4,11 @@ using UnityEngine;
 
 public class MoonSoccerDefenderMovement : MonoBehaviour {
     
-    // The possible ranges for the object's vertical movement
-    public enum VerticalMovementRange
-    {
-        TopScreenHalf,
-        BottomScreenHalf,
-        FullScreen
-    }
-    
-    // The possible start positions within a character's movement range
-    public enum StartPosition
-    {
-        Top,
-        Bottom,
-        Middle
-    }
-    
-    // Contain all the information relating to the object's movement
-    [System.Serializable]
-    public struct Layout 
-    {
+    // Movement speed
+    [Header("Movement Speed")]
+    [SerializeField]
         public float moveSpeed;
-        public VerticalMovementRange movementRange;
-        public StartPosition startPosition;
-        public bool startsDownward;
-    }
-    
-    // Each object has 3 layout structs, and one will be picked at random at the start
-    [Header("Movement Layouts")]
-    [SerializeField]
-    public Layout layout1;
-    [SerializeField]
-    public Layout layout2;
-    [SerializeField]
-    public Layout layout3;
-    
+	
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
     [Header("Horizontal Movement Length")]
     [SerializeField]
@@ -56,9 +26,7 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     [SerializeField]
     private float TopY = 1.5f;
     [SerializeField]
-    private float MiddleY = -0.5f;
-    [SerializeField]
-    private float BottomY = -2.9f;
+    private float BottomY = -2.3f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
     private float moveDistance = 0f;
@@ -66,73 +34,18 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     // The starting x value of the object transform
     private float startX = 0f;
     
-    // The upper and lower bounds of the object's vertical movement
-    private float minHeight = 0f;
-    private float maxHeight = 0f;
-    
     private bool downward;
-    
-    private Layout chosenLayout;
     
     // The scale of the sprite at the very start
     private Vector3 startScale;
     
     // Initialization
     void Start () {
-        // Get what the chosen layout is
-        int layout = GameObject.Find("LayoutPicker").GetComponent<MoonSoccerLayoutPick>().layout;
-        switch (layout)
-        {
-            case 0:
-                chosenLayout = layout1;
-                break;
-            case 1:
-                chosenLayout = layout2;
-                break;
-            case 2:
-                chosenLayout = layout3;
-                break;
-        }
-        // Set the bounds of the movement based on the layout's range
-        switch  (chosenLayout.movementRange)
-        {
-            case VerticalMovementRange.TopScreenHalf:
-            {
-                minHeight = MiddleY;
-                maxHeight = TopY;
-                break;
-            }
-            case VerticalMovementRange.BottomScreenHalf:
-            {
-                minHeight = BottomY;
-                maxHeight = MiddleY;
-                break;
-            }
-            case VerticalMovementRange.FullScreen:
-            {
-                minHeight = BottomY;
-                maxHeight = TopY;
-                break;
-            }
-        }
-        // Set the start position chosen in the inspector
-        switch (chosenLayout.startPosition)
-        {
-            case StartPosition.Top:
-                transform.position = new Vector3(transform.position.x, maxHeight, transform.position.z);
-                break;
-            case StartPosition.Bottom:
-                transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
-                break;
-            case StartPosition.Middle:
-                transform.position = new Vector3(transform.position.x, (maxHeight + minHeight) / 2, transform.position.z);
-                break;
-            
-        }
-        moveDistance = (BottomY * -1) + maxHeight;
+		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
+        moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
         startScale = transform.localScale;
-        downward = chosenLayout.startsDownward;
+        downward = (bool)(Random.value > 0.5f);;
     }
 
     
@@ -143,20 +56,20 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             float y = transform.position.y;
             if (downward == true)
             {
-                if (transform.position.y >= minHeight)
-                    y = transform.position.y - chosenLayout.moveSpeed * Time.deltaTime;
+                if (transform.position.y >= BottomY)
+                    y = transform.position.y - moveSpeed * Time.deltaTime;
                 else
                     downward = false;
             }
             else
             {
-                if (transform.position.y <= maxHeight)
-                    y = transform.position.y + chosenLayout.moveSpeed * Time.deltaTime;
+                if (transform.position.y <= TopY)
+                    y = transform.position.y + moveSpeed * Time.deltaTime;
                 else
                     downward = true;
             }
             // Horizontal Movement based on how high they are on screen
-            x = -((y - minHeight) / moveDistance) * xMovement;
+            x = -((y - BottomY) / moveDistance) * xMovement;
             transform.position = new Vector3(startX + x, y, transform.position.z);
             // Scale the character's size based on how high they are on screen
             float vDistance = 1 - ((y - BottomY) / moveDistance);
