@@ -67,6 +67,8 @@ public class MoneyTrapPeople4easy : MonoBehaviour {
     private float speedup = 0;
     //var for late starting
     private float latestart = 1;
+    //var for late starting
+    private bool hasPlayedDeathsound = false;
 
     // Use this for initialization
     void Start () {
@@ -213,8 +215,10 @@ public class MoneyTrapPeople4easy : MonoBehaviour {
                 Vector2 newPosition = transform.position;
 
                 //play death sound
-                if (soundsource != null)
+                if (soundsource != null && !hasPlayedDeathsound)
                 {
+                    hasPlayedDeathsound = true;
+
                     soundsource.clip = deathsound;
                     soundsource.Play();
                 }

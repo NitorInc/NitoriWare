@@ -65,6 +65,8 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     private float lastJumpTrajY;
     //Store jump speedup progress
     private float speedup = 0;
+    //var for late starting
+    private bool hasPlayedDeathsound = false;
 
     // Use this for initialization
     void Start () {
@@ -198,8 +200,10 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 Vector2 newPosition = transform.position;
 
                 //play death sound
-                if (soundsource != null && deathsound != null)
+                if (soundsource != null && !hasPlayedDeathsound)
                 {
+                    hasPlayedDeathsound = true;
+
                     soundsource.clip = deathsound;
                     soundsource.Play();
                 }
