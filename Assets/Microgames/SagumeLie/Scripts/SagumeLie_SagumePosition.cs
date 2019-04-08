@@ -26,7 +26,7 @@ public class SagumeLie_SagumePosition : MonoBehaviour {
             || (positive && MicrogameController.instance.getVictory() && MicrogameController.instance.getVictoryDetermined()) 
             || (negative && !MicrogameController.instance.getVictory() && MicrogameController.instance.getVictoryDetermined()))
         {
-            transform.position = new Vector3(4.9f, -0.2f, transform.position.z);
+            transform.position = new Vector3(4.5f, -1f, transform.position.z);
         }
         else
         {
