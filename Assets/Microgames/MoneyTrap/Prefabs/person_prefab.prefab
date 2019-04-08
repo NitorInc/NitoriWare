@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1378003589159588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.06, y: -2.95, z: 9.884766}
+  m_LocalPosition: {x: -4.76, y: -2.72, z: 19.769531}
   m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,7 +80,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 4.64, y: 4.23}
-    newSize: {x: 3.8, y: 5.72}
+    newSize: {x: 4.64, y: 4.23}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -100,14 +100,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speedX: 5.15
-  speedY: 15
-  proximityFollow: 4.3
-  fallSpeed: 1.8
+  speedX: 6
+  speedY: 20
+  proximityFollow: 2.3
+  fallSpeed: 1.7
   isFacingRight: 1
-  gravity: 0.1
+  gravity: 0.058
+  hopsound: {fileID: 8300000, guid: 0061fd625b5c1224389b99b9d120eeaa, type: 3}
   deathsound: {fileID: 8300000, guid: 77acd067ac0843b4dbb7d7cfa0544fc6, type: 3}
-  deathsoundsource: {fileID: 0}
+  soundsource: {fileID: 0}
 --- !u!212 &212630781188738534
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -142,13 +143,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 061b2ea2376c2e74397b40f6b2522c9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.8, y: 5.72}
+  m_Size: {x: 4.64, y: 4.23}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0

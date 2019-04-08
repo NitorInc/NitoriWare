@@ -89,11 +89,14 @@ public class MoneyTrapPeople4 : MonoBehaviour {
 
     // Update is called once per frame
     void Update ()
-    { 
+    {
+
+        string debug = ""; //DEBUG
+
         //if this person is still not trapped
         if (state != State.Falling)
         {
-            
+            debug = debug + "State: not falling" + System.Environment.NewLine; //DEBUG
 
             //if person is following
             if (state == State.Following) {
