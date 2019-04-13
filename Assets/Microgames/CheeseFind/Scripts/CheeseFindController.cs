@@ -4,81 +4,151 @@ using System.Linq;
 using UnityEngine;
 
 public class CheeseFindController : MonoBehaviour {
-    enum GameState {
-        InitState
-    };
-
     [Header("Camera")]
     [SerializeField]
     private Camera camera;
 
-    [Header("List of all drawers")]
+    [Header("Chest Prefab")]
     [SerializeField]
-    private GameObject[] drawerObjects;
+    private GameObject chestPrefab;
 
-    [Header("List of all items")]
+    [Header("Item Prefab")]
     [SerializeField]
-    private GameObject[] itemObjects;
+    private GameObject itemPrefab;
 
-    [Header("Number of cheese to find")]
+    [Header("Victory Screen")]
     [SerializeField]
-    private int maxItemsToFind;
+    private GameObject victoryScreen;
+
+    [Header("Number of cheese")]
+    [SerializeField]
+    private int cheeseCount;
+
+    [Header("Number of mice")]
+    [SerializeField]
+    private int miceCount;
+
+    [Header("Number of drawers")]
+    [SerializeField]
+    private int drawersCount;
+
+    [Header("Score required")]
+    [SerializeField]
+    private int scoreRequired;
 
     private CheeseFindCamera _cameraScript;
-
+    private CheeseFindVictoryScreen _victoryScreen;
     private CheeseFindDrawer[] _drawerScripts;
-    private CheeseFindItem[] _itemScripts;
-
-    private GameState _currentState = GameState.InitState;
+    private CheeseFindItem[] _miceScripts;
+    private CheeseFindItem[] _cheeseScripts;
+    private CheeseFindItem[] _itemsScripts;
 
     private int currentItemsFound = 0;
 
 	void Start () {
-        _drawerScripts = new CheeseFindDrawer[drawerObjects.Length];
-        _itemScripts = new CheeseFindItem[itemObjects.Length];
+        int itemsCount = cheeseCount + miceCount;
+        _itemsScripts = new CheeseFindItem[cheeseCount + miceCount];
 
-		for(int i = 0; i < drawerObjects.Length; i ++) {
-            CheeseFindDrawer drawerScript = drawerObjects[i].GetComponent<CheeseFindDrawer>();
+        //Cheese
+        _cheeseScripts = new CheeseFindItem[cheeseCount];
+        for(int i = 0; i < cheeseCount; i ++) {
+            GameObject cheese = GameObject.Instantiate(itemPrefab);
+            CheeseFindItem cheeseScript = cheese.GetComponent<CheeseFindItem>();
+            cheeseScript.isCheese = true;
+            _cheeseScripts[i] = cheeseScript;
+            _itemsScripts[i] = cheeseScript;
+        }
+
+        //Mice
+        _miceScripts = new CheeseFindItem[miceCount];
+        for(int i = 0; i < miceCount; i ++) {
+            GameObject mouse = GameObject.Instantiate(itemPrefab);
+            CheeseFindItem mouseScript = mouse.GetComponent<CheeseFindItem>();
+            mouseScript.isCheese = false;
+            _miceScripts[i] = mouseScript;
+            _itemsScripts[cheeseCount + i] = mouseScript;
+        }
+
+        //Shuffle items order
+        for(int i = 0; i < itemsCount; i ++) {
+            int itemIndex = Random.Range(0, itemsCount);
+            CheeseFindItem tmp = _itemsScripts[itemIndex];
+            _itemsScripts[itemIndex] = _itemsScripts[i];
+            _itemsScripts[i] = tmp;
+        }
+
+        for(int i = 0; i < itemsCount; i ++) {
+            _itemsScripts[i].angleFactor = (float)i / (float)itemsCount;
+        }
+
+        //Drawers
+        _drawerScripts = new CheeseFindDrawer[drawersCount];
+        for(int i = 0; i < drawersCount; i ++) {
+            GameObject chest = GameObject.Instantiate(chestPrefab);
+            float angle = 2f * Mathf.PI * ((float)i / (float)drawersCount);
+            chest.transform.position = new Vector3(Mathf.Cos(angle) * 4.2f, Mathf.Sin(angle) * 3.2f, 0f);
+
+            GameObject drawer = chest.transform.Find("Drawer").gameObject;
+            CheeseFindDrawer drawerScript = drawer.GetComponent<CheeseFindDrawer>();
             _drawerScripts[i] = drawerScript;
-
             drawerScript.controller = this;
         }
 
-		for(int i = 0; i < itemObjects.Length; i ++) {
-            CheeseFindItem itemScript = itemObjects[i].GetComponent<CheeseFindItem>();
-            _itemScripts[i] = itemScript;
-        }
-
         _cameraScript = camera.GetComponent<CheeseFindCamera>();
+        _victoryScreen = victoryScreen.GetComponent<CheeseFindVictoryScreen>();
 
         StartCoroutine(HideItem());
 	}
 
     private IEnumerator HideItem() {
-        //TODO: Items animation.
-
         List<CheeseFindDrawer> drawers = _drawerScripts.ToList();
-        List<CheeseFindItem> items = _itemScripts.ToList();
+        List<CheeseFindItem> cheese = _cheeseScripts.ToList();
 
-        for(int i = 0; i < maxItemsToFind; i ++) {
+        for(int i = 0; i < scoreRequired; i ++) {
             int drawerIndex = Random.Range(0, drawers.Count);
-            int itemIndex = Random.Range(0, items.Count);
+            int cheeseIndex = Random.Range(0, cheese.Count);
 
-            drawers[drawerIndex].item = items[itemIndex];
-            items[itemIndex].isUsed = true;
+            drawers[drawerIndex].item = cheese[cheeseIndex];
+            cheese[cheeseIndex].isUsed = true;
 
             drawers.RemoveAt(drawerIndex);
-            items.RemoveAt(itemIndex);
+            cheese.RemoveAt(cheeseIndex);
         }
 
-		yield return new WaitForSeconds(1f);
+        if(drawersCount > scoreRequired) {
+            List<CheeseFindItem> mice = _miceScripts.ToList();
+            int miceToUse = drawersCount - scoreRequired;
+            if(miceToUse > mice.Count)
+                miceToUse = mice.Count;
 
-        for(int i = 0; i < _itemScripts.Length; i ++) {
-            if(_itemScripts[i].isUsed) {
-                _itemScripts[i].MoveTo(_itemScripts[i].drawerPosition, 1f);
+            for(int i = 0; i < miceToUse; i ++) {
+                int drawerIndex = Random.Range(0, drawers.Count);
+                int mouseIndex = Random.Range(0, mice.Count);
+
+                drawers[drawerIndex].item = mice[mouseIndex];
+                mice[mouseIndex].isUsed = true;
+
+                drawers.RemoveAt(drawerIndex);
+                mice.RemoveAt(mouseIndex);
+            }
+        }
+
+		yield return new WaitForSeconds(1.5f);
+
+        for(int i = 0; i < _miceScripts.Length; i ++) {
+            if(_miceScripts[i].isUsed) {
+                _miceScripts[i].MoveTo(_miceScripts[i].drawerPosition, 1f, Random.value > .5f);
                 continue;
             }
-            _itemScripts[i].MoveAway(1f);
+            _miceScripts[i].MoveAway(1f, Random.value > .5f);
+        }
+
+        for(int i = 0; i < _cheeseScripts.Length; i ++) {
+            if(_cheeseScripts[i].isUsed) {
+                _cheeseScripts[i].MoveTo(_cheeseScripts[i].drawerPosition, 1f, Random.value > .5f);
+                continue;
+            }
+            _cheeseScripts[i].MoveAway(1f, Random.value > .5f);
         }
 		yield return new WaitForSeconds(1f);
         
@@ -92,30 +162,22 @@ public class CheeseFindController : MonoBehaviour {
             drawer.isLocked = false;
         }
         //TODO: Replace with displayLocalizedCommand when the text is localized.
-		MicrogameController.instance.displayCommand("Find!");
+		MicrogameController.instance.displayCommand("Find the cheese pieces!");
     }
 
     public void SetVictory(bool isVictorious) {
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isLocked = true;
         }
+        _victoryScreen.Activate();
         MicrogameController.instance.setVictory(isVictorious, true);
     }
 
     public void AddPoint(int points) {
         currentItemsFound += points;
-        if(currentItemsFound >= maxItemsToFind) {
-            currentItemsFound = maxItemsToFind;
+        if(currentItemsFound >= scoreRequired) {
+            currentItemsFound = scoreRequired;
             SetVictory(true);
         }
     }
-	
-	void Update () {
-		switch(_currentState) {
-        case GameState.InitState:
-            break;
-        default:
-            break;
-        }
-	}
 }

@@ -102,8 +102,13 @@ public class CheeseFindDrawer : MonoBehaviour {
             //TODO: Added effects
 
             if(_hasItem) {
-                _item.MoveTo(transform.parent.position + new Vector3(0f, 3f, 0f), 1f);
-                _controller.AddPoint(1);
+                _item.MoveTo(transform.parent.position + new Vector3(0f, 1.5f, 0f), 1f);
+                if(_item.isCheese) {
+                    _controller.AddPoint(1);
+                }
+                else {
+                    _controller.SetVictory(false);
+                }
             }
             else {
                 _controller.SetVictory(false);
