@@ -36,7 +36,7 @@ public class MoneyTrapPeople4 : MonoBehaviour {
 
     [Header("Jumping gravity")]
     [SerializeField]
-    private float gravity = 0.1f;
+    private float gravity;
 
     [Header("Hopping audio clip")]
     [SerializeField]
@@ -66,6 +66,8 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     //Store jump speedup progress
     private float speedup = 0;
     //var for late starting
+    private float latestart = 1;
+    //var for playing death sound once
     private bool hasPlayedDeathsound = false;
 
     // Use this for initialization
@@ -88,18 +90,20 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
-
+        transform.position = new Vector2(transform.position.x, transform.position.y);
+       
         string debug = ""; //DEBUG
 
         //if this person is still not trapped
         if (state != State.Falling)
         {
-            debug = debug + "State: not falling" + System.Environment.NewLine; //DEBUG
 
             //if person is following
             if (state == State.Following) {
+
+                debug = debug + "State: following to the "; //DEBUG
 
                 //get the direction towards player from this object's position and turn sprite accordingly
                 trajectory = (target.transform.position - transform.position).normalized;
@@ -107,16 +111,22 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
                     sr.flipX = true;
+
+                    debug = debug + "right" + System.Environment.NewLine; //DEBUG
                 }
                 else if (target.transform.position.x < transform.position.x)
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
                     sr.flipX = false;
+
+                    debug = debug + "left" + System.Environment.NewLine; //DEBUG
                 }
 
                 //has to make a new jump if continues following
                 if (isGrounded())
                 {
+                    debug = debug + "On the ground, "; //DEBUG
+
                     //if person isn't too far away from the jewel
                     if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
                     {
