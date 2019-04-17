@@ -7,9 +7,16 @@ public class RabbitTrapVictim : MonoBehaviour {
     private readonly string pauseTag = "MicrogameTag1";
     private readonly string speedTag = "MicrogameTag2";
 
+    private Animator walkAnimation;
+    
+
     [Header("Travel speed")]
     [SerializeField]
     private float speed;
+
+    [Header("Animation speed mod")]
+    [SerializeField]
+    private float animationSpeedMod = 0.5F;
 
     [Header("Trap hitbox")]
     [SerializeField]
@@ -47,6 +54,7 @@ public class RabbitTrapVictim : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
+        walkAnimation = gameObject.GetComponentInChildren<Animator>();
         trapState = trapStates.TooEarly;
         maxXPosition = -8;
         maxPosition = new Vector2(maxXPosition, 0);
@@ -78,8 +86,9 @@ public class RabbitTrapVictim : MonoBehaviour {
             } else
             {
                 moveVictim();
+                
             }
-            
+            setAnimationSpeed();
 
             victimOutOfBounds = IsVictimOutOfBounds();
         } else
@@ -97,6 +106,22 @@ public class RabbitTrapVictim : MonoBehaviour {
     {
         Vector2 newPosition = GetNewPosition();
         this.transform.position = newPosition;
+    }
+
+    void setAnimationSpeed()
+    {
+        if (this.pauseTimeLeft > 0)
+        {
+            print("Pause animation");
+            this.walkAnimation.enabled = false;
+        } else
+        {
+            print("Resume animation");
+            this.walkAnimation.enabled = true;
+            this.walkAnimation.speed = this.speed * animationSpeedMod;
+        }
+        
+        
     }
 
     Vector2 GetNewPosition()
