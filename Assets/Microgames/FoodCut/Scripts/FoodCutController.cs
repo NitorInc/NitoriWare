@@ -222,6 +222,7 @@ public class FoodCutController : MonoBehaviour {
 
             //Make the dotted lines disappear
             currentTrigger.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            currentTrigger.gameObject.GetComponentInChildren<ParticleSystem>().gameObject.SetActive(false);
             currentTrigger = null;
 
             //We have separated the meat into two parts, so delete the whole part
