@@ -12,6 +12,8 @@ public class SagumeLie_SagumePosition : MonoBehaviour {
 
     [SerializeField]
     private bool negative;
+    [SerializeField]
+    private Vector3 offset;
 
     // Use this for initialization
     void Start()
@@ -26,7 +28,8 @@ public class SagumeLie_SagumePosition : MonoBehaviour {
             || (positive && MicrogameController.instance.getVictory() && MicrogameController.instance.getVictoryDetermined()) 
             || (negative && !MicrogameController.instance.getVictory() && MicrogameController.instance.getVictoryDetermined()))
         {
-            transform.position = new Vector3(4.5f, -1f, transform.position.z);
+            transform.position = new Vector3(4.5f, -1f, transform.position.z)
+                + offset;
         }
         else
         {
