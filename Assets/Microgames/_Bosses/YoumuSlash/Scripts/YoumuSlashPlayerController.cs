@@ -73,7 +73,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip debugSound;
     [SerializeField]
-    private AudioClip hitVoiceClip;
+    private AudioClip[] hitVoiceClips;
     [SerializeField]
     private AudioClip screamClip;
     [SerializeField]
@@ -487,7 +487,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     holdAttack = true;
                     break;
                 default:
-                    playSfx(hitVoiceClip, direction, true);
+                    playSfx(getRandomHitClip(), direction, true);
                     break;
             }
             if (!reAttacking)
@@ -498,7 +498,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         else
         {
             //Missed
-            playSfx(hitVoiceClip, direction, true);
+            playSfx(getRandomHitClip(), direction, true);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, 0f);
         }
 
@@ -540,6 +540,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             * (gameplayComplete ? 1f : Time.timeScale);
         sfxSource.PlayOneShot(clip);
     }
+
+    AudioClip getRandomHitClip() => hitVoiceClips[Random.Range(0, hitVoiceClips.Length)];
 
     void playNoteMissReaction()
     {
