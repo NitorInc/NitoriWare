@@ -6,7 +6,15 @@ using TMPro;
 public class RapBattleTextAnimation : MonoBehaviour
 {
     [SerializeField]
-    private int highlightChar;
+    private string verse;
+    [SerializeField]
+    private string rhyme;
+    [SerializeField]
+    private float startTime;
+    [SerializeField]
+    private float verseFillTime;
+    [SerializeField]
+    private float rhymeAppearTime;
     [SerializeField]
     private string highlightColor;
     [SerializeField]
@@ -16,8 +24,6 @@ public class RapBattleTextAnimation : MonoBehaviour
     private AnimationCurve sizeCurve;
     [SerializeField]
     private AnimationCurve highlightSizeCurve;
-    [SerializeField]
-    private float startTime;
 
     private AdvancingText advancingText;
     private TextMeshPro tmProComponent;
@@ -25,11 +31,18 @@ public class RapBattleTextAnimation : MonoBehaviour
     private string parsedText;
     private float progress;
     private float highlightReachedTime;
-    
-	void Start ()
+    private int highlightChar;
+    private float initialFontSize;
+    private bool rhymeStarted;
+
+    void Start ()
     {
         advancingText = GetComponent<AdvancingText>();
         tmProComponent = GetComponent<TextMeshPro>();
+
+        textInit();
+        tmProComponent.ForceMeshUpdate();
+        initialFontSize = tmProComponent.fontSize;
 
         updateParsedText();
         advancingText.enabled = false;
@@ -40,11 +53,37 @@ public class RapBattleTextAnimation : MonoBehaviour
         Invoke("enable", startTime);
     }
 
+    void textInit()
+    {
+        rhyme = rhyme.Trim();
+        if (!string.IsNullOrEmpty(rhyme))
+        {
+            verse = verse.Trim() + " ";
+            highlightChar = verse.Length;
+        }
+        else
+        {
+            verse = verse.Trim() + $"...";
+            highlightChar = 999;
+        }
+        tmProComponent.text = verse + rhyme;
+        advancingText.setAdvanceSpeed(((float)verse.Length / verseFillTime));
+    }
+
     void enable()
     {
         advancingText.enabled = true;
         advancingText.resetAdvance();
         enabled = true;
+        if (!string.IsNullOrEmpty(rhyme))
+            Invoke("showRhyme", rhymeAppearTime);
+    }
+
+    void showRhyme()
+    {
+        advancingText.Progress = advancingText.getTotalVisibleChars(false);
+        highlightReachedTime = Time.time;
+        rhymeStarted = true;
     }
 
     void updateParsedText()
@@ -53,20 +92,26 @@ public class RapBattleTextAnimation : MonoBehaviour
         parsedText = tmProComponent.GetParsedText();
     }
 	
-	void Update ()
+	void LateUpdate ()
     {
         float growCurveDuration = sizeCurve[sizeCurve.length - 1].time;
         progress = !advancingText.IsComplete ? advancingText.Progress
             : progress + (advancingText.getAdvanceSpeed() * Time.deltaTime);
-        float fontSize = tmProComponent.fontSize;
+        float fontSize = initialFontSize;
 
         string processedText = "";
+        processedText += $"<size={initialFontSize}>";
         for (int i = 0; i < parsedText.Length; i++)
         {
             if (i == highlightChar)
             {
-                fontSize *= highlightSizeMult;
-                processedText += $"<color={highlightColor}><size={fontSize}>";
+                if (rhymeStarted)
+                {
+                    fontSize *= highlightSizeMult;
+                    processedText += $"<color={highlightColor}><size={fontSize}><i>";
+                }
+                else
+                    processedText += $"<alpha=#00>";
             }
             var newChar = parsedText[i];
             if (i <= progress - 1) //Characer is visible
@@ -83,13 +128,8 @@ public class RapBattleTextAnimation : MonoBehaviour
                 }
                 else if (i == highlightChar)
                 {
-                    if (!advancingText.IsComplete)  //Force text complete if we've just reached highlight char
-                    {
-                        highlightReachedTime = Time.time;
-                        advancingText.Progress = advancingText.getTotalVisibleChars(false);
-                    }
-                    print(Time.time - highlightReachedTime);
-                    print(highlightSizeCurve.Evaluate(Time.time - highlightReachedTime));
+                    //print(Time.time - highlightReachedTime);
+                    //print(highlightSizeCurve.Evaluate(Time.time - highlightReachedTime));
                     int highlightSize = (int)(highlightSizeCurve.Evaluate(Time.time - highlightReachedTime) * (float)fontSize);
                     processedText += $"<size={highlightSize.ToString()}>";
                 }
