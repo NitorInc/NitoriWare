@@ -95,7 +95,7 @@ public class CanvasTextOutline : MonoBehaviour
 
             //bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
             //Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
-            //Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
+            //Vector3 worldPoint = MainCameraSingleton.instance.ScreenToWorldPoint(screenPoint +
             //    (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
 
             float fixedPixelWorldSize = (10f * (4f / 3f)) / 1152f;
@@ -123,7 +123,7 @@ public class CanvasTextOutline : MonoBehaviour
 
     float getFunctionalPixelSize()
     {
-        return pixelSize;// * 5f / Camera.main.orthographicSize;
+        return pixelSize;// * 5f / MainCameraSingleton.instance.orthographicSize;
     }
 
     Vector3 GetOffset(int i)

@@ -49,7 +49,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
             .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
         foreach (var directory in microgameDirectories)
 		{
-			string microgameId = directory.Substring(directory.LastIndexOf('/') + 1);
+			string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_"))
             {
                 MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId);

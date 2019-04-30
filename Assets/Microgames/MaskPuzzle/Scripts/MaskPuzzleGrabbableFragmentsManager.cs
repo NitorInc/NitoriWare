@@ -156,7 +156,7 @@ public class MaskPuzzleGrabbableFragmentsManager : MonoBehaviour {
         if (grabbedFragmentGroup == null && Input.GetMouseButtonDown(0))
         {
             // Get an array of all the fragments under the cursor
-            Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray mouseRay = MainCameraSingleton.instance.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits = Physics.RaycastAll(mouseRay, float.PositiveInfinity, 31 << 14);
 
             RaycastHit topHit = new RaycastHit();

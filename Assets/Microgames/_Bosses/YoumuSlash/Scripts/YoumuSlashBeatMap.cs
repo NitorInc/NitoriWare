@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Microgame Assets/YoumuSlash/Beat Map")]
 public class YoumuSlashBeatMap : ScriptableObject
@@ -47,6 +48,18 @@ public class YoumuSlashBeatMap : ScriptableObject
         private bool forceUp;
         public bool ForceUp => forceUp;
 
+        [SerializeField]
+        private RuntimeAnimatorController overrideAnimator;
+        public RuntimeAnimatorController OverrideAnimator => overrideAnimator;
+
+        [SerializeField]
+        private Sprite overrideImage;
+        public Sprite OverrideImage => overrideImage;
+
+        [SerializeField]
+        private AudioClip overrideSound;
+        public AudioClip OverrideSound => overrideSound;
+
         public enum Direction
         {
             Left,
@@ -77,7 +90,10 @@ public class YoumuSlashBeatMap : ScriptableObject
         public enum Effect
         {
             None,
-            Scream
+            Scream,
+            SlowBurst,
+            FastBurst,
+            RapidBurst
         }
 
         public bool isInHitRange(float beat, float minHitTime, float maxHitTime)
@@ -133,6 +149,11 @@ public class YoumuSlashBeatMap : ScriptableObject
                 return null;
         }
         return null;
+    }
+
+    public TargetBeat getNextLaunchingTarget(float beat)
+    {
+        return TargetBeats.FirstOrDefault(a => a.LaunchBeat >= beat);
     }
 
 }

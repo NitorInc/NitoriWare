@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class YoumuSlashTimingController : MonoBehaviour
 {
@@ -16,35 +17,42 @@ public class YoumuSlashTimingController : MonoBehaviour
     [SerializeField]
     private float startDelay = .5f;
     [SerializeField]
-    private int warmupBeats;
+    private int[] warmupBeats;
+    private Queue<int> warmupBeatQueue;
     [SerializeField]
     private AudioClip warmupBeatClip;
+    [SerializeField]
+    private float finalSlashVictoryBeatDelay = 2f;
 
     private AudioSource musicSource;
-
-    private int lastInvokedBeat;
+    private float victoryBeat;
+    private float initialTimeScale;
 
     private void Awake()
     {
         onBeat = null;
         onMusicStart = null;
 
+        warmupBeatQueue = new Queue<int>(warmupBeats);
+
         musicSource = GetComponent<AudioSource>();
         musicSource.clip = timingData.MusicClip;
-        timingData.initiate(musicSource, beatMap);
+        timingData.initiate(musicSource, beatMap, warmupBeats.Count());
+        victoryBeat = timingData.BeatMap.TargetBeats.Last().HitBeat + finalSlashVictoryBeatDelay;
+        initialTimeScale = Time.timeScale;
     }
 
     void Start()
     {
-        lastInvokedBeat = -1 - warmupBeats;
         onBeat += checkForSongEnd;
+        onBeat += onBeatLocal;
 
         Invoke("beginWarmup", startDelay);
     }
 
     void beginWarmup()
     {
-        float musicStartTime = (float)warmupBeats * timingData.BeatDuration;
+        float musicStartTime = (float)warmupBeats.Sum() * timingData.BeatDuration;
         AudioHelper.playScheduled(musicSource, musicStartTime);
         callOnBeat();
         Invoke("callMusicStart", musicStartTime);
@@ -58,18 +66,26 @@ public class YoumuSlashTimingController : MonoBehaviour
 
     void callOnBeat()
     {
-        lastInvokedBeat++;
         if (!(onBeat == null))
-            onBeat(lastInvokedBeat);
+            onBeat(timingData.LastProcessedBeat + 1);
+    }
 
-        float nextBeatTime = (lastInvokedBeat + 1f) * timingData.BeatDuration;
-        if (lastInvokedBeat >= 0)
+    void onBeatLocal(int beat)
+    {
+        CancelInvoke("callOnBeat"); //This in case onBeat is force called from another script
+
+        //Reinvoke onBeat
+        if (beat >= 0)  //Normal beat
+        {
+            float nextBeatTime = (beat + 1f) * timingData.BeatDuration;
             Invoke("callOnBeat", nextBeatTime - musicSource.time);
-        else
-            Invoke("callOnBeat", timingData.BeatDuration);
+        }
+        else   //warmup beat
+            Invoke("callOnBeat", timingData.BeatDuration * warmupBeatQueue.Dequeue());  //Dequeue warmup beat
 
-        if (lastInvokedBeat < 0)
+        if (beat < 0)
             musicSource.PlayOneShot(warmupBeatClip);
+        
     }
 
     private void Update()
@@ -88,11 +104,22 @@ public class YoumuSlashTimingController : MonoBehaviour
                 musicSource.pitch /= fastSpeed;
             }
         }
+
+        checkForVictory();
+    }
+
+    void checkForVictory()
+    {
+        if (!MicrogameController.instance.getVictoryDetermined() && timingData.CurrentBeat >= victoryBeat)
+        {
+            Time.timeScale = initialTimeScale;
+            MicrogameController.instance.setVictory(true);
+        }
     }
 
     void checkForSongEnd(int beat)
     {
-        if (lastInvokedBeat > 1 && !musicSource.isPlaying)
+        if (timingData.LastProcessedBeat > 1 && !musicSource.isPlaying)
             CancelInvoke();
     }
 

@@ -5,23 +5,28 @@ using UnityEngine.UI;
 
 public class CommandDisplay : MonoBehaviour
 {
-
-#pragma warning disable 0649
+    
     [SerializeField]
     private Text textComponent;
     [SerializeField]
     private Animator animator;
-#pragma warning restore 0649
+    
+    private RuntimeAnimatorController initialAnimatorController;
 
-    public void play(string command)
+    void Awake()
     {
-        setText(command);
+        initialAnimatorController = animator.runtimeAnimatorController;
+    }
+
+    public void play(string command, AnimatorOverrideController animationOverride = null)
+    {
+        setText(command, animationOverride);
         animator.SetBool("play", true);
     }
 
-    public void play()
+    public void play(AnimatorOverrideController animationOverride = null)
     {
-        play(getText());
+        play(getText(), animationOverride);
     }
 
     public string getText()
@@ -29,8 +34,9 @@ public class CommandDisplay : MonoBehaviour
         return textComponent.text;
     }
 
-    public void setText(string text)
+    public void setText(string text, AnimatorOverrideController animationOverride = null)
     {
         textComponent.text = text;
+        animator.runtimeAnimatorController = animationOverride == null ? initialAnimatorController : animationOverride;
     }
 }

@@ -44,7 +44,11 @@ public class MicrogameTraits : ScriptableObject
     public virtual string commandKey => "command";
     public virtual string localizedCommand => TextHelper.getLocalizedText($"microgame.{microgameId}.{commandKey}", command);
 
-	[SerializeField]
+    [SerializeField]
+    private AnimatorOverrideController _commandAnimatorOveride;
+    public virtual AnimatorOverrideController commandAnimatorOverride => _commandAnimatorOveride;
+
+    [SerializeField]
 	private bool _defaultVictory;
 	public virtual bool defaultVictory => _defaultVictory;
 
@@ -75,7 +79,7 @@ public class MicrogameTraits : ScriptableObject
     }
 
     [SerializeField]
-    private string[] _credits;
+    private string[] _credits = { "", "", "" };
     public virtual string[] credits => _credits;
 
     private string _microgameId;
