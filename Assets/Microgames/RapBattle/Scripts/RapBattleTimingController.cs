@@ -59,7 +59,7 @@ public class RapBattleTimingController : MonoBehaviour
         newLine.setRap(rap);
 
         var holdScale = newLine.transform.localScale;
-        newLine.transform.parent = textSpawnAnchor;
+        newLine.transform.SetParent(textSpawnAnchor);
         newLine.transform.localPosition = Vector3.down * textYSeparation * rapIndex;
         newLine.transform.localScale = holdScale;
 

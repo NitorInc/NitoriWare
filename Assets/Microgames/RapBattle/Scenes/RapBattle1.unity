@@ -518,6 +518,57 @@ Transform:
   m_Father: {fileID: 1898244202}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &417479786
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 33334847843562244, guid: 439cfa72bf3560f4aa427cf75bb0ea2b,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129299509900296, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &418149194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,6 +1305,11 @@ Prefab:
     - target: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114303890249767208, guid: 439cfa72bf3560f4aa427cf75bb0ea2b,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
@@ -2105,7 +2161,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -443559597
+  randomSeed: 1678540492
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -12636,6 +12692,11 @@ Prefab:
       propertyPath: m_text
       value: Banal!
       objectReference: {fileID: 0}
+    - target: {fileID: 114303890249767208, guid: 439cfa72bf3560f4aa427cf75bb0ea2b,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
   m_IsPrefabParent: 0
@@ -12717,6 +12778,26 @@ Transform:
   m_PrefabParentObject: {fileID: 4184541725432180, guid: 439cfa72bf3560f4aa427cf75bb0ea2b,
     type: 2}
   m_PrefabInternal: {fileID: 1397995866}
+--- !u!1 &1462255827 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000011626352336, guid: 72dba666113776b4dbc710553bb6dc53,
+    type: 2}
+  m_PrefabInternal: {fileID: 1692840176}
+--- !u!114 &1462255828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1462255827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b0af0d9b8c9e449a537fae7bd4ed01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xShake: 0
+  yShake: 0
+  shakeSpeed: 5
+  shakeCoolRate: 0.4
 --- !u!1001 &1692840176
 Prefab:
   m_ObjectHideFlags: 0
@@ -12984,6 +13065,11 @@ Prefab:
         type: 2}
       propertyPath: m_text
       value: Pathetic!
+      objectReference: {fileID: 0}
+    - target: {fileID: 114303890249767208, guid: 439cfa72bf3560f4aa427cf75bb0ea2b,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 439cfa72bf3560f4aa427cf75bb0ea2b, type: 2}
@@ -13576,11 +13662,5 @@ MonoBehaviour:
     rhyme: incidents!
     highlightColor: red
   - verse: Wow you must be
-    rhyme: tired!
-    highlightColor: red
-  - verse: Guess it's no
-    rhyme: coincidence!
-    highlightColor: red
-  - verse: Your rhymes are
     rhyme: 
     highlightColor: red
