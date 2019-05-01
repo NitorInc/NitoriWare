@@ -75,6 +75,7 @@ public class RapBattleTimingController : MonoBehaviour
     void end()
     {
         marisaAnimator.SetBool("Rapping", false);
+        speechBubbleAnimator.SetTrigger("Choose");
     }
 	
 	void Update ()
