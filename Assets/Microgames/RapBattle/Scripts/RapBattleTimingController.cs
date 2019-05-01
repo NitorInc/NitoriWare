@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RapBattleTimingController : MonoBehaviour
 {
+    [SerializeField]
+    private RapBattleRapData rapData;
+
+    [SerializeField]
+    private int lineCount = 2;
     [SerializeField]
     private float startBeat = 3f;
     [SerializeField]
@@ -18,27 +24,42 @@ public class RapBattleTimingController : MonoBehaviour
     private float textYSeparation;
     [SerializeField]
     private float textBoxAppearPreTime;
+    [SerializeField]
+    private RapBattleChoice[] choiceBoxes;
 
     [SerializeField]
     private Animator marisaAnimator;
     [SerializeField]
     private Animator speechBubbleAnimator;
 
-    //Placeholder
-    public Rap[] raps;
-    [System.Serializable]
-    public class Rap
+    int lineIndex = 0;
+    RapBattleRapData.Rap rap;
+    int rapIndex;
+
+	void Awake()
     {
-        public string verse;
-        public string rhyme;
-        public string highlightColor;
+        var rapPool = rapData.Raps.Where(a => a.Lines.Length == lineCount).ToArray();
+        rapIndex = Random.Range(0, rapPool.Length);
+        rap = rapPool[rapIndex];
+
+        setChoiceData();
+        scheduleRap(startBeat);
     }
 
-    int rapIndex = 0;
-
-	void Start ()
+    void setChoiceData()
     {
-        scheduleRap(startBeat);
+        //TODO localize
+
+        var choicePool = choiceBoxes.ToList();
+        choicePool.Shuffle();
+        var wrongPool = rap.WrongAnswers.ToList();
+        wrongPool.Shuffle();
+
+        choicePool[0].setData(rap.Answer, rapData.RhymeHighlightColor, true);
+        for (int i = 1; i < choicePool.Count(); i++)
+        {
+            choicePool[i].setData(wrongPool[i], rapData.RhymeHighlightColor, false);
+        }
     }
 
     void scheduleRap(float beats)
@@ -49,24 +70,26 @@ public class RapBattleTimingController : MonoBehaviour
 
     void advanceTextBox()
     {
-        speechBubbleAnimator.SetInteger("Stage", rapIndex);
+        speechBubbleAnimator.SetInteger("Stage", lineIndex);
     }
 
     void newRap()
     {
-        var rap = raps[rapIndex];
-        var newLine = Instantiate(textPrefab).GetComponent<RapBattleTextAnimation>();
-        newLine.setRap(rap);
+        var line = rap.Lines[lineIndex];
 
-        var holdScale = newLine.transform.localScale;
-        newLine.transform.SetParent(textSpawnAnchor);
-        newLine.transform.localPosition = Vector3.down * textYSeparation * rapIndex;
-        newLine.transform.localScale = holdScale;
+        var newLineObject = Instantiate(textPrefab).GetComponent<RapBattleTextAnimation>();
+        //TODO localize
+        newLineObject.setData(line.Verse, line.Rhyme, rapData.RhymeHighlightColor);
+
+        var holdScale = newLineObject.transform.localScale;
+        newLineObject.transform.SetParent(textSpawnAnchor);
+        newLineObject.transform.localPosition = Vector3.down * textYSeparation * lineIndex;
+        newLineObject.transform.localScale = holdScale;
 
         marisaAnimator.SetBool("Rapping", true);
 
-        rapIndex++;
-        if (rapIndex < raps.Length)
+        lineIndex++;
+        if (lineIndex < rap.Lines.Length)
             scheduleRap(beatsPerRap);
         else
             Invoke("end", finalRapBeats * StageController.beatLength);
@@ -77,9 +100,4 @@ public class RapBattleTimingController : MonoBehaviour
         marisaAnimator.SetBool("Rapping", false);
         speechBubbleAnimator.SetTrigger("Choose");
     }
-	
-	void Update ()
-    {
-		
-	}
 }

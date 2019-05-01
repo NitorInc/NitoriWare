@@ -29,16 +29,16 @@ public class RapBattleTextAnimation : MonoBehaviour
     private int highlightChar;
     private float initialFontSize;
     private bool rhymeStarted;
-
-    private RapBattleTimingController.Rap rapData;
+    
     private string verse;
     private string rhyme;
+    private Color rhymeHighlightColor;
 
-    public void setRap(RapBattleTimingController.Rap rap)
+    public void setData(string verse, string rhyme, Color rhymeHighlightColor)
     {
-        rapData = rap;
-        verse = rap.verse;
-        rhyme = rap.rhyme;
+        this.verse = verse;
+        this.rhyme = rhyme;
+        this.rhymeHighlightColor = rhymeHighlightColor;
     }
 
     void Start ()
@@ -143,7 +143,7 @@ public class RapBattleTextAnimation : MonoBehaviour
                 if (rhymeStarted)
                 {
                     fontSize *= highlightSizeMult;
-                    processedText += $"<color={rapData.highlightColor}><size={fontSize}><i>";
+                    processedText += $"<color=#{ColorUtility.ToHtmlStringRGBA(rhymeHighlightColor)}><size={fontSize}><i>";
                 }
                 else
                     processedText += $"<alpha=#00>";

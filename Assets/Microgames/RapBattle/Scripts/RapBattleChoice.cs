@@ -1,23 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RapBattleChoice : MonoBehaviour
 {
     [SerializeField]
     private Animator rigAnimator;
     [SerializeField]
-    private bool isCorrect;
+    private TextMeshPro tmpComponent;
     [SerializeField]
     private Vector2 selectCamShake;
 
     private bool isHovering = false;
     private bool isChosen = false;
+    private bool isCorrect;
 
-	void Start ()
+    private float text;
+
+    public void setData(string text, Color color, bool isCorrect)
     {
-		
-	}
+        tmpComponent.text = text;
+        tmpComponent.color = color;
+        this.isCorrect = isCorrect;
+    }
 	
 	void LateUpdate()
     {
@@ -33,7 +39,7 @@ public class RapBattleChoice : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (!enabled)
+        if (!enabled || MicrogameController.instance.getVictoryDetermined())
             return;
 
         isHovering = true;
