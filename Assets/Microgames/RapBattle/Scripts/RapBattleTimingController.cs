@@ -21,6 +21,8 @@ public class RapBattleTimingController : MonoBehaviour
 
     [SerializeField]
     private Animator marisaAnimator;
+    [SerializeField]
+    private Animator speechBubbleAnimator;
 
     //Placeholder
     public Rap[] raps;
@@ -36,12 +38,18 @@ public class RapBattleTimingController : MonoBehaviour
 
 	void Start ()
     {
-        Invoke("newRap", startBeat * StageController.beatLength);
-	}
+        scheduleRap(startBeat);
+    }
+
+    void scheduleRap(float beats)
+    {
+        Invoke("newRap", beats * StageController.beatLength);
+        Invoke("advanceTextBox", (beats * StageController.beatLength) - textBoxAppearPreTime);
+    }
 
     void advanceTextBox()
     {
-
+        speechBubbleAnimator.SetInteger("Stage", rapIndex);
     }
 
     void newRap()
@@ -49,13 +57,17 @@ public class RapBattleTimingController : MonoBehaviour
         var rap = raps[rapIndex];
         var newLine = Instantiate(textPrefab).GetComponent<RapBattleTextAnimation>();
         newLine.setRap(rap);
-        newLine.transform.position = textSpawnAnchor.position + (Vector3.down * textYSeparation * rapIndex);
+
+        var holdScale = newLine.transform.localScale;
+        newLine.transform.parent = textSpawnAnchor;
+        newLine.transform.localPosition = Vector3.down * textYSeparation * rapIndex;
+        newLine.transform.localScale = holdScale;
 
         marisaAnimator.SetBool("Rapping", true);
 
         rapIndex++;
         if (rapIndex < raps.Length)
-            Invoke("newRap", beatsPerRap * StageController.beatLength);
+            scheduleRap(beatsPerRap);
         else
             Invoke("end", finalRapBeats * StageController.beatLength);
     }
