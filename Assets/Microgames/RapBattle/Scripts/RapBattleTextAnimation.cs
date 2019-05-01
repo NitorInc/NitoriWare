@@ -6,19 +6,13 @@ using TMPro;
 public class RapBattleTextAnimation : MonoBehaviour
 {
     [SerializeField]
-    private string verse;
-    [SerializeField]
-    private string rhyme;
-    [SerializeField]
-    private float startTime;
-    [SerializeField]
     private float verseFillTime;
     [SerializeField]
     private float rhymeAppearTime;
     [SerializeField]
-    private string highlightColor;
-    [SerializeField]
     private float highlightSizeMult = 1.5f;
+    [SerializeField]
+    private int rhymeSpaceCount = 3;
 
     [SerializeField]
     private AnimationCurve sizeCurve;
@@ -27,13 +21,24 @@ public class RapBattleTextAnimation : MonoBehaviour
 
     private AdvancingText advancingText;
     private TextMeshPro tmProComponent;
-
+    
     private string parsedText;
     private float progress;
     private float highlightReachedTime;
     private int highlightChar;
     private float initialFontSize;
     private bool rhymeStarted;
+
+    private RapBattleTimingController.Rap rapData;
+    private string verse;
+    private string rhyme;
+
+    public void setRap(RapBattleTimingController.Rap rap)
+    {
+        rapData = rap;
+        verse = rap.verse;
+        rhyme = rap.rhyme;
+    }
 
     void Start ()
     {
@@ -48,9 +53,9 @@ public class RapBattleTextAnimation : MonoBehaviour
         advancingText.enabled = false;
         tmProComponent.maxVisibleCharacters = 0;
 
-        enabled = false;
-
-        Invoke("enable", startTime);
+        //enabled = false;
+        //Invoke("enable", startBeat * StageController.beatLength);
+        enable();
     }
 
     void textInit()
@@ -58,7 +63,11 @@ public class RapBattleTextAnimation : MonoBehaviour
         rhyme = rhyme.Trim();
         if (!string.IsNullOrEmpty(rhyme))
         {
-            verse = verse.Trim() + " ";
+            verse = verse.Trim();
+            for (int i = 0; i < rhymeSpaceCount; i++)
+            {
+                verse += " ";
+            }
             highlightChar = verse.Length;
         }
         else
@@ -108,7 +117,7 @@ public class RapBattleTextAnimation : MonoBehaviour
                 if (rhymeStarted)
                 {
                     fontSize *= highlightSizeMult;
-                    processedText += $"<color={highlightColor}><size={fontSize}><i>";
+                    processedText += $"<color={rapData.highlightColor}><size={fontSize}><i>";
                 }
                 else
                     processedText += $"<alpha=#00>";
