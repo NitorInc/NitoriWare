@@ -14,6 +14,8 @@ public class RapBattleTextAnimation : MonoBehaviour
     private float highlightSizeMult = 1.5f;
     [SerializeField]
     private int rhymeSpaceCount = 3;
+    [SerializeField]
+    private float rhymelessSizeMult = .66f;
 
     [SerializeField]
     private AnimationCurve sizeCurve;
@@ -76,6 +78,11 @@ public class RapBattleTextAnimation : MonoBehaviour
         {
             verse = verse.Trim() + $"...";
             highlightChar = 999;
+
+            // Cut max size down in rhymeless verses to preserve gap for last rhyme
+            var rectTransform = GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * rhymelessSizeMult, rectTransform.sizeDelta.y);
+            tmProComponent.ForceMeshUpdate();
         }
         tmProComponent.text = verse + rhyme;
         advancingText.setAdvanceSpeed(((float)verse.Length / verseFillTime));
