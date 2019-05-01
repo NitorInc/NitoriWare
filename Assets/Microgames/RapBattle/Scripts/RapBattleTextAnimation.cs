@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class RapBattleTextAnimation : MonoBehaviour
 {
@@ -46,8 +47,9 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent = GetComponent<TextMeshPro>();
 
         textInit();
-        tmProComponent.ForceMeshUpdate();
         initialFontSize = tmProComponent.fontSize;
+        fitToSize();
+        tmProComponent.ForceMeshUpdate();
 
         updateParsedText();
         advancingText.enabled = false;
@@ -78,6 +80,27 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent.text = verse + rhyme;
         advancingText.setAdvanceSpeed(((float)verse.Length / verseFillTime));
     }
+    
+    // Performs some extra calculations to make sure the text can fit in the allotted size when expanding
+    void fitToSize()
+    {
+        var rectTransform = GetComponent<RectTransform>();
+        var holdText = tmProComponent.text;
+
+        var maxHighlightSizeMult = highlightSizeCurve.keys.Max(a => a.value) * highlightSizeMult;
+        int rhymeFontSize = (int)(initialFontSize * maxHighlightSizeMult);
+        tmProComponent.text = $"<size={initialFontSize}>" + verse + $"<size={rhymeFontSize}>" + rhyme;
+        tmProComponent.ForceMeshUpdate();
+
+        var visibleTextSize = tmProComponent.GetRenderedValues(true);
+        if (visibleTextSize.x > rectTransform.sizeDelta.x)
+        {
+            initialFontSize *= rectTransform.sizeDelta.x / visibleTextSize.x;
+            initialFontSize = Mathf.Floor(initialFontSize);
+        }
+
+        tmProComponent.text = holdText;
+    }
 
     void enable()
     {
@@ -103,6 +126,9 @@ public class RapBattleTextAnimation : MonoBehaviour
 	
 	void LateUpdate ()
     {
+
+
+
         float growCurveDuration = sizeCurve[sizeCurve.length - 1].time;
         progress = !advancingText.IsComplete ? advancingText.Progress
             : progress + (advancingText.getAdvanceSpeed() * Time.deltaTime);
@@ -146,5 +172,5 @@ public class RapBattleTextAnimation : MonoBehaviour
             processedText += newChar;
         }
         tmProComponent.text = processedText;
-	}
+    }
 }
