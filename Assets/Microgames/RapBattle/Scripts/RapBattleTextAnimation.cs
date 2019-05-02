@@ -24,7 +24,8 @@ public class RapBattleTextAnimation : MonoBehaviour
 
     private AdvancingText advancingText;
     private TextMeshPro tmProComponent;
-    
+    private RectTransform rectTransform;
+
     private string parsedText;
     private float progress;
     private float highlightReachedTime;
@@ -35,6 +36,7 @@ public class RapBattleTextAnimation : MonoBehaviour
     private string verse;
     private string rhyme;
     private Color rhymeHighlightColor;
+    private bool sizeFit = false;
 
     public void setData(string verse, string rhyme, Color rhymeHighlightColor)
     {
@@ -47,10 +49,11 @@ public class RapBattleTextAnimation : MonoBehaviour
     {
         advancingText = GetComponent<AdvancingText>();
         tmProComponent = GetComponent<TextMeshPro>();
+        rectTransform = GetComponent<RectTransform>();
+        initialFontSize = tmProComponent.fontSize;
 
         textInit();
-        initialFontSize = tmProComponent.fontSize;
-        fitToSize();
+        setInitialTextString();
         tmProComponent.ForceMeshUpdate();
 
         updateParsedText();
@@ -80,33 +83,31 @@ public class RapBattleTextAnimation : MonoBehaviour
             highlightChar = 999;
 
             // Cut max size down in rhymeless verses to preserve gap for last rhyme
-            var rectTransform = GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * rhymelessSizeMult, rectTransform.sizeDelta.y);
             tmProComponent.ForceMeshUpdate();
         }
-        tmProComponent.text = verse + rhyme;
         advancingText.setAdvanceSpeed(((float)verse.Length / verseFillTime));
-    }
-    
-    // Performs some extra calculations to make sure the text can fit in the allotted size when expanding
-    void fitToSize()
-    {
-        var rectTransform = GetComponent<RectTransform>();
-        var holdText = tmProComponent.text;
 
+    }
+
+    // Initial text string has rhyme at max size to determine text fitting
+    void setInitialTextString()
+    {
         var maxHighlightSizeMult = highlightSizeCurve.keys.Max(a => a.value) * highlightSizeMult;
         int rhymeFontSize = (int)(initialFontSize * maxHighlightSizeMult);
         tmProComponent.text = $"<size={initialFontSize}>" + verse + $"<size={rhymeFontSize}>" + rhyme;
-        tmProComponent.ForceMeshUpdate();
-
-        var visibleTextSize = tmProComponent.GetRenderedValues(true);
-        if (visibleTextSize.x > rectTransform.sizeDelta.x)
+    }
+    
+    // Performs some extra calculations to make sure the text can fit in the allotted size when expanding
+    // Needs to be run on first LateUpdate due to some complications I haven't quite figured out
+    void fitToSize()
+    {
+        var textSize = tmProComponent.GetRenderedValues(false);
+        if (textSize.x > rectTransform.sizeDelta.x)
         {
-            initialFontSize *= rectTransform.sizeDelta.x / visibleTextSize.x;
+            initialFontSize *= rectTransform.sizeDelta.x / textSize.x;
             initialFontSize = Mathf.Floor(initialFontSize);
         }
-
-        tmProComponent.text = holdText;
     }
 
     void enable()
@@ -130,11 +131,19 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent.ForceMeshUpdate();
         parsedText = tmProComponent.GetParsedText();
     }
-	
-	void LateUpdate ()
+
+    //private void Update()
+    //{
+    //    fitToSize();
+    //}
+
+    void LateUpdate ()
     {
-
-
+        if (!sizeFit)
+        {
+            fitToSize();
+            sizeFit = true;
+        }
 
         float growCurveDuration = sizeCurve[sizeCurve.length - 1].time;
         progress = !advancingText.IsComplete ? advancingText.Progress
