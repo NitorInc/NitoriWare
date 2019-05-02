@@ -18,6 +18,7 @@ public class RapBattleRapData : ScriptableObject
     {
         [SerializeField]
         private string name;
+        public string Name => name;
         [SerializeField]
         private Line[] lines;
         public Line[] Lines => lines;

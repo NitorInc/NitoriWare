@@ -11,6 +11,8 @@ public class RapBattleTimingController : MonoBehaviour
     [SerializeField]
     private int lineCount = 2;
     [SerializeField]
+    private string forceRap;
+    [SerializeField]
     private float startBeat = 3f;
     [SerializeField]
     private float beatsPerRap = 2f;
@@ -39,6 +41,10 @@ public class RapBattleTimingController : MonoBehaviour
 	void Awake()
     {
         var rapPool = rapData.Raps.Where(a => a.Lines.Length == lineCount).ToArray();
+
+        if (!string.IsNullOrEmpty(forceRap))
+            rapPool = rapPool.Where(a => a.Name.Equals(forceRap, System.StringComparison.OrdinalIgnoreCase)).ToArray();
+
         rapIndex = Random.Range(0, rapPool.Length);
         rap = rapPool[rapIndex];
 
