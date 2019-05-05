@@ -24,10 +24,11 @@ public class TrainTracks_Train : MonoBehaviour {
     private float finalscale;
 
     [SerializeField]
-    private int travelframes;
+    private float travelframes;
 
     // Use this for initialization
     void Start () {
+        travelframes /= Time.timeScale;
         initialx = transform.position.x;
         initialy = transform.position.y;
         initialscale = transform.localScale.x;
