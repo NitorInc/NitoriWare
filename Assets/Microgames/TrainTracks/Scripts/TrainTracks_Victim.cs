@@ -32,6 +32,11 @@ public class TrainTracks_Victim : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        windupFrames = Mathf.FloorToInt(windupFrames / Time.timeScale);
+        lungeFrames = Mathf.FloorToInt(lungeFrames / Time.timeScale);
+        resetFrames = Mathf.FloorToInt(resetFrames / Time.timeScale);
+        idleFrames = Mathf.FloorToInt(idleFrames / Time.timeScale);
+        jumpFrames = Mathf.FloorToInt(jumpFrames / Time.timeScale);
         totalFrames = windupFrames + lungeFrames + resetFrames + idleFrames;
         initialxpos = transform.parent.transform.position.x;
         initialypos = transform.parent.transform.position.y;
