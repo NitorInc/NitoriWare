@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4480437804649430}
   - component: {fileID: 82789235315213858}
   - component: {fileID: 114284297466919074}
+  - component: {fileID: 114028743838633534}
+  - component: {fileID: 114664380855670696}
   m_Layer: 0
   m_Name: YoumuSlashBlankSoundSource
   m_TagString: Untagged
@@ -121,6 +123,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114028743838633534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1144074040886340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d602d3f9a49b7be4198d3044e90ff6a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 5
 --- !u!114 &114284297466919074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,8 +147,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeChildren: 0
-  tieToTimescale: 1
+  tieToTimescale: 0
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
   updateEachFrame: 0
   volumeType: 2
+--- !u!114 &114664380855670696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1144074040886340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45dacdb9a6ae29647aab6ee9bab20a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

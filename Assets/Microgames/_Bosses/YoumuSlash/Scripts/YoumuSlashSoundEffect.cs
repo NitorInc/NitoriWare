@@ -21,7 +21,15 @@ public class YoumuSlashSoundEffect : ScriptableObject
         public float Volume => volume;
 
         [SerializeField]
+        private Vector2 pitchRange;
+        public Vector2 PitchRange => pitchRange;
+
+        [SerializeField]
         private float panAmount;
         public float PanAmount => panAmount;
+
+        [SerializeField]
+        private float panSpeed;
+        public float PanSpeed => panSpeed;
     }
 }
