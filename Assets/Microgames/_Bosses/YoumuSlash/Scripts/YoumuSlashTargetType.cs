@@ -10,6 +10,10 @@ public class YoumuSlashTargetType : ScriptableObject
     public GameObject Prefab => prefab;
 
     [SerializeField]
+    private Effect launchEffect = Effect.None;
+    public Effect LaunchEffect => launchEffect;
+
+    [SerializeField]
     private Effect hitEffect = Effect.None;
     public Effect HitEffect => hitEffect;
 

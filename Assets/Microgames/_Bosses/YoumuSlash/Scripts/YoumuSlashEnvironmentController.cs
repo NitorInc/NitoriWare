@@ -20,9 +20,9 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
-        if (target.TypeData.HitEffect.ToString().EndsWith("Burst"))
+        if (target.TypeData.LaunchEffect.ToString().EndsWith("Burst"))
         {
-            animator.SetInteger("BurstLevel", getBurstValue(target.TypeData.HitEffect));
+            animator.SetInteger("BurstLevel", getBurstValue(target.TypeData.LaunchEffect));
             setTrigger("Burst");
         }
     }
