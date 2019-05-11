@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4325063683134882}
   - component: {fileID: 114323614177514442}
+  - component: {fileID: 114868227718527746}
   m_Layer: 0
   m_Name: KagerouCutController
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933572635501704}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.305236, y: -1.272571, z: 0.17323102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -51,16 +52,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed88ddc9483c4214a067ffc7d7da88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSprites:
-  - {fileID: 21300000, guid: 3055f9f6663004e2aba14643ec87dafc, type: 3}
-  - {fileID: 21300000, guid: 7e5a0086bea6c4b5c828894022d2e7af, type: 3}
-  - {fileID: 21300000, guid: f62054708939f44de9d11573b1d7e845, type: 3}
-  furballSprites:
-  - {fileID: 21300000, guid: 3adf40f127f994551999df6aa0150644, type: 3}
-  - {fileID: 21300000, guid: 70ddfe188f0cb4724a71684cd0d451e6, type: 3}
-  - {fileID: 21300000, guid: 33b20bc8e74194572b76bf30c1bbac94, type: 3}
-  furballCount: 5
-  characterPrefab: {fileID: 114977724529402630, guid: cfd39ba1bd6f1469aaea3e225dc39900,
+  hairColor: {r: 0.6, g: 0.3372549, b: 0.20000002, a: 1}
+  furballCount: 3
+  character: {fileID: 0}
+  furballPrefab: {fileID: 1464353459053500, guid: ab6804a670d270c4e8488a5224bedcc5,
     type: 2}
   razor: {fileID: 0}
-  furspeed: 0.01
+  background: {fileID: 0}
+  victoryClip: {fileID: 8300000, guid: 9a6db70eaa747a041bc96dec8df1108c, type: 3}
+  furspeed: 0.25
+  furDistance: 2.125
+  furAngleRange: {x: 220, y: 260}
+  furAngleRangeRight: {x: 280, y: 320}
+  particleRate: 0.05
+  shouldExplode: 1
+--- !u!114 &114868227718527746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1933572635501704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  updateEachFrame: 1
+  volumeType: 2

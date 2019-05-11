@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class MoonSoccerDefenderMovement : MonoBehaviour {
     
-    // The speed of the vertical movement
-    [Header("Vertical Movement Speed")]
+    // Movement speed
+    [Header("Movement Speed")]
     [SerializeField]
-    private float moveSpeed = 1f;
-
-    // Minimum height the object can reach before changing direction
-    [Header("Vertical Movement Range")]
-    [SerializeField]
-    private float minHeight = 1f;
-    
-    // Maximum height the object can reach before changing direction
-    [SerializeField]
-    private float maxHeight = 1f;
-    
+        public float moveSpeed;
+	
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
     [Header("Horizontal Movement Length")]
     [SerializeField]
     private float xMovement = 1f;
     
-    // The direction the object will start moving in
-    [Header("Initial Direction")]
+    // The change in scale that happens when going all the way up the screen, in percentage
+    [Header("Scale Change From Perspective")]
     [SerializeField]
-    private bool downward = true;
+    private float scaleChange = 5f;
+    
+    
+    // The upper, lower and middle bounds of the vertical movement 
+    // Which are used depends on the values of the VerticalMovementRange enum
+    [Header("Vertical Movement Range")]
+    [SerializeField]
+    private float TopY = 1.5f;
+    [SerializeField]
+    private float BottomY = -2.3f;
     
     // The total distance between the top and bottom boundaries of the vertical movement
     private float moveDistance = 0f;
@@ -34,10 +34,18 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
     // The starting x value of the object transform
     private float startX = 0f;
     
+    private bool downward;
+    
+    // The scale of the sprite at the very start
+    private Vector3 startScale;
+    
     // Initialization
     void Start () {
-        moveDistance = (minHeight * -1) + maxHeight;
+		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
+        moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
+        startScale = transform.localScale;
+        downward = (bool)(Random.value > 0.5f);;
     }
 
     
@@ -48,20 +56,26 @@ public class MoonSoccerDefenderMovement : MonoBehaviour {
             float y = transform.position.y;
             if (downward == true)
             {
-                if (transform.position.y >= minHeight)
+                if (transform.position.y >= BottomY)
                     y = transform.position.y - moveSpeed * Time.deltaTime;
                 else
                     downward = false;
             }
             else
             {
-                if (transform.position.y <= maxHeight)
+                if (transform.position.y <= TopY)
                     y = transform.position.y + moveSpeed * Time.deltaTime;
                 else
                     downward = true;
             }
-            x = -((y - minHeight) / moveDistance) * xMovement;
-            transform.position = new Vector2(startX + x, y);
+            // Horizontal Movement based on how high they are on screen
+            x = -((y - BottomY) / moveDistance) * xMovement;
+            transform.position = new Vector3(startX + x, y, transform.position.z);
+            // Scale the character's size based on how high they are on screen
+            float vDistance = 1 - ((y - BottomY) / moveDistance);
+            transform.localScale = new Vector3((startScale.x / 100f) * (100-scaleChange + vDistance*scaleChange), 
+                                               (startScale.y / 100f) * (100-scaleChange + vDistance*scaleChange), 
+                                               startScale.z);
         }
 	}
 }

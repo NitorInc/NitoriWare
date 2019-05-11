@@ -50,7 +50,7 @@ public class TextOutline : MonoBehaviour
 
 	void LateUpdate()
 	{
-		Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+		Vector3 screenPoint = MainCameraSingleton.instance.WorldToScreenPoint(transform.position);
 
 		outlineColor.a = textMesh.color.a * textMesh.color.a;
         
@@ -79,7 +79,7 @@ public class TextOutline : MonoBehaviour
 
 			bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
 			Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * getFunctionalPixelSize() : getFunctionalPixelSize());
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint +
+            Vector3 worldPoint = MainCameraSingleton.instance.ScreenToWorldPoint(screenPoint +
                 (pixelOffset * ((float)Screen.currentResolution.width / 1400f)));
             other.transform.position = worldPoint + new Vector3(0f, 0f, .001f);
 
@@ -91,7 +91,7 @@ public class TextOutline : MonoBehaviour
 
 	float getFunctionalPixelSize()
 	{
-		return pixelSize * 5f / Camera.main.orthographicSize;
+		return pixelSize * 5f / MainCameraSingleton.instance.orthographicSize;
 	}
 
 	Vector3 GetOffset(int i)

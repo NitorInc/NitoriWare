@@ -2926,6 +2926,7 @@ MonoBehaviour:
   tieToTimescale: 0
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
+  updateEachFrame: 1
   volumeType: 3
 --- !u!1 &212
 GameObject:
@@ -5241,6 +5242,7 @@ GameObject:
   - component: {fileID: 2374}
   - component: {fileID: 2378}
   - component: {fileID: 655}
+  - component: {fileID: 385}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5398,6 +5400,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d7ecc42ac3c6ec4faac4655e9014c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &386
 GameObject:
   m_ObjectHideFlags: 0
@@ -6366,8 +6379,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!1 &448
 GameObject:
   m_ObjectHideFlags: 0
@@ -7407,8 +7420,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!1 &518
 GameObject:
   m_ObjectHideFlags: 0
@@ -7716,8 +7729,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7734,8 +7747,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!4 &541
 Transform:
   m_ObjectHideFlags: 0
@@ -8166,8 +8179,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!20 &571
 Camera:
   m_ObjectHideFlags: 0
@@ -14317,8 +14330,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1064
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14592,8 +14605,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!223 &1118
 Canvas:
   m_ObjectHideFlags: 0
@@ -20874,6 +20887,7 @@ MonoBehaviour:
   tieToTimescale: 0
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
+  updateEachFrame: 1
   volumeType: 2
 --- !u!224 &1542
 RectTransform:
@@ -22060,8 +22074,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22249,8 +22263,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22425,8 +22439,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.microgame.code
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22496,8 +22510,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.nitori
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22635,8 +22649,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!82 &1649
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22820,8 +22834,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23046,8 +23060,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.stagemusic
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23117,8 +23131,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23284,8 +23298,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.arcade
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23799,8 +23813,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23904,8 +23918,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.volume.sfx
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24182,8 +24196,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.thanks.discord
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24308,8 +24322,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.fullscreen
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24441,8 +24455,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24583,8 +24597,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24722,8 +24736,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24793,8 +24807,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24913,8 +24927,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.kapptain
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25101,8 +25115,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.microgame.music
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25297,8 +25311,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25682,8 +25696,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25926,8 +25940,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26108,8 +26122,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26213,8 +26227,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.main.quit
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26504,8 +26518,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.leadart
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26575,8 +26589,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26680,8 +26694,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26813,8 +26827,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.resolution
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27080,8 +27094,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.microgame.management
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27248,8 +27262,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27393,8 +27407,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27554,8 +27568,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27674,8 +27688,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.socialmedia
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27779,8 +27793,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28316,8 +28330,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28463,8 +28477,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28799,8 +28813,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.compilationhard
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28904,8 +28918,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29089,8 +29103,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29197,8 +29211,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.compilationmystery
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29336,8 +29350,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29456,8 +29470,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29578,8 +29592,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29683,8 +29697,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.volume.voice
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29754,8 +29768,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.nitori
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29894,8 +29908,8 @@ MonoBehaviour:
   - value: generic.gamename
     isKey: 1
     keyDefaultString: NitorInc.
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30083,8 +30097,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30195,8 +30209,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.main.settings
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30386,8 +30400,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.compilationfast
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30640,8 +30654,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30820,8 +30834,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31680,8 +31694,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32036,8 +32050,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.microgamepractice
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32499,8 +32513,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.thanks
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32872,8 +32886,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.microgame.art
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33077,8 +33091,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.UI
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33251,8 +33265,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.play
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33452,8 +33466,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33647,8 +33661,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33752,8 +33766,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33988,8 +34002,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34195,8 +34209,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34500,8 +34514,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34835,8 +34849,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34940,8 +34954,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.volume.music
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35045,8 +35059,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.volume
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35233,8 +35247,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.menumusic
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35394,8 +35408,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.main.credits
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35656,6 +35670,7 @@ MonoBehaviour:
   tieToTimescale: 1
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
+  updateEachFrame: 1
   volumeType: 1
 --- !u!114 &2375
 MonoBehaviour:
@@ -35853,8 +35868,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.volume.master
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36003,8 +36018,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36904,8 +36919,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.thanks.fans
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37024,8 +37039,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37129,8 +37144,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.graphics
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37419,8 +37434,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37844,8 +37859,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.play
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38069,8 +38084,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.compilationmode.description
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38431,8 +38446,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38651,8 +38666,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38784,8 +38799,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39052,8 +39067,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39157,8 +39172,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39277,8 +39292,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.touhou
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39348,8 +39363,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.gamemode.compilation
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39545,8 +39560,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39697,8 +39712,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39902,8 +39917,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40022,8 +40037,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40245,8 +40260,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.settings.language
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40365,8 +40380,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40853,8 +40868,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: menu.back
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41045,8 +41060,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.thanks.playtesters
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &2641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41258,8 +41273,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!1001 &248402
 Prefab:
   m_ObjectHideFlags: 0
@@ -41781,8 +41796,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &34318683
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -42177,8 +42192,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.sfx
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &93250341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43447,8 +43462,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.site
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &274989109
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45686,8 +45701,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &775430047
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -46213,8 +46228,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &802284407
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -47192,8 +47207,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1053848534
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -47573,8 +47588,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.localization
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1091485845
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48100,8 +48115,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1164327980
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48253,8 +48268,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1172594050
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48464,8 +48479,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1186620780
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48633,8 +48648,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.localization.management
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1257762066
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -49626,8 +49641,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1421589019
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -49852,9 +49867,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: generic.incomplete
   parameters: []
-  defaultTMProFallbackFont: {fileID: 11400000, guid: 410784798d1dfce4294ab6a7f7409f1b,
-    type: 2}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!114 &1426851126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50189,8 +50203,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1468515540
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -51217,8 +51231,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: 
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1658806945
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -51797,8 +51811,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.microgame.code
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1794842186
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -52314,8 +52328,8 @@ MonoBehaviour:
   applyToFont: 1
   _key: credits.trailer
   parameters: []
-  defaultTMProFallbackFont: {fileID: 0}
-  TMProFallbackOverrideFonts: []
+  tmproFontFallbackList: []
+  tmproFontBlacklist: []
 --- !u!222 &1855495816
 CanvasRenderer:
   m_ObjectHideFlags: 0

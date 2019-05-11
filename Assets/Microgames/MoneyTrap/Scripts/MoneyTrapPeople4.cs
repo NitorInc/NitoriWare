@@ -36,7 +36,19 @@ public class MoneyTrapPeople4 : MonoBehaviour {
 
     [Header("Jumping gravity")]
     [SerializeField]
-    private float gravity = 0.1f;
+    private float gravity;
+
+    [Header("Hopping audio clip")]
+    [SerializeField]
+    private AudioClip hopsound;
+
+    [Header("Death audio clip")]
+    [SerializeField]
+    private AudioClip deathsound;
+
+    [Header("Audio source")]
+    [SerializeField]
+    private AudioSource soundsource;
 
     //Possible states for the person
     enum State {Idle, Following, Falling};
@@ -53,6 +65,10 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     private float lastJumpTrajY;
     //Store jump speedup progress
     private float speedup = 0;
+    //var for late starting
+    private float latestart = 1;
+    //var for playing death sound once
+    private bool hasPlayedDeathsound = false;
 
     // Use this for initialization
     void Start () {
@@ -74,15 +90,20 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update ()
-    { 
+    void Update()
+    {
+        transform.position = new Vector2(transform.position.x, transform.position.y);
+       
+        string debug = ""; //DEBUG
+
         //if this person is still not trapped
         if (state != State.Falling)
         {
-            
 
             //if person is following
             if (state == State.Following) {
+
+                debug = debug + "State: following to the "; //DEBUG
 
                 //get the direction towards player from this object's position and turn sprite accordingly
                 trajectory = (target.transform.position - transform.position).normalized;
@@ -90,19 +111,32 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
                     sr.flipX = true;
+
+                    debug = debug + "right" + System.Environment.NewLine; //DEBUG
                 }
                 else if (target.transform.position.x < transform.position.x)
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
                     sr.flipX = false;
+
+                    debug = debug + "left" + System.Environment.NewLine; //DEBUG
                 }
 
                 //has to make a new jump if continues following
                 if (isGrounded())
                 {
+                    debug = debug + "On the ground, "; //DEBUG
+
                     //if person isn't too far away from the jewel
                     if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
                     {
+                        //Play hopping sound
+                        if (soundsource != null && hopsound != null)
+                        {
+                            soundsource.clip = hopsound;
+                            soundsource.Play();
+                        }
+
                         //move towards player's x position at defined speed
                         Vector2 newPosition = transform.position;
                         if (speedup < 1)
@@ -177,6 +211,15 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 //move downwards into touhou hell
 
                 Vector2 newPosition = transform.position;
+
+                //play death sound
+                if (soundsource != null && !hasPlayedDeathsound)
+                {
+                    hasPlayedDeathsound = true;
+
+                    soundsource.clip = deathsound;
+                    soundsource.Play();
+                }
 
                 //grind x acceleration to a halt
                 newPosition.x += Mathf.Lerp(newPosition.x, trajectory.x, 0.5f) * Time.deltaTime;

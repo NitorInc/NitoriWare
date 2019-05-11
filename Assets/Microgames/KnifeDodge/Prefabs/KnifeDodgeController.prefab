@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 331002148025389570}
   m_Layer: 0
   m_Name: KnifeDodgeFloorCollider
-  m_TagString: KnifeDodgeGround
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,7 +318,7 @@ Transform:
   m_GameObject: {fileID: 1836093530212574}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.07, y: -2.21, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalScale: {x: 0.7141649, y: 0.7141649, z: 1}
   m_Children: []
   m_Father: {fileID: 4881303643829554}
   m_RootOrder: 2
@@ -568,7 +568,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -676,18 +676,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06716204, y: -0.89515495}
+  m_Offset: {x: -0.047667444, y: 0.045669556}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11.08, y: 22.519999}
+    oldSize: {x: 2.3266668, y: 4.73}
     newSize: {x: 11.08, y: 22.519999}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 5.3961525, y: 20.72969}
+  m_Size: {x: 1.6, y: 4.7348213}
   m_EdgeRadius: 0
 --- !u!61 &61638424614824136
 BoxCollider2D:
@@ -781,7 +781,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -861,7 +861,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -941,7 +941,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1014,14 +1014,16 @@ MonoBehaviour:
   numKnives: 14
   spawnDistance: 10
   knivesRemoved: 3
-  timeUntilStrike: 3
-  knifeFreezeTime: 0.5
+  timeUntilStrike: 3.25
+  knifeFreezeTime: 1
   knifeStopHeight: 3
   blackOutAValue: 1
   blackOutSpeed: 4
   parallaxMaxSpeed: 1
   tiltedKnives: 0
   tiltedKnivesRandomAngle: 0
+  horizontalMovementKnives: 0
+  horizontalKnifeSpeed: 1
   tiltedKnivesAngle: 11
   tiltedKnivesNumZeroTilt: 2
 --- !u!114 &114396505407066516
@@ -1039,6 +1041,7 @@ MonoBehaviour:
   tieToTimescale: 1
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
+  updateEachFrame: 1
   volumeType: 2
 --- !u!114 &114542417860507222
 MonoBehaviour:
@@ -1065,7 +1068,10 @@ MonoBehaviour:
   speed: 7.5
   animSpeed: 1.5
   animSpeedStopped: 0
-  killLaunchSpeed: 20
+  killLaunchSpeed: 10
+  killLaunchRotSpeed: 160
+  knifeStuckYOffset: 1.7
+  killClip: {fileID: 8300000, guid: 8519e1ebbca3af148bd5652b928924bc, type: 3}
   leftBound: {fileID: 1546856056731364}
   rightBound: {fileID: 1077220513654968}
 --- !u!114 &114889485751315346
@@ -1245,7 +1251,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: e5a35c6d132ebd1448dca27e0c18bbf4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 050809fc2e850e5419c23d15b6973e42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

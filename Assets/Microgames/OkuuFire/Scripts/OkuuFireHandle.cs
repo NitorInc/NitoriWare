@@ -42,8 +42,8 @@ public class OkuuFireHandle : MonoBehaviour
         float rotations = crank.rotations;
         reach = 360 * rotations;
 
-        Vector3 crankPoint = Camera.main.WorldToScreenPoint(crank.transform.position);
-        Vector3 handlePoint = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 crankPoint = MainCameraSingleton.instance.WorldToScreenPoint(crank.transform.position);
+        Vector3 handlePoint = MainCameraSingleton.instance.WorldToScreenPoint(transform.position);
 
         // Calculate angle of the handle from the crank.
         Vector2 offset = new Vector2(handlePoint.x - crankPoint.x, handlePoint.y - crankPoint.y);
@@ -71,8 +71,8 @@ public class OkuuFireHandle : MonoBehaviour
         if (canMove && guide.grabbed)
         {
             // Get the points at the centre of the crank and the centre of the mouse guide.
-            Vector3 targetPoint = Camera.main.WorldToScreenPoint(guide.transform.position);
-            Vector3 crankPoint = Camera.main.WorldToScreenPoint(crank.transform.position);
+            Vector3 targetPoint = MainCameraSingleton.instance.WorldToScreenPoint(guide.transform.position);
+            Vector3 crankPoint = MainCameraSingleton.instance.WorldToScreenPoint(crank.transform.position);
 
             // Calculate direction of the mouse from the crank.
             Vector2 offset = new Vector2(targetPoint.x - crankPoint.x, targetPoint.y - crankPoint.y);
