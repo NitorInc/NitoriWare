@@ -78,6 +78,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private AudioClip screamClip;
     [SerializeField]
     private float voicePan;
+    [SerializeField]
+    private Vector2 voicePitchRange;
     
     int nextIdleBeat = -100;
     int untenseBeat = -1;
@@ -536,7 +538,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         sfxSource.panStereo = voicePan *
             (direction == YoumuSlashBeatMap.TargetBeat.Direction.Right ? 1f : -1f);
-        sfxSource.pitch = (varyPitch ? Random.Range(.95f, 1.05f) : 1f)
+        sfxSource.pitch = (varyPitch ? MathHelper.randomRangeFromVector(voicePitchRange) : 1f)
             * (gameplayComplete ? 1f : Time.timeScale);
         sfxSource.PlayOneShot(clip);
     }
