@@ -9,8 +9,6 @@ public class YoumuSlashTarget : MonoBehaviour
     [SerializeField]
     private YoumuSlashTargetBody body;
     [SerializeField]
-    private YoumuSlashHitEffectController hitEffects;
-    [SerializeField]
     private YoumuSlashSoundEffect launchSoundEffect;
     [SerializeField]
     private float leftPitch = 1f;
@@ -38,12 +36,20 @@ public class YoumuSlashTarget : MonoBehaviour
     {
         this.mapInstance = mapInstance;
         mapInstance.launchInstance = this;
+        importTargetTypeTraits(mapInstance);
         isRight = mapInstance.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
         if (isRight)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
         YoumuSlashSoundEffectPlayer.instance.play(launchSoundEffect, mapInstance.HitDirection);
         BroadcastMessage("onLaunch", MapInstance, SendMessageOptions.DontRequireReceiver);
+    }
+
+    void importTargetTypeTraits(YoumuSlashBeatMap.TargetBeat target)
+    {
+        body.RigAnimator.runtimeAnimatorController = target.TypeData.Animator;
+        body.BaseImage.sprite = target.TypeData.Image;
+        launchSoundEffect = target.TypeData.LaunchSoundEffect;
     }
 
     public void slash(float angle, float effectActivationTime, float timeOffset)
@@ -72,20 +78,5 @@ public class YoumuSlashTarget : MonoBehaviour
     {
         var distanceOffset = Vector3.down * slashTimeOffset * hitOffsetMult;
         body.onSlashDelay(slashAngle, distanceOffset);
-    }
-
-    public void overrideAnimatorController(RuntimeAnimatorController animatorController)
-    {
-        body.RigAnimator.runtimeAnimatorController = animatorController;
-    }
-
-    public void overrideImage(Sprite sprite)
-    {
-        body.BaseImage.sprite = sprite;
-    }
-
-    public void overrideSound(AudioClip overrideClip)
-    {
-        hitEffects.NormalClip = overrideClip;
     }
 }

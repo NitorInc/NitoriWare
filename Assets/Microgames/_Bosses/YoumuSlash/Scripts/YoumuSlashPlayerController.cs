@@ -124,7 +124,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             && !attacking
             && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
-        if (target.HitEffect.ToString().EndsWith("Burst"))
+        if (target.TypeData.HitEffect.ToString().EndsWith("Burst"))
         {
             rigAnimator.ResetTrigger("UnSquint");
             rigAnimator.SetTrigger("Squint");
@@ -439,7 +439,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("ReAttack", reAttacking);
         lastSliceDirection = direction;
         bool attackingUp = (!attackedUp && attacking);
-        if (hitTarget!= null && hitTarget.ForceUp)
+        if (hitTarget!= null && hitTarget.TypeData.ForceUp)
             attackingUp = true;
         rigAnimator.SetBool("AttackUp", attackingUp);
         attackedUp = attackingUp;
@@ -478,9 +478,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     rigAnimator.SetBool("Upset", false);
             }
 
-            switch (hitTarget.HitEffect)
+            switch (hitTarget.TypeData.HitEffect)
             {
-                case (YoumuSlashBeatMap.TargetBeat.Effect.Scream):
+                case (YoumuSlashTargetType.Effect.Scream):
                     rigAnimator.SetBool("Scream", true);
                     nextIdleBeat++;
                     playSfx(screamClip, direction, false);

@@ -11,7 +11,9 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
     private AudioSource audioSourcePrefab;
 
     List<AudioSource> sourceList;
-    
+
+    float getStereoPan(float panAmount, YoumuSlashBeatMap.TargetBeat.Direction direction) =>
+        panAmount * (direction == YoumuSlashBeatMap.TargetBeat.Direction.Left ? -1f : 1f);
 
     private void Awake()
     {
@@ -24,21 +26,16 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
         foreach (var sound in soundEffect.Sounds)
         {
             AudioSource newSource;
-            var reuseAudioSource = sourceList.FirstOrDefault(a => MathHelper.Approximately(Mathf.Abs(a.panStereo), sound.PanAmount, .01f));
+            var reuseAudioSource = sourceList.FirstOrDefault(a => a.panStereo == getStereoPan(sound.PanAmount, direction));
             if (reuseAudioSource != null)
                 newSource = reuseAudioSource;
             else
             {
                 newSource = Instantiate(audioSourcePrefab, transform);
-                newSource.panStereo = sound.PanAmount
-                    * (direction == YoumuSlashBeatMap.TargetBeat.Direction.Left ? -1f : 1f);
+                newSource.panStereo = getStereoPan(sound.PanAmount, direction);
+                sourceList.Add(newSource);
             }
             newSource.PlayOneShot(sound.Clip, sound.Volume);
         }
     }
-	
-	void Update ()
-    {
-		
-	}
 }

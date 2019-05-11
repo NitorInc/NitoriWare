@@ -59,13 +59,7 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
             YoumuSlashTimingController.onBeat(timingData.LastProcessedBeat + 1);
         }
 
-        var newTargetInstance = Instantiate(target.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
-        if (target.OverrideAnimator != null)
-            newTargetInstance.overrideAnimatorController(target.OverrideAnimator);
-        if (target.OverrideImage != null)
-            newTargetInstance.overrideImage(target.OverrideImage);
-        if (target.OverrideSound != null)
-            newTargetInstance.overrideSound(target.OverrideSound);
+        var newTargetInstance = Instantiate(target.TypeData.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
         newTargetInstance.initiate(target);
     }
 }

@@ -20,9 +20,9 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
     {
-        if (target.HitEffect.ToString().EndsWith("Burst"))
+        if (target.TypeData.HitEffect.ToString().EndsWith("Burst"))
         {
-            animator.SetInteger("BurstLevel", getBurstValue(target.HitEffect));
+            animator.SetInteger("BurstLevel", getBurstValue(target.TypeData.HitEffect));
             setTrigger("Burst");
         }
     }
@@ -37,15 +37,15 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
         animator.SetTrigger("Fail");
     }
 
-    int getBurstValue(YoumuSlashBeatMap.TargetBeat.Effect effect)
+    int getBurstValue(YoumuSlashTargetType.Effect effect)
     {
         switch (effect)
         {
-            case (YoumuSlashBeatMap.TargetBeat.Effect.SlowBurst):
+            case (YoumuSlashTargetType.Effect.SlowBurst):
                 return 1;
-            case (YoumuSlashBeatMap.TargetBeat.Effect.FastBurst):
+            case (YoumuSlashTargetType.Effect.FastBurst):
                 return 2;
-            case (YoumuSlashBeatMap.TargetBeat.Effect.RapidBurst):
+            case (YoumuSlashTargetType.Effect.RapidBurst):
                 return 3;
             default:
                 return 0;
