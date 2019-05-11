@@ -11,11 +11,7 @@ public class YoumuSlashTarget : MonoBehaviour
     [SerializeField]
     private YoumuSlashHitEffectController hitEffects;
     [SerializeField]
-    private AudioClip launchClip;
-    [SerializeField]
-    private float launchPan = .5f;
-    [SerializeField]
-    private float slashPan = .5f;
+    private YoumuSlashSoundEffect launchSoundEffect;
     [SerializeField]
     private float leftPitch = 1f;
     [SerializeField]
@@ -27,7 +23,6 @@ public class YoumuSlashTarget : MonoBehaviour
     public YoumuSlashBeatMap.TargetBeat MapInstance => mapInstance;
 
     private bool isRight;
-    private AudioSource sfxSource;
     private float slashAngle;
     private float slashTimeOffset;
 
@@ -38,8 +33,8 @@ public class YoumuSlashTarget : MonoBehaviour
         public float timeOffset;
     }
 
-    
-	public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
+
+    public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
         this.mapInstance = mapInstance;
         mapInstance.launchInstance = this;
@@ -47,10 +42,8 @@ public class YoumuSlashTarget : MonoBehaviour
         if (isRight)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
-        sfxSource = GetComponent<AudioSource>();
-        sfxSource.panStereo = launchPan * (isRight ? 1f : -1f);
-        sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
-        sfxSource.PlayOneShot(launchClip);
+        YoumuSlashSoundEffectPlayer.instance.play(launchSoundEffect, mapInstance.HitDirection);
+        BroadcastMessage("onLaunch", MapInstance, SendMessageOptions.DontRequireReceiver);
     }
 
     public void slash(float angle, float effectActivationTime, float timeOffset)
