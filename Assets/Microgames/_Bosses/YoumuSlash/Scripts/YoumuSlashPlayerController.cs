@@ -78,6 +78,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     private AudioClip screamClip;
     [SerializeField]
     private float voicePan;
+    [SerializeField]
+    private Vector2 voicePitchRange;
     
     int nextIdleBeat = -100;
     int untenseBeat = -1;
@@ -124,7 +126,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             && !attacking
             && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
-        if (target.HitEffect.ToString().EndsWith("Burst"))
+        if (target.TypeData.LaunchEffect.ToString().EndsWith("Burst"))
         {
             rigAnimator.ResetTrigger("UnSquint");
             rigAnimator.SetTrigger("Squint");
@@ -439,7 +441,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("ReAttack", reAttacking);
         lastSliceDirection = direction;
         bool attackingUp = (!attackedUp && attacking);
-        if (hitTarget!= null && hitTarget.ForceUp)
+        if (hitTarget!= null && hitTarget.TypeData.ForceUp)
             attackingUp = true;
         rigAnimator.SetBool("AttackUp", attackingUp);
         attackedUp = attackingUp;
@@ -478,9 +480,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     rigAnimator.SetBool("Upset", false);
             }
 
-            switch (hitTarget.HitEffect)
+            switch (hitTarget.TypeData.HitEffect)
             {
-                case (YoumuSlashBeatMap.TargetBeat.Effect.Scream):
+                case (YoumuSlashTargetType.Effect.Scream):
                     rigAnimator.SetBool("Scream", true);
                     nextIdleBeat++;
                     playSfx(screamClip, direction, false);
@@ -536,7 +538,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         sfxSource.panStereo = voicePan *
             (direction == YoumuSlashBeatMap.TargetBeat.Direction.Right ? 1f : -1f);
-        sfxSource.pitch = (varyPitch ? Random.Range(.95f, 1.05f) : 1f)
+        sfxSource.pitch = (varyPitch ? MathHelper.randomRangeFromVector(voicePitchRange) : 1f)
             * (gameplayComplete ? 1f : Time.timeScale);
         sfxSource.PlayOneShot(clip);
     }

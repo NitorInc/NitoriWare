@@ -482,8 +482,8 @@ MonoBehaviour:
   direction: 1
   rotSpeedRange: {x: 180, y: 300}
   xSpeedRange: {x: 3, y: 6}
-  ySpeedRange: {x: 18.75, y: 28.125}
-  gravityScale: 150
+  ySpeedRange: {x: 14.0625, y: 21.09375}
+  gravityScale: 112.5
   baseObject: {fileID: 114147480390047826}
 --- !u!114 &114057523583896246
 MonoBehaviour:
@@ -579,10 +579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timingData: {fileID: 11400000, guid: 02a52a2a22bad1e4fbc1a9b8f0bb3fb7, type: 2}
   body: {fileID: 114515151812749994}
-  hitEffects: {fileID: 114416753488559770}
-  launchClip: {fileID: 8300000, guid: e7c3fac3d7897f14eaa241623ed62e1b, type: 3}
-  launchPan: 0.85
-  slashPan: 0.5
+  launchSoundEffect: {fileID: 11400000, guid: 5b2981531da73a44eb01cd98d7131780, type: 2}
   leftPitch: 1
   rightPitch: 1
   hitOffsetMult: 2
@@ -632,8 +629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08ef47040284ee42b98dcf05fa5f81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goodThreshold: 0.035
-  normalThreshold: 0.09
+  goodThreshold: 0.05
+  normalThreshold: 0.1
   goodParticles: {fileID: 1740987734094908, guid: bbf86820b34ac304bb0065ed543837b2,
     type: 2}
   normalParticles: {fileID: 1301585755387298, guid: 6c90b86a3f6f2bb4ba1f30a6a9a2e7e5,
@@ -643,9 +640,6 @@ MonoBehaviour:
   normalArc: 200
   badArc: 200
   positionOffset: {x: 0, y: 0.5, z: 0}
-  normalClip: {fileID: 8300000, guid: f18a1a91cca273041ae305eced0e656d, type: 3}
-  badClip: {fileID: 8300000, guid: 4bb80127a03fb184baf1bc97b2ee0c08, type: 3}
-  hitPan: 0.5
 --- !u!114 &114470858581175484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -709,7 +703,7 @@ MonoBehaviour:
         m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 2dc246486b76a29498aba0f391ae84bb,
+          m_ObjectArgument: {fileID: 8300000, guid: 8a0cc883dc3123042b2647ce40a64565,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
@@ -738,8 +732,8 @@ MonoBehaviour:
   direction: -1
   rotSpeedRange: {x: 180, y: 300}
   xSpeedRange: {x: 3, y: 6}
-  ySpeedRange: {x: 18.75, y: 28.125}
-  gravityScale: 150
+  ySpeedRange: {x: 14.0625, y: 21.09375}
+  gravityScale: 112.5
   baseObject: {fileID: 114147480390047826}
 --- !u!114 &114947333235224880
 MonoBehaviour:

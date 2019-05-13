@@ -25,17 +25,6 @@ public class YoumuSlashHitEffectController : MonoBehaviour
     [SerializeField]
     private Vector3 positionOffset;
 
-    [Header("Audio fields")]
-    [SerializeField]
-    private AudioClip normalClip;
-    public AudioClip NormalClip { get { return normalClip; } set { normalClip = value; } }
-    [SerializeField]
-    private AudioClip badClip;
-    [SerializeField]
-    private float hitPan;
-
-    private AudioSource sfxSource;
-
     enum HitLevel
     {
         Good,
@@ -53,13 +42,10 @@ public class YoumuSlashHitEffectController : MonoBehaviour
             return HitLevel.Bad;
     }
 
-    private void Awake()
-    {
-        sfxSource = GetComponent<AudioSource>();
-    }
-
     void onSlash(YoumuSlashTarget.SlashData data)
     {
+        var typeData = data.target.TypeData;
+
         //set Variables
         var AbsOffset = Mathf.Abs(data.timeOffset);
         var hitLevel = getHitLevel(AbsOffset);
@@ -88,10 +74,12 @@ public class YoumuSlashHitEffectController : MonoBehaviour
         }
 
         //Play audio
-        sfxSource.panStereo = hitPan * ((data.target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right) ? 1f : -1f);
-        sfxSource.PlayOneShot(normalClip);
-        if (hitLevel == HitLevel.Bad)
-            sfxSource.PlayOneShot(badClip);
+
+        YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitBaseSoundEffect, data.target.HitDirection);
+        if (hitLevel != HitLevel.Bad)
+            YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitNormalSoundEffect, data.target.HitDirection);
+        else
+            YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitBarelySoundEffect, data.target.HitDirection);
     }
 
     GameObject getParticlePrefab(HitLevel hitLevel)
