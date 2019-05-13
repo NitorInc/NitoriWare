@@ -75,11 +75,11 @@ public class YoumuSlashHitEffectController : MonoBehaviour
 
         //Play audio
 
-        YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitBaseSoundEffect);
+        YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitBaseSoundEffect, data.target.HitDirection);
         if (hitLevel != HitLevel.Bad)
-            YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitNormalSoundEffect);
+            YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitNormalSoundEffect, data.target.HitDirection);
         else
-            YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitBarelySoundEffect);
+            YoumuSlashSoundEffectPlayer.instance.play(data.target.TypeData.HitBarelySoundEffect, data.target.HitDirection);
     }
 
     GameObject getParticlePrefab(HitLevel hitLevel)

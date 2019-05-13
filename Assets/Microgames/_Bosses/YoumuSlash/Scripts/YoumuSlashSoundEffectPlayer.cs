@@ -18,7 +18,7 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
         instance = this;
     }
 
-    public void play(YoumuSlashSoundEffect soundEffect, YoumuSlashBeatMap.TargetBeat.Direction direction = YoumuSlashBeatMap.TargetBeat.Direction.Right)
+    public void play(YoumuSlashSoundEffect soundEffect, YoumuSlashBeatMap.TargetBeat.Direction direction)
     {
         foreach (var sound in soundEffect.Sounds)
         {
