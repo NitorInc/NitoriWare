@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class YoumuSlashEnvironmentController : MonoBehaviour
 {
     [SerializeField]
-    private YoumuSlashTimingController timingData;
+    private YoumuSlashTimingData timingData;
 
     private Animator animator;
+    private float lastTargetBeat = -1f;
     
 	void Start ()
     {
@@ -16,6 +18,7 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
         YoumuSlashPlayerController.onAttack += onAttack;
         YoumuSlashPlayerController.onFail += onFail;
         YoumuSlashPlayerController.onGameplayEnd += onGameplayEnd;
+        YoumuSlashTimingController.onBeat += onBeat;
 	}
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
@@ -25,8 +28,26 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
             animator.SetInteger("BurstLevel", getBurstValue(target.TypeData.LaunchEffect));
             setTrigger("Burst");
         }
+        lastTargetBeat = target.LaunchBeat;
     }
-    
+
+    void onBeat(int beat)
+    {
+        // Check for off-beat notifications
+        var nextTarget = timingData.BeatMap.getNextLaunchingTarget(beat + .01f);
+
+        if (nextTarget != null
+            && nextTarget.LaunchBeat - beat < 1f
+            && nextTarget.LaunchBeat % 1f > 0f
+            && !timingData.BeatMap.TargetBeats.Any(a => a.LaunchBeat == (float)beat))
+        {
+            setTrigger(
+                nextTarget.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right
+                ? "OffbeatRight"
+                : "OffbeatLeft");
+        }
+    }
+
     void onGameplayEnd()
     {
         setTrigger("GameplayEnd");
