@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 8
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -39,7 +39,6 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
-  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -55,10 +54,11 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
-    m_AtlasSize: 1024
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 0
@@ -306,6 +306,16 @@ Prefab:
       propertyPath: backgroundCamera
       value: 
       objectReference: {fileID: 691913867}
+    - target: {fileID: 114596616448207942, guid: dab68466deb78f6418c5c150ba8218fb,
+        type: 2}
+      propertyPath: obstacleRadius
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114596616448207942, guid: dab68466deb78f6418c5c150ba8218fb,
+        type: 2}
+      propertyPath: obstacleScaleMult
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dab68466deb78f6418c5c150ba8218fb, type: 2}
   m_IsPrefabParent: 0
