@@ -20,6 +20,7 @@ public class AnimationEventHelper : MonoBehaviour
 
 	public void triggerEvent(int index)
 	{
+        print("sjsjsjsj");
 		unityEvents[index].Invoke();
 	}
 
@@ -74,9 +75,11 @@ public class AnimationEventHelper : MonoBehaviour
 	}
 
 	public void setScreenShake(float shake)
-	{
-		CameraShake.instance.setScreenShake(shake);
-	}
+    {
+        print("AYAAasfjnikoASUIASHBJK");
+        CameraShake.instance.setScreenShake(shake);
+        print("AYAA");
+    }
 
 	public void setXshake(float shake)
 	{

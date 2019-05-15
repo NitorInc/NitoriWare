@@ -25,7 +25,7 @@ public class BoatSteerBoat : MonoBehaviour
 	private Camera backgroundCamera;
 
 	[SerializeField]
-	private GameObject rig;
+	private Animator rigAnimator;
 
     [SerializeField]
     private float cameraTiltMult = 5f;
@@ -87,7 +87,8 @@ public class BoatSteerBoat : MonoBehaviour
 		}
 		crashed = true;
 
-		Destroy(rig);
+        rigAnimator.SetTrigger("Crash");
+        
 		// TODO: Create sinking rig
 	}
 
