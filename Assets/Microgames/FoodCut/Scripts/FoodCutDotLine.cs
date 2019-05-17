@@ -37,36 +37,30 @@ public class FoodCutDotLine : MonoBehaviour
             case 1:
                 if (GameObject.FindGameObjectWithTag("MicrogameTag2") != null && gameObject.GetComponent<Collider2D>().bounds.Intersects(GameObject.FindGameObjectWithTag("MicrogameTag2").GetComponent<Collider2D>().bounds))
                 {
-                    Debug.Log("Line Moved");
                     transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
                 }
                 if (GameObject.FindGameObjectWithTag("MicrogameTag3") != null && gameObject.GetComponent<Collider2D>().bounds.Intersects(GameObject.FindGameObjectWithTag("MicrogameTag3").GetComponent<Collider2D>().bounds))
                 {
-                    Debug.Log("Line Moved");
                     transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
                 }
                 break;
             case 2:
                 if (GameObject.FindGameObjectWithTag("MicrogameTag1") != null && gameObject.GetComponent<Collider2D>().bounds.Intersects(GameObject.FindGameObjectWithTag("MicrogameTag1").GetComponent<Collider2D>().bounds))
                 {
-                    Debug.Log("Line Moved");
                     transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
                 }
                 if (GameObject.FindGameObjectWithTag("MicrogameTag3") != null && gameObject.GetComponent<Collider2D>().bounds.Intersects(GameObject.FindGameObjectWithTag("MicrogameTag3").GetComponent<Collider2D>().bounds))
                 {
-                    Debug.Log("Line Moved");
                     transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
                 }
                 break;
             case 3:
                 if (GameObject.FindGameObjectWithTag("MicrogameTag1") != null && gameObject.GetComponent<Collider2D>().bounds.Intersects(GameObject.FindGameObjectWithTag("MicrogameTag1").GetComponent<Collider2D>().bounds))
                 {
-                    Debug.Log("Line Moved");
                     transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
                 }
                 if (GameObject.FindGameObjectWithTag("MicrogameTag2") != null && gameObject.GetComponent<Collider2D>().bounds.Intersects(GameObject.FindGameObjectWithTag("MicrogameTag2").GetComponent<Collider2D>().bounds))
                 {
-                    Debug.Log("Line Moved");
                     transform.position = new Vector2(Random.Range(minX, maxX), transform.position.y);
                 }
                 break;
