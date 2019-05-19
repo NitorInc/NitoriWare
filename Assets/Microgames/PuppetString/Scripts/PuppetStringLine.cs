@@ -17,7 +17,7 @@ public class PuppetStringLine : MonoBehaviour {
 	private void Update () {
 		if (Input.GetMouseButton(0)) //Or use GetKey with key defined with mouse button
 		{
-			mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			mousePosition = MainCameraSingleton.instance.ScreenToWorldPoint(Input.mousePosition);
 
 			line.positionCount++;
 			line.SetPosition(line.positionCount - 1, mousePosition);

@@ -15,7 +15,8 @@ public class Language
     public string overrideFileName;
     public Font overrideFont;
     public bool forceUnbold;
-    public TMP_FontAsset tmproFallback;
+    [UnityEngine.Serialization.FormerlySerializedAs("tmproFallback")]
+    public TMP_FontAsset tmpFont;
 
     public string getFileName()
     {

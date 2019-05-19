@@ -35,7 +35,7 @@ public class AudioHelper
     /// <returns></returns>
     public static float getAudioPan(float xPosition, float extreme = 1f)
 	{
-        return getAudioPan(xPosition, Camera.main, extreme);
+        return getAudioPan(xPosition, MainCameraSingleton.instance, extreme);
 	}
 
 }
