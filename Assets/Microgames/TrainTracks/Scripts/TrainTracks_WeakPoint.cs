@@ -23,6 +23,8 @@ public class TrainTracks_WeakPoint
     [SerializeField]
     private Sprite cutRope;
 
+    int ropeDespawn = -1;
+
     // Use this for initialization
     void Start() {
         //Place weak points on rope
@@ -35,11 +37,19 @@ public class TrainTracks_WeakPoint
         }
         Vector3 position = new Vector3(startx, (startx - 0.5f) * yfactor, 0);
         transform.localPosition = position;
+        this.GetComponentInParent<Animator>().enabled = false; //We don't want to animate it until the player cuts it
     }
 
     // Update is called once per frame
     void Update() {
-
+        if (ropeDespawn >= 0 && ropeDespawn <= 30)
+        {
+            ropeDespawn++;
+            if (ropeDespawn == 10)
+            {
+                rope.SetActive(false);
+            }
+        }
     }
 
     void OnMouseDown() {
@@ -49,7 +59,7 @@ public class TrainTracks_WeakPoint
             MicrogameController.instance.setVictory(victory: true, final: true);
             yukari.GetComponent<SpriteRenderer>().sprite = sadYukari;
         }
-        rope.GetComponent<SpriteRenderer>().sprite = cutRope;
+        /*rope.GetComponent<SpriteRenderer>().sprite = cutRope;
         if (!flipped)
         {
             //Technically not necessary as train should never be in front of peg before microgame ends.
@@ -57,6 +67,8 @@ public class TrainTracks_WeakPoint
             //Anyway this puts the left peg behind the train when the rope has been cut on it.
             rope.GetComponent<SpriteRenderer>().sortingOrder = 2;
         }
-        transform.localScale = new Vector3(0, 0, 0); //Make weak point disappear
+        transform.localScale = new Vector3(0, 0, 0); //Make weak point disappear*/
+        this.GetComponentInParent<Animator>().enabled = true; //Play rope cutting animation
+        ropeDespawn = 0;
     }
 }
