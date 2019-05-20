@@ -69,6 +69,8 @@ public class TrainTracks_WeakPoint
         }
         transform.localScale = new Vector3(0, 0, 0); //Make weak point disappear*/
         this.GetComponentInParent<Animator>().enabled = true; //Play rope cutting animation
+        ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
+        particleSystem.Play(); //Play rope cutting particles
         ropeDespawn = 0;
     }
 }
