@@ -71,6 +71,7 @@ public class TrainTracks_WeakPoint
         this.GetComponentInParent<Animator>().enabled = true; //Play rope cutting animation
         ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
         particleSystem.Play(); //Play rope cutting particles
+        this.GetComponent<CircleCollider2D>().enabled = false;
         ropeDespawn = 0;
     }
 }
