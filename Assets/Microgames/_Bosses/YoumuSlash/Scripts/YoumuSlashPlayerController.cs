@@ -124,7 +124,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         
         if ((!firstTargetStareMode || timingData.BeatMap.getFirstActiveTarget(timingData.CurrentBeat, hitTimeFudge.y) == target)
             && !attacking
-            && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
+            && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any, false) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
         if (target.TypeData.LaunchEffect.ToString().EndsWith("Burst"))
         {
@@ -407,9 +407,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
         }
     }
 
-    YoumuSlashBeatMap.TargetBeat getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction direction)
+    YoumuSlashBeatMap.TargetBeat getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction direction, bool usePreciseBeat)
     {
-        return timingData.BeatMap.getFirstHittableTarget(timingData.CurrentBeat,
+        return timingData.BeatMap.getFirstHittableTarget(usePreciseBeat ? timingData.PreciseBeat : timingData.CurrentBeat,
             hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
     }
 
@@ -421,7 +421,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction direction)
     {
-        var hitTarget = getFirstHittableTarget(direction);
+        var hitTarget = getFirstHittableTarget(direction, true);
         bool isHit = hitTarget != null;
         if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
@@ -476,7 +476,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             //Hit successful
             var offset = AutoSlash ? 0f
-                : timingData.CurrentBeat - hitTarget.HitBeat;
+                : timingData.PreciseBeat - hitTarget.HitBeat;
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime, offset);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
             if (upsetResetHits > 0)

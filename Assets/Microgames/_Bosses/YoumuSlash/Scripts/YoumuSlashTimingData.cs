@@ -24,17 +24,16 @@ public class YoumuSlashTimingData : ScriptableObject
 
     float lastBeatRealTime;
 
-    public float CurrentBeat => PreciseBeat;
-    //{
-    //    get
-    //    {
-    //        if (!musicSource.isPlaying)
-    //            return 0f;
-    //        return musicSource.time / BeatDuration;
-    //    }
-    //}
-
-
+    public float CurrentBeat
+    {
+        get
+        {
+            if (!musicSource.isPlaying)
+                return 0f;
+            return musicSource.time / BeatDuration;
+        }
+    }
+    
     private float beatMax;
     public float PreciseBeat
     {

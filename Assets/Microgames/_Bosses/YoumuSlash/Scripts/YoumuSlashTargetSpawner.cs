@@ -15,7 +15,7 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
     private Queue<YoumuSlashBeatMap.TargetBeat> upcomingTargets;
 
     private bool spawningEnabled = false;
-
+    
     private void Awake()
     {
         OnTargetLaunch = null;
@@ -30,25 +30,47 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     void onFail()
     {
-        spawningEnabled = false;
+        CancelInvoke();
         enabled = false;
     }
 
     void enableSpawning()
     {
         spawningEnabled = true;
+        invokeNextSpawn();
     }
 
     void Update()
     {
         if (!spawningEnabled || !upcomingTargets.Any())
             return;
+        //Safety in case timing flubs up
         else if (timingData.CurrentBeat >= upcomingTargets.Peek().LaunchBeat)
         {
+            print("I gotchu");
+            CancelInvoke();
             var target = upcomingTargets.Dequeue();
             spawnTarget(target);
             OnTargetLaunch(target);
+            invokeNextSpawn();
         }
+    }
+
+        void invokeNextSpawn()
+    {
+        var currentBeat = timingData.PreciseBeat;
+        var spawnBeat = upcomingTargets.Peek().LaunchBeat;
+        Invoke("spawnNextTarget", (spawnBeat - currentBeat) * timingData.BeatDuration);
+    }
+
+    void spawnNextTarget()
+    {
+        var target = upcomingTargets.Dequeue();
+        spawnTarget(target);
+        OnTargetLaunch(target);
+
+        if (upcomingTargets.Any())
+            invokeNextSpawn();
     }
 
     void spawnTarget(YoumuSlashBeatMap.TargetBeat target)
