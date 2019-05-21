@@ -7,11 +7,10 @@ public class YoumuSlashTargetAnimator : MonoBehaviour
     [SerializeField]
     private YoumuSlashTimingData timingData;
     [SerializeField]
-    private float syncBufferTime = .075f;
+    private float syncBufferNormalizedTime = .01f;
 
     private Animator rigAnimator;
     private YoumuSlashBeatMap.TargetBeat target;
-    private float simulatedLaunchedTime;
     
 	void Awake ()
     {
@@ -21,7 +20,6 @@ public class YoumuSlashTargetAnimator : MonoBehaviour
     void onLaunch(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
         target = mapInstance;
-        simulatedLaunchedTime = Time.time;
     }
 
     void onSlash(YoumuSlashTarget.SlashData slashData)
@@ -32,14 +30,15 @@ public class YoumuSlashTargetAnimator : MonoBehaviour
 
     void Update ()
     {
-        var timeSinceLaunch = (timingData.PreciseBeat - target.LaunchBeat) * timingData.BeatDuration;
-        var simulatedTimeSinceLaunch = Time.time - simulatedLaunchedTime;
-        if (!MathHelper.Approximately(timeSinceLaunch, simulatedTimeSinceLaunch, syncBufferTime))
+        //var timeSinceLaunch = (timingData.PreciseBeat - target.LaunchBeat) * timingData.BeatDuration;
+        //var simulatedTimeSinceLaunch = Time.time - simulatedLaunchedTime;
+        var goalNormalizedTime = (timingData.PreciseBeat - target.LaunchBeat) / 4f;
+        var normalizedTime= rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        if (!MathHelper.Approximately(normalizedTime, goalNormalizedTime, syncBufferNormalizedTime))
         {
-            var normalizedTime = (timingData.PreciseBeat - target.LaunchBeat) / 4f;
             rigAnimator.Rebind();
-            rigAnimator.Play("Launch", 0, normalizedTime);
-            simulatedLaunchedTime = Time.time - simulatedTimeSinceLaunch;
+            rigAnimator.Play("Launch", 0, goalNormalizedTime);
+            print("Correcting animator");
         }
     }
 }
