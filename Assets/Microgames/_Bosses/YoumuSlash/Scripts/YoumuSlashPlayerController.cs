@@ -333,6 +333,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
         MicrogameController.instance.setVictory(false);
     }
 
+    private void FixedUpdate() => handleInput();
+    private void OnGUI() => handleInput();
+
     void Update ()
     {
 
@@ -351,8 +354,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             if (!attackWasSuccess && slashCooldownTimer <= 0f)
                 returnToIdle();
         }
-        if (allowInput && !failQueued)
-            handleInput();
+
+        handleInput();
         
         var currentNextTarget = getFirstActiveTarget();
         if (nextTarget != currentNextTarget)
@@ -389,6 +392,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void handleInput()
     {
+        if (!allowInput || failQueued)
+            return;
+
         var directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Any;
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Left;
