@@ -22,15 +22,44 @@ public class YoumuSlashTimingData : ScriptableObject
     private int lastProcessedBeat;
     public int LastProcessedBeat => lastProcessedBeat;
 
-    public float CurrentBeat
+    float lastBeatRealTime;
+
+    public float CurrentBeat => PreciseBeat;
+    //{
+    //    get
+    //    {
+    //        if (!musicSource.isPlaying)
+    //            return 0f;
+    //        return musicSource.time / BeatDuration;
+    //    }
+    //}
+
+
+    private float beatMax;
+    public float PreciseBeat
     {
         get
         {
-            if (!musicSource.isPlaying)
-                return 0f;
-            return musicSource.time / BeatDuration;
+            if (!musicSource.isPlaying || musicSource.time <= 0f)
+                return lastReportedBeat;
+            var timeSinceAudioUpdate = Time.realtimeSinceStartup - lastUpdateTime;
+            if (timeSinceAudioUpdate > .4f || timeSinceAudioUpdate < 0f)
+            {
+                timeSinceAudioUpdate = 0f;
+                SetLastUpdateTime();
+            }
+            var realMusicTime = musicSource.time + (timeSinceAudioUpdate / musicSource.pitch);
+
+            var beat = realMusicTime / BeatDuration;
+            lastReportedBeat = beat;
+            return realMusicTime / BeatDuration;
         }
     }
+
+    private float lastUpdateTime;
+    public void SetLastUpdateTime() => lastUpdateTime = Time.realtimeSinceStartup;
+
+    float lastReportedBeat;
 
     public float BeatDuration => 60f / bpm;
 
@@ -41,6 +70,8 @@ public class YoumuSlashTimingData : ScriptableObject
         lastProcessedBeat = -1 - warmupBeatCount;
         beatMap.initiate();
         YoumuSlashTimingController.onBeat += updateBeatCount;
+        SetLastUpdateTime();
+        lastReportedBeat = 0f;
     }
 
     public void updateBeatCount(int beat)
