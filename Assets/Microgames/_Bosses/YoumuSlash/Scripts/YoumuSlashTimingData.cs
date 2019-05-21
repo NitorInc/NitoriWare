@@ -29,8 +29,10 @@ public class YoumuSlashTimingData : ScriptableObject
         get
         {
             if (!musicSource.isPlaying)
-                return 0f;
-            return musicSource.time / BeatDuration;
+                return lastReportedBeat;
+            var beat = musicSource.time / BeatDuration;
+            lastReportedBeat = beat;
+            return beat;
         }
     }
     
@@ -51,7 +53,7 @@ public class YoumuSlashTimingData : ScriptableObject
 
             var beat = realMusicTime / BeatDuration;
             lastReportedBeat = beat;
-            return realMusicTime / BeatDuration;
+            return beat;
         }
     }
 
