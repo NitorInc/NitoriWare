@@ -14,8 +14,8 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     private Queue<YoumuSlashBeatMap.TargetBeat> upcomingTargets;
 
-    private bool spawningEnabled = false;
-    
+    private bool watchForNextTarget = false;
+
     private void Awake()
     {
         OnTargetLaunch = null;
@@ -30,47 +30,36 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     void onFail()
     {
-        CancelInvoke();
+        watchForNextTarget = false;
         enabled = false;
     }
 
     void enableSpawning()
     {
-        spawningEnabled = true;
-        invokeNextSpawn();
+        watchForNextTarget = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!spawningEnabled || !upcomingTargets.Any())
+        if (!watchForNextTarget || !upcomingTargets.Any())
             return;
-        //Safety in case timing flubs up
-        else if (timingData.CurrentBeat >= upcomingTargets.Peek().LaunchBeat)
+
+        var timeToNextTarget = (upcomingTargets.Peek().LaunchBeat - timingData.PreciseBeat) * timingData.BeatDuration;
+        timeToNextTarget = Mathf.Max(timeToNextTarget, 0f);
+        if (timeToNextTarget <= Time.fixedDeltaTime)
         {
-            print("I gotchu");
-            CancelInvoke();
-            var target = upcomingTargets.Dequeue();
-            spawnTarget(target);
-            OnTargetLaunch(target);
-            invokeNextSpawn();
+            Invoke("launchNextTarget", timeToNextTarget);
+            watchForNextTarget = false;
         }
     }
 
-        void invokeNextSpawn()
-    {
-        var currentBeat = timingData.PreciseBeat;
-        var spawnBeat = upcomingTargets.Peek().LaunchBeat;
-        Invoke("spawnNextTarget", (spawnBeat - currentBeat) * timingData.BeatDuration);
-    }
-
-    void spawnNextTarget()
+    void launchNextTarget()
     {
         var target = upcomingTargets.Dequeue();
         spawnTarget(target);
         OnTargetLaunch(target);
 
-        if (upcomingTargets.Any())
-            invokeNextSpawn();
+        watchForNextTarget = true;
     }
 
     void spawnTarget(YoumuSlashBeatMap.TargetBeat target)
