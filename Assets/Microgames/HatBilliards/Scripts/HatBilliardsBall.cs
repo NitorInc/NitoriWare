@@ -7,33 +7,74 @@ public class HatBilliardsBall : MonoBehaviour
     [SerializeField]
     float speed = 1;
     [SerializeField]
-    Transform firstTarget;
-    [SerializeField]
     Rigidbody rigidbody;
     [SerializeField]
     HatBilliardsHat hat;
+    [SerializeField]
+    private LineRenderer guideLine;
+    [SerializeField]
+    private Animator rigAnimator;
+    [SerializeField]
+    private float stopXLaunch;
+    [SerializeField]
+    private float stopYLaunch;
 
-    bool fire;
-    bool hit;
+    [SerializeField]
+    private float launchDelay = .2f;
+
+    bool mouseClicked;
+    bool launched;
     Vector3 targetPosition;
+    int currentIndex = 0;
+
+    public delegate void HitDelegate();
+    public static HitDelegate onHit;
+    Vector3 facing;
+
+    private void Awake()
+    {
+        onHit = null;
+    }
+
+    void launch()
+    {
+        launched = true;
+    }
 
     void Update ()
     {
-        if (!fire && Input.GetMouseButtonDown (0))
+        if (!mouseClicked && Input.GetMouseButtonDown (0))
         {
-            targetPosition = firstTarget.localPosition;
-            print (targetPosition);
-            fire = true;
+            mouseClicked = true;
+            targetPosition = guideLine.GetPosition(1);
+            //transform.forward = targetPosition - transform.position;
+            facing = targetPosition - transform.position;
+            Invoke("launch", launchDelay);
+            onHit();
         }
 
-        if (fire)
+        else if (launched)
         {
-            transform.localPosition = Vector3.MoveTowards (transform.localPosition, targetPosition, Time.deltaTime * speed);
-            if (!hit && transform.localPosition == targetPosition) //Vector3.Distance(transform.position, targetPosition) < 0.5f)
+            transform.position = Vector3.MoveTowards (transform.position, targetPosition, Time.deltaTime * speed);
+            if (transform.position == targetPosition) //Vector3.Distance(transform.position, targetPosition) < 0.5f)
             {
-                targetPosition = new Vector3 (0, targetPosition.y, targetPosition.z * 2);
-                print (targetPosition);
-                hit = true;
+                currentIndex++;
+                if (currentIndex < guideLine.positionCount)
+                {
+                    targetPosition = guideLine.GetPosition(currentIndex);
+                    facing = targetPosition - transform.position;
+                    //transform.forward = targetPosition - transform.position;
+                }
+                else
+                {
+                    //rigAnimator.SetTrigger("Stop");
+                    var rb = GetComponent<Rigidbody>();
+                    var stopLaunchForce = (facing * -1f).normalized * stopXLaunch;
+                    stopLaunchForce.y = stopYLaunch;
+                    rb.isKinematic = false;
+                    rb.AddForce(stopLaunchForce);
+                    enabled = false;
+                }
             }
         }
     }

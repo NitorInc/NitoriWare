@@ -6,6 +6,18 @@ public class HatBilliardsCue : MonoBehaviour
 {
     [SerializeField]
     Transform target;
+    [SerializeField]
+    Animator rigAnimator;
+
+    private void Start()
+    {
+        HatBilliardsBall.onHit += onHit;
+    }
+
+    void onHit()
+    {
+        rigAnimator.SetTrigger("Hit");
+    }
 
     void Update ()
     {
