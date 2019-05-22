@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 114052200633372098}
   - component: {fileID: 114504902759138942}
   - component: {fileID: 114849688148879438}
+  - component: {fileID: 114011237982196052}
   m_Layer: 8
   m_Name: Camera
   m_TagString: MainCamera
@@ -768,6 +769,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -803,6 +805,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -894,6 +897,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114011237982196052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1509073361441352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d7ecc42ac3c6ec4faac4655e9014c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114052200633372098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,6 +944,8 @@ MonoBehaviour:
   includeChildren: 0
   tieToTimescale: 0
   tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  updateEachFrame: 1
   volumeType: 1
 --- !u!114 &114849688148879438
 MonoBehaviour:
