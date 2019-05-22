@@ -24,7 +24,7 @@ public class MainCameraSingleton : MonoBehaviour
             {
                 if (camera == null)
                     markedForRemoval.Add(camera);
-                else if (camera.tag == "MainCamera")
+                else if (camera.tag.Equals("MainCamera") && camera.isActiveAndEnabled)
                 {
                     returnCamera = camera;
                     break;
@@ -38,7 +38,8 @@ public class MainCameraSingleton : MonoBehaviour
 
 	void Awake()
     {
-        cameraInstances = new List<Camera>();
+        if (cameraInstances == null)
+            cameraInstances = new List<Camera>();
         camera = GetComponent<Camera>();
         cameraInstances.Add(camera);
 	}
