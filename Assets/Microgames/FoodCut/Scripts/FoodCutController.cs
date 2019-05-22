@@ -29,6 +29,8 @@ public class FoodCutController : MonoBehaviour {
     private GameObject meatHolder;
 
     [SerializeField]
+    private AudioClip cutClip;
+    [SerializeField]
     private AudioClip missClip;
 
 
@@ -139,7 +141,7 @@ public class FoodCutController : MonoBehaviour {
             //Play animation and sound
             isCutting = true;
             knifeChild.GetComponent<Animator>().SetTrigger("Cut");
-            gameObject.GetComponent<AudioSource>().Play();
+            MicrogameController.instance.playSFX(cutClip, AudioHelper.getAudioPan(transform.position.x));
 
             //Create the right side of the meat and mask it
             GameObject rightMeat = (GameObject)Instantiate(meatHolder);
@@ -232,7 +234,7 @@ public class FoodCutController : MonoBehaviour {
         {
             isCutting = true;
             xChild.GetComponent<Animator>().Play("FoodCutX");
-            MicrogameController.instance.playSFX(missClip);
+            MicrogameController.instance.playSFX(missClip, AudioHelper.getAudioPan(transform.position.x));
         }
 
         // Player wins if they cut the proper amount of lines
