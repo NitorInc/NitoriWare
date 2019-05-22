@@ -32,14 +32,19 @@ public class LocalizationUpdater : ScriptableObject
     private string languagesPath;
     [SerializeField]
     private string charsPath;
+    [SerializeField]
+    private string sheetOrderLogFile;
 
     public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
         SerializedNestedStrings englishData = null;
+        var sheetTitles = new List<string>();
+        sheetTitles.Add("This is the order the sheets were found in. If github tries to change them, rearrange the cells so they match this.");
         for (int i = 1; i <= subsheetCount; i++)
         {
             var sheet = GDocService.GetSpreadsheet(spreadsheetId, i);
+            sheetTitles.Add(sheet.Title.Text);
             if (i == 1)
             {
                 languages = generateLanguageDict(sheet);
@@ -75,6 +80,8 @@ public class LocalizationUpdater : ScriptableObject
             if (string.IsNullOrEmpty(metaRecordedStatus) || !metaRecordedStatus.Equals("Y", System.StringComparison.OrdinalIgnoreCase))
                 Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
         }
+
+        File.WriteAllText(Path.Combine(Application.dataPath, sheetOrderLogFile), string.Join("\n", sheetTitles));
 
         Debug.Log("Language content updated");
 	}
