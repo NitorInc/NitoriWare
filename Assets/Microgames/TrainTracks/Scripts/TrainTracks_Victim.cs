@@ -6,7 +6,7 @@ public class TrainTracks_Victim : MonoBehaviour {
 
     int frame = 0;
     int windupFrames = 30;
-    int lungeFrames = 10;
+    int lungeFrames = 7;
     int resetFrames = 5;
     int idleFrames = 15;
     int totalFrames;
@@ -34,27 +34,29 @@ public class TrainTracks_Victim : MonoBehaviour {
     [SerializeField]
     private AudioClip winClip;
     [SerializeField]
+    private float animationSpeed = 1f;
+    [SerializeField]
     private float winClipDelay = .2f;
 
     bool clipPlayed;
 
     // Use this for initialization
     void Start () {
-        windupFrames = Mathf.FloorToInt(windupFrames / Time.timeScale);
-        lungeFrames = Mathf.FloorToInt(lungeFrames / Time.timeScale);
-        resetFrames = Mathf.FloorToInt(resetFrames / Time.timeScale);
-        idleFrames = Mathf.FloorToInt(idleFrames / Time.timeScale);
-        jumpFrames = Mathf.FloorToInt(jumpFrames / Time.timeScale);
+        windupFrames = Mathf.FloorToInt(windupFrames / animationSpeed);
+        lungeFrames = Mathf.FloorToInt(lungeFrames / animationSpeed);
+        resetFrames = Mathf.FloorToInt(resetFrames / animationSpeed);
+        idleFrames = Mathf.FloorToInt(idleFrames / animationSpeed);
+        jumpFrames = Mathf.FloorToInt(jumpFrames / animationSpeed);
         totalFrames = windupFrames + lungeFrames + resetFrames + idleFrames;
         initialxpos = transform.parent.transform.position.x;
         initialypos = transform.parent.transform.position.y;
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         //On the victim, this is pretty much exclusively used for animation purposes
         frame++;
-        if (!MicrogameController.instance.getVictory() || jumpDelay < 10)
+        if (!MicrogameController.instance.getVictory() || jumpDelay < 7)
         {
             if (frame % totalFrames <= windupFrames)
             {
