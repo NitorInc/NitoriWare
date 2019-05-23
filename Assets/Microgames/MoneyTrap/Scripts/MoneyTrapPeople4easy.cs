@@ -22,9 +22,9 @@ public class MoneyTrapPeople4easy : MonoBehaviour {
     [SerializeField]
     private float proximityFollow = 1f;
 
-    //[Header("Distance threshold to stop following")]
-    //[SerializeField]
-    //private float distanceLeave = 1f;
+    [Header("Proximity threshold to unfollow")]
+    [SerializeField]
+    private float proximityUnfollow = 1f;
 
     [Header("How fast person falls")]
     [SerializeField]
@@ -134,7 +134,7 @@ public class MoneyTrapPeople4easy : MonoBehaviour {
                 if (isGrounded())
                 {
                     //if person isn't too far away from the jewel
-                    if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
+                    if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityUnfollow)
                     {
                         //Play hopping sound
                         soundsource.Play();
