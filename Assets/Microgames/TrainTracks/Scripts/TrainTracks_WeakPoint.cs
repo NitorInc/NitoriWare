@@ -26,6 +26,9 @@ public class TrainTracks_WeakPoint
     [SerializeField]
     private float volleySpeed = 0f;
 
+    [SerializeField]
+    private AudioClip snapClip;
+
     int ropeDespawn = -1;
     float tValue;   // Value between 0 (min position) and 1 (max position) where the weak point is, moves in later difficulties
     bool goingRight;
@@ -82,6 +85,10 @@ public class TrainTracks_WeakPoint
             MicrogameController.instance.setVictory(victory: true, final: true);
             yukari.GetComponent<SpriteRenderer>().sprite = sadYukari;
         }
+
+        MicrogameController.instance.playSFX(snapClip,
+            AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
+
         /*rope.GetComponent<SpriteRenderer>().sprite = cutRope;
         if (!flipped)
         {

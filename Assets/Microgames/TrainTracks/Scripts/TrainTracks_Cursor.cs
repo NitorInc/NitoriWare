@@ -10,20 +10,29 @@ public class TrainTracks_Cursor : MonoBehaviour {
     [SerializeField]
     private Sprite opensprite;
 
+    [SerializeField]
+    private AudioClip snipClip;
+
+    private SpriteRenderer spriteRenderer;
+
 	// Use this for initialization
 	void Start () {
-		
+        spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButton(0))
-        {
-            this.GetComponent<SpriteRenderer>().sprite = closedsprite;
-        } else
-        {
-            this.GetComponent<SpriteRenderer>().sprite = opensprite;
-        }
 
+        spriteRenderer.sprite = Input.GetMouseButton(0) ? closedsprite : opensprite;
+        if (Input.GetMouseButtonDown(0))
+            MicrogameController.instance.playSFX(snipClip,
+                AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
+
+        if (MicrogameController.instance.getVictoryDetermined())
+        {
+            enabled = false;
+            spriteRenderer.sprite = closedsprite;
+            return;
+        }
     }
 }

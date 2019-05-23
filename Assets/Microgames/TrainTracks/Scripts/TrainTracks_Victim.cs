@@ -31,6 +31,13 @@ public class TrainTracks_Victim : MonoBehaviour {
     float radianAngle = 0;
     Vector3 positionVector = new Vector3(0, 0, 0);
 
+    [SerializeField]
+    private AudioClip winClip;
+    [SerializeField]
+    private float winClipDelay = .2f;
+
+    bool clipPlayed;
+
     // Use this for initialization
     void Start () {
         windupFrames = Mathf.FloorToInt(windupFrames / Time.timeScale);
@@ -109,5 +116,16 @@ public class TrainTracks_Victim : MonoBehaviour {
         transform.parent.transform.Rotate(rotationVector);
         positionVector = new Vector3(initialxpos + xoffset, initialypos + yoffset, 0);
         transform.parent.transform.position = positionVector;
+
+        if (MicrogameController.instance.getVictory() && !clipPlayed)
+        {
+            Invoke("playWinClip", winClipDelay);
+            clipPlayed = true;
+        }
+    }
+
+    void playWinClip()
+    {
+        MicrogameController.instance.playSFX(winClip);
     }
 }
