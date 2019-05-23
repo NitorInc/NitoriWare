@@ -46,12 +46,9 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     [SerializeField]
     private AudioClip deathsound;
 
-    [Header("Audio source")]
-    [SerializeField]
-    private AudioSource soundsource;
-
     //Possible states for the person
     enum State {Idle, Following, Falling};
+    bool deathSoundPlayed;
 
     //Stores this person's state
     private State state;
@@ -131,11 +128,7 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                     if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityUnfollow)
                     {
                         //Play hopping sound
-                        if (soundsource != null && hopsound != null)
-                        {
-                            soundsource.clip = hopsound;
-                            soundsource.Play();
-                        }
+                        MicrogameController.instance.playSFX(hopsound, AudioHelper.getAudioPan(transform.position.x));
 
                         //move towards player's x position at defined speed
                         Vector2 newPosition = transform.position;
@@ -213,12 +206,11 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 Vector2 newPosition = transform.position;
 
                 //play death sound
-                if (soundsource != null && !hasPlayedDeathsound)
+                if (!deathSoundPlayed)
                 {
-                    hasPlayedDeathsound = true;
-
-                    soundsource.clip = deathsound;
-                    soundsource.Play();
+                    //play death sound
+                    MicrogameController.instance.playSFX(deathsound, AudioHelper.getAudioPan(transform.position.x));
+                    deathSoundPlayed = true;
                 }
 
                 //grind x acceleration to a halt
