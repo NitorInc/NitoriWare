@@ -29,6 +29,12 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private Vector3 scaleAtCenter;
     [SerializeField]
     private float timeToCenter;
+    [SerializeField]
+    private Image outlineBack;
+    [SerializeField]
+    private Color outlineBackBossColor;
+    [SerializeField]
+    private Vector3 oulineBackBossScale;
 #pragma warning restore 0649
 
     private static MenuPracticeMicrogame selectedInstance;
@@ -65,6 +71,16 @@ public class MenuPracticeMicrogame : MonoBehaviour
         Sprite iconSprite = microgame.menuIcon;
         if (iconSprite != null)
             icon.sprite = iconSprite;
+
+        if (isBoss)
+        {
+            outlineBack.color = outlineBackBossColor;
+            outlineBack.transform.localScale = oulineBackBossScale;
+        }
+
+        var credits = microgame.difficultyTraits[0].credits;
+        if (credits.Length < 3 || credits.FirstOrDefault(a => string.IsNullOrEmpty(a)) != null)
+            Debug.LogWarning($"Microgame {microgame.microgameId} is missing credits field(s)!");
 	}
 	
 	void LateUpdate()
@@ -132,7 +148,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         for (int i = 0; i < creditsTexts.Length; i++)
         {
             string creditsString = creditsTexts[i].text;
-            creditsString= TextHelper.getLocalizedText(creditsKeys[i], creditsString);
+            creditsString = TextHelper.getLocalizedText(creditsKeys[i], creditsString);
             creditsString = string.Format(creditsString, microgame.difficultyTraits[0].credits[i]);
             creditsTexts[i].text = creditsString;
         }
