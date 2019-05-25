@@ -14,7 +14,7 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     private Queue<YoumuSlashBeatMap.TargetBeat> upcomingTargets;
 
-    private bool spawningEnabled = false;
+    private bool watchForNextTarget = false;
 
     private void Awake()
     {
@@ -30,25 +30,36 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     void onFail()
     {
-        spawningEnabled = false;
+        watchForNextTarget = false;
         enabled = false;
     }
 
     void enableSpawning()
     {
-        spawningEnabled = true;
+        watchForNextTarget = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!spawningEnabled || !upcomingTargets.Any())
+        if (!watchForNextTarget || !upcomingTargets.Any())
             return;
-        else if (timingData.CurrentBeat >= upcomingTargets.Peek().LaunchBeat)
+
+        var timeToNextTarget = (upcomingTargets.Peek().LaunchBeat - timingData.PreciseBeat) * timingData.BeatDuration;
+        timeToNextTarget = Mathf.Max(timeToNextTarget, 0f);
+        if (timeToNextTarget <= Time.fixedDeltaTime)
         {
-            var target = upcomingTargets.Dequeue();
-            spawnTarget(target);
-            OnTargetLaunch(target);
+            Invoke("launchNextTarget", timeToNextTarget);
+            watchForNextTarget = false;
         }
+    }
+
+    void launchNextTarget()
+    {
+        var target = upcomingTargets.Dequeue();
+        spawnTarget(target);
+        OnTargetLaunch(target);
+
+        watchForNextTarget = true;
     }
 
     void spawnTarget(YoumuSlashBeatMap.TargetBeat target)
@@ -59,13 +70,7 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
             YoumuSlashTimingController.onBeat(timingData.LastProcessedBeat + 1);
         }
 
-        var newTargetInstance = Instantiate(target.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
-        if (target.OverrideAnimator != null)
-            newTargetInstance.overrideAnimatorController(target.OverrideAnimator);
-        if (target.OverrideImage != null)
-            newTargetInstance.overrideImage(target.OverrideImage);
-        if (target.OverrideSound != null)
-            newTargetInstance.overrideSound(target.OverrideSound);
+        var newTargetInstance = Instantiate(target.TypeData.Prefab, transform.position, Quaternion.identity).GetComponent<YoumuSlashTarget>();
         newTargetInstance.initiate(target);
     }
 }

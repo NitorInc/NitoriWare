@@ -8,9 +8,11 @@ public class PaperThiefStar : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
 	private Vector2 LinearVelocity;
+    [SerializeField]
+    private int health = 3;
 	[SerializeField]
 	private float cameraActivationX, seekMoveSpeed, seekPower, rotateSpeed,
-		hitSlowDownMult, hitAcc, killSpeed, flashSpeed, shrinkSpeed;
+		hitSlowDownMult, hitAcc, flashSpeed, shrinkSpeed;
 	[SerializeField]
 	private int hitStarCount, killStarCount;
     [SerializeField]
@@ -213,8 +215,9 @@ public class PaperThiefStar : MonoBehaviour
 				other.GetComponent<PaperThiefShot>().kill();
                 float soundVolume = Mathf.Lerp(1.5f, 1f, velocity.magnitude / seekMoveSpeed);
                 velocity = velocity.resize(velocity.magnitude * hitSlowDownMult);
+                health--;
                 flashing = true;
-                if (velocity.magnitude <= killSpeed)
+                if (health <= 0)
 				{
                     kill();
                     MicrogameController.instance.playSFX(deathClip, AudioHelper.getAudioPan(transform.position.x));

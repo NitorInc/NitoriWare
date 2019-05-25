@@ -21,6 +21,7 @@ public class MenuButton : MonoBehaviour
     private bool checkMouseOverCollider = true;
     [SerializeField]
     private AudioSource sfxSource;
+    public AudioSource SfxSource { get { return sfxSource; } set { sfxSource = value; } }
     [SerializeField]
     private AudioClip pressClip;
     [SerializeField]
