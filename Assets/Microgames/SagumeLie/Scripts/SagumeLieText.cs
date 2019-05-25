@@ -75,10 +75,10 @@ public class SagumeLieText : MonoBehaviour
 
     // victory and failure functions
 
-    [SerializeField]
-    private Animator DoremyAnimator;
-    [SerializeField]
-    private Animator SagumeAnimator;
+    //[SerializeField]
+    //private Animator DoremyAnimator;
+    //[SerializeField]
+    //private Animator SagumeAnimator;
     [SerializeField]
     private Animator BackgroundAnimator;
     [SerializeField]
@@ -96,16 +96,16 @@ public class SagumeLieText : MonoBehaviour
 
     public void SagumeVictory()
     {
-        SagumeAnimator.SetBool("Success", true);
-        DoremyAnimator.SetBool("Success", true);
+        //SagumeAnimator.SetBool("Success", true);
+        //DoremyAnimator.SetBool("Success", true);
         BackgroundAnimator.SetBool("Success", true);
         MicrogameController.instance.setVictory(victory: true, final: true);
     }
 
     public void SagumeFailure()
     {
-        SagumeAnimator.SetBool("Failure", true);
-        DoremyAnimator.SetBool("Failure", true);
+        //SagumeAnimator.SetBool("Failure", true);
+        //DoremyAnimator.SetBool("Failure", true);
         BackgroundAnimator.SetBool("Failure", true);
         MicrogameController.instance.setVictory(victory: false, final: true);
     }
