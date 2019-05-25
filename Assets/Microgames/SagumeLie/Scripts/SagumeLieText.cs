@@ -31,7 +31,7 @@ public class SagumeLieText : MonoBehaviour
         var traits = (SagumeLieTraits)MicrogameController.instance.getTraits();
 
         // questionIndex is a random question from the pool of all questions. QuestionText is set to this, so it'll be in the bubble.
-        questionIndex = Random.Range(0, traits.QuestionPool.Length);
+        questionIndex = Random.Range(0, traits.getQuestionPool().Length);
         QuestionText.SetText(traits.getLocalizedQuestionText(questionIndex));
 
         // set the number of maximum answers. should be changed based on difficulty. right now, it's 4 for testing.
@@ -42,14 +42,14 @@ public class SagumeLieText : MonoBehaviour
 
         // make a list of the Truths for the given question.
         List<string> unpickedTruths = new List<string>();
-        for (int i = 0; i < traits.QuestionPool[questionIndex].TruthResponses.Length; i++)
+        for (int i = 0; i < traits.getQuestionPool()[questionIndex].TruthResponses.Length; i++)
         {
             unpickedTruths.Add(traits.getLocalizedResponseText(questionIndex, false, i));
         };
 
         // !!! DEBUG !!! if there's room for 3 truths, but we only have 2 on the list, it'll error.
         // this'll be fixed by either reducing answers, or making sure every question has 3 possible truths. 
-        if (traits.QuestionPool[questionIndex].TruthResponses.Length < 3)
+        if (traits.getQuestionPool()[questionIndex].TruthResponses.Length < 3)
         { unpickedTruths.Add("Not enough answers for this question!");
         };
 
@@ -57,7 +57,7 @@ public class SagumeLieText : MonoBehaviour
         for (int i = 0; i < maxAnswer; i++)
         {
             if (i == liePosition)
-                Answer[i] = traits.getLocalizedResponseText(questionIndex, true, Random.Range(0, traits.QuestionPool[questionIndex].LieResponses.Length));
+                Answer[i] = traits.getLocalizedResponseText(questionIndex, true, Random.Range(0, traits.getQuestionPool()[questionIndex].LieResponses.Length));
 
             else
                 Answer[i] = unpickedTruths[Random.Range(0, unpickedTruths.Count)];

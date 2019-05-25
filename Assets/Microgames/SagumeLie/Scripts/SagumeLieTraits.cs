@@ -6,8 +6,16 @@ using UnityEngine;
 public class SagumeLieTraits : MicrogameTraits
 {
     [SerializeField]
-    private SagumeQuestion[] questionPool;
-    public SagumeQuestion[] QuestionPool => questionPool;
+    private SagumeQuestion[] questionPool1;
+    public SagumeQuestion[] QuestionPool1 => questionPool1;
+
+    [SerializeField]
+    private SagumeQuestion[] questionPool2;
+    public SagumeQuestion[] QuestionPool2 => questionPool2;
+
+    [SerializeField]
+    private SagumeQuestion[] questionPool3;
+    public SagumeQuestion[] QuestionPool3 => questionPool3;
 
     [System.Serializable]
     public class SagumeQuestion
@@ -26,17 +34,29 @@ public class SagumeLieTraits : MicrogameTraits
     }
 
     //Question key format: "microgame.SagumeLie.{question index}"
+    //Planned question key format: "microgame.SagumeLie.question{question index}"
     public string getLocalizedQuestionText(int questionIndex)
     {
-        var question = questionPool[questionIndex];
+        var question = getQuestionPool()[questionIndex];
         return TextHelper.getLocalizedText($"microgame.SagumeLie.{questionIndex}", question.QuestionText);
+        //return TextHelper.getLocalizedText($"microgame.SagumeLie.question{questionIndex}", question.QuestionText);
     }
 
     //Response key format: "microgame.SagumeLie.{question index}.[lie/truth]{number index}"
+    //Planned response key format: "microgame.SagumeLie.difficulty.[question]{question index}.[lie/truth]{number index}"
     public string getLocalizedResponseText(int questionIndex, bool isLie, int responseIndex)
     {
-        var response = isLie ? 
-            questionPool[questionIndex].LieResponses[responseIndex] : questionPool[questionIndex].TruthResponses[responseIndex];
+        var response = isLie ?
+            getQuestionPool()[questionIndex].LieResponses[responseIndex] : getQuestionPool()[questionIndex].TruthResponses[responseIndex];
         return TextHelper.getLocalizedText($"microgame.SagumeLie.{questionIndex}.{(isLie ? "lie" : "truth")}{responseIndex}", response);
+        //return TextHelper.getLocalizedText($"microgame.SagumeLie.{difficulty}.question{questionIndex}.{(isLie ? "lie" : "truth")}{responseIndex}", response);
+    }
+
+    public SagumeQuestion[] getQuestionPool()
+    {
+        if (difficulty == 1) return questionPool1;
+        if (difficulty == 2) return questionPool2;
+        if (difficulty == 3) return questionPool3;
+        return questionPool1;
     }
 }
