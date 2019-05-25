@@ -22,13 +22,12 @@ public class EikiJudge_EikiController : MonoBehaviour
     {
         eikiArmSprite.sprite = null;
         //controller.SpawnSouls();
-        
     }
 
     void Update()
     {
-        // If all souls are instantiated
-        if (controller.allSoulsReady)
+        // If all souls are instantiated, and game isnt finished yet
+        if (controller.allSoulsReady && !controller.gameWon && !controller.wasted)
         {
             EikiJudgement();
             AnimateArm();
@@ -38,6 +37,16 @@ public class EikiJudge_EikiController : MonoBehaviour
             {
                 controller.SendJudgement(judgementDirection);
             }
+        }
+
+        // Play win/lose animations
+        if (controller.gameWon)
+        {
+            animator.SetBool("isWin", true);
+        }
+        if (controller.wasted)
+        {
+            animator.SetBool("isLose", true);
         }
     }
 
