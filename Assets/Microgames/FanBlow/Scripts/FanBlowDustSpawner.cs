@@ -5,6 +5,8 @@ using UnityEngine;
 public class FanBlowDustSpawner : MonoBehaviour
 {
     [SerializeField]
+    private ObjectPool dustPool;
+    [SerializeField]
     private Vector2 spawnXRandomRange;
     [SerializeField]
     private Vector2 spawnYRandomRange;
@@ -40,7 +42,8 @@ public class FanBlowDustSpawner : MonoBehaviour
 
     FanBlowDust createDust(Vector3 position)
     {
-        var dustObject = Instantiate(dustPrefab, position, Quaternion.identity);
+        var dustObject = dustPool.getObjectFromPool();
+        dustObject.transform.position = position;
         dustObject.transform.parent = transform;
         var dustComponent = dustObject.GetComponent<FanBlowDust>();
         dustComponent.Fan = fan;
