@@ -20,6 +20,8 @@ public class EikiJudge_SoulController : MonoBehaviour
     [SerializeField]
     private float readyDelay = .35f;
     [SerializeField]
+    private Vector3 restSpot;
+    [SerializeField]
     private AudioClip inClip;
     [SerializeField]
     private AudioClip winClip;
@@ -78,7 +80,7 @@ public class EikiJudge_SoulController : MonoBehaviour
         if (soulListPosition >= 0 && moveToCourt && soulIsLate == false)
         {
             // Move the soul in the correct spot
-            soulTarget = new Vector3(0f, -1.5f * soulListPosition, soulListPosition * -1f);
+            soulTarget = restSpot + new Vector3(0f, -1.5f * soulListPosition, soulListPosition * -1f);
             transform.position = Vector3.Lerp(transform.position, soulTarget, Time.deltaTime * speed);
         }
         else if (soulListPosition < 0)
