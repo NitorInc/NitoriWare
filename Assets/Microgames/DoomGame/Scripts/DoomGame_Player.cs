@@ -5,6 +5,8 @@ using UnityEngine;
 public class DoomGame_Player : MonoBehaviour
 {
     [SerializeField]
+    private float mouseSensitivity = 1f;
+    [SerializeField]
     bool useAmmo = true;
     [HideInInspector]
     public List<DoomGame_Enemy> enemies = new List<DoomGame_Enemy> ();
@@ -41,7 +43,7 @@ public class DoomGame_Player : MonoBehaviour
         shake -= Time.deltaTime * 3;
         if (shake <= 0)
             shake = 0;
-        float mX = Input.GetAxis ("Mouse X");
+        float mX = Input.GetAxis ("Mouse X") * mouseSensitivity;
         transform.Rotate (Vector3.up, mX);
         gunAnimator.transform.localPosition = Vector3.Lerp (
             gunAnimator.transform.localPosition,
