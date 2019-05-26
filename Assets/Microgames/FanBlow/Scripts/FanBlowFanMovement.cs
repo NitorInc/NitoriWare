@@ -7,7 +7,7 @@ public class FanBlowFanMovement : MonoBehaviour
     [SerializeField]
     private Transform cursorTransform;
     [SerializeField]
-    private Transform rotateTransform;
+    private Transform rotateTransform;  
     [SerializeField]
     private Transform tiltTransform;
 

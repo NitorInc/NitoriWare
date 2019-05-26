@@ -211,6 +211,9 @@ GameObject:
   - component: {fileID: 114315427002833824}
   - component: {fileID: 58596821508949102}
   - component: {fileID: 50993582066396518}
+  - component: {fileID: 114404701923573654}
+  - component: {fileID: 82390446677152218}
+  - component: {fileID: 114966347278522942}
   m_Layer: 14
   m_Name: FanBlowFan
   m_TagString: Untagged
@@ -260,6 +263,7 @@ GameObject:
   - component: {fileID: 4700301091133912}
   - component: {fileID: 95573978012531052}
   - component: {fileID: 114754726809896894}
+  - component: {fileID: 114410716182584930}
   m_Layer: 15
   m_Name: Rig
   m_TagString: Untagged
@@ -784,6 +788,86 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 4
+--- !u!82 &82390446677152218
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562913521024492}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95573978012531052
 Animator:
   serializedVersion: 3
@@ -937,6 +1021,36 @@ MonoBehaviour:
   tiltSpeedMoveSpeedPower: 1.5
   tiltSpeedMult: 13.5
   tiltAboutFaceSpedMult: 2
+--- !u!114 &114404701923573654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562913521024492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514009fc5a1f6ea45ae6a8981fb4226f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 874d3a9fecd9b474aa43706182e51111, type: 3}
+  playDistance: 15
+  ZeroVolumeSpeed: 50
+  OneVolumeSpeed: 100
+  pitchRange: {x: 0.9, y: 1.1}
+--- !u!114 &114410716182584930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1677805255079504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba620a1e2425244468b5abecca74f457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unityEvents: []
+  particleSystems: []
+  audioSources: []
 --- !u!114 &114512291549342980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -982,6 +1096,23 @@ MonoBehaviour:
   lossTrigger: 
   victoryStatusBool: 
   victoryDeterminedTrigger: 
+--- !u!114 &114966347278522942
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562913521024492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  updateEachFrame: 1
+  volumeType: 2
 --- !u!212 &212195876195606860
 SpriteRenderer:
   m_ObjectHideFlags: 1
