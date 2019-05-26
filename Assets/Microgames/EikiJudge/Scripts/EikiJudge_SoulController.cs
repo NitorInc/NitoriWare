@@ -10,15 +10,15 @@ public class EikiJudge_SoulController : MonoBehaviour
     private Sprite badSoulSprite;
     [SerializeField]
     private Sprite goodSoulSprite;
+    [SerializeField]
+    private float delay = 0.25f;
+    [SerializeField]
+    private float speed = 10f;
 
     public int soulListPosition;
-    [SerializeField]
-
     private bool moveToCourt = false;
-    private float delay = 0.25f;
 
     private Vector3 soulTarget;
-    private float speed = 10f;
 
     private Vector3 targetPortal = Vector3.zero;
     private Vector3 soulTrajectory;

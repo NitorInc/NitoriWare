@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class EikiJudge_Controller : MonoBehaviour
 {
     public static EikiJudge_Controller controller;
@@ -21,7 +20,7 @@ public class EikiJudge_Controller : MonoBehaviour
 
     public bool allSoulsReady = false;
     public bool wasted = false;
-    private bool gameWon = false;
+    public bool gameWon = false;
 
     private void Awake()
     {
@@ -31,7 +30,7 @@ public class EikiJudge_Controller : MonoBehaviour
 
     private void Update()
     {
-        // If all souls have been sent AND game isn't lost and still
+        // If all souls have been sent AND game isn't lost
         if (soulsList.Count == 0 && !wasted && !gameWon)
         {
             gameWon = true;
@@ -51,7 +50,6 @@ public class EikiJudge_Controller : MonoBehaviour
         }
         allSoulsReady = true;
     }
-
 
     public void SendJudgement(Direction judgementDirection)
     {
