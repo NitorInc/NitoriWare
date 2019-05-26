@@ -28,6 +28,13 @@ public class FanBlowFanMovement : MonoBehaviour
     private float currentSpeed;
     public float CurrentSpeed => currentSpeed;
 
+    private bool wasPaused;
+    public bool WasPaused
+    {
+        get { return wasPaused; }
+        set { wasPaused = value; }
+    }
+
     void Start ()
     {
         transform.position = CameraHelper.getCursorPosition(transform.position.z);
@@ -43,13 +50,22 @@ public class FanBlowFanMovement : MonoBehaviour
 
     void updatePosition()
     {
+        if (wasPaused && !MicrogameController.instance.getVictoryDetermined())
+        {
+            cursorTransform.position = CameraHelper.getCursorPosition();
+            transform.position = new Vector3(cursorTransform.position.x, cursorTransform.position.y, transform.position.z);
+            lastPosition = transform.position;
+            wasPaused = false;
+            return;
+        }
+
         var cursorPosition = (Vector2)cursorTransform.position;
         var positionDiff = (cursorPosition - lastPosition);
         if (positionDiff.magnitude > maxMoveSpeed * Time.deltaTime)
             positionDiff = positionDiff.resize(maxMoveSpeed * Time.deltaTime);
         currentSpeed = positionDiff.magnitude / Time.deltaTime;
         transform.position = transform.position + (Vector3)positionDiff;
-
+        
         if (cursorPosition != lastPosition)
         {
 
@@ -83,7 +99,7 @@ public class FanBlowFanMovement : MonoBehaviour
                 * ((tiltDiff > Mathf.Abs(goalTilt)) ? tiltAboutFaceSpedMult : 1f));
             
             tiltTransform.localEulerAngles = Vector3.up * newTilt;
-            
+
             lastPosition = (Vector2)transform.position;
         }
     }
