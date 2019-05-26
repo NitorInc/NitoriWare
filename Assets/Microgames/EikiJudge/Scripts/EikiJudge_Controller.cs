@@ -25,6 +25,10 @@ public class EikiJudge_Controller : MonoBehaviour
     private void Awake()
     {
         controller = this;
+    }
+
+    private void Start()
+    {
         SpawnSouls();
     }
 
