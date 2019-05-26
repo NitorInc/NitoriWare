@@ -32,12 +32,12 @@ public class EikiJudge_EikiController : MonoBehaviour
         if (controller.allSoulsReady && !controller.gameWon && !controller.wasted)
         {
             EikiJudgement();
-            AnimateArm();
 
             // If direction != none 
-            if (judgementDirection != EikiJudge_Controller.Direction.none)
+            if (judgementDirection != EikiJudge_Controller.Direction.none
+                && controller.SendJudgement(judgementDirection))
             {
-                controller.SendJudgement(judgementDirection);
+                AnimateArm();
             }
         }
 

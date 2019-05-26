@@ -51,16 +51,20 @@ public class EikiJudge_Controller : MonoBehaviour
         allSoulsReady = true;
     }
 
-    public void SendJudgement(Direction judgementDirection)
+    public bool SendJudgement(Direction judgementDirection)
     {
-        if (soulsList.Count > 0)
+        if (soulsList.Count > 0 && soulsList[0].Ready)
         {
             // get next soul and judge
             soulsList[0].SendTheSoul(judgementDirection);
 
             // delete from list
             soulsList.RemoveAt(0);
+
+            return true;
         }
+
+        return false;
     }
 
     // TODO: Maybe add some win/lose animations ?

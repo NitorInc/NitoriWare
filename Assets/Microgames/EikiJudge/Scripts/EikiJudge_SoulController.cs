@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class EikiJudge_SoulController : MonoBehaviour
 {
@@ -14,15 +15,22 @@ public class EikiJudge_SoulController : MonoBehaviour
     private float delay = 0.25f;
     [SerializeField]
     private float speed = 10f;
+    [SerializeField]
+    private float toPortalSpeed = 25f;
+    [SerializeField]
+    private float readyDelay = .35f;
 
     public int soulListPosition;
     private bool moveToCourt = false;
+    
+    public bool Ready => readyDelay <= 0f;
 
     private Vector3 soulTarget;
 
     private Vector3 targetPortal = Vector3.zero;
     private Vector3 soulTrajectory;
     private bool soulIsLate = false;
+    private bool incorrectChoice = false;
 
 
     public EikiJudge_Controller.Direction rightPortalDirection;
@@ -69,13 +77,16 @@ public class EikiJudge_SoulController : MonoBehaviour
         else if (soulListPosition < 0)
         {
             // Move the soul towards the chosen portal
-            Vector3 newPosition = transform.position + (soulTrajectory * speed * Time.deltaTime);
+            Vector3 newPosition = transform.position + (soulTrajectory * toPortalSpeed * Time.deltaTime);
             transform.position = newPosition;
         }
 
         // If soul Y is higher than the doors Y, then he's past them and should disappear
         if (this.transform.position.y > EikiJudge_PortalsController.controller.transform.position.y)
         {
+            var portalChildren = (new int[] { 0, 1 }).Select(a => EikiJudge_PortalsController.controller.transform.GetChild(a));
+            var chosenPortal = portalChildren.FirstOrDefault(a => Mathf.Sign(a.position.x) == Mathf.Sign(targetPortal.x));
+            chosenPortal.GetComponentInChildren<Animator>().SetTrigger(incorrectChoice ? "Incorrect" : "Correct");
             this.gameObject.SetActive(false);
             // TODO: Add an effect, particles, ripple on the door ?
             // Maybe fade instead of just deactivate the gameobject ?
@@ -89,6 +100,8 @@ public class EikiJudge_SoulController : MonoBehaviour
                 soulIsLate = false;
             }
         }
+        else
+            readyDelay -= Time.deltaTime;
 
     }
 
@@ -116,6 +129,7 @@ public class EikiJudge_SoulController : MonoBehaviour
         if (judgementDirection != rightPortalDirection)
         {
             EikiJudge_Controller.controller.LoseGame();
+            incorrectChoice = true;
         }
     }
 }
