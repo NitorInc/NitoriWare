@@ -60,7 +60,7 @@ public class EikiJudge_Controller : MonoBehaviour
         if (soulsList.Count > 0 && soulsList[0].Ready)
         {
             // get next soul and judge
-            soulsList[0].SendTheSoul(judgementDirection);
+            soulsList[0].SendTheSoul(judgementDirection, soulsList.Count <= 1);
 
             // delete from list
             soulsList.RemoveAt(0);

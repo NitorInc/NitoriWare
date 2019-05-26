@@ -19,6 +19,12 @@ public class EikiJudge_SoulController : MonoBehaviour
     private float toPortalSpeed = 25f;
     [SerializeField]
     private float readyDelay = .35f;
+    [SerializeField]
+    private AudioClip inClip;
+    [SerializeField]
+    private AudioClip winClip;
+    [SerializeField]
+    private AudioClip lossClip;
 
     public int soulListPosition;
     private bool moveToCourt = false;
@@ -30,6 +36,7 @@ public class EikiJudge_SoulController : MonoBehaviour
     private Vector3 targetPortal = Vector3.zero;
     private Vector3 soulTrajectory;
     private bool soulIsLate = false;
+    private bool isLastSoul = false;
     private bool incorrectChoice = false;
 
 
@@ -87,6 +94,16 @@ public class EikiJudge_SoulController : MonoBehaviour
             var portalChildren = (new int[] { 0, 1 }).Select(a => EikiJudge_PortalsController.controller.transform.GetChild(a));
             var chosenPortal = portalChildren.FirstOrDefault(a => Mathf.Sign(a.position.x) == Mathf.Sign(targetPortal.x));
             chosenPortal.GetComponentInChildren<Animator>().SetTrigger(incorrectChoice ? "Incorrect" : "Correct");
+
+            if (incorrectChoice)
+                MicrogameController.instance.playSFX(lossClip, AudioHelper.getAudioPan(transform.position.x));
+            else
+            {
+                MicrogameController.instance.playSFX(inClip, AudioHelper.getAudioPan(transform.position.x));
+                if (isLastSoul)
+                    MicrogameController.instance.playSFX(winClip);
+            }
+
             this.gameObject.SetActive(false);
             // TODO: Add an effect, particles, ripple on the door ?
             // Maybe fade instead of just deactivate the gameobject ?
@@ -112,8 +129,9 @@ public class EikiJudge_SoulController : MonoBehaviour
     }
 
     // Send the soul to a portal
-    public void SendTheSoul(EikiJudge_Controller.Direction judgementDirection)
+    public void SendTheSoul(EikiJudge_Controller.Direction judgementDirection, bool isLastSoul)
     {
+        this.isLastSoul = isLastSoul;
         if (judgementDirection == EikiJudge_Controller.Direction.left)
         {
             targetPortal = new Vector3(-4.35f, 2.5f);
