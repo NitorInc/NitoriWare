@@ -24,7 +24,14 @@ public class KnifeDodgeReimu : MonoBehaviour {
 		Vector3 moveDir = Vector3.zero;
 	
 		if (!bIsKilled) {
-			moveDir.x = Input.GetAxisRaw ("Horizontal"); // get result of AD keys in X
+            moveDir.x = 0f;
+            if (!MicrogameController.instance.getVictoryDetermined())
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                    moveDir.x -= 1f;
+                if (Input.GetKey(KeyCode.RightArrow))
+                    moveDir.x += 1f;
+            }
             moveDir.z = 0;
             previousMoveDir = moveDir;
         }
