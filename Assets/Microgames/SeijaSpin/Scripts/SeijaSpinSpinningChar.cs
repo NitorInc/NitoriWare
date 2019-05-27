@@ -117,8 +117,8 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                     transform.root.position = new Vector3(rootOriginalPosition.x + 2 * Mathf.Cos(moveValue), rootOriginalPosition.y + 2 * Mathf.Sin(moveValue), rootOriginalPosition.z);
                     break;
                 case 2:
-                    moveValue += 1.5f * Time.deltaTime;
-                    transform.root.position = new Vector3(rootOriginalPosition.x + 1 * moveValue, -(rootOriginalPosition.y + 2 * Mathf.Sin(moveValue)), rootOriginalPosition.z);
+                    moveValue += 4f * Time.deltaTime;
+                    transform.root.position = new Vector3(rootOriginalPosition.x + 3f + (Mathf.Sin(moveValue / 1.5f) * 3f), -(rootOriginalPosition.y + 2 * Mathf.Sin(moveValue * 1.5f)), rootOriginalPosition.z);
                     break;
                 default:
                     break;
