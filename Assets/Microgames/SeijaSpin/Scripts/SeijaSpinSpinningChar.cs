@@ -7,6 +7,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
 
     public int spinCount;
     public int moveType;
+    public float crashSoundDelay = .6f;
     private Vector2 lastVec2Angle;
     private Vector2 lastMouseAngle;
     private Vector2 currentAngle;
@@ -21,7 +22,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
     private float angleDifference;
     private float totalSpin = 0f;
     private float moveValue = 0;
-    private int crashTimer = 0;
+
     private bool flingDone = false;
     private bool crashDone = false;
 
@@ -139,7 +140,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                 PlayFling();
                 flingDone = true;
             }
-            if (crashTimer >= 60)
+            if (crashSoundDelay <= 0f)
             {
                 if (!crashDone)
                 {
@@ -154,7 +155,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
             }
             else
             {
-                crashTimer++;
+                crashSoundDelay -= Time.deltaTime;
             }
         }
         else if (!Input.GetMouseButton(0) || !CameraHelper.isMouseOver(gameObject.GetComponent<CircleCollider2D>()))
