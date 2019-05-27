@@ -85,7 +85,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
         spriteRenderer.gameObject.SetActive(false);
         deathcloud();
         particlefired = true;
-        MicrogameController.instance.playSFX(ghostPop, volume: 1.5f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
+        MicrogameController.instance.playSFX(ghostPop, pitchMult: Random.Range(.95f, 1.05f), panStereo: AudioHelper.getAudioPan(transform.position.x));
     }
     
     void Start()
