@@ -34,6 +34,12 @@ public class DoorKnockDoor : MonoBehaviour {
     [SerializeField]
     private int speed;
 
+    [SerializeField]
+    private float minTeleportDistance = 2f;
+
+    [SerializeField]
+    private float moveAwayFromCursorRange = 90f;
+
     private float screenWidth;
     private float screenHeight;
     private Vector2 direction;  
@@ -50,7 +56,7 @@ public class DoorKnockDoor : MonoBehaviour {
         animator = GetComponentInChildren<Animator>(); 
         collider = GetComponent<BoxCollider2D>();
         // Randomize starting position and movement direction
-        NewDirection();
+        //NewDirection();
         Teleport(false);
     }
 	
@@ -101,15 +107,32 @@ public class DoorKnockDoor : MonoBehaviour {
     
     // Move to a random location
     void Teleport(bool animate=true) {
-        float newx = Random.Range(-screenWidth, screenWidth) / 2;
-        float newy = Random.Range(-screenHeight, screenHeight) / 2;
-        transform.position = new Vector2(newx, newy);
+
+        var newPosition = transform.position;
+        var oldPosition = transform.position;
+        int tries = 100;
+        for (int i = 0; i < tries || (newPosition - oldPosition).magnitude <= minTeleportDistance; i++)
+        {
+            newPosition = new Vector3(
+                Random.Range(-screenWidth, screenWidth) / 2,
+                Random.Range(-screenHeight, screenHeight) / 2,
+                newPosition.z);
+            if (i >= tries)
+                Debug.Log("Too many tries!");
+        }
+
+        transform.position = newPosition;
+
+        NewDirection();
+
         if (animate) animator.SetTrigger("Clicked");
     }
     
     // Set a different direction
     void NewDirection() {
-        float angle = Random.Range(0.0f, 2*Mathf.PI);
+        var mouseAngle = ((Vector2)(CameraHelper.getCursorPosition() - transform.position)).getAngle();
+        var newAngle = mouseAngle + Random.Range(-moveAwayFromCursorRange, moveAwayFromCursorRange) + 180f;
+        float angle = newAngle * Mathf.Deg2Rad;
         direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * speed;
     }
 
