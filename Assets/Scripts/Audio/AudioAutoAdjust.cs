@@ -17,10 +17,20 @@ public class AudioAutoAdjust : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField]
     private float volumeMult = 1f;
+    public float VolumeMult
+    {
+        get { return volumeMult; }
+        set { volumeMult = value; }
+    }
     [SerializeField]
     [Range(0f, 1f)]
     private float pitchMult = 1f;
 	private AudioSource[] sources;
+    public float PitchMult
+    {
+        get { return pitchMult; }
+        set { pitchMult = value; }
+    }
 
     private float[] initialVolumes;
     private float[] initialPitches;
@@ -52,13 +62,13 @@ public class AudioAutoAdjust : MonoBehaviour
         }
     }
 
-    private void Start() => Update();
+    //private void Start() => Update();
 
     void Update()
 	{
         if (updateEachFrame)
         {
-            if (Pitch != instanceTimeScale)
+            if (tieToTimescale && Pitch != instanceTimeScale)
 		        updatePitch();
             if (tieToVolumeSettings && Volume != instanceVolumeSetting)
                 updateVolume();
