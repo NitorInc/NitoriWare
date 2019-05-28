@@ -26,7 +26,10 @@ public class AudioAutoAdjust : MonoBehaviour
     private float[] initialPitches;
     private float instanceTimeScale, instanceVolumeSetting;
 
-	void Awake()
+    float Volume => PrefsHelper.getVolume(volumeType) * volumeMult;
+    float Pitch => Time.timeScale * pitchMult;
+
+    void Awake()
 	{
 		sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
         if (tieToVolumeSettings)
@@ -49,13 +52,15 @@ public class AudioAutoAdjust : MonoBehaviour
         }
     }
 
-	void Update()
+    private void Start() => Update();
+
+    void Update()
 	{
         if (updateEachFrame)
         {
-            if (tieToTimescale && Time.timeScale != instanceTimeScale)
+            if (Pitch != instanceTimeScale)
 		        updatePitch();
-            if (tieToVolumeSettings && PrefsHelper.getVolume(volumeType) != instanceVolumeSetting)
+            if (tieToVolumeSettings && Volume != instanceVolumeSetting)
                 updateVolume();
         }
 	}
@@ -64,18 +69,18 @@ public class AudioAutoAdjust : MonoBehaviour
     {
         for (int i = 0; i < sources.Length; i++)
         {
-            sources[i].volume = initialVolumes[i] * PrefsHelper.getVolume(volumeType) * volumeMult;
+            sources[i].volume = initialVolumes[i] * Volume;
         }
-        instanceVolumeSetting = PrefsHelper.getVolume(volumeType);
+        instanceVolumeSetting = Volume;
     }
 	public void updatePitch()
 	{
 		for (int i = 0; i < sources.Length; i++)
 		{
-			sources[i].pitch = Time.timeScale * pitchMult;
+			sources[i].pitch = Pitch;
             if (preserveInitialPitch)
                 sources[i].pitch *= initialPitches[i];
         }
-        instanceTimeScale = Time.timeScale;
+        instanceTimeScale = Pitch;
 	}
 }
