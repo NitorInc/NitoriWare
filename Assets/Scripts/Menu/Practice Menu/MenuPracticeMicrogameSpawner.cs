@@ -60,9 +60,16 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
         for (int i = 0; i < totalCount; i++)
         {
             bool isBoss = i >= standardCount;
-
             var xIndex = i % columnCount;
             var yIndex = (i - (i % columnCount)) / columnCount;
+            if (isBoss)
+            {
+                var bossIndex = i - standardCount;
+                yIndex = (((standardCount-1) - ((standardCount-1) % columnCount)) / columnCount) + 1;   // Set to one row below last standard microgame
+                yIndex += ((bossIndex - (bossIndex % columnCount)) / columnCount);  // Plus however many rows down it is in bosses
+                xIndex = bossIndex % columnCount;
+            }
+
             maxYIndex = yIndex;
             var xPos = topLeftPos.x + (xIndex * separationDistance);
             var yPos = topLeftPos.y - (yIndex * separationDistance);
