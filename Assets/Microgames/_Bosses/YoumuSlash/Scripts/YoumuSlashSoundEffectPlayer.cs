@@ -13,9 +13,16 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
     float getStereoPan(float panAmount, YoumuSlashBeatMap.TargetBeat.Direction direction) =>
         panAmount * (direction == YoumuSlashBeatMap.TargetBeat.Direction.Left ? -1f : 1f);
 
+    private float timeScale = 1f;
+
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        timeScale = Time.timeScale;
     }
 
     public void play(YoumuSlashSoundEffect soundEffect, YoumuSlashBeatMap.TargetBeat.Direction direction)
@@ -23,7 +30,7 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
         foreach (var sound in soundEffect.Sounds)
         {
             var newSource = Instantiate(audioSourcePrefab, transform);
-            newSource.pitch = MathHelper.randomRangeFromVector(sound.PitchRange * Time.timeScale);
+            newSource.pitch = MathHelper.randomRangeFromVector(sound.PitchRange) * timeScale;
             newSource.panStereo = getStereoPan(sound.PanAmount, direction);
             if (sound.PanSpeed != 0f)
                 newSource.GetComponent<YoumuSlashMovingAudioSource>().setSpeed(sound.PanSpeed * (direction == YoumuSlashBeatMap.TargetBeat.Direction.Left ? -1f : 1f));
