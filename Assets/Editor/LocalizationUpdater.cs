@@ -34,21 +34,40 @@ public class LocalizationUpdater : ScriptableObject
     private string charsPath;
     [SerializeField]
     private string sheetOrderLogFile;
+    [SerializeField]
+    private string missingValuesLogFile;
 
     public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
         SerializedNestedStrings englishData = null;
+
         var sheetTitles = new List<string>();
         sheetTitles.Add("This is the order the sheets were found in. If github tries to change them, rearrange the cells so they match this.");
+
+        var missingValues = new Dictionary<string, Dictionary<string, int>>();
+
         for (int i = 1; i <= subsheetCount; i++)
         {
             var sheet = GDocService.GetSpreadsheet(spreadsheetId, i);
-            sheetTitles.Add(sheet.Title.Text);
+            var sheetTitle = sheet.Title.Text;
+            sheetTitles.Add(sheetTitle);
+
+            // Ran only at start of loop, but necessary here so we don't have to read the first sheet twice
             if (i == 1)
             {
                 languages = generateLanguageDict(sheet);
                 englishData = languages.FirstOrDefault().Value;
+                foreach (var language in languages)
+                {
+                    missingValues[language.Key] = new Dictionary<string, int>();
+                }
+            }
+
+            // Missing values structure is initially populated with every language and sheet title set to 0 missing values
+            foreach (var language in languages)
+            {
+                missingValues[language.Key][sheetTitle] = 0;
             }
 
             foreach (ListEntry row in sheet.Entries)
@@ -58,13 +77,22 @@ public class LocalizationUpdater : ScriptableObject
                 {
                     if (element.LocalName.Equals(KeyIdentifier))
                         rowKey = element.Value;
-                    else if (languages.ContainsKey(element.LocalName) && !string.IsNullOrEmpty(element.Value))
+                    else if (languages.ContainsKey(element.LocalName))
                     {
                         var languageData = languages[element.LocalName];
-                        var cleansedEntry = cleanseEntry(element.Value);
 
-                        if (checkEntryIntegrity(languageData, rowKey, cleansedEntry, englishData))
-                            languageData[rowKey] = cleansedEntry;
+                        if (!string.IsNullOrEmpty(element.Value))
+                        {
+                            var cleansedEntry = cleanseEntry(element.Value);
+
+                            if (checkEntryIntegrity(languageData, rowKey, cleansedEntry, englishData))
+                                languageData[rowKey] = cleansedEntry;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(englishData[rowKey]))
+                                missingValues[element.LocalName][sheetTitle]++;
+                        }
                     }
                 }
             }
@@ -82,6 +110,18 @@ public class LocalizationUpdater : ScriptableObject
         }
 
         File.WriteAllText(Path.Combine(Application.dataPath, sheetOrderLogFile), string.Join("\n", sheetTitles));
+
+        // Format missing text report
+        var missingValuesLanguageReports = missingValues
+            //.Where(language => language.Value.Any(sheet => sheet.Value > 0))    // Select from languages who have missing values whatsoever
+            .Select(language => language.Key + ": " + language.Value.Sum(sheet => sheet.Value) + " - "  // Sum up all missing values in a language
+                + string.Join(", ", language.Value   // Then list out each subsheet in that language and its amount of missing values
+                    .Where(sheet => sheet.Value > 0)    // Exclude any sheets with no missing values
+                    .Select(sheet => sheet.Key + ": " + sheet.Value.ToString())));
+
+        var missingValuesText = "How many values are missing translations from each language:\n"
+            + string.Join("\n", missingValuesLanguageReports);
+        File.WriteAllText(Path.Combine(Application.dataPath, missingValuesLogFile), missingValuesText);
 
         Debug.Log("Language content updated");
 	}
