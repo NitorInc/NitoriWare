@@ -119,7 +119,7 @@ public class LocalizationUpdater : ScriptableObject
                     .Where(sheet => sheet.Value > 0)    // Exclude any sheets with no missing values
                     .Select(sheet => sheet.Key + ": " + sheet.Value.ToString())));
 
-        var missingValuesText = "How many values are missing translations from each language:\n"
+        var missingValuesText = "How many values are missing translations from each language (doesn't count non-game pages such as Steam Store):\n"
             + string.Join("\n", missingValuesLanguageReports);
         File.WriteAllText(Path.Combine(Application.dataPath, missingValuesLogFile), missingValuesText);
 
