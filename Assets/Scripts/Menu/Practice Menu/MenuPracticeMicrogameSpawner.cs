@@ -19,6 +19,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     [SerializeField]
     private int columnCount = 5;
     [SerializeField]
+    private float bossSeparation = 30f;
+    [SerializeField]
     private int zLevel = 0;
     [SerializeField]
     private float disableYThreshold = 5f;
@@ -73,6 +75,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
             maxYIndex = yIndex;
             var xPos = topLeftPos.x + (xIndex * separationDistance);
             var yPos = topLeftPos.y - (yIndex * separationDistance);
+            if (isBoss)
+                yPos -= bossSeparation;
             spawnPrefab(xPos, yPos, 
                 isBoss ? i - standardCount : i,
                 isBoss);
@@ -81,6 +85,7 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
 
         // Expand scroll area and cheat some scroll view values
         var scrollAreaShift = separationDistance * maxYIndex;
+        scrollAreaShift += bossSeparation;
         contentTransform.sizeDelta += Vector2.up * scrollAreaShift;
         collectionTransform.anchoredPosition += Vector2.up * scrollAreaShift / 2f;
         if (GameMenu.subMenu == GameMenu.SubMenu.Practice
