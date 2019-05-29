@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DoomGame_Player : MonoBehaviour
 {
     [SerializeField]
     private float mouseSensitivity = 1f;
+    [SerializeField]
+    private float turnAroundSensitivty = 5f;
+    [SerializeField]
+    private float turnAroundStopEnemiesAngle = 30f;
     [SerializeField]
     bool useAmmo = true;
     [HideInInspector]
@@ -30,6 +35,9 @@ public class DoomGame_Player : MonoBehaviour
     [HideInInspector]
     public float shake = 0;
 
+    private bool isTurningAround;
+    public void setTurningAround() => isTurningAround = true;
+
     void Start ()
     {
         startPosition = transform.position;
@@ -43,7 +51,15 @@ public class DoomGame_Player : MonoBehaviour
         shake -= Time.deltaTime * 3;
         if (shake <= 0)
             shake = 0;
-        float mX = Input.GetAxis ("Mouse X") * mouseSensitivity;
+        var sensitivity = mouseSensitivity;
+        if (isTurningAround)
+        {
+            if (getEnemyAverateAngle() < turnAroundStopEnemiesAngle)
+                isTurningAround = false;
+            else
+                sensitivity = turnAroundSensitivty;
+        }
+        float mX = Input.GetAxis("Mouse X") * sensitivity;
         transform.Rotate (Vector3.up, mX);
         gunAnimator.transform.localPosition = Vector3.Lerp (
             gunAnimator.transform.localPosition,
@@ -73,6 +89,28 @@ public class DoomGame_Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast (transform.position, transform.forward, out hit, 100f, 1 << LayerMask.NameToLayer ("MicrogameLayer1")))
             hit.collider.GetComponent<DoomGame_Enemy> ().DamageSelf ();
+    }
+
+    float getEnemyAverateAngle()
+    {
+        if (!enemies.Any())
+            return 0f;
+        var enemyAngleDiffs = new List<float>();
+        var playerAngle = mainCamera.transform.eulerAngles.y;
+        var playerPos = new Vector2(transform.position.x, transform.position.z);
+        foreach (var enemy in enemies)
+        {
+            if (enemy.isActiveAndEnabled)
+            {
+                var enemyPos = new Vector2(enemy.transform.position.x, enemy.transform.position.z);
+                var enemyAngle = (enemyPos - playerPos).getAngle() - 90f;
+                enemyAngleDiffs.Add(Mathf.Abs(MathHelper.getAngleDifference(playerAngle, enemyAngle)));
+            }
+        }
+        return enemyAngleDiffs.Min();
+        //if (Mathf.Abs(average) < minSensitivityAddAngle)
+        //    return 0f;
+        //return Mathf.Abs(average) * sensitivityAngleAdd;
     }
 
     public void AddBullets (int value)
