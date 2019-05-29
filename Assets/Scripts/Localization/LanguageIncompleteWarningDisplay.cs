@@ -19,7 +19,7 @@ public class LanguageIncompleteWarningDisplay : MonoBehaviour
 
     void OnTextLocalized()
     {
-        bool enableText = TextHelper.getLoadedLanguage() == null || TextHelper.getLoadedLanguage().incomplete;
+        bool enableText = TextHelper.getLoadedLanguage() == null || !LocalizationManager.instance.isLoadedLanguageComplete();
 
         if (textComponent != null)
             textComponent.enabled = enableText;
