@@ -51,6 +51,7 @@ public class YoumuSlashTargetType : ScriptableObject
         Scream,
         SlowBurst,
         FastBurst,
-        RapidBurst
+        RapidBurst,
+        SingleBurst
     }
 }

@@ -68,6 +68,8 @@ public class YoumuSlashEnvironmentController : MonoBehaviour
                 return 2;
             case (YoumuSlashTargetType.Effect.RapidBurst):
                 return 3;
+            case (YoumuSlashTargetType.Effect.SingleBurst):
+                return 4;
             default:
                 return 0;
         }
