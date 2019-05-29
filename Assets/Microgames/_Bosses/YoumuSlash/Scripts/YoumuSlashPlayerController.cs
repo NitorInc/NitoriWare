@@ -132,7 +132,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         if (target.TypeData.LaunchEffect.ToString().EndsWith("Burst"))
         {
             rigAnimator.SetBool("Squint", true);
-            rigAnimator.SetBool("ForceTense", true);
+            rigAnimator.SetBool("BurstTense", true);
             Invoke("unSquintFromBurst", timingData.BeatDuration * 4f);
             burstTense = true;
         }
@@ -141,8 +141,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
     void unSquintFromBurst()
     {
         rigAnimator.SetBool("Squint", false);
-        rigAnimator.SetBool("ForceTense", false);
+        rigAnimator.SetBool("BurstTense", false);
         burstTense = false;
+    }
+
+    public void setSquint(bool squint)
+    {
+        rigAnimator.SetBool("Squint", squint);
     }
 
     void performAutoSlash()
@@ -246,12 +251,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         lastIdleTime = Time.time;
         spriteTrail.EnableSpawn = false;
         rigAnimator.SetBool("AttackUp", false);
-        if (burstTense)
-        {
-            CancelInvoke("unSquintFromBurst");
-            rigAnimator.SetBool("Tense", false);
-            unSquintFromBurst();
-        }
+
+        CancelInvoke("unSquintFromBurst");
+        rigAnimator.SetBool("Tense", false);
+        unSquintFromBurst();
+
         checkForGameplayEnd();
     }
 
