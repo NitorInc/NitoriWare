@@ -101,6 +101,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     float finalGameplayBeat;
     bool gameplayComplete = false;
     float timeScale = 0f;
+    bool burstTense = false;
 
     private void Awake()
     {
@@ -130,18 +131,18 @@ public class YoumuSlashPlayerController : MonoBehaviour
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
         if (target.TypeData.LaunchEffect.ToString().EndsWith("Burst"))
         {
-            rigAnimator.ResetTrigger("UnSquint");
-            rigAnimator.SetTrigger("Squint");
+            rigAnimator.SetBool("Squint", true);
             rigAnimator.SetBool("ForceTense", true);
-            Invoke("unSquint", timingData.BeatDuration * 4f);
+            Invoke("unSquintFromBurst", timingData.BeatDuration * 4f);
+            burstTense = true;
         }
     }
 
-    void unSquint()
+    void unSquintFromBurst()
     {
-        rigAnimator.ResetTrigger("Squint");
-        rigAnimator.SetTrigger("UnSquint");
+        rigAnimator.SetBool("Squint", false);
         rigAnimator.SetBool("ForceTense", false);
+        burstTense = false;
     }
 
     void performAutoSlash()
@@ -194,7 +195,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             }
             else
             {
-                MicrogameController.instance.playSFX(debugSound);
+                //MicrogameController.instance.playSFX(debugSound);
                 returnToIdle();
             }
         }
@@ -245,6 +246,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
         lastIdleTime = Time.time;
         spriteTrail.EnableSpawn = false;
         rigAnimator.SetBool("AttackUp", false);
+        if (burstTense)
+        {
+            CancelInvoke("unSquintFromBurst");
+            rigAnimator.SetBool("Tense", false);
+            unSquintFromBurst();
+        }
         checkForGameplayEnd();
     }
 
@@ -512,7 +519,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, 0f);
         }
 
-        spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
+        spriteTrail.EnableSpawn = isHit;// ? (!reAttacking) : false;
     }
 
     void triggerMiss(bool depleteHealth = true)

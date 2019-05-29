@@ -13,8 +13,7 @@ public class YoumuSlashTimingData : ScriptableObject
     [SerializeField]
     private float bpm = 130f;
     public float Bpm => bpm;
-
-    [SerializeField]
+    
     private YoumuSlashBeatMap beatMap;
     public YoumuSlashBeatMap BeatMap => beatMap;
 
