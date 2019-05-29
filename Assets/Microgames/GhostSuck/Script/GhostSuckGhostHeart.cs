@@ -172,8 +172,8 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     settrajectorydeadactive = false;
                 }
                 shrinking = transform.localScale;
-                shrinking.x = shrinking.x * 0.95f;
-                shrinking.y = shrinking.y * 0.95f;
+                shrinking.x = shrinking.x * 0.9f;
+                shrinking.y = shrinking.y * 0.9f;
                 transform.localScale = shrinking;
             }
             //periodically decreases ghost life if ghost is both under mouse and mouse is pressed
@@ -204,6 +204,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
                     ghostcountmodifier();
                     sweatParticles.Stop();
                     sweatParticles.gameObject.SetActive(false);
+                    //transform.parent = targetdead.transform;
                     MicrogameController.instance.playSFX(ghostTrajectoryFling, volume: 1f, pitchMult: 2f, panStereo: AudioHelper.getAudioPan(transform.position.x));
                 }
                 else
@@ -296,6 +297,7 @@ public class GhostSuckGhostHeart : MonoBehaviour {
     {
         deathParticles.Stop();
         deathParticles.Play();
+        //transform.parent = null;
     }
     void sweat()
     {
