@@ -20,6 +20,8 @@ namespace FoodRoast
         [SerializeField]
         private SpriteRenderer xSpriteRenderer;
         [SerializeField]
+        private AudioClip readySound;
+        [SerializeField]
         private AudioClip pickSound;
         [SerializeField]
         private AudioClip failSound;
@@ -118,6 +120,8 @@ namespace FoodRoast
             ChangeParticlesStartColorAlpha(.05f);
             foreach (var particle in Particles)
                 particle.Play();
+
+            MicrogameController.instance.playSFX(readySound, AudioHelper.getAudioPan(transform.position.x));
         }
 
         // Procedure that turns uncooked to cooked potatoes
@@ -131,7 +135,7 @@ namespace FoodRoast
                 particle.Play();
 
             FoodRoast_VictoryController.Instance.setVictory(false);
-            MicrogameController.instance.playSFX(failSound);
+            MicrogameController.instance.playSFX(failSound, AudioHelper.getAudioPan(transform.position.x));
 
         }
 
@@ -181,12 +185,12 @@ namespace FoodRoast
                 rb2d.bodyType = RigidbodyType2D.Dynamic;
                 rb2d.velocity = flingVel;
                 rb2d.gravityScale = launchGravity;
-                MicrogameController.instance.playSFX(pickSound);
+                MicrogameController.instance.playSFX(pickSound, AudioHelper.getAudioPan(transform.position.x));
             }
             else
             {
                 FoodRoast_Controller.Instance.AddUncookedPotato();
-                MicrogameController.instance.playSFX(failSound);
+                MicrogameController.instance.playSFX(failSound, AudioHelper.getAudioPan(transform.position.x));
                 xSpriteRenderer.enabled = true;
             }
             
