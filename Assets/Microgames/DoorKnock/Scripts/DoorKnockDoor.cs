@@ -67,10 +67,13 @@ public class DoorKnockDoor : MonoBehaviour {
             Vector2 newPosition = (Vector2)transform.position + (direction*Time.deltaTime);
             transform.position = newPosition;
             // bounce if on edge
-            if (Mathf.Abs(transform.position.x) + collider.size.x/4 > screenWidth){
+            if (Mathf.Abs(transform.position.x) + collider.size.x/4 > screenWidth
+                && Mathf.Sign(transform.position.x) == Mathf.Sign(direction.x)){
                 direction.x *= -1;
             }
-            if (Mathf.Abs(transform.position.y) + collider.size.y/4 > screenHeight){
+            if (Mathf.Abs(transform.position.y) + collider.size.y/4 > screenHeight
+                && Mathf.Sign(transform.position.y) == Mathf.Sign(direction.y))
+            {
                 direction.y *= -1;
             }
         }
