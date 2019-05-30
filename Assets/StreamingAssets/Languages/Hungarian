@@ -1,6 +1,7 @@
 generic
 	idname=Hungarian
 	addedtogame=Y
+	complete=Y
 	name=Magyar
 	gamename=NitorInc.
 	incomplete=FIGYELEM: Ez a nyelv nincs teljesen lefordítva. Néhány szöveg megjelenhet angolul.
@@ -305,10 +306,13 @@ microgame
 		igname=Jókai lecsapás
 	ClownTorch
 		command=Gyújtsd meg!
-		igname=Fáklya passzolás
+		igname=Fáklyás menetel
 	BeachBall
 		command=Dobd!
 		igname=Labdadobás
+	FanBlow
+		command=Fújdd el!
+		igname=Legyezés
 	YuugiBalance
 		command=Egyensúlyozz!
 		igname=Minden csak moderációban
@@ -335,6 +339,7 @@ microgame
 		igname=Régi családi recept
 	MoneyTrap
 		command=Csalogass!
+		igname=Pénzcsapda
 	KeineMath
 		command=Számold ki!
 		igname=Ezt add őssze
@@ -354,22 +359,45 @@ microgame
 	SeijaSpin
 		command=Pörgesd!
 		igname=Pörgesd meg
+	GhostSuck
+		command=Szívd!
+		igname=Szellem elkapás
+	EikiJudge
+		command=Rendezd!
+		igname=Az ítélet napja
 	IcePath
 		command=Navigálj!
 		igname=Hideg huzat haladás
 	KagerouCut
 		command=Borotválj!
+		igname=Fodrászkodás
+	TrainTracks
+		command=Mentsd meg!
+		igname=Gőzös a gázban
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
 	AwooClicker
 		igname=Kutyafotózás
 	HinaSpin
 		igname=Forgási energia
+	MoonSoccer
+		igname=Holdfoci
 nitori
 	storyintro=Úgy tűnik, új vásárlónk van.\nLássuk, hogyan kezeli a védjegyes játékaimat.\nJobb, ha nem pislogsz!
 	storyfinished=Szép munka, kockafej.\nTalán nem csak szétnézel.\nMost próbáld meg a(z) {0}ot az igazi kihívásért!
 	compilationfinished=Igazán le vagyok nyűgözve!\nDe csak várd ki a teljes játékot.\n{0} csak most kezdődött el!
 credits
 	intro={0} a következő rajongóknak köszönhetően lehetséges!
-	kapptain=Rendező, programozó, vezető, csapatkapitány
+	kapptain=Rendező, programozó, vezető, csapat "kapptain"
 	leadart=Vezető rajzoló, karaktertervező, Nitori hangja
 	code=Mikrójátékon kívüli kód
 	UI=Menü és szint grafikák
@@ -407,3 +435,4 @@ meta
 		Gagalin=Y
 		RobinWriting=Y
 		SourceHanSerifK=?
+		Fat=N

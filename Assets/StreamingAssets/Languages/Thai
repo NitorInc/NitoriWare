@@ -1,6 +1,7 @@
 generic
 	idname=Thai
 	addedtogame=Y
+	complete=Y
 	name=ภาษาไทย
 	gamename=NitorInc.
 	incomplete=คำเตือน: คำแปลบางส่วนยังไม่เสร็จสมบูรณ์ดีนัก ข้อความบางคำอาจจะขึ้นแสดงเป็นภาษาอังกฤษ
@@ -193,6 +194,7 @@ microgame
 	YoumuSlash
 		command=สังเกต...
 		commandb=ตัดมัน!
+		igname=จังหวะแห่งความตาย
 	CirnoBored
 		command=ทำตัวดี!
 		commandb=เอ็นเตอร์เทน!
@@ -308,6 +310,9 @@ microgame
 	BeachBall
 		command=โยน!
 		igname=เอ้า โดด!
+	FanBlow
+		command=ไล่หมอก!
+		igname=หน่วยกำจัดหมอก
 	YuugiBalance
 		command=ทรงตัว!
 		igname=อย่าทำตกล่ะ
@@ -328,31 +333,62 @@ microgame
 		igname=มังกาสาป่วน
 	DoorKnock
 		command=เคาะ!
+		igname=เปิดประตู!
 	FoodCut
 		command=ตัด!
+		igname=สูตรลับประจำตระกูล
 	MoneyTrap
 		command=หลอกล่อ!
+		igname=การลงทุน​มีความเสี่ยง(ตาย)
 	KeineMath
 		command=แก้โจทย์!
 		igname=คณิตคิดเร็ว
 	DoomGame
 		command=ยิงมัน!
 		danger=ข้างหลัง!
-		igname=DOOM : The กระต่ายอเวจี
+		igname=DOOM : กระต่ายอเวจี
 	MystiaServe
 		command=เสิร์ฟ!
+		igname=ลูกค้าหิวแล้ว!
 	FoodRoast
 		command=หยิบเมื่อสุกแล้ว!
+		igname=รีบกินตอนร้อนๆ
 	BoatSteer
 		command=ควบคุม!
+		igname=เดินทางปลอดภัย~
 	SeijaSpin
 		command=หมุน!
+		igname=หมุนเธอซะ!~
+	GhostSuck
+		command=ดูด!
+		igname=ไล่จับผี
+	EikiJudge
+		command=แยก!
+		igname=วันพิพากษา
 	IcePath
 		command=นำทาง!
+		igname=อย่างช้าๆ และมั่นคง
 	KagerouCut
 		command=โกน!
+		igname=แค่เล็มนิดหน่อย
+	TrainTracks
+		command=ช่วยเหลือ!
+		igname=โครงการทางรถไฟ
+	SagumeLie
+		0=T: Q0
+			lie0=T: L0-0
+			lie1=T: L0-1
+			truth0=T: T0-0
+			truth1=T: T0-1
+		1=T: Q1
+			lie0=T: L1-0
+			lie1=T: L1-1
+			truth0=T: T1-0
+			truth1=T: T1-1
 	AwooClicker
 		igname=ถ่ายรูปสุนัข
+	HinaSpin
+		igname=หมุนนมุหหมุน
 nitori
 	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
 	storyfinished=เยี่ยมมากนายเนิร์ด\nนายไม่น่าจะเป็นแค่นักช็อปเล่น ๆ สินะ\nลอง {0} ดูสิ!
@@ -397,3 +433,4 @@ meta
 		Gagalin=N
 		RobinWriting=N
 		SourceHanSerifK=?
+		Fat=N

@@ -1,6 +1,7 @@
 generic
 	idname=Chinese
 	addedtogame=Y
+	complete=Y
 	name=简体中文
 	gamename=NitorInc.
 	incomplete=警告：这个游戏的内容并未被完全翻译成中文，某些词句可能仍以英文显示。
@@ -234,13 +235,13 @@ microgame
 				response=太棒了！
 			wrong0
 				option=你不是刚刚才吃过吗？
-				response=切，一个人很无聊的
+				response=嘁，一个人很无聊的
 			wrong1
 				option=少女醒醒，该减肥了
 				response=熊样！就你瘦！
 			wrong2
 				option=你可以自己去
-				response=你真鸡儿没意思
+				response=你真不解风情啊
 		youmu
 			fullname=魂魄 妖梦
 			firstname=妖梦
@@ -309,6 +310,9 @@ microgame
 	BeachBall
 		command=投!
 		igname=万岁楽表演
+	FanBlow
+		command=吹走！
+		igname=风神演武
 	YuugiBalance
 		command=保持平衡！
 		igname=平衡“仪”
@@ -335,6 +339,7 @@ microgame
 		igname=衣玖刺身
 	MoneyTrap
 		command=引人!
+		igname=今宵是飘逸的钻石矿工
 	KeineMath
 		command=计算!
 		igname=⑨章算术
@@ -350,19 +355,42 @@ microgame
 		igname=丰登的红薯正是我的香水！
 	BoatSteer
 		command=躲避！
-		igname=nice boat
+		igname=Nice Boat
 	SeijaSpin
 		command=盘她！
 		igname=天旋地转
+	GhostSuck
+		command=吸她！
+		igname=与亡灵共舞
+	EikiJudge
+		command=归好类！
+		igname=心悬明镜
 	IcePath
 		command=抵达目标！
 		igname=踏冰而行
 	KagerouCut
 		command=剃光！
+		igname=这是你的毛球
+	TrainTracks
+		command=救她！
+		igname=秘封快线速递
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
 	AwooClicker
 		igname=汪汪照相
 	HinaSpin
 		igname=转转转
+	MoonSoccer
+		igname=竹林足球风暴
 nitori
 	storyintro=看呐！我们有了一位新的顾客！\n敢接受我招牌游戏的挑战吗？\n准备接招吧！
 	storyfinished=干得不错，小呆瓜。\n看来你并不是咸鱼一条嘛！\n那么，现在来试试看{0}吧！
@@ -381,8 +409,8 @@ credits
 		code=游戏程序
 		art=游戏美术
 		music=游戏音乐
-	localization=本地化
-		management=本地化管理
+	localization=汉化
+		management=汉化管理
 	sfx=音效
 	voice=荷取的语音
 	site=网站设计
@@ -390,7 +418,7 @@ credits
 	socialmedia=宣传/社交媒体
 	touhou=本作品是上海アリス幻樂団的作品“東方Project”的二次创作。
 	thanks=特别鸣谢
-		discord=东方Project 的 Discord 服务器
+		discord=Touhou Project 的 Discord 服务器
 		playtesters=我们的游戏测试玩家
 		fans=还有一直帮我们努力宣传的粉丝们！
 meta
@@ -407,3 +435,4 @@ meta
 		Gagalin=N
 		RobinWriting=N
 		SourceHanSerifK=?
+		Fat=N

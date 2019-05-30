@@ -1,6 +1,7 @@
 generic
 	idname=Russian
 	addedtogame=Y
+	complete=Y
 	name=Русский
 	gamename=NitorInc.
 	incomplete=ВНИМАНИЕ: Перевод игры не является полным и окончательным. Часть текста может быть на английском языке.
@@ -309,6 +310,9 @@ microgame
 	BeachBall
 		command=Забрось!
 		igname=Метание мяча
+	FanBlow
+		command=Сдуй!
+		igname=Разтуманиание
 	YuugiBalance
 		command=Балансируй!
 		igname=Сбалансированное питье
@@ -335,6 +339,7 @@ microgame
 		igname=Точный разрез
 	MoneyTrap
 		command=Замани!
+		igname=Долговая яма
 	KeineMath
 		command=Посчитай!
 		igname=Математика
@@ -354,15 +359,38 @@ microgame
 	SeijaSpin
 		command=Крути!
 		igname=Раскрутка
+	GhostSuck
+		command=Запылесось!
+		igname=Призрако-лов
+	EikiJudge
+		command=Распредели!
+		igname=Судный день
 	IcePath
 		command=Пройди!
 		igname=По льдинам
 	KagerouCut
 		command=Побрей!
+		igname=Стрижка пушистых
+	TrainTracks
+		command=Спаси!
+		igname=Поезда и катастрофы
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
 	AwooClicker
 		igname=Пёсикамера
 	HinaSpin
 		igname=Крутящий момент
+	MoonSoccer
+		igname=Футбольная дуель
 nitori
 	storyintro=Ну надо же, новый посетитель.\nПосмотрим как тебе на вкус мои игры.\nЛучше не моргай!
 	storyfinished=Неплохо, ботан.\nПохоже ты не просто случайный прохожий.\nТеперь попробуй {0} для настоящего испытания!
@@ -407,3 +435,4 @@ meta
 		Gagalin=Y
 		RobinWriting=Y
 		SourceHanSerifK=?
+		Fat=N
