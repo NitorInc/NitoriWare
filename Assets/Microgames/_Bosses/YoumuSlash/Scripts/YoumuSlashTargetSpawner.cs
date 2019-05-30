@@ -11,6 +11,8 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
 
     [SerializeField]
     private YoumuSlashTimingData timingData;
+    [SerializeField]
+    private float targetInvokeWindow = .1f;
 
     private Queue<YoumuSlashBeatMap.TargetBeat> upcomingTargets;
 
@@ -44,11 +46,15 @@ public class YoumuSlashTargetSpawner : MonoBehaviour
         if (!watchForNextTarget || !upcomingTargets.Any())
             return;
 
-        var timeToNextTarget = (upcomingTargets.Peek().LaunchBeat - timingData.PreciseBeat) * timingData.BeatDuration;
+        var nextTarget = upcomingTargets.Peek();
+        var timeToNextTarget = (nextTarget.LaunchBeat - timingData.PreciseBeat) * timingData.BeatDuration;
         timeToNextTarget = Mathf.Max(timeToNextTarget, 0f);
-        if (timeToNextTarget <= Time.fixedDeltaTime)
+        if (timeToNextTarget <= targetInvokeWindow
+            || timeToNextTarget <= Time.fixedDeltaTime)
         {
             Invoke("launchNextTarget", timeToNextTarget);
+            YoumuSlashSoundEffectPlayer.instance.playScheduled(nextTarget.TypeData.LaunchSoundEffect, nextTarget.HitDirection,
+                timeToNextTarget);
             watchForNextTarget = false;
         }
     }

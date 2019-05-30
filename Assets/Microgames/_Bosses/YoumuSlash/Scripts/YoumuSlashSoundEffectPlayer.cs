@@ -26,6 +26,9 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
     }
 
     public void play(YoumuSlashSoundEffect soundEffect, YoumuSlashBeatMap.TargetBeat.Direction direction)
+        => playScheduled(soundEffect, direction, 0f);
+
+    public void playScheduled(YoumuSlashSoundEffect soundEffect, YoumuSlashBeatMap.TargetBeat.Direction direction, float time)
     {
         foreach (var sound in soundEffect.Sounds)
         {
@@ -34,7 +37,13 @@ public class YoumuSlashSoundEffectPlayer : MonoBehaviour
             newSource.panStereo = getStereoPan(sound.PanAmount, direction);
             if (sound.PanSpeed != 0f)
                 newSource.GetComponent<YoumuSlashMovingAudioSource>().setSpeed(sound.PanSpeed * (direction == YoumuSlashBeatMap.TargetBeat.Direction.Left ? -1f : 1f));
-            newSource.PlayOneShot(sound.Clip, sound.Volume);
+            newSource.clip = sound.Clip;
+            if (time <= 0f)
+                newSource.Play();
+            else
+                AudioHelper.playScheduled(newSource, time);
         }
+
     }
+
 }

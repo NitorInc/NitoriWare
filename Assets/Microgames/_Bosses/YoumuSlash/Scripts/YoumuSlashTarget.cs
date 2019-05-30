@@ -41,7 +41,6 @@ public class YoumuSlashTarget : MonoBehaviour
         if (isRight)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
-        YoumuSlashSoundEffectPlayer.instance.play(launchSoundEffect, mapInstance.HitDirection);
         BroadcastMessage("onLaunch", MapInstance, SendMessageOptions.DontRequireReceiver);
     }
 
