@@ -554,6 +554,14 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4420512078047746, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420512078047746, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.35
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114472420682940316, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 90a8d7f4fe2027847bed6ae7052bb6b0, type: 2}
@@ -584,12 +592,18 @@ MonoBehaviour:
   speedX: 12.5
   speedY: 30
   proximityFollow: 2.5
-  proximityUnfollow: 5
+  proximityUnfollow: 6
   fallSpeed: 1.7
   isFacingRight: 1
   gravity: 0.0325
   hopsound: {fileID: 8300000, guid: 0ea28ddf8fe745141b50216607d07642, type: 3}
   deathsound: {fileID: 8300000, guid: 77acd067ac0843b4dbb7d7cfa0544fc6, type: 3}
+  rigAnimator: {fileID: 892188117}
+--- !u!95 &892188117 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95976496829617472, guid: 90a8d7f4fe2027847bed6ae7052bb6b0,
+    type: 2}
+  m_PrefabInternal: {fileID: 892188113}
 --- !u!1 &1447473676
 GameObject:
   m_ObjectHideFlags: 0

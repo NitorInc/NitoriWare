@@ -46,6 +46,9 @@ public class MoneyTrapPeople4 : MonoBehaviour {
     [SerializeField]
     private AudioClip deathsound;
 
+    [SerializeField]
+    private Animator rigAnimator;
+
     //Possible states for the person
     enum State {Idle, Following, Falling};
     bool deathSoundPlayed;
@@ -107,14 +110,14 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 if (target.transform.position.x > transform.position.x)
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-                    sr.flipX = true;
+                    sr.transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
                     debug = debug + "right" + System.Environment.NewLine; //DEBUG
                 }
                 else if (target.transform.position.x < transform.position.x)
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-                    sr.flipX = false;
+                    sr.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
                     debug = debug + "left" + System.Environment.NewLine; //DEBUG
                 }
@@ -221,6 +224,8 @@ public class MoneyTrapPeople4 : MonoBehaviour {
                 transform.position = newPosition;
             }
         }
+
+        rigAnimator.SetInteger("State", (int)state);
     }
 
     private bool isGrounded()
