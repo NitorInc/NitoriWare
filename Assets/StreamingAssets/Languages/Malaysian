@@ -1,6 +1,7 @@
 generic
 	idname=Malaysian
 	addedtogame=Y
+	complete=Y
 	name=Bahasa Malaysia
 	gamename=NitorInc.
 	incomplete=PERHATIAN: Terjemahan bahasa ini masih belum sempurna. Sesetengah teks mungkin masih dalam Bahasa Inggeris.
@@ -42,18 +43,18 @@ menu
 		microgamepractice=Mod Latihan
 			description=Asah kemahiran permainan mikro anda di sini!
 		locked1=Terkunci! Habiskan {0} untuk membukanya.
-		locked2=Terkunci! Dapatkan {0} atau lebih dalam {1} untuk membukanya.
+		locked2=Terkunci! Dapatkan skor {0} atau lebih dalam {1} untuk membukanya.
 		highscore=Rekod tertinggi {0}
 		compilationmode
-			description=Cabar sebanyak mana yang kamu mampu. Tiada bos.
+			description=Cabar semuanya selagi mampu! Tiada bos.
 		compilation=Kompendium Kappa
-			description=Mod Arked Biasa: semua permainan akan diputarkan.
+			description=Mod Arked Biasa: semua permainan dalam susunan rawak.
 		compilationfast=Kappasiti Penuh
 			description=PALING LAJU SEKALI!!
 		compilationmystery=(Dokumentasi Diperlukan)
 			description=Alamak! Kita dah kehilangan pelan kerja. Tiada arahan akan diberi!
 		compilationhard=Neraka Timun
-			description=Semua susah! Satu nyawa sahaja! Berapa lama awak boleh bertahan?
+			description=Permainan paling susah! Satu nyawa sahaja! Berapa lama anda boleh bertahan?
 	main
 		quit=Berhenti bermain
 			prompt=Anda pasti nak berhenti {0}?
@@ -92,7 +93,7 @@ microgame
 		command=Lontarkan!
 		igname=Lastik Burung
 	ChenFood
-		command=Jangan dimakan!
+		command=Elakkan kena makan!
 		igname=Kucing Terlepas
 	Spider
 		command=Suapkan!
@@ -136,7 +137,7 @@ microgame
 		command=Selaraskan!
 		igname=Dalam Kawalan
 	YukariCake
-		command=Curi!
+		command=Rampas!
 		igname=Kuih Manis
 	RemiCover
 		command=Berteduh!
@@ -180,6 +181,7 @@ microgame
 		igname=Siram-menyiram
 	KnifeDodge
 		command=Elak!
+		igname=Ribut Pisau
 	NitoriLook
 		command=Cari Nitori!
 		igname=Kappa Mana?
@@ -189,6 +191,10 @@ microgame
 	DollDance
 		command=Tiru!
 		igname=Pesta Boneka
+	YoumuSlash
+		command=Perhatikan...
+		commandb=Belah semuanya!
+		igname=Potongan Irama
 	CirnoBored
 		command=Jadi Baik!
 		commandb=Hiburkan!
@@ -205,7 +211,7 @@ microgame
 		igname=Topi Jizou
 	NueAbduct
 		command=Culik!
-		igname=Diculik Makhluk Asing
+		igname=U.F. Oh Tidak!
 	ReimuDodge
 		command=Elak!
 		igname=~
@@ -222,20 +228,20 @@ microgame
 			firstname=Suika
 			introdialogue=Heeeey! Nak gi lepak ngan makan tak?
 			right0
-				option=Lumba ke kedai makan.
+				option=Tengok siapa sampai dulu!
 				response=Yang kalah kena bayar!
 			right1
 				option=Ok lah, jom makan.
 				response=Yay!
 			wrong0
-				option=Tak kenyang ke?!
-				response=Mana syok makan sorang.
+				option=Tak kenyang lagi ke?!
+				response=Mana syok makan sorang-sorang.
 			wrong1
-				option=Blah la, gemuk!
-				response=Ko bukannya kurus pun!
+				option=Pergi main jauh-jauh la, gemuk!
+				response=Kau bukannya kurus pun!
 			wrong2
-				option=Ko pergi je lah.
-				response=Aduh~! Spoil lah...
+				option=Kau pergi je lah.
+				response=Aduh! Spoil lah...
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -253,8 +259,8 @@ microgame
 				option=Aku tak suka bunga.
 				response=Bunga pun tak suka awak.
 			wrong2
-				option=Bunga ni mesti ciplak?
-				response=Entah, mungkin awek <i>kau</i> tu yang ciplak?
+				option=Bunga ni mesti bunga plastik.
+				response=Entah, mungkin awek <i>kau</i> tu yang plastik?
 		yuuka
 			fullname=Yuuka Kazami
 			firstname=Yuuka
@@ -263,7 +269,7 @@ microgame
 				option=Mana ada!
 				response=Bagus, jangan cari pasal.
 			right1
-				option=Awak je lah makwe saya!
+				option=Awak je lah sesuai untuk  saya!
 				response=Tahu pun.
 			wrong0
 				option=Uhh...
@@ -304,16 +310,19 @@ microgame
 	BeachBall
 		command=Campakkan!
 		igname=Bola Baling
+	FanBlow
+		command=Hembus!
+		igname=Hapus Kabus
 	YuugiBalance
 		command=Imbangkan!
 		igname=Minuman yang Seimbang
 	ComicBubble
 		command=Berdialog!
 		0
-			0=Ko pasti ke ni selamat?
+			0=Selamat ke tidak ni?
 			1=Rileks la!
 		1
-			0=Wei, k'jap!
+			0=Wei, kejaplah!
 			1=Ada benda dekaaaat~
 			2=~SINI!
 		2
@@ -324,15 +333,64 @@ microgame
 		igname=Lawak Tauhu
 	DoorKnock
 		command=Ketukkan!
+		igname=Biar Saya Masuk!
 	FoodCut
 		command=Potongkan!
+		igname=Potong Makanan
 	MoneyTrap
 		command=Mengumpan!
+		igname=Perangkap Duit
 	KeineMath
 		command=Kirakan!
 		igname=Kiralah Sendiri
+	DoomGame
+		command=Tembak!
+		danger=Belakang kamu!
+		igname=Invasi Arnabi
+	MystiaServe
+		command=Sidangkan!
+		igname=Pelanggan Lapar
+	FoodRoast
+		command=Ambil bila sedia!
+		igname=Siapa Cepat Dia Dapat!
+	BoatSteer
+		command=Kemudikan!
+		igname=Belayar di Lautan
+	SeijaSpin
+		command=Putar!
+		igname=Saya Putar Dia
+	GhostSuck
+		command=Sedit!
+		igname=Mari Tangkap Jelmaan
+	EikiJudge
+		command=Susun!
+		igname=Hari Pembalasan
+	IcePath
+		command=Tunjuk arah!
+		igname=Berjalan di atas Ais
+	KagerouCut
+		command=Cukur!
+		igname=Cantas Mencantas
+	TrainTracks
+		command=Selamatkan!
+		igname=Rel Bermasalah
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
 	AwooClicker
 		igname=Papaparazzi
+	HinaSpin
+		igname=Tenaga Putaran
+	MoonSoccer
+		igname=Bola Ajaib
 nitori
 	storyintro=Nampaknya kita ada pelanggan baru.\nMari tengok bagaimana kau mencuba permainan ciptaanku.\nJangan termenung saja!
 	storyfinished=Bagus, budak skema!\nRasanya engkau bukannya datang untuk melihat saja.\nSekarang, cubalah {0} untuk cabaran yang sebenar!
@@ -342,7 +400,7 @@ credits
 	kapptain=Pengarah Kreatif, Programmer, "Kappten" Kumpulan
 	leadart=Ketua Artis, Reka Bentuk Karakter, Suara Nitori
 	code=Kod Utama
-	UI=Menu dan Grafik Pentas
+	UI=Menu dan Grafik Utama
 	menumusic=Muzik Menu
 	stagemusic=Muzik Utama
 	microgame
@@ -377,3 +435,4 @@ meta
 		Gagalin=Y
 		RobinWriting=Y
 		SourceHanSerifK=?
+		Fat=Y
