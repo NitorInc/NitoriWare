@@ -242,7 +242,7 @@ public class StageController : MonoBehaviour
 		outroPlayTime = Time.time;
 
 		setAnimationPart(AnimationPart.Outro);
-		if (!microgameVictoryStatus)
+		if (!microgameVictoryStatus && !godMode)
 			lowerLife();
 
 		endMicrogame();
@@ -518,8 +518,6 @@ public class StageController : MonoBehaviour
 	/// <param name="final"></param>
 	public void setMicrogameVictory(bool victory, bool final)
 	{
-		if (godMode)
-			victory = true;
 
 		if (victoryDetermined)
 		{
