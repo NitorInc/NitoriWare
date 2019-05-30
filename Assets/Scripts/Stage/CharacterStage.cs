@@ -122,9 +122,7 @@ public class CharacterStage : Stage
     {
         int index = getIndex(num);
         var totalMicrogameCount = microgamePool.microgameBatches.Sum(a => a.pick);
-
-        print(index);
-        print(totalMicrogameCount);
+        
         if (microgamePool.skipBossMicrogame)
             return index < totalMicrogameCount;
         else
