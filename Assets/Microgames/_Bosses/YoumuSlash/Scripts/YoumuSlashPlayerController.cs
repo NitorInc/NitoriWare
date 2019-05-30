@@ -102,6 +102,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     bool gameplayComplete = false;
     float timeScale = 0f;
     bool burstTense = false;
+    int lastSlashFrame = 0;
 
     private void Awake()
     {
@@ -436,6 +437,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         var hitTarget = getFirstHittableTarget(direction, true);
         bool isHit = hitTarget != null;
+        if (Time.frameCount == lastSlashFrame)    //Return if slashed already this frame
+            return;
         if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
         if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
@@ -445,6 +448,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             direction = hitTarget.HitDirection;
 
         //From here below slash attempt is confirmed
+        lastSlashFrame = Time.frameCount;
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
         noteMissReactionQueued = false;
