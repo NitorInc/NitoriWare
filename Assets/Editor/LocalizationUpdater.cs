@@ -33,9 +33,7 @@ public class LocalizationUpdater : ScriptableObject
     [SerializeField]
     private string charsPath;
     [SerializeField]
-    private string sheetOrderLogFile;
-    [SerializeField]
-    private string missingValuesLogFile;
+    private string reportFile;
 
     public void updateLanguages()
     {
@@ -43,7 +41,6 @@ public class LocalizationUpdater : ScriptableObject
         SerializedNestedStrings englishData = null;
 
         var sheetTitles = new List<string>();
-        sheetTitles.Add("This is the order the sheets were found in. If github tries to change them, rearrange the cells so they match this.");
 
         var missingValues = new Dictionary<string, Dictionary<string, int>>();
 
@@ -109,8 +106,6 @@ public class LocalizationUpdater : ScriptableObject
                 Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
         }
 
-        File.WriteAllText(Path.Combine(Application.dataPath, sheetOrderLogFile), string.Join("\n", sheetTitles));
-
         // Format missing text report
         var missingValuesLanguageReports = missingValues
             //.Where(language => language.Value.Any(sheet => sheet.Value > 0))    // Select from languages who have missing values whatsoever
@@ -119,9 +114,13 @@ public class LocalizationUpdater : ScriptableObject
                     .Where(sheet => sheet.Value > 0)    // Exclude any sheets with no missing values
                     .Select(sheet => sheet.Key + ": " + sheet.Value.ToString())));
 
-        var missingValuesText = "How many values are missing translations from each language (doesn't count non-game pages such as Steam Store):\n"
-            + string.Join("\n", missingValuesLanguageReports);
-        File.WriteAllText(Path.Combine(Application.dataPath, missingValuesLogFile), missingValuesText);
+        // Write to log
+        var reportText = $"Last pulled:\n{System.DateTime.Now.ToString()}\n";
+        reportText += "\nThis is the order the sheets were found in. If github tries to change them, rearrange the cells so they match this."
+            + string.Join("\n", sheetTitles) + "\n";
+        reportText += "\nHow many values are missing translations from each language (doesn't count non-game pages such as Steam Store):\n"
+            + string.Join("\n", missingValuesLanguageReports) + "\n";
+        File.WriteAllText(Path.Combine(Application.dataPath, reportFile), reportText);
 
         Debug.Log("Language content updated");
 	}
