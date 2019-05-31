@@ -25,6 +25,8 @@ namespace FoodRoast
         private AudioClip pickSound;
         [SerializeField]
         private AudioClip failSound;
+        [SerializeField]
+        private Animator rigAnimator;
 
         bool picked = false;
 
@@ -37,6 +39,15 @@ namespace FoodRoast
                 if (_SpriteRenderer == null)
                     _SpriteRenderer = GetComponent<SpriteRenderer>();
                 return _SpriteRenderer;
+            }
+        }
+
+        private void Update()
+        {
+            if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory())
+            {
+                rigAnimator.SetInteger("State", 2);
+                enabled = false;
             }
         }
 
@@ -121,6 +132,7 @@ namespace FoodRoast
             foreach (var particle in Particles)
                 particle.Play();
 
+            rigAnimator.SetInteger("State", 1);
             MicrogameController.instance.playSFX(readySound, AudioHelper.getAudioPan(transform.position.x));
         }
 
@@ -134,6 +146,8 @@ namespace FoodRoast
             foreach (var particle in Particles)
                 particle.Play();
 
+
+            rigAnimator.SetInteger("State", 2);
             FoodRoast_VictoryController.Instance.setVictory(false);
             MicrogameController.instance.playSFX(failSound, AudioHelper.getAudioPan(transform.position.x));
 
@@ -177,6 +191,7 @@ namespace FoodRoast
         void Pick(bool isReady)
         {
             picked = true;
+            rigAnimator.SetInteger("State", 3);
             if (isReady)
             {
                 FoodRoast_Controller.Instance.AddCookedPotato();
