@@ -116,7 +116,7 @@ public class LocalizationUpdater : ScriptableObject
 
         // Write to log
         var reportText = $"Last pulled:\n{System.DateTime.Now.ToString()}\n";
-        reportText += "\nThis is the order the sheets were found in. If github tries to change them, rearrange the cells so they match this."
+        reportText += "\nThis is the order the sheets were found in. If github tries to change them, rearrange the cells so they match this.\n"
             + string.Join("\n", sheetTitles) + "\n";
         reportText += "\nHow many values are missing translations from each language (doesn't count non-game pages such as Steam Store):\n"
             + string.Join("\n", missingValuesLanguageReports) + "\n";
