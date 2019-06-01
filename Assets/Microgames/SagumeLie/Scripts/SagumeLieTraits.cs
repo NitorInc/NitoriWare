@@ -34,12 +34,12 @@ public class SagumeLieTraits : MicrogameTraits
     }
 
     //Question key format: "microgame.SagumeLie.{question index}"
-    //Planned question key format: "microgame.SagumeLie.question{question index}"
+    //Planned question key format: "microgame.SagumeLie.{difficulty}.question{question index}"
     public string getLocalizedQuestionText(int questionIndex)
     {
         var question = getQuestionPool()[questionIndex];
         return TextHelper.getLocalizedText($"microgame.SagumeLie.{questionIndex}", question.QuestionText);
-        //return TextHelper.getLocalizedText($"microgame.SagumeLie.question{questionIndex}", question.QuestionText);
+        //return TextHelper.getLocalizedText($"microgame.SagumeLie.{difficulty}.question{questionIndex}", question.QuestionText);
     }
 
     //Response key format: "microgame.SagumeLie.{question index}.[lie/truth]{number index}"
