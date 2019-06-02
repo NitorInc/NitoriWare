@@ -202,7 +202,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             else
             {
                 //MicrogameController.instance.playSFX(debugSound);
-                returnToIdle();
+                if (beat < finalGameplayBeat)
+                    returnToIdle();
             }
         }
         if (beat >= nextIdleBeat)
