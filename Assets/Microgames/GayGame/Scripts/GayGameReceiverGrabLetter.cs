@@ -51,6 +51,7 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
 
     void grab()
     {
+        MicrogameController.instance.setVictory(true);
         letterTransform.parent = newLetterParent;
         sceneAnimator.SetTrigger("Victory");
         foreach (var grabbable in grabbablesObject.GetComponents<MouseGrabbable>())
