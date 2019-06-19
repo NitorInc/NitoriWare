@@ -10,7 +10,8 @@ public class OniPunchMountainPart : MonoBehaviour
 	private void OnEnable()
 	{
 		Rigidbody2D rb = GetComponent<Rigidbody2D>();
-		Vector2 randomForce = ((Vector2)transform.position.normalized * velocityMultiplier) + (Random.insideUnitCircle.normalized * velocityMultiplier);
+		Vector2 randomForce = ((Vector2)transform.position.normalized * velocityMultiplier)
+            + (Random.insideUnitCircle.normalized * velocityMultiplier / 3f);
 		randomForce.y = Mathf.Max(randomForce.y, 0f);
 		rb.velocity = (Vector2.up * velocityMultiplier * 1.5f) + randomForce;
 		rb.angularVelocity = Random.Range(-angularVelocityMultiplier, angularVelocityMultiplier);
