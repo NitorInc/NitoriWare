@@ -2,79 +2,76 @@
 
 public class MilkPourState : MonoBehaviour
 {
-    [SerializeField]
-    private float _fillRate = 100;
+	[SerializeField]
+	private bool failOnEarlyRelease;
 
-    [SerializeField]
-    private bool _failOnEarlyRelease;
+	[SerializeField]
+	private MilkPourCup cup;
+	private MilkPourGameState state;
 
-    [SerializeField]
-    private MilkPourCup _cup;
-    private gameState _state;
-
-    private enum gameState
-    {
-        Start,
-        Filling,
-        Idle,
-        Stopped
-    }
+	private enum MilkPourGameState
+	{
+		Start,
+		Filling,
+		Idle,
+		Stopped
+	}
         
-    void Start ()
-    {
-        _state = gameState.Start;
-    }
+	void Start ()
+	{
+		state = MilkPourGameState.Start;
+	}
 
-    void Update ()
-    {
-        switch (_state)
-        {
-            case gameState.Stopped:
-                break;
-            case gameState.Start:
-                _state = Input.GetKey (KeyCode.Space) ? gameState.Filling : gameState.Start;
-                if (_state == gameState.Filling)
-                    OnFill ();
-                break;
-            case gameState.Filling:
-            case gameState.Idle:
-                _state = Input.GetKey (KeyCode.Space) ? gameState.Filling : gameState.Idle;
-                if (_state == gameState.Filling)
-                    OnFill ();
-                else
-                    OnIdle ();
-                break;
-        }
-    }
+	void Update ()
+	{
+		switch (state)
+		{
+			case MilkPourGameState.Stopped:
+				break;
+			case MilkPourGameState.Start:
+				state = Input.GetKey (KeyCode.Space) ? MilkPourGameState.Filling : MilkPourGameState.Start;
+				if (state == MilkPourGameState.Filling)
+					OnFill ();
+				break;
+			case MilkPourGameState.Filling:
+			case MilkPourGameState.Idle:
+				state = Input.GetKey (KeyCode.Space) ? MilkPourGameState.Filling : MilkPourGameState.Idle;
+				if (state == MilkPourGameState.Filling)
+					OnFill ();
+				else
+					OnIdle ();
+				break;
+		}
+	}
 
-    void OnFill ()
-    {
-        _cup.AddFill (_fillRate * Time.deltaTime);
-        if (_cup.IsFillMaxed ())
-            Fail ();
-    }
+	void OnFill ()
+	{
+		cup.Fill(Time.deltaTime);
+		if (cup.IsSpilled())
+			Fail();
+	}
 
-    void OnIdle ()
-    {
-        if (_cup.IsFillReqMet ())
-            Win ();
-        else if (_cup.IsOverfilled ())
-            Fail ();
-        else if (_failOnEarlyRelease)
-            Fail ();
-    }
+	void OnIdle ()
+	{
+		if (cup.IsPassing())
+			Win();
+		else if (cup.IsOverfilled ())
+			Fail ();
+		else if (failOnEarlyRelease)
+			Fail ();
+	}
 
-    void Win ()
-    {
-        _cup.Stop ();
-        MicrogameController.instance.setVictory(true, true);
-        _state = gameState.Stopped;
-    }
+	void Win ()
+	{
+		cup.Stop ();
+		MicrogameController.instance.setVictory(true, true);
+		state = MilkPourGameState.Stopped;
+	}
 
-    void Fail ()
-    {
-        _cup.Stop ();
-        MicrogameController.instance.setVictory(false, true);
-        _state = gameState.Stopped;
-    }
+	void Fail ()
+	{
+		cup.Stop ();
+		MicrogameController.instance.setVictory(false, true);
+		state = MilkPourGameState.Stopped;
+	}
 }
