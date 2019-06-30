@@ -18,6 +18,8 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
     private GameObject[] enableObjects;
     [SerializeField]
     private GameObject[] disableObjects;
+    [SerializeField]
+    private AudioClip[] grabClips;
 
     private bool inCollider = false;
 
@@ -69,6 +71,10 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
         foreach (var disObj in disableObjects)
         {
             disObj.SetActive(false);
+        }
+        foreach (var grabClip in grabClips)
+        {
+            MicrogameController.instance.playSFX(grabClip, panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
         }
     }
 }

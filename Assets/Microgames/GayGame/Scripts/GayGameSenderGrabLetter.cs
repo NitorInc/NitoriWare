@@ -10,6 +10,8 @@ public class GayGameSenderGrabLetter : MonoBehaviour
     private GameObject[] disableOnGrab;
     [SerializeField]
     private MouseGrabbable letterHitBoxGrabbable;
+    [SerializeField]
+    private AudioClip grabClip;
 
     private bool grabbed = false;
     public bool Grabbed => grabbed;
@@ -33,6 +35,7 @@ public class GayGameSenderGrabLetter : MonoBehaviour
                 obj.SetActive(false);
             }
             letterHitBoxGrabbable.enabled = true;
+            MicrogameController.instance.playSFX(grabClip, panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
         }
     }
 }
