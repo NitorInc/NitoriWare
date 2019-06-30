@@ -14,6 +14,10 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
     private Animator sceneAnimator;
     [SerializeField]
     private GameObject grabbablesObject;
+    [SerializeField]
+    private GameObject[] enableObjects;
+    [SerializeField]
+    private GameObject[] disableObjects;
 
     private bool inCollider = false;
 
@@ -57,6 +61,14 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
         foreach (var grabbable in grabbablesObject.GetComponents<MouseGrabbable>())
         {
             grabbable.enabled = false;
+        }
+        foreach (var enObj in enableObjects)
+        {
+            enObj.SetActive(true);
+        }
+        foreach (var disObj in disableObjects)
+        {
+            disObj.SetActive(false);
         }
     }
 }
