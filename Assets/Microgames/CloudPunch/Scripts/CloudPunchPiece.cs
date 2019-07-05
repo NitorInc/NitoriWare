@@ -47,6 +47,15 @@ public class CloudPunchPiece : MonoBehaviour
                 }
             }
 
+
+            // Swap animation movement offset of above pieces
+            for (int i = transform.GetSiblingIndex() + 1; i < transform.parent.childCount; i++)
+            {
+                var otherPiece = transform.parent.GetChild(i).GetComponent<CloudPunchPiece>();
+                if (!otherPiece.isHead)
+                    otherPiece.rigAnimator.SetTrigger("Swap");
+            }
+
             rigAnimator.SetTrigger("Knock");
             awaitingPunch = false;
             GetComponentInChildren<Collider2D>().enabled = false;
