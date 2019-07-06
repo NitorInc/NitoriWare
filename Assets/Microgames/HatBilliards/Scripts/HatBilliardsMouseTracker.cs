@@ -19,8 +19,6 @@ public class HatBilliardsMouseTracker : MonoBehaviour
 
     [SerializeField]
     Transform mouseLocation;
-    [SerializeField]
-    Transform endMarker;
 
     [SerializeField]
     LineRenderer guideLine;
@@ -33,7 +31,6 @@ public class HatBilliardsMouseTracker : MonoBehaviour
 
     void onHit()
     {
-        endMarker.gameObject.SetActive(false);
         enabled = false;
     }
 
@@ -65,9 +62,6 @@ public class HatBilliardsMouseTracker : MonoBehaviour
                 reflectDirection.y = 0f;
                 direction = reflectDirection;
                 currentPos = targetPos;
-
-                endMarker.position = targetPos;
-                endMarker.transform.up = hitInfo.normal;
 
                 if (hitInfo.collider.tag.ToString().Equals("MicrogameTag1"))
                     i = reflectCount + 1;
