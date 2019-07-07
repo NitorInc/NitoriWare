@@ -29,7 +29,8 @@ public class CloudPunchPiece : MonoBehaviour
 
     void collide(Collider2D collision)
     {
-        if (collision.tag.Equals("MicrogameTag1")
+        if (enabled
+            && collision.tag.Equals("MicrogameTag1")
             && awaitingPunch
             && !isHead)
         {
@@ -58,7 +59,7 @@ public class CloudPunchPiece : MonoBehaviour
 
             rigAnimator.SetTrigger("Knock");
             awaitingPunch = false;
-            GetComponentInChildren<Collider2D>().enabled = false;
+            //GetComponentInChildren<Collider2D>().enabled = false;
             transform.SetParent(null);
             enabled = false;
         }
