@@ -202,7 +202,7 @@ public class MoneyTrapPeople4 : MonoBehaviour {
         else
         {
             //if not yet in touhou hell
-            if (transform.position.y > -7f)
+            //if (transform.position.y > -7f)
             {
                 //move downwards into touhou hell
 
