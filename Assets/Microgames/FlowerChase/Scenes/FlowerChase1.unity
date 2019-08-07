@@ -210,9 +210,9 @@ GameObject:
   - component: {fileID: 97381616}
   - component: {fileID: 97381615}
   - component: {fileID: 97381614}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 318245698}
   - component: {fileID: 318245697}
   - component: {fileID: 318245696}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 16385
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -533,9 +533,9 @@ GameObject:
   - component: {fileID: 535418461}
   - component: {fileID: 535418460}
   - component: {fileID: 535418459}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -617,9 +617,9 @@ GameObject:
   - component: {fileID: 1036320608}
   - component: {fileID: 1036320607}
   - component: {fileID: 1036320606}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (5)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -684,7 +684,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1036320605}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.33333, y: 0, z: -15.649099}
+  m_LocalPosition: {x: -0.33333, y: 0, z: -14.454}
   m_LocalScale: {x: 0.333333, y: 0.13166593, z: 0.062391013}
   m_Children: []
   m_Father: {fileID: 0}
@@ -701,9 +701,9 @@ GameObject:
   - component: {fileID: 1078267331}
   - component: {fileID: 1078267330}
   - component: {fileID: 1078267329}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (8)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -856,9 +856,9 @@ GameObject:
   - component: {fileID: 1128508273}
   - component: {fileID: 1128508272}
   - component: {fileID: 1128508271}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (9)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -938,7 +938,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1211033357}
   - component: {fileID: 1211033356}
-  m_Layer: 0
+  - component: {fileID: 1211033360}
+  - component: {fileID: 1211033358}
+  - component: {fileID: 1211033359}
+  m_Layer: 14
   m_Name: Cirno
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,6 +1007,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1211033358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211033355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3ffe2c5e57fbb41895d5f15d8470f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameMasterScript: {fileID: 1341162379}
+--- !u!54 &1211033359
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211033355}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &1211033360
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211033355}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.05
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1341162378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,6 +1079,7 @@ MonoBehaviour:
   CirnoMovementSpeed: 1
   ScrollSpeed: 2
   YuukaSpeed: 1.5
+  Status: 0
 --- !u!4 &1341162380
 Transform:
   m_ObjectHideFlags: 0
@@ -1108,13 +1151,13 @@ GameObject:
   - component: {fileID: 1426578987}
   - component: {fileID: 1426578986}
   - component: {fileID: 1426578985}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1426578985
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1192,9 +1235,9 @@ GameObject:
   - component: {fileID: 1437427146}
   - component: {fileID: 1437427145}
   - component: {fileID: 1437427144}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (11)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1276,9 +1319,9 @@ GameObject:
   - component: {fileID: 1618981657}
   - component: {fileID: 1618981656}
   - component: {fileID: 1618981655}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (10)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1360,9 +1403,9 @@ GameObject:
   - component: {fileID: 1669476507}
   - component: {fileID: 1669476506}
   - component: {fileID: 1669476505}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (6)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1593,9 +1636,9 @@ GameObject:
   - component: {fileID: 1839021444}
   - component: {fileID: 1839021443}
   - component: {fileID: 1839021442}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1660,7 +1703,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1839021441}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -15.649099}
+  m_LocalPosition: {x: 0, y: 0, z: -14.454}
   m_LocalScale: {x: 0.333333, y: 0.13166593, z: 0.062391013}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1677,13 +1720,13 @@ GameObject:
   - component: {fileID: 1859163365}
   - component: {fileID: 1859163364}
   - component: {fileID: 1859163363}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1859163363
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1760,7 +1803,7 @@ GameObject:
   - component: {fileID: 2054841420}
   - component: {fileID: 2054841423}
   - component: {fileID: 2054841421}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1832,9 +1875,9 @@ GameObject:
   - component: {fileID: 2130234197}
   - component: {fileID: 2130234196}
   - component: {fileID: 2130234195}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (7)
-  m_TagString: Untagged
+  m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
