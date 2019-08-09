@@ -74,6 +74,8 @@ public class HatBilliardsBall : MonoBehaviour
                     rb.isKinematic = false;
                     rb.AddForce(stopLaunchForce);
                     enabled = false;
+
+                    MicrogameController.instance.setVictory(false);
                 }
             }
         }
@@ -85,6 +87,8 @@ public class HatBilliardsBall : MonoBehaviour
         {
             hat.PingAway ();
             gameObject.SetActive (false);
+
+            MicrogameController.instance.setVictory(true);
         }
     }
 }

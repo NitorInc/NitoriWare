@@ -24,10 +24,13 @@ public class HatBilliardsPointer : MonoBehaviour
 
     void Update ()
     {
-        var posA = lineRenderer.GetPosition(matchIndex);
-        var posB = lineRenderer.GetPosition(matchIndex + 1);
+        if (lineRenderer.positionCount > matchIndex + 1)
+        {
+            var posA = lineRenderer.GetPosition(matchIndex);
+            var posB = lineRenderer.GetPosition(matchIndex + 1);
 
-        transform.position = posA;
-        transform.LookAt(posB);
+            transform.position = posA;
+            transform.LookAt(posB);
+        }
     }
 }
