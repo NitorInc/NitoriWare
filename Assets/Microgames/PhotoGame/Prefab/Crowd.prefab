@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4568092597869646}
   - component: {fileID: 212437109329083624}
   - component: {fileID: 58888854633788124}
+  - component: {fileID: 114466118456277378}
   m_Layer: 0
   m_Name: Crowd
   m_TagString: Untagged
@@ -56,6 +57,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.25
+--- !u!114 &114466118456277378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1380142865506502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171e2f4b32f1090408a0b1edb41337d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderPerson: {fileID: 58888854633788124}
+  colliderWallTop: {fileID: 0}
+  colliderWallBottom: {fileID: 0}
+  colliderWallLeft: {fileID: 0}
+  colliderWallRight: {fileID: 0}
 --- !u!212 &212437109329083624
 SpriteRenderer:
   m_ObjectHideFlags: 1
