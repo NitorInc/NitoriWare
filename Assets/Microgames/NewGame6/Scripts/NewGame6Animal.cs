@@ -34,6 +34,14 @@ public class NewGame6Animal : MonoBehaviour {
 		
 		trajectory = new Vector2(x, y);
 	}
+		
+	void OnTriggerEnter2D(Collider2D other){
+		if (other.CompareTag ("MicrogameTag1") == true) {
+			trajectory.y *= -1;
+		} else {
+			trajectory.x *= -1;
+		}
+	}
 
 	//Move along trajectory.
 	void Update () {
