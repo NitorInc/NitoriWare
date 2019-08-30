@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewGame6Animal : MonoBehaviour {
+public class KasenPetsAnimal : MonoBehaviour {
 
 	[Header("Speed")]
 	[SerializeField]
