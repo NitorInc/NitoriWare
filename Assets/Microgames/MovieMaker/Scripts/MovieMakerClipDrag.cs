@@ -4,6 +4,38 @@ using UnityEngine;
 
 public class MovieMakerClipDrag : MonoBehaviour
 {
+    [SerializeField]
+    private SpriteRenderer SR;
+
+    [SerializeField]
+    private Sprite Default;
+
+    [SerializeField]
+    private Sprite Over;
+
+    [SerializeField]
+    private GameObject Shadow;
+
+    private void OnMouseEnter()
+    {
+        SR.sprite = Over;
+    }
+
+    private void OnMouseExit()
+    {
+        SR.sprite = Default;
+    }
+
+    private void OnMouseDown()
+    {
+        Shadow.SetActive(true);
+    }
+
+    private void OnMouseUp()
+    {
+        Shadow.SetActive(false);
+    }
+
 
     void OnMouseDrag()
     {

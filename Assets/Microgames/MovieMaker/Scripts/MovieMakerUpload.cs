@@ -17,6 +17,7 @@ public class MovieMakerUpload : MonoBehaviour {
         if (CanUpload)
         {
             MicrogameController.instance.setVictory(victory: true, final: true);
+            GameObject.Find("BlackScreen").GetComponent<Animator>().SetBool("Expand", true);
         }
     }
 }
