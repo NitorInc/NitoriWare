@@ -19,7 +19,8 @@ public class KasenPetsHands : MonoBehaviour {
 	}
 
 	void UpdatePosition(){
-		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		//Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		Vector3 cursorPosition = CameraHelper.getCursorPosition();
 		cursorPosition.x = transform.position.x;
 		cursorPosition.z = transform.position.z;
 		transform.position = cursorPosition;
