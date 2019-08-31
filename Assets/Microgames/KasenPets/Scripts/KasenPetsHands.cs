@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class KasenPetsHands : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 		
 	}
@@ -12,14 +11,13 @@ public class KasenPetsHands : MonoBehaviour {
 	void update () {
 		
 	}
-	
-	// Update is called once per frame
+
 	void LateUpdate () {
 		UpdatePosition ();
 	}
 
+	//Basically the same as FollowCursor, but only affects the y-coordinate.
 	void UpdatePosition(){
-		//Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		Vector3 cursorPosition = CameraHelper.getCursorPosition();
 		cursorPosition.x = transform.position.x;
 		cursorPosition.z = transform.position.z;

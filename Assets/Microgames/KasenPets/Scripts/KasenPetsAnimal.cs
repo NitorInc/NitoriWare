@@ -17,11 +17,8 @@ public class KasenPetsAnimal : MonoBehaviour {
 
 	//Sets trajectory to a random direction, and rotates sprite accordingly.
 
-	//Currently the animal moves faster the greater y is, because x-axis movement speed is constant.
-	//Might change that later.
+	//The animal moves faster the greater y is, because x-axis movement speed is constant.
 	void Start () {
-		myRenderer = GetComponentInChildren<SpriteRenderer> ();
-
 		//x becomes either 1 or -1, y becomes anything between -1 and 1.
 		int x = 1;
 		float y = Random.value;
