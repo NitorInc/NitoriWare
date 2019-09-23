@@ -112,11 +112,9 @@ public class RabbitTrapVictim : MonoBehaviour {
     {
         if (this.pauseTimeLeft > 0)
         {
-            print("Pause animation");
             this.walkAnimation.enabled = false;
         } else
         {
-            print("Resume animation");
             this.walkAnimation.enabled = true;
             this.walkAnimation.speed = this.speed * animationSpeedMod;
         }
