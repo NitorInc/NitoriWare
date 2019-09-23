@@ -73,11 +73,13 @@ public class YoumuSlashPlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip debugSound;
     [SerializeField]
-    private AudioClip hitVoiceClip;
+    private AudioClip[] hitVoiceClips;
     [SerializeField]
     private AudioClip screamClip;
     [SerializeField]
     private float voicePan;
+    [SerializeField]
+    private Vector2 voicePitchRange;
     
     int nextIdleBeat = -100;
     int untenseBeat = -1;
@@ -98,6 +100,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
     int nextMissableBeat = 0;
     float finalGameplayBeat;
     bool gameplayComplete = false;
+    float timeScale = 0f;
+    bool burstTense = false;
+    int lastSlashFrame = 0;
 
     private void Awake()
     {
@@ -113,6 +118,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
         nextTarget = getFirstActiveTarget();
         finalGameplayBeat = timingData.BeatMap.TargetBeats.Last().HitBeat;
+        timeScale = Time.timeScale;
     }
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
@@ -122,22 +128,27 @@ public class YoumuSlashPlayerController : MonoBehaviour
         
         if ((!firstTargetStareMode || timingData.BeatMap.getFirstActiveTarget(timingData.CurrentBeat, hitTimeFudge.y) == target)
             && !attacking
-            && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any) == null)
+            && getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction.Any, false) == null)
             rigAnimator.SetBool("LookBack", isFacingRight() != (target.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right));
-        if (target.HitEffect.ToString().EndsWith("Burst"))
+        if (target.TypeData.LaunchEffect.ToString().EndsWith("Burst"))
         {
-            rigAnimator.ResetTrigger("UnSquint");
-            rigAnimator.SetTrigger("Squint");
-            rigAnimator.SetBool("ForceTense", true);
-            Invoke("unSquint", timingData.BeatDuration * 4f);
+            rigAnimator.SetBool("Squint", true);
+            rigAnimator.SetBool("BurstTense", true);
+            Invoke("unSquintFromBurst", timingData.BeatDuration * 4f);
+            burstTense = true;
         }
     }
 
-    void unSquint()
+    void unSquintFromBurst()
     {
-        rigAnimator.ResetTrigger("Squint");
-        rigAnimator.SetTrigger("UnSquint");
-        rigAnimator.SetBool("ForceTense", false);
+        rigAnimator.SetBool("Squint", false);
+        rigAnimator.SetBool("BurstTense", false);
+        burstTense = false;
+    }
+
+    public void setSquint(bool squint)
+    {
+        rigAnimator.SetBool("Squint", squint);
     }
 
     void performAutoSlash()
@@ -190,8 +201,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
             }
             else
             {
-                MicrogameController.instance.playSFX(debugSound);
-                returnToIdle();
+                //MicrogameController.instance.playSFX(debugSound);
+                if (beat < finalGameplayBeat)
+                    returnToIdle();
             }
         }
         if (beat >= nextIdleBeat)
@@ -241,6 +253,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         lastIdleTime = Time.time;
         spriteTrail.EnableSpawn = false;
         rigAnimator.SetBool("AttackUp", false);
+
+        CancelInvoke("unSquintFromBurst");
+        rigAnimator.SetBool("Tense", false);
+        unSquintFromBurst();
+
         checkForGameplayEnd();
     }
 
@@ -331,6 +348,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
         MicrogameController.instance.setVictory(false);
     }
 
+    private void FixedUpdate() => handleInput();
+    private void OnGUI() => handleInput();
+
     void Update ()
     {
 
@@ -349,8 +369,8 @@ public class YoumuSlashPlayerController : MonoBehaviour
             if (!attackWasSuccess && slashCooldownTimer <= 0f)
                 returnToIdle();
         }
-        if (allowInput && !failQueued)
-            handleInput();
+
+        handleInput();
         
         var currentNextTarget = getFirstActiveTarget();
         if (nextTarget != currentNextTarget)
@@ -387,6 +407,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void handleInput()
     {
+        if (!allowInput || failQueued)
+            return;
+
         var directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Any;
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             directionPressed = YoumuSlashBeatMap.TargetBeat.Direction.Left;
@@ -399,9 +422,9 @@ public class YoumuSlashPlayerController : MonoBehaviour
         }
     }
 
-    YoumuSlashBeatMap.TargetBeat getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction direction)
+    YoumuSlashBeatMap.TargetBeat getFirstHittableTarget(YoumuSlashBeatMap.TargetBeat.Direction direction, bool usePreciseBeat)
     {
-        return timingData.BeatMap.getFirstHittableTarget(timingData.CurrentBeat,
+        return timingData.BeatMap.getFirstHittableTarget(usePreciseBeat ? timingData.PreciseBeat : timingData.CurrentBeat,
             hitTimeFudge.x / timingData.BeatDuration, hitTimeFudge.y / timingData.BeatDuration, direction);
     }
 
@@ -413,8 +436,10 @@ public class YoumuSlashPlayerController : MonoBehaviour
 
     void attemptSlash(YoumuSlashBeatMap.TargetBeat.Direction direction)
     {
-        var hitTarget = getFirstHittableTarget(direction);
+        var hitTarget = getFirstHittableTarget(direction, true);
         bool isHit = hitTarget != null;
+        if (Time.frameCount == lastSlashFrame)    //Return if slashed already this frame
+            return;
         if (holdAttack && !isHit && attacking)    //No slash if holdAttack is true and this slash attack is a miss and we're still attacking
             return;
         if (slashCooldownTimer > 0f //No slash if cooldown timer isn't reached and attack is a miss
@@ -424,6 +449,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
             direction = hitTarget.HitDirection;
 
         //From here below slash attempt is confirmed
+        lastSlashFrame = Time.frameCount;
         attackWasSuccess = isHit;
         slashCooldownTimer = slashCooldown;
         noteMissReactionQueued = false;
@@ -439,7 +465,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         rigAnimator.SetBool("ReAttack", reAttacking);
         lastSliceDirection = direction;
         bool attackingUp = (!attackedUp && attacking);
-        if (hitTarget!= null && hitTarget.ForceUp)
+        if (hitTarget!= null && hitTarget.TypeData.ForceUp)
             attackingUp = true;
         rigAnimator.SetBool("AttackUp", attackingUp);
         attackedUp = attackingUp;
@@ -468,7 +494,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
         {
             //Hit successful
             var offset = AutoSlash ? 0f
-                : timingData.CurrentBeat - hitTarget.HitBeat;
+                : timingData.PreciseBeat - hitTarget.HitBeat;
             hitTarget.launchInstance.slash(MathHelper.randomRangeFromVector(sliceAngleRange), slashAnimationEffectTime, offset);
             nextIdleBeat = (int)hitTarget.HitBeat + 1;
             if (upsetResetHits > 0)
@@ -478,16 +504,16 @@ public class YoumuSlashPlayerController : MonoBehaviour
                     rigAnimator.SetBool("Upset", false);
             }
 
-            switch (hitTarget.HitEffect)
+            switch (hitTarget.TypeData.HitEffect)
             {
-                case (YoumuSlashBeatMap.TargetBeat.Effect.Scream):
+                case (YoumuSlashTargetType.Effect.Scream):
                     rigAnimator.SetBool("Scream", true);
                     nextIdleBeat++;
                     playSfx(screamClip, direction, false);
                     holdAttack = true;
                     break;
                 default:
-                    playSfx(hitVoiceClip, direction, true);
+                    playSfx(getRandomHitClip(), direction, true);
                     break;
             }
             if (!reAttacking)
@@ -498,11 +524,11 @@ public class YoumuSlashPlayerController : MonoBehaviour
         else
         {
             //Missed
-            playSfx(hitVoiceClip, direction, true);
+            playSfx(getRandomHitClip(), direction, true);
             spriteTrail.resetTrail(spriteTrailStartOffset * facingDirection, 0f);
         }
 
-        spriteTrail.EnableSpawn = isHit ? (!reAttacking) : false;
+        spriteTrail.EnableSpawn = isHit;// ? (!reAttacking) : false;
     }
 
     void triggerMiss(bool depleteHealth = true)
@@ -536,10 +562,12 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         sfxSource.panStereo = voicePan *
             (direction == YoumuSlashBeatMap.TargetBeat.Direction.Right ? 1f : -1f);
-        sfxSource.pitch = (varyPitch ? Random.Range(.95f, 1.05f) : 1f)
-            * (gameplayComplete ? 1f : Time.timeScale);
+        sfxSource.pitch = (varyPitch ? MathHelper.randomRangeFromVector(voicePitchRange) : 1f)
+            * timeScale;
         sfxSource.PlayOneShot(clip);
     }
+
+    AudioClip getRandomHitClip() => hitVoiceClips[Random.Range(0, hitVoiceClips.Length)];
 
     void playNoteMissReaction()
     {

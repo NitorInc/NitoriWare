@@ -20,9 +20,13 @@ namespace FoodRoast
         [SerializeField]
         private SpriteRenderer xSpriteRenderer;
         [SerializeField]
+        private AudioClip readySound;
+        [SerializeField]
         private AudioClip pickSound;
         [SerializeField]
         private AudioClip failSound;
+        [SerializeField]
+        private Animator rigAnimator;
 
         bool picked = false;
 
@@ -35,6 +39,15 @@ namespace FoodRoast
                 if (_SpriteRenderer == null)
                     _SpriteRenderer = GetComponent<SpriteRenderer>();
                 return _SpriteRenderer;
+            }
+        }
+
+        private void Update()
+        {
+            if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory())
+            {
+                rigAnimator.SetInteger("State", 2);
+                enabled = false;
             }
         }
 
@@ -118,6 +131,9 @@ namespace FoodRoast
             ChangeParticlesStartColorAlpha(.05f);
             foreach (var particle in Particles)
                 particle.Play();
+
+            rigAnimator.SetInteger("State", 1);
+            MicrogameController.instance.playSFX(readySound, AudioHelper.getAudioPan(transform.position.x));
         }
 
         // Procedure that turns uncooked to cooked potatoes
@@ -130,8 +146,10 @@ namespace FoodRoast
             foreach (var particle in Particles)
                 particle.Play();
 
-            MicrogameController.instance.setVictory(false);
-            MicrogameController.instance.playSFX(failSound);
+
+            rigAnimator.SetInteger("State", 2);
+            FoodRoast_VictoryController.Instance.setVictory(false);
+            MicrogameController.instance.playSFX(failSound, AudioHelper.getAudioPan(transform.position.x));
 
         }
 
@@ -173,6 +191,7 @@ namespace FoodRoast
         void Pick(bool isReady)
         {
             picked = true;
+            rigAnimator.SetInteger("State", 3);
             if (isReady)
             {
                 FoodRoast_Controller.Instance.AddCookedPotato();
@@ -181,12 +200,12 @@ namespace FoodRoast
                 rb2d.bodyType = RigidbodyType2D.Dynamic;
                 rb2d.velocity = flingVel;
                 rb2d.gravityScale = launchGravity;
-                MicrogameController.instance.playSFX(pickSound);
+                MicrogameController.instance.playSFX(pickSound, AudioHelper.getAudioPan(transform.position.x));
             }
             else
             {
                 FoodRoast_Controller.Instance.AddUncookedPotato();
-                MicrogameController.instance.playSFX(failSound);
+                MicrogameController.instance.playSFX(failSound, AudioHelper.getAudioPan(transform.position.x));
                 xSpriteRenderer.enabled = true;
             }
             

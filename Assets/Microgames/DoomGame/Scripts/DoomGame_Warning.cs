@@ -6,6 +6,7 @@ public class DoomGame_Warning : MonoBehaviour {
 
     public DoomGame_Enemy[] enemies;
     public GameObject[] activates;
+    public DoomGame_Player player;
 
     void Update () {
         for (int i = 0; i < enemies.Length; i++) {
@@ -17,6 +18,7 @@ public class DoomGame_Warning : MonoBehaviour {
 
         for (int i = 0; i < activates.Length; i++)
             activates[i].SetActive (true);
+        player.setTurningAround();
         Destroy (this);
     }
 }

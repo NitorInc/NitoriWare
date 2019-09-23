@@ -196,7 +196,7 @@ public class SlingshotAmmo : MonoBehaviour
 
 	void updateAudioPan()
 	{
-		audio.panStereo = (transform.position.x / (Camera.main.orthographicSize * 4f / 3f)) * .8f;
+		audio.panStereo = (transform.position.x / (MainCameraSingleton.instance.orthographicSize * 4f / 3f)) * .8f;
 	}
 
 	float getStretchPitch()

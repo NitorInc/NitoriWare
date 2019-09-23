@@ -9,13 +9,7 @@ public class YoumuSlashTarget : MonoBehaviour
     [SerializeField]
     private YoumuSlashTargetBody body;
     [SerializeField]
-    private YoumuSlashHitEffectController hitEffects;
-    [SerializeField]
-    private AudioClip launchClip;
-    [SerializeField]
-    private float launchPan = .5f;
-    [SerializeField]
-    private float slashPan = .5f;
+    private YoumuSlashSoundEffect launchSoundEffect;
     [SerializeField]
     private float leftPitch = 1f;
     [SerializeField]
@@ -27,7 +21,6 @@ public class YoumuSlashTarget : MonoBehaviour
     public YoumuSlashBeatMap.TargetBeat MapInstance => mapInstance;
 
     private bool isRight;
-    private AudioSource sfxSource;
     private float slashAngle;
     private float slashTimeOffset;
 
@@ -38,19 +31,24 @@ public class YoumuSlashTarget : MonoBehaviour
         public float timeOffset;
     }
 
-    
-	public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
+
+    public void initiate(YoumuSlashBeatMap.TargetBeat mapInstance)
     {
         this.mapInstance = mapInstance;
         mapInstance.launchInstance = this;
+        importTargetTypeTraits(mapInstance);
         isRight = mapInstance.HitDirection == YoumuSlashBeatMap.TargetBeat.Direction.Right;
         if (isRight)
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
-        sfxSource = GetComponent<AudioSource>();
-        sfxSource.panStereo = launchPan * (isRight ? 1f : -1f);
-        sfxSource.pitch = (isRight ? rightPitch : leftPitch) * Time.timeScale;
-        sfxSource.PlayOneShot(launchClip);
+        BroadcastMessage("onLaunch", MapInstance, SendMessageOptions.DontRequireReceiver);
+    }
+
+    void importTargetTypeTraits(YoumuSlashBeatMap.TargetBeat target)
+    {
+        body.RigAnimator.runtimeAnimatorController = target.TypeData.Animator;
+        body.BaseImage.sprite = target.TypeData.Image;
+        launchSoundEffect = target.TypeData.LaunchSoundEffect;
     }
 
     public void slash(float angle, float effectActivationTime, float timeOffset)
@@ -79,20 +77,5 @@ public class YoumuSlashTarget : MonoBehaviour
     {
         var distanceOffset = Vector3.down * slashTimeOffset * hitOffsetMult;
         body.onSlashDelay(slashAngle, distanceOffset);
-    }
-
-    public void overrideAnimatorController(RuntimeAnimatorController animatorController)
-    {
-        body.RigAnimator.runtimeAnimatorController = animatorController;
-    }
-
-    public void overrideImage(Sprite sprite)
-    {
-        body.BaseImage.sprite = sprite;
-    }
-
-    public void overrideSound(AudioClip overrideClip)
-    {
-        hitEffects.NormalClip = overrideClip;
     }
 }

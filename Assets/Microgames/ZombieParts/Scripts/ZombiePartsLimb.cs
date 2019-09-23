@@ -10,8 +10,12 @@ public class ZombiePartsLimb : MonoBehaviour {
 	[HideInInspector]
 	public Vector3 correctPosition = Vector3.zero;
 
+
 	[SerializeField]
 	private float returnSpeed = 5f;
+	[SerializeField]
+	private float snapSpeed = 15f;
+
 
 	private MouseGrabbable grabbable;
 	private Vector3 startPosition;
@@ -41,10 +45,10 @@ public class ZombiePartsLimb : MonoBehaviour {
 	private void Update () {
 		if (!completed) {
 			if (isReturning) {
-				MoveToPosition(startPosition);
+				MoveToPosition(startPosition, returnSpeed);
 				if ((transform.position - startPosition).magnitude < 0.1f) {
 					isReturning = false;
-					transform.position = startPosition;
+					// transform.position = startPosition;
 				}
 			} else if (lastUpdateGrabbable && !grabbable.grabbed) {
 				if (inCorrectPosition) {
@@ -56,7 +60,7 @@ public class ZombiePartsLimb : MonoBehaviour {
 
 			lastUpdateGrabbable = grabbable.grabbed;
 		} else {
-			MoveToPosition(correctPosition);
+			MoveToPosition(correctPosition, snapSpeed);
 		}
 	}
 
@@ -69,9 +73,14 @@ public class ZombiePartsLimb : MonoBehaviour {
 	}
 
 
-	private void MoveToPosition (Vector3 newPosition) {
-		transform.position = Vector3.Lerp(transform.position, newPosition, returnSpeed * Time.deltaTime);
+	public bool GetIsReturning ()
+	{
+		return isReturning;
 	}
 
+
+	private void MoveToPosition (Vector3 newPosition, float speed) {
+		transform.position = Vector3.Lerp(transform.position, newPosition, speed * Time.deltaTime);
+	}
 
 }

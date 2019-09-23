@@ -453,6 +453,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinCount: 3
   moveType: 0
+  crashSoundDelay: 0.5
+  rotationPerSound: 360
+  rotationSpinTimer: 270
+  crashSoundPan: -0.7
   seijaAnim: {fileID: 0}
   spinAnim: {fileID: 95997214769869080}
   charFlingAnim: {fileID: 95612651136747976}
@@ -460,6 +464,7 @@ MonoBehaviour:
   flingClip: {fileID: 8300000, guid: 092abb15f12054940b87b4113b89e3f1, type: 3}
   crashClip: {fileID: 8300000, guid: 916b5cdb42424114798387c3f24c08bf, type: 3}
   spinClip: {fileID: 8300000, guid: b78ccd2ac5acaa24cb9c31d946509c33, type: 3}
+  rotateClip: {fileID: 8300000, guid: de667ffdcde93344c91cb8480563e8f8, type: 3}
   broomObject: {fileID: 1702858986386512}
 --- !u!114 &114741911954389966
 MonoBehaviour:
@@ -476,6 +481,7 @@ MonoBehaviour:
   tieToTimescale: 0
   tieToVolumeSettings: 1
   preserveInitialPitch: 0
+  updateEachFrame: 1
   volumeType: 2
 --- !u!212 &212658282071343718
 SpriteRenderer:

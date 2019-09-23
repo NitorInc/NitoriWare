@@ -17,7 +17,7 @@ public class LocalizedText : MonoBehaviour
     [SerializeField]
     private string _key;
     [SerializeField]
-    private Parameter[] parameters;
+    private Parameter[] parameters = { };
 
     public string key
     {
@@ -34,9 +34,9 @@ public class LocalizedText : MonoBehaviour
     }
     
     [SerializeField]
-    private TMP_FontAsset[] tmproFontFallbackList;
+    private TMP_FontAsset[] tmproFontFallbackList = { };
     [SerializeField]
-    private TMP_FontAsset[] tmproFontBlacklist;
+    private TMP_FontAsset[] tmproFontBlacklist = { };
 
     private Text textComponent;
     public Text TextComponent => textComponent;

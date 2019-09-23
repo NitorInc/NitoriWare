@@ -1,8 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class DoomGame_Player : MonoBehaviour {
+public class DoomGame_Player : MonoBehaviour
+{
+    [SerializeField]
+    private float mouseSensitivity = 1f;
+    [SerializeField]
+    private float turnAroundSensitivty = 5f;
+    [SerializeField]
+    private float turnAroundStopEnemiesAngle = 30f;
     [SerializeField]
     bool useAmmo = true;
     [HideInInspector]
@@ -14,7 +22,7 @@ public class DoomGame_Player : MonoBehaviour {
     Transform mainCamera;
     new AudioSource audio;
     [SerializeField]
-    AudioClip shootSound, deadSound;
+    AudioClip shootSound, deadSound, emptyClipSound;
     [SerializeField]
     public Material screen;
     [HideInInspector]
@@ -27,18 +35,31 @@ public class DoomGame_Player : MonoBehaviour {
     [HideInInspector]
     public float shake = 0;
 
-    void Start () {
+    private bool isTurningAround;
+    public void setTurningAround() => isTurningAround = true;
+
+    void Start ()
+    {
         startPosition = transform.position;
-        mainCamera = Camera.main.transform;
+        mainCamera = MainCameraSingleton.instance.transform;
         audio = GetComponent<AudioSource> ();
     }
 
-    void Update () {
+    void Update ()
+    {
         transform.position = startPosition + Random.insideUnitSphere * shake;
         shake -= Time.deltaTime * 3;
         if (shake <= 0)
             shake = 0;
-        float mX = Input.GetAxis ("Mouse X");
+        var sensitivity = mouseSensitivity;
+        if (isTurningAround)
+        {
+            if (getEnemyAverateAngle() < turnAroundStopEnemiesAngle)
+                isTurningAround = false;
+            else
+                sensitivity = turnAroundSensitivty;
+        }
+        float mX = Input.GetAxis("Mouse X") * sensitivity;
         transform.Rotate (Vector3.up, mX);
         gunAnimator.transform.localPosition = Vector3.Lerp (
             gunAnimator.transform.localPosition,
@@ -51,14 +72,18 @@ public class DoomGame_Player : MonoBehaviour {
             Shoot ();
     }
 
-    void Shoot () {
+    void Shoot ()
+    {
         if (useAmmo && bullets <= 0 || dead)
+        {
+            audio.PlayOneShot (emptyClipSound, 0.8f);
             return;
+        }
         if (useAmmo)
             bullets--;
         ui.Shoot ();
         ui.UpdateAmmo (bullets);
-        audio.PlayOneShot (shootSound);
+        audio.PlayOneShot (shootSound, 0.6f);
         gunAnimator.Play ("doom_gun");
         gunAnimator.SetTrigger ("shoot");
         RaycastHit hit;
@@ -66,18 +91,44 @@ public class DoomGame_Player : MonoBehaviour {
             hit.collider.GetComponent<DoomGame_Enemy> ().DamageSelf ();
     }
 
-    public void AddBullets (int value) {
+    float getEnemyAverateAngle()
+    {
+        if (!enemies.Any())
+            return 0f;
+        var enemyAngleDiffs = new List<float>();
+        var playerAngle = mainCamera.transform.eulerAngles.y;
+        var playerPos = new Vector2(transform.position.x, transform.position.z);
+        foreach (var enemy in enemies)
+        {
+            if (enemy.isActiveAndEnabled)
+            {
+                var enemyPos = new Vector2(enemy.transform.position.x, enemy.transform.position.z);
+                var enemyAngle = (enemyPos - playerPos).getAngle() - 90f;
+                enemyAngleDiffs.Add(Mathf.Abs(MathHelper.getAngleDifference(playerAngle, enemyAngle)));
+            }
+        }
+        return enemyAngleDiffs.Min();
+        //if (Mathf.Abs(average) < minSensitivityAddAngle)
+        //    return 0f;
+        //return Mathf.Abs(average) * sensitivityAngleAdd;
+    }
+
+    public void AddBullets (int value)
+    {
         bullets += value;
         if (bullets > 6) bullets = 6;
         ui.UpdateAmmo (bullets);
     }
 
-    public void Kill () {
-        if (!dead) {
+    public void Kill ()
+    {
+        if (!dead)
+        {
             dead = true;
             ui.Die ();
             MicrogameController.instance.setVictory (false, true);
-            AudioSource.PlayClipAtPoint (deadSound, transform.position);
+            MicrogameController.instance.playSFX(deadSound);
+            //AudioSource.PlayClipAtPoint (deadSound, transform.position);
         }
     }
 

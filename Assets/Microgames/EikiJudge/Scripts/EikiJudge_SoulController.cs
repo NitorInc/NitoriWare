@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class EikiJudge_SoulController : MonoBehaviour
 {
@@ -10,19 +11,35 @@ public class EikiJudge_SoulController : MonoBehaviour
     private Sprite badSoulSprite;
     [SerializeField]
     private Sprite goodSoulSprite;
+    [SerializeField]
+    private float delay = 0.25f;
+    [SerializeField]
+    private float speed = 10f;
+    [SerializeField]
+    private float toPortalSpeed = 25f;
+    [SerializeField]
+    private float readyDelay = .35f;
+    [SerializeField]
+    private Vector3 restSpot;
+    [SerializeField]
+    private AudioClip inClip;
+    [SerializeField]
+    private AudioClip winClip;
+    [SerializeField]
+    private AudioClip lossClip;
 
     public int soulListPosition;
-    [SerializeField]
-
     private bool moveToCourt = false;
-    private float delay = 0.25f;
+    
+    public bool Ready => readyDelay <= 0f;
 
     private Vector3 soulTarget;
-    private float speed = 10f;
 
     private Vector3 targetPortal = Vector3.zero;
     private Vector3 soulTrajectory;
     private bool soulIsLate = false;
+    private bool isLastSoul = false;
+    private bool incorrectChoice = false;
 
 
     public EikiJudge_Controller.Direction rightPortalDirection;
@@ -63,19 +80,32 @@ public class EikiJudge_SoulController : MonoBehaviour
         if (soulListPosition >= 0 && moveToCourt && soulIsLate == false)
         {
             // Move the soul in the correct spot
-            soulTarget = new Vector3(0f, -1.5f * soulListPosition, soulListPosition * -1f);
+            soulTarget = restSpot + new Vector3(0f, -1.5f * soulListPosition, soulListPosition * -1f);
             transform.position = Vector3.Lerp(transform.position, soulTarget, Time.deltaTime * speed);
         }
         else if (soulListPosition < 0)
         {
             // Move the soul towards the chosen portal
-            Vector3 newPosition = transform.position + (soulTrajectory * speed * Time.deltaTime);
+            Vector3 newPosition = transform.position + (soulTrajectory * toPortalSpeed * Time.deltaTime);
             transform.position = newPosition;
         }
 
         // If soul Y is higher than the doors Y, then he's past them and should disappear
         if (this.transform.position.y > EikiJudge_PortalsController.controller.transform.position.y)
         {
+            var portalChildren = (new int[] { 0, 1 }).Select(a => EikiJudge_PortalsController.controller.transform.GetChild(a));
+            var chosenPortal = portalChildren.FirstOrDefault(a => Mathf.Sign(a.position.x) == Mathf.Sign(targetPortal.x));
+            chosenPortal.GetComponentInChildren<Animator>().SetTrigger(incorrectChoice ? "Incorrect" : "Correct");
+
+            if (incorrectChoice)
+                MicrogameController.instance.playSFX(lossClip, AudioHelper.getAudioPan(transform.position.x));
+            else
+            {
+                MicrogameController.instance.playSFX(inClip, AudioHelper.getAudioPan(transform.position.x));
+                if (isLastSoul)
+                    MicrogameController.instance.playSFX(winClip);
+            }
+
             this.gameObject.SetActive(false);
             // TODO: Add an effect, particles, ripple on the door ?
             // Maybe fade instead of just deactivate the gameobject ?
@@ -89,6 +119,8 @@ public class EikiJudge_SoulController : MonoBehaviour
                 soulIsLate = false;
             }
         }
+        else
+            readyDelay -= Time.deltaTime;
 
     }
 
@@ -99,8 +131,9 @@ public class EikiJudge_SoulController : MonoBehaviour
     }
 
     // Send the soul to a portal
-    public void SendTheSoul(EikiJudge_Controller.Direction judgementDirection)
+    public void SendTheSoul(EikiJudge_Controller.Direction judgementDirection, bool isLastSoul)
     {
+        this.isLastSoul = isLastSoul;
         if (judgementDirection == EikiJudge_Controller.Direction.left)
         {
             targetPortal = new Vector3(-4.35f, 2.5f);
@@ -116,6 +149,7 @@ public class EikiJudge_SoulController : MonoBehaviour
         if (judgementDirection != rightPortalDirection)
         {
             EikiJudge_Controller.controller.LoseGame();
+            incorrectChoice = true;
         }
     }
 }

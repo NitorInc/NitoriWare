@@ -23,7 +23,7 @@ public class DoorKnockCameraZoom : MonoBehaviour
     
 	void Start ()
     {
-        camera = Camera.main;
+        camera = MainCameraSingleton.instance;
 	}
 
     void beginTransition()

@@ -6,8 +6,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class CreditsSplitLines : MonoBehaviour
 {
-    [SerializeField]
-    private string lastText;
+    private string lastText = "";
     [SerializeField]
     private Text[] textColumns;
     [SerializeField]

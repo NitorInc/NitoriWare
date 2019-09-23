@@ -24,6 +24,8 @@ public class LocalizationManager : MonoBehaviour
 	private SerializedNestedStrings localizedText;
     private string languageString;
     private SerializedNestedStrings.StringData languageFontMetadata;
+    private bool loadedLanguageIsComplete;
+    public bool isLoadedLanguageComplete() => loadedLanguageIsComplete;
 
 	public void Awake ()
     {
@@ -88,9 +90,11 @@ public class LocalizationManager : MonoBehaviour
         PrefsHelper.setPreferredLanguage(language.getLanguageID());
         languageFontMetadata = localizedText.getSubData("meta.font");
 
+        loadedLanguageIsComplete = false;
         loadedLanguage = language;
         languageString = "";
-        
+        loadedLanguageIsComplete = getLocalizedValue("generic.complete", "N").Equals("Y", System.StringComparison.OrdinalIgnoreCase);
+
         if (onLanguageChanged != null)
             onLanguageChanged(language);
     }
@@ -117,8 +121,8 @@ public class LocalizationManager : MonoBehaviour
 		string value = (string)localizedText[key];
 		if (string.IsNullOrEmpty(value))
 		{
-            if (!loadedLanguage.incomplete)
-			Debug.LogWarning("Language " + getLoadedLanguageID() + " is not marked as incomplete but does not have a value for key " + key);
+            if (loadedLanguageIsComplete)
+			Debug.LogWarning("Language " + getLoadedLanguageID() + " is marked as complete but does not have a value for key " + key);
 			    return defaultString;
 		}
 		value = value.Replace("\\n", "\n");

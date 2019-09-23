@@ -12,7 +12,7 @@ namespace NitorInc.ClownTorch {
 
         // Update is called once per frame
         void Update() {
-            var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var point = MainCameraSingleton.instance.ScreenToWorldPoint(Input.mousePosition);
             point.z = 0.0f;
             transform.position = point;
             MicrogameController.instance.getSFXSource().panStereo = AudioHelper.getAudioPan(transform.position.x);

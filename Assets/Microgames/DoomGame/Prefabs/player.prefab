@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4986883040598558}
   - component: {fileID: 82974401090714308}
   - component: {fileID: 114588044432790846}
+  - component: {fileID: 114246554125818514}
   m_Layer: 0
   m_Name: player
   m_TagString: MainCamera
@@ -482,6 +483,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114246554125818514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1139943823602098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  updateEachFrame: 1
+  volumeType: 2
+  volumeMult: 1
+  pitchMult: 1
 --- !u!114 &114268706828776438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -520,12 +540,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74708e2a77ed45b499933719d41ccb53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseSensitivity: 1.25
+  turnAroundSensitivty: 2.5
+  turnAroundStopEnemiesAngle: 30
   useAmmo: 1
   enemies: []
   ui: {fileID: 114913062528294792}
   gunAnimator: {fileID: 95634132117123658}
   shootSound: {fileID: 8300000, guid: e5c826f488e67a74ea422bbea3832fb7, type: 3}
   deadSound: {fileID: 8300000, guid: 26034bfe781dab84bb7a09bbcd816534, type: 3}
+  emptyClipSound: {fileID: 8300000, guid: 600dfa98e25bf0d42a0b13b1e4a2620c, type: 3}
   screen: {fileID: 2100000, guid: d442f1e043162df42a5716a4748417dc, type: 2}
   dead: 0
   dead_lerp: 0
@@ -935,7 +959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -282.19998, y: -253.49997}
+  m_AnchoredPosition: {x: 179.3, y: -253.49997}
   m_SizeDelta: {x: 50.72, y: 50.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224545606609105262
@@ -953,7 +977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -359.5, y: -253.49997}
+  m_AnchoredPosition: {x: 102, y: -253.49997}
   m_SizeDelta: {x: 50.72, y: 50.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224546139693715100
@@ -971,7 +995,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -320.7, y: -253.49997}
+  m_AnchoredPosition: {x: 140.8, y: -253.49997}
   m_SizeDelta: {x: 50.72, y: 50.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224822353790214592

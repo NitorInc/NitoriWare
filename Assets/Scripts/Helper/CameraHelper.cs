@@ -24,12 +24,15 @@ public class CameraHelper
 	/// </summary>
 	/// <param name="point"></param>
 	/// <returns></returns>
-	public static bool isPointOffscreen(Vector3 point)
-	{
-		camSize = Camera.main.orthographicSize;
+	public static bool isPointOffscreen(Vector3 point, Camera camera = null)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
 
-		return Mathf.Abs(point.x - Camera.main.transform.position.x) > (camSize * 4f / 3f)
-			|| Mathf.Abs(point.y - Camera.main.transform.position.y) > (camSize);
+        camSize = camera.orthographicSize;
+
+		return Mathf.Abs(point.x - camera.transform.position.x) > (camSize * 4f / 3f)
+			|| Mathf.Abs(point.y - camera.transform.position.y) > (camSize);
 	}
 
 	/// <summary>
@@ -38,9 +41,12 @@ public class CameraHelper
 	/// <param name="transform"></param>
 	/// <param name="forceSize"></param>
 	/// <returns></returns>
-	public static bool isObjectOffscreen(Transform transform)
-	{
-		float size;
+	public static bool isObjectOffscreen(Transform transform, Camera camera = null)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
+
+        float size;
 		if (transform.GetComponent<BoxCollider2D>() != null)
 		{
 			BoxCollider2D collider = transform.GetComponent<BoxCollider2D>();
@@ -57,7 +63,7 @@ public class CameraHelper
 		}
 		else
 			size = 0f;
-		return isObjectOffscreen(transform, size);
+		return isObjectOffscreen(transform, size, camera);
 	}
 
 	/// <summary>
@@ -66,11 +72,14 @@ public class CameraHelper
 	/// <param name="transform"></param>
 	/// <param name="forceSize"></param>
 	/// <returns></returns>
-	public static bool isObjectOffscreen(Transform transform, float forceSize)
-	{
-		camSize = Camera.main.orthographicSize;
-		return Mathf.Abs(transform.position.x - Camera.main.transform.position.x) > (camSize * 4f / 3f) + forceSize
-			|| Mathf.Abs(transform.position.y - Camera.main.transform.position.y) > (camSize) + forceSize;
+	public static bool isObjectOffscreen(Transform transform, float forceSize, Camera camera = null)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
+
+        camSize = camera.orthographicSize;
+		return Mathf.Abs(transform.position.x - camera.transform.position.x) > (camSize * 4f / 3f) + forceSize
+			|| Mathf.Abs(transform.position.y - camera.transform.position.y) > (camSize) + forceSize;
 	}
 
 	
@@ -78,27 +87,33 @@ public class CameraHelper
 	/// Determines the position of the player's cursor in world coordinates, useful for making an object move with the mouse
 	/// </summary>
 	/// <returns></returns>
-	public static Vector3 getCursorPosition()
-	{
-		return getCursorPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition).z);
+	public static Vector3 getCursorPosition(Camera camera = null)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
+
+        return getCursorPosition(camera.ScreenToWorldPoint(Input.mousePosition).z, camera);
 	}
 
 	/// <summary>
 	/// Determines the position of the player's cursor in world coordinates with z value specified, useful for making an object move with the mouse
 	/// </summary>
 	/// <returns></returns>
-	public static Vector3 getCursorPosition(float z)
-	{
-		if (Camera.main.orthographic)
+	public static Vector3 getCursorPosition(float z, Camera camera = null)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
+
+        if (camera.orthographic)
 		{
-			camSize = Camera.main.orthographicSize;
+			camSize = camera.orthographicSize;
 
-			Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 position = camera.ScreenToWorldPoint(Input.mousePosition);
 
-			position.x = Mathf.Clamp(position.x, Camera.main.transform.position.x - (camSize * 4f / 3f),
-				Camera.main.transform.position.x + (camSize * 4f / 3f));
-			position.y = Mathf.Clamp(position.y, Camera.main.transform.position.y - camSize,
-				Camera.main.transform.position.y + camSize);
+			position.x = Mathf.Clamp(position.x, camera.transform.position.x - (camSize * 4f / 3f),
+				camera.transform.position.x + (camSize * 4f / 3f));
+			position.y = Mathf.Clamp(position.y, camera.transform.position.y - camSize,
+				camera.transform.position.y + camSize);
 			position.z = z;
 
 			lastCursorPosition = position;
@@ -106,7 +121,7 @@ public class CameraHelper
 		}
 		else
 		{
-			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
 			Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, z));
 			float distance;
 			xy.Raycast(mouseRay, out distance);
@@ -118,11 +133,14 @@ public class CameraHelper
 	/// Determines the position of the player's cursor in world coordinates regardless of whether it's offscreen
 	/// </summary>
 	/// <returns></returns>
-	public static Vector3 getCursorPositionAbsolute()
-	{
-		camSize = Camera.main.orthographicSize;
+	public static Vector3 getCursorPositionAbsolute(Camera camera = null)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
 
-		Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        camSize = camera.orthographicSize;
+
+		Vector3 position = camera.ScreenToWorldPoint(Input.mousePosition);
 		return position;
 	}
 
@@ -131,14 +149,17 @@ public class CameraHelper
 	/// </summary>
 	/// <param name="collider"></param>
 	/// <returns></returns>
-	public static bool isMouseOver(Collider2D collider, float distance = float.PositiveInfinity, int layerMask = Physics2D.DefaultRaycastLayers)
-	{
+	public static bool isMouseOver(Collider2D collider, Camera camera = null, float distance = float.PositiveInfinity, int layerMask = Physics2D.DefaultRaycastLayers)
+    {
+        if (camera == null)
+            camera = MainCameraSingleton.instance;
+
         if (cameraCollisionResults.evaluatedFrame != Time.frameCount)
             cameraCollisionResults = new CameraCollisionResults(Time.frameCount);
         else if (cameraCollisionResults.calculatedHits.ContainsKey(layerMask))
             return (cameraCollisionResults.calculatedHits[layerMask].collider == collider);
         
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, distance, layerMask);
         cameraCollisionResults.calculatedHits[layerMask] = hit;
         return (hit.collider == collider);

@@ -78,6 +78,7 @@ public class MicrogameTraits : ScriptableObject
         Finished
     }
 
+    [Header("Credits order is Art, Code, Music:")]
     [SerializeField]
     private string[] _credits = { "", "", "" };
     public virtual string[] credits => _credits;
