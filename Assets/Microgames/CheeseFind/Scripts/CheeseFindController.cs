@@ -16,9 +16,9 @@ public class CheeseFindController : MonoBehaviour {
     [SerializeField]
     private GameObject itemPrefab;
 
-    [Header("Victory Screen")]
+    [Header("Nazrin")]
     [SerializeField]
-    private GameObject victoryScreen;
+    private GameObject nazrinObject;
 
     [Header("Number of cheese")]
     [SerializeField]
@@ -37,7 +37,7 @@ public class CheeseFindController : MonoBehaviour {
     private int scoreRequired;
 
     private CheeseFindCamera _cameraScript;
-    private CheeseFindVictoryScreen _victoryScreen;
+    private CheeseFindNazrin _nazrinObject;
     private CheeseFindDrawer[] _drawerScripts;
     private CheeseFindItem[] _miceScripts;
     private CheeseFindItem[] _cheeseScripts;
@@ -95,7 +95,7 @@ public class CheeseFindController : MonoBehaviour {
         }
 
         _cameraScript = camera.GetComponent<CheeseFindCamera>();
-        _victoryScreen = victoryScreen.GetComponent<CheeseFindVictoryScreen>();
+        _nazrinObject = nazrinObject.GetComponent<CheeseFindNazrin>();
 
         StartCoroutine(HideItem());
 	}
@@ -137,18 +137,18 @@ public class CheeseFindController : MonoBehaviour {
 
         for(int i = 0; i < _miceScripts.Length; i ++) {
             if(_miceScripts[i].isUsed) {
-                _miceScripts[i].MoveTo(_miceScripts[i].drawerPosition, 1f, Random.value > .5f);
+                _miceScripts[i].MoveTo(_miceScripts[i].drawerPosition, 1f, true);
                 continue;
             }
-            _miceScripts[i].MoveAway(1f, Random.value > .5f);
+            _miceScripts[i].MoveAway(1.5f, false);
         }
 
         for(int i = 0; i < _cheeseScripts.Length; i ++) {
             if(_cheeseScripts[i].isUsed) {
-                _cheeseScripts[i].MoveTo(_cheeseScripts[i].drawerPosition, 1f, Random.value > .5f);
+                _cheeseScripts[i].MoveTo(_cheeseScripts[i].drawerPosition, 1f, true);
                 continue;
             }
-            _cheeseScripts[i].MoveAway(1f, Random.value > .5f);
+            _cheeseScripts[i].MoveAway(1.5f, false);
         }
 		yield return new WaitForSeconds(1f);
         
@@ -169,7 +169,7 @@ public class CheeseFindController : MonoBehaviour {
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isLocked = true;
         }
-        _victoryScreen.Activate();
+        _nazrinObject.Activate(isVictorious, scoreRequired);
         MicrogameController.instance.setVictory(isVictorious, true);
     }
 

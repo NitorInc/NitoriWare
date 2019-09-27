@@ -63,7 +63,7 @@ public class CheeseFindItem : MonoBehaviour {
 		    transform.position = Vector3.Lerp(_origin, _destination, EaseInOutSine(movingFactor));
             if(_hasAnimation) {
                 transform.eulerAngles = Vector3.forward * (movingFactor * 360f * _rotationDirection);
-                transform.localScale = Vector3.Lerp(_nominalScale, _nominalScale * .75f, EaseOutSine(movingFactor));
+                transform.localScale = Vector3.Lerp(_nominalScale, _nominalScale * .5f, EaseOutSine(movingFactor));
             }
             else {
                 transform.eulerAngles = Vector3.forward;

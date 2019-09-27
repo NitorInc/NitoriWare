@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheeseFindVictoryScreen : MonoBehaviour {
+public class CheeseFindNazrin : MonoBehaviour {
     [Header("Start Position")]
     [SerializeField]
     private Vector3 startPosition;
@@ -15,8 +15,14 @@ public class CheeseFindVictoryScreen : MonoBehaviour {
     private float _movingTime = 0f;
     private float _movingDuration = 1f;
 
+    private GameObject _success8Rig, _success4Rig, _success3Rig, _failureRig;
+
 	void Start () {
 		transform.position = startPosition;
+        _success8Rig = transform.Find("Success8").gameObject;
+        _success4Rig = transform.Find("Success4").gameObject;
+        _success3Rig = transform.Find("Success3").gameObject;
+        _failureRig = transform.Find("Failure").gameObject;
 	}
 	
 	void Update () {
@@ -35,7 +41,17 @@ public class CheeseFindVictoryScreen : MonoBehaviour {
         return Mathf.Sin(-13f * (Mathf.PI / 2f) * (t + 1)) * Mathf.Pow(2f, -10f * t) + 1f;
     }
 
-    public void Activate() {
+    public void Activate(bool isVictorious, int score) {
+        if(isVictorious) {
+            if(score <= 3)
+                _success3Rig.SetActive(true);
+            else if(score <= 4)
+                _success4Rig.SetActive(true);
+            else
+                _success8Rig.SetActive(true);
+        }
+        else
+            _failureRig.SetActive(true);
         _isMoving = true;
     }
 }
