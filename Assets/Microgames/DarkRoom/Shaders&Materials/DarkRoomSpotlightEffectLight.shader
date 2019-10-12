@@ -2,15 +2,19 @@
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Hidden/DarkRoomSpotlightEffectLight"
+Shader "Hidden/DarkRoomSpotlightEffect"
 {
 	Properties
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_LightTex("Light Texture", 2D) = "white" {}
+		_LampPos("Lamp Position", Vector) = (0,0,0,0)
+		_CursorPos("Cursor Position", Vector) = (0,0,0,0)
 		_FadeStart("Fade Start Distance", Float) = 5
 		_FadeEnd("Fade End Distance", Float) = 10
 		_PulseSpeed("Pulse Speed", Float) = 10
+		_AlphaPow("Pulse Exponent", Float) = .5
+		_CursorAlphaPow("Cursor Pulse Exponent", Float) = .5
 		_PulseAmpInv("Pulse Amplitude Inverse", Float) = 15
 	}
 
@@ -24,7 +28,7 @@ Shader "Hidden/DarkRoomSpotlightEffectLight"
 		}
 		Pass
 		{
-			Blend SrcAlpha DstAlpha
+			Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM
 			#pragma vertex vert
@@ -72,6 +76,8 @@ Shader "Hidden/DarkRoomSpotlightEffectLight"
 			float _FadeEnd;
 			float _PulseSpeed;
 			float _PulseAmpInv;
+			float _AlphaPow;
+			float _CursorAlphaPow;
 
 			float distance(float2 a, float2 b)
 			{
@@ -87,11 +93,13 @@ Shader "Hidden/DarkRoomSpotlightEffectLight"
 				float lampAlpha = (lampDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
 				lampAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
 				lampAlpha = clamp(lampAlpha, 0, 1);
+				lampAlpha = pow(lampAlpha, _AlphaPow);
 
 				float cursorDistance = distance((float2)i.wpos, (float2)_CursorPos);
 				float cursorAlpha = (cursorDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
-				cursorAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
+				//cursorAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
 				cursorAlpha = clamp(cursorAlpha, 0, 1);
+				cursorAlpha = pow(cursorAlpha, _CursorAlphaPow);
 
 				float alpha = 1 - ((1 - lampAlpha) + (1 - cursorAlpha));
 				color.a *= clamp(alpha, 0, 1);
