@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Hidden/DarkRoomSpotlightEffect"
+Shader "Hidden/DarkRoomSpotlightEffectLight"
 {
 	Properties
 	{
@@ -89,20 +89,15 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 				float4 color = tex2D(_MainTex, i.uv);
                 color *= i.uvColor;
 
-				float lampDistance = distance((float2)i.wpos, (float2)_LampPos);
-				float lampAlpha = (lampDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
-				lampAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
-				lampAlpha = clamp(lampAlpha, 0, 1);
-				lampAlpha = pow(lampAlpha, _AlphaPow);
+				color.a *= 1 - (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
 
-				float cursorDistance = distance((float2)i.wpos, (float2)_CursorPos);
-				float cursorAlpha = (cursorDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
-				//cursorAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
-				cursorAlpha = clamp(cursorAlpha, 0, 1);
-				cursorAlpha = pow(cursorAlpha, _CursorAlphaPow);
+				//float lampDistance = distance((float2)i.wpos, (float2)_LampPos);
+				//float lampAlpha = (lampDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
+				//lampAlpha = clamp(lampAlpha, 0, 1);
+				//lampAlpha = pow(lampAlpha, _AlphaPow);
 
-				float alpha = 1 - ((1 - lampAlpha) + (1 - cursorAlpha));
-				color.a *= clamp(alpha, 0, 1);
+				//float alpha = 1 - ((1 - lampAlpha) + (1 - cursorAlpha));
+				//color.a *= clamp(alpha, 0, 1);
 
 				return color;
 			}
