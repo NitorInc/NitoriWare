@@ -45,4 +45,8 @@ public class RumiaRescueRumiaController : MonoBehaviour {
                 transform.position = newPosition;
         }
     }
+
+    public void WhenGameVictory() {
+        //isFinished = true;
+    }
 }
