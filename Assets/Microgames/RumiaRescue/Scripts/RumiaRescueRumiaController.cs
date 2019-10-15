@@ -17,10 +17,11 @@ public class RumiaRescueRumiaController : MonoBehaviour {
     private float moveY;
     private float moveDiff;
     private bool isFinished;
-
+    private Animator ani;
     void Start() {
         isFinished = false;
         moveDiff = moveSpeed * Time.deltaTime;
+        ani = GetComponent<Animator>();
         Assert.IsTrue(restrictMoveRangX > 0);
         Assert.IsTrue(restrictMoveRangY > 0);
     }
@@ -47,6 +48,7 @@ public class RumiaRescueRumiaController : MonoBehaviour {
     }
 
     public void WhenGameVictory() {
-        //isFinished = true;
+        isFinished = true;
+        ani.SetTrigger("Victory");
     }
 }

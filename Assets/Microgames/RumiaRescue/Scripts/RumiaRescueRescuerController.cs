@@ -26,7 +26,7 @@ public class RumiaRescueRescuerController : MonoBehaviour {
         rumiaBlackBall.transform.localScale = Vector3.one * blackBallRange;
 
         Vector3 thisPosition = thisTransform.position;
-        float realRescueDistance = rescueDistance - 1f;
+        float realRescueDistance = rescueDistance - 1.5f;
         bool isAllRescued = true; // default true
 
         for (int i = 0; i < needHelpList.Length; i++) {
