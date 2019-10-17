@@ -6,17 +6,37 @@ public class BroomRaceMarisa : MonoBehaviour {
 
 	[SerializeField]
 	float moveSpeed;
-
 	[SerializeField]
 	float yBound;
+    [SerializeField]
+    private int ringsRequired = 2;
+    [SerializeField]
+    private Animator rigAnimator;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    private int rings = 0;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("MicrogameTag1"))
+        {
+            collision.GetComponent<BroomRaceRing>().activate();
+            rings++;
+
+            rigAnimator.SetInteger("Rings", rings);
+            rigAnimator.SetTrigger("Ring");
+            if (rings == ringsRequired)
+            {
+                rigAnimator.SetTrigger("Victory");
+                MicrogameController.instance.setVictory(true);
+                enabled = false;
+            }
+
+            collision.enabled = false;
+        }
+    }
+    
+    void Update ()
+    {
 		if (Input.GetKey (KeyCode.UpArrow)) 
 		{
 			transform.position += Vector3.up * moveSpeed * Time.deltaTime;

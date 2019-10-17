@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BroomRaceRing : MonoBehaviour {
+public class BroomRaceRing : MonoBehaviour
+{
 
-	[SerializeField]
-	float mAccel;
+    [SerializeField]
+    private Animator rigAnimator;
 
-	[SerializeField]
-	BroomRaceBackground background;
-
-
-	void OnTriggerEnter2D(Collider2D other) {
-		background.speedMultiplier = mAccel;
-	}
+    public void activate()
+    {
+        rigAnimator.SetTrigger("Activate");
+    }
 
 }
