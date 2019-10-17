@@ -20,6 +20,7 @@ public class RumiaRescueTreeHitController : MonoBehaviour {
 
         collider2D.transform.parent.SendMessage("WhenRumiaHitTree");
         ani.SetTrigger("Hitted");
+        MainCameraSingleton.instance.SendMessage("setScreenShake",0.3f);
 
         MicrogameController.instance.setVictory(false);
     }
