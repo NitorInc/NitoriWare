@@ -11,6 +11,8 @@ public class RumiaRescueRumiaController : MonoBehaviour {
     private float restrictMoveRangX = 5;
     [SerializeField]
     private float restrictMoveRangY = 4;
+    [SerializeField]
+    private RumiaRescueRescuerController rescuerController;
 
 
     private float moveX;
@@ -42,13 +44,25 @@ public class RumiaRescueRumiaController : MonoBehaviour {
             Vector2 moveDirection = new Vector2(moveX, moveY);
             moveDiff = moveSpeed * Time.deltaTime * Time.timeScale;
             Vector3 newPosition = transform.position + (Vector3)(moveDirection * moveDiff);
-            if (Mathf.Abs(newPosition.x) <= restrictMoveRangX && Mathf.Abs(newPosition.y) <= restrictMoveRangY)
+            if (Mathf.Abs(newPosition.x) <= restrictMoveRangX && Mathf.Abs(newPosition.y) <= restrictMoveRangY) { 
                 transform.position = newPosition;
+                print(newPosition);
+            }
         }
     }
 
-    public void WhenGameVictory() {
+    public void FinishRumiaMovement() {
         isFinished = true;
+    }
+
+    public void WhenGameVictory() {
+        FinishRumiaMovement();
         ani.SetTrigger("Victory");
+    }
+
+    public void WhenRumiaHitTree() {
+        rescuerController.ShutDownBlackBall();
+        FinishRumiaMovement();
+        ani.SetTrigger("Hit");
     }
 }
