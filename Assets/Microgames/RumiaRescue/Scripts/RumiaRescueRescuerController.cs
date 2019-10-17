@@ -22,6 +22,10 @@ public class RumiaRescueRescuerController : MonoBehaviour {
     }
 
     void Update() {
+        if (rescueDistance <= 0f)
+            return;
+        print(rescueDistance);
+
         float blackBallRange = rescueDistance * 2;
         rumiaBlackBall.transform.localScale = Vector3.one * blackBallRange;
 
@@ -44,5 +48,10 @@ public class RumiaRescueRescuerController : MonoBehaviour {
 
     public void ShutDownBlackBall() {
         rescueDistance = 0f;
+
+        for (int i = 0; i < needHelpList.Length; i++) {
+            needHelpList[i].MakeThisOneFeelHot();
+        }
+
     }
 }

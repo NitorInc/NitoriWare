@@ -23,7 +23,7 @@ public class RumiaRescueStateController : MonoBehaviour {
     }
 
     public bool CanRescueThisOne(Vector3 rescuerPosition,float rescueDistance) {
-        if((rescuerPosition - thisTransform.position).sqrMagnitude <= rescueDistance * rescueDistance) {
+        if((rescuerPosition - thisTransform.position).sqrMagnitude < rescueDistance * rescueDistance) {
             isRescued = true;
         } else {
             isRescued = false;
@@ -32,5 +32,8 @@ public class RumiaRescueStateController : MonoBehaviour {
         return isRescued;
     }
 
+    public void MakeThisOneFeelHot() {
+        ani.SetBool("IsRescued", false);
+    }
 	
 }
