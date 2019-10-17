@@ -43,11 +43,17 @@ public class RumiaRescueRumiaController : MonoBehaviour {
         if (moveX != 0f || moveY != 0f) {
             Vector2 moveDirection = new Vector2(moveX, moveY);
             moveDiff = moveSpeed * Time.deltaTime * Time.timeScale;
-            Vector3 newPosition = transform.position + (Vector3)(moveDirection * moveDiff);
-            if (Mathf.Abs(newPosition.x) <= restrictMoveRangX && Mathf.Abs(newPosition.y) <= restrictMoveRangY) { 
-                transform.position = newPosition;
-                print(newPosition);
+            Vector3 oldPosition = transform.position;
+            Vector3 newPosition = oldPosition + (Vector3)(moveDirection * moveDiff);
+
+            if (Mathf.Abs(newPosition.x) > restrictMoveRangX) {
+                newPosition.x = oldPosition.x;
             }
+            if (Mathf.Abs(newPosition.y) > restrictMoveRangY) {
+                newPosition.y = oldPosition.y;
+            }
+
+            transform.position = newPosition;
         }
     }
 
