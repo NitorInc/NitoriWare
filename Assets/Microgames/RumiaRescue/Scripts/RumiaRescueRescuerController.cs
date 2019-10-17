@@ -31,6 +31,7 @@ public class RumiaRescueRescuerController : MonoBehaviour {
 
         for (int i = 0; i < needHelpList.Length; i++) {
             bool isThisRescued = needHelpList[i].CanRescueThisOne(thisPosition, realRescueDistance);
+            print(isThisRescued);
             if (isAllRescued == true && isThisRescued == false)
                 isAllRescued = false;
         }
@@ -41,4 +42,7 @@ public class RumiaRescueRescuerController : MonoBehaviour {
         }
     }
 
+    public void ShutDownBlackBall() {
+        rescueDistance = 0f;
+    }
 }
