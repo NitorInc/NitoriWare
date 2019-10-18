@@ -10,8 +10,8 @@ public class BroomRaceBackgroundSpeed : MonoBehaviour
     private float baseSpeed;
     public float BaseSpeed => baseSpeed;
     [SerializeField]
-    private int speedMult;
-    public int SpeedMult => speedMult;
+    private float speedMult;
+    public float SpeedMult => speedMult;
 
     private void Awake()
     {
