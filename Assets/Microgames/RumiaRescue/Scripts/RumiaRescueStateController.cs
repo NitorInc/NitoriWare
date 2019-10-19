@@ -23,6 +23,9 @@ public class RumiaRescueStateController : MonoBehaviour {
     }
 
     public bool CanRescueThisOne(Vector3 rescuerPosition,float rescueDistance) {
+        if (thisTransform == null || ani == null)
+            return false;
+
         if((rescuerPosition - thisTransform.position).sqrMagnitude < rescueDistance * rescueDistance) {
             isRescued = true;
         } else {
