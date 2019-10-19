@@ -7,13 +7,23 @@ public class RumiaRescueTreeHitController : MonoBehaviour {
     [SerializeField]
     private Animator ani;
 
+    private static bool canHit = true;
+    public static bool CanHit {
+        get { return canHit; }
+        set { canHit = value; }
+    }
+
     private static bool hasHitted = false;
+    
 
     private void Start() {
+        canHit = true;
         hasHitted = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collider2D) {
+        if (canHit == false)
+            return;
         if (hasHitted == true)
             return;
         hasHitted = true;

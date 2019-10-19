@@ -14,12 +14,14 @@ public class RumiaRescueRumiaController : MonoBehaviour {
     [SerializeField]
     private RumiaRescueRescuerController rescuerController;
 
+    private bool isFinished;
+    public bool IsFinished => isFinished;
 
     private float moveX;
     private float moveY;
     private float moveDiff;
-    private bool isFinished;
     private Animator ani;
+
     void Start() {
         isFinished = false;
         ani = GetComponent<Animator>();
@@ -59,6 +61,7 @@ public class RumiaRescueRumiaController : MonoBehaviour {
 
     public void FinishRumiaMovement() {
         isFinished = true;
+        RumiaRescueTreeHitController.CanHit = false;
     }
 
     public void WhenGameVictory() {

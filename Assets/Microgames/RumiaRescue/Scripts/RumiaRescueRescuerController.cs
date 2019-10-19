@@ -11,20 +11,23 @@ public class RumiaRescueRescuerController : MonoBehaviour {
     private float rescueDistance;
 
     [SerializeField]
-    private GameObject needHelpGroupGO;
+    private string needHelpGroupName = "NeedHelpGroup";
 
+    private Transform needHelpGroupTF;
     private RumiaRescueStateController[] needHelpList;
     private Transform thisTransform;
     
     void Start() {
-        needHelpList = needHelpGroupGO.GetComponentsInChildren<RumiaRescueStateController>();
+        needHelpGroupTF = transform.parent.Find(needHelpGroupName);
+        needHelpList = needHelpGroupTF.GetComponentsInChildren<RumiaRescueStateController>();
         thisTransform = transform;
     }
 
     void Update() {
+        if (rumiaController.IsFinished == true)
+            return;
         if (rescueDistance <= 0f)
             return;
-        print(rescueDistance);
 
         float blackBallRange = rescueDistance * 2;
         rumiaBlackBall.transform.localScale = Vector3.one * blackBallRange;
@@ -35,7 +38,6 @@ public class RumiaRescueRescuerController : MonoBehaviour {
 
         for (int i = 0; i < needHelpList.Length; i++) {
             bool isThisRescued = needHelpList[i].CanRescueThisOne(thisPosition, realRescueDistance);
-            print(isThisRescued);
             if (isAllRescued == true && isThisRescued == false)
                 isAllRescued = false;
         }
