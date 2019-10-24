@@ -12,6 +12,8 @@ public class BroomRaceMarisa : MonoBehaviour {
     private int ringsRequired = 2;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private BroomRaceBackgroundSpeed bgSpeedComponent;
 
     private int rings = 0;
 
@@ -39,14 +41,14 @@ public class BroomRaceMarisa : MonoBehaviour {
     {
 		if (Input.GetKey (KeyCode.UpArrow)) 
 		{
-			transform.position += Vector3.up * moveSpeed * Time.deltaTime;
+			transform.position += Vector3.up * moveSpeed * Mathf.Min(bgSpeedComponent.SpeedMult, 1f) * Time.deltaTime;
 			if (transform.position.y > yBound) 
 				transform.position = new Vector3 (transform.position.x, yBound, transform.position.z);
 		}
 
 		if (Input.GetKey (KeyCode.DownArrow)) 
 		{
-			transform.position += Vector3.down * moveSpeed * Time.deltaTime;
+			transform.position += Vector3.down * moveSpeed * Mathf.Min(bgSpeedComponent.SpeedMult, 1f) * Time.deltaTime;
 
 			if (transform.position.y < -yBound ) 
 				transform.position = new Vector3 (transform.position.x, -yBound, transform.position.z);
