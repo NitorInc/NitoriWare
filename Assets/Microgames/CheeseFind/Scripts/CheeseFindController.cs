@@ -36,6 +36,14 @@ public class CheeseFindController : MonoBehaviour {
     [SerializeField]
     private int scoreRequired;
 
+    [Header("Difficulty")]
+    [SerializeField]
+    private int difficulty;
+
+    [Header("Background (0-2)")]
+    [SerializeField]
+    private Transform background;
+
     private CheeseFindCamera _cameraScript;
     private CheeseFindNazrin _nazrinObject;
     private CheeseFindDrawer[] _drawerScripts;
@@ -46,6 +54,20 @@ public class CheeseFindController : MonoBehaviour {
     private int currentItemsFound = 0;
 
 	void Start () {
+        switch(difficulty) {
+        case 0:
+            background.Find("Bg1").gameObject.SetActive(true);
+            break;
+        case 1:
+            background.Find("Bg2").gameObject.SetActive(true);
+            break;
+        case 2:
+            background.Find("Bg3").gameObject.SetActive(true);
+            break;
+        default:
+            break;
+        }
+
         int itemsCount = cheeseCount + miceCount;
         _itemsScripts = new CheeseFindItem[cheeseCount + miceCount];
 
