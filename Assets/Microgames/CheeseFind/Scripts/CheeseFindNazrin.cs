@@ -33,7 +33,7 @@ public class CheeseFindNazrin : MonoBehaviour {
                 movingFactor = 1f;
                 _isMoving = false;
             }
-		    transform.position = Vector3.Lerp(startPosition, endPosition, EaseOutElastic(movingFactor));
+            transform.position = Vector3.Lerp(startPosition, endPosition, EaseOutElastic(movingFactor));
         }
 	}
 
