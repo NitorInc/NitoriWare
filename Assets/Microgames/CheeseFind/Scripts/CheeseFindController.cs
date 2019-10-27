@@ -36,11 +36,11 @@ public class CheeseFindController : MonoBehaviour {
     [SerializeField]
     private int scoreRequired;
 
-    [Header("Difficulty")]
+    [Header("Difficulty (0-2)")]
     [SerializeField]
     private int difficulty;
 
-    [Header("Background (0-2)")]
+    [Header("Background")]
     [SerializeField]
     private Transform background;
 
@@ -184,7 +184,8 @@ public class CheeseFindController : MonoBehaviour {
             drawer.isLocked = false;
         }
         //TODO: Replace with displayLocalizedCommand when the text is localized.
-		MicrogameController.instance.displayCommand("Find the cheese pieces!");
+		MicrogameController.instance.displayCommand("Find Cheese!");
+		//MicrogameController.instance.displayLocalizedCommand("commandb", "Find Cheese!");
     }
 
     public void SetVictory(bool isVictorious) {
