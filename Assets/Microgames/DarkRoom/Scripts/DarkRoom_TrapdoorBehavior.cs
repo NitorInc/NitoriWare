@@ -10,8 +10,8 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     [SerializeField] private float closeDelay;
 
     [Header("Sprites")]
-    [SerializeField] private Sprite lampOpen;
-    [SerializeField] private Sprite lampClose;
+    [SerializeField] private SpriteRenderer lampOpen;
+    [SerializeField] private SpriteRenderer lampClose;
 
     private GameObject myDoor;
     private GameObject myLamp;
@@ -33,10 +33,15 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
         // Handle timer
         if (closeTimer - 60 * Time.deltaTime > 0f)
             closeTimer -= 60 * Time.deltaTime;
-        else {
-            myLamp.GetComponent<SpriteRenderer>().sprite = lampOpen;
+        else
             closeTimer = 0f;
-        }
+
+        var c = lampOpen.color;
+        c.a = Mathf.InverseLerp(0f, closeDelay, closeTimer);
+        lampOpen.color = c;
+        c = lampClose.color;
+        c.a = Mathf.InverseLerp(closeDelay, 0f, closeTimer);
+        lampClose.color = c;
 
         // Handle door rotation
         HandleDoorRotation();
@@ -58,7 +63,6 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 
         // WITH: Light
         if (other.name == "Light") {
-            myLamp.GetComponent<SpriteRenderer>().sprite = lampClose;
             closeTimer = closeDelay;
         }
 
