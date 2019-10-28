@@ -62,7 +62,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         hasFailed = true;
 
         // Remove camera as child game object
-        Transform transformCamera = transform.Find("Main Camera");
+        Transform transformCamera = MainCameraSingleton.instance.transform;
         if (transformCamera != null)
             transformCamera.parent = null;
 
@@ -75,7 +75,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         if (!hasFailed) return;
 
         // Enlarge Renko's light mask
-        transformRenkoLight.localScale += new Vector3(1f, 1f, 1f) * lightScaleSpeed * Time.deltaTime;
+        //transformRenkoLight.localScale += new Vector3(1f, 1f, 1f) * lightScaleSpeed * Time.deltaTime;
 
     }
 

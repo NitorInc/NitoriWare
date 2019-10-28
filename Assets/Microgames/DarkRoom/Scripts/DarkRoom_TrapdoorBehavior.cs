@@ -25,7 +25,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 	void Start () {
         // Initialization
         myDoor = transform.Find("Rig/Door").gameObject;
-        myLamp = transform.Find("Rig/Hinge/Lamp").gameObject;
+        //myLamp = transform.Find("Rig/Hinge/Lamp").gameObject;
 	}
 
 	void Update () {
