@@ -18,14 +18,19 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private Animator rigAnimator;
 
     private Transform transformThread;
+    [SerializeField]
+    private AudioClip raiseClip;
 
     private float lowerDelayTimer;
+    private AudioSource sfxSource;
+    private bool inLight;
 
 	/* Base methods */
 
 	void Start () {
         // Initialization
         transformThread = transform.parent.Find("Thread");
+        sfxSource = GetComponent<AudioSource>();
 	}
 	
 	void Update () {
@@ -35,6 +40,8 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
             lowerDelayTimer -= 60 * Time.deltaTime;
         else
             Lower();
+
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
     }
 
     /* My methods */
@@ -77,6 +84,9 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
         if (other.name == "Light") {
             Retreat();
             lowerDelayTimer = lowerDelay;
+            if (!inLight)
+                sfxSource.PlayOneShot(raiseClip);
+            inLight = true;
         }
 
     }
@@ -91,6 +101,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
         {
             rigAnimator.SetInteger("Direction", 0);
             lowerDelayTimer = lowerDelay;
+            inLight = false;
         }
 
     }

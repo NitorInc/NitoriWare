@@ -12,10 +12,15 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     [Header("Sprites")]
     [SerializeField] private SpriteRenderer lampOpen;
     [SerializeField] private SpriteRenderer lampClose;
+    [SerializeField]
+    private AudioClip openClip;
+    [SerializeField]
+    private AudioClip shutClip;
 
     private GameObject myDoor;
     private GameObject myLamp;
     private SpriteRenderer myLampSpriteRenderer;
+    private AudioSource sfxSource;
 
     private Quaternion targetRotation;
     private float closeTimer = 0f;
@@ -29,6 +34,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
         myDoor = transform.Find("Rig/Door").gameObject;
         //myLamp = transform.Find("Rig/Hinge/Lamp").gameObject;
         instrumentDistance = GetComponent<DarkRoomInstrumentDistance>();
+        sfxSource = GetComponent<AudioSource>();
 	}
 
 	void Update () {
@@ -37,7 +43,11 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
         if (closeTimer - 60 * Time.deltaTime > 0f)
             closeTimer -= 60 * Time.deltaTime;
         else
+        {
+            if (CloseTimer > 0f)
+                sfxSource.PlayOneShot(shutClip);
             closeTimer = 0f;
+        }
 
         var c = lampOpen.color;
         c.a = Mathf.InverseLerp(0f, closeDelay, closeTimer);
@@ -48,6 +58,8 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 
         // Handle door rotation
         HandleDoorRotation();
+
+        sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
 
 	}
 
@@ -67,6 +79,8 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 
         // WITH: Light
         if (other.name == "Light") {
+            if (CloseTimer == 0f)
+                sfxSource.PlayOneShot(shutClip);
             closeTimer = closeDelay;
         }
 

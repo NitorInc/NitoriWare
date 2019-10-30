@@ -27,6 +27,14 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
 
     [Header("GameObjects")]
     [SerializeField] private GameObject renko;
+    [SerializeField]
+    private AudioSource sfxSource;
+    [SerializeField]
+    private AudioSource scaredSource;
+    [SerializeField]
+    private AudioClip appearClip;
+    [SerializeField]
+    private float volumeMult = 1f;
 
     private ParticleSystem myParticleSystem;
 
@@ -63,11 +71,19 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
                 myParticleSystem.Play();
                 rigAnimator.SetTrigger("Activate");
                 GetComponent<DarkRoomInstrumentDistance>().enabled = true;
+                sfxSource.PlayOneShot(appearClip);
                 //transform.parent = renko.transform;
                 //flyDistance = (transform.position - renko.transform.position).magnitude;
                 //flyAngle = MathHelper.getAngle(transform.position - renko.transform.position) * Mathf.Deg2Rad;
             } else return;
         }
+
+        sfxSource.panStereo = sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+        scaredSource.volume = retreatCooldownTimer * volumeMult;
+        if (scaredSource.volume > 0f && !scaredSource.isPlaying)
+            scaredSource.Play();
+        else if (scaredSource.volume <= 0f && scaredSource.isPlaying)
+            scaredSource.Stop();
 
         // Handle flying
         if (isActive)

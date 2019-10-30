@@ -11,6 +11,8 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     [SerializeField] private float fleeDistance = 8f;
     [SerializeField]
     private float fleeDelay = .5f;
+    [SerializeField]
+    private AudioClip scaredClip;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject renko;
@@ -77,6 +79,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
                     fleeEndPosition = transform.position - new Vector3(fleeDistance, 0f, 0f);
                     isFleeing = true;
                     fleeDelayTimer = fleeDelay;
+                    MicrogameController.instance.playSFX(scaredClip, AudioHelper.getAudioPan(transform.position.x));
                 }
             }
 

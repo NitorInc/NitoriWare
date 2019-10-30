@@ -19,15 +19,17 @@ public class DarkRoomMusicController : MonoBehaviour
 
     private AudioSource[] instrumentSources;
     private float[] volumeLevels;
+    private float[] initialVolumes;
 
-    
-	void Awake ()
+
+    void Awake ()
     {
         instance = this;
         instrumentSources = Enumerable.Range(0, InstrumentCount)
             .Select(a => transform.Find(((Instrument)a).ToString())
                 .GetComponent<AudioSource>())
             .ToArray();
+        initialVolumes = instrumentSources.Select(a => a.volume).ToArray();
         volumeLevels = instrumentSources.Select(a => 0f).ToArray();
     }
 
@@ -36,7 +38,7 @@ public class DarkRoomMusicController : MonoBehaviour
         for (int i = 0; i < instrumentSources.Length; i++)
         {
             var source = instrumentSources[i];
-            source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed);
+            source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed) * initialVolumes[i];
         }
 
         volumeLevels = volumeLevels.Select(a => 0f).ToArray();
