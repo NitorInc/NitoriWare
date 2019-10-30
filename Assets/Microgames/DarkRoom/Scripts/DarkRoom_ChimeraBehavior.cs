@@ -8,6 +8,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     [SerializeField] private float walkSpeed;
     [Header("Alarms | counts down by 1 per frame.")]
     [SerializeField] private float healthMax;
+    [SerializeField] private float fleeDistance = 8f;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject renko;
@@ -30,9 +31,11 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
 	void Update () {
 
         // Handle movement
-        if (myAnimator.GetCurrentAnimatorStateInfo(0).IsName("animChimeraFlee")) {
+        if (isFleeing)
+        {
             Flee();
-        } else {
+        } else
+        {
             Walk();
         }
 
@@ -47,7 +50,8 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
 
     private void Flee() {
         // Flee backwards
-        transform.moveTowards2D(fleeEndPosition, 32);
+        if (transform.moveTowards2D(fleeEndPosition, 32))
+            isFleeing = false;
     }
 
     /* Collision handling */
@@ -65,7 +69,8 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
                 } else {
                     health = healthMax;
                     myAnimator.SetTrigger("isShined");
-                    fleeEndPosition = transform.position - new Vector3(8f, 0f, 0f);
+                    fleeEndPosition = transform.position - new Vector3(fleeDistance, 0f, 0f);
+                    isFleeing = true;
                 }
             }
 
