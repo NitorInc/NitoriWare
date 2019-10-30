@@ -523,6 +523,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 246572659}
+  - component: {fileID: 246572661}
+  - component: {fileID: 246572660}
   m_Layer: 0
   m_Name: Kogasa
   m_TagString: Untagged
@@ -544,6 +546,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &246572660
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246572658}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.36, y: -0.48}
+  serializedVersion: 2
+  m_Radius: 0.75
+--- !u!114 &246572661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246572658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ee508a2d333554fb815e5e72368ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealDistance: 4.5
+  rigAnimator: {fileID: 1756823543}
+  lightActivateTime: 0.2
+  activationDelay: 0.6
 --- !u!1 &322739478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,6 +1701,26 @@ Prefab:
         type: 2}
       propertyPath: lowerDelay
       value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207667700960242, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207667700960242, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207667700960242, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207667700960242, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207667700960242, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
