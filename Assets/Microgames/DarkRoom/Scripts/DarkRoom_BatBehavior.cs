@@ -6,10 +6,22 @@ using UnityEngine;
 public class DarkRoom_BatBehavior : MonoBehaviour {
 
     [Header("Adjustables")]
-    [SerializeField] private float speed;
-    [SerializeField] private float flySinAmplitude;
-    [SerializeField] private float flySinSpeed;
-    [SerializeField] private float flyAwayAccel;
+    [SerializeField]
+    private Vector2 advanceDirection;
+    [SerializeField]
+    private float advanceSpeed;
+    [SerializeField]
+    private float retreatSpeed;
+    [SerializeField]
+    private float retreatCooldown = .75f;
+    [SerializeField]
+    private float activateDistance = 8f;
+    [SerializeField]
+    private Animator rigAnimator;
+    //[SerializeField] private float speed;
+    //[SerializeField] private float flySinAmplitude;
+    //[SerializeField] private float flySinSpeed;
+    //[SerializeField] private float flyAwayAccel;
     [Header("Alarms | counts down by 1 per frame.")]
     [SerializeField] private float health;
 
@@ -19,8 +31,10 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private ParticleSystem myParticleSystem;
 
     private bool isActive = false;
+    bool isRetreating = false;
     private float flyDistance;
     private float flyAngle;
+    private float retreatCooldownTimer;
 
     private bool hasFlownAway = false;
     private float flyAwayDirection;
@@ -43,18 +57,20 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
 
         // Handle state
         if (!isActive) {
-            if (transform.position.x - renko.transform.position.x < 8f) {
+            if (transform.position.x - renko.transform.position.x < activateDistance) {
                 // Activate and follow Renko
                 isActive = true;
-                transform.parent.parent = renko.transform;
-                flyDistance = (transform.position - renko.transform.position).magnitude;
-                flyAngle = MathHelper.getAngle(transform.position - renko.transform.position) * Mathf.Deg2Rad;
+                myParticleSystem.Play();
+                rigAnimator.SetTrigger("Activate");
+                //transform.parent = renko.transform;
+                //flyDistance = (transform.position - renko.transform.position).magnitude;
+                //flyAngle = MathHelper.getAngle(transform.position - renko.transform.position) * Mathf.Deg2Rad;
             } else return;
         }
 
         // Handle flying
-        Fly();
-        flyDistance -= 3 * Time.deltaTime;
+        if (isActive)
+            Fly();
 
 	}
 
@@ -62,45 +78,61 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
 
     private void Fly() {
         // Fly
-        float targetX = flyDistance * Mathf.Cos(flyAngle);
-        float targetY = flyDistance * Mathf.Sin(flyAngle);
-        transform.position = new Vector3(targetX, targetY, transform.position.z);
-    }
-    
-    private void FlyAway() {
-        // Fly away
-        flyAwaySpeed += flyAwayAccel * Time.deltaTime;
-        transform.position += new Vector3(flyAwayComponentX, flyAwayComponentY, 0f) * flyAwaySpeed * Time.deltaTime;
+        //float targetX = flyDistance * Mathf.Cos(flyAngle);
+        //float targetY = flyDistance * Mathf.Sin(flyAngle);
+        //transform.position = new Vector3(targetX, targetY, transform.position.z);
+
+        if (!isRetreating && retreatCooldownTimer <= 0f)
+            transform.position += (Vector3)advanceDirection.resize(advanceSpeed) * Time.deltaTime;
+        else
+            transform.position += (Vector3)advanceDirection.resize(-retreatSpeed) * Time.deltaTime * retreatCooldownTimer;
+
+        if (!isRetreating)
+            retreatCooldownTimer -= Time.deltaTime;
     }
     
     /* Collision handling */
 
-    private void OnTriggerStay2D(Collider2D otherCollider) {
+    private void OnTriggerStay2D(Collider2D otherCollider)
+    {
+        if (!isActive)
+            return;
         GameObject other = otherCollider.gameObject;
 
         // WITH: Light
         if (other.name == "Light") {
-            flyDistance += 6 * Time.deltaTime;
+            isRetreating = true;
+            retreatCooldownTimer = retreatCooldown;
         }
 
     }
 
-    private void OnTriggerEnter2D(Collider2D otherCollider) {
+    private void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+        if (!isActive)
+            return;
         GameObject other = otherCollider.gameObject;
 
         // WITH: Light
-        if (other.name == "Light") {
-            myParticleSystem.Play();
+        if (other.name == "Light")
+        {
+            isRetreating = true;
+            retreatCooldownTimer = retreatCooldown;
         }
 
     }
 
     private void OnTriggerExit2D(Collider2D otherCollider) {
+        if (!isActive)
+            return;
         GameObject other = otherCollider.gameObject;
 
         // WITH: Light
-        if (other.name == "Light") {
-            myParticleSystem.Stop();
+        if (other.name == "Light")
+        {
+            //myParticleSystem.Stop();
+            retreatCooldownTimer = retreatCooldown;
+            isRetreating = false;
         }
 
     }
