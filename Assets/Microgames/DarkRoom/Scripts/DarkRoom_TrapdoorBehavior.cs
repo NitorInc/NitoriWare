@@ -20,12 +20,15 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     private Quaternion targetRotation;
     private float closeTimer = 0f;
 
+    private DarkRoomInstrumentDistance instrumentDistance;
+
 	/* Base methods */
 
 	void Start () {
         // Initialization
         myDoor = transform.Find("Rig/Door").gameObject;
         //myLamp = transform.Find("Rig/Hinge/Lamp").gameObject;
+        instrumentDistance = GetComponent<DarkRoomInstrumentDistance>();
 	}
 
 	void Update () {
@@ -53,7 +56,8 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     private void HandleDoorRotation() {
         // Handle door rotation
         myDoor.transform.rotation = Quaternion.RotateTowards(myDoor.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        targetRotation = (closeTimer == 0f) ? Quaternion.Euler(0f, 0f, 90f) : Quaternion.Euler(0f, 0f, 0f);
+        targetRotation = (closeTimer <= 0f) ? Quaternion.Euler(0f, 0f, 90f) : Quaternion.Euler(0f, 0f, 0f);
+        instrumentDistance.enabled = CloseTimer <= 0f;
     }
 
     /* Collision handling */

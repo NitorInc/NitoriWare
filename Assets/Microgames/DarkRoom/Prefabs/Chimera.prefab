@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4670762172091928}
   - component: {fileID: 114839642461991212}
   - component: {fileID: 61666204367883752}
+  - component: {fileID: 114698419357529346}
   m_Layer: 0
   m_Name: Chimera
   m_TagString: Untagged
@@ -186,6 +187,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lampTransform: {fileID: 0}
+--- !u!114 &114698419357529346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126414769552822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d6ddeee7d7556418516f68891c7774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instrumentRules:
+  - volumeRange: {x: 0, y: 1}
+    distanceRange: {x: 8.5, y: 6}
+    instrument: 0
+  - volumeRange: {x: 0, y: 0.2}
+    distanceRange: {x: 11, y: 7}
+    instrument: 1
 --- !u!114 &114839642461991212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,8 +216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f38b38b53cdac144935dc0933fe753c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 4
+  walkSpeed: 3
   healthMax: 22
+  fleeDistance: 8
+  fleeDelay: 0.5
   renko: {fileID: 0}
 --- !u!212 &212017093683371214
 SpriteRenderer:

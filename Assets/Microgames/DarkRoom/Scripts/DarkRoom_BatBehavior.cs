@@ -62,6 +62,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
                 isActive = true;
                 myParticleSystem.Play();
                 rigAnimator.SetTrigger("Activate");
+                GetComponent<DarkRoomInstrumentDistance>().enabled = true;
                 //transform.parent = renko.transform;
                 //flyDistance = (transform.position - renko.transform.position).magnitude;
                 //flyAngle = MathHelper.getAngle(transform.position - renko.transform.position) * Mathf.Deg2Rad;

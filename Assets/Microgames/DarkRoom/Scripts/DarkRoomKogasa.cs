@@ -28,11 +28,12 @@ public class DarkRoomKogasa : MonoBehaviour
 		if (!revealed && transform.position.x < MainCameraSingleton.instance.transform.position.x + revealDistance)
         {
             rigAnimator.SetTrigger("Reveal");
+            GetComponent<DarkRoomInstrumentDistance>().enabled = true;
             revealed = true;
         }
         if (revealed)
             activationDelay -= Time.deltaTime;
-	}
+    }
 
 
     /* Collision handling */
