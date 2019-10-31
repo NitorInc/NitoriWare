@@ -20,6 +20,9 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 		_CursorPulseAmpInv("Cursor Pulse Amplitude Inverse", Float) = 15
 		_LampAlphaBoost("Lamp Alpha Boost", Float) = 0
 		_CursorAlphaBoost("Cursor Alpha Boost", Float) = 0
+		
+		_LampAnim("Lamp Animation Boost", Float) = 0
+		_CursorAnim("Cursor Animation Boost", Float) = 0
 	}
 
 	SubShader
@@ -86,6 +89,8 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 			float _CursorAlphaPow;
 			float _LampAlphaBoost;
 			float _CursorAlphaBoost;
+			float _LampAnim;
+			float _CursorAnim;
 
 			float distance(float2 a, float2 b)
 			{
@@ -103,7 +108,8 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 				//lampAlpha = clamp(lampAlpha, 0, 1);
 				lampAlpha = pow(lampAlpha, _AlphaPow);
 				//if (lampAlpha < 1)
-					lampAlpha -= _LampAlphaBoost;
+				lampAlpha -= _LampAlphaBoost;
+				lampAlpha -= _LampAnim;
 				lampAlpha = clamp(lampAlpha, 0, 1);
 
 				float cursorDistance = distance((float2)i.wpos, (float2)_CursorPos);
@@ -112,6 +118,7 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 				cursorAlpha = clamp(cursorAlpha, 0, 1);
 				cursorAlpha = pow(cursorAlpha, _CursorAlphaPow);
 				cursorAlpha -= _CursorAlphaBoost;
+				cursorAlpha -= _CursorAnim;
 				cursorAlpha = clamp(cursorAlpha, 0, 1);
 
 				float alpha = 1 - ((1 - lampAlpha) + (1 - cursorAlpha));

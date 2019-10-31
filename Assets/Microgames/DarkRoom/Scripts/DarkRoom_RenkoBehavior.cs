@@ -68,7 +68,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
 
         // Set fail sprite, animation, etc.
         Animator animatorBody = gameObject.GetComponentInChildren<Animator>();
-        animatorBody.speed = 0;
+        animatorBody.SetTrigger("Death");
     }
 
     private void HandleFailure() {

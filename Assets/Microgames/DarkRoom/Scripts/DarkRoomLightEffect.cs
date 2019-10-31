@@ -28,5 +28,7 @@ public class DarkRoomLightEffect : MonoBehaviour
     {
         material.SetVector("_LampPos", lampTransformSingleton.position);
         material.SetVector("_CursorPos", CameraHelper.getCursorPosition());
+        material.SetFloat("_LampAnim", DarkRoomEffectAnimationController.instance.lampBoost);
+        material.SetFloat("_CursorAnim", DarkRoomEffectAnimationController.instance.cursorBoost);
     }
 }

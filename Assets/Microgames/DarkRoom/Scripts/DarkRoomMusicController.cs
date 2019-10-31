@@ -9,6 +9,8 @@ public class DarkRoomMusicController : MonoBehaviour
 
     [SerializeField]
     private float volumeLerpSpeed = 3f;
+    [SerializeField]
+    private float volumeMult;
 
     public enum Instrument
     {
@@ -38,7 +40,7 @@ public class DarkRoomMusicController : MonoBehaviour
         for (int i = 0; i < instrumentSources.Length; i++)
         {
             var source = instrumentSources[i];
-            source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed) * initialVolumes[i];
+            source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed) * initialVolumes[i] * volumeMult;
         }
 
         volumeLevels = volumeLevels.Select(a => 0f).ToArray();
