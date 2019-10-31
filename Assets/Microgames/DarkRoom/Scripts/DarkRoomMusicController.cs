@@ -11,6 +11,8 @@ public class DarkRoomMusicController : MonoBehaviour
     private float volumeLerpSpeed = 3f;
     [SerializeField]
     private float volumeMult;
+    [SerializeField]
+    private AudioSource baseSource;
 
     public enum Instrument
     {
@@ -27,6 +29,7 @@ public class DarkRoomMusicController : MonoBehaviour
     void Awake ()
     {
         instance = this;
+        
         instrumentSources = Enumerable.Range(0, InstrumentCount)
             .Select(a => transform.Find(((Instrument)a).ToString())
                 .GetComponent<AudioSource>())
@@ -41,7 +44,21 @@ public class DarkRoomMusicController : MonoBehaviour
         {
             var source = instrumentSources[i];
             source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed) * initialVolumes[i] * volumeMult;
+
+            
+            if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+            {
+                source.pitch *= 4f;
+                baseSource.pitch *= 4f;
+            }
+            if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
+            {
+                source.pitch /= 4f;
+                baseSource.pitch /= 4f;
+            }
         }
+
+
 
         volumeLevels = volumeLevels.Select(a => 0f).ToArray();
 	}

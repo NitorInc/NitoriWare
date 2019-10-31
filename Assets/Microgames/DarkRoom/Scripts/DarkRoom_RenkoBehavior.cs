@@ -39,10 +39,17 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         // Handle fail state
         HandleFailure();
 
-        if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+        if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.D))
             Fail();
 
-	}
+
+        if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+            Time.timeScale *= 4f;
+        if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
+            Time.timeScale /= 4f;
+
+
+    }
 
     /* My methods */
 
