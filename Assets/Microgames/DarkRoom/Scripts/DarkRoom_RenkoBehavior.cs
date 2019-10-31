@@ -33,12 +33,14 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         if (isFalling)
             Fall();
         else
-        if (!isFalling &&
-            !hasFailed)
+        if (!isFalling)
             Walk();
 
         // Handle fail state
         HandleFailure();
+
+        if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+            Fail();
 
 	}
 
@@ -46,7 +48,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
 
     private void Walk() {
         // Walk forward
-        transform.position += new Vector3(walkSpeed, 0f, 0f) * Time.deltaTime;
+        transform.position += new Vector3(walkSpeed, 0f, 0f) * Time.deltaTime * DarkRoomEffectAnimationController.instance.walkSpeed;
     }
 
     private void Fall() {
@@ -62,9 +64,9 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         hasFailed = true;
 
         // Remove camera as child game object
-        Transform transformCamera = MainCameraSingleton.instance.transform;
-        if (transformCamera != null)
-            transformCamera.parent = null;
+        //Transform transformCamera = MainCameraSingleton.instance.transform;
+        //if (transformCamera != null)
+        //    transformCamera.parent = null;
 
         // Set fail sprite, animation, etc.
         Animator animatorBody = gameObject.GetComponentInChildren<Animator>();
