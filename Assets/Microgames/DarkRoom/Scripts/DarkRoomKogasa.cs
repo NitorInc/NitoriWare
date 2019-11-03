@@ -52,6 +52,7 @@ public class DarkRoomKogasa : MonoBehaviour
             if (activationTimer <= 0f)
             {
                 rigAnimator.SetTrigger("Expose");
+                GetComponent<DarkRoomInstrumentDistance>().enabled = false;
                 enabled = false;
             }
         }

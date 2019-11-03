@@ -10,6 +10,8 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
     [SerializeField] private float fallAccel;
     [SerializeField] private float trapdoorFailRange;
     [SerializeField] private float lightScaleSpeed;
+    [SerializeField]
+    private float commandTime = 1f;
 
     private bool hasFailed = false;
 
@@ -25,6 +27,13 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
     void Start () {
         // Initialization
         transformRenkoLight = transform.Find("LightMask");
+
+        Invoke("command", commandTime);
+    }
+
+    void command()
+    {
+        MicrogameController.instance.displayCommand("Protect!");
     }
 
 	void Update () {
