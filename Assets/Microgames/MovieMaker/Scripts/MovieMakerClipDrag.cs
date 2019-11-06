@@ -8,26 +8,11 @@ public class MovieMakerClipDrag : MonoBehaviour
     private SpriteRenderer SR;
 
     [SerializeField]
-    private Sprite Default;
-
-    [SerializeField]
-    private Sprite Over;
-
-    [SerializeField]
     private GameObject Shadow;
-
-    private void OnMouseEnter()
-    {
-        SR.sprite = Over;
-    }
-
-    private void OnMouseExit()
-    {
-        SR.sprite = Default;
-    }
 
     private void OnMouseDown()
     {
+        SR.maskInteraction = 0;
         Shadow.SetActive(true);
     }
 

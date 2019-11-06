@@ -5,16 +5,16 @@ using UnityEngine;
 public class MovieMakerFolder : MonoBehaviour {
 
     [SerializeField]
-    private GameObject File1;
+    private GameObject File;
 
     [SerializeField]
-    private GameObject File2;
+    private Animation BGAnim;
 
     private void OnMouseDown()
     {
-        File1.SetActive(true);
-        File2.SetActive(true);
-        gameObject.SetActive(false);
+        BGAnim.Play();
+        File.SetActive(true);
+        this.enabled = false;
 
     }
 }
