@@ -6,6 +6,10 @@ public class BroomRaceMarisa : MonoBehaviour {
 
 	[SerializeField]
 	float moveSpeed;
+    [SerializeField]
+    float moveAcc = 10f;
+    [SerializeField]
+    private float speedAngleMult = 2f;
 	[SerializeField]
 	float yBound;
     [SerializeField]
@@ -16,6 +20,7 @@ public class BroomRaceMarisa : MonoBehaviour {
     private BroomRaceBackgroundSpeed bgSpeedComponent;
 
     private int rings = 0;
+    private float currentSpeed = 0f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -30,31 +35,32 @@ public class BroomRaceMarisa : MonoBehaviour {
             {
                 rigAnimator.SetTrigger("Victory");
                 MicrogameController.instance.setVictory(true);
-                enabled = false;
+                moveSpeed = 0f;
             }
 
             collision.enabled = false;
         }
     }
-    
-    void Update ()
+
+    void Update()
     {
-		if (Input.GetKey (KeyCode.UpArrow)) 
-		{
-			transform.position += Vector3.up * moveSpeed * Mathf.Min(bgSpeedComponent.SpeedMult, 1f) * Time.deltaTime;
-			if (transform.position.y > yBound) 
-				transform.position = new Vector3 (transform.position.x, yBound, transform.position.z);
-		}
+        var goalSpeedFactor = moveSpeed * Mathf.Min(bgSpeedComponent.SpeedMult, 1f);
+        var goalSpeed = 0f;
 
-		if (Input.GetKey (KeyCode.DownArrow)) 
-		{
-			transform.position += Vector3.down * moveSpeed * Mathf.Min(bgSpeedComponent.SpeedMult, 1f) * Time.deltaTime;
+        if (Input.GetKey(KeyCode.UpArrow))
+            goalSpeed += goalSpeedFactor;
+        if (Input.GetKey(KeyCode.DownArrow))
+            goalSpeed -= goalSpeedFactor;
 
-			if (transform.position.y < -yBound ) 
-				transform.position = new Vector3 (transform.position.x, -yBound, transform.position.z);
-		}
-
-
-
-	}
+        currentSpeed = Mathf.MoveTowards(currentSpeed, goalSpeed, moveAcc * Time.deltaTime);
+        if (currentSpeed != 0f)
+        {
+            transform.position += Vector3.up * currentSpeed * Time.deltaTime;
+            if (transform.position.y > yBound)
+                transform.position = new Vector3(transform.position.x, yBound, transform.position.z);
+            if (transform.position.y < -yBound)
+                transform.position = new Vector3(transform.position.x, -yBound, transform.position.z);
+        }
+        transform.localEulerAngles = Vector3.forward * speedAngleMult * currentSpeed;
+    }
 }
