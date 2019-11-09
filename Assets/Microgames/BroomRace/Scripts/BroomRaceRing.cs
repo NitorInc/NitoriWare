@@ -21,6 +21,18 @@ public class BroomRaceRing : MonoBehaviour
         Random
     }
 
+    [SerializeField]
+    private Vector2 velXRange;
+    [SerializeField]
+    private Vector2 velYRange;
+    [SerializeField]
+    private VerticalSpeedMode verticalSpeedMode;
+    private enum VerticalSpeedMode
+    {
+        Raw,
+        OppositeOfY
+    }
+    
     private static FlipAlternateInstruction flipInstruction;
     private enum FlipAlternateInstruction
     {
@@ -28,6 +40,8 @@ public class BroomRaceRing : MonoBehaviour
         FlipSecond,
         FlipFirst
     }
+
+    private Vector2 velocity;
 
 
     private void Awake()
@@ -57,14 +71,22 @@ public class BroomRaceRing : MonoBehaviour
 
         if (flip)
             spawnY *= -1f;
-
         transform.position = new Vector3(transform.position.x, spawnY, transform.position.x);
+
+        velocity = new Vector2(MathHelper.randomRangeFromVector(velXRange), MathHelper.randomRangeFromVector(velYRange));
+        if (verticalSpeedMode == VerticalSpeedMode.OppositeOfY)
+            velocity.y = Mathf.Abs(velocity.y) * -Mathf.Sign(transform.position.y);
     }
 
     public void activate()
     {
         rigAnimator.SetTrigger("Activate");
         rigAnimator.SetFloat("SpinSpeed", ringActivateSpinSpeed);
+    }
+
+    private void Update()
+    {
+        transform.position += (Vector3)velocity * Time.deltaTime;
     }
 
 }
