@@ -61,7 +61,6 @@ public class BroomRaceRing : MonoBehaviour
             else if (flipInstruction == FlipAlternateInstruction.Awaiting)
             {
                 flipInstruction = MathHelper.randomBool() ? FlipAlternateInstruction.FlipFirst : FlipAlternateInstruction.FlipSecond;
-                print(flipInstruction);
                 if (flipInstruction == FlipAlternateInstruction.FlipFirst)
                     flip = true;
             }
@@ -82,6 +81,7 @@ public class BroomRaceRing : MonoBehaviour
     {
         rigAnimator.SetTrigger("Activate");
         rigAnimator.SetFloat("SpinSpeed", ringActivateSpinSpeed);
+        velocity = Vector2.zero;
     }
 
     private void Update()
