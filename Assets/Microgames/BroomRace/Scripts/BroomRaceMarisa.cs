@@ -18,9 +18,14 @@ public class BroomRaceMarisa : MonoBehaviour {
     private Animator rigAnimator;
     [SerializeField]
     private BroomRaceBackgroundSpeed bgSpeedComponent;
+    [SerializeField]
+    private BroomRaceRing[] ringComponents;
+    [SerializeField]
+    private float ringFailXDistance;
 
-    private int rings = 0;
+    private int ringsHit = 0;
     private float currentSpeed = 0f;
+    bool hasFailed;
 
     private void Start()
     {
@@ -29,14 +34,14 @@ public class BroomRaceMarisa : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("MicrogameTag1"))
+        if (collision.tag.Equals("MicrogameTag1") && !hasFailed)
         {
             collision.GetComponent<BroomRaceRing>().activate();
-            rings++;
+            ringsHit++;
 
-            rigAnimator.SetInteger("Rings", rings);
+            rigAnimator.SetInteger("Rings", ringsHit);
             rigAnimator.SetTrigger("Ring");
-            if (rings == ringsRequired)
+            if (ringsHit == ringsRequired)
             {
                 rigAnimator.SetTrigger("Victory");
                 MicrogameController.instance.setVictory(true);
@@ -45,6 +50,18 @@ public class BroomRaceMarisa : MonoBehaviour {
 
             collision.enabled = false;
         }
+    }
+
+    void Fail()
+    {
+        rigAnimator.SetTrigger("Fail");
+        moveSpeed = 0f;
+        MicrogameController.instance.setVictory(true);
+        for (int i = ringsHit + 1; i < ringsRequired; i++)
+        {
+            ringComponents[i].gameObject.SetActive(false);
+        }
+        hasFailed = true;
     }
 
     void Update()
@@ -67,5 +84,13 @@ public class BroomRaceMarisa : MonoBehaviour {
                 transform.position = new Vector3(transform.position.x, -yBound, transform.position.z);
         }
         transform.localEulerAngles = Vector3.forward * speedAngleMult * currentSpeed;
+
+        if (ringsHit < ringsRequired
+            && !hasFailed
+            && transform.position.x > ringComponents[ringsHit].transform.position.x + ringFailXDistance)
+                Fail();
+        
+        //if (Input.GetKeyDown(KeyCode.L))
+        //    Fail();
     }
 }
