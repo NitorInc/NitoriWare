@@ -22,6 +22,11 @@ public class BroomRaceMarisa : MonoBehaviour {
     private int rings = 0;
     private float currentSpeed = 0f;
 
+    private void Start()
+    {
+        transform.position = new Vector3(transform.position.x, Random.Range(-yBound, yBound), transform.position.x);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("MicrogameTag1"))
