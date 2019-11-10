@@ -75,6 +75,7 @@ public class MicrogameController : MonoBehaviour
 
             if (preserveDebugSpeed > -1)
             {
+                Debug.Log("Debugging at speed " + preserveDebugSpeed);
                 debugSettings.speed = preserveDebugSpeed;
                 preserveDebugSpeed = -1;
             }
