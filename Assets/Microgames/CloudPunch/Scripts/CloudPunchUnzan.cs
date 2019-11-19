@@ -14,7 +14,7 @@ public class CloudPunchUnzan : MonoBehaviour
     private Animator rigAnimator;
 
     private float initialX;
-    private float lastPunchTime = 0f;
+    private float lastPunchTime = -99999f;
 
 	void Start ()
     {

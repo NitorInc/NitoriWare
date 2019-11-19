@@ -19,8 +19,6 @@ public class CloudPunchTarget : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.name);
-        print(collision.tag);
         if (enabled && collision.tag.Equals("MicrogameTag2"))
         {
             enabled = false;
