@@ -44,6 +44,12 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
             Walk();
         }
 
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            myAnimator.SetTrigger("Eat");
+            walkSpeed /= 2f;
+        }
+
 	}
 
     /* My methods */
