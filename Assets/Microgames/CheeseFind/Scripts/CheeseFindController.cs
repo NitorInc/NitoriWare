@@ -184,8 +184,8 @@ public class CheeseFindController : MonoBehaviour {
             drawer.isLocked = false;
         }
         //TODO: Replace with displayLocalizedCommand when the text is localized.
-		MicrogameController.instance.displayCommand("Find Cheese!");
-		//MicrogameController.instance.displayLocalizedCommand("commandb", "Find Cheese!");
+		MicrogameController.instance.displayCommand("Find all cheeses!");
+		//MicrogameController.instance.displayLocalizedCommand("commandb", "Find all cheeses!");
     }
 
     public void SetVictory(bool isVictorious) {
