@@ -31,6 +31,9 @@ public class MilkPourCup : MonoBehaviour {
 	[SerializeField]
 	private float fillPerSecond;
 
+    [SerializeField]
+    protected MilkPourPourSpeedAnimation animationSpeedMult;
+
 	/// <summary>
 	/// 	Get/set the height of the glass.
 	/// </summary>
@@ -126,8 +129,8 @@ public class MilkPourCup : MonoBehaviour {
 	/// </summary>
 	public virtual void Fill(float deltaTime)
 	{
-		if (!Stopped)
-			FillHeight = Mathf.Min(FillHeight + fillPerSecond * deltaTime, GlassHeight);
+        //if (!Stopped)
+            FillHeight = Mathf.Min(FillHeight + fillPerSecond * animationSpeedMult.PourSpeedMult * deltaTime, GlassHeight);
 	}
 
 	/// <summary>

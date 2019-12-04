@@ -9,7 +9,16 @@ public class MilkPourState : MonoBehaviour
 	private MilkPourCup cup;
 	private MilkPourGameState state;
 
-	private enum MilkPourGameState
+    [SerializeField]
+    private Animator jugAnimator;
+
+    [SerializeField]
+    private MilkPourPourSpeedAnimation animationSpeedMult;
+
+    [SerializeField]
+    private GameObject spillParticles;
+
+    private enum MilkPourGameState
 	{
 		Start,
 		Filling,
@@ -23,10 +32,13 @@ public class MilkPourState : MonoBehaviour
 	}
 
 	void Update ()
-	{
-		switch (state)
+    {
+        cup.Fill(Time.deltaTime);
+        switch (state)
 		{
 			case MilkPourGameState.Stopped:
+                if (animationSpeedMult.PourSpeedMult <= 0f)
+                    OnMilkSettled();
 				break;
 			case MilkPourGameState.Start:
 				state = Input.GetKey (KeyCode.Space) ? MilkPourGameState.Filling : MilkPourGameState.Start;
@@ -46,20 +58,31 @@ public class MilkPourState : MonoBehaviour
 
 	void OnFill ()
 	{
-		cup.Fill(Time.deltaTime);
+		//cup.Fill(Time.deltaTime);
+        jugAnimator.SetBool("Held", true);
 		if (cup.IsSpilled())
+        {
 			Fail();
+            spillParticles.SetActive(true);
+        }
 	}
 
 	void OnIdle ()
-	{
-		if (cup.IsPassing())
-			Win();
-		else if (cup.IsOverfilled ())
-			Fail ();
-		else if (failOnEarlyRelease)
-			Fail ();
+    {
+        jugAnimator.SetBool("Held", false);
+        state = MilkPourGameState.Stopped;
 	}
+
+    void OnMilkSettled()
+    {
+        if (cup.IsPassing())
+            Win();
+        else if (cup.IsOverfilled())
+            Fail();
+        else if (failOnEarlyRelease)
+            Fail();
+        enabled = false;
+    }
 
 	void Win ()
 	{

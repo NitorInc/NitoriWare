@@ -21,7 +21,7 @@ public class MilkPourGrowingCup : MilkPourCup {
 
 		if (FillHeight >= cupGrowthInitThreshold && !Stopped)
 		{
-			var growth = cupGrowthPerSecond * deltaTime;
+			var growth = cupGrowthPerSecond * deltaTime * animationSpeedMult.PourSpeedMult;
 			GlassHeight += growth;
 			LowerFillLineHeight += growth;
 			UpperFillLineHeight += growth;

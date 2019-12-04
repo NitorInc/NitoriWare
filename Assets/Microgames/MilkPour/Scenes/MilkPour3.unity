@@ -207,6 +207,10 @@ Prefab:
       propertyPath: m_LocalPosition.x
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 4633496344679634, guid: 778c152aefcba75459204f8d0b18b2b3, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114484588970589832, guid: 778c152aefcba75459204f8d0b18b2b3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 778c152aefcba75459204f8d0b18b2b3, type: 2}
@@ -257,12 +261,13 @@ MonoBehaviour:
   fillSprite: {fileID: 430958702}
   lowerFillLineSprite: {fileID: 430958701}
   upperFillLineSprite: {fileID: 430958700}
-  initialGlassHeight: 3
-  initialLowerFillLineHeight: 2.4
-  initialUpperFillLineHeight: 2.85
-  fillPerSecond: 1.35
-  cupGrowthInitThreshold: 1.9
-  cupGrowthPerSecond: 0.6
+  initialGlassHeight: 2.5
+  initialLowerFillLineHeight: 1.9
+  initialUpperFillLineHeight: 2.35
+  fillPerSecond: 1.75
+  animationSpeedMult: {fileID: 574774939}
+  cupGrowthInitThreshold: 0.75
+  cupGrowthPerSecond: 0.8
 --- !u!1001 &442623852
 Prefab:
   m_ObjectHideFlags: 0
@@ -382,6 +387,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &574774939 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114194184666077288, guid: 778c152aefcba75459204f8d0b18b2b3,
+    type: 2}
+  m_PrefabInternal: {fileID: 430958699}
+  m_Script: {fileID: 11500000, guid: 08ce271c4cf4af7489a7f656f832c1eb, type: 3}
 --- !u!1001 &1961422875
 Prefab:
   m_ObjectHideFlags: 0
