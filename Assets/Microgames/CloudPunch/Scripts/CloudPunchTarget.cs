@@ -8,6 +8,8 @@ public class CloudPunchTarget : MonoBehaviour
     private Animator rigAnimator;
     [SerializeField]
     private float punchScreenshake = .1f;
+    [SerializeField]
+    private AudioClip hitSound;
     
 	void Start ()
     {
@@ -26,6 +28,9 @@ public class CloudPunchTarget : MonoBehaviour
             enabled = false;
             rigAnimator.SetTrigger("Hit");
             CameraShake.instance.addScreenShake(punchScreenshake);
+            var sfxSource = GetComponent<AudioSource>();
+            sfxSource.PlayOneShot(hitSound);
+            sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
         }
     }
 }
