@@ -18,6 +18,14 @@ public class MilkPourState : MonoBehaviour
     [SerializeField]
     private GameObject spillParticles;
 
+    [SerializeField]
+    private AudioSource pourSource;
+
+    [SerializeField]
+    private AudioClip victoryClip;
+    [SerializeField]
+    private AudioClip lossClip;
+
     private enum MilkPourGameState
 	{
 		Start,
@@ -43,7 +51,10 @@ public class MilkPourState : MonoBehaviour
 			case MilkPourGameState.Start:
 				state = Input.GetKey (KeyCode.Space) ? MilkPourGameState.Filling : MilkPourGameState.Start;
 				if (state == MilkPourGameState.Filling)
+                {
 					OnFill ();
+                    pourSource.Play();
+                }
 				break;
 			case MilkPourGameState.Filling:
 			case MilkPourGameState.Idle:
@@ -54,6 +65,8 @@ public class MilkPourState : MonoBehaviour
 					OnIdle ();
 				break;
 		}
+
+        pourSource.volume = animationSpeedMult.PourSpeedMult * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
 	}
 
 	void OnFill ()
@@ -88,6 +101,7 @@ public class MilkPourState : MonoBehaviour
 	{
 		cup.Stop ();
 		MicrogameController.instance.setVictory(true, true);
+        MicrogameController.instance.playSFX(victoryClip);
 		state = MilkPourGameState.Stopped;
 	}
 
@@ -95,6 +109,7 @@ public class MilkPourState : MonoBehaviour
 	{
 		cup.Stop ();
 		MicrogameController.instance.setVictory(false, true);
-		state = MilkPourGameState.Stopped;
+        MicrogameController.instance.playSFX(lossClip);
+        state = MilkPourGameState.Stopped;
 	}
 }
