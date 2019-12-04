@@ -6,6 +6,8 @@ public class CloudPunchTarget : MonoBehaviour
 {
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private float punchScreenshake = .1f;
     
 	void Start ()
     {
@@ -23,6 +25,7 @@ public class CloudPunchTarget : MonoBehaviour
         {
             enabled = false;
             rigAnimator.SetTrigger("Hit");
+            CameraShake.instance.addScreenShake(punchScreenshake);
         }
     }
 }

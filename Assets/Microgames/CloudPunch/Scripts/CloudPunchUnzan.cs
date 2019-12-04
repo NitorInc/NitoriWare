@@ -12,6 +12,8 @@ public class CloudPunchUnzan : MonoBehaviour
     private float punchMoveCooldownTime = .1f;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+    private float punchScreenshake = .2f;
 
     private float initialX;
     private float lastPunchTime = -99999f;
@@ -46,5 +48,6 @@ public class CloudPunchUnzan : MonoBehaviour
         rigAnimator.SetTrigger("Punch");
         CloudPunchPiece.awaitingPunch = true;
         lastPunchTime = Time.time;
+        CameraShake.instance.setScreenShake(punchScreenshake);
     }
 }
