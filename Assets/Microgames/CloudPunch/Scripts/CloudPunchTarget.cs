@@ -10,10 +10,16 @@ public class CloudPunchTarget : MonoBehaviour
     private float punchScreenshake = .1f;
     [SerializeField]
     private AudioClip hitSound;
+    [SerializeField]
+    private int targetsRequired = 1;
+    [SerializeField]
+    private float secondHitPitch = 1.1f;
+
+    private static int targetsHit;
     
 	void Start ()
     {
-		
+        targetsHit = 0;
 	}
 	
 	void Update ()
@@ -28,9 +34,15 @@ public class CloudPunchTarget : MonoBehaviour
             enabled = false;
             rigAnimator.SetTrigger("Hit");
             CameraShake.instance.addScreenShake(punchScreenshake);
+            targetsHit++;
+            if (targetsHit >= targetsRequired)
+                MicrogameController.instance.setVictory(true);
+
             var sfxSource = GetComponent<AudioSource>();
             sfxSource.PlayOneShot(hitSound);
             sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
+            if (targetsHit > 1)
+                sfxSource.pitch *= secondHitPitch;
         }
     }
 }

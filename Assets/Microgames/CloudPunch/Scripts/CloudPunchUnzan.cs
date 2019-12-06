@@ -14,6 +14,8 @@ public class CloudPunchUnzan : MonoBehaviour
     private Animator rigAnimator;
     [SerializeField]
     private float punchScreenshake = .2f;
+    [SerializeField]
+    private float punchLossCheckTimer = .7f;
 
     private float initialX;
     private float lastPunchTime = -99999f;
@@ -49,5 +51,12 @@ public class CloudPunchUnzan : MonoBehaviour
         CloudPunchPiece.awaitingPunch = true;
         lastPunchTime = Time.time;
         CameraShake.instance.setScreenShake(punchScreenshake);
+        Invoke("checkLoss", punchLossCheckTimer);
+    }
+
+    void checkLoss()
+    {
+        if (!MicrogameController.instance.getVictoryDetermined())
+            MicrogameController.instance.setVictory(false);
     }
 }
