@@ -22,24 +22,9 @@ GameObject:
   - component: {fileID: 212243457833131310}
   - component: {fileID: 61083247424199950}
   - component: {fileID: 114923133197646634}
+  - component: {fileID: 111715519206172784}
   m_Layer: 0
   m_Name: MovieMakerClip
-  m_TagString: MicrogameTag1
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1897074777282914
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4773711727580350}
-  - component: {fileID: 61847034677397520}
-  m_Layer: 0
-  m_Name: ClipCollider
   m_TagString: MicrogameTag1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,19 +57,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4997520527804228}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4773711727580350
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1897074777282914}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4997520527804228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4997520527804228
@@ -94,10 +66,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1520739335568630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.2, y: 3.26, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -2.6, y: 3.21, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
-  - {fileID: 4773711727580350}
   - {fileID: 4314126390781260}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -118,40 +89,30 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.9, y: 1.14}
+    oldSize: {x: 1.08, y: 1.08}
     newSize: {x: 1.36, y: 0.85}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.94314146, y: 1.2849178}
+  m_Size: {x: 10, y: 1.2849178}
   m_EdgeRadius: 0
---- !u!61 &61847034677397520
-BoxCollider2D:
+--- !u!111 &111715519206172784
+Animation:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1897074777282914}
+  m_GameObject: {fileID: 1520739335568630}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.36, y: 0.85}
-    newSize: {x: 1.36, y: 0.85}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 10, y: 0.85}
-  m_EdgeRadius: 0
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: c34ba8a2ca17d3f4ba7c69b0082e037c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: c34ba8a2ca17d3f4ba7c69b0082e037c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114923133197646634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,8 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SR: {fileID: 212243457833131310}
-  Default: {fileID: 21300000, guid: da501918e2d55f3488c10195a3c3722d, type: 3}
-  Over: {fileID: 21300000, guid: e19ae79c4fb91f642bb9255428892901, type: 3}
   Shadow: {fileID: 1923302531739656}
 --- !u!212 &212243457833131310
 SpriteRenderer:

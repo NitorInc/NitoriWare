@@ -23,6 +23,7 @@ public class MovieMakerTimeline : MonoBehaviour {
             {
                 Files++;
                 hit.collider.gameObject.tag = "MicrogameTag2";
+                    hit.collider.gameObject.GetComponent<Animation>().Play();
             }
         }
     }
