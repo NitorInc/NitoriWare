@@ -8,24 +8,33 @@ public class MovieMakerTimeline : MonoBehaviour {
     private int RequiredFiles = 3;
 
     public int Files = 0;
+    public Collider2D currentCollider;
 
 	void Update () {
-		if (Files >= RequiredFiles)
+
+        if (!Input.GetMouseButton(0) && currentCollider != null)
+        {
+            Files++;
+            currentCollider.gameObject.tag = "MicrogameTag2";
+            currentCollider.gameObject.GetComponent<Animation>().Play();
+            currentCollider = null;
+        }
+
+        if (Files >= RequiredFiles)
         {
             GameObject.Find("BG").SendMessage("Upload");
         }
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
-
-        if (hit.collider != null)
-        {
-            if (hit.collider.gameObject.tag == "MicrogameTag1")
-            {
-                Files++;
-                hit.collider.gameObject.tag = "MicrogameTag2";
-                    hit.collider.gameObject.GetComponent<Animation>().Play();
-            }
-        }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision) => collide(collision, true);
+
+    private void OnTriggerStay2D(Collider2D collision) => collide(collision, true);
+
+    private void OnTriggerExit2D(Collider2D collision) => collide(collision, false);
+
+    void collide(Collider2D collision, bool isColliding)
+    {
+        if (collision.gameObject.tag == "MicrogameTag1")
+            currentCollider = isColliding ? collision : null;
+    }
 }

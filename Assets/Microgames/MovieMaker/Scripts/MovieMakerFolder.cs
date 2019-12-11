@@ -10,11 +10,17 @@ public class MovieMakerFolder : MonoBehaviour {
     [SerializeField]
     private Animation BGAnim;
 
+    private bool open = false;
+
     private void OnMouseDown()
     {
-        BGAnim.Play();
-        File.SetActive(true);
-        this.enabled = false;
+        if (!open)
+        {
+            BGAnim.Play();
+            File.SetActive(true);
+            this.enabled = false;
+            open = true;
+        }
 
     }
 }
