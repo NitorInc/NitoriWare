@@ -12,12 +12,12 @@ public class KasenPetsAnimal : MonoBehaviour {
     [SerializeField]
     private bool isEagle = false;
 
+    private ParticleSystem dust;
 
 	//Direction of travel.
 	private Vector2 trajectory = Vector2.up;
 
     private bool pause = true;
-
 
 	SpriteRenderer myRenderer;
     Animator animator;
@@ -27,6 +27,8 @@ public class KasenPetsAnimal : MonoBehaviour {
 
 	//The animal moves faster the greater y is, because x-axis movement speed is constant.
 	void Start () {
+        dust = gameObject.GetComponent<ParticleSystem>();
+        dust.Stop();
         animator = GetComponentInChildren<Animator>();
         transform.position = new Vector2(Random.Range(-1f, 1f), Random.Range(-3.5f, 3.5f));
 
@@ -99,25 +101,29 @@ public class KasenPetsAnimal : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
 
         pause = false;
+        dust.Play();
 
     }
 
     IEnumerator ChangeDirection()
     {
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(Random.Range(1.1f, 1.4f));
 
         pause = true;
-
+        dust.Stop();
+        animator.SetBool("Rotate", true);
         //x becomes either 1 or -1, y becomes anything between -1 and 1.
         float x = -trajectory.x;
-        float y = Random.value;
+        float y = -trajectory.y;
         Vector2 newTrajectory = new Vector2(x, y);
+
+        yield return new WaitForSeconds(0.3f);
+        animator.SetBool("Rotate", false);
         //Rotate sprite.
         transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(Vector2.up, newTrajectory) * -x / Mathf.Abs(x));
         trajectory = newTrajectory;
-
-        yield return new WaitForSeconds(0.3f);
         pause = false;
+        dust.Play();
 
     }
 
