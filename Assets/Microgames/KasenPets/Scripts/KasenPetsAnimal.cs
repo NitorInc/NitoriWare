@@ -12,7 +12,31 @@ public class KasenPetsAnimal : MonoBehaviour {
     [SerializeField]
     private bool isEagle = false;
 
+    [SerializeField]
+    private float startFacingDelay = 0.5f;
+    [SerializeField]
+    private float startMovingDelay = 0.5f;
+    [SerializeField]
+    private Vector2 firstDirectionChangeTimeRange = new Vector2(1.1f, 1.4f);
+    [SerializeField]
+    private Vector2 directionChangeTimeRange = new Vector2(1.1f, 1.4f);
+    [SerializeField]
+    private Vector2 directionChangeAngleRange = new Vector2(150f, 210f);
+    [SerializeField]
+    private Vector2 xRange = new Vector2(-1f, 1f);
+    [SerializeField]
+    private Vector2 yRange = new Vector2(-3.5f, 3.5f);
+    [SerializeField]
+    private float rotateSpeed = 720f;
+    [SerializeField]
+    private float turnPauseTime = .25f;
+    [SerializeField]
+    private float minTurnTimeAfterBounce = .4f;
+    [SerializeField]
+    private float maxXForTurn = 3f;
+
     private ParticleSystem dust;
+    private float lastBounceTime = -100f;
 
 	//Direction of travel.
 	private Vector2 trajectory = Vector2.up;
@@ -21,7 +45,7 @@ public class KasenPetsAnimal : MonoBehaviour {
 
 	SpriteRenderer myRenderer;
     Animator animator;
-
+    private float goalRotation;
 
 	//Sets trajectory to a random direction, and rotates sprite accordingly.
 
@@ -30,7 +54,7 @@ public class KasenPetsAnimal : MonoBehaviour {
         dust = gameObject.GetComponent<ParticleSystem>();
         dust.Stop();
         animator = GetComponentInChildren<Animator>();
-        transform.position = new Vector2(Random.Range(-1f, 1f), Random.Range(-3.5f, 3.5f));
+        transform.position = new Vector2(MathHelper.randomRangeFromVector(xRange), MathHelper.randomRangeFromVector(yRange));
 
         StartCoroutine(StartDelay());
 
@@ -48,16 +72,21 @@ public class KasenPetsAnimal : MonoBehaviour {
 		if (other.CompareTag ("MicrogameTag1") == true) {
 			//hit ceiling or floor.
 			trajectory.y *= -1;
-			transform.rotation = Quaternion.Euler (0, 0, 180 - transform.rotation.eulerAngles.z);
+            //lastBounceTime = Time.time;
+			//goalRotation = MathHelper.randomRangeFromVector(directionChangeAngleRange) - transform.rotation.eulerAngles.z;
 		} else if (other.CompareTag ("MicrogameTag2") == true) {
 			//Hit hand.
 			trajectory.x *= -1;
-			transform.rotation = Quaternion.Euler (0, 0, -transform.rotation.eulerAngles.z);
-		} else if (other.CompareTag ("MicrogameTag3") == true)
+            lastBounceTime = Time.time;
+            //goalRotation = -transform.rotation.eulerAngles.z;
+        } else if (other.CompareTag ("MicrogameTag3") == true)
         {
             MicrogameController.instance.setVictory(false);
         }
-	}
+
+        goalRotation = trajectory.getAngle() - 90f;
+        animator.transform.localEulerAngles = Vector3.forward * goalRotation;
+    }
 
 	
 
@@ -66,13 +95,22 @@ public class KasenPetsAnimal : MonoBehaviour {
         if (pause == false)
         {
             transform.position = (Vector2)transform.position + (trajectory * speed * Time.deltaTime);
+            
         }
 
-	}
+        goalRotation = trajectory.getAngle() - 90f;
+        var angleDiff = MathHelper.getAngleDifference(animator.transform.eulerAngles.z, goalRotation);
+        var frameDiff = Mathf.Sign(angleDiff) * Time.deltaTime * rotateSpeed;
+        if (Mathf.Abs(angleDiff) <= Mathf.Abs(frameDiff))
+            animator.transform.localEulerAngles = Vector3.forward * goalRotation;
+        else
+            animator.transform.localEulerAngles += Vector3.forward * frameDiff;
+
+    }
 
     IEnumerator StartDelay()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(startFacingDelay);
         //x becomes either 1 or -1, y becomes anything between -1 and 1.
         int x = 1;
         float y = Random.value;
@@ -94,11 +132,12 @@ public class KasenPetsAnimal : MonoBehaviour {
                 break;
         }
         Vector2 newTrajectory = new Vector2(x, y);
-        //Rotate sprite.
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(trajectory, newTrajectory) * -x / Mathf.Abs(x));
         trajectory = newTrajectory;
+        //Rotate sprite.
+        goalRotation = trajectory.getAngle() - 90f;
+        animator.transform.localEulerAngles = Vector3.forward * goalRotation;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(startMovingDelay);
 
         pause = false;
         dust.Play();
@@ -107,23 +146,40 @@ public class KasenPetsAnimal : MonoBehaviour {
 
     IEnumerator ChangeDirection()
     {
-        yield return new WaitForSeconds(Random.Range(1.1f, 1.4f));
+        yield return new WaitForSeconds(MathHelper.randomRangeFromVector(firstDirectionChangeTimeRange));
 
-        pause = true;
+        //pause = true;
         dust.Stop();
-        animator.SetBool("Rotate", true);
+        //animator.SetBool("Rotate", true);
         //x becomes either 1 or -1, y becomes anything between -1 and 1.
-        float x = -trajectory.x;
-        float y = -trajectory.y;
-        Vector2 newTrajectory = new Vector2(x, y);
+        //float x = -trajectory.x;
+        //float y = -trajectory.y;
+        //Vector2 newTrajectory = new Vector2(x, y);
 
         yield return new WaitForSeconds(0.3f);
-        animator.SetBool("Rotate", false);
-        //Rotate sprite.
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(Vector2.up, newTrajectory) * -x / Mathf.Abs(x));
-        trajectory = newTrajectory;
-        pause = false;
-        dust.Play();
+
+        while(true)
+        {
+            //var timeSinceLastBounce = Time.time - lastBounceTime;
+            //if (timeSinceLastBounce < minTurnTimeAfterBounce)
+            //    yield return new WaitForSeconds(minTurnTimeAfterBounce - timeSinceLastBounce);
+            while (Mathf.Abs(transform.position.x) > maxXForTurn)
+            {
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            //animator.SetBool("Rotate", false);
+            //Rotate sprite.
+            //transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(Vector2.up, newTrajectory) * -x / Mathf.Abs(x));
+            trajectory = MathHelper.getVector2FromAngle(trajectory.getAngle() + MathHelper.randomRangeFromVector(directionChangeAngleRange),
+                trajectory.magnitude);
+            //trajectory = newTrajectory;
+            pause = true;
+            yield return new WaitForSeconds(turnPauseTime);
+            pause = false;
+            dust.Play();
+            yield return new WaitForSeconds(MathHelper.randomRangeFromVector(directionChangeTimeRange));
+        }
 
     }
 

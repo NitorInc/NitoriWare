@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class KasenPetsHands : MonoBehaviour {
 
+    [SerializeField]
+    private float ySpeed = 10f;
+    [SerializeField]
+    private float yExtents = 5f;
+
 	void Start () {
 		
 	}
@@ -17,10 +22,14 @@ public class KasenPetsHands : MonoBehaviour {
 	}
 
 	//Basically the same as FollowCursor, but only affects the y-coordinate.
-	void UpdatePosition(){
-		Vector3 cursorPosition = CameraHelper.getCursorPosition();
-		cursorPosition.x = transform.position.x;
-		cursorPosition.z = transform.position.z;
-		transform.position = cursorPosition;
-	}
+	void UpdatePosition() {
+        var direction = 0f;
+        if (Input.GetKey(KeyCode.UpArrow))
+            direction += 1f;
+        if (Input.GetKey(KeyCode.DownArrow))
+            direction -= 1f;
+
+        if (direction != 0f)
+            transform.moveTowards(new Vector3(transform.position.x, yExtents * direction, transform.position.z), ySpeed);
+    }
 }

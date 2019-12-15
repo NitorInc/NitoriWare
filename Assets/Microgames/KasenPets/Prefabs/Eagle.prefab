@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1139199576340886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4390559993081600}
   m_Father: {fileID: 0}
@@ -138,8 +138,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce93a0a752036c4ba03a35bb76a61df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 10.5
   isEagle: 1
+  startFacingDelay: 0.05
+  startMovingDelay: 0.7
+  firstDirectionChangeTimeRange: {x: 0.7, y: 1.4}
+  directionChangeTimeRange: {x: 1.1, y: 1.4}
+  directionChangeAngleRange: {x: 150, y: 210}
+  xRange: {x: -1, y: 1}
+  yRange: {x: -3.5, y: 3.5}
+  rotateSpeed: 720
+  turnPauseTime: 0.4
+  minTurnTimeAfterBounce: 0.4
+  maxXForTurn: 0.35
 --- !u!198 &198394530801062116
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -197,7 +208,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 482193419
@@ -248,7 +259,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 0.9
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -643,13 +654,13 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 5
     enabled: 1
-    type: 5
+    type: 10
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0.1, z: 0}
+    m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 3.7611916, y: 1, z: 0.21020597}
     placementMode: 0
@@ -665,7 +676,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.01
       mode: 0
       spread: 0
       speed:
