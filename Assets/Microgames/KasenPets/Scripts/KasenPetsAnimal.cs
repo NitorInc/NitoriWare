@@ -78,6 +78,9 @@ public class KasenPetsAnimal : MonoBehaviour {
 			//Hit hand.
 			trajectory.x *= -1;
             lastBounceTime = Time.time;
+
+            other.transform.GetChild(transform.position.x < 0f ? 0 : 1)
+                .GetComponent<Animator>().SetTrigger("Bounce");
             //goalRotation = -transform.rotation.eulerAngles.z;
         } else if (other.CompareTag ("MicrogameTag3") == true)
         {
