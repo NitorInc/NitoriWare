@@ -34,6 +34,10 @@ public class KasenPetsAnimal : MonoBehaviour {
     private float minTurnTimeAfterBounce = .4f;
     [SerializeField]
     private float maxXForTurn = 3f;
+    [SerializeField]
+    private AudioClip bounceClip;
+    [SerializeField]
+    private AudioClip bounceTopClip;
 
     private ParticleSystem dust;
     private float lastBounceTime = -100f;
@@ -72,15 +76,17 @@ public class KasenPetsAnimal : MonoBehaviour {
 		if (other.CompareTag ("MicrogameTag1") == true) {
 			//hit ceiling or floor.
 			trajectory.y *= -1;
+            MicrogameController.instance.playSFX(bounceTopClip, panStereo: AudioHelper.getAudioPan(transform.position.x));
             //lastBounceTime = Time.time;
-			//goalRotation = MathHelper.randomRangeFromVector(directionChangeAngleRange) - transform.rotation.eulerAngles.z;
-		} else if (other.CompareTag ("MicrogameTag2") == true) {
+            //goalRotation = MathHelper.randomRangeFromVector(directionChangeAngleRange) - transform.rotation.eulerAngles.z;
+        } else if (other.CompareTag ("MicrogameTag2") == true) {
 			//Hit hand.
 			trajectory.x *= -1;
             lastBounceTime = Time.time;
 
             other.transform.GetChild(transform.position.x < 0f ? 0 : 1)
                 .GetComponent<Animator>().SetTrigger("Bounce");
+            MicrogameController.instance.playSFX(bounceClip, panStereo: AudioHelper.getAudioPan(transform.position.x));
             //goalRotation = -transform.rotation.eulerAngles.z;
         } else if (other.CompareTag ("MicrogameTag3") == true)
         {
