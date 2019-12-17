@@ -56,7 +56,7 @@ public class BroomRaceMarisa : MonoBehaviour {
     {
         rigAnimator.SetTrigger("Fail");
         moveSpeed = 0f;
-        MicrogameController.instance.setVictory(true);
+        MicrogameController.instance.setVictory(false);
         for (int i = ringsHit + 1; i < ringsRequired; i++)
         {
             ringComponents[i].gameObject.SetActive(false);
