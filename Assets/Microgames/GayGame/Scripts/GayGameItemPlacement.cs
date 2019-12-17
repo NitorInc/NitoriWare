@@ -13,7 +13,7 @@ public class GayGameItemPlacement : MonoBehaviour
     [SerializeField]
     private Vector2 letterSpawnRange;
 
-    void Start ()
+    void Awake ()
     {
         bool handOnLeft = MathHelper.randomBool();
         handObject.transform.position = new Vector3(
