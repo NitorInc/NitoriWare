@@ -42,7 +42,10 @@ public class CheeseFindDrawer : MonoBehaviour {
     private float _pullFactor = 1f;
     private float _pullLimit = .5f;
 
+    private CheeseFindCursor _cursor;
+
 	void Start() {
+        _cursor = GameObject.Find("Cursor").GetComponent<CheeseFindCursor>();
 	}
 	
 	void Update() {
@@ -69,14 +72,14 @@ public class CheeseFindDrawer : MonoBehaviour {
             return;
 
         _isPulling = true;
-
-        //TODO: Click feedback (Sound + pop effect on the drawer)
+        _cursor.OnGrab();
     }
 
     void OnMouseUp() {
         if(_isLocked || !_isPulling)
             return;
         _isPulling = false;
+        _cursor.OnRelease();
     }
 
     void OnMouseDrag() {
@@ -99,7 +102,7 @@ public class CheeseFindDrawer : MonoBehaviour {
             _isLocked = true;
             _isOpen = true;
 
-            //TODO: Added effects
+            _cursor.OnRelease();
 
             if(_hasItem) {
                 _item.MoveTo(transform.parent.position + new Vector3(0f, 1.5f, 0f), 1f);
