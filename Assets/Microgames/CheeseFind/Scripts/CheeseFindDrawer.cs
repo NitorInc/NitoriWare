@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheeseFindDrawer : MonoBehaviour {
+    [Header("Mouse Sound")]
+    [SerializeField]
+    private AudioClip mouseSfx;
+
+    [Header("Drawer Sound")]
+    [SerializeField]
+    private AudioClip drawerSfx;
+
     private bool _isLocked = true;
     public bool isLocked {
         get { return _isLocked; }
@@ -73,6 +81,7 @@ public class CheeseFindDrawer : MonoBehaviour {
 
         _isPulling = true;
         _cursor.OnGrab();
+		MicrogameController.instance.playSFX(drawerSfx, AudioHelper.getAudioPan(transform.parent.position.x));
     }
 
     void OnMouseUp() {
@@ -110,6 +119,7 @@ public class CheeseFindDrawer : MonoBehaviour {
                     _controller.AddPoint(1);
                 }
                 else {
+                    MicrogameController.instance.playSFX(mouseSfx, AudioHelper.getAudioPan(transform.parent.position.x));
                     _controller.SetVictory(false);
                 }
             }
