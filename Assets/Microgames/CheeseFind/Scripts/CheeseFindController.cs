@@ -6,7 +6,7 @@ using UnityEngine;
 public class CheeseFindController : MonoBehaviour {
     [Header("Camera")]
     [SerializeField]
-    private Camera camera;
+    private Camera cameraObject;
 
     [Header("Chest Prefab")]
     [SerializeField]
@@ -116,7 +116,7 @@ public class CheeseFindController : MonoBehaviour {
             drawerScript.controller = this;
         }
 
-        _cameraScript = camera.GetComponent<CheeseFindCamera>();
+        _cameraScript = cameraObject.GetComponent<CheeseFindCamera>();
         _nazrinObject = nazrinObject.GetComponent<CheeseFindNazrin>();
 
         StartCoroutine(HideItem());
