@@ -155,14 +155,14 @@ public class CheeseFindController : MonoBehaviour {
             }
         }
 
-		yield return new WaitForSeconds(1.5f);
+		yield return new WaitForSeconds(1f - (difficulty * 0.2f));
 
         for(int i = 0; i < _miceScripts.Length; i ++) {
             if(_miceScripts[i].isUsed) {
                 _miceScripts[i].MoveTo(_miceScripts[i].drawerPosition, 1f, true);
                 continue;
             }
-            _miceScripts[i].MoveAway(1.5f, false);
+            _miceScripts[i].MoveAway(1.3f - (difficulty * 0.4f), false);
         }
 
         for(int i = 0; i < _cheeseScripts.Length; i ++) {
@@ -170,9 +170,9 @@ public class CheeseFindController : MonoBehaviour {
                 _cheeseScripts[i].MoveTo(_cheeseScripts[i].drawerPosition, 1f, true);
                 continue;
             }
-            _cheeseScripts[i].MoveAway(1.5f, false);
+            _cheeseScripts[i].MoveAway(1.3f - (difficulty * 0.4f), false);
         }
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(1f - (difficulty * 0.25f));
         
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isOpen = false;
