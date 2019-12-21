@@ -11,6 +11,10 @@ public class CheeseFindDrawer : MonoBehaviour {
     [SerializeField]
     private AudioClip drawerSfx;
 
+    [Header("Click Sound")]
+    [SerializeField]
+    private AudioClip clickSfx;
+
     private bool _isLocked = true;
     public bool isLocked {
         get { return _isLocked; }
@@ -112,6 +116,7 @@ public class CheeseFindDrawer : MonoBehaviour {
             _isOpen = true;
 
             _cursor.OnRelease();
+            MicrogameController.instance.playSFX(clickSfx, AudioHelper.getAudioPan(transform.parent.position.x));
 
             if(_hasItem) {
                 _item.MoveTo(transform.parent.position + new Vector3(0f, 1.5f, 0f), 1f);
