@@ -41,11 +41,12 @@ public class RockBandAudienceMember : MonoBehaviour
         resetFlip();
 	}
 
-    void resetHop()
+    public void resetHop()
     {
         if (victoryStatus == -1)
             hopHeightRandomBounds = Vector2.zero;
 
+        //spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
         hopStartTime = Time.time;
         hopHeight = MathHelper.randomRangeFromVector(hopHeightRandomBounds);
         hopWait = MathHelper.randomRangeFromVector(hopWaitRandomBounds);
