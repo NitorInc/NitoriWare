@@ -142,7 +142,7 @@ public class DonationCoin : MonoBehaviour
 
 	float getStereoPan()
 	{
-		return (transform.position.x / (Camera.main.orthographicSize * 4f / 3f)) * .9f;
+		return (transform.position.x / (MainCameraSingleton.instance.orthographicSize * 4f / 3f)) * .9f;
 	}
 
     private void OnCollisionEnter2D(Collision2D collision) => coinCollision(collision);

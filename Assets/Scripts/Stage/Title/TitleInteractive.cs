@@ -45,7 +45,7 @@ public class TitleInteractive : MonoBehaviour
 
 	public void checkCollision()
 	{
-		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Ray mouseRay = MainCameraSingleton.instance.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
 
 		if (hit && hit.collider.name == name)

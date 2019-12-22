@@ -1,4 +1,7 @@
 generic
+	idname=Polish
+	addedtogame=Y
+	complete=Y
 	name=Polski
 	gamename=NitorInc.
 	incomplete=UWAGA: Gra nie została całkowicie przetłumaczona na język polski. Część tekstu może być po angielsku.
@@ -82,12 +85,144 @@ menu
 		introb=Wiele fanów tej serii razem pracowało nad kodowaniem, muzyką, grafiką i innymi aspektami wszystkich mikrogier.
 		introc=Jeżeli znasz angielski i chciałbyś przyłączyć się do pracy nad pełną grą, odwiedź {0}\nAlbo po prostu rozpuść wieści o grze!
 		webglwarning=Jeżeli doświadczysz jakichś problemów z odtwarzaczem przeglądarkowym, spróbuj pobrać grę z poniżej podanych linków.
-nitori
-	storyintro=Wygląda na to, że mamy nowego klienta.\nZobaczmy jak poradzisz sobie z moimi grami.\nLepiej nie mrugaj za dużo bo nie nadążysz!
-	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu tylko na wczasach.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
-	compilationfinished=No no, jestem pod wrażeniem!\nCiekawe czy dasz sobie radę w pełnej grze!\nTo jedynie początek {0}!
 microgame
+	FreezeFrogs
+		command=Zamróź!
+		igname=Mroźne Żaby
+	Slingshot
+		command=Strzelaj!
+		igname=Głowa Do Góry
+	ChenFood
+		command=Nie daj się zjeść!
+		igname=Kocia Ucieczka
+	Spider
+		command=Nakarm!
+		igname=Pora Obiadowa
+	Donation
+		command=Zbierz 3!
+		igname=Łapanie Monet
+	Wrench
+		command=Przymocuj!
+		igname=Warsztat Kappy
+	Potion
+		command=Wrzuć!
+		ingredients=Składniki
+		igname=Problematyczna Alchemia
+	GhostFood
+		command=Zjedz i żuj!
+		igname=Widmowa Wyżerka
+	Spaceship
+		command=Wystrzel!
+		igname=Czarodziejski Program Widm
+	CupShuffle
+		command=Skup się!
+		commandb=Wybierz!
+		igname=Gra w Kubki
+	TraceShape
+		command=Wypełnij!
+		igname=Malowanie z Nitori
+	KogasaScare
+		command=Wystrasz!
+		igname=Bój Się
+	RockBand
+		command=Daj czadu!
+		igname=SubWOOFer
+	ChenBike
+		command=Trąb!
+		igname=Co Do Jasnej Trąby!?
+	MasterSparkCode
+		command=Rzuć zaklęcie!
+		igname=Ćwiczenia na Strzelnicy
+	OkuuFire
+		command=Wyreguluj!
+		igname=Wszystko pod kontrolą
+	YukariCake
+		command=Podkradnij!
+		igname=Ochota na Słodkości
+	RemiCover
+		command=Zakryj cieniem!
+		igname=Słabość Wampira
+	SuikaShake
+		command=Strząśnij!
+		igname=Wstrząśnięte, nie zmieszane
+	TouhouSort
+		command=Posortuj według {0}!
+		hat=nakrycia głowy
+		wing=typu skrzydeł
+		ear=uszu
+		igname=Sortownik Touhou
+	FlanGrab
+		command=Obroń!
+		igname=Obrona posiadłości
+	PaperThief
+		command=Dotrzyj do celu!
+		commandb=Uważaj!
+		commandc=Zestrzel!
+		commandd=Pokonaj ją!
+		igname=W pogoni za ogórkiem
+	KaguyaMemory
+		command=Obserwuj!
+		commandb=Wybierz!
+		igname=Cenne wspomnienie
+	SumiWheel
+		command=Runa!
+		igname=Runy fortuny
+	MochiPound
+		command=Ubij!
+		igname=Ryżobicie
+	RuukotoSweep
+		command=Zamieć!
+		igname=Pozamiatane
+	MaskPuzzle
+		command=Złóż!
+		igname=Maskładanka
+	YuukaWater
+		command=Podlej!
+		igname=Dziewczyna z konewką
+	KnifeDodge
+		command=Uniknij!
+		igname=Pod noże
+	NitoriLook
+		command=Znajdź Nitori!
+		igname=Ukryta Nitori
+	MamiPoser
+		command=Znajdź oszusta!
+		igname=Oszust
+	DollDance
+		command=Naśladuj!
+		igname=Teatr lalek
+	YoumuSlash
+		command=Obserwuj...
+		commandb=Tnij!
+		igname=Rytmiczne cięcia
+	CirnoBored
+		command=Bądź miły!
+		commandb=Zabaw!
+		commandc=Uratuj ją!
+		igname=Oziębłe stosunki
+	HecShapes
+		command=Włóż!
+		igname=Świat na głowie
+	RockPaperSatori
+		command=Wygraj!
+		igname=Papier, kamień, telepata
+	MarisaJizou
+		command=Zrzuć!
+		igname=Czapki z głów
+	NueAbduct
+		command=Uprowadź!
+		igname=Porywająca opowieść
+	ReimuDodge
+		command=Uniknij!
+		igname=~
+	ClothesChoose
+		command=Dopasuj!
+		igname=Przymierzalnia
+	KyoukoEcho
+		command=Odbij!
+		igname=Coś ty powiedział?
 	DatingSim
+		command=Flirtuj!
 		suika
 			fullname=Suika Ibuki
 			firstname=Suika
@@ -163,11 +298,26 @@ microgame
 				response=<i>JAAAAAAŁAłałała!!</i>
 			wrong2
 				option=Nie prosiłem o herbatę.
-				response=Chciałam... ci zrobić przyjemność.
+				response=Ja tylko... chciałam ci zrobić przyjemność...
 		fakeconfig=Zapisz\nWczytaj\nAuto\nHistoria\nUstawienia
-		command=Flirtuj!
 		igname=Pierwsza randka
+	BugSwat
+		command=Pacnij!
+		igname=Zakaz latania
+	ClownTorch
+		command=Podpal!
+		igname=Domowe ognisko
+	BeachBall
+		command=Wrzuć!
+		igname=Przez obręcz
+	FanBlow
+		command=Zdmuchnij!
+		igname=Oddymianie
+	YuugiBalance
+		command=Balansuj!
+		igname=Balansuj tak jak oni
 	ComicBubble
+		command=Rozmawiaj!
 		0
 			0=Jesteś pewna, że to bezpieczne?
 			1=Bez obaw!
@@ -180,160 +330,77 @@ microgame
 			1=Po co się wysilasz? I tak tylko ja tu przychodzę.
 			2=<i>Aj!</i>
 			3=<i>Ałć!</i>
-		command=Rozmawiaj!
 		igname=A gdzie puenta?
-	FreezeFrogs
-		command=Zamróź!
-		igname=Mroźne Żaby
-	Slingshot
-		command=Strzelaj!
-		igname=Głowa Do Góry
-	ChenFood
-		command=Nie daj się zjeść!
-		igname=Kocia Ucieczka
-	Spider
-		command=Nakarm!
-		igname=Pora Obiadowa
-	Donation
-		command=Zbierz 3!
-		igname=Łapanie Monet
-	Wrench
-		command=Przymocuj!
-		igname=Warsztat Kappy
-	Potion
-		command=Wrzuć!
-		ingredients=Składniki
-		igname=Problematyczna Alchemia
-	GhostFood
-		command=Zjedz i żuj!
-		igname=Widmowa Wyżerka
-	Spaceship
-		command=Wystrzel!
-		igname=Czarodziejski Program Widm
-	CupShuffle
-		command=Skup się!
-		commandb=Wybierz!
-		igname=Gra w Kubki
-	TraceShape
-		command=Wypełnij!
-		igname=Malowanie z Nitori
-	KogasaScare
-		command=Wystrasz!
-		igname=Bój Się
-	RockBand
-		command=Daj czadu!
-		igname=SubWOOFer
-	ChenBike
-		command=Trąb!
-		igname=Co Do Jasnej Trąby!?
-	MasterSparkCode
-		command=Rzuć zaklęcie!
-		igname=Ćwiczenia na Strzelnicy
-	OkuuFire
-		command=Wyreguluj!
-		igname=Wszystko pod kontrolą
-	YukariCake
-		command=Podkradnij!
-		igname=Ochota na Słodkości
-	RemiCover
-		command=Zakryj cieniem!
-		igname=Słabość Wampira
-	SuikaShake
-		command=Strząśnij!
-		igname=Wstrząśnięte, nie zmieszane
-	TouhouSort
-		command=Posortuj według {0}!
-		hat=nakrycia głowy
-		wing=typu skrzydeł
-		ear=uszu
-		igname=Touhou Sorter
-	FlanGrab
-		command=Obroń!
-		igname=Obrona posiadłości
-	PaperThief
-		command=Dotrzyj do celu!
-		commandb=Uważaj!
-		commandc=Zestrzel!
-		commandd=Pokonaj ją!
-		igname=W pogoni za ogórkiem
-	KaguyaMemory
-		command=Obserwuj!
-		commandb=Wybierz!
-		igname=Cenne wspomnienie
-	SumiWheel
-		command=Runa!
-		igname=Runy fortuny
-	MochiPound
-		command=Ubij!
-		igname=Ryżobicie
-	RuukotoSweep
-		command=Zamieć!
-		igname=Pozamiatane
-	MaskPuzzle
-		command=Złóż!
-		igname=Maskładanka
-	YuukaWater
-		command=Podlej!
-		igname=Dziewczyna z konewką
-	KnifeDodge
-		command=Uniknij!
-	NitoriLook
-		command=Znajdź Nitori!
-		igname=Ukryta Nitori
-	MamiPoser
-		command=Oszust!
-		igname=Oszust
-	DollDance
-		command=Naśladuj!
-		igname=Teatr lalek
-	CirnoBored
-		command=Bądź miły!
-		commandb=Zabaw!
-		commandc=Uratuj ją!
-		igname=Oziębłe stosunki
-	HecShapes
-		command=Włóż!
-		igname=Świat na głowie
-	RockPaperSatori
-		command=Wygraj!
-		igname=Papier, kamień, telepata
-	MarisaJizou
-		command=Zrzuć!
-		igname=Czapki z głów
-	NueAbduct
-		command=Uprowadź!
-		igname=Porywająca opowieść
-	ReimuDodge
-		command=Uniknij!
-		igname=~
-	ClothesChoose
-		command=Dopasuj!
-		igname=Przymierzalnia
-	KyoukoEcho
-		command=Odbij!
-		igname=Coś ty powiedział?
-	BugSwat
-		command=Pacnij!
-		igname=Zakaz latania
-	ClownTorch
-		command=Podpal!
-		igname=Domowe ognisko
-	BeachBall
-		command=Wrzuć!
-		igname=Przez obręcz
-	YuugiBalance
-		command=Balansuj!
-		igname=Balansuj tak jak oni
 	DoorKnock
 		command=Zapukaj!
+		igname=Wpuść mnie!
 	FoodCut
 		command=Pokrój!
+		igname=Rodzinny przepis
 	MoneyTrap
 		command=Zwab!
+		igname=Pułapka pieniężna
+	KeineMath
+		command=Rozwiąż!
+		igname=Rachuj!
+	DoomGame
+		command=Strzel w nich!
+		danger=Za tobą!
+		igname=DOOM: Reisenacja
+	MystiaServe
+		command=Serwuj!
+		igname=Głodni klienci
+	FoodRoast
+		command=Weź gdy gotowe!
+		igname=Póki gorące!
+	BoatSteer
+		command=Steruj!
+		igname=Bon Voyage!
+	SeijaSpin
+		command=Kręć!
+		igname=Zakręcona dziewczyna
+	GhostSuck
+		command=Wciągnij!
+		igname=Duszne odkurzanie
+	MoonSoccer
+		command=Strzel gola!
+		igname=Piłka księżycowa
+	EikiJudge
+		command=Posortuj!
+		igname=Dzień sądu
+	IcePath
+		command=Nawiguj!
+		igname=Cienki lód
+	KagerouCut
+		command=Ogól!
+		igname=Ścinanie włosów
+	TrainTracks
+		command=Ratuj!
+		igname=Tragedia w Tarapatach
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=Psaparrazi
+	HinaSpin
+		igname=Ale się kręci!
+nitori
+	storyintro=Wygląda na to, że mamy nowego klienta.\nZobaczmy jak poradzisz sobie z moimi grami.\nLepiej nie mrugaj za dużo bo nie nadążysz!
+	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu tylko na wczasach.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
+	compilationfinished=No no, jestem pod wrażeniem!\nCiekawe czy dasz sobie radę w pełnej grze!\nTo jedynie początek {0}!
 credits
 	intro={0} powstało dzięki niżej wymienionym fanom!
 	kapptain=Kierunek twórczy, Programista, "Kappitan" drużyny
 	leadart=Głowny artysta, Projektant postaci, Głos Nitori
+	code=Kod niedotyczący mikrogier
 	UI=Grafika w menu i między mikrogrami
 	menumusic=Muzyka na ekranie startowym/w menu
 	stagemusic=Muzyka między mikrogrami
@@ -347,6 +414,7 @@ credits
 		management=Zarządzanie lokalizacją
 	sfx=Efekty dźwiękowe
 	voice=Głos Nitori
+	site=Projekt strony internetowej
 	trailer=Trailer wersji próbnej
 	socialmedia=Promowanie/Portale społecznościowe
 	touhou=Oparte na Touhou Project, autorstwa ZUN
@@ -354,3 +422,19 @@ credits
 		discord=Serwer Discord Touhou Project
 		playtesters=Wszystkim testującym grę
 		fans=I wszystkim fanom za rozgłos!
+		patreon=Podziękowania dla tych, którzy wspierają nas na Patreon!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=Y
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?
+		Fat=N

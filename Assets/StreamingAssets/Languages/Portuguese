@@ -1,4 +1,7 @@
 generic
+	idname=Portuguese
+	addedtogame=Y
+	complete=Y
 	name=Português
 	gamename=NitorInc.
 	incomplete=AVISO: Este idioma não está completamente traduzido. Algum texto pode aparecer em inglês.
@@ -54,7 +57,7 @@ menu
 			description=Apenas as variantes mais difíceis dos jogos! E apenas uma vida! Quanto tempo consegues aguentar?
 	main
 		quit=Sair do Jogo
-			prompt=Tens a certeza que queres sair?
+			prompt=Tens a certeza que queres sair de {0}?
 		settings=Configurações
 		credits=Créditos
 	settings
@@ -82,12 +85,144 @@ menu
 		introb=Muitos fãs da série colaboraram e contribuiram com código, música, arte e vários outros talentos para criar esta coleção de microjogos.
 		introc=Se gostaria de contribuir com o jogo, por favor visite {0}\nOu espalhe a palavra!
 		webglwarning=Se o web player causar problemas, exprimente usar um dos downloads disponíveis abaixo.
-nitori
-	storyintro=Parece que temos um novo cliente.\nVamos ver como se desenrasca com os meus jogos.\nÉ melhor nem sequer piscar os olhos!
-	storyfinished=Bom trabalho, cromo.\nParece que não ficaste só a olhar.\nAgora experimenta {0} para teres um verdadeiro desafio.
-	compilationfinished=Ena pá, impressionante!\nMas espera só até o jogo estar acabado.\n{0} acabou apenas de começar!
 microgame
+	FreezeFrogs
+		command=Congela!
+		igname=Sapos Congelados
+	Slingshot
+		command=Atira!
+		igname=Lança-Pássaros
+	ChenFood
+		command=Não sejas comida!
+		igname=Fuga ao Gato
+	Spider
+		command=Alimenta!
+		igname=Alimentação da Aranha
+	Donation
+		command=Apanha 3!
+		igname=Apanha a Moeda
+	Wrench
+		command=Aperta!
+		igname=Chave de Aperto Kappa
+	Potion
+		command=Mete dentro!
+		ingredients=Ingredientes
+		igname=Pote de Poções
+	GhostFood
+		command=Come e mastiga!
+		igname=Fantasma Comilão
+	Spaceship
+		command=Descolagem!
+		igname=Programa Espacial Youkai
+	CupShuffle
+		command=Presta atenção!
+		commandb=Escolhe!
+		igname=Jogo dos Copos
+	TraceShape
+		command=Preenche!
+		igname=Preencher as Formas
+	KogasaScare
+		command=Assusta!
+		igname=Susto Youkai
+	RockBand
+		command=Atua!
+		igname=Performance ao Vivo
+	ChenBike
+		command=Buzina!
+		igname=Buzina Honk
+	MasterSparkCode
+		command=Lança o feitiço!
+		igname=Tiro ao Alvo
+	OkuuFire
+		command=Regula!
+		igname=Sob Controlo
+	YukariCake
+		command=Rouba!
+		igname=Assalto à Sobremesa
+	RemiCover
+		command=Mantém à sombra!
+		igname=Fraqueza vampírica
+	SuikaShake
+		command=Sacode!
+		igname=Abanão dos Onizinhos
+	TouhouSort
+		command=Organiza por {0}
+		hat=chapéus
+		wing=asas
+		ear=orelhas
+		igname=Organizador Touhou
+	FlanGrab
+		command=Protege!
+		igname=Proteção da Mansão
+	PaperThief
+		command=Chega ao fim!
+		commandb=Cuidado!
+		commandc=Dispara!
+		commandd=Derrota!
+		igname=Apanhador de Pepinos
+	KaguyaMemory
+		command=Memoriza!
+		commandb=Escolhe!
+		igname=Memória Preciosa
+	SumiWheel
+		command=Identifica!
+		igname=Já Vi Tudo
+	MochiPound
+		command=Amassa!
+		igname=Amassamento de Mochi
+	RuukotoSweep
+		command=Varre!
+		igname=Varrimento do Templo
+	MaskPuzzle
+		command=Monta!
+		igname=Expressão Confusa
+	YuukaWater
+		command=Rega!
+		igname=Rega das Flores
+	KnifeDodge
+		command=Esquiva!
+		igname=Chuva de Facas
+	NitoriLook
+		command=Encontra a Nitori!
+		igname=NItori às Escondidas
+	MamiPoser
+		command=Encontra o impostor!
+		igname=Tanuki Impostor
+	DollDance
+		command=Imita!
+		igname=Teatro de Fantoches
+	YoumuSlash
+		command=Observa!
+		commandb=Corta tudo!
+		igname=Batida Cortada
+	CirnoBored
+		command=Sê simpático!
+		commandb=Entretém!
+		commandc=Salva-a!
+		igname=Fada Aborrecida
+	HecShapes
+		command=Associa!
+		igname=Combinações Infernais
+	RockPaperSatori
+		command=Ganha!
+		igname=Pedra Papel Tesoura
+	MarisaJizou
+		command=Atira!
+		igname=Queda do Chapéu
+	NueAbduct
+		command=Captura!
+		igname=Raptado por Aliens
+	ReimuDodge
+		command=Desvia-te!
+		igname=~
+	ClothesChoose
+		command=Combina!
+		igname=Guarda-Roupa
+	KyoukoEcho
+		command=Reflete!
+		igname=Redizer
 	DatingSim
+		command=Sê romântico!
 		suika
 			fullname=Suika Ibuki
 			firstname=Suika
@@ -165,9 +300,24 @@ microgame
 				option=Não me lembro de ter pedido chá.
 				response=Pensei que podias querer...
 		fakeconfig=Guardar\nCarregar\nAuto\nRegisto\nConfigurações
-		command=Sê romântico!
 		igname=Primeiro Encontro
+	BugSwat
+		command=Afasta!
+		igname=Enxota Bichos
+	ClownTorch
+		command=Pega fogo!
+		igname=Passagem da Tocha
+	BeachBall
+		command=Amanda!
+		igname=Bola na Argola
+	FanBlow
+		command=Dispersa!
+		igname=Sopra Nevoeiro
+	YuugiBalance
+		command=Equilibra!
+		igname=Equílibrio Bêbado
 	ComicBubble
+		command=Fala!
 		0
 			0=Tens a certeza que é seguro?
 			1=Sim, sem problema.
@@ -178,158 +328,74 @@ microgame
 		2
 			0=Limpar é uma seca...
 			1=Porquê limpar se sou o único aqui?
-			2=<i>Ooh!</i>
+			2=<i>Ai!</i>
 			3=<i>Au!</i>
-		command=Fala!
 		igname=Contar a Piada
-	FreezeFrogs
-		command=Congela!
-		igname=Sapos Congelados
-	Slingshot
-		command=Atira!
-		igname=Lança-Pássaros
-	ChenFood
-		command=Não sejas comida!
-		igname=Fuga ao Gato
-	Spider
-		command=Alimenta!
-		igname=Alimentação da Aranha
-	Donation
-		command=Apanha 3!
-		igname=Apanha a Moeda
-	Wrench
-		command=Aperta!
-		igname=Chave de Aperto Kappa
-	Potion
-		command=Mete dentro!
-		ingredients=Ingredientes
-		igname=Pote de Poções
-	GhostFood
-		command=Come e mastiga!
-		igname=Fantasma Comilão
-	Spaceship
-		command=Descolagem!
-		igname=Programa Espacial Youkai
-	CupShuffle
-		command=Presta atenção!
-		commandb=Escolhe!
-		igname=Jogo dos Copos
-	TraceShape
-		command=Preenche!
-		igname=Preencher as Formas
-	KogasaScare
-		command=Assusta!
-		igname=Susto Youkai
-	RockBand
-		command=Atua!
-		igname=Performance ao Vivo
-	ChenBike
-		command=Buzina!
-		igname=Buzina Honk
-	MasterSparkCode
-		command=Lança o feitiço!
-		igname=Tiro ao Alvo
-	OkuuFire
-		command=Regula!
-		igname=Sob Controlo
-	YukariCake
-		command=Roube!
-		igname=Assalto à Sobremesa
-	RemiCover
-		command=Mantém à sombra!
-		igname=Fraqueza vampírica
-	SuikaShake
-		command=Sacode!
-		igname=Abanão dos Onizinhos
-	TouhouSort
-		command=Organiza por {0}
-		hat=chapéus
-		wing=asas
-		ear=orelhas
-		igname=Organizador Touhou
-	FlanGrab
-		command=Protege!
-		igname=Proteção da Mansão
-	PaperThief
-		command=Chega ao fim!
-		commandb=Cuidado!
-		commandc=Dispara!
-		commandd=Derrota!
-		igname=Apanhador de Pepinos
-	KaguyaMemory
-		command=Observa!
-		commandb=Escolhe!
-		igname=Memória Preciosa
-	SumiWheel
-		command=Identifica!
-		igname=Já Vi Tudo
-	MochiPound
-		command=Amassa!
-		igname=Amassamento de Mochi
-	RuukotoSweep
-		command=Varre!
-		igname=Varrimento do Templo
-	MaskPuzzle
-		command=Monta!
-		igname=Expressão Confusa
-	YuukaWater
-		command=Rega!
-		igname=Rega das Flores
-	KnifeDodge
-		command=Esquiva!
-	NitoriLook
-		command=Encontra a Nitori!
-		igname=NItori às Escondidas
-	MamiPoser
-		command=Encontra o impostor!
-		igname=Tanuki Impostor
-	DollDance
-		command=Imita!
-		igname=Teatro de Fantoches
-	CirnoBored
-		command=Sê simpático!
-		commandb=Entretém!
-		commandc=Salva-a!
-		igname=Fada Aborrecida
-	HecShapes
-		command=Associa!
-		igname=Combinações Infernais
-	RockPaperSatori
-		command=Ganha!
-		igname=Pedra Papel Tesoura
-	MarisaJizou
-		command=Atira!
-		igname=Queda do Chapéu
-	NueAbduct
-		command=Captura!
-		igname=Raptado por Aliens
-	ReimuDodge
-		command=Desvia-te!
-		igname=~
-	ClothesChoose
-		command=Combina!
-		igname=Guarda-Roupa
-	KyoukoEcho
-		command=Reflete!
-		igname=Redizer
-	BugSwat
-		command=Afasta!
-		igname=Enxota Bichos
-	ClownTorch
-		command=Pega fogo!
-		igname=Passagem da Tocha
-	BeachBall
-		command=Amanda!
-		igname=Bola na Argola
-	YuugiBalance
-		command=Equilibra!
-		igname=Equílibrio Bêbado
 	DoorKnock
 		command=Bate à porta!
+		igname=Entrada Forçada
 	FoodCut
 		command=Corta!
+		igname=Receita Secreta
 	MoneyTrap
 		command=Atrai!
+		igname=Armadilha Monetária
+	KeineMath
+		command=Resolve!
+		igname=Ajuste de Contas
+	DoomGame
+		command=Abre fogo!
+		danger=Atrás de ti!
+		igname=DOOM: Invasão dos Coelhos
+	MystiaServe
+		command=Serve!
+		igname=Bem Servido
+	FoodRoast
+		command=Tira quando estiver pronto!
+		igname=Bem Passado
+	BoatSteer
+		command=Conduz!
+		igname=Bom Rumo
+	SeijaSpin
+		command=Gira!
+		igname=De Pernas para o Ar
+	GhostSuck
+		command=Aspira!
+		igname=Caçafantasmas
+	MoonSoccer
+		command=Goleia!
+		igname=Futebol Lunar
+	EikiJudge
+		command=Classifica!
+		igname=Dia do Julgamento
+	IcePath
+		command=Navega!
+		igname=Gelo Fino
+	KagerouCut
+		command=Apara!
+		igname=Pequeno Aparo
+	TrainTracks
+		command=Salva!
+		igname=Rapariga em Apuros
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=Paparazzi Canino
+	HinaSpin
+		igname=Rodopio
+nitori
+	storyintro=Parece que temos um novo cliente.\nVamos ver como se desenrasca com os meus jogos.\nÉ melhor nem sequer piscar os olhos!
+	storyfinished=Bom trabalho, cromo.\nParece que não ficaste só a olhar.\nAgora experimenta {0} para teres um verdadeiro desafio.
+	compilationfinished=Ena pá, impressionante!\nMas espera só até o jogo estar acabado.\n{0} acabou apenas de começar!
 credits
 	intro={0} foi feito possível graças aos seguintes fãs!
 	kapptain=Diretor, Programador, Gerente e "Kappitão" de equipa
@@ -348,6 +414,7 @@ credits
 		management=Gestão da adaptação
 	sfx=Efeitos sonoros
 	voice=Voz da Nitori
+	site=Design do Website
 	trailer=Trailer da demo
 	socialmedia=Promoção e redes sociais
 	touhou=Este jogo de fãs é um trabalho derivado de Touhou Project, criado por Zun
@@ -355,3 +422,19 @@ credits
 		discord=O servidor do Discord de Touhou Project
 		playtesters=Todos os que testaram o jogo
 		fans=E a todos os fãs que ajudaram a espalhar a palavra!
+		patreon=Um grande obrigado aos que nos apoiam no Patreon!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=Y
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?
+		Fat=?

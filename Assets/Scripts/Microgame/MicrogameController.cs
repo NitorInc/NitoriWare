@@ -8,6 +8,7 @@ public class MicrogameController : MonoBehaviour
 {
 	public static MicrogameController instance;
 	private static int preserveDebugSpeed = -1;
+    private static int langaugeCycleIndex = 0;
 
 	[SerializeField]
 	private DebugSettings debugSettings;
@@ -16,6 +17,7 @@ public class MicrogameController : MonoBehaviour
 	{
 		public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
         public string forceLocalizationLanguage;
+        public bool resetThroughAllLanguages;
 		public VoicePlayer.VoiceSet voiceSet;
 		[Range(1, StageController.MAX_SPEED)]
 		public int speed;
@@ -123,6 +125,18 @@ public class MicrogameController : MonoBehaviour
                     LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
                     if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
                         manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
+                    else if (debugSettings.resetThroughAllLanguages)
+                    {
+                        var languages = LanguagesData.instance.languages;
+                        var currentLanguageName = languages[langaugeCycleIndex++].getLanguageID();
+                        if (LocalizationManager.instance != null)
+                            manager.setLanguage(currentLanguageName);
+                        else
+                            manager.setForcedLanguage(currentLanguageName);
+                        if (langaugeCycleIndex >= languages.Count())
+                            langaugeCycleIndex = 0;
+                        print("Language cycling debugging in " + currentLanguageName);
+                    }
                     manager.gameObject.SetActive(true);
                 }
                 
@@ -144,7 +158,7 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                    debugObjects.commandDisplay.play(traits.localizedCommand);
+                    debugObjects.commandDisplay.play(traits.localizedCommand, traits.commandAnimatorOverride);
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
                 Cursor.lockState = getTraits().cursorLockState;
@@ -292,12 +306,13 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayCommand(string command)
+	public void displayCommand(string command, AnimatorOverrideController commandAnimatorOverride = null)
 	{
 		if (!commandDisplay.gameObject.activeInHierarchy)
 			commandDisplay.gameObject.SetActive(true);
 
-        commandDisplay.play(command);
+
+        commandDisplay.play(command, commandAnimatorOverride);
 	}
 
     /// <summary>
@@ -313,9 +328,9 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayLocalizedCommand(string key, string defaultString)
+	public void displayLocalizedCommand(string key, string defaultString, AnimatorOverrideController commandAnimatorOverride = null)
 	{
-		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString));
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString), commandAnimatorOverride);
 	}
 
     /// <summary>

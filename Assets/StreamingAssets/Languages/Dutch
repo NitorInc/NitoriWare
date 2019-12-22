@@ -1,4 +1,7 @@
 generic
+	idname=Dutch
+	addedtogame=Y
+	complete=Y
 	name=Nederlands
 	gamename=NitorInc.
 	incomplete=OPGELET: Dit spel is nog niet volledig vertaald naar deze taal. Sommige teksten zullen verschijnen in het Engels.
@@ -54,7 +57,7 @@ menu
 			description=Alle moeilijkste spellen! Slechts één leven! Hoe lang kun je dit volhouden?
 	main
 		quit=Spel Stoppen
-			prompt=Weet je zeker dat het het spel wilt stoppen?
+			prompt=Weet je zeker dat het het spel wilt stoppen {0}?
 		settings=Instellingen
 		credits=Credits
 	settings
@@ -82,12 +85,144 @@ menu
 		introb=Veel fans van deze spellenreeks hebben samengewerkt en code, muziek, illustraties en een variëteit aan andere talenten bijgedragen om deze collectie microgames mogelijk te maken.
 		introc=Als je Engels kunt spreken en wilt bijdragen aan het volledige spel, neem dan graag contact op met {0}. \nZegt het voort!
 		webglwarning=Als de web player je problemen geeft, probeer dan één van de downloads hieronder.
-nitori
-	storyintro=Zo te zien hebben we een nieuwe klant! \nLaten we zien hoe goed je mijn ambachtelijke games kunt doorstaan. \nBeter knipper je niet met je ogen!
-	storyfinished=Goed gedaan, nerd. \nBlijkbaar ben je meer dan iemand die slechts koekeloert. \nProbeer nu {0} voor een echte uitdaging!
-	compilationfinished=Nou zeg, ik ben onder de indruk! \nWacht jij maar tot het volledige spel af is. \n{0} is nog maar pas begonnen!
 microgame
+	FreezeFrogs
+		command=Bevries!
+		igname=Koele Kikvorsen
+	Slingshot
+		command=Katapulteer!
+		igname=Veren Lanceren
+	ChenFood
+		command=Word geen snack!
+		igname=Kattenkwaad
+	Spider
+		command=Voed!
+		igname=Voer het Spinnetje
+	Donation
+		command=Verzamel 3!
+		igname=Muntenvangst
+	Wrench
+		command=Draai vast!
+		igname=Kappa Moersleutel-Tech
+	Potion
+		command=Voeg toe!
+		ingredients=Ingrediënten
+		igname=Toverdrankbrouwerij
+	GhostFood
+		command=Eet en kauw!
+		igname=Geestig Hapje
+	Spaceship
+		command=Lanceer!
+		igname=Youkai Ruimtevaartprogramma
+	CupShuffle
+		command=Let goed op!
+		commandb=Kies!
+		igname=Iene-Miene-Youkai
+	TraceShape
+		command=Kleur in!
+		igname=Kleurplaat
+	KogasaScare
+		command=Laat schrikken!
+		igname=De Verschrikkelijke Youkai
+	RockBand
+		command=Treed op!
+		igname=Subwoofer
+	ChenBike
+		command=Claxonneer!
+		igname=Claxon-neer
+	MasterSparkCode
+		command=Vuur af!
+		igname=Schietoefening
+	OkuuFire
+		command=Stem af!
+		igname=Houd het Hoofd Koel
+	YukariCake
+		command=Pak af!
+		igname=Toetjesgrijper
+	RemiCover
+		command=Geef schaduw!
+		igname=Duistere Motieven
+	SuikaShake
+		command=Schud af!
+		igname=Het Zware Geschud
+	TouhouSort
+		command=Sorteer op {0}!
+		hat=hoofddeksels en -accessoires
+		wing=vleugeltype
+		ear=oren
+		igname=Touhou in alle Soorten en Maten
+	FlanGrab
+		command=Bescherm!
+		igname=De Scharlaken Garde
+	PaperThief
+		command=Bereik het doel!
+		commandb=Kijk uit!
+		commandc=Schiet neer!
+		commandd=Versla haar!
+		igname=Komkommer en Kwel
+	KaguyaMemory
+		command=Kijk goed!
+		commandb=Selecteer!
+		igname=Schattenmemory
+	SumiWheel
+		command=Identificeer!
+		igname=Rad van Occult
+	MochiPound
+		command=Bots!
+		igname=Mochi Stampen
+	RuukotoSweep
+		command=Veeg!
+		igname=Jinjaveger
+	MaskPuzzle
+		command=Zet in elkaar!
+		igname=Gebroken Emoties
+	YuukaWater
+		command=Giet!
+		igname=De Bloemetjes Water Geven
+	KnifeDodge
+		command=Ontwijk!
+		igname=Onder het Mes
+	NitoriLook
+		command=Vind Nitori!
+		igname=Waar is Nitori?
+	MamiPoser
+		command=Nepperd!
+		igname=De Bedrieger
+	DollDance
+		command=Doe na!
+		igname=De Poppen aan het Dansen
+	YoumuSlash
+		command=Bestudeer...
+		commandb=Hak!
+		igname=Hak 'n Slagwerkspeler
+	CirnoBored
+		command=Wees aardig!
+		commandb=Vermaak!
+		commandc=Red haar!
+		igname=Cirnositten
+	HecShapes
+		command=Plaats!
+		igname=Vormenstoof uit de Hel
+	RockPaperSatori
+		command=Win!
+		igname=Steen Papier Satori
+	MarisaJizou
+		command=Hoed!
+		igname=Petje af, Hoedje op
+	NueAbduct
+		command=Ontvoer!
+		igname=U.F.Ohnee!
+	ReimuDodge
+		command=Ontwijk!
+		igname=~
+	ClothesChoose
+		command=Combineer!
+		igname=Youkai Mode van de Dag
+	KyoukoEcho
+		command=Kets af!
+		igname=Verdraaide Gesprekken
 	DatingSim
+		command=Romantiek!
 		suika
 			fullname=Suika Ibuki
 			firstname=Suika
@@ -165,8 +300,24 @@ microgame
 				option=Ik heb nooit om thee gevraagd.
 				response=Ik... dacht dat je het wel leuk zou vinden.
 		fakeconfig=Opslaan\nLaden\nAuto\nLog\nConfiguratie
-		command=Romantiek!
+		igname=Eerste Date
+	BugSwat
+		command=Sla!
+		igname=Wrigglemepper
+	ClownTorch
+		command=Steek aan!
+		igname=Fikkie Stoken
+	BeachBall
+		command=Gooi!
+		igname=Balkunstje
+	FanBlow
+		command=Blaas!
+		igname=Waaierkunst
+	YuugiBalance
+		command=Balanceer!
+		igname=Een gebalanceerd Drankje
 	ComicBubble
+		command=Dialoog!
 		0
 			0=Weet je zeker dat het veilig is?
 			1=Maak je geen zorgen!
@@ -179,138 +330,76 @@ microgame
 			1=Wat maakt het uit als ik de enige ben die een bezoek brengt?
 			2=<i>Aah!</i>
 			3=<i>Au!</i>
-		command=Dialoog!
-	FreezeFrogs
-		command=Bevries!
-		igname=Koele Kikvorsen
-	Slingshot
-		command=Katapulteer!
-		igname=Veren Lanceren
-	ChenFood
-		command=Niet opgegeten worden!
-		igname=Kattenkwaad
-	Spider
-		command=Voed!
-		igname=Voer het Spinnetje
-	Donation
-		command=Verzamel 3!
-		igname=Muntenvangst
-	Wrench
-		command=Draai vast!
-		igname=Kappa Moersleutel-Tech
-	Potion
-		command=Voeg toe!
-		ingredients=Ingrediënten
-		igname=Toverdrankbrouwerij
-	GhostFood
-		command=Eet en kauw!
-		igname=Geestig Hapje
-	Spaceship
-		command=Lanceer!
-		igname=Youkai Ruimtevaartprogramma
-	CupShuffle
-		command=Goed opletten!
-		commandb=Kies!
-		igname=Iene-Miene-Youkai
-	TraceShape
-		command=Inkleuren!
-		igname=Kleurplaat
-	RockBand
-		command=Treed op!
-		igname=Subwoofer
-	ChenBike
-		command=Claxonneer!
-		igname=Claxon-neer
-	MasterSparkCode
-		command=Vuur af!
-		igname=Schietoefening
-	OkuuFire
-		command=Stem af!
-		igname=Houd het Hoofd Koel
-	YukariCake
-		command=Pak af!
-		igname=Toetjesgrijper
-	RemiCover
-		command=Geef schaduw!
-		igname=Duistere Motieven
-	SuikaShake
-		command=Schud af!
-		igname=Het Zware Geschud
-	TouhouSort
-		command=Sorteer op {0}!
-		hat=hoofddeksels en -accessoires
-		wing=vleugeltype
-		ear=oren
-		igname=Touhou in alle Soorten en Maten
-	FlanGrab
-		command=Bescherm!
-		igname=De Scharlaken Garde
-	PaperThief
-		command=Bereik het doel!
-		commandb=Kijk uit!
-		commandc=Schiet neer!
-		commandd=Versla haar!
-		igname=Komkommer en Kwel
-	KaguyaMemory
-		command=Kijk goed!
-		commandb=Selecteer!
-	SumiWheel
-		command=Identificeer!
-	MochiPound
-		command=Bots!
-	RuukotoSweep
-		command=Veeg!
-	MaskPuzzle
-		command=Zet in elkaar!
-	YuukaWater
-		command=Giet!
-	KnifeDodge
-		command=Ontwijk!
-	NitoriLook
-		command=Vind Nitori!
-	MamiPoser
-		command=Nepperd!
-	DollDance
-		command=Doe na!
-	CirnoBored
-		command=Wees aardig!
-		commandb=Vermaak!
-		commandc=Red haar!
-	HecShapes
-		command=Plaats!
-	RockPaperSatori
-		command=Win!
-	MarisaJizou
-		command=Hoed!
-	NueAbduct
-		command=Ontvoer!
-	ReimuDodge
-		command=Ontwijk!
-		igname=~
-	ClothesChoose
-		command=Combineer!
-	KyoukoEcho
-		command=Kets af!
-	BugSwat
-		command=Sla!
-	ClownTorch
-		command=Steek aan!
-	BeachBall
-		command=Gooi!
-	YuugiBalance
-		command=Balanceer!
+		igname=Stripverhaal
 	DoorKnock
 		command=Klop!
+		igname=Laat me erin!
 	FoodCut
 		command=Snij!
+		igname=Oud Familierecept
 	MoneyTrap
 		command=Lok!
-	KogasaScare
-		igname=De Verschrikkelijke Youkai
+		igname=Diep in de Schulden
+	KeineMath
+		command=Los op!
+		igname=Wiskunde met Keine
+	DoomGame
+		command=Schiet ze!
+		danger=Achter je!
+		igname=Konijneninvasie
+	MystiaServe
+		command=Serveer!
+		igname=Hongerige Klanten
+	FoodRoast
+		command=Pak het gaar weg!
+		igname=Even Wachten, Aardappel!
+	BoatSteer
+		command=Stuur!
+		igname=Behouden Vaart
+	SeijaSpin
+		command=Draai!
+		igname=Geef er een Draai aan!
+	GhostSuck
+		command=Zuig op!
+		igname=Spookzuiger 2000
+	EikiJudge
+		command=Sorteer!
+		igname=Dag des Oordeels
+	IcePath
+		command=Navigeer!
+		igname=Op Dun IJs lopen
+	KagerouCut
+		command=Scheer!
+		igname=Doe maar lekker kort
+	TrainTracks
+		command=Red!
+		igname=Schurk op het Spoor
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=Puparazzi
+	HinaSpin
+		igname=Rotatie-energie
+	MoonSoccer
+		igname=Voetbalklassieker
+nitori
+	storyintro=Zo te zien hebben we een nieuwe klant! \nLaten we zien hoe goed je mijn ambachtelijke games kunt doorstaan. \nBeter knipper je niet met je ogen!
+	storyfinished=Goed gedaan, nerd. \nBlijkbaar ben je meer dan iemand die slechts koekeloert. \nProbeer nu {0} voor een echte uitdaging!
+	compilationfinished=Nou zeg, ik ben onder de indruk! \nWacht jij maar tot het volledige spel af is. \n{0} is nog maar pas begonnen!
 credits
 	intro={0} was mede mogelijk gemaakt door de volgende fans!
 	kapptain=Creatief Directeur, Programmeur, Team "Kapptain"
 	leadart=Hoofdillustrator, Personageontwerper, Stem van Nitori
+	code=Non-Microgame Code
 	UI=Menu en Level Graphics
 	menumusic=Titel/Menu Muziek
 	stagemusic=Level Muziek
@@ -324,6 +413,7 @@ credits
 		management=Management Vertaling
 	sfx=Geluidseffecten
 	voice=Stem van Nitori
+	site=Website Ontwerp
 	trailer=Demo Trailer
 	socialmedia=Promotie/Sociale Media
 	touhou=Deze fangame is gebaseerd op Touhou Project, gecreëerd door ZUN
@@ -331,3 +421,18 @@ credits
 		discord=De Touhou Project Discord server
 		playtesters=Al onze testspelers
 		fans=En alle fans die het woord van de game hebben verspreid!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=Y
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=?
+		TakeOffSimp=?
+		TakeOffTrad=?
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?
+		Fat=?

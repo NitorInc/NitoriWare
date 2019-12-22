@@ -1,4 +1,6 @@
 generic
+	idname=Hindi
+	complete=N
 	name=हिन्दी
 	gamename=NitorInc.
 	incomplete=चेतावनी: इस भाषा में अनुवाद पूरा नहीं हुआ है। कुछ पाठ अंग्रेज़ी में हो सकता है।
@@ -17,6 +19,11 @@ stage
 		score=स्कोर: {0}
 		highscore=उच्च: {0}
 		newhighscore=नया उच्च स्कोर!
+discord
+	scoreformat={0} खेल
+	scoreformatsingular={0} खेल
+	boss=बॉस चरण
+	menu=मेनू में
 menu
 	yes=हाँ
 	no=नहीं
@@ -49,7 +56,7 @@ menu
 			description=सबसे कठिन गेम्स! बस एक जीवन! कब तक टिक पाओगे?
 	main
 		quit=गेम बंद करें।
-			prompt=क्या आप सचमुच बंद करना चाहते हैं?
+			prompt=क्या आप सचमुच बंद करना चाहते हैं {0}?
 		settings=सेटिंग्स
 		credits=आभार सूची
 	settings
@@ -77,10 +84,6 @@ menu
 		introb=इस श्रृंखला के कई प्रशंसकों ने सहभागिता से कोड, संगीत, चित्र, और अन्य कौशल प्रदान कर इस माइक्रोगेम्स संग्रह को बनाया है।
 		introc=यदि आप इसमें सहयोग देना चाहते हैं, कृपया {0} जाएँ।\nया बस दूसरों को इसके बारे में बताइए!
 		webglwarning=अगर वेब प्लेयर से कठिनाई हो रही है, नीचे दिए लिंक का इस्तेमाल करें।
-nitori
-	storyintro=लगता है एक नया ग्राहक है। \nदेखते हैं तुम मेरे ट्रेडमार्क गेम्स से टिक पते हो या नहीं।\nपलकें मत झपकाना!
-	storyfinished=बढ़िया कम किया।\nतो शायद तुम बस एक कंजूस ग्राहक नहीं हो।\nअब असली चुनौती के लिए {0} आज़माओ!
-	compilationfinished=अरे वाह, तुमने मुझे हैरान कर दिया!\nपर पुरे गेम का इंतज़ार करना।\n{0} तो बस शुरुआत है!
 microgame
 	FreezeFrogs
 		command=जमाओ!
@@ -117,6 +120,9 @@ microgame
 	TraceShape
 		command=रंग भरो!
 		igname=आकार बनावट
+	KogasaScare
+		command=डराओ!
+		igname=छतरी का ख़तरा
 	RockBand
 		command=प्रदर्शन करो!
 	ChenBike
@@ -152,10 +158,119 @@ microgame
 		commandc=गोली मारो!
 		commandd=उसे हराओ!
 		igname=खीरों का हीरो
-	KogasaScare
-		igname=छतरी का ख़तरा
+	KaguyaMemory
+		command=देखो!
+		commandb=चुनो!
+	DatingSim
+		suika
+			fullname=सुइका इबुकी
+			firstname=सुइका
+			introdialogue=ओओओओए! तुम ख़ाली हो ना? कुछ खा लेते हैं।
+			right0
+				option=खाने की दुकान तक दौड़ लगाते हैं!
+				response=हो हारेगा वो पैसे भरेगा!
+			right1
+				option=चलो पेट पूजा की जाए!
+				response=याहू!
+			wrong0
+				option=तुमने अभी खाया ना?
+				response=छी। अकेले खाने में कोई मज़ा नहीं।
+			wrong1
+				option=निकलो, मोटू!
+				response=वैसे तुम सबसे पतलू नहीं हो, गधे!
+			wrong2
+				option=तुम अकेले जा सकते हो।
+				response=ठीक है, तुम वैसे भी मज़ाकिया नहीं हो।
+		youmu
+			fullname=योमु कोमपाकु
+			firstname=योमु
+			introdialogue=मैंने ये फूल तुम्हारे लिए उगाए।
+			right0
+				option=कितने सुंदर हैं!
+				response=धन्यवाद~
+			right1
+				option=कितना प्यारा है।
+				response=मैं ख़ुश तुम्हें ये पसंद आए!
+			wrong0
+				option=आह, भूत!
+				response=तुम मज़ाक कर रहे हो न?
+			wrong1
+				option=मुझे फूलों से नफ़रत है!
+				response=तुम उनके लायक नहीं हो।
+		yuuka
+			fullname=यूका  काज़ामी
+			firstname=यूका
+			introdialogue=तुम दूसरे लड़कियों से साथ नहीं घूम रहे थे न?
+			right0
+				option=बेशक नहीं।
+				response=ठीक, सोचना भी मत।
+			right1
+				option=मेरे लिए तुम ही इकलौते हो।
+				response=लगा था।
+			wrong0
+				option=वैसे....
+				response=क्या मतलब है, "वैसे"?
+			wrong1
+				option=मुझे रेमु से प्यार है!
+				response=फिर सोचो।
+			wrong2
+				option=थोड़ा काम था।
+				response=नहीं, बिलकुल नहीं!
+		patchy
+			fullname=पचौली नॉलेज
+			firstname=पचौली
+			introdialogue=उम्मीद है तुम्हें मेरी चाय पसंद आई।
+			right0
+				option=स्वादिष्ट है।
+				response=ओह? जानकर ख़ुशी हुई।
+			right1
+				option=ज़रा और देना!
+				response=लाई!
+			wrong0
+				option=इसका स्वाद अजीब है।
+				response=ओह, माफ़ करना।
+			wrong1
+				option=*फिसलकर चाय हर जगह गिरा देती है*
+				response=<i>ईईईईईयाआआआआआ!!</i>
+			wrong2
+				option=मैंने चाय नहीं माँगी थी।
+				response=मुझे लगा.... तुम्हें पसंद आएगी।
+		fakeconfig=सहेजें\nलोड करें\nस्वतः\nलॉग\nविन्यास
+	ComicBubble
+		0
+			0=तुम्हें विश्वास है यह सुरक्षित है?
+			1=ये ठीक है!
+		1
+			0=अरे, रुको!
+			1=तुम्हारे पास कुछ है नाााा~
+			2=~यहाँ!
+		2
+			0=साफ़-सफ़ाई एक सिरदर्द है....
+			1=इतनी मेहनत क्यों करूँ, जब मैं ही अकेली अतिथि हूँ?
+			2=<i>आह!</i>
+			3=<i>आइयो!</i>
+	CirnoBored
+		commandb=मनोरंजन करो!
+		commandc=उसे बचाओ!
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=कुक्कुरकारी
 	ReimuDodge
 		igname=~
+nitori
+	storyintro=लगता है एक नया ग्राहक है। \nदेखते हैं तुम मेरे ट्रेडमार्क गेम्स से टिक पते हो या नहीं।\nपलकें मत झपकाना!
+	storyfinished=बढ़िया कम किया।\nतो शायद तुम बस एक कंजूस ग्राहक नहीं हो।\nअब असली चुनौती के लिए {0} आज़माओ!
+	compilationfinished=अरे वाह, तुमने मुझे हैरान कर दिया!\nपर पुरे गेम का इंतज़ार करना।\n{0} तो बस शुरुआत है!
 credits
 	intro={0} संभव हुआ इन प्रशंसकों के बदौलत!
 	kapptain=निर्देशक, प्रोग्रामर, प्रबंधक, टीम "काप्प्तान"
@@ -180,3 +295,18 @@ credits
 		discord=तोहो परियोजना डिस्कॉर्ड सर्वर
 		playtesters=हमारे सारे खेलपरीक्षक
 		fans=और सभी प्रशंसक जिन्होंने गेम की ख़बर फैलाई!
+meta
+	recorded=Y
+	IsAsian=Y
+	font
+		LiberationSans=N
+		Mitr=N
+		Comic=N
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=N
+		RobinWriting=N
+		SourceHanSerifK=?
+		Fat=?

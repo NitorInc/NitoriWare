@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using System.Linq;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -11,14 +12,20 @@ public class LocalizationManager : MonoBehaviour
 
 	public static LocalizationManager instance;
 
-    public Dictionary<TMP_FontAsset, List<TMP_FontAsset>> modifiedFallbacks;
-
     [SerializeField]
     private string forceLanguage;
-    
+    [SerializeField]
+    private string fontAssetsDirectory;
+
+    public delegate void LanguageChangedDelegate(Language language);
+    public static LanguageChangedDelegate onLanguageChanged;
+
     private Language loadedLanguage;
 	private SerializedNestedStrings localizedText;
     private string languageString;
+    private SerializedNestedStrings.StringData languageFontMetadata;
+    private bool loadedLanguageIsComplete;
+    public bool isLoadedLanguageComplete() => loadedLanguageIsComplete;
 
 	public void Awake ()
     {
@@ -33,7 +40,7 @@ public class LocalizationManager : MonoBehaviour
 		if (transform.parent == null)
 			DontDestroyOnLoad(gameObject);
 
-        modifiedFallbacks = new Dictionary<TMP_FontAsset, List<TMP_FontAsset>>();
+        onLanguageChanged = null;
         loadedLanguage = new Language();
 
         string languageToLoad;
@@ -47,25 +54,17 @@ public class LocalizationManager : MonoBehaviour
 		setLanguage(languageToLoad);
 	}
 
-    private void OnDestroy()
-    {
-        if (instance != this)
-            return;
-
-        foreach (var fallbackPair in modifiedFallbacks)
-        {
-            fallbackPair.Key.fallbackFontAssets = fallbackPair.Value;
-        }
-        modifiedFallbacks = null;
-    }
-
     public void setForcedLanguage(string language)
     {
+        print("setting forced language to " + language);
         forceLanguage = language;
     }
+
+    public string getForcedLanguage() => forceLanguage;
     
 	public void setLanguage(string language)
 	{
+        print("setting language to " + language);
         var lang = LanguagesData.instance.FindLanguage(language);
         StartCoroutine(loadLanguage(lang));
     }
@@ -89,9 +88,15 @@ public class LocalizationManager : MonoBehaviour
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
         Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
         PrefsHelper.setPreferredLanguage(language.getLanguageID());
+        languageFontMetadata = localizedText.getSubData("meta.font");
 
+        loadedLanguageIsComplete = false;
         loadedLanguage = language;
         languageString = "";
+        loadedLanguageIsComplete = getLocalizedValue("generic.complete", "N").Equals("Y", System.StringComparison.OrdinalIgnoreCase);
+
+        if (onLanguageChanged != null)
+            onLanguageChanged(language);
     }
 
     public string getLoadedLanguageID()
@@ -116,8 +121,8 @@ public class LocalizationManager : MonoBehaviour
 		string value = (string)localizedText[key];
 		if (string.IsNullOrEmpty(value))
 		{
-            if (!loadedLanguage.incomplete)
-			Debug.LogWarning("Language " + getLoadedLanguageID() + " is not marked as incomplete but does not have a value for key " + key);
+            if (loadedLanguageIsComplete)
+			Debug.LogWarning("Language " + getLoadedLanguageID() + " is marked as complete but does not have a value for key " + key);
 			    return defaultString;
 		}
 		value = value.Replace("\\n", "\n");
@@ -134,4 +139,50 @@ public class LocalizationManager : MonoBehaviour
         value = value.Replace("\\n", "\n");
 		return value;
 	}
+
+    public static bool parseFontCompabilityString(Language language, string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return false;
+
+        value = value.ToUpper();
+        if (language.getLanguageID().Equals("ChineseSimplified")
+            || language.getLanguageID().Equals("Chinese"))
+        {
+            return value.Equals("S") || value.Equals("Y");
+        }
+        else if (language.getLanguageID().Equals("ChineseTraditional"))
+        {
+            return value.Equals("T") || value.Equals("Y");
+        }
+        else
+            return value.Equals("Y");
+    }
+
+    public bool isTMPFontCompatibleWithLanguage(TMP_FontAsset font)
+    {
+        var languageFont = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.fontAsset == font);
+        if (languageFont == null)
+            return false;
+        if (languageFontMetadata.subData.ContainsKey(languageFont.idName))
+            return parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[languageFont.idName].value);
+        else
+            return false;
+    }
+    
+
+    public TMP_FontAsset getFallBackFontForCurrentLanguage(TMP_FontAsset[] blacklist = null)
+    {
+        if (blacklist == null)
+            blacklist = new TMP_FontAsset[0];
+
+        return LanguagesData.instance.languageTMPFonts
+            .FirstOrDefault(a =>
+                a.fontAsset != null
+                && !blacklist.Contains(a.fontAsset)
+                && languageFontMetadata.subData.ContainsKey(a.idName)
+                && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.idName].value))
+            .fontAsset;
+    }
+
 }

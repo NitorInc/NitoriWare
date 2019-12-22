@@ -1,7 +1,10 @@
 generic
+	idname=Korean
+	addedtogame=Y
+	complete=Y
 	name=한국어
 	gamename=NitorInc.
-	incomplete=경고: 이 번역은 정확하지 않을 수 있습니다. 어떤 글은 영어로 나타날 수 있습니다.
+	incomplete=경고: 이 언어의 번역은 완성되지 않았습니다. 어떤 글은 영어로 나타날 수 있습니다.
 stage
 	control
 		key=키보드 사용
@@ -10,22 +13,22 @@ stage
 	boss=보스 스테이지
 	levelup=레벨 업!
 	pause=일시정지
-		resume=계속 {0}
+		resume=이어서 하기 {0}
 	quit=끝내기 {0}
 	retry=다시 하기 {0}
-	gameover=끝났음!
+	gameover=끝!
 		score=점수: {0}
-		highscore=기록: {0}
+		highscore=최고 기록: {0}
 		newhighscore=신기록 달성!
 discord
-	scoreformat={0} 게임째
-	scoreformatsingular={0} 게임
+	scoreformat={0}게임 째
+	scoreformatsingular={0}게임 째
 	boss=보스 스테이지
 	menu=메뉴
 menu
 	yes=예
 	no=아니오
-	ok=좋아
+	ok=좋아!
 	back=뒤로
 	backalt=뒤로 가기
 	confirm=확인
@@ -33,173 +36,74 @@ menu
 	on=켜짐
 	off=꺼짐
 	play=시작
-	gamemode=게임 모드를 선택하자!
+	gamemode=게임 모드를 선택해라!
 		nitori=스토리 모드
 			description=끝없는 스토리 모드! 고득점을 노리자!
 		arcade=아케이드 모드
-		microgamepractice=마이크로게임 연습
-			description=마이크로게임 실력을 연마하고, 친구들에게 높은 점수를 자랑하자!
-		locked1=잠겼어! {0} 를 완수하면 열릴 거야.
+		microgamepractice=연습 모드
+			description=마이크로게임 실력을 연마하고 친구들에게 점수를 자랑하자!
+		locked1=잠겼어! {0} 를 클리어하면 열릴 거야.
 		locked2=잠겼어! {1} 에서 {0} 이상의 점수를 기록하면 열릴 거야.
 		highscore=최고 기록: {0}
 		compilationmode
-			description=최대한 많은 마이크로게임에 도전해 보자! 보스 스테이지 없음.
+			description=마이크로게임을 최대한 많이 클리어해보자! (보스 스테이지 없음)
 		compilation=캇파 도감
 			description=일반 아케이드 모드: 모든 마이크로게임이 섞여 있어.
 		compilationfast=맥스 캇파시티
 			description=완전 빠르게!!
-		compilationmystery=(검토 필요)
-			description=이런, 설계도를 잃어버렸어. 목표나 조작법이 나타나지 않으니 조심해!
+		compilationmystery=(문서가 존재하지 않습니다)
+			description=이런, 설계도를 잃어버렸어. 목표나 조작법이 나타나지 않는다구!
 		compilationhard=오이 지옥
-			description=고난이도의 게임 총집합! 목숨은 오직 하나! 얼마나 버틸 수 있을까?
+			description=최고난이도의 게임 총집합! 목숨은 오직 하나! 얼마나 버틸 수 있을까?
 	main
 		quit=게임 끝내기
-			prompt=정말 그만둘꺼야 {0}?
+			prompt=정말 {0}를 그만할거야?
 		settings=설정
-		credits=출연진
+		credits=제작진
 	settings
 		resolution=화면 해상도
 		fullscreen=전체화면
 		language=언어
 		graphics=화면 품질
-			0=더 빨리
-			1=빨리
-			2=간단하게
-			3=좋아
-			4=이쁘다
-			5=환상적이야
-		volume=소리
+			0=가장 빠름
+			1=빠름
+			2=간단
+			3=좋음
+			4=아름다음
+			5=환상적
+		volume=음량
 			master=전체
 			music=음악
 			sfx=효과음
 			voice=목소리
 	microgamecredits
 		art=미술: {0}
-		code=코드: {0}
+		code=프로그래밍: {0}
 		music=음악: {0}
 	splash
 		introa=이 게임 데모는 ZUN이 제작한 동방 프로젝트 (東方Project)의 2차 창작물입니다.
-		introb=많은 사람들이 마이크로게임 모음집을 제작하기 위해 코드, 음악, 그림 등 여러 분야에서 도움을 주었습니다.
+		introb=이 마이크로게임 모음집은 동방 프로젝트의 여러 팬들이 프로그래밍, 음악, 미술 등 여러 부분에 협력하고 참여하여 만들어졌습니다.
 		introc=게임을 완성하도록 도와주고 싶으시면, {0} 를 찾아 주세요.\n이 게임을 널리 알려주시는 것도 큰 도움이 됩니다!
-		webglwarning=만약 웹사이트에 문제가 생겼다면, 아래의 링크를 통해 게임을 다운받으세요.
-nitori
-	storyintro=새로운 손님이 왔나 보네.\n내 게임에 잘 적응하는지 보자구.\n눈 깜짝할 새에 지나간다!
-	storyfinished=제법인데, 친구.\n평범한 구경꾼은 아닌가봐. \n실력을 시험하고 싶으면 {0}에 도전해 보라구!
-	compilationfinished=정말 대단한걸!\n게임이 완성될 때까지 마음 단단히 먹고 기다리라구.\n{0} 는 이제부터 시작이야!
+		webglwarning=만약 웹플레이어에 문제가 생겼다면, 아래의 링크를 통해 게임을 다운받으세요.
 microgame
-	DatingSim
-		suika
-			fullname=이부키 스이카
-			firstname=스이카
-			introdialogue=어이이! 시간 많지? 같이 식사라도 한 끼 어때?
-			right0
-				option=식당까지 달리기로 승부해요!
-				response=지는 사람이 밥값 내는 걸로 하자구!
-			right1
-				option=좋아요!
-				response=신난다!
-			wrong0
-				option=금방 먹었잖아요?!
-				response=흥. 혼자 먹는 건 재미 없다구.
-			wrong1
-				option=저리 가요, 이 돼지!
-				response=네가 할 말은 아니거든!
-			wrong2
-				option=혼자서 먹어도 되잖아요.
-				response=흥. 재미 없기는.
-		youmu
-			fullname=콘파쿠 요우무
-			firstname=요우무
-			introdialogue=너 주려고 꽃을 키워 왔는데, 어때?
-			right0
-				option=정말 예뻐요!
-				response=고마워~
-			right1
-				option=꽃이 참 아름답네요.
-				response=마음에 들어서 다행이야!
-			wrong0
-				option=꺄아아, 유령이다!
-				response=지금 장난하는 거야?
-			wrong1
-				option=꽃은 싫은데...
-				response=꽃들도 넌 싫어할 거야.
-			wrong2
-				option=이거 조화 아니에요?
-				response=참 눈썰미도 없구나...
-		yuuka
-			fullname=카자미 유카
-			firstname=유카
-			introdialogue=나 몰래 다른 애들을 만나고 다닌 건 아니겠지?
-			right0
-				option=당연히 아니죠!
-				response=그럼, 그래야지.
-			right1
-				option=제겐 유카님뿐이에요!
-				response=역시나.
-			wrong0
-				option=글쎄요...
-				response=그건 무슨 소리니?
-			wrong1
-				option=전 레이무가 좋아요!
-				response=다시 생각하는 게 좋을 거야.
-			wrong2
-				option=잠깐 볼일이 있어서...
-				response=어딜 가시려고?
-		patchy
-			fullname=파츄리 널릿지
-			firstname=파츄리
-			introdialogue=홍차를 준비했는데, 어때?
-			right0
-				option=맛있어요.
-				response=다행이네.
-			right1
-				option=더 주세요!
-				response=좋아.
-			wrong0
-				option=맛이 이상하네요.
-				response=미안하게 됐네.
-			wrong1
-				option=어이쿠, 손이 미끄러졌네!
-				response=정말 곤란한 사람이네.
-			wrong2
-				option=차 달라고 한 적 없는데요.
-				response=마음에 들어 할 줄 알았는데.
-		fakeconfig=저장\n불러오기\n자동진행\n기록\n설정
-		command=연애해라!
-		igname=요괴 연애 시뮬레이션
-	ComicBubble
-		0
-			0=정말 이래도 괜찮은 거야?
-			1=괜찮아, 괜찮아!
-		1
-			0=잠깐만!
-			1=옷에 뭐가 묻어 있다구~
-			2=~요기!
-		2
-			0=청소하는 것도 귀찮구만...
-			1=찾아오는 사람도 없는데 청소할 필요는 없잖냐?
-			2=<i>으악!</i>
-			3=<i>아악!</i>
-		command=대화해라!
-		igname=다이나믹 말풍선
 	FreezeFrogs
 		command=얼려라!
 		igname=개구리 얼리기
 	Slingshot
-		command=던져라!
+		command=던져 맞혀라!
 		igname=머리 조심
 	ChenFood
 		command=먹히지 마!
-		igname=부뚜막에 오른 빙어
+		igname=부뚜막에 올라간 빙어
 	Spider
 		command=먹여라!
-		igname=거미 먹이기
+		igname=거미 먹이주기
 	Donation
 		command=3개를 모아라!
 		igname=세 푼만 줍쇼
 	Wrench
 		command=조여라!
-		igname=캇파 연장 기술
+		igname=캇파 조이기
 	Potion
 		command=넣어라!
 		ingredients=재료
@@ -208,11 +112,11 @@ microgame
 		command=씹어먹어라!
 		igname=배고픈 망령
 	Spaceship
-		command=발사!
+		command=쏘아 올려라!
 		igname=요괴 우주 프로그램
 	CupShuffle
 		command=집중해라!
-		commandb=선택해라!
+		commandb=맞혀라!
 		igname=컵 게임
 	TraceShape
 		command=채워라!
@@ -222,7 +126,7 @@ microgame
 		igname=무서우산
 	RockBand
 		command=연주해라!
-		igname=살아있네
+		igname=조수기악
 	ChenBike
 		command=빵빵!
 		igname=빵! 빵!
@@ -230,7 +134,7 @@ microgame
 		command=시전해라!
 		igname=시험 발사
 	OkuuFire
-		command=조정해라!
+		command=제어해라!
 		igname=시원해 휠
 	YukariCake
 		command=훔쳐라!
@@ -239,29 +143,29 @@ microgame
 		command=그늘을 드리워라!
 		igname=흡혈귀의 약점
 	SuikaShake
-		command=떨쳐라!
-		igname=흔들어라 스이카
+		command=떨쳐내라!
+		igname=스이카 셰이커
 	TouhouSort
 		command={0}에 맞춰 정렬!
-		hat=머리장식
-		wing=날개 종류
+		hat=모자
+		wing=날개
 		ear=귀
 		igname=소녀정렬중
 	FlanGrab
 		command=지켜라!
 		igname=홍마관을 지켜라
 	PaperThief
-		command=목표까지 달려라!
+		command=끝까지 달려라!
 		commandb=조심해!
 		commandc=쏴라!
 		commandd=쓰러트려라!
 		igname=오이 사냥
 	KaguyaMemory
 		command=주목!
-		commandb=선택해라!
+		commandb=맞혀라!
 		igname=난제
 	SumiWheel
-		command=맞춰라!
+		command=맞혀라!
 		igname=오컬트휠
 	MochiPound
 		command=찧어라!
@@ -277,6 +181,7 @@ microgame
 		igname=물주기
 	KnifeDodge
 		command=피해라!
+		igname=칼피하기
 	NitoriLook
 		command=니토리를 찾아라!
 		igname=숨은 니토리 찾기
@@ -286,19 +191,23 @@ microgame
 	DollDance
 		command=따라해라!
 		igname=광란의 인형극
+	YoumuSlash
+		command=잘 보고...
+		commandb=베어라!
+		igname=반령의 반 박자
 	CirnoBored
-		command=친절해라!
+		command=골라라!
 		commandb=즐겁게 해라!
 		commandc=구해라!
 		igname=얼음요정 달래기
 	HecShapes
-		command=놓아라!
+		command=맞춰라!
 		igname=지옥의 깔맞춤
 	RockPaperSatori
 		command=이겨라!
 		igname=가위 바위 사토리
 	MarisaJizou
-		command=던져라!
+		command=씌워라!
 		igname=모자 씌우기
 	NueAbduct
 		command=납치해라!
@@ -312,29 +221,181 @@ microgame
 	KyoukoEcho
 		command=반사해라!
 		igname=인사는 마음의 오아시스
+	DatingSim
+		command=호감도를 올려라!
+		suika
+			fullname=이부키 스이카
+			firstname=스이카
+			introdialogue=어이! 시간 많지? 뭐라도 같이 먹자.
+			right0
+				option=식당까지 달리기로 승부해요!
+				response=지는 사람이 쏘는 거다!
+			right1
+				option=좋아요!
+				response=신난다!
+			wrong0
+				option=방금 먹었잖아요?!
+				response=흥. 혼자 먹는 건 재미 없다구.
+			wrong1
+				option=저리 가요, 이 돼지!
+				response=네가 할 말은 아니거든!
+			wrong2
+				option=혼자서 먹어도 되잖아요.
+				response=흥. 재미 없기는.
+		youmu
+			fullname=콘파쿠 요우무
+			firstname=요우무
+			introdialogue=너한테 주려고 키운 꽃이야. 어때?
+			right0
+				option=정말 예뻐요!
+				response=고마워~
+			right1
+				option=꽃이 참 아름답네요.
+				response=마음에 들어서 다행이야!
+			wrong0
+				option=꺄아아, 유령이다!
+				response=지금 장난하는 거야?
+			wrong1
+				option=꽃은 싫은데...
+				response=꽃들도 널 싫어할 거야.
+			wrong2
+				option=이거 조화 아니에요?
+				response=참 눈썰미도 없구나...
+		yuuka
+			fullname=카자미 유카
+			firstname=유카
+			introdialogue=나 몰래 다른 여자들을 만나고 다니는 건 아니겠지?
+			right0
+				option=당연히 아니죠!
+				response=그럼, 그래야지.
+			right1
+				option=제겐 유카님 뿐이에요!
+				response=역시나.
+			wrong0
+				option=글쎄요...
+				response=그건 무슨 소리니?
+			wrong1
+				option=전 레이무가 좋아요!
+				response=다시 생각하는 게 좋을 거야.
+			wrong2
+				option=잠깐 볼일이 있어서...
+				response=어딜 가시려고?
+		patchy
+			fullname=파츄리 널릿지
+			firstname=파츄리
+			introdialogue=홍차를 달여 봤는데...어때?
+			right0
+				option=맛있어요.
+				response=다행이네.
+			right1
+				option=더 주세요!
+				response=응, 바로 내올게.
+			wrong0
+				option=맛이 이상하네요.
+				response=미안하게 됐네.
+			wrong1
+				option=어이쿠, 손이 미끄러졌네!
+				response=아... 찻잔의 내구도가...
+			wrong2
+				option=차 달라고 한 적 없는데요.
+				response=마음에 들어 할 줄 알았는데.
+		fakeconfig=저장\n불러오기\n자동진행\n기록\n설정
+		igname=요괴 연애 시뮬레이션
 	BugSwat
 		command=잡아라!
 		igname=꿈틀대는 밤벌레
 	ClownTorch
-		command=태워라!
+		command=불을 붙여라!
 		igname=신사 난방 시스템
 	BeachBall
-		command=던져라!
+		command=던져넣어라!
 		igname=만세락
+	FanBlow
+		command=날려버려라!
+		igname=텐구의 안개제거
 	YuugiBalance
 		command=균형을 잡아라!
 		igname=올바른 음주습관
+	ComicBubble
+		command=말풍선을 넣어라!
+		0
+			0=뭐 튀어나오는거 아냐?
+			1=괜찮아, 괜찮아!
+		1
+			0=잠깐만!
+			1=옷에 뭐가 묻어 있다구~
+			2=~요기!
+		2
+			0=청소하는 것도 귀찮구만...
+			1=찾아오는 사람도 없는데 청소할 필요는 없잖냐?
+			2=<i>으악!</i>
+			3=<i>아악!</i>
+		igname=다이나믹 말풍선
 	DoorKnock
 		command=두드려라!
+		igname=뒷문으로 들어오세요
 	FoodCut
 		command=썰어라!
+		igname=쿠킹 야만바
 	MoneyTrap
 		command=유인해라!
+		igname=자본의 함정 속으로
 	KeineMath
 		command=풀어라!
 		igname=케이네의 수학교실
 	DoomGame
+		command=쏴라!
+		danger=뒤를 조심해!
 		igname=광기의 지옥토끼
+	MystiaServe
+		command=차려라!
+		igname=주문하신 음식 나오셨습니다
+	FoodRoast
+		command=제때에 집어라!
+		igname=군고구마 룸
+	BoatSteer
+		command=조종해라!
+		igname=물길 안내인
+	SeijaSpin
+		command=돌려라!
+		igname=하극상
+	GhostSuck
+		command=빨아들여라!
+		igname=바케바케 버스터즈
+	MoonSoccer
+		command=골을 넣어라!
+		igname=달까지 닿아라, 불사의 슈팅
+	EikiJudge
+		command=정렬해라!
+		igname=심판의 날
+	IcePath
+		command=길을 따라가라!
+		igname=빙판길
+	KagerouCut
+		command=깎아라!
+		igname=요수 미용실
+	TrainTracks
+		command=구출해라!
+		igname=스키마행 급행열차
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=멍파라치
+	HinaSpin
+		igname=재액의 수레바퀴
+nitori
+	storyintro=새로운 손님이 왔나 보네.\n내 비장의 게임을 얼마나 잘하는지 보자구.\n눈도 깜빡이지 말라구!
+	storyfinished=제법인데, 친구.\n평범한 구경꾼은 아닌가봐. \n실력을 시험하고 싶으면 {0}에 도전해 보라구!
+	compilationfinished=정말 대단한걸!\n게임이 완성될 때까지 마음 단단히 먹고 기다리라구.\n{0} 는 이제부터 시작이야!
 credits
 	intro={0} 를 만드는 데 다음과 같은 사람들이 도움을 주었습니다!
 	kapptain=감독, 프로그래머, 매니저, 팀 "Kapptain"
@@ -361,3 +422,19 @@ credits
 		discord=Touhou Project Discord 제공
 		playtesters=모든 플레이 테스터 여러분
 		fans=이 게임을 널리 알려주신 모든 분들!
+		patreon=Patreon 후원자 여러분께 감사드립니다!
+meta
+	recorded=Y
+	IsAsian=Y
+	font
+		LiberationSans=N
+		Mitr=N
+		Comic=N
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=N
+		RobinWriting=N
+		SourceHanSerifK=Y
+		Fat=N

@@ -10,14 +10,36 @@ public class AudioAutoAdjust : MonoBehaviour
     [SerializeField]
     private bool preserveInitialPitch;
     [SerializeField]
+    private bool updateEachFrame = true;
+    [SerializeField]
     private PrefsHelper.VolumeType volumeType = PrefsHelper.VolumeType.SFX;
+
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float volumeMult = 1f;
+    public float VolumeMult
+    {
+        get { return volumeMult; }
+        set { volumeMult = value; }
+    }
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float pitchMult = 1f;
 	private AudioSource[] sources;
+    public float PitchMult
+    {
+        get { return pitchMult; }
+        set { pitchMult = value; }
+    }
 
     private float[] initialVolumes;
     private float[] initialPitches;
     private float instanceTimeScale, instanceVolumeSetting;
 
-	void Awake()
+    float Volume => PrefsHelper.getVolume(volumeType) * volumeMult;
+    float Pitch => Time.timeScale * pitchMult;
+
+    void Awake()
 	{
 		sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
         if (tieToVolumeSettings)
@@ -40,30 +62,35 @@ public class AudioAutoAdjust : MonoBehaviour
         }
     }
 
-	void Update()
+    //private void Start() => Update();
+
+    void Update()
 	{
-        if (tieToTimescale && Time.timeScale != instanceTimeScale)
-		    updatePitch();
-        if (tieToVolumeSettings && PrefsHelper.getVolume(volumeType) != instanceVolumeSetting)
-            updateVolume();
+        if (updateEachFrame)
+        {
+            if (tieToTimescale && Pitch != instanceTimeScale)
+		        updatePitch();
+            if (tieToVolumeSettings && Volume != instanceVolumeSetting)
+                updateVolume();
+        }
 	}
 
     public void updateVolume()
     {
         for (int i = 0; i < sources.Length; i++)
         {
-            sources[i].volume = initialVolumes[i] * PrefsHelper.getVolume(volumeType);
+            sources[i].volume = initialVolumes[i] * Volume;
         }
-        instanceVolumeSetting = PrefsHelper.getVolume(volumeType);
+        instanceVolumeSetting = Volume;
     }
 	public void updatePitch()
 	{
 		for (int i = 0; i < sources.Length; i++)
 		{
-			sources[i].pitch = Time.timeScale;
+			sources[i].pitch = Pitch;
             if (preserveInitialPitch)
                 sources[i].pitch *= initialPitches[i];
         }
-        instanceTimeScale = Time.timeScale;
+        instanceTimeScale = Pitch;
 	}
 }

@@ -10,18 +10,19 @@ public class MenuCreditsPlacement : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
     private int distanceBetweenCells, distancePerCreditLine;
+    [SerializeField]
+    private Transform bottomAnchor;
+    [SerializeField]
+    private float scrollSpeed = 5f;
+    [SerializeField]
+    private float loopBottomPosition = 5f;
 #pragma warning restore 0649
 
 	void Start()
 	{
-		if (Application.isPlaying)
-        {
-            enabled = false;
-            return;
-        }
 	}
 	
-	void Update()
+	void LateUpdate()
 	{
         int currentY = 0;
         for (int i = 0; i < transform.childCount; i++)
@@ -32,7 +33,13 @@ public class MenuCreditsPlacement : MonoBehaviour
             currentY += distanceBetweenCells;
             currentY += ((getLineCount(cell.GetChild(1)) - 1) * distancePerCreditLine);
         }
-	}
+
+        //if (Application.isPlaying)
+        //{
+        //    enabled = false;
+        //    return;
+        //}
+    }
 
     int getLineCount(Transform transform)
     {

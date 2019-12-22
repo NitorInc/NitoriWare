@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Microgame Assets/YoumuSlash/Beat Map")]
 public class YoumuSlashBeatMap : ScriptableObject
 {
+    [SerializeField]
+    private YoumuSlashTargetType defaultTypeData;
+    public YoumuSlashTargetType DefaultTypeData => defaultTypeData;
 
     [SerializeField]
     private List<TargetBeat> targetBeats;
@@ -17,10 +21,11 @@ public class YoumuSlashBeatMap : ScriptableObject
 
         public YoumuSlashTarget launchInstance { get; set; }
         public bool slashed { get; set; }
-        public void resetFields()
+        public void resetFields(YoumuSlashBeatMap beatMap)
         {
             launchInstance = null;
             slashed = false;
+            defaultTypeData = beatMap.DefaultTypeData;
         }
 
         [SerializeField]
@@ -33,19 +38,12 @@ public class YoumuSlashBeatMap : ScriptableObject
 
         [SerializeField]
         private Direction hitDirection;
-        public Direction HitDirection => hitDirection; 
+        public Direction HitDirection => hitDirection;
 
         [SerializeField]
-        private GameObject prefab;
-        public GameObject Prefab => prefab;
-
-        [SerializeField]
-        private Effect hitEffect = Effect.None;
-        public Effect HitEffect => hitEffect;
-
-        [SerializeField]
-        private bool forceUp;
-        public bool ForceUp => forceUp;
+        private YoumuSlashTargetType typeData;
+        public YoumuSlashTargetType TypeData => typeData != null ? typeData : defaultTypeData;
+        private YoumuSlashTargetType defaultTypeData;
 
         public enum Direction
         {
@@ -74,12 +72,6 @@ public class YoumuSlashBeatMap : ScriptableObject
                 return TimeState.Passed;
         }
 
-        public enum Effect
-        {
-            None,
-            Scream
-        }
-
         public bool isInHitRange(float beat, float minHitTime, float maxHitTime)
         {
             return beat >= HitBeat + minHitTime && beat <= HitBeat + maxHitTime;
@@ -90,7 +82,7 @@ public class YoumuSlashBeatMap : ScriptableObject
     {
         foreach (var target in targetBeats)
         {
-            target.resetFields();
+            target.resetFields(this);
         }
     }
 
@@ -133,6 +125,11 @@ public class YoumuSlashBeatMap : ScriptableObject
                 return null;
         }
         return null;
+    }
+
+    public TargetBeat getNextLaunchingTarget(float beat)
+    {
+        return TargetBeats.FirstOrDefault(a => a.LaunchBeat >= beat);
     }
 
 }

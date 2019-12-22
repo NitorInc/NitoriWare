@@ -4,10 +4,15 @@ using UnityEngine;
 
 public static class PrefsHelper
 {
+    // Increase this when the game is changed enough to warrant resetting high scores
+    private const int PrefsVersion = 2;
+
+    private const string VersionKey = "version";
     private const string PreferredLanguageKey = "settings.preferredlanguage";
     private const string VolumeKeyPrefix = "settings.volume.";
     private const string ProgressKey = "save.progress"; //How many gamemodes the player has completed
     private const string HighScorePrefix = "save.highscore.";
+    private const string StageUnlockPrefix = "save.unlocked.";
     private const string StageVisitPrefix = "save.visited.";
 
     private static int volumeTypeCount = 4;
@@ -32,6 +37,28 @@ public static class PrefsHelper
         Started = 0,
         StoryComplete = 1,
         AllCompilationComplete = 2
+    }
+
+    public static void initiate()
+    {
+        var recordedVersion = PlayerPrefs.GetInt(VersionKey, 0);
+        if (recordedVersion != PrefsVersion)
+        {
+            handleLegacyVersions(recordedVersion);
+            PlayerPrefs.SetInt(VersionKey, PrefsVersion);
+        }
+    }
+
+    static void handleLegacyVersions(int recordedVersion)
+    {
+        // Check for scores implemented before implementing versions
+        if (getProgress() >= GameProgress.StoryComplete)
+        {
+            setStageUnlocked("compilation", true);
+            setStageUnlocked("compilationfast", getHighScore("compilation") >= 15);
+            setStageUnlocked("compilationmystery", getHighScore("compilationfast") >= 10);
+            setStageUnlocked("compilationhard", getHighScore("compilationmystery") >= 15);
+        }
     }
 
 
@@ -126,6 +153,14 @@ public static class PrefsHelper
     public static int getHighScore(string stage)
     {
         stage = stage.ToLower();
+        var version = PlayerPrefs.GetInt(HighScorePrefix + stage.ToLower() + ".version", 0);
+
+        // Reset score if older version
+        if (version < PrefsVersion)
+        {
+            //setHighScore(stage, 0);
+            return 0;
+        }
         return PlayerPrefs.GetInt(HighScorePrefix + stage.ToLower(), 0);
     }
     
@@ -138,6 +173,7 @@ public static class PrefsHelper
     {
         stage = stage.ToLower();
         PlayerPrefs.SetInt(HighScorePrefix + stage.ToLower(), score);
+        PlayerPrefs.SetInt(HighScorePrefix + stage.ToLower() + ".version", PrefsVersion);
     }
 
     /// <summary>
@@ -159,5 +195,26 @@ public static class PrefsHelper
     {
         stage = stage.ToLower();
         PlayerPrefs.SetInt(StageVisitPrefix + stage, visited ? 1 : 0);
+    }
+
+    /// <summary>
+    /// Returns whether the stage was ever Unlocked by the player
+    /// </summary>
+    /// <param name="stage"></param>
+    public static bool isStageUnlocked(string stage)
+    {
+        stage = stage.ToLower();
+        return PlayerPrefs.GetInt(StageUnlockPrefix + stage, 0) > 0;
+    }
+
+    /// <summary>
+    /// Set whether the player has Unlocked the stage at least once
+    /// </summary>
+    /// <param name="stage"></param>
+    /// <param name="Unlocked"></param>
+    public static void setStageUnlocked(string stage, bool Unlocked)
+    {
+        stage = stage.ToLower();
+        PlayerPrefs.SetInt(StageUnlockPrefix + stage, Unlocked ? 1 : 0);
     }
 }

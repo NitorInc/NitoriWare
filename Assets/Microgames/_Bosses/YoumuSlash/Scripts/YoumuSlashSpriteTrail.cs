@@ -8,12 +8,19 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
     Sprite trailSprite;
     [SerializeField]
     private bool enableSpawn;
+    public bool EnableSpawn
+    {
+        get { return enableSpawn; }
+        set { enableSpawn = value; }
+    }
     [SerializeField]
     private Transform fragmentParent;
     [SerializeField]
     private float initialAlpha = 1f;
     [SerializeField]
     private float fragmentBrightness = 1f;
+    [SerializeField]
+    private float HitOffsetBrightnessDampMult = 1f;
     [SerializeField]
     private float fragmentSaturation = 1f;
     [SerializeField]
@@ -31,6 +38,7 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
     private Vector2 lastPosition;
     private Vector3 initialPosition;
     private float currentHue;
+    private float currentHitOffset;
     
 	void Start ()
     {
@@ -39,12 +47,13 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         initialPosition = transform.position;
 	}
 
-    public void resetTrail(float xPosition)
+    public void resetTrail(float xPosition, float offset)
     {
         if (fragments == null)
             Start();
 
         currentHue = Random.Range(0f, 1f);
+        currentHitOffset = Mathf.Abs(offset);
         lastPosition = new Vector3(xPosition, initialPosition.y, initialPosition.z);
         distanceSpawnProgress = 0f;
         foreach (var fragment in fragments)
@@ -115,7 +124,8 @@ public class YoumuSlashSpriteTrail : MonoBehaviour
         fragment.enabled = true;
         fragment.transform.position = new Vector3(position.x, position.y, fragment.transform.position.z);
         currentHue = (currentHue + hueShiftPerFragment) % 1f;
-        fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness).ToColor();
+        fragment.color = new HSBColor(currentHue, fragmentSaturation, fragmentBrightness - (currentHitOffset * HitOffsetBrightnessDampMult))
+            .ToColor();
         fragment.sortingOrder = sortingOrderStart + nextFragmentIndex;
         setAlpha(fragment, initialAlpha);
         fragment.sprite = trailSprite;

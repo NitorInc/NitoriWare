@@ -4,24 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.Serialization;
 
 public class LocalizedText : MonoBehaviour
 {
-	[SerializeField]
+    [SerializeField]
     private Prefix keyPrefix;
     [SerializeField]
     private bool applyToTextString = true;
     [SerializeField]
     private bool applyToFont = true;
-	[SerializeField]
-	private string _key;
     [SerializeField]
-    private Parameter[] parameters;
+    private string _key;
+    [SerializeField]
+    private Parameter[] parameters = { };
 
-	public string key
-	{
-		get {return _key;}
-		set { _key = value; updateText(); }
+    public string key
+    {
+        get { return _key; }
+        set { _key = value; updateText(); }
     }
 
     [System.Serializable]
@@ -31,61 +32,65 @@ public class LocalizedText : MonoBehaviour
         public bool isKey;
         public string keyDefaultString;
     }
-
+    
     [SerializeField]
-    private TMP_FontAsset defaultTMProFallbackFont;
+    private TMP_FontAsset[] tmproFontFallbackList = { };
     [SerializeField]
-    private FallbackOverride[] TMProFallbackOverrideFonts;
-
-    [System.Serializable]
-    public class FallbackOverride
-    {
-        [SerializeField]
-        [Multiline]
-        private string languages;
-        public string Languages => languages;
-
-        [SerializeField]
-        private TMP_FontAsset fallback;
-        public TMP_FontAsset Fallback => fallback;
-
-        [SerializeField]
-        private bool useOverrideFontStyle;
-        public bool UseOverrideFontStyle => useOverrideFontStyle;
-        [SerializeField]
-        private FontStyles overrideFontStyle;
-        public FontStyles OverrideFontStyle => overrideFontStyle;
-    }
+    private TMP_FontAsset[] tmproFontBlacklist = { };
 
     private Text textComponent;
-	private TextMesh textMesh;
-    private TextMeshPro textMeshPro;
-    private TextMeshProUGUI textMeshProUGUI;
+    public Text TextComponent => textComponent;
+    private TextMesh textMesh;
+    public TextMesh TextMeshComponent => textMesh;
+    private TMP_Text tmpText;
+    public TMP_Text TMPText => tmpText;
+
+
     private Language loadedLanguage;
     private string initialText;
-    private Font initialFont;
-    private FontStyle initialStyle;
+    private LocalizedTextFontData initialFontData;
+    private LocalizedTextFontData currentFontData;
 
-	private enum Prefix
-	{
-		None,
-		CurrentMicrogame
-	}
-
-	void Start ()
-	{
-		textComponent = GetComponent<Text>();
-		textMesh = GetComponent<TextMesh>();
-        textMeshPro = GetComponent<TextMeshPro>();
-        textMeshProUGUI = GetComponent<TextMeshProUGUI>();
-        loadedLanguage = null;
-        initialText = getText();
-        initialStyle = getStyle();
-        initialFont = getFont();
-        updateText();
+    private class LocalizedTextFontData
+    {
+        public Font font;
+        public TMP_FontAsset tmpFontAsset;
+        public FontStyle fontStyle;
+        public FontStyles tmpFontStyle;
     }
 
-    private void LateUpdate()
+
+    private enum Prefix
+    {
+        None,
+        CurrentMicrogame
+    }
+
+    private void Awake()
+    {
+        textComponent = GetComponent<Text>();
+        textMesh = GetComponent<TextMesh>();
+        tmpText = GetComponent<TMP_Text>();
+        loadedLanguage = null;
+        initialText = getText();
+
+        initialFontData = getFontData();
+        currentFontData = getFontData();
+    }
+
+    void Start()
+    {
+        if (TextHelper.getLoadedLanguage() != null)
+            UpdateLanguage(TextHelper.getLoadedLanguage());
+        LocalizationManager.onLanguageChanged += UpdateLanguage;
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationManager.onLanguageChanged -= UpdateLanguage;
+    }
+
+    private void UpdateLanguage(Language language)
     {
         if (loadedLanguage?.getLanguageID() != TextHelper.getLoadedLanguageID()
             && !(string.IsNullOrEmpty(loadedLanguage?.getLanguageID()) && string.IsNullOrEmpty(TextHelper.getLoadedLanguageID())))
@@ -106,8 +111,8 @@ public class LocalizedText : MonoBehaviour
                 }
                 else
                 {
-                    setStyle(initialStyle);
-                    setFont(initialFont);
+                    setFontFromData(initialFontData);
+                    setStyleFromData(initialFontData);
                 }
             }
 
@@ -116,166 +121,189 @@ public class LocalizedText : MonoBehaviour
         }
     }
 
-    bool shouldChangeFont()
+    private LocalizedTextFontData getFontData()
     {
-        if (!applyToTextString)
-            return true;
-        else
-            return !getText().Equals(initialText);
+        var newFont = new LocalizedTextFontData();
+
+        if (textComponent != null)
+        {
+            newFont.font = textComponent.font;
+            newFont.fontStyle = textComponent.fontStyle;
+        }
+        else if (textMesh != null)
+        {
+            newFont.font = textMesh.font;
+            newFont.fontStyle = textMesh.fontStyle;
+        }
+        if (tmpText != null)
+        {
+            newFont.tmpFontAsset = tmpText.font;
+            newFont.tmpFontStyle = tmpText.fontStyle;
+        }
+
+        return newFont;
     }
+
+    bool shouldChangeFont() => true;
+    //bool shouldChangeFont() => !applyToTextString || !getText().Equals(initialText);
 
     /// <summary>
     /// Sets the key to load from and reloads the text with the new key
     /// </summary>
     /// <param name="key"></param>
     public void setKey(string key)
-	{
-		_key = key;
-		updateText();
-	}
+    {
+        _key = key;
+        updateText();
+    }
 
-	public void updateText()
-	{
+    public void updateText()
+    {
         if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(loadedLanguage?.getLanguageID()))
             return;
 
-		string value;
-		if (keyPrefix == Prefix.CurrentMicrogame)
-			value = TextHelper.getLocalizedMicrogameText(key, getText(), parameters);
-		else
-			value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
+        string value;
+        if (keyPrefix == Prefix.CurrentMicrogame)
+            value = TextHelper.getLocalizedMicrogameText(key, getText(), parameters);
+        else
+            value = TextHelper.getLocalizedText(getPrefixedKey(), getText(), parameters);
 
-		setText(value);
-    }
-
-    public void updateFont()
-    {
-        setFont(loadedLanguage.overrideFont == null ? initialFont : loadedLanguage.overrideFont);
+        setText(value);
     }
 
     public void updateStyle()
     {
         if (loadedLanguage.forceUnbold)
         {
-            bool italicized = initialStyle == FontStyle.Italic || initialStyle == FontStyle.BoldAndItalic;
-            setStyle(italicized ? FontStyle.Italic : FontStyle.Normal);
+            // Subtract Bold enum data if it's being used
+            if (textComponent != null || textMesh != null)  // Normal font
+            {
+                if (initialFontData.fontStyle == FontStyle.Bold || initialFontData.fontStyle == FontStyle.BoldAndItalic)
+                    setTextStyle(initialFontData.fontStyle - (int)FontStyle.Bold);
+            }
+            if (tmpText != null && tmpText.isUsingBold)    // TMP font
+            {
+                if (tmpText.isUsingBold)
+                    setTMPStyle(tmpText.fontStyle - (int)FontStyles.Bold);
+            }
         }
+        else
+            setStyleFromData(initialFontData);
     }
 
-	private void setText(string text)
-	{
-		if (textComponent != null)
-			textComponent.text = text;
-		else if (textMesh != null)
-			textMesh.text = text;
-        if (textMeshPro != null)
-            textMeshPro.text = text;
-        if (textMeshProUGUI != null)
-            textMeshProUGUI.text = text;
-
+    public void setText(string text)
+    {
+        if (textComponent != null)
+            textComponent.text = text;
+        else if (textMesh != null)
+            textMesh.text = text;
+        if (tmpText != null)
+            tmpText.text = text;
         SendMessage("OnTextLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
-	private string getText()
-	{
-		if (textComponent != null)
-			return textComponent.text;
-		if (textMesh != null)
-			return textMesh.text;
-        if (textMeshPro != null)
-            return textMeshPro.text;
-        if (textMeshProUGUI != null)
-            return textMeshProUGUI.text;
-
-        return "";
+    public string getText()
+    {
+        if (textComponent != null)
+            return textComponent.text;
+        if (textMesh != null)
+            return textMesh.text;
+        if (tmpText != null)
+            return tmpText.text;
+        return null;
     }
 
-    private void setFont(Font font)
+    public void updateFont()
+    {
+        setTextFont(getFontForLanguage(loadedLanguage));
+
+        setTMPFont(getTMProFontForLanguage(loadedLanguage));
+    }
+
+    public Font getFontForLanguage(Language language)
+    {
+        return loadedLanguage.overrideFont == null ? initialFontData.font : loadedLanguage.overrideFont;
+    }
+
+    public TMP_FontAsset getTMProFontForLanguage(Language language)
+    {
+        if (tmpText != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(tmpText.font))
+            return tmpText.font;
+        
+        foreach (var fallbackFont in tmproFontFallbackList)
+        {
+            if (LocalizationManager.instance.isTMPFontCompatibleWithLanguage(fallbackFont))
+                return fallbackFont;
+        }
+
+        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage(blacklist:tmproFontBlacklist);
+        if (fallback != null)
+            return fallback;
+
+        if (tmpText != null)
+            return tmpText.font;
+
+        return null;
+    }
+
+    private void setFontFromData(LocalizedTextFontData fontData)
+    {
+        setTextFont(fontData.font);
+        setTMPFont(fontData.tmpFontAsset);
+    }
+
+    public void setTextFont(Font font)
     {
         if (textComponent != null)
             textComponent.font = font;
         else if (textMesh != null)
             textMesh.font = font;
-        if (textMeshPro != null)
-            setTMPFontFallback(textMeshPro.font);
-        if (textMeshProUGUI != null)
-            setTMPFontFallback(textMeshProUGUI.font);
-
+        else
+            return;
+        currentFontData.font = font;
         SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
-    private Font getFont()
+    public void setTMPFont(TMP_FontAsset fontAsset)
     {
-        if (textComponent != null)
-            return textComponent.font;
-        if (textMesh != null)
-            return textMesh.font;
-        //if (textMeshPro != null)
-        //    return textMeshPro.font;
-        //if (textMeshProUGUI != null)
-        //    return textMeshProUGUI.font;
-        return null;
+        if (tmpText == null)
+            return;
+
+        // Save the font material before we change fonts
+        var fontMaterial = tmpText.fontMaterial;
+
+        tmpText.font = fontAsset;
+
+        // Now to preserve the Material Preset, we have to apply the current font material's texture to the saved material
+        fontMaterial.SetTexture("_MainTex", tmpText.font.material.mainTexture);
+        // And set the fontMaterial back to the saved one
+        tmpText.fontMaterial = fontMaterial;
+        // It's just what we gotta do
+
+        currentFontData.tmpFontAsset = fontAsset;
+        SendMessage("OnFontLocalized", options: SendMessageOptions.DontRequireReceiver);
     }
 
-    void setTMPFontFallback(TMP_FontAsset font)
+    private void setStyleFromData(LocalizedTextFontData fontData)
     {
-        var fallback = getTMProFallback();
-        if (fallback != null && !font.fallbackFontAssets.Contains(fallback))
-        {
-            if (!LocalizationManager.instance.modifiedFallbacks.ContainsKey(font))
-                LocalizationManager.instance.modifiedFallbacks.Add(font, new List<TMP_FontAsset>(font.fallbackFontAssets));
-            else
-                font.fallbackFontAssets = new List<TMP_FontAsset>(LocalizationManager.instance.modifiedFallbacks[font]);
-            font.fallbackFontAssets.Add(fallback);
-        }
+        setTextStyle(fontData.fontStyle);
+        setTMPStyle(fontData.tmpFontStyle);
     }
 
-    TMP_FontAsset getTMProFallback()
-    {
-        var loadedLanguage = TextHelper.getLoadedLanguage();
-        foreach (var fallbackOverride in TMProFallbackOverrideFonts)
-        {
-            if (fallbackOverride.Languages.Contains(loadedLanguage.getLanguageID()))
-            {
-                if (fallbackOverride.UseOverrideFontStyle)
-                {
-
-                    if (textMeshPro != null)
-                        textMeshPro.fontStyle = fallbackOverride.OverrideFontStyle;
-                    if (textMeshProUGUI != null)
-                        textMeshProUGUI.fontStyle = fallbackOverride.OverrideFontStyle;
-                }
-
-                return fallbackOverride.Fallback;
-            }
-        }
-
-        if (loadedLanguage.tmproFallback != null)
-            return loadedLanguage.tmproFallback;
-
-        if (defaultTMProFallbackFont != null)
-            return defaultTMProFallbackFont;
-
-        return null;
-    }
-
-    public FontStyle getStyle()
-    {
-        if (textComponent != null)
-            return textComponent.fontStyle;
-        if (textMesh != null)
-            return textMesh.fontStyle;
-        //TODO TextMeshPro fontstyle support
-        return FontStyle.Normal;
-    }
-
-    public void setStyle(FontStyle style)
+    public void setTextStyle(FontStyle style)
     {
         if (textComponent != null)
             textComponent.fontStyle = style;
         else if (textMesh != null)
             textMesh.fontStyle = style;
-        //TODO TextMeshPro fontstyle support
+        currentFontData.fontStyle = style;
+    }
+
+    public void setTMPStyle(FontStyles tmpStyle)
+    {
+        if (tmpText != null)
+            tmpText.fontStyle = tmpStyle;
+        currentFontData.tmpFontStyle = tmpStyle;
     }
 
     string getPrefixedKey() => key;

@@ -4,65 +4,98 @@ using UnityEngine;
 
 public class BoatSteerBoat : MonoBehaviour
 {
-	private Vector3 velocity = new Vector3 ();
+	[SerializeField]
+	public float speed = 16;
 
-	private bool crashed = false;
-	private float speed = 10;
-	private float heading = 0;
-	private float headingPerSec = 90;
-	private float maxHeading = 60;
+    [SerializeField]
+    public float maxLateralSpeedFactor = 0.75f;
 
-	// Use this for initialization
-	void Start ()
-	{
-		
+    private float lateralSpeed = 0;
+
+	[SerializeField]
+	float lateralAcceleration = 0.50f;
+
+	[SerializeField]
+	private float lateralDeceleration = 0.5f;
+
+	[SerializeField]
+	private Camera mainCamera;
+
+	[SerializeField]
+	private Camera backgroundCamera;
+
+	[SerializeField]
+	private Animator rigAnimator;
+
+    [SerializeField]
+    private float cameraTiltMult = 5f;
+
+    private bool crashed = false;
+
+	public float animationFactor {
+		get {
+			return lateralSpeed / (speed * maxLateralSpeedFactor);
+		}
 	}
-	
-	// Update is called once per frame
+
 	void Update ()
 	{
 		if (crashed) {
-			velocity.Set (0, 0, 0);
-			transform.localRotation = Quaternion.identity;
-			transform.localPosition += Time.deltaTime * (new Vector3 (0, -1, 0));
-	
 			return;
 		}
-		bool left = Input.GetKey (KeyCode.LeftArrow);
-		bool right = Input.GetKey (KeyCode.RightArrow);
+		bool left = Input.GetKey(KeyCode.LeftArrow);
+		bool right = Input.GetKey(KeyCode.RightArrow);
 
-		float headingDelta = headingPerSec * Time.deltaTime;
-
+		// Lmao euler integration
 		if (left == right) {
-			// neutral steering - return to straight
-			if (heading > 0) {
-				heading = (heading < headingDelta ? 0 : heading - headingDelta);
-			} else {
-				heading = (heading > -headingDelta ? 0 : heading + headingDelta);
-			}
+			// Neutral input
+			lateralSpeed -= lateralSpeed * lateralDeceleration * Time.deltaTime;
 		} else {
-			headingDelta = right ? headingDelta : -headingDelta;
-			heading = Mathf.Clamp (heading + headingDelta, -maxHeading, maxHeading);
+			float maxLateralSpeed = speed*maxLateralSpeedFactor;
+			float accel = speed * lateralAcceleration * Time.deltaTime;
+
+			lateralSpeed += right ? accel : -accel;
+
+			// Some bonus countersteer just ofr you Gman8r <3
+			if ((right && lateralSpeed < 0 ) || (left && lateralSpeed > 0)) {
+				lateralSpeed += accel * (-lateralSpeed/maxLateralSpeed);
+			} 
+
+			if (lateralSpeed > maxLateralSpeed) {
+				lateralSpeed = maxLateralSpeed;
+			} else if (lateralSpeed < -maxLateralSpeed) {
+				lateralSpeed = -maxLateralSpeed;
+			}
 		} 
 
-		velocity.Set (
-			Mathf.Sin (Mathf.Deg2Rad * heading) * speed, 
+		transform.localPosition += new Vector3 (
+			lateralSpeed * Time.deltaTime,
 			0,
-			Mathf.Cos (Mathf.Deg2Rad * heading) * speed
+			speed * Time.deltaTime
 		);
-		transform.localRotation = Quaternion.AngleAxis (-heading / 4f, Vector3.forward);
+
+		backgroundCamera.transform.localPosition = new Vector3(animationFactor/10f, 0, 0);
+
+		float cameraTilt = -animationFactor*cameraTiltMult;
+		backgroundCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
+		mainCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
 	}
 
-	public Vector3 getVelocity ()
-	{
-		return velocity;
+	private void crash() {
+		if (crashed == true) {
+			return;
+		}
+		crashed = true;
+
+        rigAnimator.SetTrigger("Crash");
+        
+		// TODO: Create sinking rig
 	}
 
 	void OnTriggerEnter (Collider other)
 	{
-		// Lame hack: Move object back to avoid appearance of clipping through boat
-		other.gameObject.transform.localPosition += velocity;
-		MicrogameController.instance.setVictory (false, true);
-		crashed = true;
+		MicrogameController.instance.setVictory(false, true);
+
+		crash();
 	}
 }

@@ -19,6 +19,11 @@ public class AdvancingText : MonoBehaviour
 
     private TMP_Text textMeshProComponent;
     private float progress;
+    public float Progress
+    {
+        get { return progress; }
+        set { progress = value; updateChars(); }
+    }
     
 
     void Awake()
@@ -48,9 +53,13 @@ public class AdvancingText : MonoBehaviour
     {
         var totalVisibleChars = getTotalVisibleChars(false);
         progress = Mathf.MoveTowards(progress, totalVisibleChars, Time.deltaTime * advanceSpeed);
+        updateChars();
+    }
 
+    void updateChars()
+    {
         setVisibleChars((int)Mathf.Floor(progress));
-        if (progress >= totalVisibleChars)
+        if (progress >= getTotalVisibleChars(false))
         {
             isComplete = true;
             onComplete.Invoke();
@@ -71,8 +80,6 @@ public class AdvancingText : MonoBehaviour
     {
         textMeshProComponent.maxVisibleCharacters = amount;
     }
-
-    public float Progress => progress;
 
     public int getVisibleChars()
     {

@@ -13,22 +13,31 @@ public class DatingSimDialogueController : MonoBehaviour
     private AdvancingText textPlayer;
     private float defaultTextSpeed;
 
-    void Start()
+
+    private void Awake()
     {
         textComp = GetComponent<TMP_Text>();
         textPlayer = GetComponent<AdvancingText>();
         defaultTextSpeed = textPlayer.getAdvanceSpeed();
+    }
 
+    private void Start()
+    {
         SetDialogue(DatingSimHelper.getSelectedCharacter().getLocalizedIntroDialogue());
+        OnFontLocalized();
 
+        textPlayer.enabled = false;
+        Invoke("EnableTextPlayer", introTextDelay);
+    }
+
+    void OnFontLocalized()
+    {
         if (introTextForceCompletionTime > 0f)
         {
             float newSpeed = textPlayer.getTotalVisibleChars() / introTextForceCompletionTime;
             textPlayer.setAdvanceSpeed(newSpeed);
         }
 
-        textPlayer.enabled = false;
-        Invoke("EnableTextPlayer", introTextDelay);
     }
 
     void EnableTextPlayer()

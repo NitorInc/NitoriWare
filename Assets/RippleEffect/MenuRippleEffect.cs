@@ -53,21 +53,21 @@ public class MenuRippleEffect : MonoBehaviour
 		{
             if (mousePosition)
             {
-                position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                position = (Vector2)MainCameraSingleton.instance.ScreenToWorldPoint(Input.mousePosition);
             }
             else
             {
-                Vector2 bounds = new Vector2(Camera.main.orthographicSize * 4f / 3f, Camera.main.orthographicSize);
-                position = Camera.main.transform.position + new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), 0f);
+                Vector2 bounds = new Vector2(MainCameraSingleton.instance.orthographicSize * 4f / 3f, MainCameraSingleton.instance.orthographicSize);
+                position = MainCameraSingleton.instance.transform.position + new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), 0f);
             }
 
-            position.x -= Camera.main.transform.position.x;
-            position.y -= Camera.main.transform.position.y;
+            position.x -= MainCameraSingleton.instance.transform.position.x;
+            position.y -= MainCameraSingleton.instance.transform.position.y;
 
-            position.x += (Camera.main.orthographicSize * 4f / 3f);
-            position.x /= (Camera.main.orthographicSize * 8f / 3f);
-            position.y += Camera.main.orthographicSize;
-            position.y /= (Camera.main.orthographicSize * 2f);
+            position.x += (MainCameraSingleton.instance.orthographicSize * 4f / 3f);
+            position.x /= (MainCameraSingleton.instance.orthographicSize * 8f / 3f);
+            position.y += MainCameraSingleton.instance.orthographicSize;
+            position.y /= (MainCameraSingleton.instance.orthographicSize * 2f);
 			time = 0;
 		}
 
@@ -168,7 +168,7 @@ public class MenuRippleEffect : MonoBehaviour
 
     void checkCollision()
     {
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray mouseRay = MainCameraSingleton.instance.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity);
 
         if (hit && hit.collider.name == "Ripple Collider")

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CharacterStage : Stage
 {
@@ -13,10 +14,13 @@ public class CharacterStage : Stage
 	private Interruption speedUp, bossIntro, nextRound, oneUp, wonStage;
     [SerializeField]
     private float victorySceneShiftTime = 5f;
+    [SerializeField]
+    private bool useAllBossesWhenRevisiting = true;
 #pragma warning restore 0649
 
     private int roundsCompleted, roundStartIndex;
 	private bool bossWon;
+    private Microgame selectedBossMicrogame;
 
 	public override void onStageStart()
     {
@@ -42,13 +46,13 @@ public class CharacterStage : Stage
 				index--;
 			}
 		}
-		return microgamePool.bossMicrogame;
+		return selectedBossMicrogame;
 	}
 
     public override string getDiscordState(int microgameIndex)
     {
         if (!microgamePool.skipBossMicrogame
-            && getMicrogame(microgameIndex).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+            && isSelectedBossIndex(microgameIndex))
             return TextHelper.getLocalizedText("discord.boss", "Boss Stage");
         else
             return base.getDiscordState(microgameIndex);
@@ -85,9 +89,9 @@ public class CharacterStage : Stage
         }
 
         //Boss Intro
-        if (microgame.microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+        if (isSelectedBoss(microgame))
         {
-            if (getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))  //Not first boss attempt
+            if (isSelectedBossIndex(num - 1))  //Not first boss attempt
                 return new Interruption[0];
             else
                 return new Interruption[0].add(bossIntro);
@@ -115,26 +119,28 @@ public class CharacterStage : Stage
 	}
 
 	public override bool isMicrogameDetermined(int num)
-	{
-		if (microgamePool.skipBossMicrogame)
-			return !getMicrogame(num).microgameId.Equals(microgamePool.bossMicrogame.microgameId);
-
-		return !(getMicrogame(num).microgameId.Equals(microgamePool.bossMicrogame.microgameId) &&
-			getMicrogame(num - 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId));
-	}
+    {
+        int index = getIndex(num);
+        var totalMicrogameCount = microgamePool.microgameBatches.Sum(a => a.pick);
+        
+        if (microgamePool.skipBossMicrogame)
+            return index < totalMicrogameCount;
+        else
+            return index <= totalMicrogameCount;
+    }
 
 	public override void onMicrogameEnd(int microgame, bool victoryStatus)
     {
         if (microgamePool.skipBossMicrogame)
 		{
-			if (getMicrogame(microgame + 1).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+			if (isSelectedBossIndex(microgame + 1))
 			{
 				startNextRound(microgame + 1);
 			}
 			return;
 		}
 
-		if (getMicrogame(microgame).microgameId.Equals(microgamePool.bossMicrogame.microgameId))
+		if (isSelectedBossIndex(microgame))
         {
             bossWon = victoryStatus;
             if (revisiting)
@@ -197,10 +203,21 @@ public class CharacterStage : Stage
 				}
 			}
 		}
+        if (revisiting && useAllBossesWhenRevisiting)
+        {
+            var bossMicrogames = MicrogameCollection.instance.BossMicrogames;
+            var randomBossData = bossMicrogames[Random.Range(0, bossMicrogames.Count)];
+            selectedBossMicrogame = new Microgame(randomBossData.microgameId, microgamePool.bossMicrogame.baseDifficulty);
+        }
+        else
+            selectedBossMicrogame = microgamePool.bossMicrogame;
 	}
 
 	int getIndex(int num)
 	{
 		return num - roundStartIndex;
 	}
+
+    bool isSelectedBoss(Microgame microgame) => microgame.microgameId.Equals(selectedBossMicrogame.microgameId);
+    bool isSelectedBossIndex(int index) => isSelectedBoss(getMicrogame(index));
 }

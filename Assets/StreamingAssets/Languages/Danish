@@ -1,4 +1,7 @@
 generic
+	idname=Danish
+	addedtogame=Y
+	complete=Y
 	name=Dansk
 	gamename=NitorInc.
 	incomplete=ADVARSEL: Spillet er endnu ikke oversat fuldt til dette sprog. Noget tekst kan stå på engelsk.
@@ -82,106 +85,7 @@ menu
 		introb=Mange fans af serien har samarbejdet og bidraget med kode, musik, kunst og forskellige andre talenter for at skabe denne samling af mikrospil.
 		introc=Hvis du har lyst til at bidrage til det fulde spil, så gå ind på {0}\nEller bare fortæl andre om spillet!
 		webglwarning=Hvis webafspilleren giver problemer, så prøv i stedet at downloade via et af nedenstående links.
-nitori
-	storyintro=Ser ud til at vi har en ny kunde.\nLad os se, hvordan du klarer mine kendetegnsspil.\nDu må hellere følge godt med!
-	storyfinished=Godt klaret, nørd.\nDu er vist ikke bare en vinduesshopper.\nPrøv nu {0} for at få en rigtig udfordring!
-	compilationfinished=Jamen dog, jeg er imponeret!\nMen vent du bare til det fulde spil.\n{0} er kun lige begyndt!
 microgame
-	DatingSim
-		suika
-			fullname=Suika Ibuki
-			firstname=Suika
-			introdialogue=Heeeeeey! Du har fri, ik'? Lad os tage ud at spise!
-			right0
-				option=Hvem kommer først derhen?
-				response=Den, der taber, giver!
-			right1
-				option=Helt sikkert!
-				response=Jaaa!
-			wrong0
-				option=Har du ikke lige spist?
-				response=Buuh. Det er ikke sjovt at spise alene.
-			wrong1
-				option=Skrid, fede!
-				response=Du er ikke selv spor tynd, idiot!
-			wrong2
-				option=Det kan du gøre alene.
-				response=Fint, du er så kedelig alligevel.
-		youmu
-			fullname=Youmu Konpaku
-			firstname=Youmu
-			introdialogue=Jeg plantede de her blomster til dig.
-			right0
-				option=De er smukke!
-				response=Taaak!
-			right1
-				option=Ej, hvor sødt!
-				response=Jeg er glad for, at du kan lide dem!
-			wrong0
-				option=Aaah, et spøgelse!
-				response=Du laver sjov med mig.
-			wrong1
-				option=Jeg hader blomster!
-				response=Du fortjener dem ikke alligevel.
-			wrong2
-				option=Jeg tør vædde på, at de er kunstige.
-				response=Jeg tør vædde på, at du har <i>masser</i> af held med kvinderne.
-		yuuka
-			fullname=Yuuka Kazami
-			firstname=Yuuka
-			introdialogue=Du var ikke sammen med andre piger, vel?
-			right0
-				option=Selvfølgelig ikke!
-				response=Godt, det må hellere passe.
-			right1
-				option=Du er den eneste for mig!
-				response=Det tænkte jeg nok.
-			wrong0
-				option=Tja...
-				response=Hvad mener du med "tja"?
-			wrong1
-				option=Jeg er forelsket i Reimu!
-				response=Ommer.
-			wrong2
-				option=Jeg fik travlt.
-				response=Det gør du bare ikke!
-		patchy
-			fullname=Patchouli Knowledge
-			firstname=Patchouli
-			introdialogue=Jeg håber, du kan lide min te...
-			right0
-				option=Smager skønt.
-				response=Gør den? Det var godt.
-			right1
-				option=Mere, tak!
-				response=Værsgo!
-			wrong0
-				option=Det smager sjovt.
-				response=Nå, det er jeg ked af.
-			wrong1
-				option=*Fald og spild varm te over det hele*
-				response=<i>IIYAAAAAAAAAAAAaaaah!!</i>
-			wrong2
-				option=Jeg har ikke bedt om te.
-				response=Jeg... troede du ville synes om det.
-		fakeconfig=Gem\nÅbn\nAuto\nLog\nIndstillinger
-		command=Flirt!
-		igname=Første date
-	ComicBubble
-		0
-			0=Tror du ikke, det er farligt?
-			1=Det' fint!
-		1
-			0=Hey, vent!
-			1=Du har noget liiiiiige...
-			2=HER!
-		2
-			0=Rengøring er så besværligt...
-			1=Hvorfor gøre det, når jeg er den eneste, der besøger?
-			2=<i>Aah!</i>
-			3=<i>Av!</i>
-		command=Samtal!
-		igname=Kom nu med joken!
 	FreezeFrogs
 		command=Frys!
 		igname=Kolde frøer
@@ -277,6 +181,7 @@ microgame
 		igname=Blomstervandning
 	KnifeDodge
 		command=Undgå!
+		igname=Under kniven
 	NitoriLook
 		command=Find Nitori!
 		igname=Nitori-hvor?
@@ -286,6 +191,10 @@ microgame
 	DollDance
 		command=Efterlign!
 		igname=Strengefeber
+	YoumuSlash
+		command=Observér...
+		commandb=Skær ting!
+		igname=Sværdslag
 	CirnoBored
 		command=Vær flink!
 		commandb=Underhold!
@@ -312,6 +221,86 @@ microgame
 	KyoukoEcho
 		command=Reflektér!
 		igname=Lad mig gentage
+	DatingSim
+		command=Flirt!
+		suika
+			fullname=Suika Ibuki
+			firstname=Suika
+			introdialogue=Heeeeeey! Du har fri, ik'? Lad os tage ud at spise!
+			right0
+				option=Hvem kommer først derhen?
+				response=Den, der taber, giver!
+			right1
+				option=Helt sikkert!
+				response=Jaaa!
+			wrong0
+				option=Har du ikke lige spist?
+				response=Buuh. Det er ikke sjovt at spise alene.
+			wrong1
+				option=Skrub af, fede!
+				response=Du er ikke selv spor tynd, idiot!
+			wrong2
+				option=Det kan du gøre alene.
+				response=Fint, du er så kedelig alligevel.
+		youmu
+			fullname=Youmu Konpaku
+			firstname=Youmu
+			introdialogue=Jeg plantede de her blomster til dig.
+			right0
+				option=De er smukke!
+				response=Taaak!
+			right1
+				option=Ej, hvor sødt!
+				response=Jeg er glad for, at du kan lide dem!
+			wrong0
+				option=Aaah, et spøgelse!
+				response=Du laver sjov med mig.
+			wrong1
+				option=Jeg hader blomster!
+				response=Du fortjener dem ikke alligevel.
+			wrong2
+				option=Jeg tør vædde på, at de er kunstige.
+				response=Jeg tør vædde på, at du har <i>masser</i> af held med kvinderne.
+		yuuka
+			fullname=Yuuka Kazami
+			firstname=Yuuka
+			introdialogue=Du var ikke sammen med andre piger, vel?
+			right0
+				option=Selvfølgelig ikke!
+				response=Godt, det må hellere passe.
+			right1
+				option=Du er den eneste for mig!
+				response=Det tænkte jeg nok.
+			wrong0
+				option=Tja...
+				response=Hvad mener du med "tja"?
+			wrong1
+				option=Jeg er forelsket i Reimu!
+				response=Ommer.
+			wrong2
+				option=Jeg fik travlt.
+				response=Det gør du bare ikke!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Jeg håber, du kan lide min te...
+			right0
+				option=Smager skønt.
+				response=Gør den? Det var godt.
+			right1
+				option=Mere, tak!
+				response=Værsgo!
+			wrong0
+				option=Det smager sjovt.
+				response=Nå, det er jeg ked af.
+			wrong1
+				option=*Fald og spild varm te over det hele*
+				response=<i>IIYAAAAAAAAAAAAaaaah!!</i>
+			wrong2
+				option=Jeg har ikke bedt om te.
+				response=Jeg... troede du ville synes om det.
+		fakeconfig=Gem\nÅbn\nAuto\nLog\nIndstillinger
+		igname=Første date
 	BugSwat
 		command=Klask!
 		igname=Insektklask
@@ -321,19 +310,96 @@ microgame
 	BeachBall
 		command=Kast!
 		igname=Ringe chancer
+	FanBlow
+		command=Blæs væk!
+		igname=Tågetæmning
 	YuugiBalance
 		command=Balancér!
 		igname=Balanceret kost
+	ComicBubble
+		command=Samtal!
+		0
+			0=Tror du ikke, det er farligt?
+			1=Det' fint!
+		1
+			0=Hey, vent!
+			1=Du har noget liiiiiige...
+			2=HER!
+		2
+			0=Rengøring er så besværligt...
+			1=Hvorfor gøre det, når jeg er den eneste, der besøger?
+			2=<i>Aah!</i>
+			3=<i>Av!</i>
+		igname=Kom nu med joken!
 	DoorKnock
 		command=Bank på!
+		igname=Luk mig ind!
 	FoodCut
 		command=Skær!
+		igname=Gammel familieopskrift
 	MoneyTrap
 		command=Lok!
+		igname=Pengefælde
+	KeineMath
+		command=Regn!
+		igname=Op til tavlen
+	DoomGame
+		command=Skyd dem!
+		danger=Bag dig!
+		igname=Reisen gennem helvede
+	MystiaServe
+		command=Servér!
+		igname=Så' der serveret
+	FoodRoast
+		command=Tag når den er færdig!
+		igname=Gennemstegt, ej brændt
+	BoatSteer
+		command=Styr!
+		igname=Til søs
+	SeijaSpin
+		command=Snur!
+		igname=Helt på hovedet
+	GhostSuck
+		command=Sug!
+		igname=Spøgsuger
+	EikiJudge
+		command=Sortér!
+		igname=Dommedag
+	IcePath
+		command=Navigér!
+		igname=Isvandring
+	KagerouCut
+		command=Trim!
+		igname=Pelspleje
+	TrainTracks
+		command=Red!
+		igname=Skindet på skinnen
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=Dyr fotografi
+	HinaSpin
+		igname=Rundt på gulvet
+	MoonSoccer
+		igname=Månebold
+nitori
+	storyintro=Ser ud til at vi har en ny kunde.\nLad os se, hvordan du klarer mine kendetegnsspil.\nDu må hellere følge godt med!
+	storyfinished=Godt klaret, nørd.\nDu er vist ikke bare en vinduesshopper.\nPrøv nu {0} for at få en rigtig udfordring!
+	compilationfinished=Jamen dog, jeg er imponeret!\nMen vent du bare til det fulde spil.\n{0} er kun lige begyndt!
 credits
 	intro={0} blev muliggjort takket være følgende fans!
 	kapptain=Instruktør, programmør, leder, hold-"kapptajn"
 	leadart=Hovedkunstner, figurdesigner, Nitoris stemme
+	code=Generel kode
 	UI=Menu- og banegrafik
 	menumusic=Titel- og menumusik
 	stagemusic=Banemusik
@@ -347,6 +413,7 @@ credits
 		management=Oversættelsesledelse
 	sfx=Lydeffekter
 	voice=Nitoris stemme
+	site=Hjemmesidedesign
 	trailer=Demotrailer
 	socialmedia=PR
 	touhou=Dette spil er et fanværk af Touhou Project, skabt af ZUN
@@ -354,3 +421,18 @@ credits
 		discord=Touhou Project Discord-serveren
 		playtesters=Alle vores spiltestere
 		fans=Og alle de fans, som har hjulpet os med at sprede ordet!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=Y
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?
+		Fat=?

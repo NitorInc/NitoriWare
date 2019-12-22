@@ -69,7 +69,7 @@ public class MouseGrabbable : MonoBehaviour
 	{
 		if (!grabbed)
 		{
-			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, float.PositiveInfinity, layerMask))
+			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, null, float.PositiveInfinity, layerMask))
 				grabbed = true;
 		}
 		else

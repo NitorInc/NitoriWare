@@ -8,8 +8,8 @@ public class CharacterMicrogamePool : MonoBehaviour
 	public bool shuffleMicrogames = true;
 	public MicrogameBatch[] microgameBatches;
 	public int[] speedUpTimes;
-	public Stage.Microgame bossMicrogame;
-	public bool skipBossMicrogame;
+    public Stage.Microgame bossMicrogame;
+    public bool skipBossMicrogame;
 
 	[System.Serializable]
 	public struct MicrogameBatch

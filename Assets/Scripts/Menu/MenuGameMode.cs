@@ -50,19 +50,22 @@ public class MenuGameMode : MonoBehaviour
 
         if (blocker != null)
         {
-            if (PrefsHelper.getHighScore(prerequisiteStage) < prerequisiteScore)
+            var isUnlockedInPrefs = PrefsHelper.isStageUnlocked(modeName);
+            if (isUnlockedInPrefs || PrefsHelper.getHighScore(prerequisiteStage) >= prerequisiteScore)
+            {
+                if (!isUnlockedInPrefs)
+                    PrefsHelper.setStageUnlocked(modeName, true);
+                if (!PrefsHelper.getVisitedStage(modeName))
+                {
+                    unlockedText.SetActive(true);
+                }
+            }
+            else
             {
                 blocker.SetActive(true);
                 menuButton.gameObject.SetActive(false);
                 highScoreText.gameObject.SetActive(false);
                 triggerDescription = false;
-            }
-            else
-            {
-                if (!PrefsHelper.getVisitedStage(modeName))
-                {
-                    unlockedText.SetActive(true);
-                }
             }
         }
 	}

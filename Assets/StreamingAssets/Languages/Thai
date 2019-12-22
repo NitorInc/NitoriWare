@@ -1,4 +1,7 @@
 generic
+	idname=Thai
+	addedtogame=Y
+	complete=Y
 	name=ภาษาไทย
 	gamename=NitorInc.
 	incomplete=คำเตือน: คำแปลบางส่วนยังไม่เสร็จสมบูรณ์ดีนัก ข้อความบางคำอาจจะขึ้นแสดงเป็นภาษาอังกฤษ
@@ -54,7 +57,7 @@ menu
 			description=ในโหมดนี้ มีแต่เกมระดับยากที่สุดเท่านั้น โอกาสมีแค่ชีวิตเดียว จะทนได้นานแค่ไหนกันนะ?
 	main
 		quit=ออกจากเกม
-			prompt=คุณต้องการที่จะออกจากเกมแน่นะ?
+			prompt=คุณต้องการที่จะออกจากเกมแน่นะ{0}?
 		settings=ตั้งค่า
 		credits=ผู้จัดทำ
 	settings
@@ -82,109 +85,10 @@ menu
 		introb=แฟน ๆ ของซีรี่ส์นี่ได้ช่วยกันเขียนโค้ด แต่งเพลง วาดรูป และใช้ความสามารถต่าง ๆ นา ๆ ในการทำเกมนี้
 		introc=ถ้าคุณสามารถใช้ภาษาอังกฤษได้ และอยากจะช่วยพวกเรา กรุณาติดต่อ {0} หรือไม่ก็ป่าวประกาศออกไปก็ได้!
 		webglwarning=ถ้าตัวเกมในเว็บไซต์เล่นไม่ได้ ลองดาวน์โหลดจากลิ้งค์พวกนี้ดูสิ
-nitori
-	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
-	storyfinished=เยี่ยมมากนายเนิร์ด\nนายไม่น่าจะเป็นแค่นักช็อปเล่น ๆ สินะ\nลอง {0} ดูสิ!
-	compilationfinished=เฮ้ ไม่เลวนี่! \nนายรอเกมตัวเต็มออกมาก่อนนะ\n{0} มันเพิ่งจะเริ่มต้นเอง!
 microgame
-	DatingSim
-		suika
-			fullname=อิบุกิ ซุยกะ
-			firstname=ซุยกะ
-			introdialogue=เฮ้~~! นายน่ะว่างใช่ปะ ไปหาไรกินกันเถอะ
-			right0
-				option=แข่งกันไปที่ร้านอาหารนะ!
-				response=คนแพ้จ่ายนะ!
-			right1
-				option=อื้ม จัดไป!
-				response=เย้!
-			wrong0
-				option=เธอเพิ่งกินไปไม่ใช่เหรอ?!
-				response=บู่ว์ กินคนเดียวไม่สนุกเลย
-			wrong1
-				option=ไปไกล ๆ ซะ ยัยอ้วน!
-				response=นายก็ใช่ว่าจะผอมนะ ตาบ้า!
-			wrong2
-				option=เธอไปคนเดียวก็ได้นี่?
-				response=ช่างเถอะ นายมันเป็นคนน่าเบื่ออยู่แล้วนี่
-		youmu
-			fullname=คอนปาคุ โยวมุ
-			firstname=โยวมุ
-			introdialogue=ดอกไม้นี่ฉันปลูกให้คุณล่ะ
-			right0
-				option=สวยจังเลย!
-				response=ขอบคุณนะ~
-			right1
-				option=ฉันชอบมันมากเลยล่ะ
-				response=จริงเหรอ? ดีใจจังเลย!
-			wrong0
-				option=อ๊าา ผี!
-				response=นี่ล้อฉันเล่นใช่ไหม?
-			wrong1
-				option=ฉันเกลียดดอกไม้!
-				response=เธอไม่สมควรที่จะได้มันอยู่แล้ว
-			wrong2
-				option=ดอกไม้ปลอมชัด ๆ
-				response=ตาดีซะไม่มีนะยะ...
-		yuuka
-			fullname=คาซามิ ยูกะ
-			firstname=ยูกะ
-			introdialogue=นี่เธอไม่ได้ไปแอบชอบคนอื่นอยู่สินะ?
-			right0
-				option=แน่นอนว่าไม่!
-				response=ดี อย่าแม้แต่จะคิดล่ะ
-			right1
-				option=เธอเป็นคนเดียวสำหรับฉัน
-				response=คิดไว้งั้นอยู่แล้วล่ะ
-			wrong0
-				option=อืม...
-				response=หมายความว่าไงน่ะ
-			wrong1
-				option=ผมชอบเรย์มุ!
-				response=คิดใหม่อีกทีสิ
-			wrong2
-				option=พอดีมีธุระน่ะ
-				response=หา? ไม่ต้องมาโกหกเลย!
-		patchy
-			fullname=แพชูลี่ โนว์เลดจ์
-			firstname=แพชูลี่
-			introdialogue=หวังว่าจะชอบชาที่ฉันชงมานะ...
-			right0
-				option=อร่อยมากเลยล่ะ
-				response=ดีใจจัง...
-			right1
-				option=ขอเบิ้ลได้มั้ย?
-				response=ได้เลย!
-			wrong0
-				option=รสชาติแปลก ๆ นะ
-				response=ขอโทษนะ...
-			wrong1
-				option=*สะดุดล้ม*
-				response=กรี๊ดดดดดดดดดดด!!
-			wrong2
-				option=ไม่ได้สั่งชาซะหน่อย
-				response=ฉันคิดว่าคุณจะชอบซะอีก...
-		fakeconfig=เซฟ\nโหลด\nออโต้\nบันทึก\nตั้งค่า
-		command=เย้ายวน!
-		igname=เดทแรก
-	ComicBubble
-		0
-			0=แน่ใจ​นะ​ว่า​ปลอด​ภัย?
-			1=น่า​~​ ​ไม่​เป็น​ไร​หรอก
-		1
-			0=เฮ้​ ​รอ​เดี๋ยว​สิ!
-			1=เธอซ่อน​อะไร​ไว้​..
-			2=ตรง​นี้!
-		2
-			0=น่า​เบื่อ​จังน้า...
-			1=ทำไม​ต้อง​ทำ​ขนาด​นั้น​ถ้า​มี​แค่​ฉัน​คน​เดียว​ที่​มา​น่ะ?
-			2=<i>อ๊ะ!</i>
-			3=<i>โอ๊ย!</i>
-		command=เลือกบทพูด!
-		igname=มังกาสาป่วน
 	FreezeFrogs
 		command=ทำให้แข็ง!
-		igname=กบแช่แข็ง
+		igname=เป่ากบ
 	Slingshot
 		command=ยิง!
 		igname=หนังสติ๊กยิงหัว
@@ -270,13 +174,14 @@ microgame
 		command=กวาด!
 		igname=กวาดลานศาลเจ้า
 	MaskPuzzle
-		command=ต่อ!
+		command=ประกอบ!
 		igname=ปริศนาหน้ากาก
 	YuukaWater
 		command=รดน้ำ!
 		igname=แด่ผกา
 	KnifeDodge
 		command=หลบ!
+		igname=ใต้คมมีด
 	NitoriLook
 		command=หานิโทริ!
 		igname=เห็นนิโตริหนูไหม
@@ -286,6 +191,10 @@ microgame
 	DollDance
 		command=เลียนแบบ!
 		igname=ตุ๊กตาเท้าไฟ
+	YoumuSlash
+		command=สังเกต...
+		commandb=ตัดมัน!
+		igname=จังหวะแห่งความตาย
 	CirnoBored
 		command=ทำตัวดี!
 		commandb=เอ็นเตอร์เทน!
@@ -312,6 +221,86 @@ microgame
 	KyoukoEcho
 		command=สะท้อนกลับ!
 		igname=ไหนพูดอีกทีซิ
+	DatingSim
+		command=จีบเธอ!
+		suika
+			fullname=อิบุกิ ซุยกะ
+			firstname=ซุยกะ
+			introdialogue=เฮ้~~! นายน่ะว่างใช่ปะ ไปหาไรกินกันเถอะ
+			right0
+				option=แข่งกันไปที่ร้านอาหารนะ!
+				response=คนแพ้จ่ายนะ!
+			right1
+				option=อื้ม จัดไป!
+				response=เย้!
+			wrong0
+				option=เธอเพิ่งกินไปไม่ใช่เหรอ?!
+				response=บู่ว์ กินคนเดียวไม่สนุกเลย
+			wrong1
+				option=ไปไกล ๆ ซะ ยัยอ้วน!
+				response=นายก็ใช่ว่าจะผอมนะ ตาบ้า!
+			wrong2
+				option=เธอไปคนเดียวก็ได้นี่?
+				response=ช่างเถอะ นายมันเป็นคนน่าเบื่ออยู่แล้วนี่
+		youmu
+			fullname=คอนปาคุ โยวมุ
+			firstname=โยวมุ
+			introdialogue=ดอกไม้นี่ฉันปลูกให้คุณล่ะ
+			right0
+				option=สวยจังเลย!
+				response=ขอบคุณนะ~
+			right1
+				option=ฉันชอบมันมากเลยล่ะ
+				response=จริงเหรอ? ดีใจจังเลย!
+			wrong0
+				option=อ๊าา ผี!
+				response=นี่ล้อฉันเล่นใช่ไหม?
+			wrong1
+				option=ฉันเกลียดดอกไม้!
+				response=เธอไม่สมควรที่จะได้มันอยู่แล้ว
+			wrong2
+				option=ดอกไม้ปลอมชัด ๆ
+				response=ตาดีซะไม่มีนะยะ...
+		yuuka
+			fullname=คาซามิ ยูกะ
+			firstname=ยูกะ
+			introdialogue=นี่เธอไม่ได้ไปแอบชอบคนอื่นอยู่สินะ?
+			right0
+				option=แน่นอนว่าไม่!
+				response=ดี อย่าแม้แต่จะคิดล่ะ
+			right1
+				option=เธอเป็นคนเดียวสำหรับฉัน
+				response=คิดไว้งั้นอยู่แล้วล่ะ
+			wrong0
+				option=อืม...
+				response=หมายความว่าไงน่ะ
+			wrong1
+				option=ผมชอบเรย์มุ!
+				response=คิดใหม่อีกทีสิ
+			wrong2
+				option=พอดีมีธุระน่ะ
+				response=หา? ไม่ต้องมาโกหกเลย!
+		patchy
+			fullname=แพชูลี่ โนว์เลดจ์
+			firstname=แพชูลี่
+			introdialogue=หวังว่าจะชอบชาที่ฉันชงมานะ...
+			right0
+				option=อร่อยมากเลยล่ะ
+				response=ดีใจจัง...
+			right1
+				option=ขอเบิ้ลได้มั้ย?
+				response=ได้เลย!
+			wrong0
+				option=รสชาติแปลก ๆ นะ
+				response=ขอโทษนะ...
+			wrong1
+				option=*สะดุดล้ม*
+				response=กรี๊ดดดดดดดดดดด!!
+			wrong2
+				option=ไม่ได้สั่งชาซะหน่อย
+				response=ฉันคิดว่าคุณจะชอบซะอีก...
+		fakeconfig=เซฟ\nโหลด\nออโต้\nบันทึก\nตั้งค่า
+		igname=เดทแรก
 	BugSwat
 		command=ตี!
 		igname=นักปราบวิกกี้
@@ -321,20 +310,89 @@ microgame
 	BeachBall
 		command=โยน!
 		igname=เอ้า โดด!
+	FanBlow
+		command=ไล่หมอก!
+		igname=หน่วยกำจัดหมอก
 	YuugiBalance
 		command=ทรงตัว!
 		igname=อย่าทำตกล่ะ
+	ComicBubble
+		command=เลือกบทพูด!
+		0
+			0=แน่ใจ​นะ​ว่า​ ปลอด​ภัย?
+			1=น่า​~​ ​ไม่​เป็น​ไร​หรอก
+		1
+			0=เฮ้​ ​รอ​เดี๋ยว​สิ!
+			1=เธอซ่อน​อะไร​ไว้​..
+			2=ตรง​นี้!
+		2
+			0=น่า​เบื่อ​จังน้า...
+			1=ไม่เบื่อได้ไง ก็มีแค่ฉันคนเดียว ที่มานี่นะ?
+			2=<i>อ๊ะ!</i>
+			3=<i>โอ๊ย!</i>
+		igname=มังกาสาป่วน
 	DoorKnock
 		command=เคาะ!
+		igname=เปิดประตู!
 	FoodCut
 		command=ตัด!
+		igname=สูตรลับประจำตระกูล
 	MoneyTrap
 		command=หลอกล่อ!
+		igname=การลงทุน​มีความเสี่ยง(ตาย)
 	KeineMath
 		command=แก้โจทย์!
 		igname=คณิตคิดเร็ว
 	DoomGame
-		igname=กระต่ายอเวจี
+		command=ยิงมัน!
+		danger=ข้างหลัง!
+		igname=DOOM : กระต่ายอเวจี
+	MystiaServe
+		command=เสิร์ฟ!
+		igname=ลูกค้าหิวแล้ว!
+	FoodRoast
+		command=หยิบเมื่อสุกแล้ว!
+		igname=รีบกินตอนร้อนๆ
+	BoatSteer
+		command=ควบคุม!
+		igname=เดินทางปลอดภัย~
+	SeijaSpin
+		command=หมุน!
+		igname=หมุนเธอซะ!~
+	GhostSuck
+		command=ดูด!
+		igname=ไล่จับผี
+	EikiJudge
+		command=แยก!
+		igname=วันพิพากษา
+	IcePath
+		command=นำทาง!
+		igname=อย่างช้าๆ และมั่นคง
+	KagerouCut
+		command=โกน!
+		igname=แค่เล็มนิดหน่อย
+	TrainTracks
+		command=ช่วยเหลือ!
+		igname=โครงการทางรถไฟ
+	SagumeLie
+		0=T: Q0
+			lie0=T: L0-0
+			lie1=T: L0-1
+			truth0=T: T0-0
+			truth1=T: T0-1
+		1=T: Q1
+			lie0=T: L1-0
+			lie1=T: L1-1
+			truth0=T: T1-0
+			truth1=T: T1-1
+	AwooClicker
+		igname=ถ่ายรูปสุนัข
+	HinaSpin
+		igname=หมุนนมุหหมุน
+nitori
+	storyintro=ลูกค้าท่านใหม่เหรอ?\nไหนลองดูซิว่าจะรับมือเกมพวกนี้ได้มากแค่ไหน\nอย่าแม้แต่จะกะพริบตาเชียว!
+	storyfinished=เยี่ยมมากนายเนิร์ด\nนายไม่น่าจะเป็นแค่นักช็อปเล่น ๆ สินะ\nลอง {0} ดูสิ!
+	compilationfinished=เฮ้ ไม่เลวนี่! \nนายรอเกมตัวเต็มออกมาก่อนนะ\n{0} มันเพิ่งจะเริ่มต้นเอง!
 credits
 	intro={0} จะเกิดขึ้นไม่ได้หากขาดเขาพวกนี้!
 	kapptain=ผู้บริหารงาน โปรแกรมเมอร์ กัปตันทีม
@@ -361,3 +419,19 @@ credits
 		discord=เซิร์ฟเวอร์ Discord โทโฮโปรเจกต์
 		playtesters=ผู้เล่นทดสอบทุกท่าน
 		fans=และแฟน ๆ ที่ช่วยกันกระจายข่าวสารเกี่ยวกับเกมนี้!
+		patreon=ขอขอบคุณ​ทุกคนที่ช่วยเหลือเราบน Patreon!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=N
+		Mitr=Y
+		Comic=N
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=N
+		RobinWriting=N
+		SourceHanSerifK=?
+		Fat=N

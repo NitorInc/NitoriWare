@@ -1,4 +1,7 @@
 generic
+	idname=Hungarian
+	addedtogame=Y
+	complete=Y
 	name=Magyar
 	gamename=NitorInc.
 	incomplete=FIGYELEM: Ez a nyelv nincs teljesen lefordítva. Néhány szöveg megjelenhet angolul.
@@ -82,106 +85,7 @@ menu
 		introb=A sorozat számos rajongója együttműködött és hozzájárult kóddal, zenével, rajzzal és különböző egyéb képességekkel, hogy létrehozhassák ezt a mikrójáték gyűjteményt.
 		introc=Ha a teljes játékhoz szeretnél hozzájárulni, kérlek, látogass el a {0} weboldalra (amennyiben tudsz angolul)\nVagy csak segíts terjeszteni a szót!
 		webglwarning=Ha az internetes lejátszó bajos, próbálkozz az alább felsorolt letöltések egyikével.
-nitori
-	storyintro=Úgy tűnik, új vásárlónk van.\nLássuk, hogyan kezeli a védjegyes játékaimat.\nJobb, ha nem pislogsz!
-	storyfinished=Szép munka, kockafej.\nTalán nem csak szétnézel.\nMost próbáld meg a(z) {0}ot az igazi kihívásért!
-	compilationfinished=Igazán le vagyok nyűgözve!\nDe csak várd ki a teljes játékot.\n{0} csak most kezdődött el!
 microgame
-	DatingSim
-		suika
-			fullname=Ibuki Suika
-			firstname=Suika
-			introdialogue=Héé! Most szabad vagy nemde? Kapjunk be valamit enni.
-			right0
-				option=Verseny a kajás bódéhoz!
-				response=Vesztesnek kell fizetnie!
-			right1
-				option=Jah, szerezzünk kaját!
-				response=Hurrá!
-			wrong0
-				option=Nem az előbb ettél?!
-				response=Búú. Nem szórakoztató egyedül enni.
-			wrong1
-				option=Vessz el, kövér állat!
-				response=Hát te se vagy a legkarcsúbb magad, szemétláda.
-			wrong2
-				option=Mehetsz te magad.
-				response=Amúgy se vagy vicces.
-		youmu
-			fullname=Konpaku Youmu
-			firstname=Youmu
-			introdialogue=Ezeket a virágokat én neveltem számodra.
-			right0
-				option=Gyönyörűek!
-				response=Köszönöm~
-			right1
-				option=De édes vagy.
-				response=Örülök, hogy szerted őket!
-			wrong0
-				option=Áh, egy szellem!
-				response=Ugy te csak viccelsz velem.
-			wrong1
-				option=Utálom a virágokat!
-				response=Amúgy sem érdemled meg őket.
-			wrong2
-				option=Biztos vagyok benne, hogy hamisak.
-				response=Biztos <i>sok</i> szerencséd van a nőkkel.
-		yuuka
-			fullname=Kazami Yuuka
-			firstname=Yuuka
-			introdialogue=Nem látogatsz más lányokat, ugye?
-			right0
-				option=Természetesen nem!
-				response=Rendben, jobb ha nem is.
-			right1
-				option=Te vagy az egyetlen számomra!
-				response=Gondoltam.
-			wrong0
-				option=Hát...
-				response=Mit értesz az alatt, hogy "Hát"?
-			wrong1
-				option=Én Reimuba vagyok szerelmes!
-				response=Gondolkozz megint
-			wrong2
-				option=Valami feljött.
-				response=Nem nem, te nem!
-		patchy
-			fullname=Patchouli Knowledge
-			firstname=Patchouli
-			introdialogue=Remélem ízlik a teám.
-			right0
-				option=Nagyon finom.
-				response=Oh? Igazán örülök.
-			right1
-				option=Többet, kérek!
-				response=Mindjárt jön!
-			wrong0
-				option=Érdekes íze van.
-				response=Bocsáss meg.
-			wrong1
-				option=*Elesiik, és forró teát önt mindehova*
-				response=<i>Áááááááááhhhhhhhh!!!</i>
-			wrong2
-				option=Én sohase kértem teát.
-				response=Én.. azt hittem örülsz majd neki.
-		fakeconfig=Mentés\nBetöltés\nAutomatikus\nNapló\nKonfiguráció
-		command=Csábíts!
-		igname=Első randi
-	ComicBubble
-		0
-			0=Biztos, hogy biztonságos?
-			1=Minden rendben lesz!
-		1
-			0=Hé, várj!
-			1=Van valami pontosan~
-			2=~ITT!
-		2
-			0=Takarítani fájdalmas...
-			1=Miért csinálod, amikor csak én jövök?
-			2=<i>Ááá!</i>
-			3=<i>Áuu!!</i>
-		command=Beszélj!
-		igname=Poénos képregény
 	FreezeFrogs
 		command=Fagyassz!
 		igname=Fagyos békák
@@ -277,8 +181,9 @@ microgame
 		igname=Növénylocsolás
 	KnifeDodge
 		command=Kerülj!
+		igname=Késközelben
 	NitoriLook
-		command=Találd meg Nitorit!
+		command=Keresd Nitorit!
 		igname=Nitori rejtés
 	MamiPoser
 		command=Imposztor!
@@ -286,6 +191,10 @@ microgame
 	DollDance
 		command=Ismételj!
 		igname=Bábszínház
+	YoumuSlash
+		command=Figyeld..
+		commandb=Vágj fel dolgokat!
+		igname=Halotti ütem
 	CirnoBored
 		command=Légy jó!
 		commandb=Szórakoztass!
@@ -293,7 +202,7 @@ microgame
 		igname=Hideg kezelés
 	HecShapes
 		command=Helyezd el!
-		igname=Pokolbeli alakzatrendező játék
+		igname=Pokoli alakzatrendező
 	RockPaperSatori
 		command=Nyerj!
 		igname=Kő Papír Satori
@@ -312,32 +221,184 @@ microgame
 	KyoukoEcho
 		command=Tükrözd vissza!
 		igname=Szótükrözés
+	DatingSim
+		command=Csábíts!
+		suika
+			fullname=Ibuki Suika
+			firstname=Suika
+			introdialogue=Héé! Most szabad vagy nemde? Kapjunk be valamit enni.
+			right0
+				option=Verseny a kajás bódéhoz!
+				response=Vesztesnek kell fizetnie!
+			right1
+				option=Jah, szerezzünk kaját!
+				response=Hurrá!
+			wrong0
+				option=Nem az előbb ettél?!
+				response=Búú. Nem szórakoztató egyedül enni.
+			wrong1
+				option=Vessz el, kövér állat!
+				response=Hát te se vagy a legkarcsúbb magad, szemétláda.
+			wrong2
+				option=Mehetsz te magad.
+				response=Amúgy se vagy vicces.
+		youmu
+			fullname=Konpaku Youmu
+			firstname=Youmu
+			introdialogue=Ezeket a virágokat én neveltem számodra.
+			right0
+				option=Gyönyörűek!
+				response=Köszönöm~
+			right1
+				option=De édes vagy.
+				response=Örülök, hogy szerted őket!
+			wrong0
+				option=Áh, egy szellem!
+				response=Ugy te csak viccelsz velem.
+			wrong1
+				option=Utálom a virágokat!
+				response=Amúgy sem érdemled meg őket.
+			wrong2
+				option=Biztos vagyok benne, hogy hamisak.
+				response=Biztos <i>sok</i> szerencséd van a nőkkel.
+		yuuka
+			fullname=Kazami Yuuka
+			firstname=Yuuka
+			introdialogue=Nem látogatsz más lányokat, ugye?
+			right0
+				option=Természetesen nem!
+				response=Rendben, jobb ha nem is.
+			right1
+				option=Te vagy az egyetlen számomra!
+				response=Gondoltam.
+			wrong0
+				option=Hát...
+				response=Mit értesz az alatt, hogy "Hát"?
+			wrong1
+				option=Én Reimuba vagyok szerelmes!
+				response=Gondolkozz megint
+			wrong2
+				option=Valami feljött.
+				response=Nem nem, te nem!
+		patchy
+			fullname=Patchouli Knowledge
+			firstname=Patchouli
+			introdialogue=Remélem ízlik a teám.
+			right0
+				option=Nagyon finom.
+				response=Oh? Igazán örülök.
+			right1
+				option=Többet, kérek!
+				response=Mindjárt jön!
+			wrong0
+				option=Érdekes íze van.
+				response=Bocsáss meg.
+			wrong1
+				option=*Elesiik, és forró teát önt mindehova*
+				response=<i>Áááááááááhhhhhhhh!!!</i>
+			wrong2
+				option=Én sohase kértem teát.
+				response=Én.. azt hittem örülsz majd neki.
+		fakeconfig=Mentés\nBetöltés\nAutomatikus\nNapló\nKonfiguráció
+		igname=Első randi
 	BugSwat
 		command=Csapd le!
 		igname=Jókai lecsapás
 	ClownTorch
 		command=Gyújtsd meg!
-		igname=Fáklya passzolás
+		igname=Fáklyás menetel
 	BeachBall
 		command=Dobd!
 		igname=Labdadobás
+	FanBlow
+		command=Fújdd el!
+		igname=Legyezés
 	YuugiBalance
 		command=Egyensúlyozz!
-		igname=Egyensúlyos iszogatás
+		igname=Minden csak moderációban
+	ComicBubble
+		command=Beszélj!
+		0
+			0=Biztos, hogy biztonságos?
+			1=Minden rendben lesz!
+		1
+			0=Hé, várj!
+			1=Van valami pontosan~
+			2=~ITT!
+		2
+			0=Takarítani fájdalmas...
+			1=Miért csinálod, amikor csak én jövök?
+			2=<i>Ááá!</i>
+			3=<i>Áuu!!</i>
+		igname=Poénos képregény
 	DoorKnock
 		command=Kopogj!
+		igname=Unalmas ajtókopogtatás
 	FoodCut
 		command=Vágj!
+		igname=Régi családi recept
 	MoneyTrap
 		command=Csalogass!
+		igname=Pénzcsapda
 	KeineMath
 		command=Számold ki!
 		igname=Ezt add őssze
 	DoomGame
+		command=Lődd őket!
+		danger=Mögötted!
 		igname=Reisen pokla
+	MystiaServe
+		command=Szolgálj!
+		igname=Megérdemelt ételvásárlás
+	FoodRoast
+		command=Vedd el készen!
+		igname=Edd meg míg meleg!
+	BoatSteer
+		command=Kormányozz!
+		igname=Tengerhajózás
+	SeijaSpin
+		command=Pörgesd!
+		igname=Pörgesd meg
+	GhostSuck
+		command=Szívd!
+		igname=Szellem elkapás
+	MoonSoccer
+		command=Gól!
+		igname=Holdfoci
+	EikiJudge
+		command=Rendezd!
+		igname=Az ítélet napja
+	IcePath
+		command=Navigálj!
+		igname=Hideg huzat haladás
+	KagerouCut
+		command=Borotválj!
+		igname=Fodrászkodás
+	TrainTracks
+		command=Mentsd meg!
+		igname=Gőzös a gázban
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	AwooClicker
+		igname=Kutyafotózás
+	HinaSpin
+		igname=Forgási energia
+nitori
+	storyintro=Úgy tűnik, új vásárlónk van.\nLássuk, hogyan kezeli a védjegyes játékaimat.\nJobb, ha nem pislogsz!
+	storyfinished=Szép munka, kockafej.\nTalán nem csak szétnézel.\nMost próbáld meg a(z) {0}ot az igazi kihívásért!
+	compilationfinished=Igazán le vagyok nyűgözve!\nDe csak várd ki a teljes játékot.\n{0} csak most kezdődött el!
 credits
 	intro={0} a következő rajongóknak köszönhetően lehetséges!
-	kapptain=Rendező, programozó, vezető, csapatkapitány
+	kapptain=Rendező, programozó, vezető, csapat "kapptain"
 	leadart=Vezető rajzoló, karaktertervező, Nitori hangja
 	code=Mikrójátékon kívüli kód
 	UI=Menü és szint grafikák
@@ -361,3 +422,19 @@ credits
 		discord=A Touhou Project Discord szerver
 		playtesters=Az összes tesztelőnknek
 		fans=És az összes rajongónak aki segített a szó terjesztésében!
+		patreon=Köszönet a támogatóinknak Patreonon!
+meta
+	recorded=Y
+	IsAsian=N
+	font
+		LiberationSans=Y
+		Mitr=Y
+		Comic=Y
+		KFhimaji=N
+		KFhimajiLatin=N
+		TakeOffSimp=N
+		TakeOffTrad=N
+		Gagalin=Y
+		RobinWriting=Y
+		SourceHanSerifK=?
+		Fat=N

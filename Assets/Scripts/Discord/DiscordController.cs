@@ -57,7 +57,15 @@ public class DiscordController : MonoBehaviour
 
     void Update()
     {
-        DiscordRpc.RunCallbacks();
+        try
+        {
+            DiscordRpc.RunCallbacks();
+        }
+        catch (DllNotFoundException e)
+        {
+            Debug.Log("Discord controller not found! Probably just a non-Windows build idk");
+            enabled = false;
+        }
     }
 
     void Start()
@@ -84,8 +92,17 @@ public class DiscordController : MonoBehaviour
         handlers.readyCallback = ReadyCallback;
         handlers.disconnectedCallback += DisconnectedCallback;
         handlers.errorCallback += ErrorCallback;
-        DiscordRpc.Initialize(applicationId, ref handlers, true, optionalSteamId);
-        initialized = true;
+
+        try
+        {
+            DiscordRpc.Initialize(applicationId, ref handlers, true, optionalSteamId);
+            initialized = true;
+        }
+        catch (DllNotFoundException e)
+        {
+            Debug.Log("Discord controller not found! Probably just a non-Windows build idk");
+            enabled = false;
+        }
     }
 
     IEnumerator updatePresenceCoroutine()
