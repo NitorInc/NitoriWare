@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheeseFindDrawer : MonoBehaviour {
+    [Header("Mouse Sound")]
+    [SerializeField]
+    private AudioClip mouseSfx;
+
+    [Header("Drawer Sound")]
+    [SerializeField]
+    private AudioClip drawerSfx;
+
+    [Header("Click Sound")]
+    [SerializeField]
+    private AudioClip clickSfx;
+
     private bool _isLocked = true;
     public bool isLocked {
         get { return _isLocked; }
@@ -42,7 +54,10 @@ public class CheeseFindDrawer : MonoBehaviour {
     private float _pullFactor = 1f;
     private float _pullLimit = .5f;
 
+    private CheeseFindCursor _cursor;
+
 	void Start() {
+        _cursor = GameObject.Find("Cursor").GetComponent<CheeseFindCursor>();
 	}
 	
 	void Update() {
@@ -69,14 +84,15 @@ public class CheeseFindDrawer : MonoBehaviour {
             return;
 
         _isPulling = true;
-
-        //TODO: Click feedback (Sound + pop effect on the drawer)
+        _cursor.OnGrab();
+		MicrogameController.instance.playSFX(drawerSfx, AudioHelper.getAudioPan(transform.parent.position.x));
     }
 
     void OnMouseUp() {
         if(_isLocked || !_isPulling)
             return;
         _isPulling = false;
+        _cursor.OnRelease();
     }
 
     void OnMouseDrag() {
@@ -99,7 +115,8 @@ public class CheeseFindDrawer : MonoBehaviour {
             _isLocked = true;
             _isOpen = true;
 
-            //TODO: Added effects
+            _cursor.OnRelease();
+            MicrogameController.instance.playSFX(clickSfx, AudioHelper.getAudioPan(transform.parent.position.x));
 
             if(_hasItem) {
                 _item.MoveTo(transform.parent.position + new Vector3(0f, 1.5f, 0f), 1f);
@@ -107,6 +124,7 @@ public class CheeseFindDrawer : MonoBehaviour {
                     _controller.AddPoint(1);
                 }
                 else {
+                    MicrogameController.instance.playSFX(mouseSfx, AudioHelper.getAudioPan(transform.parent.position.x));
                     _controller.SetVictory(false);
                 }
             }
