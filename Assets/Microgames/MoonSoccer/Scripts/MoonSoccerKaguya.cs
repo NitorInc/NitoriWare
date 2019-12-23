@@ -56,9 +56,12 @@ public class MoonSoccerKaguya : MonoBehaviour {
 	
 	private float goalY;
 	private bool directionOfGoal; // False for up, True for down
+	
+    private Animator animator;
     
     // Initialization 
     void Start () {
+		animator = GetComponentInChildren<Animator>();
         accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
@@ -101,6 +104,8 @@ public class MoonSoccerKaguya : MonoBehaviour {
         } else if (delayTimer > 0) {
 			delayTimer -= 1;
 		}
+		
+		animator.SetBool("IsWalking", accelerationGained != 0);
     }
 	
 	void SetGoal() {

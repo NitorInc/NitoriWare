@@ -49,9 +49,12 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     private Vector3 startScale;
         
     public MoonSoccerBall ballScript;
+	
+    private Animator animator;
     
     // Initialization 
     void Start () {
+		animator = GetComponentInChildren<Animator>();
         accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
@@ -97,6 +100,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
             transform.localScale = new Vector3((startScale.x / 100f) * (100-sizeChange + vDistance*sizeChange), 
                                                (startScale.y / 100f) * (100-sizeChange + vDistance*sizeChange), 
                                                startScale.z);
+			animator.SetBool("IsWalking", accelerationGained != 0);
         }
     }
     
@@ -106,6 +110,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space) && hasKicked == false)
         {
             // TODO: Add kick animation
+			animator.SetBool("HasKicked", true);
             ballScript.activate(transform.position);
             hasKicked = true;
         }
