@@ -47,8 +47,6 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     
     // The scale of the sprite at the very start
     private Vector3 startScale;
-        
-    public MoonSoccerBall ballScript;
 	
     private Animator animator;
     
@@ -111,7 +109,6 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
         {
             // TODO: Add kick animation
 			animator.SetBool("HasKicked", true);
-            ballScript.activate(transform.position);
             hasKicked = true;
         }
     }

@@ -8,13 +8,11 @@ public class MoonSoccerBall : MonoBehaviour {
     [Header("Movement Speed")]
     [SerializeField]
     public float moveSpeed = 1f;
-    
-    public float vMoveSpeed = 0f;
 
     	void Update () {
             // Move to the right at the set movement speed
             transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, 
-                                            transform.position.y + vMoveSpeed * Time.deltaTime, 
+                                            transform.position.y + 0 * Time.deltaTime, 
                                             transform.position.z);
             if (transform.position.x >= 7) {
                 MicrogameController.instance.setVictory(victory: true, final: true);
