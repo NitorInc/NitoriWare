@@ -15,6 +15,13 @@ public class CheeseFindDrawer : MonoBehaviour {
     [SerializeField]
     private AudioClip clickSfx;
 
+    [SerializeField]
+    private SpriteRenderer frontSprite;
+    public SpriteRenderer FrontSprite => frontSprite;
+
+    [SerializeField]
+    private Animator rigAnimator;
+
     private bool _isLocked = true;
     public bool isLocked {
         get { return _isLocked; }
@@ -83,6 +90,7 @@ public class CheeseFindDrawer : MonoBehaviour {
         if(_isLocked)
             return;
 
+        rigAnimator.SetBool("MouseDown", true);
         _isPulling = true;
         _cursor.OnGrab();
 		MicrogameController.instance.playSFX(drawerSfx, AudioHelper.getAudioPan(transform.parent.position.x));
@@ -91,6 +99,8 @@ public class CheeseFindDrawer : MonoBehaviour {
     void OnMouseUp() {
         if(_isLocked || !_isPulling)
             return;
+
+        rigAnimator.SetBool("MouseDown", false);
         _isPulling = false;
         _cursor.OnRelease();
     }
@@ -127,10 +137,13 @@ public class CheeseFindDrawer : MonoBehaviour {
                     MicrogameController.instance.playSFX(mouseSfx, AudioHelper.getAudioPan(transform.parent.position.x));
                     _controller.SetVictory(false);
                 }
+
             }
             else {
                 _controller.SetVictory(false);
             }
+
+            rigAnimator.SetBool("MouseDown", false);
         }
     }
 

@@ -184,6 +184,11 @@ Prefab:
       propertyPath: debugSettings.playMusic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012508119198, guid: 28cd8aa82dcd55a42b58df85d0c3f790,
+        type: 2}
+      propertyPath: debugSettings.timerTick
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28cd8aa82dcd55a42b58df85d0c3f790, type: 2}
   m_IsPrefabParent: 0
@@ -246,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6403d32395abc17418ea7a75dee0a88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useLateUpdate: 1
 --- !u!114 &456929836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +399,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPosition: {x: -8.43, y: -9.03, z: 0}
   endPosition: {x: -2.46, y: -1.25, z: 0}
+--- !u!1001 &758259962
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 15.876854
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -1.29967
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462027680348546, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: fc775d0aaec8a423cae8d7de84044cc9, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &762488583
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,6 +741,8 @@ MonoBehaviour:
   scoreRequired: 1
   difficulty: 0
   background: {fileID: 258474978}
+  victoryClip: {fileID: 8300000, guid: 8c104aad22ff6fa4c804c7614f83929a, type: 3}
+  failureClip: {fileID: 8300000, guid: e840907679a329740812bfa05608e8a3, type: 3}
 --- !u!4 &999504033
 Transform:
   m_ObjectHideFlags: 0
@@ -914,7 +964,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 968579f053d650e4bbd0610aff4f2e9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1102,7 +1152,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: b2ec1fe66ab53b74196692d686837f14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1175,7 +1225,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 1c2949621a4632f46b0399654d183182, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1248,7 +1298,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: cb215b41dd6046a4d98f8034aa7abb17, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

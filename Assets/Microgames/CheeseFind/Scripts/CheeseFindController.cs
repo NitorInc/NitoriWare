@@ -44,6 +44,11 @@ public class CheeseFindController : MonoBehaviour {
     [SerializeField]
     private Transform background;
 
+    [SerializeField]
+    private AudioClip victoryClip;
+    [SerializeField]
+    private AudioClip failureClip;
+
     private CheeseFindCamera _cameraScript;
     private CheeseFindNazrin _nazrinObject;
     private CheeseFindDrawer[] _drawerScripts;
@@ -155,7 +160,7 @@ public class CheeseFindController : MonoBehaviour {
             }
         }
 
-		yield return new WaitForSeconds(1f - (difficulty * 0.2f));
+		yield return new WaitForSeconds(1.5f - (difficulty * 0.2f));
 
         for(int i = 0; i < _miceScripts.Length; i ++) {
             if(_miceScripts[i].isUsed) {
@@ -176,6 +181,7 @@ public class CheeseFindController : MonoBehaviour {
         
         foreach(CheeseFindDrawer drawer in _drawerScripts) {
             drawer.isOpen = false;
+            drawer.FrontSprite.enabled = true;
         }
         _cameraScript.MoveCameraDown();
 		yield return new WaitForSeconds(1f);
@@ -194,6 +200,7 @@ public class CheeseFindController : MonoBehaviour {
         }
         _nazrinObject.Activate(isVictorious, scoreRequired);
         MicrogameController.instance.setVictory(isVictorious, true);
+        MicrogameController.instance.playSFX(isVictorious ? victoryClip : failureClip);
     }
 
     public void AddPoint(int points) {
