@@ -13,8 +13,6 @@ public class MoonSoccerKaguya : MonoBehaviour {
     [SerializeField]
     private float timeBeforeMaxSpeed = 1f;
     
-	
-	
     [Header("Perspective Related Variables")]
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
     [SerializeField]
@@ -22,7 +20,7 @@ public class MoonSoccerKaguya : MonoBehaviour {
 	
     // The change in sprite size that happens when going all the way up the screen, in percentage
     [SerializeField]
-    private float sizeChange = 5f;
+    private float sizeChange = 5f; // Might not be useful with new assets?
     
 	// The vertical boundaries of the character's movement
     [Header("Vertical Movement Range")]
@@ -31,10 +29,11 @@ public class MoonSoccerKaguya : MonoBehaviour {
     [SerializeField]
     private float BottomY = -2.9f;
 	
-    // The ammount of frames before Kaguya starts moving. Determines the size of the Queue used to track movement
-    [Header("Delay Before Movement")]
+    // The ammount of time waited after reaching a location before tracking the player again
+    [Header("Tracking Delay")]
     [SerializeField]
-    private float delay = 0;
+    private int delay = 0;
+	private int delayTimer = 0;
    
    
     // The current acceleration
@@ -48,9 +47,6 @@ public class MoonSoccerKaguya : MonoBehaviour {
     
     // The starting x value of the object
     private float startX = 0f;
-    
-    // The the starting scale of the sprite
-    private Vector3 startScale;
 	
 	// The player's transform used for tracking
 	private Transform playerTransform;
@@ -59,6 +55,7 @@ public class MoonSoccerKaguya : MonoBehaviour {
 	private Queue<float> movementQueue = new Queue<float>();
 	
 	private float goalY;
+	private bool directionOfGoal; // False for up, True for down
     
     // Initialization 
     void Start () {
@@ -66,22 +63,16 @@ public class MoonSoccerKaguya : MonoBehaviour {
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
 		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
-        startScale = transform.localScale;
 		playerTransform = GameObject.Find("Mokou").GetComponent<Transform>();
-		// Fill the tracking queue with Kaguya's starting position to add a delay before she moves
-        for (int i = 0; i < delay; i++) {
-			movementQueue.Enqueue(transform.position.y);
-		}
+		SetGoal();
     }
-    
-	// Update is called once per frame
+
 	void FixedUpdate () 
     {
-        if (MicrogameController.instance.getVictoryDetermined() != true) {
+		// Player tracking
+        if (MicrogameController.instance.getVictoryDetermined() != true && delayTimer == 0) {
             float y = transform.position.y;
 			float x = transform.position.x;
-            goalY = movementQueue.Dequeue();
-			movementQueue.Enqueue(playerTransform.position.y);
 			if (!(Mathf.Abs(goalY-y) < 0.1)) { // Avoid moving if the characters are lined up closely enough
 				if (goalY < y && y >= BottomY)
 				{
@@ -97,18 +88,26 @@ public class MoonSoccerKaguya : MonoBehaviour {
 					if (accelerationGained <= maximumMoveSpeed)
 						accelerationGained += accelerationSpeed;
 				}
-			}
-			else
-				accelerationGained = 0;
 				y = y + accelerationGained * Time.deltaTime;
+			} else {
+				SetGoal();
+				accelerationGained = 0;
+			}
+			
+			// Visual polish related to movement
             moveDistance = (BottomY * -1) + TopY;
             x = -((y - BottomY) / moveDistance) * horizontalMovement;
             transform.position = new Vector3(startX + x, y, transform.position.z);
-            // Scale the character's size based on how high they are on screen
-            float vDistance = 1 - ((y - BottomY) / moveDistance);
-            transform.localScale = new Vector3((startScale.x / 100f) * (100-sizeChange + vDistance*sizeChange), 
-                                               (startScale.y / 100f) * (100-sizeChange + vDistance*sizeChange), 
-                                               startScale.z);
-        }
+        } else if (delayTimer > 0) {
+			delayTimer -= 1;
+		}
     }
+	
+	void SetGoal() {
+		goalY = playerTransform.position.y;
+		bool oldDirection = directionOfGoal;
+		directionOfGoal = (goalY <= transform.position.y);
+		if (directionOfGoal != oldDirection)
+			delayTimer = delay;
+	}
 }
