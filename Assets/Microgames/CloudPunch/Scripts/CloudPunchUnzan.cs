@@ -37,7 +37,7 @@ public class CloudPunchUnzan : MonoBehaviour
     void updateMovement(bool snap)
     {
         CloudPunchPiece.awaitingPunch = false;
-        var cursorPosition = CameraHelper.getCursorPosition();
+        var cursorPosition = CameraHelper.getCursorPosition() - MainCameraSingleton.instance.transform.position;
         var goalPosition = new Vector3(initialX, cursorPosition.y, transform.position.z);
         if (snap)
             transform.position = goalPosition;
