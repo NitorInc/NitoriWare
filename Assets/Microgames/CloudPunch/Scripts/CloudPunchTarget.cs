@@ -14,6 +14,10 @@ public class CloudPunchTarget : MonoBehaviour
     private int targetsRequired = 1;
     [SerializeField]
     private float secondHitPitch = 1.1f;
+    [SerializeField]
+    private AudioClip victoryClip;
+    [SerializeField]
+    private float victorySoundDelay = .25f;
 
     private static int targetsHit;
     
@@ -36,7 +40,10 @@ public class CloudPunchTarget : MonoBehaviour
             CameraShake.instance.addScreenShake(punchScreenshake);
             targetsHit++;
             if (targetsHit >= targetsRequired)
+            {
                 MicrogameController.instance.setVictory(true);
+                AudioHelper.playScheduled(GetComponent<AudioSource>(), victorySoundDelay);
+            }
 
             var sfxSource = GetComponent<AudioSource>();
             sfxSource.PlayOneShot(hitSound);
@@ -45,4 +52,5 @@ public class CloudPunchTarget : MonoBehaviour
                 sfxSource.pitch *= secondHitPitch;
         }
     }
+    
 }
