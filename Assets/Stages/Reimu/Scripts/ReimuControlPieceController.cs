@@ -39,6 +39,8 @@ public class ReimuControlPieceController : MonoBehaviour
 
     public void ResetPieces()
     {
+        if (!isActiveAndEnabled)
+            return;
         foreach (var piece in pieces)
         {
             var c = piece.GetSpriteRenderer().color;
@@ -49,6 +51,8 @@ public class ReimuControlPieceController : MonoBehaviour
 
     public void StartPieces()
     {
+        if (!isActiveAndEnabled)
+            return;
         var sprite = GetComponent<SpriteRenderer>().sprite;
         pieces.Shuffle();
         float currentAppearTime = 0f;
