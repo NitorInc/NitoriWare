@@ -16,7 +16,7 @@ public class ControlDisplay : MonoBehaviour
     public void setControlScheme(MicrogameTraits.ControlScheme controlScheme)
     {
         //TODO re-enable command warnings?
-        controlRenderer.sprite = GameController.instance.getControlSprite(controlScheme);
+        controlRenderer.sprite = StageController.instance.controlSchemeSprites[(int)controlScheme];
         controlText.text = TextHelper.getLocalizedTextNoWarnings("stage.control." + controlScheme.ToString().ToLower(), getDefaultControlString(controlScheme));
     }
 
