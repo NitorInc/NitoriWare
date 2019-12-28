@@ -13,6 +13,10 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     private float fleeDelay = .5f;
     [SerializeField]
     private AudioClip scaredClip;
+    [SerializeField]
+    private float hurtableDistance = 9f;
+    [SerializeField]
+    private float eatDistance = -2f;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject renko;
@@ -23,6 +27,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     private float fleeDelayTimer;
 
     private bool isFleeing = false;
+    bool dead = false;
     private Vector2 fleeEndPosition;
 
 	/* Base methods */
@@ -43,12 +48,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
         {
             Walk();
         }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            myAnimator.SetTrigger("Eat");
-            walkSpeed /= 2f;
-        }
+        
 
 	}
 
@@ -57,6 +57,14 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     private void Walk() {
         // Walk forward
         transform.position += new Vector3(walkSpeed, 0f, 0f) * Time.deltaTime;
+        if (!dead
+            && transform.position.x > renko.transform.position.x + eatDistance)
+        {
+            myAnimator.SetTrigger("Eat");
+            walkSpeed /= 2f;
+            DarkRoom_RenkoBehavior.instance.Fail();
+            dead = true;
+        }
     }
 
     private void Flee() {
@@ -77,7 +85,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
             if (myAnimator.GetCurrentAnimatorStateInfo(0).IsName("animChimeraWalk")) {
                 // Decrease health
                 if (health - 60 * Time.deltaTime > 0f) {
-                    if (transform.position.x > renko.transform.position.x - 6f)
+                    if (transform.position.x > renko.transform.position.x - hurtableDistance)
                         health -= 60 * Time.deltaTime;
                 } else {
                     health = healthMax;
