@@ -9,6 +9,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     [SerializeField] private float lowY;
     [SerializeField] private float retreatSpeed;
     [SerializeField] private float lowerSpeed;
+    [SerializeField] private float lowerAcc;
     [Header("Alarms | counts down by 1 per frame.")]
     [SerializeField] private float lowerDelay;
     [SerializeField] private float raiseDelay;
@@ -21,6 +22,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private Transform transformThread;
     [SerializeField]
     private AudioClip raiseClip;
+    private float currentLowerSpeed;
 
     private float lowerDelayTimer;
     private float raiseDelayTimer;
@@ -72,20 +74,23 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
             transformThread.localScale  += new Vector3(0f, -retreatSpeed, 0f) * Time.deltaTime * mult;
             rigAnimator.SetInteger("Direction", 1);
         }
+        currentLowerSpeed = 0f;
     }
 
     private void Lower() {
-        if ((light.transform.position - transform.position).magnitude < light.transform.localScale.x)
-            return;
+        //if ((light.transform.position - transform.position).magnitude < light.transform.localScale.x)
+        //    return;
+
+        currentLowerSpeed = Mathf.MoveTowards(currentLowerSpeed, lowerSpeed, lowerAcc * Time.deltaTime);
 
         // Lower.. down
-        if (transform.position.y - retreatSpeed * Time.deltaTime <= lowY) {
+        if (transform.position.y - currentLowerSpeed * Time.deltaTime <= lowY) {
             transform.position          = new Vector3(transform.position.x, lowY, transform.position.z);
             transformThread.localScale  = new Vector3(transformThread.localScale.x, highY - lowY + 1, transformThread.localScale.z);
             rigAnimator.SetInteger("Direction", 0);
         } else {
-            transform.position          += new Vector3(0f, -lowerSpeed, 0f) * Time.deltaTime;
-            transformThread.localScale  += new Vector3(0f, lowerSpeed, 0f) * Time.deltaTime;
+            transform.position          += new Vector3(0f, -currentLowerSpeed, 0f) * Time.deltaTime;
+            transformThread.localScale  += new Vector3(0f, currentLowerSpeed, 0f) * Time.deltaTime;
             rigAnimator.SetInteger("Direction", -1);
         }
     }
