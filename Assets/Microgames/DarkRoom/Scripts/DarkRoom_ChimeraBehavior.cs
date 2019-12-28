@@ -40,6 +40,11 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
 	
 	void Update () {
 
+        if (MicrogameController.instance.getVictory())
+        {
+            enabled = false;
+            return;
+        }
         // Handle movement
         if (isFleeing)
         {
