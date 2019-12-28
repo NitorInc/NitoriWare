@@ -11,6 +11,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     [SerializeField] private float lowerSpeed;
     [Header("Alarms | counts down by 1 per frame.")]
     [SerializeField] private float lowerDelay;
+    [SerializeField] private float raiseDelay;
 
     [Header("GameObjects")]
     [SerializeField] private GameObject light;
@@ -22,6 +23,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private AudioClip raiseClip;
 
     private float lowerDelayTimer;
+    private float raiseDelayTimer;
     private AudioSource sfxSource;
     private bool inLight;
 
@@ -35,9 +37,20 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
 	
 	void Update () {
 
+        if (inLight)
+        {
+            raiseDelayTimer -= 60f * Time.deltaTime;
+            raiseDelayTimer = Mathf.Max(raiseDelayTimer, 0f);
+        }
+        else
+            raiseDelayTimer = raiseDelay;
+
         // Handle lowering
         if (lowerDelayTimer - 60 * Time.deltaTime > 0f)
+        {
             lowerDelayTimer -= 60 * Time.deltaTime;
+            lowerDelayTimer = Mathf.Max(lowerDelayTimer, 0f);
+        }
         else
             Lower();
 
@@ -48,13 +61,15 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
 
     private void Retreat() {
         // Retreat up
+
         if (transform.position.y + retreatSpeed * Time.deltaTime >= highY) {
             transform.position          = new Vector3(transform.position.x, highY, transform.position.z);
             transformThread.localScale  = new Vector3(transformThread.localScale.x, 1, transformThread.localScale.z);
             rigAnimator.SetInteger("Direction", 0);
         } else {
-            transform.position          += new Vector3(0f, retreatSpeed, 0f) * Time.deltaTime;
-            transformThread.localScale  += new Vector3(0f, -retreatSpeed, 0f) * Time.deltaTime;
+            var mult = 1f - (raiseDelayTimer / raiseDelay);
+            transform.position          += new Vector3(0f, retreatSpeed, 0f) * Time.deltaTime * mult;
+            transformThread.localScale  += new Vector3(0f, -retreatSpeed, 0f) * Time.deltaTime * mult;
             rigAnimator.SetInteger("Direction", 1);
         }
     }

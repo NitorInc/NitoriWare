@@ -8,6 +8,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     [SerializeField] private float rotationSpeed;
     [Header("Alarms | counts down by 1 per frame.")]
     [SerializeField] private float closeDelay;
+    [SerializeField] private float openingSpeedMult;
 
     [Header("Sprites")]
     [SerializeField] private SpriteRenderer lampOpen;
@@ -81,7 +82,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
         if (other.name == "Light") {
             if (CloseTimer == 0f)
                 sfxSource.PlayOneShot(shutClip);
-            closeTimer = closeDelay;
+            closeTimer = Mathf.MoveTowards(closeTimer, closeDelay, Time.deltaTime * openingSpeedMult * 60f);
         }
 
     }

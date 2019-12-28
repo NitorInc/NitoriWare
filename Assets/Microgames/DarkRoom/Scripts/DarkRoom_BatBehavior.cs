@@ -13,6 +13,10 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     [SerializeField]
     private float retreatSpeed;
     [SerializeField]
+    private float advanceAcc;
+    [SerializeField]
+    private float retreatAcc;
+    [SerializeField]
     private float retreatCooldown = .75f;
     [SerializeField]
     private float activateDistance = 8f;
@@ -35,6 +39,8 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private AudioClip appearClip;
     [SerializeField]
     private float volumeMult = 1f;
+    [SerializeField]
+    private SpriteRenderer batRenderer;
 
     private ParticleSystem myParticleSystem;
 
@@ -43,6 +49,8 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private float flyDistance;
     private float flyAngle;
     private float retreatCooldownTimer;
+    private float currentSpeed;
+    private bool batFlipped;
 
     private bool hasFlownAway = false;
     private float flyAwayDirection;
@@ -59,6 +67,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
         flyAwayDirection = Random.Range(0.05f, 0.20f) * Mathf.PI;
         flyAwayComponentX = Mathf.Cos(flyAwayDirection);
         flyAwayComponentY = Mathf.Sin(flyAwayDirection);
+        batFlipped = batRenderer.flipX;
 	}
 
 	void Update () {
@@ -72,6 +81,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
                 rigAnimator.SetTrigger("Activate");
                 GetComponent<DarkRoomInstrumentDistance>().enabled = true;
                 sfxSource.PlayOneShot(appearClip);
+                currentSpeed = advanceSpeed;
                 //transform.parent = renko.transform;
                 //flyDistance = (transform.position - renko.transform.position).magnitude;
                 //flyAngle = MathHelper.getAngle(transform.position - renko.transform.position) * Mathf.Deg2Rad;
@@ -99,10 +109,20 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
         //float targetY = flyDistance * Mathf.Sin(flyAngle);
         //transform.position = new Vector3(targetX, targetY, transform.position.z);
 
-        if (!isRetreating && retreatCooldownTimer <= 0f)
-            transform.position += (Vector3)advanceDirection.resize(advanceSpeed) * Time.deltaTime;
+        //if (!isRetreating && retreatCooldownTimer <= 0f)
+        if (!isRetreating)
+            currentSpeed = Mathf.MoveTowards(currentSpeed, advanceSpeed, advanceAcc * Time.deltaTime);
         else
-            transform.position += (Vector3)advanceDirection.resize(-retreatSpeed) * Time.deltaTime * retreatCooldownTimer;
+            currentSpeed = Mathf.MoveTowards(currentSpeed, -retreatSpeed, retreatAcc * Time.deltaTime);
+
+        if (currentSpeed >= 0f)
+            batRenderer.flipX = batFlipped;
+        else
+            batRenderer.flipX = !batFlipped;
+
+        //batRenderer.flipX = batFlipped != isRetreating;
+
+        transform.position += (Vector3)advanceDirection.resize(currentSpeed) * Time.deltaTime;
 
         if (!isRetreating)
             retreatCooldownTimer -= Time.deltaTime;

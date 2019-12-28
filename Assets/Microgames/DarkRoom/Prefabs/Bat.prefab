@@ -407,10 +407,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   advanceDirection: {x: -3, y: -3}
-  advanceSpeed: 3.5
-  retreatSpeed: 10
+  advanceSpeed: 3
+  retreatSpeed: 3
+  advanceAcc: 16
+  retreatAcc: 35
   retreatCooldown: 0.4
-  activateDistance: 5.75
+  activateDistance: 6.75
   rigAnimator: {fileID: 95014705290241540}
   health: 30
   renko: {fileID: 0}
@@ -418,6 +420,7 @@ MonoBehaviour:
   scaredSource: {fileID: 82536568032892848}
   appearClip: {fileID: 8300000, guid: 6992281ab969af14f8100af1e8c3e547, type: 3}
   volumeMult: 1
+  batRenderer: {fileID: 212559857709440884}
 --- !u!198 &198635759426791870
 ParticleSystem:
   m_ObjectHideFlags: 1
