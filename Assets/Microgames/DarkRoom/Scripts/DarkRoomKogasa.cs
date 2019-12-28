@@ -12,6 +12,8 @@ public class DarkRoomKogasa : MonoBehaviour
     private float lightActivateTime;
     [SerializeField]
     private float activationDelay = .6f;
+    [SerializeField]
+    private float scareDistance = -1f;
 
     private float activationTimer;
     private bool revealed;
@@ -32,7 +34,14 @@ public class DarkRoomKogasa : MonoBehaviour
             revealed = true;
         }
         if (revealed)
+        {
             activationDelay -= Time.deltaTime;
+            if (transform.position.x < MainCameraSingleton.instance.transform.position.x + scareDistance)
+            {
+                rigAnimator.SetTrigger("Scare");
+                DarkRoom_RenkoBehavior.instance.Fail();
+            }
+        }
     }
 
 

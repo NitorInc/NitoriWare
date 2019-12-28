@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DarkRoom_RenkoBehavior : MonoBehaviour {
 
+    public static DarkRoom_RenkoBehavior instance;
+
     [Header("Adjustables")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float fallAccel;
@@ -23,6 +25,11 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
     private Transform transformRenkoLight;
 
     /* Base methods */
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start () {
         // Initialization
@@ -76,7 +83,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         transform.position += new Vector3(0f, -fallSpeed * Time.deltaTime, 0f);
     }
 
-    private void Fail() {
+    public void Fail() {
         hasFailed = true;
 
         // Remove camera as child game object
