@@ -7,6 +7,9 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
 
     public static DarkRoom_RenkoBehavior instance;
 
+    [SerializeField]
+    private Collider2D lightCollider;
+
     [Header("Adjustables")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float fallAccel;
@@ -84,6 +87,8 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
     }
 
     public void Fail() {
+        if (hasFailed)
+            return;
         hasFailed = true;
 
         // Remove camera as child game object
@@ -94,6 +99,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         // Set fail sprite, animation, etc.
         Animator animatorBody = gameObject.GetComponentInChildren<Animator>();
         animatorBody.SetTrigger("Death");
+        lightCollider.enabled = false;
     }
 
     private void HandleFailure() {
