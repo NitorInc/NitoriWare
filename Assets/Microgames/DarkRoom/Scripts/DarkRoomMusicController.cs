@@ -47,16 +47,15 @@ public class DarkRoomMusicController : MonoBehaviour
 
             
             if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
-            {
                 source.pitch *= 4f;
-                baseSource.pitch *= 4f;
-            }
             if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
-            {
                 source.pitch /= 4f;
-                baseSource.pitch /= 4f;
-            }
         }
+
+        if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+            baseSource.pitch *= 4f;
+        if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
+            baseSource.pitch /= 4f;
 
 
 
