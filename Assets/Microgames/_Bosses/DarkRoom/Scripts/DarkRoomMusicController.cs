@@ -46,16 +46,19 @@ public class DarkRoomMusicController : MonoBehaviour
             source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed) * initialVolumes[i] * volumeMult;
 
             
-            if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
-                source.pitch *= 4f;
-            if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
-                source.pitch /= 4f;
+            //if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+            //    source.pitch *= 4f;
+            //if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
+            //    source.pitch /= 4f;
         }
 
-        if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
-            baseSource.pitch *= 4f;
-        if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
-            baseSource.pitch /= 4f;
+        //print(instrumentSources.Length);
+        //print(baseSource.pitch);
+        //if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+        //    baseSource.pitch *= 4f;
+        //if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
+        //    baseSource.pitch /= 4f;
+        //print(baseSource.pitch);
 
 
 

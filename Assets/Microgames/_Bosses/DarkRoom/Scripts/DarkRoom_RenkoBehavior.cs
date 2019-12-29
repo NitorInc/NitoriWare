@@ -98,8 +98,9 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
 
         // Set fail sprite, animation, etc.
         Animator animatorBody = gameObject.GetComponentInChildren<Animator>();
+        MicrogameController.instance.setVictory(false);
         animatorBody.SetTrigger("Death");
-        lightCollider.enabled = false;
+        lightCollider.offset = new Vector2(1000f, 0f);
     }
 
     private void HandleFailure() {
