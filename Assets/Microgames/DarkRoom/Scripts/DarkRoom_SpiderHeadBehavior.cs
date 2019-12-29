@@ -64,9 +64,9 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private void Retreat() {
         // Retreat up
 
-        if (transform.position.y + retreatSpeed * Time.deltaTime >= highY) {
-            transform.position          = new Vector3(transform.position.x, highY, transform.position.z);
-            transformThread.localScale  = new Vector3(transformThread.localScale.x, 1, transformThread.localScale.z);
+        if (transform.position.y >= highY) {
+            //transform.position          = new Vector3(transform.position.x, highY, transform.position.z);
+            //transformThread.localScale  = new Vector3(transformThread.localScale.x, 1, transformThread.localScale.z);
             rigAnimator.SetInteger("Direction", 0);
         } else {
             var mult = 1f - (raiseDelayTimer / raiseDelay);
@@ -84,9 +84,9 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
         currentLowerSpeed = Mathf.MoveTowards(currentLowerSpeed, lowerSpeed, lowerAcc * Time.deltaTime);
 
         // Lower.. down
-        if (transform.position.y - currentLowerSpeed * Time.deltaTime <= lowY) {
-            transform.position          = new Vector3(transform.position.x, lowY, transform.position.z);
-            transformThread.localScale  = new Vector3(transformThread.localScale.x, highY - lowY + 1, transformThread.localScale.z);
+        if (transform.position.y <= lowY) {
+            //transform.position          = new Vector3(transform.position.x, lowY, transform.position.z);
+            //transformThread.localScale  = new Vector3(transformThread.localScale.x, highY - lowY + 1, transformThread.localScale.z);
             rigAnimator.SetInteger("Direction", 0);
         } else {
             transform.position          += new Vector3(0f, -currentLowerSpeed, 0f) * Time.deltaTime;
