@@ -73,7 +73,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
         myDoor.transform.localEulerAngles = new Vector3(myDoor.transform.localEulerAngles.x, myDoor.transform.localEulerAngles.y,
             Mathf.MoveTowards(myDoor.transform.localEulerAngles.z, isClosed ? 0f : 90f, rotationSpeed * Time.deltaTime));
         //myDoor.transform.rotation = Quaternion.RotateTowards(myDoor.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        instrumentDistance.enabled = closeTimer <= 0f;
+        instrumentDistance.enabled = !isClosed;
     }
 
     /* Collision handling */
