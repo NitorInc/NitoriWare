@@ -18,8 +18,8 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     [SerializeField]
     private float eatDistance = -2f;
 
-    [Header("GameObjects")]
-    [SerializeField] private GameObject renko;
+    //[Header("GameObjects")]
+    //[SerializeField] private GameObject renko;
 
     private Animator myAnimator;
 
@@ -63,7 +63,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
         // Walk forward
         transform.position += new Vector3(walkSpeed, 0f, 0f) * Time.deltaTime;
         if (!dead
-            && transform.position.x > renko.transform.position.x + eatDistance)
+            && transform.position.x > DarkRoom_RenkoBehavior.instance.transform.position.x + eatDistance)
         {
             myAnimator.SetTrigger("Eat");
             walkSpeed /= 2f;
@@ -90,7 +90,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
             if (myAnimator.GetCurrentAnimatorStateInfo(0).IsName("animChimeraWalk")) {
                 // Decrease health
                 if (health - 60 * Time.deltaTime > 0f) {
-                    if (transform.position.x > renko.transform.position.x - hurtableDistance)
+                    if (transform.position.x > DarkRoom_RenkoBehavior.instance.transform.position.x - hurtableDistance)
                         health -= 60 * Time.deltaTime;
                 } else {
                     health = healthMax;

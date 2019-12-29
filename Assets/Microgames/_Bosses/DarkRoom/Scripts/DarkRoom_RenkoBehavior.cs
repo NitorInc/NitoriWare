@@ -103,6 +103,11 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         lightCollider.offset = new Vector2(1000f, 0f);
     }
 
+    public void Win()
+    {
+        lightCollider.offset = new Vector2(1000f, 0f);
+    }
+
     private void HandleFailure() {
         if (!hasFailed) return;
 

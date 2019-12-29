@@ -18,6 +18,7 @@ public class DarkRoomEnding : MonoBehaviour
             cam.transform.parent = null;
             cam.transform.position = new Vector3(transform.position.x, cam.transform.position.y, cam.transform.position.z);
             MicrogameController.instance.setVictory(true);
+            DarkRoom_RenkoBehavior.instance.Win();
         }
 		
 	}

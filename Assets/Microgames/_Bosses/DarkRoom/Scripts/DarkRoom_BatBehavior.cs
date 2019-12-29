@@ -30,7 +30,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     [SerializeField] private float health;
 
     [Header("GameObjects")]
-    [SerializeField] private GameObject renko;
+    //[SerializeField] private GameObject renko;
     [SerializeField]
     private AudioSource sfxSource;
     [SerializeField]
@@ -74,7 +74,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
 
         // Handle state
         if (!isActive) {
-            if (transform.position.x - renko.transform.position.x < activateDistance) {
+            if (transform.position.x - DarkRoom_RenkoBehavior.instance.transform.position.x < activateDistance) {
                 // Activate and follow Renko
                 isActive = true;
                 myParticleSystem.Play();
