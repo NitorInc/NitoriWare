@@ -64,15 +64,24 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private void Retreat() {
         // Retreat up
 
+        var mult = 1f - (raiseDelayTimer / raiseDelay);
+        var threadDiff = transform.position.y;
+        transform.position = Vector3.MoveTowards(transform.position,
+            new Vector3(transform.position.x, highY, transform.position.z),
+            retreatSpeed * Time.deltaTime * mult);
+        threadDiff = transform.position.y - threadDiff;
+        transformThread.localScale -= new Vector3(0f, threadDiff, 0f);
+
+        if (MathHelper.Approximately(transform.position.y, highY, .01f))
+            rigAnimator.SetInteger("Direction", 0);
+        else
+            rigAnimator.SetInteger("Direction", 1);
+
         if (transform.position.y >= highY) {
             //transform.position          = new Vector3(transform.position.x, highY, transform.position.z);
             //transformThread.localScale  = new Vector3(transformThread.localScale.x, 1, transformThread.localScale.z);
             rigAnimator.SetInteger("Direction", 0);
         } else {
-            var mult = 1f - (raiseDelayTimer / raiseDelay);
-            transform.position          += new Vector3(0f, retreatSpeed, 0f) * Time.deltaTime * mult;
-            transformThread.localScale  += new Vector3(0f, -retreatSpeed, 0f) * Time.deltaTime * mult;
-            rigAnimator.SetInteger("Direction", 1);
         }
         currentLowerSpeed = 0f;
     }
@@ -93,6 +102,20 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
             transformThread.localScale  += new Vector3(0f, currentLowerSpeed, 0f) * Time.deltaTime;
             rigAnimator.SetInteger("Direction", -1);
         }
+
+
+        var threadDiff = transform.position.y;
+        transform.position = Vector3.MoveTowards(transform.position,
+            new Vector3(transform.position.x, lowY, transform.position.z),
+            currentLowerSpeed * Time.deltaTime);
+        threadDiff = transform.position.y - threadDiff;
+        transformThread.localScale -= new Vector3(0f, threadDiff, 0f);
+
+
+        if (MathHelper.Approximately(transform.position.y, lowY, .01f))
+            rigAnimator.SetInteger("Direction", 0);
+        else
+            rigAnimator.SetInteger("Direction", -1);
     }
     
     /* Collision handling */
