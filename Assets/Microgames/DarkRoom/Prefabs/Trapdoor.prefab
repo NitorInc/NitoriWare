@@ -27,6 +27,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1401759048209448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4873596077743468}
+  - component: {fileID: 61554029657138714}
+  m_Layer: 0
+  m_Name: Pit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1437795946592482
 GameObject:
   m_ObjectHideFlags: 1
@@ -99,11 +115,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4819290305102216}
-  - component: {fileID: 61006771770733404}
   - component: {fileID: 114845917935953926}
   - component: {fileID: 114120691132343058}
   - component: {fileID: 82096545003861066}
   - component: {fileID: 114660178396892896}
+  - component: {fileID: 58083818275598922}
   m_Layer: 0
   m_Name: Trapdoor
   m_TagString: Untagged
@@ -189,10 +205,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1750561757171238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17, y: 0, z: 0}
+  m_LocalPosition: {x: 36.26, y: 0, z: 0}
   m_LocalScale: {x: 1.66, y: 1.66, z: 1}
   m_Children:
   - {fileID: 4291232842279744}
+  - {fileID: 4873596077743468}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -211,6 +228,19 @@ Transform:
   m_Father: {fileID: 4291232842279744}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4873596077743468
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1401759048209448}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4819290305102216}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4888823932532022
 Transform:
   m_ObjectHideFlags: 1
@@ -224,12 +254,27 @@ Transform:
   m_Father: {fileID: 4291232842279744}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61006771770733404
-BoxCollider2D:
+--- !u!58 &58083818275598922
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1750561757171238}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.733, y: -0.12}
+  serializedVersion: 2
+  m_Radius: 0.42
+--- !u!61 &61554029657138714
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1401759048209448}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -381,6 +426,7 @@ MonoBehaviour:
   lampClose: {fileID: 212788922207199236}
   openClip: {fileID: 8300000, guid: bfd9879c3f3b9af48885ac8b94805c7f, type: 3}
   shutClip: {fileID: 8300000, guid: 602a271e7d6f4d643847e1774a53da15, type: 3}
+  reverseLogic: 0
 --- !u!212 &212224319171488670
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -116,11 +116,11 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         GameObject other = otherCollider.gameObject;
 
         // WITH: Trapdoor
-        if (other.name.Length >= 8 && other.name.Contains("Trapdoor")) {
-            DarkRoom_TrapdoorBehavior scriptTrapdoor = other.GetComponent<DarkRoom_TrapdoorBehavior>();
+        if (other.name.Contains("Pit")) {
+            DarkRoom_TrapdoorBehavior scriptTrapdoor = other.GetComponentInParent<DarkRoom_TrapdoorBehavior>();
             float distanceFromTrapdoor = Mathf.Abs(transform.position.x - other.transform.position.x);
 
-            if (distanceFromTrapdoor < trapdoorFailRange && scriptTrapdoor.CloseTimer == 0f) {
+            if (distanceFromTrapdoor < trapdoorFailRange && !scriptTrapdoor.isClosed) {
                 isFalling = true;
                 MainCameraSingleton.instance.transform.parent = null;
                 Fail();

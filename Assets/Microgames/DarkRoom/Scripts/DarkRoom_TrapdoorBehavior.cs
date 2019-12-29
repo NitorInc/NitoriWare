@@ -17,6 +17,8 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     private AudioClip openClip;
     [SerializeField]
     private AudioClip shutClip;
+    [SerializeField]
+    private bool reverseLogic;
 
     private GameObject myDoor;
     private GameObject myLamp;
@@ -45,7 +47,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
             closeTimer -= 60 * Time.deltaTime;
         else
         {
-            if (CloseTimer > 0f)
+            if (closeTimer > 0f)
                 sfxSource.PlayOneShot(shutClip);
             closeTimer = 0f;
         }
@@ -68,9 +70,10 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 
     private void HandleDoorRotation() {
         // Handle door rotation
-        myDoor.transform.rotation = Quaternion.RotateTowards(myDoor.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        targetRotation = (closeTimer <= 0f) ? Quaternion.Euler(0f, 0f, 90f) : Quaternion.Euler(0f, 0f, 0f);
-        instrumentDistance.enabled = CloseTimer <= 0f;
+        myDoor.transform.localEulerAngles = new Vector3(myDoor.transform.localEulerAngles.x, myDoor.transform.localEulerAngles.y,
+            Mathf.MoveTowards(myDoor.transform.localEulerAngles.z, isClosed ? 0f : 90f, rotationSpeed * Time.deltaTime));
+        //myDoor.transform.rotation = Quaternion.RotateTowards(myDoor.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        instrumentDistance.enabled = closeTimer <= 0f;
     }
 
     /* Collision handling */
@@ -80,7 +83,7 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 
         // WITH: Light
         if (other.name == "Light") {
-            if (CloseTimer == 0f)
+            if (closeTimer == 0f)
                 sfxSource.PlayOneShot(shutClip);
             closeTimer = Mathf.MoveTowards(closeTimer, closeDelay, Time.deltaTime * openingSpeedMult * 60f);
         }
@@ -89,6 +92,6 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
 
     /* Getters and setters */
 
-    public float CloseTimer { get { return closeTimer; } set { closeTimer = value; } }
+    public bool isClosed => closeTimer > 0 != reverseLogic;
 
 }
