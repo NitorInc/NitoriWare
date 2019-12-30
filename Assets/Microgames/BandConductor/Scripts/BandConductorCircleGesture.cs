@@ -30,7 +30,8 @@ public class BandConductorCircleGesture : BandConductorHandGesture
     public override void Update()
     {
         var normalAngle = currentAngle + (isClockWise ? -90f : 90f);
-        var mouseVector = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        var mouseVector = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))
+            * (MicrogameTimer.instance.beatsLeft > maxBeatsLeftForInput ? 0f : 1f);
         var projection = Vector3.Project(mouseVector, MathHelper.getVector2FromAngle(normalAngle, 1f));
 
         if ( MathHelper.Approximately(
