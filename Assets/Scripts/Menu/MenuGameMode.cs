@@ -23,6 +23,8 @@ public class MenuGameMode : MonoBehaviour
     [SerializeField]
     private string modeName;
     [SerializeField]
+    private string overrideSceneName;
+    [SerializeField]
     private string prerequisiteStage;
     [SerializeField]
     private int prerequisiteScore;
@@ -119,6 +121,6 @@ public class MenuGameMode : MonoBehaviour
 
     public void startGameplay()
     {
-        gameplayMenu.startGameplay(modeName);
+        gameplayMenu.startGameplay(string.IsNullOrEmpty(overrideSceneName) ? modeName : overrideSceneName);
     }
 }
