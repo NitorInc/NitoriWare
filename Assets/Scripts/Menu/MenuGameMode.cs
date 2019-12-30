@@ -50,7 +50,7 @@ public class MenuGameMode : MonoBehaviour
 
         if (blocker != null)
         {
-            var isUnlockedInPrefs = PrefsHelper.isStageUnlocked(modeName);
+            var isUnlockedInPrefs = PrefsHelper.isStageUnlocked(modeName) || GameController.instance.ShowcaseMode;
             if (isUnlockedInPrefs || PrefsHelper.getHighScore(prerequisiteStage) >= prerequisiteScore)
             {
                 if (!isUnlockedInPrefs)
