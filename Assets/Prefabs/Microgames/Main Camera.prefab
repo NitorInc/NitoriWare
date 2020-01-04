@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114000013553027756}
   - component: {fileID: 114000012401200840}
   - component: {fileID: 114143871913331172}
+  - component: {fileID: 114923987007410724}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -107,6 +108,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -142,6 +144,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -188,6 +191,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targeAspectRatio: 1.3333334
   _center: 0.5
+--- !u!114 &114923987007410724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011626352336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0953ad4d7d15dc44bb841dfeba106a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1938011879360832, guid: 555a9ce4aed90d14dbde2f8501fe427e,
+    type: 2}
+  respawnTime: 1
 --- !u!124 &124000011562718082
 Behaviour:
   m_ObjectHideFlags: 1

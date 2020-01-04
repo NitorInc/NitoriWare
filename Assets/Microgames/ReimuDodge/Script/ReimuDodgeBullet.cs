@@ -46,3 +46,11 @@ public class ReimuDodgeBullet : MonoBehaviour {
         }
 	
 }
+/* Initial distance and speed
+ * All bullet 8 sq away from target
+ * speed 9*
+ * delay 0.5 sec for each bullet
+ * 
+ * Current calculation
+ * +2 sq for every circle on same line
+ * -0.5 sec */
