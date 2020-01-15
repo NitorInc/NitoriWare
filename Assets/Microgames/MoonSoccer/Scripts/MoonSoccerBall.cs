@@ -8,6 +8,13 @@ public class MoonSoccerBall : MonoBehaviour {
     [Header("Movement Speed")]
     [SerializeField]
     public float moveSpeed = 1f;
+	
+	// Start position
+    [Header("Start offset from Mokou")]
+    [SerializeField]
+    public float offX = 0f;
+	public float offY = 0f;
+	
 
     	void Update () {
             // Move to the right at the set movement speed
@@ -26,7 +33,7 @@ public class MoonSoccerBall : MonoBehaviour {
     public void activate (Vector2 position) 
     {
         transform.position = position;
-        transform.position = new Vector2(transform.position.x + 1.2f, transform.position.y - 1);
+        transform.position = new Vector2(transform.position.x + offX, transform.position.y + offY);
         gameObject.SetActive(true);
     }
 }
