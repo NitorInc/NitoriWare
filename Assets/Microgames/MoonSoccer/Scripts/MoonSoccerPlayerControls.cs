@@ -51,7 +51,7 @@ public class MoonSoccerPlayerControls : MonoBehaviour {
     private Animator animator;
     
     // Initialization 
-    void Start () {
+    void Awake () {
 		animator = GetComponentInChildren<Animator>();
         accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;

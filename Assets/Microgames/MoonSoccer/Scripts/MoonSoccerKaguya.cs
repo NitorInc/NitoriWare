@@ -12,6 +12,9 @@ public class MoonSoccerKaguya : MonoBehaviour {
     // The time it takes for the character to accelerate to max speed
     [SerializeField]
     private float timeBeforeMaxSpeed = 1f;
+	
+    [SerializeField]
+    private int delay = 0;
     
     [Header("Perspective Related Variables")]
     // The lenght between the leftmost and rightmost point the sprite can reach horizontally
@@ -29,10 +32,7 @@ public class MoonSoccerKaguya : MonoBehaviour {
     [SerializeField]
     private float BottomY = -2.9f;
 	
-    // The ammount of time waited after reaching a location before tracking the player again
-    [Header("Tracking Delay")]
-    [SerializeField]
-    private int delay = 0;
+	// Used to count down the delay when Kaguya waits to move
 	private int delayTimer = 0;
    
    
@@ -51,68 +51,82 @@ public class MoonSoccerKaguya : MonoBehaviour {
 	// The player's transform used for tracking
 	private Transform playerTransform;
 	
-	// A queue that will contain the player's position over the last X frames.
-	private Queue<float> movementQueue = new Queue<float>();
-	
 	private float goalY;
 	private bool directionOfGoal; // False for up, True for down
 	
     private Animator animator;
+	
+	private bool isWaiting;
     
     // Initialization 
-    void Start () {
+    void Awake () {
 		animator = GetComponentInChildren<Animator>();
         accelerationSpeed = maximumMoveSpeed / timeBeforeMaxSpeed;
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
-		transform.position = new Vector3(transform.position.x, Random.Range(BottomY, TopY), transform.position.z);
 		playerTransform = GameObject.Find("Mokou").GetComponent<Transform>();
-		SetGoal();
+		isWaiting = false;
     }
+	
+	void Start () {
+		transform.position = new Vector3(transform.position.x, playerTransform.position.y, transform.position.z);
+		SetGoal();
+	}
 
 	void FixedUpdate () 
     {
-		// Player tracking
-        if (MicrogameController.instance.getVictoryDetermined() != true && delayTimer == 0) {
-            float y = transform.position.y;
-			float x = transform.position.x;
-			if (!(Mathf.Abs(goalY-y) < 0.1)) { // Avoid moving if the characters are lined up closely enough
-				if (goalY < y && y >= BottomY)
-				{
-					if (accelerationGained >= 0)
-						accelerationGained = 0;
-					if (accelerationGained >= maximumMoveSpeed * -1)
-						accelerationGained -= accelerationSpeed;
-				}
-				else if (goalY > y && y <= TopY)
-				{
-					if (accelerationGained <= 0)
-						accelerationGained = 0;
-					if (accelerationGained <= maximumMoveSpeed)
-						accelerationGained += accelerationSpeed;
-				}
-				y = y + accelerationGained * Time.deltaTime;
-			} else {
-				SetGoal();
-				accelerationGained = 0;
-			}
-			
-			// Visual polish related to movement
-            moveDistance = (BottomY * -1) + TopY;
-            x = -((y - BottomY) / moveDistance) * horizontalMovement;
-            transform.position = new Vector3(startX + x, y, transform.position.z);
-        } else if (delayTimer > 0) {
+        if (MicrogameController.instance.getVictoryDetermined() != true && delayTimer == 0) { // When moving
+			Move();
+        } else if (delayTimer > 0) { // When waiting to move
 			delayTimer -= 1;
 		}
 		
-		animator.SetBool("IsWalking", accelerationGained != 0);
+		// Make Kaguya stop when the ball is kicked
+        if (Input.GetKey(KeyCode.Space)) {
+			isWaiting = true;
+			animator.SetBool("IsWaiting", true);
+		}
     }
 	
+	// Set a new point to track based on the player's location
 	void SetGoal() {
 		goalY = playerTransform.position.y;
-		bool oldDirection = directionOfGoal;
+		// The timer before Kaguya can move again is only set if she's about to switch direction. This is less useful than expected, and might go unused.
+		bool oldDirection = directionOfGoal; //todo move this
 		directionOfGoal = (goalY <= transform.position.y);
-		if (directionOfGoal != oldDirection)
+		if (directionOfGoal != oldDirection) {
+			accelerationGained = 0;
 			delayTimer = delay;
+		}
+	}
+	
+	// Movement toward the set goal
+	void Move() {
+        float y = transform.position.y;
+		float x = transform.position.x;
+		if (!(Mathf.Abs(goalY-y) < 0.1)) { // Stop moving if the characters are nearly overlapping
+			accelerationGained = Mathf.Abs(accelerationGained);
+			if (isWaiting == false) {
+				if (accelerationGained < maximumMoveSpeed) {
+					accelerationGained += accelerationSpeed;
+				}
+			} else { // Lose acceleration after the ball has been kicked. This barely shows unless you use different numbers for acceleration
+				if (accelerationGained > 0) {
+					accelerationGained -= accelerationSpeed;
+				}				
+			}
+			if (goalY < y) {
+				y = y - accelerationGained * Time.deltaTime;
+			} else {
+				y = y + accelerationGained * Time.deltaTime;
+			}
+		} else { // If the character overlap, lose speed and set new goal
+			SetGoal();
+		}
+		
+		// Visual polish related to perspective
+		moveDistance = (BottomY * -1) + TopY;
+		x = -((y - BottomY) / moveDistance) * horizontalMovement;
+		transform.position = new Vector3(startX + x, y, transform.position.z);
 	}
 }
