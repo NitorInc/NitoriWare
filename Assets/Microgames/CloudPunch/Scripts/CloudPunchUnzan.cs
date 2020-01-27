@@ -16,6 +16,8 @@ public class CloudPunchUnzan : MonoBehaviour
     private float punchScreenshake = .2f;
     [SerializeField]
     private float punchLossCheckTimer = .7f;
+    [SerializeField]
+    private float maxBeatsLeftBeforeInput = 6f;
 
     private float initialX;
     private float lastPunchTime = -99999f;
@@ -30,7 +32,8 @@ public class CloudPunchUnzan : MonoBehaviour
     {
         if (Time.time > lastPunchTime + punchMoveCooldownTime)
             updateMovement(false);
-        if (Time.time > lastPunchTime + punchRePunchCooldownTime && Input.GetMouseButtonDown(0))
+        if (Time.time > lastPunchTime + punchRePunchCooldownTime && Input.GetMouseButtonDown(0)
+            && MicrogameTimer.instance.beatsLeft <= maxBeatsLeftBeforeInput)
             punch();
 	}
 

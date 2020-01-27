@@ -23,6 +23,8 @@ public class MenuGameMode : MonoBehaviour
     [SerializeField]
     private string modeName;
     [SerializeField]
+    private string overrideSceneName;
+    [SerializeField]
     private string prerequisiteStage;
     [SerializeField]
     private int prerequisiteScore;
@@ -50,7 +52,7 @@ public class MenuGameMode : MonoBehaviour
 
         if (blocker != null)
         {
-            var isUnlockedInPrefs = PrefsHelper.isStageUnlocked(modeName);
+            var isUnlockedInPrefs = PrefsHelper.isStageUnlocked(modeName) || GameController.instance.ShowcaseMode;
             if (isUnlockedInPrefs || PrefsHelper.getHighScore(prerequisiteStage) >= prerequisiteScore)
             {
                 if (!isUnlockedInPrefs)
@@ -119,6 +121,6 @@ public class MenuGameMode : MonoBehaviour
 
     public void startGameplay()
     {
-        gameplayMenu.startGameplay(modeName);
+        gameplayMenu.startGameplay(string.IsNullOrEmpty(overrideSceneName) ? modeName : overrideSceneName);
     }
 }

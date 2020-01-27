@@ -10,6 +10,8 @@ public abstract class BandConductorHandGesture : MonoBehaviour
     [SerializeField]
     private int gestureIndex;
     public int GestureIndex => gestureIndex;
+    [SerializeField]
+    protected float maxBeatsLeftForInput = 16f;
 
     public virtual void ResetGesture()
     {

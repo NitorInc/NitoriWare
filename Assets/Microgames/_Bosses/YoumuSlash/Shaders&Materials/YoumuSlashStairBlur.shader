@@ -55,8 +55,8 @@ Shader "Custom/Microgame/YoumuSlash/StairsBlur"
 
 			float4 frag(v2f i) : SV_Target
 			{
-				float2 distuv = float2(i.uv.x + _Time.x * 2, i.uv.y + _Time.x * 2);
-				float2 distuv2 = float2(i.uv.x - _Time.x * 2, i.uv.y - _Time.x * 2);
+				float2 distuv = float2(i.uv.x + _Time.x * 1.5, i.uv.y + _Time.x * 2);
+				float2 distuv2 = float2(i.uv.x - _Time.x * 1.5, i.uv.y - _Time.x * 2);
 
 				float2 disp = tex2D(_DisplaceTex, distuv).xy;
 				disp += tex2D(_DisplaceTex, distuv2).xy;

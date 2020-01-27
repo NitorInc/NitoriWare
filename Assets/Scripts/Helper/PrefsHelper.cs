@@ -133,7 +133,10 @@ public static class PrefsHelper
     /// <returns></returns>
     public static GameProgress getProgress()
     {
-        return (GameProgress)PlayerPrefs.GetInt(ProgressKey, 0);
+        if (GameController.instance.ShowcaseMode)
+            return GameProgress.AllCompilationComplete;
+        else
+            return (GameProgress)PlayerPrefs.GetInt(ProgressKey, 0);
     }
 
     /// <summary>

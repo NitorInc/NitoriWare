@@ -26,6 +26,9 @@ public class MilkPourState : MonoBehaviour
     [SerializeField]
     private AudioClip lossClip;
 
+    [SerializeField]
+    private Animator charAnimator;
+
     private enum MilkPourGameState
 	{
 		Start,
@@ -102,7 +105,8 @@ public class MilkPourState : MonoBehaviour
 		cup.Stop ();
 		MicrogameController.instance.setVictory(true, true);
         MicrogameController.instance.playSFX(victoryClip);
-		state = MilkPourGameState.Stopped;
+        charAnimator.SetTrigger("Victory");
+        state = MilkPourGameState.Stopped;
 	}
 
 	void Fail ()

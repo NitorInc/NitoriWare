@@ -21,9 +21,13 @@ public class StageGameOverMenu : MonoBehaviour
     private MenuButton[] menuButtons;
     [SerializeField]
     private FadingMusic fadingMusic;
+    [SerializeField]
+    private float showcaseModeCooldown = 60f;
 #pragma warning restore 0649
 
     private float BGGoalAlpha;
+    private float lastGameOverTime;
+    private bool hasQuit;
 
     private State state;
     private enum State
@@ -36,6 +40,8 @@ public class StageGameOverMenu : MonoBehaviour
 
     public void initialize(int score)
     {
+        lastGameOverTime = Time.time;
+
         if (BGGoalAlpha == 0f)
             BGGoalAlpha = getBGAlpha();
         setBGAlpha(0f);
@@ -62,7 +68,6 @@ public class StageGameOverMenu : MonoBehaviour
         }
         setNumber(scoreNumberText, score);
         setNumber(highScoreNumberText, currentHighScore);
-
 	}
 
     void Update()
@@ -73,6 +78,13 @@ public class StageGameOverMenu : MonoBehaviour
                 UpdateFade(true);
                 break;
             case (State.Menu):
+                if (GameController.instance.ShowcaseMode
+                    && !hasQuit
+                    && Time.time > lastGameOverTime + showcaseModeCooldown)
+                {
+                    GameMenu.subMenu = GameMenu.SubMenu.Splash;
+                    quit();
+                }
                 break;
             case (State.FadeOut):
                 UpdateFade(false);
@@ -131,6 +143,7 @@ public class StageGameOverMenu : MonoBehaviour
 
         GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftTime);
         fadingMusic.startFade();
+        hasQuit = true;
     }
 
     void disableMenuItems()

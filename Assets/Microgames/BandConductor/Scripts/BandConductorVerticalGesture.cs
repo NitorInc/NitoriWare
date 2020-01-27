@@ -52,8 +52,9 @@ public class BandConductorVerticalGesture : BandConductorHandGesture
 
     public override void Update()
     {
-        var mousePosition = CameraHelper.getCursorPosition();
-        var progressDiff = GetCorrectAxis() * verticalProgressMult;
+        //var mousePosition = CameraHelper.getCursorPosition();
+        var progressDiff = GetCorrectAxis() * verticalProgressMult
+            * (MicrogameTimer.instance.beatsLeft > maxBeatsLeftForInput ? 0f : 1f);
         progressDiff = Mathf.MoveTowards(progressDiff, 0f, Mathf.Abs(GetIncorrectAxis() * horizontalProgressLossMult));
         progressDiff = Mathf.Min(progressDiff, maxSpeed * Time.deltaTime);
 
