@@ -49,7 +49,11 @@ public class MilkPourState : MonoBehaviour
 		{
 			case MilkPourGameState.Stopped:
                 if (animationSpeedMult.PourSpeedMult <= 0f)
+                {
                     OnMilkSettled();
+                    if (!failOnEarlyRelease)
+                        state = MilkPourGameState.Start;
+                }
 				break;
 			case MilkPourGameState.Start:
 				state = Input.GetKey (KeyCode.Space) ? MilkPourGameState.Filling : MilkPourGameState.Start;
@@ -97,7 +101,6 @@ public class MilkPourState : MonoBehaviour
             Fail();
         else if (failOnEarlyRelease)
             Fail();
-        enabled = false;
     }
 
 	void Win ()
@@ -107,6 +110,7 @@ public class MilkPourState : MonoBehaviour
         MicrogameController.instance.playSFX(victoryClip);
         charAnimator.SetTrigger("Victory");
         state = MilkPourGameState.Stopped;
+        enabled = false;
 	}
 
 	void Fail ()
@@ -115,5 +119,6 @@ public class MilkPourState : MonoBehaviour
 		MicrogameController.instance.setVictory(false, true);
         MicrogameController.instance.playSFX(lossClip);
         state = MilkPourGameState.Stopped;
-	}
+        enabled = false;
+    }
 }
