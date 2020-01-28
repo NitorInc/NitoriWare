@@ -77,7 +77,12 @@ public class MilkPourCup : MonoBehaviour {
 		set
 		{
 			lowerFillLineSprite.size = new Vector2(lowerFillLineSprite.size.x, value);
-		}
+            var particleChild = lowerFillLineSprite.transform.GetChild(0);
+            particleChild.localPosition = new Vector3(
+                particleChild.localPosition.x,
+                value - .05f,
+                particleChild.localPosition.z);
+        }
 	}
 
 	/// <summary>
@@ -92,7 +97,12 @@ public class MilkPourCup : MonoBehaviour {
 		set
 		{
 			upperFillLineSprite.size = new Vector2(upperFillLineSprite.size.x, value);
-		}
+            var particleChild = upperFillLineSprite.transform.GetChild(0);
+            particleChild.localPosition = new Vector3(
+                particleChild.localPosition.x,
+                value - .05f,
+                particleChild.localPosition.z);
+        }
 	}
 	
 	/// <summary>
