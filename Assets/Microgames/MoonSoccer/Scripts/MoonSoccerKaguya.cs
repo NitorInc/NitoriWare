@@ -86,6 +86,11 @@ public class MoonSoccerKaguya : MonoBehaviour {
 			isWaiting = true;
 			animator.SetBool("IsWaiting", true);
 		}
+		
+		if (MicrogameController.instance.getVictoryDetermined() == true && MicrogameController.instance.getVictory() == false) {
+			print("aaa");
+			animator.SetBool("CaughtBall", true);
+		}
     }
 	
 	// Set a new point to track based on the player's location
