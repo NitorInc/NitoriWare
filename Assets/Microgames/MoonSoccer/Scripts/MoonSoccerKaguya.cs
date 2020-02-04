@@ -55,8 +55,6 @@ public class MoonSoccerKaguya : MonoBehaviour {
 	private bool directionOfGoal; // False for up, True for down
 	
     private Animator animator;
-	
-	private bool isWaiting;
     
     // Initialization 
     void Awake () {
@@ -65,7 +63,6 @@ public class MoonSoccerKaguya : MonoBehaviour {
         moveDistance = (BottomY * -1) + TopY;
         startX = transform.position.x;
 		playerTransform = GameObject.Find("Mokou").GetComponent<Transform>();
-		isWaiting = false;
     }
 	
 	void Start () {
@@ -83,12 +80,10 @@ public class MoonSoccerKaguya : MonoBehaviour {
 		
 		// Make Kaguya stop when the ball is kicked
         if (Input.GetKey(KeyCode.Space)) {
-			isWaiting = true;
 			animator.SetBool("IsWaiting", true);
 		}
 		
 		if (MicrogameController.instance.getVictoryDetermined() == true && MicrogameController.instance.getVictory() == false) {
-			print("aaa");
 			animator.SetBool("CaughtBall", true);
 		}
     }
@@ -111,7 +106,7 @@ public class MoonSoccerKaguya : MonoBehaviour {
 		float x = transform.position.x;
 		if (!(Mathf.Abs(goalY-y) < 0.1)) { // Stop moving if the characters are nearly overlapping
 			accelerationGained = Mathf.Abs(accelerationGained);
-			if (isWaiting == false) {
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName("MoonSoccerKaguyaWalk")) { // Whether Kaguya moves or not depends on her animation state. This is done to use the animation transition as a timer to tell when she should stop
 				if (accelerationGained < maximumMoveSpeed) {
 					accelerationGained += accelerationSpeed;
 				}
