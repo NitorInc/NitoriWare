@@ -14,6 +14,9 @@ public class CompilationStage : Stage
 	protected Interruption nextRound;
     [SerializeField]
     private int seed;
+    [Multiline]
+    [SerializeField]
+    private string overrideCollection;
 
     //[SerializeField]	//Debug
     private List<Microgame> microgamePool;
@@ -25,6 +28,11 @@ public class CompilationStage : Stage
 		microgamePool = (from microgame in MicrogameHelper.getMicrogames(restriction)
                         select new Microgame(microgame.microgameId))
                         .ToList();
+        if (!string.IsNullOrEmpty(overrideCollection))
+        {
+            var overriddenGames = overrideCollection.Split('\n').Select(a => a.ToUpper().Trim((char)13)).ToList();
+            microgamePool = microgamePool.Where(a => overriddenGames.Contains(a.microgameId.ToUpper())).ToList();
+        }
         roundsCompleted = roundStartIndex = 0;
         
         shuffleRandom = new System.Random(seed == 0 ? (int)System.DateTime.Now.Ticks : seed);
@@ -65,6 +73,11 @@ public class CompilationStage : Stage
 
         int choice;
         Microgame hold;
+        if (microgamesPerRound > microgamePool.Count)
+        {
+            Debug.LogError("Microgames per round set higher than microgame collection count");
+            return;
+        }
 		for (int j = 0; j < microgamesPerRound; j++)
 		{
             choice = (shuffleRandom.Next() % (microgamePool.Count - j)) + j;

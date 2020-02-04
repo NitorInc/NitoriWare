@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
         Application.targetFrameRate = 60;
         AudioListener.pause = false;
         SceneManager.sceneLoaded += onSceneLoaded;
+        PrefsHelper.initiate();
     }
 
     private void Update()

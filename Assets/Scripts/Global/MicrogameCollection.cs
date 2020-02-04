@@ -17,7 +17,8 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     [SerializeField]
     private List<Microgame> _microgames;
     public List<Microgame> microgames => _microgames;
-    
+    public List<Microgame> BossMicrogames => microgames.Where(a => a.isBoss).ToList();
+
     [System.Serializable]
     public class Microgame
     {
@@ -39,6 +40,8 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
             _difficultyTraits = difficultyTraits;
             _menuIcon = menuIcon;
         }
+
+        public bool isBoss => difficultyTraits[0].isBossMicrogame();
     }
 
 	public void updateMicrogames()

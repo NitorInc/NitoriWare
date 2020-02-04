@@ -25,9 +25,10 @@ public class AudioSourceAutoPan : MonoBehaviour
 
     void updatePan()
     {
-        if (audioSource.isPlaying)
+        var mainCam = MainCameraSingleton.instance;
+        if (audioSource.isPlaying && mainCam != null)
         {
-            var pan = AudioHelper.getAudioPan(transform.position.x, xPosBoundMult) * xPosScaleMult;
+            var pan = AudioHelper.getAudioPan(transform.position.x, mainCam, xPosBoundMult) * xPosScaleMult;
             pan = Mathf.Clamp(pan, -1f, 1f);
             audioSource.panStereo = pan;
         }

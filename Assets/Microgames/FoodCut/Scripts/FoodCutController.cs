@@ -6,15 +6,15 @@ public class FoodCutController : MonoBehaviour {
 
     [Header("How fast the knife moves")]
     [SerializeField]
-    private float speed = 1f;
+    private float speed = 6f;
 
     [Header("Minimum x position the knife can reach")]
     [SerializeField]
-    private float minX = -5f;
+    private float minX = -3.5f;
 
     [Header("Maximum x position the knife can reach")]
     [SerializeField]
-    private float maxX = 5f;
+    private float maxX = 3.5f;
 
     [Header("Number of cuts needed")]
     [SerializeField]
@@ -29,19 +29,21 @@ public class FoodCutController : MonoBehaviour {
     private GameObject meatHolder;
 
     [SerializeField]
+    private AudioClip cutClip;
+    [SerializeField]
     private AudioClip missClip;
 
 
     [Header("Starting speed of meat getting separated:")]
     [SerializeField]
-    private float separationSpeed = 0.5f;
+    private float separationSpeed = 0.07f;
 
     [Header("Deceleration rate of meat getting separated:")]
     [SerializeField]
-    private float separationDeceleration = 0.2f;
+    private float separationDeceleration = 0.01f;
 
     [SerializeField]
-    private float cuttingMoveSpeedMult = .5f;
+    private float cuttingMoveSpeedMult = 0.25f;
 
 
     private Collider2D knifeCollider;
@@ -139,7 +141,7 @@ public class FoodCutController : MonoBehaviour {
             //Play animation and sound
             isCutting = true;
             knifeChild.GetComponent<Animator>().SetTrigger("Cut");
-            gameObject.GetComponent<AudioSource>().Play();
+            MicrogameController.instance.playSFX(cutClip, AudioHelper.getAudioPan(transform.position.x));
 
             //Create the right side of the meat and mask it
             GameObject rightMeat = (GameObject)Instantiate(meatHolder);
@@ -153,18 +155,15 @@ public class FoodCutController : MonoBehaviour {
             for (int i = 0; i < sides.Length; i++)
             {
                 float dist = Mathf.Abs(sides[i].transform.position.x - xChild.transform.position.x);
-                if (dist < nearestLine && dist != 0 && sides[i].transform.position.x > currentLine.transform.position.x && sides[i].GetComponent<SpriteRenderer>().enabled == false)
+                if (dist < nearestLine && dist != 0 && sides[i].transform.position.x > currentLine.transform.position.x && sides[i].GetComponent<FoodCutSideScript>().inPosition == true)
                 {
                     nearestLine = dist;
-                    //Debug.Log(sides[i]);
-                    //Debug.Log(nearestLine);
                 }
             }
             //If a cut on the right end has been detected, maintain the mask so that the right end still appears to be cut
             if (nearestLine < 9999)
             {
-                //0.2f is temporary, because sometimes the masking increases to the right by 0.1 to 0.2... I'm unsure how to solve this issue
-                maskPos.localScale = new Vector2(nearestLine - 0.2f, maskPos.localScale.y);
+                maskPos.localScale = new Vector2(nearestLine, maskPos.localScale.y);
             }
 
             //Because the meat has been cut, readjust the collision boxes for the right side
@@ -188,7 +187,7 @@ public class FoodCutController : MonoBehaviour {
             for (int i = 0; i < sides.Length; i++)
             {
                 float dist = Mathf.Abs(sides[i].transform.position.x - xChild.transform.position.x);
-                if (dist < nearestLine && dist != 0 && sides[i].transform.position.x < currentLine.transform.position.x && sides[i].GetComponent<SpriteRenderer>().enabled == false)
+                if (dist < nearestLine && dist != 0 && sides[i].transform.position.x < currentLine.transform.position.x && sides[i].GetComponent<FoodCutSideScript>().inPosition == true)
                 {
                     nearestLine = dist;
                 }
@@ -197,7 +196,8 @@ public class FoodCutController : MonoBehaviour {
             //If a cut on the left end has been detected, maintain the mask so that the left end still appears to be cut
             if (nearestLine < 9999)
             {
-                maskPos.localScale = new Vector2(-(nearestLine - 0.2f), maskPos.localScale.y);
+                nearestLine = -Mathf.Abs(nearestLine);
+                maskPos.localScale = new Vector2(nearestLine, maskPos.localScale.y);
             }
 
             //Because the meat has been cut, readjust the collision boxes for the left side
@@ -211,19 +211,20 @@ public class FoodCutController : MonoBehaviour {
             //Create side indicators to determine where the cut happened and follow both ends of the meat as they move and separate
             sides[cutCount * 2].transform.position = new Vector3(xChild.transform.position.x, sides[cutCount * 2].transform.position.y, sides[cutCount * 2].transform.position.z);
             sides[cutCount * 2].gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            sides[cutCount * 2].gameObject.GetComponent<FoodCutSideScript>().speed = separationSpeed / (cutCount + 1);
-            sides[cutCount * 2].gameObject.GetComponent<FoodCutSideScript>().deceleration = separationDeceleration;
+            sides[cutCount * 2].gameObject.GetComponent<FoodCutSideScript>().inPosition = true;
+            sides[cutCount * 2].gameObject.GetComponent<FoodCutSideScript>().meat = rightMeat;
+            sides[cutCount * 2].gameObject.GetComponent<FoodCutSideScript>().framesWithNoMeat = 9999;
             sides[(cutCount * 2) + 1].transform.position = new Vector3(xChild.transform.position.x, sides[cutCount * 2].transform.position.y, sides[cutCount * 2].transform.position.z);
             sides[(cutCount * 2) + 1].gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            sides[(cutCount * 2) + 1].gameObject.GetComponent<FoodCutSideScript>().speed = -separationSpeed / (cutCount + 1);
-            sides[(cutCount * 2) + 1].gameObject.GetComponent<FoodCutSideScript>().deceleration = separationDeceleration;
-
+            sides[(cutCount * 2) + 1].gameObject.GetComponent<FoodCutSideScript>().inPosition = true;
+            sides[(cutCount * 2) + 1].gameObject.GetComponent<FoodCutSideScript>().meat = leftMeat;
+            sides[(cutCount * 2) + 1].gameObject.GetComponent<FoodCutSideScript>().framesWithNoMeat = 9999;
             //Increase the count for the cut
             cutCount++;
-            //Debug.Log("Object Cut");
 
             //Make the dotted lines disappear
             currentTrigger.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            currentTrigger.gameObject.GetComponentInChildren<ParticleSystem>().gameObject.SetActive(false);
             currentTrigger = null;
 
             //We have separated the meat into two parts, so delete the whole part
@@ -233,7 +234,7 @@ public class FoodCutController : MonoBehaviour {
         {
             isCutting = true;
             xChild.GetComponent<Animator>().Play("FoodCutX");
-            MicrogameController.instance.playSFX(missClip);
+            MicrogameController.instance.playSFX(missClip, AudioHelper.getAudioPan(transform.position.x));
         }
 
         // Player wins if they cut the proper amount of lines
@@ -250,7 +251,6 @@ public class FoodCutController : MonoBehaviour {
         {
             currentTrigger = other;
             currentLine = other.gameObject;
-            //Debug.Log(currentTrigger);
         }
         else if (other.gameObject.GetComponent<FoodCutDetection>().fish)
         {
@@ -268,13 +268,11 @@ public class FoodCutController : MonoBehaviour {
         else if (other.gameObject.GetComponent<FoodCutDetection>().fish)
         {
             currentFish = other.gameObject;
-            //Debug.Log(currentFish);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         currentTrigger = null;
-        //Debug.Log(currentTrigger);
     }
 }

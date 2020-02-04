@@ -11,9 +11,9 @@ public class PaperThiefEndlessGround : MonoBehaviour
 
 	void Update()
 	{
-		if (Camera.main.transform.parent.parent == null)
+		if (MainCameraSingleton.instance.transform.parent.parent == null)
 			return;
-		while (transform.position.x < Camera.main.transform.position.x && CameraHelper.isObjectOffscreen(transform, transform.localScale.x / 2f))
+		while (transform.position.x < MainCameraSingleton.instance.transform.position.x && CameraHelper.isObjectOffscreen(transform, transform.localScale.x / 2f))
 		{
             for (int i = 0; i < shiftTransforms.Length; i++)
             {

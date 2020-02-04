@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class SceneShifter : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class SceneShifter : MonoBehaviour
 #pragma warning restore 0649
 
     private string goalScene;
+    private int goalSceneIndex;
     private float shiftDuration;
     private float fadeDuration;
     private bool leavingScene;
@@ -38,7 +40,7 @@ public class SceneShifter : MonoBehaviour
                 {
                     if (!goalScene.Equals(QuitString))
                     {
-                        SceneManager.LoadScene(goalScene);
+                        SceneManager.LoadScene(goalSceneIndex);
                         operation.allowSceneActivation = true;
                         sceneLoadedGameTime = sceneLoadedRealTime = -1f;
                         leavingScene = false;
@@ -88,7 +90,12 @@ public class SceneShifter : MonoBehaviour
 
         if (!goalScene.Equals(QuitString))
         {
-            operation = SceneManager.LoadSceneAsync(goalScene);
+            var possibleSceneIndexes = Enumerable.Range(0, SceneManager.sceneCountInBuildSettings)
+                //.Select(a => SceneUtility.GetScenePathByBuildIndex(a))
+                .Where(a => SceneUtility.GetScenePathByBuildIndex(a).ToLower().Contains(goalScene.ToLower() + ".unity"))
+                .ToList();
+            goalSceneIndex = possibleSceneIndexes[Random.Range(0, possibleSceneIndexes.Count)];
+            operation = SceneManager.LoadSceneAsync(goalSceneIndex);
             operation.allowSceneActivation = false;
         }
     }

@@ -19,7 +19,7 @@ public class TrainTracks_FrameChanger : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         this.GetComponent<SpriteRenderer>().sprite = spriteArray[Mathf.FloorToInt(frame/framesPerSprite)];
         frame++;
         if (Mathf.FloorToInt(frame / framesPerSprite) >= spriteArray.Length) {

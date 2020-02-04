@@ -15,7 +15,7 @@ public class SplashLanguageWarning : MonoBehaviour
 	void Update()
     {
         var language = TextHelper.getLoadedLanguage();
-        if (!string.IsNullOrEmpty(language.getLanguageID()) && language.incomplete)
+        if (!string.IsNullOrEmpty(language.getLanguageID()) && !LocalizationManager.instance.isLoadedLanguageComplete())
         {
             textComponent.enabled = true;
             enabled = false;

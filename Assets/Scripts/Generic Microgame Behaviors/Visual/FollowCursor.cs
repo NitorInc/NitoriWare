@@ -3,16 +3,30 @@ using System.Collections;
 
 public class FollowCursor : MonoBehaviour
 {
+    [SerializeField]
+    private bool useLateUpdate = true;
 
 	void Start()
 	{
 	
 	}
-	
-	void LateUpdate()
+
+    void Update()
+    {
+        if (!useLateUpdate)
+            updatePosition();
+    }
+
+    void LateUpdate()
 	{
-		Vector3 cursorPosition = CameraHelper.getCursorPosition();
-		cursorPosition.z = transform.position.z;
-		transform.position = cursorPosition;
+        if (useLateUpdate)
+            updatePosition();
 	}
+
+    void updatePosition()
+    {
+        Vector3 cursorPosition = CameraHelper.getCursorPosition();
+        cursorPosition.z = transform.position.z;
+        transform.position = cursorPosition;
+    }
 }

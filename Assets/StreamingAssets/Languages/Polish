@@ -1,6 +1,7 @@
 generic
 	idname=Polish
 	addedtogame=Y
+	complete=Y
 	name=Polski
 	gamename=NitorInc.
 	incomplete=UWAGA: Gra nie została całkowicie przetłumaczona na język polski. Część tekstu może być po angielsku.
@@ -149,7 +150,7 @@ microgame
 		hat=nakrycia głowy
 		wing=typu skrzydeł
 		ear=uszu
-		igname=Touhou Sorter
+		igname=Sortownik Touhou
 	FlanGrab
 		command=Obroń!
 		igname=Obrona posiadłości
@@ -180,15 +181,20 @@ microgame
 		igname=Dziewczyna z konewką
 	KnifeDodge
 		command=Uniknij!
+		igname=Pod noże
 	NitoriLook
 		command=Znajdź Nitori!
 		igname=Ukryta Nitori
 	MamiPoser
-		command=Oszust!
+		command=Znajdź oszusta!
 		igname=Oszust
 	DollDance
 		command=Naśladuj!
 		igname=Teatr lalek
+	YoumuSlash
+		command=Obserwuj...
+		commandb=Tnij!
+		igname=Rytmiczne cięcia
 	CirnoBored
 		command=Bądź miły!
 		commandb=Zabaw!
@@ -292,7 +298,7 @@ microgame
 				response=<i>JAAAAAAŁAłałała!!</i>
 			wrong2
 				option=Nie prosiłem o herbatę.
-				response=Chciałam... ci zrobić przyjemność.
+				response=Ja tylko... chciałam ci zrobić przyjemność...
 		fakeconfig=Zapisz\nWczytaj\nAuto\nHistoria\nUstawienia
 		igname=Pierwsza randka
 	BugSwat
@@ -304,6 +310,9 @@ microgame
 	BeachBall
 		command=Wrzuć!
 		igname=Przez obręcz
+	FanBlow
+		command=Zdmuchnij!
+		igname=Oddymianie
 	YuugiBalance
 		command=Balansuj!
 		igname=Balansuj tak jak oni
@@ -324,14 +333,65 @@ microgame
 		igname=A gdzie puenta?
 	DoorKnock
 		command=Zapukaj!
+		igname=Wpuść mnie!
 	FoodCut
 		command=Pokrój!
+		igname=Rodzinny przepis
 	MoneyTrap
 		command=Zwab!
+		igname=Pułapka pieniężna
 	KeineMath
 		command=Rozwiąż!
+		igname=Rachuj!
+	DoomGame
+		command=Strzel w nich!
+		danger=Za tobą!
+		igname=DOOM: Reisenacja
+	MystiaServe
+		command=Serwuj!
+		igname=Głodni klienci
+	FoodRoast
+		command=Weź gdy gotowe!
+		igname=Póki gorące!
+	BoatSteer
+		command=Steruj!
+		igname=Bon Voyage!
+	SeijaSpin
+		command=Kręć!
+		igname=Zakręcona dziewczyna
+	GhostSuck
+		command=Wciągnij!
+		igname=Duszne odkurzanie
+	MoonSoccer
+		command=Strzel gola!
+		igname=Piłka księżycowa
+	EikiJudge
+		command=Posortuj!
+		igname=Dzień sądu
+	IcePath
+		command=Nawiguj!
+		igname=Cienki lód
+	KagerouCut
+		command=Ogól!
+		igname=Ścinanie włosów
+	TrainTracks
+		command=Ratuj!
+		igname=Tragedia w Tarapatach
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
 	AwooClicker
 		igname=Psaparrazi
+	HinaSpin
+		igname=Ale się kręci!
 nitori
 	storyintro=Wygląda na to, że mamy nowego klienta.\nZobaczmy jak poradzisz sobie z moimi grami.\nLepiej nie mrugaj za dużo bo nie nadążysz!
 	storyfinished=Całkiem nieźle, nerdzie.\nJednak nie jesteś tu tylko na wczasach.\nA teraz wypróbuj {0} dla prawdziwego wyzwania!
@@ -340,6 +400,7 @@ credits
 	intro={0} powstało dzięki niżej wymienionym fanom!
 	kapptain=Kierunek twórczy, Programista, "Kappitan" drużyny
 	leadart=Głowny artysta, Projektant postaci, Głos Nitori
+	code=Kod niedotyczący mikrogier
 	UI=Grafika w menu i między mikrogrami
 	menumusic=Muzyka na ekranie startowym/w menu
 	stagemusic=Muzyka między mikrogrami
@@ -361,6 +422,7 @@ credits
 		discord=Serwer Discord Touhou Project
 		playtesters=Wszystkim testującym grę
 		fans=I wszystkim fanom za rozgłos!
+		patreon=Podziękowania dla tych, którzy wspierają nas na Patreon!
 meta
 	recorded=Y
 	IsAsian=N
@@ -375,3 +437,4 @@ meta
 		Gagalin=Y
 		RobinWriting=Y
 		SourceHanSerifK=?
+		Fat=N

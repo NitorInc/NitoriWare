@@ -3,11 +3,13 @@ using System.Collections;
 
 public class SetAnimationParameter : MonoBehaviour
 {
+    public bool useAwake = false;
 	public Animator animator;
 
 	public FloatValue[] floatValues;
 	public IntValue[] intValues;
 	public BoolValue[] boolValues;
+    public string[] triggers;
 
 
 	[System.Serializable]
@@ -22,20 +24,27 @@ public class SetAnimationParameter : MonoBehaviour
 	{
 		public string name;
 		public int value;
-	}
+    }
 
-	[System.Serializable]
-	public struct BoolValue
+    [System.Serializable]
+    public struct BoolValue
+    {
+        public string name;
+        public bool value;
+    }
+
+    void Awake()
+    {
+        if (animator == null)
+            animator = GetComponent<Animator>();
+        if (useAwake)
+            setParameters();
+    }
+
+    void Start ()
 	{
-		public string name;
-		public bool value;
-	}
-
-
-	void Start ()
-	{
-		setParameters();
-
+        if (!useAwake)
+		    setParameters();
 	}
 
 
@@ -45,22 +54,17 @@ public class SetAnimationParameter : MonoBehaviour
 		{
 			animator.SetFloat(floatValues[i].name, floatValues[i].value);
 		}
-
-
 		for (int i = 0; i < intValues.Length; i++)
 		{
 			animator.SetInteger(intValues[i].name, intValues[i].value);
-		}
-
-
-		for (int i = 0; i < boolValues.Length; i++)
-		{
-			animator.SetBool(boolValues[i].name, boolValues[i].value);
-		}
-	}
-	
-	void Update ()
-	{
-	
-	}
+        }
+        for (int i = 0; i < boolValues.Length; i++)
+        {
+            animator.SetBool(boolValues[i].name, boolValues[i].value);
+        }
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            animator.SetTrigger(triggers[i]);
+        }
+    }
 }

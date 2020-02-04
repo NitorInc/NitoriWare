@@ -10,6 +10,10 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
     [SerializeField]
     private GameObject target;
 
+    [Header("Reference to the trap")]
+    [SerializeField]
+    private GameObject trapobj;
+
     [Header("How fast person moves horizontaly")]
     [SerializeField]
     private float speedX = 10f;
@@ -22,9 +26,9 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
     [SerializeField]
     private float proximityFollow = 1f;
 
-    //[Header("Distance threshold to stop following")]
-    //[SerializeField]
-    //private float distanceLeave = 1f;
+    [Header("Proximity threshold to unfollow")]
+    [SerializeField]
+    private float proximityUnfollow = 1f;
 
     [Header("How fast person falls")]
     [SerializeField]
@@ -38,16 +42,20 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
     [SerializeField]
     private float gravity = 0.1f;
 
+    [Header("Hopping audio clip")]
+    [SerializeField]
+    private AudioClip hopsound;
+
     [Header("Death audio clip")]
     [SerializeField]
     private AudioClip deathsound;
 
-    [Header("Death audio source")]
     [SerializeField]
-    private AudioSource deathsoundsource;
+    private Animator rigAnimator;
 
     //Possible states for the person
     enum State {Idle, Following, Falling};
+    bool deathSoundPlayed;
 
     //Stores this person's state
     private State state;
@@ -63,13 +71,14 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
     private float speedup = 0;
     //var for late starting
     private float latestart = 1;
+    //var for late starting
+    private bool hasPlayedDeathsound = false;
 
     // Use this for initialization
     void Start () {
         //the person starts free
         state = State.Idle;
         floor = transform.position.y;
-        deathsoundsource.clip = deathsound;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -91,14 +100,24 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
             latestart--;
         else if (latestart == 0)
         {
-            //easy difficulty - start in the half screen opposed to the player's cursor position
+            //medium difficulty  -  start in the half screen opposed to the player's cursor position
+            //                      and place the trap opposite the person
             Vector2 newpos = transform.position;
+            Vector2 trapnewpos = transform.position;
+            trapnewpos.y = trapobj.transform.position.y;
             if (target.transform.position.x > 0)
+            {
                 newpos.x = -4.70f;
+                trapnewpos.x = 4.5f;
+            }
             else
+            {
                 newpos.x = 4.70f;
+                trapnewpos.x = -4.5f;
+            }
             Debug.Log(target.transform.position.x + " " + newpos.x);
             transform.position = newpos;
+            trapobj.transform.position = trapnewpos;
 
             latestart--;
         }
@@ -116,20 +135,23 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
                 if (target.transform.position.x > transform.position.x)
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-                    sr.flipX = true;
+                    sr.transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                 }
                 else if (target.transform.position.x < transform.position.x)
                 {
                     SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-                    sr.flipX = false;
+                    sr.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                 }
 
                 //has to make a new jump if continues following
                 if (isGrounded())
                 {
                     //if person isn't too far away from the jewel
-                    if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityFollow)
+                    if (Mathf.Abs(transform.position.x - target.transform.position.x) < proximityUnfollow)
                     {
+                        //Play hopping sound
+                        MicrogameController.instance.playSFX(hopsound, AudioHelper.getAudioPan(transform.position.x));
+
                         //move towards player's x position at defined speed
                         Vector2 newPosition = transform.position;
                         if (speedup < 1)
@@ -199,15 +221,18 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
         else
         {
             //if not yet in touhou hell
-            if (transform.position.y > -7f)
+            //if (transform.position.y > -7f)
             {
                 //move downwards into touhou hell
 
                 Vector2 newPosition = transform.position;
 
-                //play death sound
-                if (deathsoundsource!= null)
-                    deathsoundsource.Play();
+                if (!deathSoundPlayed)
+                {
+                    //play death sound
+                    MicrogameController.instance.playSFX(deathsound, AudioHelper.getAudioPan(transform.position.x));
+                    deathSoundPlayed = true;
+                }
 
                 //grind x acceleration to a halt
                 newPosition.x += Mathf.Lerp(newPosition.x, trajectory.x, 0.5f) * Time.deltaTime;
@@ -217,6 +242,8 @@ public class MoneyTrapPeople4medium : MonoBehaviour {
                 transform.position = newPosition;
             }
         }
+
+        rigAnimator.SetInteger("State", (int)state);
     }
 
     private bool isGrounded()

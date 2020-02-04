@@ -7,12 +7,16 @@ public class SeijaSpinSpinningChar : MonoBehaviour
 
     public int spinCount;
     public int moveType;
+    public float crashSoundDelay = .6f;
+    public float rotationPerSound = 360f;
+    public float rotationSpinTimer = 180f;
+    public float crashSoundPan = 0f;
     private Vector2 lastVec2Angle;
     private Vector2 lastMouseAngle;
     private Vector2 currentAngle;
     private Vector3 rootOriginalPosition;
     public Animator seijaAnim, spinAnim, charFlingAnim, objFlingAnim;
-    public AudioClip flingClip, crashClip, spinClip;
+    public AudioClip flingClip, crashClip, spinClip, rotateClip;
     public GameObject broomObject;
     private Component spinningArrows;
     private AudioSource _audioSource;
@@ -21,7 +25,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
     private float angleDifference;
     private float totalSpin = 0f;
     private float moveValue = 0;
-    private int crashTimer = 0;
+
     private bool flingDone = false;
     private bool crashDone = false;
 
@@ -88,6 +92,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                         if (spinningArrows.GetComponent<SeijaSpinArrows>().flipped)
                         {
                             totalSpin += Mathf.Abs(angleDifference);
+                            CheckForPlayRotate(Mathf.Abs(angleDifference));
                             transform.eulerAngles += Vector3.back * angleDifference;
                         }
                         lastAngle = currentAngleChange;
@@ -97,6 +102,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                         if (!spinningArrows.GetComponent<SeijaSpinArrows>().flipped)
                         {
                             totalSpin += Mathf.Abs(angleDifference);
+                            CheckForPlayRotate(Mathf.Abs(angleDifference));
                             transform.eulerAngles += Vector3.back * angleDifference;
                         }
                         lastAngle = currentAngleChange;
@@ -111,8 +117,8 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                     transform.root.position = new Vector3(rootOriginalPosition.x + 2 * Mathf.Cos(moveValue), rootOriginalPosition.y + 2 * Mathf.Sin(moveValue), rootOriginalPosition.z);
                     break;
                 case 2:
-                    moveValue += 1.5f * Time.deltaTime;
-                    transform.root.position = new Vector3(rootOriginalPosition.x + 1 * moveValue, -(rootOriginalPosition.y + 2 * Mathf.Sin(moveValue)), rootOriginalPosition.z);
+                    moveValue += 4f * Time.deltaTime;
+                    transform.root.position = new Vector3(rootOriginalPosition.x + 3f + (Mathf.Sin(moveValue / 1.5f) * 3f), -(rootOriginalPosition.y + 2 * Mathf.Sin(moveValue * 1.5f)), rootOriginalPosition.z);
                     break;
                 default:
                     break;
@@ -139,7 +145,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
                 PlayFling();
                 flingDone = true;
             }
-            if (crashTimer >= 60)
+            if (crashSoundDelay <= 0f)
             {
                 if (!crashDone)
                 {
@@ -154,7 +160,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
             }
             else
             {
-                crashTimer++;
+                crashSoundDelay -= Time.deltaTime;
             }
         }
         else if (!Input.GetMouseButton(0) || !CameraHelper.isMouseOver(gameObject.GetComponent<CircleCollider2D>()))
@@ -166,6 +172,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
     public void PlayCrash()
     {
         _audioSource.pitch = Time.timeScale;
+        _audioSource.panStereo = crashSoundPan;
         _audioSource.PlayOneShot(crashClip);
     }
 
@@ -173,5 +180,16 @@ public class SeijaSpinSpinningChar : MonoBehaviour
     {
         _audioSource.pitch = Time.timeScale;
         _audioSource.PlayOneShot(flingClip);
+    }
+
+    public void CheckForPlayRotate(float spinDelta)
+    {
+        rotationSpinTimer += spinDelta;
+        if (rotationSpinTimer >= rotationPerSound)
+        {
+            _audioSource.pitch = Time.timeScale;
+            _audioSource.PlayOneShot(rotateClip);
+            rotationSpinTimer -= rotationPerSound;
+        }
     }
 }

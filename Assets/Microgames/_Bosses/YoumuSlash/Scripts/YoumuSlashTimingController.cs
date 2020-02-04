@@ -23,8 +23,11 @@ public class YoumuSlashTimingController : MonoBehaviour
     private AudioClip warmupBeatClip;
     [SerializeField]
     private float finalSlashVictoryBeatDelay = 2f;
-
+    [SerializeField]
     private AudioSource musicSource;
+    [SerializeField]
+    private AudioSource sfxSource;
+
     private float victoryBeat;
     private float initialTimeScale;
 
@@ -84,7 +87,7 @@ public class YoumuSlashTimingController : MonoBehaviour
             Invoke("callOnBeat", timingData.BeatDuration * warmupBeatQueue.Dequeue());  //Dequeue warmup beat
 
         if (beat < 0)
-            musicSource.PlayOneShot(warmupBeatClip);
+            sfxSource.PlayOneShot(warmupBeatClip);
         
     }
 

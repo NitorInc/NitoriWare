@@ -39,7 +39,7 @@ public class PuppetStringDrawer : MonoBehaviour {
 					drawOn = true;
 
 					//Create draw object
-					mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					mousePosition = MainCameraSingleton.instance.ScreenToWorldPoint(Input.mousePosition);
 					Instantiate(line, mousePosition, Quaternion.Euler(0.0f, 0.0f, 0.0f));
 				}
 			}

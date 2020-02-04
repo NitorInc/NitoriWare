@@ -12,10 +12,10 @@ public class GhostSuckVacuumParticles : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        //activates or deactivates a particle system based on whether a mouse is held down, disables off or on switch until circumstance changes to prevent redundant action
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
+	void Update ()
+    {
+        //activates or deactivates a particle system
+
             if (suck == false)
             {
                 ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
@@ -24,15 +24,5 @@ public class GhostSuckVacuumParticles : MonoBehaviour {
                 suck = true;
             }
            
-        }
-        else
-        {
-            if (suck == true)
-            {
-                ParticleSystem particleSystem = GetComponentInChildren<ParticleSystem>();
-                particleSystem.Stop();
-                suck = false;
-            }
-        }
     }
 }

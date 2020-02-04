@@ -13,7 +13,8 @@ public class YoumuSlashTimingEffectsController : MonoBehaviour
     private float timeScaleMult = 1f;
     [SerializeField]
     private float volumeMult = 1f;
-    
+
+    bool started = false;
     bool failed = false;
     bool ended = false;
     float initialTimeScale;
@@ -21,11 +22,17 @@ public class YoumuSlashTimingEffectsController : MonoBehaviour
     
 	void Start ()
     {
+        YoumuSlashTimingController.onMusicStart += onMusicStart;
         YoumuSlashPlayerController.onFail += onFail;
         YoumuSlashPlayerController.onGameplayEnd += onGameplayEnd;
         initialTimeScale = Time.timeScale;
         initialVolume = musicSource.volume;
 	}
+
+    void onMusicStart()
+    {
+        started = true;
+    }
 
     void onGameplayEnd()
     {
@@ -47,6 +54,6 @@ public class YoumuSlashTimingEffectsController : MonoBehaviour
         if (failed)
             musicSource.pitch = Time.timeScale * pitchMult;
 
-        musicSource.volume = volumeMult * initialVolume;
+        musicSource.volume = started ? (volumeMult * initialVolume) : 0f;
     }
 }

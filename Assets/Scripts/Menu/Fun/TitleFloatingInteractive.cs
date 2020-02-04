@@ -57,7 +57,7 @@ public class TitleFloatingInteractive : MonoBehaviour
         {
             _rigidBody.bodyType = RigidbodyType2D.Kinematic;
             Vector2 escapeVelocity = MathHelper.getVector2FromAngle(
-                ((Vector2)(transform.position - Camera.main.transform.position)).getAngle(), escapeSpeed);
+                ((Vector2)(transform.position - MainCameraSingleton.instance.transform.position)).getAngle(), escapeSpeed);
             transform.position += (Vector3)escapeVelocity * Time.deltaTime;
             if (CameraHelper.isObjectOffscreen(transform, 10f))
                 Destroy(gameObject);
