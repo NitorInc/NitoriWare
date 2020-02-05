@@ -15,6 +15,8 @@ public class MasterSparkCodeCommand : MonoBehaviour {
     {
         if (IsPressed)
             DestroySelf();
+        if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory())
+            Destroy(gameObject);
     } 
 
     public void SetInput(MasterSparkCodeCommandType c)

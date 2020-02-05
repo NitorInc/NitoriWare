@@ -12,6 +12,7 @@ public class MasterSparkCode : MonoBehaviour {
     public GameObject MasterSparkSuccess;
     public GameObject MasterSparkFailure;
     public List<AudioSource> AudioSources;
+    public AudioClip lossClip;
 
 	// Update is called once per frame
 	void Update () {
@@ -56,5 +57,6 @@ public class MasterSparkCode : MonoBehaviour {
     {
         MicrogameController.instance.setVictory(false, true);
         MarisaController.SetTrigger("stateFailure");
+        MicrogameController.instance.playSFX(lossClip);
     }
 }
