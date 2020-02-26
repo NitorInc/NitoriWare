@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collider : MonoBehaviour {
+public class DaiDefenderCollider : MonoBehaviour {
 
     [SerializeField]
     private Animator animator;
@@ -22,7 +22,6 @@ public class Collider : MonoBehaviour {
         Alive = false;
         this.gameObject.GetComponent<Collider2D>().enabled = false;
         animator.Play("Dai_Lose_Animation");
-        Debug.Log("lost");
         MicrogameController.instance.setVictory(victory: false, final: true);
         
     }
@@ -34,7 +33,6 @@ public class Collider : MonoBehaviour {
         {
             animator.Play("Dai_Win_Animation");
             MicrogameController.instance.setVictory(victory: true, final: true);
-            Debug.Log("Win");
         }
 
     }

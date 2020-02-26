@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletMoveScript : MonoBehaviour {
+public class DaiDefenderBulletMove : MonoBehaviour {
 
     [Header("The thing to fly towards")]
     [SerializeField]
@@ -16,7 +16,13 @@ public class BulletMoveScript : MonoBehaviour {
     [SerializeField]
     private float delay;
 
+    [SerializeField]
+    private float deflectAngleRange = 30f;
+    [SerializeField]
+    private float deflectSpeedMult = 1.5f;
+
     private Vector2 trajectory;
+    bool hit = false;
 
     // Use this for initialization
     void Start () {
@@ -58,7 +64,18 @@ public class BulletMoveScript : MonoBehaviour {
     {
         Debug.Log("Hit bullet detected");
         // Destroy(collision.gameObject);
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
+        if (collision.name.ToLower().Contains("cirno"))
+        {
+            var addAngle = 180f + (Random.Range(-deflectAngleRange, deflectAngleRange));
+            trajectory = MathHelper.getVector2FromAngle(
+                trajectory.getAngle() + addAngle,
+                trajectory.magnitude);
+            speed *= deflectSpeedMult;
+            transform.eulerAngles += Vector3.forward * addAngle;
+        }
+        else
+            gameObject.SetActive(false);
     }
     }
 
