@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class DarkRoomLightEffect : MonoBehaviour
 {
-    private static Transform lampTransformSingleton;
+    public static Transform lampTransformSingleton;
+    public static Transform cursorTransformSingleton;
 
-    [Header("Singleton value only necessary in one instance")]
+    [Header("Singleton values only necessary in one instance")]
     [SerializeField]
     private Transform lampTransform;
+    [SerializeField]
+    private Transform cursorTransform;
 
     private Material material;
 
@@ -17,7 +20,9 @@ public class DarkRoomLightEffect : MonoBehaviour
         material = GetComponent<Renderer>().material;
         if (lampTransform != null)
             lampTransformSingleton = lampTransform;
-	}
+        if (cursorTransform != null)
+            cursorTransformSingleton = cursorTransform;
+    }
 	
 	void LateUpdate()
     {
@@ -26,8 +31,9 @@ public class DarkRoomLightEffect : MonoBehaviour
 
     void updateValues()
     {
+        print(cursorTransformSingleton.position);
         material.SetVector("_LampPos", lampTransformSingleton.position);
-        material.SetVector("_CursorPos", CameraHelper.getCursorPosition());
+        material.SetVector("_CursorPos", cursorTransformSingleton.position);
         material.SetFloat("_LampAnim", DarkRoomEffectAnimationController.instance.lampBoost);
         material.SetFloat("_CursorAnim", DarkRoomEffectAnimationController.instance.cursorBoost);
     }
