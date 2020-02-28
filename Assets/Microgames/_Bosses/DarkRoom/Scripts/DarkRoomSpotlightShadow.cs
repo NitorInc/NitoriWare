@@ -29,7 +29,7 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     void Start ()
     {
         shadowRenderer = GetComponent<SpriteRenderer>();
-        initialPosition = transform.localPosition;
+        initialPosition = transform.position - transform.parent.position;
         initialAlpha = shadowRenderer.color.a;
         initialScale = transform.localScale;
 	}
@@ -47,7 +47,7 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
         var addPos = (Vector3)mouseDiff.resize(mouseDist * cameraDistancePosMult);
         addPos.y *= yPosMult;
         position += addPos;
-        transform.localPosition = position;
+        transform.position = transform.parent.position + position;
 
         var scale = initialScale;
         var scaleFactor = 1f + (mouseDist * cameraDistanceScaleMult);
