@@ -104,17 +104,18 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 
 				float lampDistance = distance((float2)i.wpos, (float2)_LampPos);
 				float lampAlpha = (lampDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
-				lampAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _PulseAmpInv);
+				lampAlpha *= 1 + (sin(_Time.w * .8 * _PulseSpeed) / _PulseAmpInv);
 				//lampAlpha = clamp(lampAlpha, 0, 1);
 				lampAlpha = pow(lampAlpha, _AlphaPow);
 				//if (lampAlpha < 1)
+				lampAlpha = clamp(lampAlpha, 0, 1);
 				lampAlpha -= _LampAlphaBoost;
 				lampAlpha -= _LampAnim;
 				lampAlpha = clamp(lampAlpha, 0, 1);
 
 				float cursorDistance = distance((float2)i.wpos, (float2)_CursorPos);
 				float cursorAlpha = (cursorDistance - _FadeStart) / abs(_CursorFadeEnd - _FadeStart);
-				cursorAlpha *= 1 + (sin(_Time.w * _PulseSpeed) / _CursorPulseAmpInv);
+				cursorAlpha *= 1 + (sin(_Time.w * 1.0 * _PulseSpeed) / _CursorPulseAmpInv);
 				cursorAlpha = clamp(cursorAlpha, 0, 1);
 				cursorAlpha = pow(cursorAlpha, _CursorAlphaPow);
 				cursorAlpha -= _CursorAlphaBoost;
