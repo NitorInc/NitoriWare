@@ -17,9 +17,14 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] inheritAlphaRenderers;
     [SerializeField]
-    private bool isCusorLight;
-    [SerializeField]
-    private bool isLantern;
+    private ShadowType shadowType;
+
+    private enum ShadowType
+    {
+        Cursor,
+        Lantern,
+        LanternCursorFade,
+    }
 
     Vector3 initialPosition;
     float initialAlpha;
@@ -33,10 +38,20 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
         initialAlpha = shadowRenderer.color.a;
         initialScale = transform.localScale;
 	}
-	
-	void Update ()
+
+    private void Update()
     {
-        var mouseDiff = (Vector2)(transform.position - DarkRoomLightEffect.cursorTransformSingleton.position);
+        transform.position = transform.parent.position + initialPosition;
+        transform.localScale = initialScale;
+        setAlphas(initialAlpha, false);
+    }
+
+    void LateUpdate()
+    {
+        var mouseDiff = shadowType == ShadowType.Lantern
+            ? (Vector2)(transform.position - DarkRoomLightEffect.lampTransformSingleton.position)
+            : (Vector2)(transform.position - DarkRoomLightEffect.cursorTransformSingleton.position);
+
         var mouseDist = mouseDiff.magnitude;
         var cursorMult = 1f + DarkRoomEffectAnimationController.instance.cursorBoost;
         cursorMult = Mathf.Clamp01(cursorMult);
@@ -47,31 +62,41 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
         var addPos = (Vector3)mouseDiff.resize(mouseDist * cameraDistancePosMult);
         addPos.y *= yPosMult;
         position += addPos;
-        transform.position = transform.parent.position + position;
+        transform.position += position - initialPosition;
 
         var scale = initialScale;
         var scaleFactor = 1f + (mouseDist * cameraDistanceScaleMult);
-        transform.localScale = scale * scaleFactor;
+        transform.localScale *= scaleFactor;
 
         var alpha = initialAlpha;
         alpha += mouseDist * cameraDistanceAlphaMult;
         alpha = Mathf.Min(alpha, maxAlpha);
 
-        if (isLantern)
+        if (shadowType == ShadowType.LanternCursorFade)
         {
             alpha = Mathf.Lerp(maxAlpha, alpha, cursorMult);
             alpha *= lanternMult;
         }
-        if (isCusorLight)
+        if (shadowType == ShadowType.Cursor)
             alpha *= cursorMult;
+        setAlphas(alpha - initialAlpha, true);
+    }
 
+    void setAlphas(float alpha, bool add)
+    {
         var c = shadowRenderer.color;
-        c.a = alpha;
+        if (add)
+            c.a += alpha;
+        else
+            c.a = alpha;
         shadowRenderer.color = c;
         foreach (var rend in inheritAlphaRenderers)
         {
             c = rend.color;
-            c.a = alpha;
+            if (add)
+                c.a += alpha;
+            else
+                c.a = alpha;
             rend.color = c;
         }
     }
