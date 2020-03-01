@@ -17,6 +17,10 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
     private float hurtableDistance = 9f;
     [SerializeField]
     private float eatDistance = -2f;
+    [SerializeField]
+    private SpriteRenderer eyesRenderer;
+    [SerializeField]
+    private Vector2 eyeAppearXDistanceRange;
 
     //[Header("GameObjects")]
     //[SerializeField] private GameObject renko;
@@ -53,9 +57,17 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
         {
             Walk();
         }
-        
 
-	}
+        print(MainCameraSingleton.instance.transform.position.x - transform.position.x);
+        var eyeAlpha = Mathf.InverseLerp(eyeAppearXDistanceRange.x, eyeAppearXDistanceRange.y,
+            MainCameraSingleton.instance.transform.position.x - transform.position.x);
+        var c = eyesRenderer.color;
+        c.a = eyeAlpha;
+        eyesRenderer.color = c;
+
+
+
+    }
 
     /* My methods */
 
