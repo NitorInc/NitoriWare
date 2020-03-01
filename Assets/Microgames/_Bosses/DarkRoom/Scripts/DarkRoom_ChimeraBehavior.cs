@@ -57,8 +57,7 @@ public class DarkRoom_ChimeraBehavior : MonoBehaviour {
         {
             Walk();
         }
-
-        print(MainCameraSingleton.instance.transform.position.x - transform.position.x);
+        
         var eyeAlpha = Mathf.InverseLerp(eyeAppearXDistanceRange.x, eyeAppearXDistanceRange.y,
             MainCameraSingleton.instance.transform.position.x - transform.position.x);
         var c = eyesRenderer.color;

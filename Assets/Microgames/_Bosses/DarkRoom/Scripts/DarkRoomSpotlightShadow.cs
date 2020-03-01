@@ -18,6 +18,8 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     private SpriteRenderer[] inheritAlphaRenderers;
     [SerializeField]
     private ShadowType shadowType;
+    [SerializeField]
+    private Transform overrideOriginPoint;
 
     private enum ShadowType
     {
@@ -48,9 +50,10 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
 
     void LateUpdate()
     {
+        var compTransform = overrideOriginPoint != null ? overrideOriginPoint : transform.parent;
         var mouseDiff = shadowType == ShadowType.Lantern
-            ? (Vector2)(transform.position - DarkRoomLightEffect.lampTransformSingleton.position)
-            : (Vector2)(transform.position - DarkRoomLightEffect.cursorTransformSingleton.position);
+            ? (Vector2)(compTransform.position - DarkRoomLightEffect.lampTransformSingleton.position)
+            : (Vector2)(compTransform.parent.position - DarkRoomLightEffect.cursorTransformSingleton.position);
 
         var mouseDist = mouseDiff.magnitude;
         var cursorMult = 1f + DarkRoomEffectAnimationController.instance.cursorBoost;
