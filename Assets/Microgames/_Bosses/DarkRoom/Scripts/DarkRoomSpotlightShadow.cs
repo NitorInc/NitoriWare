@@ -17,6 +17,8 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] inheritAlphaRenderers;
     [SerializeField]
+    private bool yOnly;
+    [SerializeField]
     private ShadowType shadowType;
     [SerializeField]
     private Transform overrideOriginPoint;
@@ -68,6 +70,8 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
         var mouseDiff = shadowType == ShadowType.Lantern
             ? (Vector2)(compTransform.position - DarkRoomLightEffect.lampTransformSingleton.position)
             : (Vector2)(compTransform.parent.position - DarkRoomLightEffect.cursorTransformSingleton.position);
+        if (yOnly)
+            mouseDiff.x = 0f;
         if (shadowType == ShadowType.PulseOnly)
             mouseDiff = Vector2.zero;
         
@@ -92,7 +96,10 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
         var t = Time.timeSinceLevelLoad * 3f * flickerFrequencyMult;
         var a = -Mathf.Sin(t);
         scaleFactor += (a * flickerAmpMult);
+        var holdX = transform.localScale.x;
         transform.localScale *= scaleFactor;
+        if (yOnly)
+            transform.localScale = new Vector3(holdX, transform.localScale.y, transform.localScale.z);
 
         var alpha = initialAlpha;
         alpha += mouseDist * cameraDistanceAlphaMult;
