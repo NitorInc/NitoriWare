@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 [ExecuteInEditMode]
 public class CreditsSplitLines : MonoBehaviour
@@ -10,10 +11,19 @@ public class CreditsSplitLines : MonoBehaviour
     [SerializeField]
     private Text[] textColumns;
     [SerializeField]
+    private string textFile;
+    [SerializeField]
     [Multiline]
     private string contents;
-	
-	void Update ()
+
+    private void Start()
+    {
+        if (!string.IsNullOrEmpty(textFile))
+            contents = File.ReadAllText(Path.Combine(Application.dataPath, textFile));
+        Update();
+    }
+
+    void Update ()
     {
 		if (contents != lastText && textColumns?.Length > 0)
         {

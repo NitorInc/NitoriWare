@@ -35,6 +35,10 @@ public class LocalizationUpdater : ScriptableObject
     [SerializeField]
     private string reportFile;
 
+    [SerializeField]
+    [Multiline]
+    private string ignoreChars;
+
     public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
@@ -219,9 +223,6 @@ public class LocalizationUpdater : ScriptableObject
                     if (font == null || font.fontAsset == null)
                         continue;
                     var charString = File.ReadAllText(Path.Combine(fullCharsPath, language.getFileName() + "Chars.txt"));
-                    // Toohoo is in DefaultEmpty
-                    charString = charString.Replace('東', ' ');
-                    charString = charString.Replace('方', ' ');
                     charString = string.Join("", charString.Distinct());
                     List<char> currentChars = charString.ToCharArray().ToList();
                     currentChars.Add('a');
@@ -250,9 +251,13 @@ public class LocalizationUpdater : ScriptableObject
                             break;
                         }
                     }
-                    if (currentChars != null && currentChars.Any())
-                        errorStrings.Add($"{font.fontAsset.name} is missing {language.getFileName()} character(s)  " +
-                        $"{string.Join("", currentChars)}");
+                    if (currentChars != null)
+                    {
+                        currentChars = currentChars.Except(ignoreChars.ToCharArray()).ToList();
+                        if (currentChars.Any())
+                            errorStrings.Add($"{font.fontAsset.name} is missing {language.getFileName()} character(s)  " +
+                            $"{string.Join("", currentChars)}");
+                    }
                 }
             }
         }

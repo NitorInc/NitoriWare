@@ -31,16 +31,16 @@ public class StageController : MonoBehaviour
 	public GameObject scene;
 	public Sprite[] controlSchemeSprites;
 
-	public StageGameOverMenu gameOverMenu;
+    public CommandDisplay commandDisplay;
+    public ControlDisplay controlDisplay;
+
+    public StageGameOverMenu gameOverMenu;
 
 	public static float beatLength;
 
 	private MicrogameTraits microgameTraits;
 	private float animationStartTime, outroPlayTime;
     private Animator[] sceneAnimators;
-
-    private CommandDisplay commandDisplay;
-    private ControlDisplay controlDisplay;
 
 	private Queue<MicrogameInstance> microgameQueue;
 	private class MicrogameInstance
@@ -107,8 +107,10 @@ public class StageController : MonoBehaviour
 	{
 		instance = this;
         sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
-        commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
-        controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
+        if (commandDisplay == null)
+            commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
+        if (controlDisplay == null)
+            controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
     }
 
 	void updateMicrogameQueue(int maxQueueSize)

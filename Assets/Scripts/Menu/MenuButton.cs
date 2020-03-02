@@ -26,6 +26,11 @@ public class MenuButton : MonoBehaviour
     private AudioClip pressClip;
     [SerializeField]
     private KeyCode pressKey = KeyCode.None;
+    public KeyCode PressKey
+    {
+        get { return pressKey; }
+        set { pressKey = value; }
+    }
 #pragma warning restore 0649
 
     public bool forceDisable { get; set; }

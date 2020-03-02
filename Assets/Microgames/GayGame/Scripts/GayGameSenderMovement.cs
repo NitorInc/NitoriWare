@@ -10,6 +10,18 @@ public class GayGameSenderMovement : MonoBehaviour
     private float maxY = 3f;
     [SerializeField]
     private float anglePerX = 5f;
+    [SerializeField]
+    private AudioClip grabClip;
+    [SerializeField]
+    private AudioClip releaseClip;
+    [SerializeField]
+    private float grabPitch;
+    [SerializeField]
+    private float releasePitch;
+    [SerializeField]
+    private float grabVolume = .8f;
+    [SerializeField]
+    private float releaseVolume = .8f;
 
     private Vector3 startPosition;
     private Vector3 initialScale;
@@ -29,4 +41,11 @@ public class GayGameSenderMovement : MonoBehaviour
         float currentAngle = (startPosition.x - transform.position.x) * anglePerX;
         transform.localEulerAngles = Vector3.forward * currentAngle;
 	}
+
+    public void setGrab(bool grabbed)
+    {
+        MicrogameController.instance.playSFX(grabbed ? grabClip : releaseClip,
+            panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x),
+            pitchMult: grabbed ? grabPitch : releasePitch);
+    }
 }

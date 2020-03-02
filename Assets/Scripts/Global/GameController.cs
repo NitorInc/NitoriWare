@@ -20,12 +20,15 @@ public class GameController : MonoBehaviour
     private UnityEvent onSceneLoad;
     [SerializeField]
     private DiscordController _discord;
+    [SerializeField]
+    private bool showcaseMode;
 #pragma warning restore 0649
 
     private string startScene;
     
     public SceneShifter sceneShifter => _sceneShifter;
     public DiscordController discord => _discord;
+    public bool ShowcaseMode => showcaseMode;
 
 	void Awake()
 	{

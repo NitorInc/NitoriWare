@@ -13,8 +13,12 @@ public class SineWave : MonoBehaviour
     [SerializeField]
 	private Vector3 positionOffset;
 	private float startTime;
+    [SerializeField]
+    private float xPow = 1f;
+    [SerializeField]
+    private float yPow = 1f;
 
-	void Awake()
+    void Awake()
 	{
 		resetStartPosition();
 		resetCycle();
@@ -43,11 +47,16 @@ public class SineWave : MonoBehaviour
 		if (xAmplitude > 0f)
 		{
 			x = Mathf.Sin(((Time.time - startTime) * xSpeed) + (xOffset * Mathf.PI)) * xAmplitude;
+            if (xPow != 1f)
+                x = Mathf.Pow(Mathf.Abs(x), xPow) * Mathf.Sign(x);
 		}
 		if (yAmplitude > 0f)
 		{
 			y = Mathf.Sin(((Time.time - startTime) * ySpeed) + (yOffset * Mathf.PI)) * yAmplitude;
-		}
+
+            if (yPow != 1f)
+                y = Mathf.Pow(Mathf.Abs(y), yPow) * Mathf.Sign(y);
+        }
 		transform.localPosition = new Vector3(x, y, 0f) + positionOffset;
 	}
 

@@ -31,6 +31,9 @@ public class MilkPourCup : MonoBehaviour {
 	[SerializeField]
 	private float fillPerSecond;
 
+    [SerializeField]
+    protected MilkPourPourSpeedAnimation animationSpeedMult;
+
 	/// <summary>
 	/// 	Get/set the height of the glass.
 	/// </summary>
@@ -74,7 +77,12 @@ public class MilkPourCup : MonoBehaviour {
 		set
 		{
 			lowerFillLineSprite.size = new Vector2(lowerFillLineSprite.size.x, value);
-		}
+            var particleChild = lowerFillLineSprite.transform.GetChild(0);
+            particleChild.localPosition = new Vector3(
+                particleChild.localPosition.x,
+                value - .05f,
+                particleChild.localPosition.z);
+        }
 	}
 
 	/// <summary>
@@ -89,7 +97,12 @@ public class MilkPourCup : MonoBehaviour {
 		set
 		{
 			upperFillLineSprite.size = new Vector2(upperFillLineSprite.size.x, value);
-		}
+            var particleChild = upperFillLineSprite.transform.GetChild(0);
+            particleChild.localPosition = new Vector3(
+                particleChild.localPosition.x,
+                value - .05f,
+                particleChild.localPosition.z);
+        }
 	}
 	
 	/// <summary>
@@ -126,8 +139,8 @@ public class MilkPourCup : MonoBehaviour {
 	/// </summary>
 	public virtual void Fill(float deltaTime)
 	{
-		if (!Stopped)
-			FillHeight = Mathf.Min(FillHeight + fillPerSecond * deltaTime, GlassHeight);
+        //if (!Stopped)
+            FillHeight = Mathf.Min(FillHeight + fillPerSecond * animationSpeedMult.PourSpeedMult * deltaTime, GlassHeight);
 	}
 
 	/// <summary>
