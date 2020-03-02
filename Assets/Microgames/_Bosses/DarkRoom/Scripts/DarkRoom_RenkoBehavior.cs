@@ -78,7 +78,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
     }
 
     private void Fall() {
-        if (transform.position.y < -5f)
+        if (transform.position.y < -7.2f)
             return;
 
         // Fall down

@@ -20,12 +20,19 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     private ShadowType shadowType;
     [SerializeField]
     private Transform overrideOriginPoint;
+    [SerializeField]
+    private float flickerFrequencyMult = 8f;
+    [SerializeField]
+    private float flickerAmpMult = 0f;
+    [SerializeField]
+    private float flickerLossFadeSpeed = .1f;
 
     private enum ShadowType
     {
         Cursor,
         Lantern,
         LanternCursorFade,
+        PulseOnly
     }
 
     Vector3 initialPosition;
@@ -50,10 +57,19 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
 
     void LateUpdate()
     {
+        if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory())
+            flickerAmpMult = Mathf.MoveTowards(flickerAmpMult, 0f, Time.deltaTime * flickerLossFadeSpeed);
+
         var compTransform = overrideOriginPoint != null ? overrideOriginPoint : transform.parent;
         var mouseDiff = shadowType == ShadowType.Lantern
             ? (Vector2)(compTransform.position - DarkRoomLightEffect.lampTransformSingleton.position)
             : (Vector2)(compTransform.parent.position - DarkRoomLightEffect.cursorTransformSingleton.position);
+        if (shadowType == ShadowType.PulseOnly)
+            mouseDiff = Vector2.zero;
+        
+        //var t = Time.timeSinceLevelLoad * 3f * flickerFrequencyMult;
+        //var a = -Mathf.Sin(t);
+        //mouseDiff = mouseDiff.resize(mouseDiff.magnitude + (a * flickerAmpMult));
 
         var mouseDist = mouseDiff.magnitude;
         var cursorMult = 1f + DarkRoomEffectAnimationController.instance.cursorBoost;
@@ -69,6 +85,9 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
 
         var scale = initialScale;
         var scaleFactor = 1f + (mouseDist * cameraDistanceScaleMult);
+        var t = Time.timeSinceLevelLoad * 3f * flickerFrequencyMult;
+        var a = -Mathf.Sin(t);
+        scaleFactor += (a * flickerAmpMult);
         transform.localScale *= scaleFactor;
 
         var alpha = initialAlpha;
