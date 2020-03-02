@@ -8,6 +8,7 @@ Shader "Hidden/DarkRoomBlur"
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_FlipX("Flip X", Float) = 0
+		_SizeMult("Blur Mult", Float) = 1
 	}
 
 	SubShader
@@ -73,12 +74,13 @@ Shader "Hidden/DarkRoomBlur"
 			sampler2D _MainTex;
 			float4 _MainTex_TexelSize;
 			float _FlipX;
+			float _SizeMult;
 
 			float4 frag(v2f i) : SV_Target
 			{
 				if (_FlipX > .5)
 					i.uv.x = 1.0-i.uv.x;
-				float4 color = box(_MainTex, i.uv, _MainTex_TexelSize);
+				float4 color = box(_MainTex, i.uv, _MainTex_TexelSize * _SizeMult);
                 color *= i.uvColor;
 
 				return color;
