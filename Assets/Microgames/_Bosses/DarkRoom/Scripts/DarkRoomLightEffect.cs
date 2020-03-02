@@ -8,7 +8,7 @@ public class DarkRoomLightEffect : MonoBehaviour
     public static Transform cursorTransformSingleton;
 
     [SerializeField]
-    private bool useRadiusBoost;
+    private float radiusBoostMult = -.4f;
     [Header("Singleton values only necessary in one instance")]
     [SerializeField]
     private Transform lampTransform;
@@ -37,8 +37,10 @@ public class DarkRoomLightEffect : MonoBehaviour
         material.SetVector("_LampPos", lampTransformSingleton.position);
         material.SetVector("_CursorPos", cursorTransformSingleton.position);
         material.SetFloat("_LampAnim", DarkRoomEffectAnimationController.instance.lampBoost);
-        if (useRadiusBoost)
-            material.SetFloat("_LampRadiusBoost", DarkRoomEffectAnimationController.instance.radiusBoost);
         material.SetFloat("_CursorAnim", DarkRoomEffectAnimationController.instance.cursorBoost);
+
+        var radBoost = DarkRoomEffectAnimationController.instance.radiusBoost * radiusBoostMult;
+        radBoost = Mathf.Max(radBoost, -material.GetFloat("_FadeEnd"));
+        material.SetFloat("_LampRadiusBoost", radBoost);
     }
 }
