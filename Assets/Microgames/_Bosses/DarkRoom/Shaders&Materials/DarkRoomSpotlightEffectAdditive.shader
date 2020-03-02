@@ -19,6 +19,7 @@ Shader "Hidden/DarkRoomSpotlightEffectAdditive"
 		_PulseAmpInv("Pulse Amplitude Inverse", Float) = 15
 		_CursorPulseAmpInv("Cursor Pulse Amplitude Inverse", Float) = 15
 		_LampAlphaBoost("Lamp Alpha Boost", Float) = 0
+		_LampRadiusBoost("Lamp Radius Boost", Float) = 0
 		_CursorAlphaBoost("Cursor Alpha Boost", Float) = 0
 		_FinalMult("Final Mult", Float) = 1
 		_FinalCursorMult("Final Cursor Mult", Float) = 1
@@ -95,6 +96,7 @@ Shader "Hidden/DarkRoomSpotlightEffectAdditive"
 			float _CursorAnim;
 			float _FinalMult;
 			float _FinalCursorMult;
+			float _LampRadiusBoost;
 
 			float distance(float2 a, float2 b)
 			{
@@ -107,7 +109,7 @@ Shader "Hidden/DarkRoomSpotlightEffectAdditive"
                 color *= i.uvColor;
 
 				float lampDistance = distance((float2)i.wpos, (float2)_LampPos);
-				float lampAlpha = (lampDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);
+				float lampAlpha = (lampDistance - _FadeStart) / abs((_FadeEnd + _LampRadiusBoost) - _FadeStart);
 				lampAlpha *= 1 + (sin(_Time.w * .8 * _PulseSpeed) / _PulseAmpInv);
 				//lampAlpha = clamp(lampAlpha, 0, 1);
 				lampAlpha = pow(lampAlpha, _AlphaPow);

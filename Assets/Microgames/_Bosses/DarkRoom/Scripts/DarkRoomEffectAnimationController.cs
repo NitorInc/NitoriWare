@@ -8,6 +8,7 @@ public class DarkRoomEffectAnimationController : MonoBehaviour
     
     public float lampBoost = 0f;
     public float cursorBoost = 0f;
+    public float radiusBoost = 0f;
     public float walkSpeed = 1f;
 
     private Animator animator;
