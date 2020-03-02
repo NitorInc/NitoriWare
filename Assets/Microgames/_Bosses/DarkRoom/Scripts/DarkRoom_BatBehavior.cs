@@ -53,6 +53,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private float retreatCooldownTimer;
     private float currentSpeed;
     private bool batFlipped;
+    public bool matchPlayerSpeed { get; set; }
 
     private bool hasFlownAway = false;
     private float flyAwayDirection;
@@ -126,6 +127,10 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
         else
             currentSpeed = Mathf.MoveTowards(currentSpeed, -retreatSpeed, retreatAcc * Time.deltaTime);
 
+        var frameSpeed = currentSpeed;
+        if (matchPlayerSpeed)
+            frameSpeed *= DarkRoomEffectAnimationController.instance.walkSpeed;
+
         if (currentSpeed >= 0f)
         {
             if (batRenderer.flipX != batFlipped)
@@ -151,7 +156,8 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
 
         //batRenderer.flipX = batFlipped != isRetreating;
 
-        transform.position += (Vector3)advanceDirection.resize(currentSpeed) * Time.deltaTime;
+
+        transform.position += (Vector3)advanceDirection.resize(frameSpeed) * Time.deltaTime;
 
         if (!isRetreating)
             retreatCooldownTimer -= Time.deltaTime;

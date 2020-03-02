@@ -136,11 +136,19 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
         if (other.name.Length >= 3 && other.name.Substring(0, 3) == "Bat") {
             DarkRoom_BatBehavior scriptBat = other.GetComponent<DarkRoom_BatBehavior>();
             if (!scriptBat.HasFlownAway)
+            {
+                scriptBat.matchPlayerSpeed = true;
                 Fail();
+            }
         } else
         // WITH: Spider
         if (other.name.Length >= 4 && other.name.Substring(0, 4) == "Head") {
-            Fail();
+            {
+
+                DarkRoom_SpiderHeadBehavior scriptSpider = other.GetComponent<DarkRoom_SpiderHeadBehavior>();
+                scriptSpider.matchPlayerSpeed = true;
+                Fail();
+            }
         }
     }
 
