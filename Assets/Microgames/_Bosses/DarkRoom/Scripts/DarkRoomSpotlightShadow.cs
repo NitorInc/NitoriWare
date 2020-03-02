@@ -26,6 +26,8 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     private float flickerAmpMult = 0f;
     [SerializeField]
     private float flickerLossFadeSpeed = .1f;
+    [SerializeField]
+    private SpriteRenderer matchSprite;
 
     private enum ShadowType
     {
@@ -59,6 +61,8 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
     {
         if (MicrogameController.instance.getVictoryDetermined() && !MicrogameController.instance.getVictory())
             flickerAmpMult = Mathf.MoveTowards(flickerAmpMult, 0f, Time.deltaTime * flickerLossFadeSpeed);
+        if (matchSprite != null)
+            shadowRenderer.sprite = matchSprite.sprite;
 
         var compTransform = overrideOriginPoint != null ? overrideOriginPoint : transform.parent;
         var mouseDiff = shadowType == ShadowType.Lantern

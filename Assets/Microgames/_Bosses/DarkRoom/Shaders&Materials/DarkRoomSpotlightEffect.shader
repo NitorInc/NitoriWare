@@ -23,6 +23,7 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 		
 		_LampAnim("Lamp Animation Boost", Float) = 0
 		_CursorAnim("Cursor Animation Boost", Float) = 0
+		_FlipX("Flip X", Float) = 0
 	}
 
 	SubShader
@@ -91,6 +92,7 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 			float _CursorAlphaBoost;
 			float _LampAnim;
 			float _CursorAnim;
+			float _FlipX;
 
 			float distance(float2 a, float2 b)
 			{
@@ -99,8 +101,14 @@ Shader "Hidden/DarkRoomSpotlightEffect"
 
 			float4 frag(v2f i) : SV_Target
 			{
+				if (_FlipX > .5)
+					i.uv.x = 1.0-i.uv.x;
+
 				float4 color = tex2D(_MainTex, i.uv);
                 color *= i.uvColor;
+
+				if (_FlipX > .5)
+					i.uv.x = 1.0-i.uv.x;
 
 				float lampDistance = distance((float2)i.wpos, (float2)_LampPos);
 				float lampAlpha = (lampDistance - _FadeStart) / abs(_FadeEnd - _FadeStart);

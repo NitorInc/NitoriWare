@@ -13,11 +13,11 @@ public class DarkRoomLightEffect : MonoBehaviour
     [SerializeField]
     private Transform cursorTransform;
 
-    private Material material;
+    private Renderer rend;
 
 	void Start()
     {
-        material = GetComponent<Renderer>().material;
+        rend = GetComponent<Renderer>();
         if (lampTransform != null)
             lampTransformSingleton = lampTransform;
         if (cursorTransform != null)
@@ -31,6 +31,7 @@ public class DarkRoomLightEffect : MonoBehaviour
 
     void updateValues()
     {
+        var material = rend.material;
         material.SetVector("_LampPos", lampTransformSingleton.position);
         material.SetVector("_CursorPos", cursorTransformSingleton.position);
         material.SetFloat("_LampAnim", DarkRoomEffectAnimationController.instance.lampBoost);

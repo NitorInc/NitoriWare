@@ -41,6 +41,8 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private float volumeMult = 1f;
     [SerializeField]
     private SpriteRenderer batRenderer;
+    [SerializeField]
+    private Shadow[] shadows;
 
     private ParticleSystem myParticleSystem;
 
@@ -57,6 +59,15 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private float flyAwayComponentX;
     private float flyAwayComponentY;
     private float flyAwaySpeed = 1f;
+
+    [System.Serializable]
+    public class Shadow
+    {
+        public SpriteRenderer shadowRenderer;
+        public Material normalMaterial;
+        public Material flippedMaterial;
+    }
+
 
     /* Base methods */
 
@@ -116,9 +127,27 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
             currentSpeed = Mathf.MoveTowards(currentSpeed, -retreatSpeed, retreatAcc * Time.deltaTime);
 
         if (currentSpeed >= 0f)
-            batRenderer.flipX = batFlipped;
+        {
+            if (batRenderer.flipX != batFlipped)
+            {
+                batRenderer.flipX = batFlipped;
+                foreach (var shadow in shadows)
+                {
+                    shadow.shadowRenderer.material = batFlipped ? shadow.flippedMaterial : shadow.normalMaterial;
+                }
+            }
+        }
         else
-            batRenderer.flipX = !batFlipped;
+        {
+            if (batRenderer.flipX == batFlipped)
+            {
+                batRenderer.flipX = !batFlipped;
+                foreach (var shadow in shadows)
+                {
+                    shadow.shadowRenderer.material = !batFlipped ? shadow.flippedMaterial : shadow.normalMaterial;
+                }
+            }
+        }
 
         //batRenderer.flipX = batFlipped != isRetreating;
 
