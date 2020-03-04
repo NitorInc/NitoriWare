@@ -8,7 +8,9 @@ public class DarkRoomMusicController : MonoBehaviour
     public static DarkRoomMusicController instance;
 
     [SerializeField]
-    private float volumeLerpSpeed = 3f;
+    private float volumeUpLerpSpeed = 1f;
+    [SerializeField]
+    private float volumeDownLerpSpeed = .5f;
     [SerializeField]
     private float volumeMult;
     [SerializeField]
@@ -43,13 +45,17 @@ public class DarkRoomMusicController : MonoBehaviour
         for (int i = 0; i < instrumentSources.Length; i++)
         {
             var source = instrumentSources[i];
-            source.volume = Mathf.MoveTowards(source.volume, volumeLevels[i], volumeLerpSpeed) * initialVolumes[i] * volumeMult;
+            var current = source.volume;
+            var goal = volumeLevels[i];
+            var goalVolume = volumeLevels[i] * initialVolumes[i] * volumeMult;
+            source.volume = Mathf.MoveTowards(source.volume, goalVolume,
+                ((source.volume < goalVolume) ? volumeUpLerpSpeed : volumeDownLerpSpeed) * Time.deltaTime);
 
-            
-            //if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
-            //    source.pitch *= 4f;
-            //if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
-            //    source.pitch /= 4f;
+
+                //if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
+                //    source.pitch *= 4f;
+                //if (MicrogameController.instance.isDebugMode() && Input.GetKeyUp(KeyCode.S))
+                //    source.pitch /= 4f;
         }
 
         //print(instrumentSources.Length);
