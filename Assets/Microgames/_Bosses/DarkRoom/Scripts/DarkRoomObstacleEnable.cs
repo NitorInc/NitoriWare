@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DarkRoomObstacleEnable : MonoBehaviour
 {
@@ -9,8 +10,13 @@ public class DarkRoomObstacleEnable : MonoBehaviour
     
 	void Start ()
     {
-		
-	}
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var child = transform.GetChild(i);
+            if (!child.gameObject.activeInHierarchy)
+                Destroy(child.gameObject);
+        }
+    }
 	
 	void Update ()
     {
