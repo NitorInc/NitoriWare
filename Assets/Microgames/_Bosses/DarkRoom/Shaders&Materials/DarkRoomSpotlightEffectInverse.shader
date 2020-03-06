@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Hidden/DarkRoomSpotlightEffectAdditive"
+Shader "Hidden/DarkRoomSpotlightEffectInverse"
 {
 	Properties
 	{
@@ -27,7 +27,10 @@ Shader "Hidden/DarkRoomSpotlightEffectAdditive"
 		_LampAnim("Lamp Animation Boost", Float) = 0
 		_CursorAnim("Cursor Animation Boost", Float) = 0
 		_FlipX("Flip X", Float) = 0
-		_IsAdditive("Is Additive", Float) = 1
+		_IsAdditive("Is Additive", Float) = 0
+
+		_AlphaMult("Alpha Mult", Float) = 1
+
 	}
 
 	SubShader
@@ -50,11 +53,14 @@ Shader "Hidden/DarkRoomSpotlightEffectAdditive"
 
 			#include "DarkRoomSpotlightShader.cginc"
 
+			float _AlphaMult;
+
 			float4 frag(v2f i) : SV_Target
 			{
 				float4 color = tex2D(_MainTex, i.uv);
-				color.a *= calculate(i);
+				color.a *= 1.0 - calculate(i);
                 color *= i.uvColor;
+				color.a *= _AlphaMult;
 
 				return color;
 			}

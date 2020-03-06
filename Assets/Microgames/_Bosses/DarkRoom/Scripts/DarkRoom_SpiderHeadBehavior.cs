@@ -28,11 +28,11 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private float raiseDelayTimer;
     private AudioSource sfxSource;
     private bool inLight;
-    public bool matchPlayerSpeed { get; set; }
+    public bool killedPlayer { get; set; }
 
-	/* Base methods */
+    /* Base methods */
 
-	void Start () {
+    void Start () {
         // Initialization
         transformThread = transform.parent.Find("Thread");
         sfxSource = GetComponent<AudioSource>();
@@ -40,6 +40,11 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
 	
 	void Update () {
 
+        if (killedPlayer)
+        {
+            enabled = false;
+            return;
+        }
         if (inLight)
         {
             raiseDelayTimer -= 60f * Time.deltaTime;
@@ -69,7 +74,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
         var threadDiff = transform.position.y;
 
         var frameSpeed = retreatSpeed;
-        if (matchPlayerSpeed)
+        if (killedPlayer)
             frameSpeed *= DarkRoomEffectAnimationController.instance.walkSpeed;
 
         transform.position = Vector3.MoveTowards(transform.position,
@@ -99,7 +104,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
         currentLowerSpeed = Mathf.MoveTowards(currentLowerSpeed, lowerSpeed, lowerAcc * Time.deltaTime);
 
         var frameLowerSpeed = currentLowerSpeed;
-        if (matchPlayerSpeed)
+        if (killedPlayer)
             frameLowerSpeed *= DarkRoomEffectAnimationController.instance.walkSpeed;
 
         // Lower.. down
@@ -147,6 +152,7 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D otherCollider)
     {
+
         GameObject other = otherCollider.gameObject;
 
         // WITH: Light

@@ -53,7 +53,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
     private float retreatCooldownTimer;
     private float currentSpeed;
     private bool batFlipped;
-    public bool matchPlayerSpeed { get; set; }
+    public bool killedPlayer { get; set; }
 
     private bool hasFlownAway = false;
     private float flyAwayDirection;
@@ -128,7 +128,7 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
             currentSpeed = Mathf.MoveTowards(currentSpeed, -retreatSpeed, retreatAcc * Time.deltaTime);
 
         var frameSpeed = currentSpeed;
-        if (matchPlayerSpeed)
+        if (killedPlayer)
             frameSpeed *= DarkRoomEffectAnimationController.instance.walkSpeed;
 
         if (currentSpeed >= 0f)

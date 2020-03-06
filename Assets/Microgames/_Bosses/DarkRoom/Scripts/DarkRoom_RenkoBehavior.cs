@@ -137,7 +137,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
             DarkRoom_BatBehavior scriptBat = other.GetComponent<DarkRoom_BatBehavior>();
             if (!scriptBat.HasFlownAway)
             {
-                scriptBat.matchPlayerSpeed = true;
+                scriptBat.killedPlayer = true;
                 Fail();
             }
         } else
@@ -146,7 +146,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
             {
 
                 DarkRoom_SpiderHeadBehavior scriptSpider = other.GetComponent<DarkRoom_SpiderHeadBehavior>();
-                scriptSpider.matchPlayerSpeed = true;
+                scriptSpider.killedPlayer = true;
                 Fail();
             }
         }
