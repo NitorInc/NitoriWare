@@ -13,9 +13,13 @@ public class RabbitTrapVictim : MonoBehaviour {
     [SerializeField]
     private float speed = 2.0F;
 
+    [Header("Falling speed")]
+    [SerializeField]
+    private float speedFalling = 5.0F;
+
     [Header("Trapped freeze time")]
     [SerializeField]
-    private float freezeTime = 2.0F;
+    private float freezeTime = 1.5F;
     private float freezeTimeLeft = 0;
 
     [Header("Animation speed mod")]
@@ -28,15 +32,7 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     [Header("Too soon stop location")]
     [SerializeField]
-    private float tooSoonStopLocation;
-
-    [Header("On Time X stop location")]
-    [SerializeField]
-    private float onTimeXStopLocation;
-
-    [Header("On Time Y stop location")]
-    [SerializeField]
-    private float onTimeYStopLocation;
+    private float tooSoonStopLocation = 2.3F;
 
     [SerializeField]
     private float[] stopsAndWaitTime;
@@ -87,7 +83,7 @@ public class RabbitTrapVictim : MonoBehaviour {
             {
                 if (this.isVictory)
                 {
-                    trajectory = new Vector2(0,speed);
+                    trajectory = new Vector2(0,speedFalling);
                     Vector2 newPosition = GetNewPosition();
                     this.transform.position = newPosition;
                 } else {
@@ -99,9 +95,6 @@ public class RabbitTrapVictim : MonoBehaviour {
 
             victimOutOfBounds = IsVictimOutOfBounds();
             
-        } else
-        {
-
         }
     }
 
@@ -121,9 +114,6 @@ public class RabbitTrapVictim : MonoBehaviour {
             this.walkAnimation.enabled = true;
             this.walkAnimation.speed = this.speed * animationSpeedMod;
         }
-        
-        
-        
     }
 
     Vector2 GetNewPosition()
@@ -179,7 +169,7 @@ public class RabbitTrapVictim : MonoBehaviour {
         SetFalling();
         setFreezeTimeLeft(this.freezeTime);
         print("Victory!");
-        maxXPosition = onTimeXStopLocation;
+        // maxXPosition = onTimeXStopLocation;
     }
 
     void SetFalling()
