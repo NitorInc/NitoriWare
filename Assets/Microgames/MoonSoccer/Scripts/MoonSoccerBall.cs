@@ -8,13 +8,18 @@ public class MoonSoccerBall : MonoBehaviour {
     [Header("Movement Speed")]
     [SerializeField]
     public float moveSpeed = 1f;
-    
-    public float vMoveSpeed = 0f;
+	
+	// Start position
+    [Header("Start offset from Mokou")]
+    [SerializeField]
+    public float offX = 0f;
+	public float offY = 0f;
+	
 
     	void Update () {
             // Move to the right at the set movement speed
             transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, 
-                                            transform.position.y + vMoveSpeed * Time.deltaTime, 
+                                            transform.position.y + 0 * Time.deltaTime, 
                                             transform.position.z);
             if (transform.position.x >= 7) {
                 MicrogameController.instance.setVictory(victory: true, final: true);
@@ -28,7 +33,7 @@ public class MoonSoccerBall : MonoBehaviour {
     public void activate (Vector2 position) 
     {
         transform.position = position;
-        transform.position = new Vector2(transform.position.x + 1.2f, transform.position.y - 1);
+        transform.position = new Vector2(transform.position.x + offX, transform.position.y + offY);
         gameObject.SetActive(true);
     }
 }

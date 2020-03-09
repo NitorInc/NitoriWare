@@ -49,7 +49,7 @@ public class CharacterSplashText : MonoBehaviour
 
     int determinePhraseIndex()
     {
-        return (int)PrefsHelper.getProgress();
+        return GameController.instance.ShowcaseMode ? 0 : (int)PrefsHelper.getProgress();
     }
 
     void setTexts(Phrase phrase)

@@ -20,6 +20,8 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
     private GameObject[] disableObjects;
     [SerializeField]
     private AudioClip[] grabClips;
+    [SerializeField]
+    private bool requireMouseUp;
 
     private bool inCollider = false;
 
@@ -48,7 +50,7 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
 
     private void Update()
     {
-        if (inCollider && Input.GetMouseButtonUp(0))
+        if (inCollider && (Input.GetMouseButtonUp(0) || !requireMouseUp))
         {
             grab();
             enabled = false;
@@ -60,6 +62,7 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
         MicrogameController.instance.setVictory(true);
         letterTransform.parent = newLetterParent;
         sceneAnimator.SetTrigger("Victory");
+        sceneAnimator.SetFloat("BegSpeed", 0f);
         foreach (var grabbable in grabbablesObject.GetComponents<MouseGrabbable>())
         {
             grabbable.enabled = false;

@@ -12,30 +12,39 @@ public class GayGameSenderGrabLetter : MonoBehaviour
     private MouseGrabbable letterHitBoxGrabbable;
     [SerializeField]
     private AudioClip grabClip;
+    [SerializeField]
+    private bool grabAtStart;
 
     private bool grabbed = false;
     public bool Grabbed => grabbed;
 
     void Start ()
     {
-		
+        if (grabAtStart)
+            grab();
 	}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag.Equals("MicrogameTag1"))
         {
-            grabbed = true;
-            foreach (var obj in enableOnGrab)
-            {
-                obj.SetActive(true);
-            }
-            foreach (var obj in disableOnGrab)
-            {
-                obj.SetActive(false);
-            }
-            letterHitBoxGrabbable.enabled = true;
-            MicrogameController.instance.playSFX(grabClip, panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
+            grab();
         }
+    }
+
+    void grab()
+    {
+        grabbed = true;
+        foreach (var obj in enableOnGrab)
+        {
+            obj.SetActive(true);
+        }
+        foreach (var obj in disableOnGrab)
+        {
+            obj.SetActive(false);
+        }
+        letterHitBoxGrabbable.enabled = true;
+        if (!grabAtStart)
+            MicrogameController.instance.playSFX(grabClip, panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));
     }
 }

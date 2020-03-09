@@ -16,15 +16,18 @@ public class RockBandAudienceMember : MonoBehaviour
     private Sprite[] sprites;
     [SerializeField]
     private Sprite failSprite;
+    [SerializeField]
+    private bool checkVictory = true;
 #pragma warning restore 0649
 
     private Vector3 startPosition;
     private float hopStartTime, hopHeight, hopWait, hopDuration, flipCooldown;
     private int victoryStatus = 0;
+    private float mult { get; set; } = 1f;
 
 	void Start()
 	{
-        startPosition = transform.position;
+        startPosition = transform.localPosition;
 
         resetHop();
         hopStartTime = Time.time - Random.Range(0f, hopDuration + hopWait);
@@ -38,11 +41,12 @@ public class RockBandAudienceMember : MonoBehaviour
         resetFlip();
 	}
 
-    void resetHop()
+    public void resetHop()
     {
         if (victoryStatus == -1)
             hopHeightRandomBounds = Vector2.zero;
 
+        //spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
         hopStartTime = Time.time;
         hopHeight = MathHelper.randomRangeFromVector(hopHeightRandomBounds);
         hopWait = MathHelper.randomRangeFromVector(hopWaitRandomBounds);
@@ -59,7 +63,7 @@ public class RockBandAudienceMember : MonoBehaviour
 	{
         updateHop();
         updateFlip();
-        if (victoryStatus == 0)
+        if (checkVictory && victoryStatus == 0)
             checkVictoryStatus();
 	}
 
@@ -68,7 +72,7 @@ public class RockBandAudienceMember : MonoBehaviour
         float timeSinceHopStart = Time.time - hopStartTime,
             height = timeSinceHopStart <= hopDuration ? (hopCurve.Evaluate(timeSinceHopStart / hopDuration) * hopHeight) : 0f;
 
-        transform.position = startPosition + (Vector3.up * height);
+        transform.localPosition = startPosition + (Vector3.up * height);
 
         if (timeSinceHopStart > hopDuration + hopWait)
             resetHop();
@@ -100,7 +104,7 @@ public class RockBandAudienceMember : MonoBehaviour
                 spriteRenderer.color = new Color(brightness, brightness, brightness, 1f);
                 if (Time.time - hopStartTime <= hopDuration)
                 {
-                    hopHeight = transform.position.y - startPosition.y;
+                    hopHeight = transform.localPosition.y - startPosition.y;
                     hopStartTime = Time.time - (hopDuration / 2f);
                 }
                 else
