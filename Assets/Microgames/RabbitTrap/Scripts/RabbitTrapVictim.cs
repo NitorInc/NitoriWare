@@ -9,10 +9,14 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     private Animator walkAnimation;
     
-
     [Header("Travel speed")]
     [SerializeField]
-    private float speed;
+    private float speed = 2.0F;
+
+    [Header("Trapped freeze time")]
+    [SerializeField]
+    private float freezeTime = 2.0F;
+    private float freezeTimeLeft = 0;
 
     [Header("Animation speed mod")]
     [SerializeField]
@@ -59,18 +63,17 @@ public class RabbitTrapVictim : MonoBehaviour {
         maxXPosition = -8;
         maxPosition = new Vector2(maxXPosition, 0);
         trajectory = new Vector2(speed,0);
-        victimOutOfBounds = false;        
+        victimOutOfBounds = false;
 }
 	
 	// Update is called once per frame
 	void Update () {
 
-        SetTrapable();
-
+        SetTrapable();  
         if (Input.GetMouseButtonDown(0))
         {
             if (isTrapable)
-            {
+            {                
                 SetVictory();
             } else
             {
@@ -80,25 +83,25 @@ public class RabbitTrapVictim : MonoBehaviour {
 
         if (!victimOutOfBounds)
         {
-            if (pauseTimeLeft>0)
+            if (!this.isFrozen())
             {
-                this.pauseTimeLeft = this.pauseTimeLeft - Time.deltaTime;
-            } else
-            {
-                moveVictim();
-                
+                if (this.isVictory)
+                {
+                    trajectory = new Vector2(0,speed);
+                    Vector2 newPosition = GetNewPosition();
+                    this.transform.position = newPosition;
+                } else {
+                    moveVictim();
+                }
             }
             setAnimationSpeed();
+            
 
             victimOutOfBounds = IsVictimOutOfBounds();
+            
         } else
         {
-            if (this.isVictory)
-            {
-                trajectory = new Vector2(0,speed);
-                Vector2 newPosition = GetNewPosition();
-                this.transform.position = newPosition;
-            }
+
         }
     }
 
@@ -120,6 +123,7 @@ public class RabbitTrapVictim : MonoBehaviour {
         }
         
         
+        
     }
 
     Vector2 GetNewPosition()
@@ -131,6 +135,7 @@ public class RabbitTrapVictim : MonoBehaviour {
     {
         if (this.transform.position.x<maxXPosition)
         {
+            this.walkAnimation.enabled = false;
             return true;
         } else
         {
@@ -157,11 +162,13 @@ public class RabbitTrapVictim : MonoBehaviour {
 
     bool IsVictimTrapable()
     {
-        if (this.GetComponent<Collider2D>().IsTouching(trap.GetComponent<Collider2D>()))
+        if (this.GetComponent<Collider2D>().bounds.Intersects(trap.GetComponent<Collider2D>().bounds))
         {
+            // print("Trappable");
             return true;
         } else
         {
+            // print("Non Trappable");
             return false;
         }
     }
@@ -169,8 +176,15 @@ public class RabbitTrapVictim : MonoBehaviour {
     void SetVictory()
     {
         this.isVictory = true;
+        SetFalling();
+        setFreezeTimeLeft(this.freezeTime);
         print("Victory!");
         maxXPosition = onTimeXStopLocation;
+    }
+
+    void SetFalling()
+    {
+        this.walkAnimation.SetBool("isFalling",true);
     }
 
     void SetLose()
@@ -198,6 +212,24 @@ public class RabbitTrapVictim : MonoBehaviour {
     void PauseVictimMovement(float pauseTime)
     {
         this.pauseTimeLeft = pauseTime;
+    }
+
+    void setFreezeTimeLeft(float freezeTime)
+    {
+        this.freezeTimeLeft = freezeTime;
+    }
+
+    bool isFrozen(){
+        if (pauseTimeLeft>0) {
+            this.pauseTimeLeft = this.pauseTimeLeft - Time.deltaTime;
+            return true;
+        }
+
+        if (this.freezeTimeLeft>0) {
+            this.freezeTimeLeft = this.freezeTimeLeft - Time.deltaTime;
+            return true;
+        }
+        return false;
     }
 
     void ChangeVictimSpeed(float newSpeed)

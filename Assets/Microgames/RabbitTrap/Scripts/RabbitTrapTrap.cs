@@ -23,6 +23,7 @@ public class RabbitTrapTrap : MonoBehaviour {
 
     void ActivateTrap()
     {
-        this.transform.localScale = new Vector3(0, 0, 0);
+        this.transform.Find("TrapSprite").GetComponent<SpriteRenderer>().enabled = false;
+        // this.transform.localScale = new Vector3(0, 0, 0);
     }
 }
