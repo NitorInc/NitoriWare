@@ -22,6 +22,8 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     private Transform transformThread;
     [SerializeField]
     private AudioClip raiseClip;
+    [SerializeField]
+    private AudioClip spotlightWarningClip;
     private float currentLowerSpeed;
 
     private float lowerDelayTimer;
@@ -143,7 +145,11 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
             Retreat();
             lowerDelayTimer = lowerDelay;
             if (!inLight)
+            {
                 sfxSource.PlayOneShot(raiseClip);
+                if (spotlightWarningClip != null)
+                    sfxSource.PlayOneShot(spotlightWarningClip);
+            }
             inLight = true;
         }
 

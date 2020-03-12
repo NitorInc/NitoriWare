@@ -18,6 +18,8 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
     [SerializeField]
     private AudioClip shutClip;
     [SerializeField]
+    private AudioClip spotlightWarningClip;
+    [SerializeField]
     private bool reverseLogic;
     [SerializeField]
     private bool instrumentsAlwaysOn = true;
@@ -86,7 +88,11 @@ public class DarkRoom_TrapdoorBehavior : MonoBehaviour {
         // WITH: Light
         if (other.name == "Light") {
             if (closeTimer == 0f)
+            {
                 sfxSource.PlayOneShot(shutClip);
+                if (spotlightWarningClip != null)
+                    sfxSource.PlayOneShot(spotlightWarningClip);
+            }
             closeTimer = Mathf.MoveTowards(closeTimer, closeDelay, Time.deltaTime * openingSpeedMult * 60f);
         }
 

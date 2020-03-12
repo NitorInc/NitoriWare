@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114173958078398096
@@ -548,8 +548,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instrumentRules:
   - volumeRange: {x: 0, y: 1}
-    distanceRange: {x: 6, y: 3}
+    distanceRange: {x: 4.5, y: 2}
     instrument: 0
+    fromLeftOnly: 0
+    fromSide: 0
+    sideThreshold: 0
 --- !u!114 &114239899157746938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -647,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114524219535834556
