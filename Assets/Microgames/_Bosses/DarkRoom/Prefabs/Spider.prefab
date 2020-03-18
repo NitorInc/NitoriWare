@@ -757,7 +757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114090955149474984
@@ -775,6 +775,9 @@ MonoBehaviour:
   - volumeRange: {x: 0, y: 1}
     distanceRange: {x: 4, y: 2}
     instrument: 0
+    fromLeftOnly: 0
+    fromSide: 0
+    sideThreshold: 0
 --- !u!114 &114099134149523530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -901,7 +904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114301462120144768
@@ -915,7 +918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114306944931219542
@@ -929,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114340380478192728
@@ -967,7 +970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114452997230226440
@@ -1104,13 +1107,14 @@ MonoBehaviour:
   highY: 6
   lowY: 1.5
   retreatSpeed: 5
-  lowerSpeed: 3
-  lowerAcc: 3
+  lowerSpeed: 1.5
+  lowerAcc: 1
   lowerDelay: 48
   raiseDelay: 16
   light: {fileID: 0}
   rigAnimator: {fileID: 95721831694573090}
   raiseClip: {fileID: 8300000, guid: 8e22cd8f221ed61479f17ae0d216c0b1, type: 3}
+  spotlightWarningClip: {fileID: 0}
 --- !u!114 &114774500244073860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1194,7 +1198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4860ea762dfd2a947a5cf11a3405874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRadiusBoost: 0
+  radiusBoostMult: -0.4
   lampTransform: {fileID: 0}
   cursorTransform: {fileID: 0}
 --- !u!114 &114984756477776964
