@@ -15,14 +15,18 @@ public class DarkRoomKogasa : MonoBehaviour
     [SerializeField]
     private float scareDistance = -1f;
 
-    private float activationTimer;
+    private float lightActivateTimer;
+    private float activationDelayTimer;
+    private float vibrateX;
+    private float vibrateY;
     private bool revealed;
 
 	// Use this for initialization
 	void Start ()
     {
-        activationTimer = lightActivateTime;
-	}
+        lightActivateTimer = lightActivateTime;
+        activationDelayTimer = activationDelay;
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -35,13 +39,19 @@ public class DarkRoomKogasa : MonoBehaviour
         }
         if (revealed)
         {
-            activationDelay -= Time.deltaTime;
+            activationDelayTimer -= Time.deltaTime;
             if (transform.position.x < MainCameraSingleton.instance.transform.position.x + scareDistance)
             {
                 rigAnimator.SetTrigger("Scare");
                 DarkRoom_RenkoBehavior.instance.Fail();
             }
         }
+        else
+            activationDelayTimer = activationDelay;
+
+
+        var t = 1f - (lightActivateTimer / lightActivateTime);
+        rigAnimator.SetFloat("Shake", t);
     }
 
 
@@ -55,10 +65,10 @@ public class DarkRoomKogasa : MonoBehaviour
         GameObject other = otherCollider.gameObject;
 
         // WITH: Light
-        if (other.name == "Light" && revealed && activationDelay <= 0f)
+        if (other.name == "Light" && revealed && activationDelayTimer <= 0f)
         {
-            activationTimer -= Time.deltaTime;
-            if (activationTimer <= 0f)
+            lightActivateTimer -= Time.deltaTime;
+            if (lightActivateTimer <= 0f)
             {
                 rigAnimator.SetTrigger("Expose");
                 GetComponent<DarkRoomInstrumentDistance>().enabled = false;
@@ -79,7 +89,7 @@ public class DarkRoomKogasa : MonoBehaviour
         // WITH: Light
         if (other.name == "Light")
         {
-            activationTimer = lightActivateTime;
+            lightActivateTimer = lightActivateTime;
         }
 
     }
