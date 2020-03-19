@@ -117,6 +117,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4291232842279744}
+  - component: {fileID: 95123925431306990}
   m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
@@ -465,6 +466,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!95 &95123925431306990
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1568410483989158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5d5c14339aa49e24e84bfa21e192abe6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114120691132343058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,7 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 900
   closeDelay: 105
-  openingSpeedMult: 10
+  openingSpeedMult: 10000
   lampOpen: {fileID: 212730916500335270}
   lampClose: {fileID: 212788922207199236}
   openClip: {fileID: 8300000, guid: bfd9879c3f3b9af48885ac8b94805c7f, type: 3}
@@ -523,6 +541,7 @@ MonoBehaviour:
   spotlightWarningClip: {fileID: 0}
   reverseLogic: 0
   instrumentsAlwaysOn: 0
+  rigAnimator: {fileID: 95123925431306990}
 --- !u!212 &212224319171488670
 SpriteRenderer:
   m_ObjectHideFlags: 1
