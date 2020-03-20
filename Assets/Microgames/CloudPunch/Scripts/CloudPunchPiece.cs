@@ -31,8 +31,7 @@ public class CloudPunchPiece : MonoBehaviour
     {
         if (enabled
             && collision.tag.Equals("MicrogameTag1")
-            && awaitingPunch
-            && !isHead)
+            && awaitingPunch)
         {
             // Ensure we're the closest piece vertically to the fist hitbox
             for (int i = 0; i < transform.parent.childCount; i++)
@@ -56,6 +55,8 @@ public class CloudPunchPiece : MonoBehaviour
                 if (!otherPiece.isHead)
                     otherPiece.rigAnimator.SetTrigger("Swap");
             }
+            if (isHead)
+                MicrogameController.instance.setVictory(true);
 
             rigAnimator.SetTrigger("Knock");
             awaitingPunch = false;
