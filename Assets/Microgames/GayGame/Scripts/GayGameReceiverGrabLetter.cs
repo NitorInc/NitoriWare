@@ -68,6 +68,7 @@ public class GayGameReceiverGrabLetter : MonoBehaviour
 
     void grab()
     {
+        senderMovement.LateUpdate();
         MicrogameController.instance.setVictory(true);
         letterTransform.parent = newLetterParent;
         sceneAnimator.SetTrigger("Victory");

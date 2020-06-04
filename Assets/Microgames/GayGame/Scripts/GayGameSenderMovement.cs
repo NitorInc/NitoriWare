@@ -28,13 +28,13 @@ public class GayGameSenderMovement : MonoBehaviour
     bool grabbed;
     public bool Grabbed => grabbed;
 
-	void Start ()
+    void Start ()
     {
         startPosition = transform.position;
         initialScale = transform.localScale;
 	}
 	
-	void LateUpdate ()
+	public void LateUpdate ()
     {
         if (transform.position.y > maxY)
             transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
