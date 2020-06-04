@@ -18,6 +18,18 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
     [SerializeField] private GameObject light;
     [SerializeField]
     private Animator rigAnimator;
+    [SerializeField]
+
+    // Used for reverse logic only (don't shine light on)
+    private SpriteRenderer[] reverseLogicEyeRenderers;
+    [SerializeField]
+    private Sprite reverseLogicRedEyeSprite;
+    [SerializeField]
+    private Color reverseLogicRedEyeColor;
+    [SerializeField]
+    private Sprite reverseLogicGrayEyeSprite;
+    [SerializeField]
+    private Color reverseLogicGrayEyeColor;
 
     private Transform transformThread;
     [SerializeField]
@@ -63,6 +75,12 @@ public class DarkRoom_SpiderHeadBehavior : MonoBehaviour {
         }
         else
             Lower();
+
+        foreach (var eyes in reverseLogicEyeRenderers)
+        {
+            eyes.sprite = inLight ? reverseLogicRedEyeSprite : reverseLogicGrayEyeSprite;
+            eyes.color = inLight ? reverseLogicRedEyeColor : reverseLogicGrayEyeColor;
+        }
 
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
     }
