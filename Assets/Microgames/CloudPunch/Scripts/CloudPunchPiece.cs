@@ -14,6 +14,8 @@ public class CloudPunchPiece : MonoBehaviour
     private bool isHead;
     [SerializeField]
     private float fallSpeed = 50f;
+    [SerializeField]
+    private float victorySoundDelay = .25f;
 
     public static bool awaitingPunch;
 
@@ -56,7 +58,10 @@ public class CloudPunchPiece : MonoBehaviour
                     otherPiece.rigAnimator.SetTrigger("Swap");
             }
             if (isHead)
+            {
                 MicrogameController.instance.setVictory(true);
+                AudioHelper.playScheduled(GetComponent<AudioSource>(), victorySoundDelay);
+            }
 
             rigAnimator.SetTrigger("Knock");
             awaitingPunch = false;
