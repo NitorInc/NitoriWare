@@ -23,7 +23,7 @@ public class DarkRoomMusicController : MonoBehaviour
     }
     private const int InstrumentCount = 2;
 
-    private AudioSource[] instrumentSources;
+    private AudioAutoAdjust[] instrumentSources;
     private float[] volumeLevels;
     private float[] initialVolumes;
 
@@ -34,9 +34,9 @@ public class DarkRoomMusicController : MonoBehaviour
         
         instrumentSources = Enumerable.Range(0, InstrumentCount)
             .Select(a => transform.Find(((Instrument)a).ToString())
-                .GetComponent<AudioSource>())
+                .GetComponent<AudioAutoAdjust>())
             .ToArray();
-        initialVolumes = instrumentSources.Select(a => a.volume).ToArray();
+        initialVolumes = instrumentSources.Select(a => a.VolumeMult).ToArray();
         volumeLevels = instrumentSources.Select(a => 0f).ToArray();
     }
 
@@ -45,11 +45,11 @@ public class DarkRoomMusicController : MonoBehaviour
         for (int i = 0; i < instrumentSources.Length; i++)
         {
             var source = instrumentSources[i];
-            var current = source.volume;
+            var current = source.VolumeMult;
             var goal = volumeLevels[i];
             var goalVolume = volumeLevels[i] * initialVolumes[i] * volumeMult;
-            source.volume = Mathf.MoveTowards(source.volume, goalVolume,
-                ((source.volume < goalVolume) ? volumeUpLerpSpeed : volumeDownLerpSpeed) * Time.deltaTime);
+            source.VolumeMult = Mathf.MoveTowards(source.VolumeMult, goalVolume,
+                ((source.VolumeMult < goalVolume) ? volumeUpLerpSpeed : volumeDownLerpSpeed) * Time.deltaTime);
 
 
                 //if (MicrogameController.instance.isDebugMode() && Input.GetKeyDown(KeyCode.S))
