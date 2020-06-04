@@ -43,7 +43,7 @@ public class CharacterSplashText : MonoBehaviour
 
     void queueShift()
     {
-        GameController.instance.sceneShifter.startShift(phrase.shiftScene, sceneTime / 2f);
+        GameController.instance.sceneShifter.startShift(phrase.shiftScene, sceneTime / 2f, useFirstBuildIndex: true);
         GameController.instance.sceneShifter.setFadeDuration(holdFadeDuration);
     }
 
