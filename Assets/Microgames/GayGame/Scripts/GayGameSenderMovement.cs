@@ -25,6 +25,8 @@ public class GayGameSenderMovement : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 initialScale;
+    bool grabbed;
+    public bool Grabbed => grabbed;
 
 	void Start ()
     {
@@ -44,6 +46,7 @@ public class GayGameSenderMovement : MonoBehaviour
 
     public void setGrab(bool grabbed)
     {
+        this.grabbed = grabbed;
         MicrogameController.instance.playSFX(grabbed ? grabClip : releaseClip,
             panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x),
             pitchMult: grabbed ? grabPitch : releasePitch);
