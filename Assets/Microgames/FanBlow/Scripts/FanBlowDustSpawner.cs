@@ -27,13 +27,13 @@ public class FanBlowDustSpawner : MonoBehaviour
         {
             createDust(new Vector3(MathHelper.randomRangeFromVector(spawnXRandomRange),
                 MathHelper.randomRangeFromVector(spawnYRandomRange),
-                transform.position.z + (.001f * i)));
+                transform.position.z - (.001f * i)));
         }
 	}
 
     private void Update()
     {
-        if (transform.childCount <= 0)
+        if (transform.childCount <= 0 || Input.GetKeyDown(KeyCode.Space))
         {
             enabled = false;
             MicrogameController.instance.setVictory(true);
