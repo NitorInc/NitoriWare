@@ -52,7 +52,7 @@ public static class PrefsHelper
     static void handleLegacyVersions(int recordedVersion)
     {
         // Check for scores implemented before implementing versions
-        if (getProgress() >= GameProgress.StoryComplete)
+        if (getProgress() >= GameProgress.StoryComplete) // Pre version 3
         {
             setStageUnlocked("compilation", true);
             setStageUnlocked("compilationfast", getHighScore("compilation") >= 15);
