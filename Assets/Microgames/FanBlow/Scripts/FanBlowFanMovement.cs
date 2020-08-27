@@ -31,6 +31,7 @@ public class FanBlowFanMovement : MonoBehaviour
     private Vector2 lastPosition;
     private float currentSpeed;
     public float CurrentSpeed => currentSpeed;
+    private Vector3 currentVelocity;
 
     private bool wasPaused;
     public bool WasPaused
@@ -56,7 +57,7 @@ public class FanBlowFanMovement : MonoBehaviour
     {
         if (MicrogameController.instance.getVictoryDetermined())
         {
-            enabled = false;
+            //transform.position += currentVelocity * Time.deltaTime;
             return;
         }
 
@@ -73,6 +74,7 @@ public class FanBlowFanMovement : MonoBehaviour
         var positionDiff = (cursorPosition - lastPosition);
         if (positionDiff.magnitude > maxMoveSpeed * Time.deltaTime)
             positionDiff = positionDiff.resize(maxMoveSpeed * Time.deltaTime);
+        currentVelocity = positionDiff / Time.deltaTime;
         currentSpeed = positionDiff.magnitude / Time.deltaTime;
         transform.position = transform.position + (Vector3)positionDiff;
 
@@ -123,7 +125,12 @@ public class FanBlowFanMovement : MonoBehaviour
     Vector3 GetRayCastPosition()
     {
         var pos = Input.mousePosition;
-        pos = new Vector3(Mathf.Clamp(pos.x, 0f, Screen.width - 1), Mathf.Clamp(pos.y, 0f, Screen.height - 1));
+        var buffer = ((float)Screen.width - ((float)Screen.height * 4f / 3f)) / 2f;
+        //print(Screen.width);
+        //print(Screen.height);
+        pos = new Vector3(Mathf.Clamp(pos.x, buffer, Screen.width - buffer), Mathf.Clamp(pos.y, 0f, Screen.height - 1));
+        //print(pos.x);
+        //print((Screen.height * 4f / 3f) - 2f);
         var ray = MainCameraSingleton.instance.ScreenPointToRay(pos);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))

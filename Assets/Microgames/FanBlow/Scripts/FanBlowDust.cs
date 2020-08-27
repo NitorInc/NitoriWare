@@ -37,6 +37,7 @@ public class FanBlowDust : MonoBehaviour
         baseScale = MathHelper.randomRangeFromVector(baseScaleRandomRange);
         health = 1f;
         updateScale();
+        dustRenderer.sortingOrder = Random.Range(-32767, 32767);
     }
 	
 	void Update ()
