@@ -82,18 +82,35 @@ public class TouhouSortSorter : MonoBehaviour
         MouseGrabbableGroup grabGroup = stagingArea.GetComponent<MouseGrabbableGroup>();
         TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
+        int lastPickedSide = 0; // 0 for left, 1 for right
         for (int i = 0; i < amount; i++)
         {
             Style style;
             if (leftStyles.Count == 0)
             {
                 style = rightStyles[Random.Range(0, rightStyles.Count)];
+                lastPickedSide = 0;
                 rightStyles.Remove(style);
             }
             else if (rightStyles.Count == 0)
             {
                 style = leftStyles[Random.Range(0, leftStyles.Count)];
+                lastPickedSide = 1;
                 leftStyles.Remove(style);
+            }
+            else if (i == 1)    // Ensure one of each type
+            {
+                if (lastPickedSide == 1)
+                {
+                    style = leftStyles[Random.Range(0, leftStyles.Count)];
+                    leftStyles.Remove(style);
+                }
+                else
+                {
+                    style = rightStyles[Random.Range(0, leftStyles.Count)];
+                    rightStyles.Remove(style);
+                }
+                lastPickedSide = 1 - lastPickedSide;
             }
             else
             {
@@ -101,11 +118,13 @@ public class TouhouSortSorter : MonoBehaviour
                 if (coin == 0)
                 {
                     style = leftStyles[Random.Range(0, leftStyles.Count)];
+                    lastPickedSide = 0;
                     leftStyles.Remove(style);
                 }
                 else
                 {
                     style = rightStyles[Random.Range(0, rightStyles.Count)];
+                    lastPickedSide = 1;
                     rightStyles.Remove(style);
                 }
             }
@@ -135,6 +154,7 @@ public class TouhouSortSorter : MonoBehaviour
             grabGroup.addGrabbable(grab, true);
             randomTouhous[i] = touhou;
         }
+        randomTouhous.Shuffle();
 
         return randomTouhous;
     }
