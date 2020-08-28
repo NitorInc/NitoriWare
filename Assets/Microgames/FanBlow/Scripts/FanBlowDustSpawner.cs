@@ -33,7 +33,7 @@ public class FanBlowDustSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (transform.childCount <= 0 || Input.GetKeyDown(KeyCode.Space))
+        if (transform.childCount <= 0)
         {
             enabled = false;
             MicrogameController.instance.setVictory(true);
