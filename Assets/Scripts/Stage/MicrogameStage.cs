@@ -22,7 +22,7 @@ public class MicrogameStage : Stage
     public override void onStageStart()
     {
         //Update collection if microgame is forced, in case it's in the project but hasn't been added to the collection, for debugging
-        if (!string.IsNullOrEmpty(forceMicrogame))
+        if (!string.IsNullOrEmpty(forceMicrogame) && Debug.isDebugBuild)
         {
             MicrogameCollection.instance.updateMicrogames();
             microgameId = forceMicrogame;
