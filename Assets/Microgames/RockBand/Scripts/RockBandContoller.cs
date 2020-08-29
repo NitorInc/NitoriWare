@@ -11,8 +11,11 @@ public class RockBandContoller : MonoBehaviour
 	public RockBandLight[] lights;
 	public AudioClip victoryClip, failureClip;
 	public AudioClip[] noteHitClips;
+    public RockBandNote lineIndicatorPrefab;
+    public int indicatorMin = -4;
+    public int indicatorMax = 10;
 
-	private AudioSource _audioSource;
+    private AudioSource _audioSource;
 	private State state;
 	public enum State
 	{
@@ -29,7 +32,23 @@ public class RockBandContoller : MonoBehaviour
         QualitySettings.pixelLightCount = lights.Length;
 	}
 
-	public void victory()
+    private void Start()
+    {
+        for (float i = indicatorMin; i < indicatorMax; i += .5f)
+        {
+            var note = Instantiate(lineIndicatorPrefab, transform.position, Quaternion.identity);
+            note.transform.parent = transform;
+            note.targetBeat = i;
+            if (i % 1 == .5)
+            {
+                var noteScale = note.transform.localScale;
+                noteScale.Scale(new Vector3(.3f, 1f, 1f));
+                note.transform.localScale = noteScale;
+            }
+        }
+    }
+
+    public void victory()
 	{
 		setState(State.Victory);
 		MicrogameController.instance.setVictory(true, true);
@@ -55,6 +74,10 @@ public class RockBandContoller : MonoBehaviour
 			if (lightAnimator != null)
 				lightAnimator.enabled = false;
 		}
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
 		_audioSource.PlayOneShot(failureClip);
 	}
 
