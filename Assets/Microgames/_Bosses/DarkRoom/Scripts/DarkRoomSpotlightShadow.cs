@@ -50,6 +50,9 @@ public class DarkRoomSpotlightShadow : MonoBehaviour
         initialPosition = transform.position - transform.parent.position;
         initialAlpha = shadowRenderer.color.a;
         initialScale = transform.localScale;
+
+        if (shadowType == ShadowType.Cursor)
+            flickerAmpMult = 0f;
 	}
 
     private void Update()
