@@ -47,12 +47,12 @@ public class LocalizationUpdaterEditor : Editor
         expandLanguages = EditorGUILayout.Foldout(expandLanguages, "Update TMP Font Asset Atlases:");
         if (expandLanguages)
         {
+            if (GUILayout.Button("All Incomplete (grab a coffee)"))
+            {
+                updater.rebuildAllIncompleteFontAtlases();
+            }
             foreach (var font in TMPFontsData.instance.fonts)
             {
-                if (GUILayout.Button("All Incomplete"))
-                {
-                    updater.rebuildAllIncompleteFontAtlases();
-                }
                 if (GUILayout.Button(font.idName))
                 {
                     updater.rebuildFontAtlas(font);
