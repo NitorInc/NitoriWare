@@ -45,12 +45,12 @@ menu
 		highscore=Rekord: {0}
 		compilationmode
 			description=Vyzvi tolik mikroher jak můžeš! Žádná boss úroveň.
-		compilation=Kappa Kompendium
+		compilation=Kappa kompendium
 			description=Normální arkádový režim: hraj všechny mikrohry zamíchaně.
 		compilationfast=Maximální kappacita
 			description=SUPER DUPER RYCHLÁ!!
 		compilationmystery=(Potřeba dokumentace)
-			description=Jejda, ztratili/y jsme modrotisky pro tohle. Žádný příkazový nebo ovládací řádek.
+			description=Jejda, ztratili/y jsme modrotisky pro tohle. Žádný příkazový nebo ovládací řádek!
 		compilationhard=Okurkové peklo
 			description=Vše ty nejtěžší hry! Jenom jeden život! Jak dlouho můžeš vydržet?
 	main
@@ -92,15 +92,26 @@ microgame
 		command=Nakrm!
 	Donation
 		command=Sbírej 3!
+	Potion
+		command=Dej to tam!
+		ingredients=Indegrience
 	GhostFood
 		command=Jez a žvýkej!
 	Spaceship
 		command=Odpal to!
 	KogasaScare
 		command=Vystraš!
+	ChenBike
+		command=Zatrub!
+	MasterSparkCode
+		command=Zakouzli!
+	YukariCake
+		command=Šlohni!
+	RemiCover
+		command=Zastínuj!
 	PaperThief
 		command=Doraž k cíli!
-		commandb=Dávej pozor!
+		commandb=Dávej si pozor!
 		commandc=Sestřel!
 		commandd=Poraž ji!
 	KaguyaMemory
@@ -140,13 +151,19 @@ microgame
 		command=Sfoukni pryč!
 	YuugiBalance
 		command=Zabalancuj!
+		igname=Vyrovnané píjení
 	ComicBubble
 		command=Dialoguj!
+		0
+			0=Jsi si jistá, že to je bezpečné?
+			1=To je v pořádku!
 		1
 			0=Hej, počkej!
 			1=Něco máš přeeeeesně~
 			2=~TADY!
 		2
+			0=Ten úklid je taková bolest...
+			1=Proč se trápit, když jsem jediná, kdo bude navštívit?
 			2=<i>Jéé!</i>
 			3=<i>Au!</i>
 	DoorKnock
@@ -158,6 +175,7 @@ microgame
 		command=Nalákej!
 	KeineMath
 		command=Rozlušti!
+		igname=Udělej matiku
 	DoomGame
 		command=Zastřel je!
 		danger=Za tebou!
@@ -165,13 +183,16 @@ microgame
 	MystiaServe
 		command=Servíruj!
 	FoodRoast
-		command=Vem až bude připraveno!
+		command=Vem, až bude připraveno!
 	SeijaSpin
 		command=Toč!
+	GhostSuck
+		command=Nasej to tam!
 	MoonSoccer
 		command=Skóruj!
 	IcePath
 		command=Naviguj!
+		igname=Ledová chůze
 	DatingSim
 		suika
 			fullname=Suika Ibuki
@@ -183,7 +204,7 @@ microgame
 				response=No nejsi tak sám vyhublý, blbečku!
 			wrong2
 				option=Můžeš jít sama sebe.
-				response=Fajn, stejně nejseš zábavný.
+				response=Fajn, stejně nejseš zábavný/á.
 		youmu
 			fullname=Youmu Konpaku
 			firstname=Youmu
@@ -208,14 +229,17 @@ microgame
 				option=Určitě ne!
 			right1
 				option=Jseš jenom jediná pro mě!
+				response=Myslela jsem si to.
 			wrong0
 				option=No...
 				response=Jak to myslíš, „No“?
 			wrong1
+				option=Jsem zamilován/a s Reimu!
 				response=Přemýšlej znovu.
 		patchy
 			fullname=Patchouli Knowledge
 			firstname=Patchouli
+			introdialogue=Doufám, že si pochutnáš s mým čajem...
 			right0
 				option=Chutná delikátně.
 				response=Ach? To jsem ráda.
@@ -225,10 +249,10 @@ microgame
 				option=Tenhle chutná vtipně.
 				response=Ach, omlouvám se.
 			wrong2
-				option=Nikdy jsem nežádal o čaj.
+				option=Nikdy jsem nežádal/a o čaj.
+				response=Já... jsem myslela, že tě to bude chutnat.
+		fakeconfig=Uložit\nNačíst\nAutomat.\nZáznamy\nKonfig.
 		igname=První rande
-	Potion
-		ingredients=Indegrience
 	CupShuffle
 		commandb=Vyber si!
 	TouhouSort
@@ -237,19 +261,43 @@ microgame
 		ear=uši
 	YoumuSlash
 		commandb=Rozřež věci!
+	SagumeLie
+		0=O: Q0
+			lie0=O: L0-0
+			lie1=O: L0-1
+			truth0=O: T0-0
+			truth1=O: T0-1
+		1=O: Q1
+			lie0=O: L1-0
+			lie1=O: L1-1
+			truth0=T: T1-0
+			truth1=O: T1-1
+	CheeseFind
+		commandb=Najdi všechny sýry!
+	DarkRoom
+		commandb=Ochraň!
+	ClothesChoose
+		igname=Vzhled dne
 	EikiJudge
 		igname=Den posouzení
 credits
+	intro={0} byla snadno vyrobena díky následujícím fanouškům!
+	code=Kód mimo mikroher
+	UI=Grafika menu a úrovní
 	menumusic=Hudba menu
-	stagemusic=Hudba úrovně
+	stagemusic=Hudba úrovní
 	microgame
-		management=Řízení mikrohry
-		managementalt=Řízení spolupráce
-		code=Kód mikrohry
-		art=Umění mikrohry
-		music=Hudba mikrohry
+		management=Řízení mikroher
+		managementalt=Řízení spoluprací
+		code=Kód mikroher
+		art=Umění mikroher
+		music=Hudba mikroher
 	localization=Lokalizace
 		management=Řízení lokalizace
 	sfx=Zvukové efekty
 	voice=Hlas Nitori
+	site=Design webové stránky
 	trailer=Ukázka dema
+	thanks=Velké poděkování
+		discord=Touhou Project Discord server
+		patreon=Děkujeme naším podporovatelům z Patreonu!
