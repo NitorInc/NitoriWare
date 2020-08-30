@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using DTLocalization.Internal;
 
 [System.Serializable]
 public class TMPFont
