@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using TMPro;
+using DTLocalization.Internal;
 
 [CreateAssetMenu(menuName = "Localization/Localization Updater")]
 [ExecuteInEditMode]
@@ -32,6 +33,8 @@ public class LocalizationUpdater : ScriptableObject
     private string languagesPath;
     [SerializeField]
     private string charsPath;
+    [SerializeField]
+    private string fontsPath;
     [SerializeField]
     private string reportFile;
 
@@ -219,17 +222,16 @@ public class LocalizationUpdater : ScriptableObject
                 if (LocalizationManager.parseFontCompabilityString(language, fontKVPair.Value.value))
                 {
                     // Font is marked as compatible
-                    var font = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
+                    var font = TMPFontsData.instance.fonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
                     
-
                     if (font == null)
                     {
-                        Debug.LogWarning(fontKVPair.Key + " is missing from Languages Data asset");
+                        Debug.LogWarning(fontKVPair.Key + " is missing from TMP Fonts Data asset");
                         continue;
                     }
                     if (font.fontAsset == null)
                     {
-                        Debug.LogWarning(fontKVPair.Key + " is missing associated TMPro font in Languages Data asset");
+                        Debug.LogWarning(fontKVPair.Key + " is missing associated TMPro font in TMP Fonts asset");
                         continue;
                     }
 
@@ -279,6 +281,21 @@ public class LocalizationUpdater : ScriptableObject
         }
 
         Debug.Log("Font character analysis complete");
+    }
+
+    public void rebuildFontAtlas(TMPFont font)
+    {
+        var data = font.bakeData;
+        var fullCharsPath = Path.Combine(Application.dataPath, charsPath);
+        var charString = File.ReadAllText(Path.Combine(fullCharsPath, data.characterTextFile + ".txt"));
+        TMPFontAssetBaker.Bake(data.baseFont, false, data.fontSize, data.padding, TMPFontPackingModes.Optimum,
+            data.atlasWidth, data.atlasHeight, TMPro.EditorUtilities.FaceStyles.Normal, 2, TMPro.EditorUtilities.RenderModes.DistanceField16,
+            charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"));
+
+        Debug.Log("Rebuilt atlas for " + font.idName);
+        if (!string.IsNullOrEmpty(data.notes))
+            Debug.Log("Notes about " + font.idName + ":\n" + data.notes);
+        
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges
