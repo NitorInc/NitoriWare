@@ -220,8 +220,19 @@ public class LocalizationUpdater : ScriptableObject
                 {
                     // Font is marked as compatible
                     var font = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
-                    if (font == null || font.fontAsset == null)
+                    
+
+                    if (font == null)
+                    {
+                        Debug.LogWarning(fontKVPair.Key + " is missing from Languages Data asset");
                         continue;
+                    }
+                    if (font.fontAsset == null)
+                    {
+                        Debug.LogWarning(fontKVPair.Key + " is missing associated TMPro font in Languages Data asset");
+                        continue;
+                    }
+
                     var charString = File.ReadAllText(Path.Combine(fullCharsPath, language.getFileName() + "Chars.txt"));
                     charString = string.Join("", charString.Distinct());
                     List<char> currentChars = charString.ToCharArray().ToList();
