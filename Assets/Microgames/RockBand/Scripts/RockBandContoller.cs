@@ -12,8 +12,8 @@ public class RockBandContoller : MonoBehaviour
 	public AudioClip victoryClip, failureClip;
 	public AudioClip[] noteHitClips;
     public RockBandNote lineIndicatorPrefab;
-    public int indicatorMin = -4;
-    public int indicatorMax = 10;
+    public float indicatorMin = -4;
+    public float indicatorMax = 10;
 
     private AudioSource _audioSource;
 	private State state;
