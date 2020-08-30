@@ -42,6 +42,21 @@ public class LocalizationUpdater : ScriptableObject
     [Multiline]
     private string ignoreChars;
 
+    public class LanguageFontCharData
+    {
+        public Language language { get; private set; }
+        public TMPFont font { get; private set; }
+        public string missingChars { get; private set; }
+
+        public LanguageFontCharData(Language language, TMPFont font, string missingLetters)
+        {
+            this.language = language;
+            this.font = font;
+            this.missingChars = missingLetters;
+        }
+    }
+
+
     public void updateLanguages()
     {
         var languages = new Dictionary<string, SerializedNestedStrings>();
@@ -210,9 +225,20 @@ public class LocalizationUpdater : ScriptableObject
 
     public void checkFontChars()
     {
+        var missingData = GetMissingFontCharData();
+        foreach (var data in missingData)
+        {
+            Debug.LogWarning($"{data.font.fontAsset.name} is missing {data.language.getFileName()} character(s)  " +
+                $"{data.missingChars}");
+        }
+        Debug.Log("Font character analysis complete");
+    }
+
+    public List<LanguageFontCharData> GetMissingFontCharData()
+    {
         string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
         string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
-        var errorStrings = new List<string>();
+        var missingCharData = new List<LanguageFontCharData>();
         foreach (var language in LanguagesData.instance.languages)
         {
             var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
@@ -268,19 +294,14 @@ public class LocalizationUpdater : ScriptableObject
                     {
                         currentChars = currentChars.Except(ignoreChars.ToCharArray()).ToList();
                         if (currentChars.Any())
-                            errorStrings.Add($"{font.fontAsset.name} is missing {language.getFileName()} character(s)  " +
-                            $"{string.Join("", currentChars)}");
+                        {
+                            missingCharData.Add(new LanguageFontCharData(language, font, string.Join("", currentChars)));
+                        }
                     }
                 }
             }
         }
-        errorStrings.Sort();
-        foreach (var errorString in errorStrings)
-        {
-            Debug.LogWarning(errorString);
-        }
-
-        Debug.Log("Font character analysis complete");
+        return missingCharData.OrderBy(a => a.font.fontAsset.name).ThenBy(a => a.language.getLanguageID()).ToList();
     }
 
     public void rebuildFontAtlas(TMPFont font)
@@ -296,7 +317,18 @@ public class LocalizationUpdater : ScriptableObject
         Debug.Log("Rebuilt atlas for " + font.idName);
         if (!string.IsNullOrEmpty(data.notes))
             Debug.Log("Notes about " + font.idName + ":\n" + data.notes);
-        
+    }
+
+    public void rebuildAllIncompleteFontAtlases()
+    {
+        var incompleteFonts = GetMissingFontCharData()
+            .Select(a => a.font)
+            .Distinct();
+        foreach (var font in incompleteFonts)
+        {
+            rebuildFontAtlas(font);
+        }
+        Debug.Log("All incomplete font atlases updated. Please double check with Check Font Chars button.");
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges

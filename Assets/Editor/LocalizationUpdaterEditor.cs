@@ -49,6 +49,10 @@ public class LocalizationUpdaterEditor : Editor
         {
             foreach (var font in TMPFontsData.instance.fonts)
             {
+                if (GUILayout.Button("All Incomplete"))
+                {
+                    updater.rebuildAllIncompleteFontAtlases();
+                }
                 if (GUILayout.Button(font.idName))
                 {
                     updater.rebuildFontAtlas(font);
