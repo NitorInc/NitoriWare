@@ -290,7 +290,8 @@ public class LocalizationUpdater : ScriptableObject
         var charString = File.ReadAllText(Path.Combine(fullCharsPath, data.characterTextFile + ".txt"));
         TMPFontAssetBaker.Bake(data.baseFont, false, data.fontSize, data.padding, TMPFontPackingModes.Optimum,
             data.atlasWidth, data.atlasHeight, TMPro.EditorUtilities.FaceStyles.Normal, 2, TMPro.EditorUtilities.RenderModes.DistanceField16,
-            charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"));
+            charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"),
+            data.glyphOverrides);
 
         Debug.Log("Rebuilt atlas for " + font.idName);
         if (!string.IsNullOrEmpty(data.notes))

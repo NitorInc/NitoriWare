@@ -17,7 +17,7 @@ namespace DTLocalization.Internal {
 
 	public static class TMPFontAssetBaker {
 		// PRAGMA MARK - Public Interface
-		public static void Bake(Font font, bool useAutoSizing, int fontSize, int characterPadding, TMPFontPackingModes fontPackingMode, int atlasWidth, int atlasHeight, FaceStyles fontStyle, int fontStyleMod, RenderModes fontRenderMode, string charactersToBake, string outputFilePath) {
+		public static void Bake(Font font, bool useAutoSizing, int fontSize, int characterPadding, TMPFontPackingModes fontPackingMode, int atlasWidth, int atlasHeight, FaceStyles fontStyle, int fontStyleMod, RenderModes fontRenderMode, string charactersToBake, string outputFilePath, TMPFont.GlyphOverride[] glyphOverrides) {
 			int errorCode = TMPro_FontPlugin.Initialize_FontEngine();
 			if (errorCode != 0 && errorCode != 99) { // 99 means that engine was already initialized
 				Debug.LogWarning("Error Code: " + errorCode + "  occurred while initializing TMPro_FontPlugin.");
@@ -74,11 +74,24 @@ namespace DTLocalization.Internal {
 			UnityEngine.Object.DestroyImmediate(fontAsset.atlas, allowDestroyingAssets: true);
 
 			fontAsset.fontAssetType = (fontRenderMode >= RenderModes.DistanceField16) ? TMP_FontAsset.FontAssetTypes.SDF : TMP_FontAsset.FontAssetTypes.Bitmap;
-
+            
 			fontAsset.AddFaceInfo(ConvertToFaceInfo(fontFaceInfo));
-			fontAsset.AddGlyphInfo(ConvertToGlyphs(fontGlyphInfo));
 
-			var fontTexture = CreateFontTexture(atlasWidth, atlasHeight, textureBuffer, fontRenderMode);
+            // Apply glyph overrides
+            var glyphs = ConvertToGlyphs(fontGlyphInfo);
+            foreach (var glyphOverride in glyphOverrides)
+            {
+                var glyph = glyphs.FirstOrDefault(a => a.id == glyphOverride.id);
+                glyph.width = glyphOverride.W;
+                glyph.height = glyphOverride.H;
+                glyph.xOffset = glyphOverride.OX;
+                glyph.yOffset = glyphOverride.OY;
+                glyph.xAdvance = glyphOverride.ADV;
+                glyph.scale = glyphOverride.SF;
+            }
+            fontAsset.AddGlyphInfo(glyphs);
+
+            var fontTexture = CreateFontTexture(atlasWidth, atlasHeight, textureBuffer, fontRenderMode);
 			fontTexture.name = outputFilename + " Atlas";
 			fontTexture.hideFlags = HideFlags.HideInHierarchy;
 

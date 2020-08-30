@@ -21,6 +21,7 @@ MonoBehaviour:
       characterTextFile: NonAsianChars
       atlasWidth: 2048
       atlasHeight: 1024
+      glyphOverrides: []
       notes: 
   - idName: Mitr
     fontAsset: {fileID: 11400000, guid: 410784798d1dfce4294ab6a7f7409f1b, type: 2}
@@ -31,6 +32,7 @@ MonoBehaviour:
       characterTextFile: NonAsianChars
       atlasWidth: 2048
       atlasHeight: 1024
+      glyphOverrides: []
       notes: Only font Thai is compatible with
   - idName: Comic
     fontAsset: {fileID: 0}
@@ -41,6 +43,7 @@ MonoBehaviour:
       characterTextFile: 
       atlasWidth: 2048
       atlasHeight: 1024
+      glyphOverrides: []
       notes: 
   - idName: KFhimaji
     fontAsset: {fileID: 11400000, guid: 7292d3563ca88c745811365a2839457d, type: 2}
@@ -51,6 +54,7 @@ MonoBehaviour:
       characterTextFile: JapaneseChars
       atlasWidth: 2048
       atlasHeight: 2048
+      glyphOverrides: []
       notes: 
   - idName: KFhimajiLatin
     fontAsset: {fileID: 11400000, guid: a2cb06b1d3ec5ad44b0ba195dc0fea67, type: 2}
@@ -61,6 +65,7 @@ MonoBehaviour:
       characterTextFile: NonAsianChars
       atlasWidth: 2048
       atlasHeight: 1024
+      glyphOverrides: []
       notes: 
   - idName: TakeOffSimp
     fontAsset: {fileID: 11400000, guid: c991cd722e0bcc043a95b14330f3721e, type: 2}
@@ -71,6 +76,7 @@ MonoBehaviour:
       characterTextFile: ChineseChars
       atlasWidth: 4096
       atlasHeight: 2048
+      glyphOverrides: []
       notes: 
   - idName: TakeOffTrad
     fontAsset: {fileID: 11400000, guid: 9d8540cb95caa43439375c4576205672, type: 2}
@@ -81,6 +87,7 @@ MonoBehaviour:
       characterTextFile: ChineseChars
       atlasWidth: 4096
       atlasHeight: 2048
+      glyphOverrides: []
       notes: 
   - idName: Gagalin
     fontAsset: {fileID: 11400000, guid: cda1e9aa379e6a1469586b550eccb621, type: 2}
@@ -91,6 +98,7 @@ MonoBehaviour:
       characterTextFile: NonAsianChars
       atlasWidth: 2048
       atlasHeight: 1024
+      glyphOverrides: []
       notes: 
   - idName: RobinWriting
     fontAsset: {fileID: 11400000, guid: 1b385bccc6c633b4483854b53f5c5ac8, type: 2}
@@ -101,6 +109,7 @@ MonoBehaviour:
       characterTextFile: NonAsianChars
       atlasWidth: 2048
       atlasHeight: 2048
+      glyphOverrides: []
       notes: Is missing symbols and that's fine
   - idName: SourceHanSerifK
     fontAsset: {fileID: 11400000, guid: 5e60a79efdbfa614795c35593cd9eb6c, type: 2}
@@ -111,6 +120,7 @@ MonoBehaviour:
       characterTextFile: KoreanChars
       atlasWidth: 2048
       atlasHeight: 2048
+      glyphOverrides: []
       notes: 
   - idName: Fat
     fontAsset: {fileID: 11400000, guid: cb1fc451cc3c913489e3a1573d039232, type: 2}
@@ -121,5 +131,12 @@ MonoBehaviour:
       characterTextFile: NonAsianChars
       atlasWidth: 2048
       atlasHeight: 1024
-      notes: "AFTER REBUILDING, go to Glyph Info and for character 39 (') change the
-        following values:\r\nOX: -7.2\r\nOY: 80\r\nADV: 48"
+      glyphOverrides:
+      - id: 39
+        W: 58.5
+        H: 43.5
+        OX: -7.2
+        OY: 80
+        ADV: 48
+        SF: 1
+      notes: 
