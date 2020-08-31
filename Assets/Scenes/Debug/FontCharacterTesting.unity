@@ -161,6 +161,7 @@ RectTransform:
   m_Children:
   - {fileID: 1727424638}
   - {fileID: 1444901389}
+  - {fileID: 854235781}
   - {fileID: 433666233}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -196,13 +197,57 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 338521918}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &854235780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 854235781}
+  - component: {fileID: 854235782}
+  m_Layer: 0
+  m_Name: UI Text Generator (for testing new languages)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &854235781
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854235780}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 338521918}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &854235782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854235780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28cb4776833933540af0796e3c4ee323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontToTest: {fileID: 0}
+  languageIdToTest: Korean
+  textXSeparation: 7
+  textPrefab: {fileID: 1961511998334296, guid: ceddea1dca03e034d82486d2c1b7e334, type: 2}
 --- !u!1001 &1044132297
 Prefab:
   m_ObjectHideFlags: 0
@@ -376,7 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cb4776833933540af0796e3c4ee323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  font: {fileID: 12800000, guid: 918f6b7982be7fc4c84b4d0f96e93cda, type: 3}
+  fontToTest: {fileID: 12800000, guid: 51c5dfd67b516024687b409496bafc74, type: 3}
+  languageIdToTest: 
   textXSeparation: 7
   textPrefab: {fileID: 1961511998334296, guid: ceddea1dca03e034d82486d2c1b7e334, type: 2}
 --- !u!1 &1727424637
@@ -419,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cb4776833933540af0796e3c4ee323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  font: {fileID: 0}
+  fontToTest: {fileID: 0}
+  languageIdToTest: 
   textXSeparation: 7
   textPrefab: {fileID: 1443845548904002, guid: 654049d949ab0e04ea34ba2ed1bac8f8, type: 2}
