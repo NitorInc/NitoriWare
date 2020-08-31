@@ -39,6 +39,9 @@ public class LocalizationUpdater : ScriptableObject
     private string reportFile;
 
     [SerializeField]
+    private TMPFontPackingModes fontAtlasPackingMode;
+
+    [SerializeField]
     [Multiline]
     private string ignoreChars;
 
@@ -251,13 +254,16 @@ public class LocalizationUpdater : ScriptableObject
         Debug.Log("Font character analysis complete");
     }
 
-    public List<LanguageFontCharData> GetMissingFontCharData()
+    public List<LanguageFontCharData> GetMissingFontCharData(TMPFont forceFont = null, Language forceLanguage = null)
     {
         string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
         string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
         var missingCharData = new List<LanguageFontCharData>();
         foreach (var language in LanguagesData.instance.languages)
         {
+            if (forceLanguage != null && forceLanguage != language)
+                continue;
+
             var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
             var fontDict = SerializedNestedStrings.deserialize(File.ReadAllText(filePath)).getSubData("meta.font").subData;
             foreach (var fontKVPair in fontDict)
@@ -266,7 +272,10 @@ public class LocalizationUpdater : ScriptableObject
                 {
                     // Font is marked as compatible
                     var font = TMPFontsData.instance.fonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
-                    
+
+                    if (forceFont != null && forceFont != font)
+                        continue;
+
                     if (font == null)
                     {
                         Debug.LogWarning(fontKVPair.Key + " is missing from TMP Fonts Data asset");
@@ -318,22 +327,33 @@ public class LocalizationUpdater : ScriptableObject
                 }
             }
         }
-        return missingCharData.OrderBy(a => a.font.fontAsset.name).ThenBy(a => a.language.getLanguageID()).ToList();
+        return missingCharData
+            .OrderBy(a => a.font.fontAsset.name)
+            .ThenBy(a => a.language.getLanguageID())
+            .ToList();
     }
 
     public void rebuildFontAtlas(TMPFont font)
     {
-        var data = font.bakeData;
+        var bakeData = font.bakeData;
         var fullCharsPath = Path.Combine(Application.dataPath, charsPath);
-        var charString = File.ReadAllText(Path.Combine(fullCharsPath, data.characterTextFile + ".txt"));
-        TMPFontAssetBaker.Bake(data.baseFont, false, data.fontSize, data.padding, TMPFontPackingModes.Optimum,
-            data.atlasWidth, data.atlasHeight, TMPro.EditorUtilities.FaceStyles.Normal, 2, TMPro.EditorUtilities.RenderModes.DistanceField16,
+        var charString = File.ReadAllText(Path.Combine(fullCharsPath, bakeData.characterTextFile + ".txt"));
+        TMPFontAssetBaker.Bake(bakeData.baseFont, false, bakeData.fontSize, bakeData.padding, fontAtlasPackingMode,
+            bakeData.atlasWidth, bakeData.atlasHeight, TMPro.EditorUtilities.FaceStyles.Normal, 2, TMPro.EditorUtilities.RenderModes.DistanceField16,
             charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"),
-            data.glyphOverrides);
+            bakeData.glyphOverrides);
 
-        Debug.Log("Rebuilt atlas for " + font.idName + ". Please double check with Check Font Chars button.");
-        if (!string.IsNullOrEmpty(data.notes))
-            Debug.Log("Notes about " + font.idName + ":\n" + data.notes);
+        Debug.Log("Rebuilt atlas for " + font.idName);
+
+        var missingCharData = GetMissingFontCharData(forceFont: font);
+        foreach (var data in missingCharData)
+        {
+            Debug.LogWarning($"{data.font.fontAsset.name} is still missing {data.language.getFileName()} character(s)  " +
+                $"{data.missingChars}. Try expanding the atlas size, or maybe the characters are missing from the base font.");
+        }
+
+        if (!string.IsNullOrEmpty(bakeData.notes))
+            Debug.Log("Notes about " + font.idName + ":\n" + bakeData.notes);
     }
 
     public void rebuildAllIncompleteFontAtlases()
