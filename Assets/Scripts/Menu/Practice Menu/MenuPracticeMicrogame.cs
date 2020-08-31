@@ -144,7 +144,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         MicrogameStage.microgameId = microgame.microgameId;
         centerArrivalTime = Time.time + timeToCenter;
 
-        nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", microgame.microgameId);
+        nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", SpaceOutMicrogameId(microgame.microgameId));
         for (int i = 0; i < creditsTexts.Length; i++)
         {
             string creditsString = creditsTexts[i].text;
@@ -153,5 +153,18 @@ public class MenuPracticeMicrogame : MonoBehaviour
             creditsTexts[i].text = creditsString;
         }
 
+    }
+
+    public string SpaceOutMicrogameId(string microgameId)
+    {
+        var chars = microgameId.ToCharArray();
+        var name = "";
+        foreach (var ch in chars)
+        {
+            if (ch >= 'A' && ch <= 'Z')
+                name += " ";
+            name += ch;
+        }
+        return name;
     }
 }
