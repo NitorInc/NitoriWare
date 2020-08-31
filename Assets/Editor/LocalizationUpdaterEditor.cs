@@ -7,11 +7,13 @@ using UnityEditor;
 public class LocalizationUpdaterEditor : Editor
 {
     LocalizationUpdater updater;
-    bool expandLanguages;
+    bool expandFonts;
+    List<TMPFont> selectedFonts;
 
     private void OnEnable()
     {
         updater = (LocalizationUpdater)target;
+        selectedFonts = new List<TMPFont>();
     }
 
     public override void OnInspectorGUI()
@@ -39,24 +41,38 @@ public class LocalizationUpdaterEditor : Editor
             updater.checkFontChars();
         }
 
-        GUILayout.Label(""); GUILayout.Label("Rebuild font atlases");
+        GUILayout.Label("");
+        GUILayout.Label("Rebuild font atlases");
         GUILayout.Label("based on data in TMP Fonts Data");
         GUILayout.Label("NEEDS CHARS FILES TO EXIST");
         GUILayout.Label("Check console for important notes post-update");
         GUILayout.Label("(takes quite a while)");
-        expandLanguages = EditorGUILayout.Foldout(expandLanguages, "Update TMP Font Asset Atlases:");
-        if (expandLanguages)
+        expandFonts = EditorGUILayout.Foldout(expandFonts, "Update TMP Font Asset Atlases:");
+        if (expandFonts)
         {
-            if (GUILayout.Button("All Incomplete (grab a coffee)"))
+            if (GUILayout.Button("All Incomplete"))
             {
                 updater.rebuildAllIncompleteFontAtlases();
             }
-            foreach (var font in TMPFontsData.instance.fonts)
+
+            GUILayout.Label("Update Individually:");
+            if (GUILayout.Button("Selected Font(s)"))
             {
-                if (GUILayout.Button(font.idName))
+                foreach (var font in selectedFonts)
                 {
                     updater.rebuildFontAtlas(font);
                 }
+                selectedFonts.Clear();
+            }
+            foreach (var font in TMPFontsData.instance.fonts)
+            {
+                var wasSelected = selectedFonts.Contains(font);
+                var isSelected = GUILayout.Toggle(wasSelected, font.idName);
+
+                if (isSelected && !wasSelected)
+                    selectedFonts.Add(font);
+                else if (wasSelected && !isSelected)
+                    selectedFonts.Remove(font);
             }
         }
 
