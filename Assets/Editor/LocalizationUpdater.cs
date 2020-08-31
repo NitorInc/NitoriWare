@@ -123,9 +123,15 @@ public class LocalizationUpdater : ScriptableObject
             string name = getLanguageIdName(languageData.Value);
             File.WriteAllText(Path.Combine(fullLanguagesPath, name), languageData.Value.ToString());
 
-            var metaRecordedStatus = languageData.Value["meta.recorded"];
-            if (string.IsNullOrEmpty(metaRecordedStatus) || !metaRecordedStatus.Equals("Y", System.StringComparison.OrdinalIgnoreCase))
-                Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
+            var languageId = languageData.Value["generic.idname"];
+            if (string.IsNullOrEmpty(languageId) || !languagesData.languages.Any(a => a.getLanguageID().Equals(languageId)))
+                Debug.LogWarning($"Language {languageData.Key} not found in languages data.");
+            else
+            {
+                var metaRecordedStatus = languageData.Value["meta.recorded"];
+                if (string.IsNullOrEmpty(metaRecordedStatus) || !metaRecordedStatus.Equals("Y", System.StringComparison.OrdinalIgnoreCase))
+                    Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
+            }
         }
 
         // Format missing text report
@@ -154,7 +160,9 @@ public class LocalizationUpdater : ScriptableObject
         string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
 
         //Language files
-        var languageFiles = languagesData.languages.Select(a => Path.Combine(fullLanguagesPath, a.getFileName())).Distinct();
+        var languageFiles = languagesData.languages
+            .Select(a => Path.Combine(fullLanguagesPath, a.getFileName()))
+            .Distinct();
         foreach (var languageFile in languageFiles)
         {
             string language = Path.GetFileName(languageFile);
@@ -163,13 +171,22 @@ public class LocalizationUpdater : ScriptableObject
         Debug.Log("Language chars updated");
 
         //All chars
-        var allChars = languageFiles.Select(a => getUniqueCharString(File.ReadAllLines(a))).SelectMany(a => a).Distinct().ToArray();
+        var allChars = languageFiles
+            .Select(a => getUniqueCharString(File.ReadAllLines(a)))
+            .SelectMany(a => a)
+            .Distinct().ToArray();
         File.WriteAllText(Path.Combine(fullCharsPath, AllCharsFile), new string(allChars));
         Debug.Log(AllCharsFile + " updated");
 
         //Non-Asian chars
-        languageFiles = languagesData.languages.Where(a => !a.isAsian).Select(a => Path.Combine(fullLanguagesPath, a.getFileName())).Distinct();
-        allChars = languageFiles.Select(a => getUniqueCharString(File.ReadAllLines(a))).SelectMany(a => a).Distinct().ToArray();
+        languageFiles = languagesData.languages
+            .Where(a => !a.isAsian)
+            .Select(a => Path.Combine(fullLanguagesPath, a.getFileName()))
+            .Distinct();
+        allChars = languageFiles
+            .Select(a => getUniqueCharString(File.ReadAllLines(a)))
+            .SelectMany(a => a)
+            .Distinct().ToArray();
         File.WriteAllText(Path.Combine(fullCharsPath, NonAsianCharsFile), new string(allChars));
         Debug.Log(NonAsianCharsFile + " updated");
     }
@@ -314,7 +331,7 @@ public class LocalizationUpdater : ScriptableObject
             charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"),
             data.glyphOverrides);
 
-        Debug.Log("Rebuilt atlas for " + font.idName);
+        Debug.Log("Rebuilt atlas for " + font.idName + ". Please double check with Check Font Chars button.");
         if (!string.IsNullOrEmpty(data.notes))
             Debug.Log("Notes about " + font.idName + ":\n" + data.notes);
     }
@@ -326,9 +343,10 @@ public class LocalizationUpdater : ScriptableObject
             .Distinct();
         foreach (var font in incompleteFonts)
         {
-            rebuildFontAtlas(font);
+            //rebuildFontAtlas(font);
+            Debug.Log(font.idName);
         }
-        Debug.Log("All incomplete font atlases updated. Please double check with Check Font Chars button.");
+        Debug.Log("All incomplete font atlases updated.");
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges
