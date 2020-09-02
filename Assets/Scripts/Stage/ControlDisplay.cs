@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ControlDisplay : MonoBehaviour
 {
@@ -11,13 +12,21 @@ public class ControlDisplay : MonoBehaviour
     private SpriteRenderer controlRenderer;
     [SerializeField]
     private Text controlText;
+    [SerializeField]
+    private TextMeshPro controlTmpComponent;
 #pragma warning restore 0649
 
     public void setControlScheme(MicrogameTraits.ControlScheme controlScheme)
     {
         //TODO re-enable command warnings?
         controlRenderer.sprite = StageController.instance.controlSchemeSprites[(int)controlScheme];
-        controlText.text = TextHelper.getLocalizedTextNoWarnings("stage.control." + controlScheme.ToString().ToLower(), getDefaultControlString(controlScheme));
+
+        var text = TextHelper.getLocalizedTextNoWarnings("stage.control." + controlScheme.ToString().ToLower(), getDefaultControlString(controlScheme));
+
+        if (controlText != null)
+            controlText.text = text;
+        if (controlTmpComponent != null)
+            controlTmpComponent.text = text;
     }
 
     string getDefaultControlString(MicrogameTraits.ControlScheme controlScheme)
