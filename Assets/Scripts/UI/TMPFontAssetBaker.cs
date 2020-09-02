@@ -24,7 +24,8 @@ namespace DTLocalization.Internal {
 				return;
 			}
 
-			string fontPath = AssetDatabase.GetAssetPath(font);
+
+            string fontPath = AssetDatabase.GetAssetPath(font);
 			errorCode = TMPro_FontPlugin.Load_TrueType_Font(fontPath);
 			if (errorCode != 0 && errorCode != 99) { // 99 means that font was already loaded
 				Debug.LogWarning("Error Code: " + errorCode + "  occurred while loading font: " + font + ".");
@@ -63,15 +64,25 @@ namespace DTLocalization.Internal {
 
 			string outputFilename = Path.GetFileNameWithoutExtension(outputFilePath);
 
-			// check if font asset already exists
-			TMP_FontAsset fontAsset = AssetDatabase.LoadAssetAtPath(outputFilePath, typeof(TMP_FontAsset)) as TMP_FontAsset;
+            List<Material> materialReferences = new List<Material>();
+
+            // check if font asset already exists
+            TMP_FontAsset fontAsset = AssetDatabase.LoadAssetAtPath(outputFilePath, typeof(TMP_FontAsset)) as TMP_FontAsset;
 			if (fontAsset == null) {
 				fontAsset = ScriptableObject.CreateInstance<TMP_FontAsset>(); // Create new TextMeshPro Font Asset.
 				AssetDatabase.CreateAsset(fontAsset, outputFilePath);
 			}
+            else
+            {
+                // Find materials using font atlas as main texture (needed for material presets)
+                materialReferences = FindAssetsByType<Material>()
+                    .Where(a => a.mainTexture != null && a.mainTexture.Equals(fontAsset.atlas))
+                    .ToList();
+            }
+            
 
-			// Destroy Assets that will be replaced.
-			UnityEngine.Object.DestroyImmediate(fontAsset.atlas, allowDestroyingAssets: true);
+            // Destroy Assets that will be replaced.
+            UnityEngine.Object.DestroyImmediate(fontAsset.atlas, allowDestroyingAssets: true);
 
 			fontAsset.fontAssetType = (fontRenderMode >= RenderModes.DistanceField16) ? TMP_FontAsset.FontAssetTypes.SDF : TMP_FontAsset.FontAssetTypes.Bitmap;
             
@@ -98,9 +109,15 @@ namespace DTLocalization.Internal {
 			fontAsset.atlas = fontTexture;
 			AssetDatabase.AddObjectToAsset(fontTexture, fontAsset);
 
-			// Find all Materials referencing this font atlas.
-			Material[] materialReferences = TMP_EditorUtility.FindMaterialReferences(fontAsset).Where(m => m != null).ToArray();
-			if (materialReferences == null || materialReferences.Length <= 0) {
+
+            // Find all remaining Materials referencing this font atlas.
+            materialReferences.AddRange(TMP_EditorUtility.FindMaterialReferences(fontAsset)
+                .Where(m => m != null)
+                .ToList());
+            materialReferences = materialReferences.Distinct().ToList();
+
+
+            if (materialReferences == null || materialReferences.Count <= 0) {
 				// Create new Material and add it as Sub-Asset
 				Shader shader = Shader.Find("TextMeshPro/Distance Field");
 				Material fontMaterial = new Material(shader);
@@ -110,11 +127,11 @@ namespace DTLocalization.Internal {
 				fontMaterial.hideFlags = HideFlags.HideInHierarchy;
 				AssetDatabase.AddObjectToAsset(fontMaterial, fontAsset);
 
-				materialReferences = new Material[] { fontMaterial };
+				materialReferences = new List<Material> { fontMaterial };
 			}
+            foreach (var m in materialReferences) {
 
-			foreach (var m in materialReferences) {
-				m.SetTexture(ShaderUtilities.ID_MainTex, fontTexture);
+                m.SetTexture(ShaderUtilities.ID_MainTex, fontTexture);
 				m.SetFloat(ShaderUtilities.ID_TextureWidth, fontTexture.width);
 				m.SetFloat(ShaderUtilities.ID_TextureHeight, fontTexture.height);
 
@@ -207,7 +224,23 @@ namespace DTLocalization.Internal {
 			}
 
 			return glyphs.ToArray();
-		}
-	}
+        }
+
+        public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+        {
+            List<T> assets = new List<T>();
+            string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T).ToString().Replace("UnityEngine.", "")));
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+                T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset != null)
+                {
+                    assets.Add(asset);
+                }
+            }
+            return assets;
+        }
+    }
 }
 #endif
