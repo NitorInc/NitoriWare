@@ -71,6 +71,7 @@ public class StageController : MonoBehaviour
 
 	void Start()
 	{
+        AssetsUnloadingBusy = false;
 		beatLength = outroSource.clip.length / 4f;
 		Application.backgroundLoadingPriority = sceneLoadPriority;
 		voicePlayer.loadClips(stage.getVoiceSet());
@@ -348,9 +349,10 @@ public class StageController : MonoBehaviour
 		commandDisplay.setText(microgameTraits.localizedCommand, microgameTraits.commandAnimatorOverride);
         controlDisplay.setControlScheme(microgameTraits.controlScheme);
 
+
 		if (!introSource.isPlaying && !muteMusic)
 			introSource.Play();
-	}
+    }
 
 	void updateToGameOver()
 	{
@@ -464,8 +466,33 @@ public class StageController : MonoBehaviour
     void unloadMicrogame()
     {
         finishedMicrogame.isBeingUnloaded = true;
-        SceneManager.UnloadSceneAsync(finishedMicrogame.scene);
+        StartCoroutine(unloadMicrogameAsync(finishedMicrogame.scene));
         MicrogameController.instance = null;
+    }
+
+    static bool AssetsUnloadingBusy = false;
+    IEnumerator unloadMicrogameAsync(Scene scene)
+    {
+        var sceneName = scene.name;
+        var operation = SceneManager.UnloadSceneAsync(scene);
+        //Debug.Log("UNLOADING GAME " + sceneName);
+        while (operation.progress < 1f)
+        {
+            yield return null;
+        }
+        //Debug.Log("UNLOADING RESOURCES " + sceneName);
+        if (!AssetsUnloadingBusy)
+        {
+            AssetsUnloadingBusy = true;
+            var unloadOperation = Resources.UnloadUnusedAssets();
+            while (unloadOperation.progress < 1f)
+            {
+                yield return null;
+            }
+            AssetsUnloadingBusy = false;
+        }
+        //Debug.Log("DONE " + sceneName);
+
     }
 
 	public void onPause()

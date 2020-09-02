@@ -5,7 +5,7 @@ using UnityEngine;
 public static class PrefsHelper
 {
     // Increase this when the game is changed enough to warrant resetting high scores
-    private const int PrefsVersion = 2;
+    private const int PrefsVersion = 3;
 
     private const string VersionKey = "version";
     private const string PreferredLanguageKey = "settings.preferredlanguage";
@@ -52,7 +52,7 @@ public static class PrefsHelper
     static void handleLegacyVersions(int recordedVersion)
     {
         // Check for scores implemented before implementing versions
-        if (getProgress() >= GameProgress.StoryComplete)
+        if (getProgress() >= GameProgress.StoryComplete) // Pre version 3
         {
             setStageUnlocked("compilation", true);
             setStageUnlocked("compilationfast", getHighScore("compilation") >= 15);

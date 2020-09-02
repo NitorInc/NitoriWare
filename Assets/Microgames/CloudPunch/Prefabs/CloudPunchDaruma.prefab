@@ -802,6 +802,8 @@ GameObject:
   - component: {fileID: 4602606185454030}
   - component: {fileID: 114229148622726234}
   - component: {fileID: 61374193269721388}
+  - component: {fileID: 82192346818808826}
+  - component: {fileID: 114850068986180614}
   m_Layer: 0
   m_Name: Head
   m_TagString: MicrogameTag2
@@ -1022,7 +1024,7 @@ Transform:
   m_GameObject: {fileID: 1752698384764210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.6, y: -4.0552087, z: 0}
-  m_LocalScale: {x: 0.8506944, y: 0.8506944, z: 1}
+  m_LocalScale: {x: 1.2760416, y: 1.2760416, z: 1}
   m_Children:
   - {fileID: 4602199375602596}
   m_Father: {fileID: 0}
@@ -1945,6 +1947,86 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1.2}
   m_EdgeRadius: 0
+--- !u!82 &82192346818808826
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902018436055134}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d008bd89a91299f47b41b2fe84632093, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95076285298868052
 Animator:
   serializedVersion: 3
@@ -2646,7 +2728,8 @@ MonoBehaviour:
   animationDetectionCooldownTime: 0.15
   heightPerPiece: 1.5
   isHead: 0
-  fallSpeed: 10
+  fallSpeed: 20
+  victorySoundDelay: 0.25
 --- !u!114 &114083262553984168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2679,7 +2762,8 @@ MonoBehaviour:
   animationDetectionCooldownTime: 0.15
   heightPerPiece: 1.5
   isHead: 0
-  fallSpeed: 10
+  fallSpeed: 20
+  victorySoundDelay: 0.25
 --- !u!114 &114222133781737456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2712,7 +2796,8 @@ MonoBehaviour:
   animationDetectionCooldownTime: 0.15
   heightPerPiece: 1.5
   isHead: 0
-  fallSpeed: 10
+  fallSpeed: 20
+  victorySoundDelay: 0.25
 --- !u!114 &114270018847868504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2764,7 +2849,8 @@ MonoBehaviour:
   animationDetectionCooldownTime: 0.15
   heightPerPiece: 1.5
   isHead: 0
-  fallSpeed: 10
+  fallSpeed: 20
+  victorySoundDelay: 0.25
 --- !u!114 &114562059117275922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2780,7 +2866,8 @@ MonoBehaviour:
   animationDetectionCooldownTime: 0.15
   heightPerPiece: 1.5
   isHead: 0
-  fallSpeed: 10
+  fallSpeed: 20
+  victorySoundDelay: 0.25
 --- !u!114 &114627308975583750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2831,7 +2918,27 @@ MonoBehaviour:
   animationDetectionCooldownTime: 0.15
   heightPerPiece: 1.5
   isHead: 0
-  fallSpeed: 10
+  fallSpeed: 20
+  victorySoundDelay: 0.25
+--- !u!114 &114850068986180614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902018436055134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 0
+  tieToTimescale: 1
+  tieToVolumeSettings: 1
+  preserveInitialPitch: 0
+  updateEachFrame: 1
+  volumeType: 2
+  volumeMult: 1
+  pitchMult: 1
 --- !u!212 &212026997487359000
 SpriteRenderer:
   m_ObjectHideFlags: 1

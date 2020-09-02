@@ -161,7 +161,7 @@ public class LocalizationManager : MonoBehaviour
 
     public bool isTMPFontCompatibleWithLanguage(TMP_FontAsset font)
     {
-        var languageFont = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.fontAsset == font);
+        var languageFont = TMPFontsData.instance.fonts.FirstOrDefault(a => a.fontAsset == font);
         if (languageFont == null)
             return false;
         if (languageFontMetadata.subData.ContainsKey(languageFont.idName))
@@ -175,8 +175,7 @@ public class LocalizationManager : MonoBehaviour
     {
         if (blacklist == null)
             blacklist = new TMP_FontAsset[0];
-
-        return LanguagesData.instance.languageTMPFonts
+        return TMPFontsData.instance.fonts
             .FirstOrDefault(a =>
                 a.fontAsset != null
                 && !blacklist.Contains(a.fontAsset)

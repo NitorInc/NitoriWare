@@ -37,6 +37,7 @@ public class FanBlowDust : MonoBehaviour
         baseScale = MathHelper.randomRangeFromVector(baseScaleRandomRange);
         health = 1f;
         updateScale();
+        dustRenderer.sortingOrder = Random.Range(-32767, 32767);
     }
 	
 	void Update ()
@@ -46,7 +47,7 @@ public class FanBlowDust : MonoBehaviour
 
     void updateScale()
     {
-        dustRenderer.transform.localScale = Vector3.one * baseScale * Mathf.Lerp(scaleHealthBounds.x, scaleHealthBounds.y, health);
+        //dustRenderer.transform.localScale = Vector3.one * baseScale * Mathf.Lerp(scaleHealthBounds.x, scaleHealthBounds.y, health);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -84,7 +84,7 @@
 
 				float cursorDistance = distance((float2)i.wpos, (float2)_CursorPos);
 				float cursorAlpha = (cursorDistance - _FadeStart) / abs(_CursorFadeEnd - _FadeStart);
-				cursorAlpha *= 1 + (sin(_Time.w * .7 * _PulseSpeed) / _CursorPulseAmpInv);
+				//cursorAlpha *= 1 + (sin(_Time.w * .7 * _PulseSpeed) / _CursorPulseAmpInv);
 				cursorAlpha = clamp(cursorAlpha, 0, 1);
 				cursorAlpha = pow(cursorAlpha, _CursorAlphaPow);
 				cursorAlpha -= _CursorAlphaBoost;

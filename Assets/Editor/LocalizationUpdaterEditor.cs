@@ -7,10 +7,13 @@ using UnityEditor;
 public class LocalizationUpdaterEditor : Editor
 {
     LocalizationUpdater updater;
+    bool expandFonts;
+    List<TMPFont> selectedFonts;
 
     private void OnEnable()
     {
         updater = (LocalizationUpdater)target;
+        selectedFonts = new List<TMPFont>();
     }
 
     public override void OnInspectorGUI()
@@ -24,7 +27,7 @@ public class LocalizationUpdaterEditor : Editor
         GUILayout.Label("");
         GUILayout.Label("Update char files for fonts");
         GUILayout.Label("(call this after Update Language Content):");
-        if (GUILayout.Button("Update Chars Files"))
+        if (GUILayout.Button("Generate Chars Files"))
         {
             updater.updateCharsFiles();
         }
@@ -39,8 +42,43 @@ public class LocalizationUpdaterEditor : Editor
         }
 
         GUILayout.Label("");
-        GUILayout.Label("TO ADD OR EDIT LANGUAGES OR FONTS THEMSELVES, edit Languages Data.");
-        GUILayout.Label("Same with adding fonts.");
+        GUILayout.Label("Rebuild font atlases");
+        GUILayout.Label("based on data in TMP Fonts Data");
+        GUILayout.Label("NEEDS CHARS FILES TO EXIST");
+        GUILayout.Label("Check console for important notes post-update");
+        GUILayout.Label("(takes quite a while)");
+        expandFonts = EditorGUILayout.Foldout(expandFonts, "Update TMP Font Asset Atlases:");
+        if (expandFonts)
+        {
+            if (GUILayout.Button("All Incomplete"))
+            {
+                updater.rebuildAllIncompleteFontAtlases();
+            }
+
+            GUILayout.Label("Update Individually:");
+            if (GUILayout.Button("Selected Font(s)"))
+            {
+                foreach (var font in selectedFonts)
+                {
+                    updater.rebuildFontAtlas(font);
+                }
+                selectedFonts.Clear();
+            }
+            foreach (var font in TMPFontsData.instance.fonts)
+            {
+                var wasSelected = selectedFonts.Contains(font);
+                var isSelected = GUILayout.Toggle(wasSelected, font.idName);
+
+                if (isSelected && !wasSelected)
+                    selectedFonts.Add(font);
+                else if (wasSelected && !isSelected)
+                    selectedFonts.Remove(font);
+            }
+        }
+
+        GUILayout.Label("");
+        GUILayout.Label("TO ADD OR EDIT LANGUAGES, edit Languages Data.");
+        GUILayout.Label("TO ADD OR EDIT FONTS, edit TMP Fonts Data.");
         GUILayout.Label("----------------------");
         DrawDefaultInspector();
     }

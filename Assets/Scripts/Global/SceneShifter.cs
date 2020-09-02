@@ -73,7 +73,7 @@ public class SceneShifter : MonoBehaviour
         }
 	}
 
-    public void startShift(string goalScene, float shiftDuration = DefaultShiftDuration, float fadeDuration = DefaultFadeDuration)
+    public void startShift(string goalScene, float shiftDuration = DefaultShiftDuration, float fadeDuration = DefaultFadeDuration, bool useFirstBuildIndex = false)
     {
         if (operation != null)
             return;
@@ -94,7 +94,10 @@ public class SceneShifter : MonoBehaviour
                 //.Select(a => SceneUtility.GetScenePathByBuildIndex(a))
                 .Where(a => SceneUtility.GetScenePathByBuildIndex(a).ToLower().Contains(goalScene.ToLower() + ".unity"))
                 .ToList();
-            goalSceneIndex = possibleSceneIndexes[Random.Range(0, possibleSceneIndexes.Count)];
+            if (useFirstBuildIndex)
+                goalSceneIndex = possibleSceneIndexes.Min();
+            else
+                goalSceneIndex = possibleSceneIndexes[Random.Range(0, possibleSceneIndexes.Count)];
             operation = SceneManager.LoadSceneAsync(goalSceneIndex);
             operation.allowSceneActivation = false;
         }

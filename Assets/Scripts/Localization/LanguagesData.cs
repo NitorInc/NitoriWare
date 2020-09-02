@@ -13,23 +13,12 @@ public class LanguagesData : ScriptableObjectSingleton<LanguagesData>
     private Language[] _languages;
     public Language[] languages => _languages;
 
-    [System.Serializable]
-    public class LanguageTMPFont
-    {
-        public string idName;
-        public TMP_FontAsset fontAsset;
-    }
-
-    [SerializeField]
-    private LanguageTMPFont[] _languageTMPFonts;
-    public LanguageTMPFont[] languageTMPFonts => _languageTMPFonts;
-
     public Language FindLanguage(string language)
     {
-        foreach (Language checklanguage in languages)
+        foreach (Language checkLanguage in languages)
         {
-            if (checklanguage.getLanguageID().Equals(language, System.StringComparison.OrdinalIgnoreCase))
-                return checklanguage;
+            if (checkLanguage.getLanguageID().Equals(language, System.StringComparison.OrdinalIgnoreCase))
+                return checkLanguage;
         }
         Debug.Log("Language " + language + " not found. Using English");
         return languages[0];

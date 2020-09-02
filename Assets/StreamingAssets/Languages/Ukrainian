@@ -1,10 +1,10 @@
 generic
 	idname=Ukrainian
-	addedtogame=Y
-	complete=N
 	name=Українська
 	gamename=NitorInc.
-	incomplete=УВАГА: Гра не є цілковито перекладеною на українську мову. Частина тексту може бути на англійській.
+	incomplete=УВАГА: Гру не є цілковито перекладено українською мовою. Деякий текст може бути англійською.
+	addedtogame=Y
+	complete=N
 stage
 	control
 		key=ЮЗАЙ КЛАВУ
@@ -14,9 +14,9 @@ stage
 	levelup=НАСТУПНИЙ РІВЕНЬ!
 	pause=Пауза
 		resume=Продовжити {0}
-	quit=Покинути гру {0}
-	retry=Почати з початку {0}
-	gameover=Гра закінчена
+	quit=Припинити гру {0}
+	retry=Почати знову {0}
+	gameover=Гру закінчено!
 		score=Кількість очок: {0}
 		highscore=Рекорд: {0}
 		newhighscore=Новий рекорд!
@@ -24,7 +24,7 @@ discord
 	scoreformat={0} ігор
 	scoreformatsingular={0} гра
 	boss=Бос
-	menu=В меню
+	menu=До меню
 menu
 	yes=Так
 	no=Ні
@@ -38,7 +38,7 @@ menu
 	play=Грати
 	gamemode=Оберіть режим гри!
 		nitori=Сюжетний режим
-			description=Грайте у сюжетний режим, скільки вам влізе! Який же у вас буде рекорд?
+			description=Грайте у сюжетний режим скільки влізе! Який же у вас буде рекорд?
 		arcade=Аркадний режим
 		microgamepractice=Режим практики
 			description=Відточіть свої навички та встановлюйте нові рекорди!
@@ -46,7 +46,7 @@ menu
 		locked2=Закрито! Наберіть {0} та більше очок у режимі {1} для розблокування!
 		highscore=Рекорд: {0}
 		compilationmode
-			description=Грайте у стільки мікро-ігор, скільки зможете. Без босів!
+			description=Грайте у стільки мікро-ігор, скільки зможете! Без босів.
 		compilation=Енциклопедія каппи
 			description=Звичайний Аркадний Режим: грайте в усі мікро-ігри у випадковому порядку.
 		compilationfast=Каппаксимальна потужність!
@@ -57,15 +57,15 @@ menu
 			description=Найважчі ігри! Лише одне життя! Як довго ти протримаєшся?
 	main
 		quit=Вийти
-			prompt=Ви впевнені, що хочете вийти з {0}?
-		settings=Настройки
+			prompt=Ви дійсно хочете вийти з {0}?
+		settings=Налаштування
 		credits=Титри
 	settings
 		resolution=Розширення Екрану
 		fullscreen=На повний екран
 		language=Мова
 		graphics=Якість графіки
-			0=Найшвидше
+			0=Швидше
 			1=Швидко
 			2=Просто
 			3=Добре
@@ -82,64 +82,166 @@ menu
 		music=Музика: {0}
 	splash
 		introa=Це демо гри, заснованої на Touhou Project (東方Project). Розробник оригіналу - ZUN.
-		introb=Багато фанатів зібрались разом та приклали свої зуссиля та таланти, аби створити цю колекцію мікро-ігор.
+		introb=Безліч фанатів зібрались разом, щоб доклали зусиль в створенні цієї колекції мікро-ігор.
 		introc=Якщо ви бажаєте допомогти розробці, то відвідайте {0}; або ж розкажіть іншим!
-		webglwarning=Якщо у вас виникли проблеми з грою в браузері, спробуйте завантажити гру, перейшоаши по одному з посилань нижче.
+		webglwarning=Якщо у вас виникли проблеми з грою в браузері, спробуйте завантажити гру, перейшовши за одним з посилань нижче.
 microgame
 	FreezeFrogs
 		command=Заморозь!
+		igname=Кригожабки
 	Slingshot
 		command=Рогатка!
+		igname=Вище Неба
 	ChenFood
 		command=Не стань їжею!
+		igname=Обід Пані Коцької
 	Spider
-		command=Годуй!
+		command=Нагодуй!
+		igname=Голодний Павучок
 	Donation
 		command=Злови 3!
+		igname=Пачінкопійка
 	Wrench
 		command=Закрути!
+		igname=Закрутити Гайки
 	Potion
 		command=Закинь!
 		ingredients=Інгредієнти
+		igname=Зіллєваріння
 	GhostFood
 		command=Їж та жуй!
+		igname=Примарний Обід
 	Spaceship
 		command=Вперед!
+		igname=Космічна Програма Йокаїв
 	CupShuffle
 		command=Не відволікайся!
-		commandb=Вибери!
+		commandb=Обирай!
+		igname=Йокай в Наперстках
 	TraceShape
-		command=Заповни!
+		command=Замалюй!
+		igname=Розмальовка
 	KogasaScare
 		command=Налякай!
+		igname=Пугач-Парасолька
 	RockBand
 		command=Зіграй!
+		igname=Гавкіт Наживо
 	ChenBike
 		command=Бібікай!
+		igname=Чен та Клаксон
 	MasterSparkCode
 		command=Зачаруй!
+		igname=Тренування на Феях
 	OkuuFire
 		command=Регулюй!
+		igname=Пекельне Провітрювання
+	YukariCake
+		command=Хапай!
+		igname=Цукерковий Злодій
+	RemiCover
+		command=Прикрий!
+		igname=У Затінку Високого Сонця
+	SuikaShake
+		command=Струси!
+		igname=Збовтати, Але Не Змішувати
+	TouhouSort
+		command=Відсортуй {0}!
+		hat=капелюхи
+		wing=крила
+		ear=вуха
+		igname=На Колір та Смак...
+	FlanGrab
+		command=Захищай!
+		igname=Тримай Себе в Кулаці
+	PaperThief
+		command=Досягни мети!
+		commandb=Обережно!
+		commandc=Стріляй!
+		commandd=Впорайся з нею!
+		igname=Огіркова Гонитва
+	KaguyaMemory
+		command=Запам'ятай!
+		commandb=Обирай!
+		igname=Цінна Пам'ять
+	SumiWheel
+		command=Обери руну!
+		igname=Колесо Сансари
+	MochiPound
+		command=Натовчи!
+		igname=Місячна Готівля Мочі
+	RuukotoSweep
+		command=Підмітай!
+		igname=Я Мету та Обмітаю
+	MaskPuzzle
+		command=З'єднай!
+		igname=Розбиті Емоції
+	YuukaWater
+		command=Поливай!
+		igname=Сонячна Клумба Юки
+	KnifeDodge
+		command=Ухилися!
+		igname=Під Лезом
+	NitoriLook
+		command=Відшукай Ніторі!
+		igname=А Де Ніторі?
+	MamiPoser
+		command=Хто самозванець?
+		igname=Лицемірство
+	DollDance
+		command=Повторюй!
+		igname=Ляльковий Танок
+	YoumuSlash
+		command=Позирай...
+		commandb=Рубай!
+		igname=Смертельний Ритм
+	CirnoBored
+		command=Побалуй!
+		commandb=Розвесели її!
+		commandc=Врятуй її!
+		igname=Холодне Ставлення
+	HecShapes
+		command=Втули!
+		igname=Пекельна Геометрія
+	RockPaperSatori
+		command=Виграй!
+		igname=Камінь-Ножиці-Саторі
+	MarisaJizou
+		command=Накинь!
+		igname=Кидай но Капелюха
+	NueAbduct
+		command=Викрадай!
+		igname=Н.Л.Ох..Ні!
+	ReimuDodge
+		command=Ухиляйся!
+		igname=~
+	ClothesChoose
+		command=Обери!
+		igname=Модний Ґенсокьо
+	KyoukoEcho
+		command=Віддзеркалюй!
+		igname=Дозвольте Перефразувати
 	DatingSim
+		command=Романсь!
 		suika
 			fullname=Суйка Ібукі
 			firstname=Суйка
 			introdialogue=Агов! Ти вільний, чи не так? Давай візьмемо щось поїсти.
 			right0
-				option=Давай хто перший до прилавка!
+				option=Давай хто перший до прилавку!
 				response=Той, хто програв, платить!
 			right1
-				option=Пішли!
+				option=Звісно, давай щось перехопимо!
 				response=Ура!
 			wrong0
-				option=Хіба ти не їла тільки що?!
+				option=Хіба ти щойно не їла?!
 				response=Буу. Їсти наодинці зовсім не весело.
 			wrong1
-				option=Йди геть, товстуха!
+				option=Йди геть, товстунко!
 				response=Та ти і сам не особливо стрункий, козел!
 			wrong2
 				option=Сама йди.
-				response=Ну і добре, з тобою і так не дуже цікаво.
+				response=Ну і гаразд, з тобою і так не дуже цікаво.
 		youmu
 			fullname=Йому Конпаку
 			firstname=Йому
@@ -157,17 +259,17 @@ microgame
 				option=Я ненавиджу квіти!
 				response=Ти і так того не вартий.
 			wrong2
-				option=Готоаий закластися, що ці несправжні.
+				option=Готовий закластися, що ці несправжні.
 				response=Тобі, напевне, <i>дуже</i> щастить з жінками.
 		yuuka
 			fullname=Юка Кадзамі
 			firstname=Юка
-			introdialogue=Ти ж не зраджуєш мене, правда?
+			introdialogue=Ти ж не поглядаєш на інших дівчат, правда?
 			right0
-				option=Звичайно ж ні!
+				option=Звичайно що ні!
 				response=Добре, адже тобі було б непереливки.
 			right1
-				option=Ти єдина для мене!
+				option=Ти у мене єдина!
 				response=Так і знала.
 			wrong0
 				option=Нууу...
@@ -187,7 +289,7 @@ microgame
 				response=О? Я рада.
 			right1
 				option=Ще, будь ласка!
-				response=Зараз буде!
+				response=Зараз принесу!
 			wrong0
 				option=Смакує, еее... цікаво.
 				response=О, мої вибачення.
@@ -198,10 +300,27 @@ microgame
 				option=Я не просив чаю.
 				response=Я... думала, що тобі сподобається.
 		fakeconfig=Зберегти<line break> Завантажити<line break> Авто<line break> Лог<line break> Конгіфурація
+		igname=Перше Побачення
+	BugSwat
+		command=Віддухопель!
+		igname=Жукобійка
+	ClownTorch
+		command=Підпалюй!
+		igname=Запалюймо Вогні
+	BeachBall
+		command=Влучай!
+		igname=Подача
+	FanBlow
+		command=Махай!
+		igname=Затуманились
+	YuugiBalance
+		command=Балансуй!
+		igname=Збалансоване Пиття
 	ComicBubble
+		command=Побудуй діалог!
 		0
-			0=Ти впевнений, що це безпечно?
-			1=Все під контролем!
+			0=Ти впевнена, що це безпечно?
+			1=Все гаразд!
 		1
 			0=Агов, зачекай!
 			1=У тебе щось тут є, пряяямо~
@@ -211,19 +330,53 @@ microgame
 			1=Для чого ж так морочитись, коли приходжу лише я?
 			2=<i>Ааа!</i>
 			3=<i>Ау!</i>
-	TouhouSort
-		hat=капелюхи
-		wing=крила
-		ear=вуха
-	PaperThief
-		commandb=Обережно!
-		commandc=Стріляй!
-		commandd=Переможи її!
-	KaguyaMemory
-		commandb=Вибери!
-	CirnoBored
-		commandb=Розвесели її!
-		commandc=Врятуй її!
+		igname=Дочитай до Кінця!
+	DoorKnock
+		command=Постукай!
+		igname=Є Хто Вдома?
+	FoodCut
+		command=Наріж!
+		igname=Сімейний Рецепт
+	MoneyTrap
+		command=Заманюй!
+		igname=Погоня за Багатством
+	KeineMath
+		command=Порахуй!
+		igname=Зроби Математику
+	DoomGame
+		command=Стріляй!
+		danger=Позаду тебе!
+		igname=Пекло Рейсен
+	MystiaServe
+		command=Подай на стіл!
+		igname=Швидкосервіс
+	FoodRoast
+		command=Дочекайся!
+		igname=Хто чекає - Той і має!
+	BoatSteer
+		command=Керуй!
+		igname=Бон Вояж
+	SeijaSpin
+		command=Закрути!
+		igname=Закрути Дівчисько
+	GhostSuck
+		command=Засмоктуй!
+		igname=Мисливці за Примарами
+	MoonSoccer
+		command=Забий!
+		igname=Місячний Футбол
+	EikiJudge
+		command=Сортуй!
+		igname=Судний День
+	IcePath
+		command=Пройди!
+		igname=Крижана Прогулянка
+	KagerouCut
+		command=Поголи!
+		igname=Тільки Підрівняйте
+	TrainTracks
+		command=Врятуй!
+		igname=Катастрофічна Колія
 	SagumeLie
 		0=O: Q0
 			lie0=O: L0-0
@@ -235,12 +388,41 @@ microgame
 			lie1=O: L1-1
 			truth0=T: T1-0
 			truth1=O: T1-1
-	ReimuDodge
-		igname=~
+	AwooClicker
+		igname=Собача Фотосесія
+	HinaSpin
+		igname=Круть і Верть
 nitori
 	storyintro=Схоже, у нас новий замовник. Подивимось, як ти впораєшся з моїми іграми. Краще не кліпати!
-	storyfinished=Непогано, ботан. Виявляється, ти не якийсь-то новак. Тепер поглянемо, чи по зубам тобі {0}!
-	compilationfinished=Що ж, я вражена! Проте це була лише розминка! Це був тільки початок {0}!
+	storyfinished=Непогано, ботане. Виявляється, ти не якийсь-то новак. Тепер поглянемо, чи по зубам тобі {0}!
+	compilationfinished=Що ж, я вражена! Проте це була лишень розминка! Це був тільки початок {0}!
+credits
+	intro={0} була створена завдяки цим фанатам!
+	kapptain=Керівник, Програміст, Розпорядник, "Каппітан" команди
+	leadart=Головний Художник, Дизайнер Персонажів, Голос Ніторі
+	code=Програмування
+	UI=Графіка меню та рівнів
+	menumusic=Музика з меню
+	stagemusic=Музика з рівнів
+	microgame
+		management=Розпорядник мікро-ігор
+		managementalt=Розпорядник співпраці
+		code=Програмування мікро-ігор
+		art=Графіка
+		music=Музика
+	localization=Локалізація
+		management=Розпорядник з локалізації
+	sfx=Звукові ефекти
+	voice=Голос Ніторі
+	site=Дизайн веб-сайту
+	trailer=Трейлер Демо-версії
+	socialmedia=Просування проекту/соцмедіа
+	touhou=Засновано на (東方Project) за авторством ZUN
+	thanks=Особлива Вдячність
+		discord=Серверу Тохо Проджект Діскорд
+		playtesters=Усім нашим тестерам
+		fans=Всім фанатам, що ділилися інформацією про нас з іншими!
+		patreon=Дякуємо тим, хто підтримав нас на Patreon!
 meta
 	recorded=Y
 	IsAsian=N

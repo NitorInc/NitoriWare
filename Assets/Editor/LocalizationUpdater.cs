@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using TMPro;
+using DTLocalization.Internal;
 
 [CreateAssetMenu(menuName = "Localization/Localization Updater")]
 [ExecuteInEditMode]
@@ -33,11 +34,31 @@ public class LocalizationUpdater : ScriptableObject
     [SerializeField]
     private string charsPath;
     [SerializeField]
+    private string fontsPath;
+    [SerializeField]
     private string reportFile;
+
+    [SerializeField]
+    private TMPFontPackingModes fontAtlasPackingMode;
 
     [SerializeField]
     [Multiline]
     private string ignoreChars;
+
+    public class LanguageFontCharData
+    {
+        public Language language { get; private set; }
+        public TMPFont font { get; private set; }
+        public string missingChars { get; private set; }
+
+        public LanguageFontCharData(Language language, TMPFont font, string missingLetters)
+        {
+            this.language = language;
+            this.font = font;
+            this.missingChars = missingLetters;
+        }
+    }
+
 
     public void updateLanguages()
     {
@@ -105,9 +126,15 @@ public class LocalizationUpdater : ScriptableObject
             string name = getLanguageIdName(languageData.Value);
             File.WriteAllText(Path.Combine(fullLanguagesPath, name), languageData.Value.ToString());
 
-            var metaRecordedStatus = languageData.Value["meta.recorded"];
-            if (string.IsNullOrEmpty(metaRecordedStatus) || !metaRecordedStatus.Equals("Y", System.StringComparison.OrdinalIgnoreCase))
-                Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
+            var languageId = languageData.Value["generic.idname"];
+            if (string.IsNullOrEmpty(languageId) || !languagesData.languages.Any(a => a.getLanguageID().Equals(languageId)))
+                Debug.LogWarning($"Language {languageData.Key} not found in languages data.");
+            else
+            {
+                var metaRecordedStatus = languageData.Value["meta.recorded"];
+                if (string.IsNullOrEmpty(metaRecordedStatus) || !metaRecordedStatus.Equals("Y", System.StringComparison.OrdinalIgnoreCase))
+                    Debug.LogWarning($"Language {languageData.Key} does not have metadata recorded in google sheets");
+            }
         }
 
         // Format missing text report
@@ -136,7 +163,9 @@ public class LocalizationUpdater : ScriptableObject
         string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
 
         //Language files
-        var languageFiles = languagesData.languages.Select(a => Path.Combine(fullLanguagesPath, a.getFileName())).Distinct();
+        var languageFiles = languagesData.languages
+            .Select(a => Path.Combine(fullLanguagesPath, a.getFileName()))
+            .Distinct();
         foreach (var languageFile in languageFiles)
         {
             string language = Path.GetFileName(languageFile);
@@ -145,13 +174,22 @@ public class LocalizationUpdater : ScriptableObject
         Debug.Log("Language chars updated");
 
         //All chars
-        var allChars = languageFiles.Select(a => getUniqueCharString(File.ReadAllLines(a))).SelectMany(a => a).Distinct().ToArray();
+        var allChars = languageFiles
+            .Select(a => getUniqueCharString(File.ReadAllLines(a)))
+            .SelectMany(a => a)
+            .Distinct().ToArray();
         File.WriteAllText(Path.Combine(fullCharsPath, AllCharsFile), new string(allChars));
         Debug.Log(AllCharsFile + " updated");
 
         //Non-Asian chars
-        languageFiles = languagesData.languages.Where(a => !a.isAsian).Select(a => Path.Combine(fullLanguagesPath, a.getFileName())).Distinct();
-        allChars = languageFiles.Select(a => getUniqueCharString(File.ReadAllLines(a))).SelectMany(a => a).Distinct().ToArray();
+        languageFiles = languagesData.languages
+            .Where(a => !a.isAsian)
+            .Select(a => Path.Combine(fullLanguagesPath, a.getFileName()))
+            .Distinct();
+        allChars = languageFiles
+            .Select(a => getUniqueCharString(File.ReadAllLines(a)))
+            .SelectMany(a => a)
+            .Distinct().ToArray();
         File.WriteAllText(Path.Combine(fullCharsPath, NonAsianCharsFile), new string(allChars));
         Debug.Log(NonAsianCharsFile + " updated");
     }
@@ -207,11 +245,25 @@ public class LocalizationUpdater : ScriptableObject
 
     public void checkFontChars()
     {
+        var missingData = GetMissingFontCharData();
+        foreach (var data in missingData)
+        {
+            Debug.LogWarning($"{data.font.fontAsset.name} is missing {data.language.getFileName()} character(s)  " +
+                $"{data.missingChars}");
+        }
+        Debug.Log("Font character analysis complete");
+    }
+
+    public List<LanguageFontCharData> GetMissingFontCharData(TMPFont forceFont = null, Language forceLanguage = null)
+    {
         string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
         string fullCharsPath = Path.Combine(Application.dataPath, charsPath);
-        var errorStrings = new List<string>();
+        var missingCharData = new List<LanguageFontCharData>();
         foreach (var language in LanguagesData.instance.languages)
         {
+            if (forceLanguage != null && forceLanguage != language)
+                continue;
+
             var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
             var fontDict = SerializedNestedStrings.deserialize(File.ReadAllText(filePath)).getSubData("meta.font").subData;
             foreach (var fontKVPair in fontDict)
@@ -219,9 +271,22 @@ public class LocalizationUpdater : ScriptableObject
                 if (LocalizationManager.parseFontCompabilityString(language, fontKVPair.Value.value))
                 {
                     // Font is marked as compatible
-                    var font = LanguagesData.instance.languageTMPFonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
-                    if (font == null || font.fontAsset == null)
+                    var font = TMPFontsData.instance.fonts.FirstOrDefault(a => a.idName.Equals(fontKVPair.Key));
+
+                    if (forceFont != null && forceFont != font)
                         continue;
+
+                    if (font == null)
+                    {
+                        Debug.LogWarning(fontKVPair.Key + " is missing from TMP Fonts Data asset");
+                        continue;
+                    }
+                    if (font.fontAsset == null)
+                    {
+                        Debug.LogWarning(fontKVPair.Key + " is missing associated TMPro font in TMP Fonts asset");
+                        continue;
+                    }
+
                     var charString = File.ReadAllText(Path.Combine(fullCharsPath, language.getFileName() + "Chars.txt"));
                     charString = string.Join("", charString.Distinct());
                     List<char> currentChars = charString.ToCharArray().ToList();
@@ -255,19 +320,53 @@ public class LocalizationUpdater : ScriptableObject
                     {
                         currentChars = currentChars.Except(ignoreChars.ToCharArray()).ToList();
                         if (currentChars.Any())
-                            errorStrings.Add($"{font.fontAsset.name} is missing {language.getFileName()} character(s)  " +
-                            $"{string.Join("", currentChars)}");
+                        {
+                            missingCharData.Add(new LanguageFontCharData(language, font, string.Join("", currentChars)));
+                        }
                     }
                 }
             }
         }
-        errorStrings.Sort();
-        foreach (var errorString in errorStrings)
+        return missingCharData
+            .OrderBy(a => a.font.fontAsset.name)
+            .ThenBy(a => a.language.getLanguageID())
+            .ToList();
+    }
+
+    public void rebuildFontAtlas(TMPFont font)
+    {
+        var bakeData = font.bakeData;
+        var fullCharsPath = Path.Combine(Application.dataPath, charsPath);
+        var charString = File.ReadAllText(Path.Combine(fullCharsPath, bakeData.characterTextFile + ".txt"));
+        TMPFontAssetBaker.Bake(bakeData.baseFont, false, bakeData.fontSize, bakeData.padding, fontAtlasPackingMode,
+            bakeData.atlasWidth, bakeData.atlasHeight, TMPro.EditorUtilities.FaceStyles.Normal, 2, TMPro.EditorUtilities.RenderModes.DistanceField16,
+            charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"),
+            bakeData.glyphOverrides);
+
+        Debug.Log("Rebuilt atlas for " + font.idName);
+
+        var missingCharData = GetMissingFontCharData(forceFont: font);
+        foreach (var data in missingCharData)
         {
-            Debug.LogWarning(errorString);
+            Debug.LogWarning($"{data.font.fontAsset.name} is still missing {data.language.getFileName()} character(s)  " +
+                $"{data.missingChars}. Try expanding the atlas size, or maybe the characters are missing from the base font.");
         }
 
-        Debug.Log("Font character analysis complete");
+        if (!string.IsNullOrEmpty(bakeData.notes))
+            Debug.Log("Notes about " + font.idName + ":\n" + bakeData.notes);
+    }
+
+    public void rebuildAllIncompleteFontAtlases()
+    {
+        var incompleteFonts = GetMissingFontCharData()
+            .Select(a => a.font)
+            .Distinct();
+        foreach (var font in incompleteFonts)
+        {
+            //rebuildFontAtlas(font);
+            Debug.Log(font.idName);
+        }
+        Debug.Log("All incomplete font atlases updated.");
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges

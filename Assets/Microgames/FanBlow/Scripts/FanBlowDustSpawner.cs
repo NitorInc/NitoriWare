@@ -27,7 +27,7 @@ public class FanBlowDustSpawner : MonoBehaviour
         {
             createDust(new Vector3(MathHelper.randomRangeFromVector(spawnXRandomRange),
                 MathHelper.randomRangeFromVector(spawnYRandomRange),
-                transform.position.z + (.001f * i)));
+                transform.position.z - (.003f * i)));
         }
 	}
 
