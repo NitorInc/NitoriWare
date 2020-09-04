@@ -42,11 +42,12 @@ public class LocalizationUpdaterEditor : Editor
         }
 
         GUILayout.Label("");
-        GUILayout.Label("Rebuild font atlases");
-        GUILayout.Label("based on data in TMP Fonts Data");
+        GUILayout.Label("Update font atlases");
+        GUILayout.Label("based on bake data in TMP Fonts Data");
+        GUILayout.Label("Use before builds to prevent dynamic repacking");
         GUILayout.Label("NEEDS CHARS FILES TO EXIST");
         GUILayout.Label("Check console for important notes post-update");
-        GUILayout.Label("(takes quite a while)");
+        GUILayout.Label("(may take quite a while)");
         expandFonts = EditorGUILayout.Foldout(expandFonts, "Update TMP Font Asset Atlases:");
         if (expandFonts)
         {
