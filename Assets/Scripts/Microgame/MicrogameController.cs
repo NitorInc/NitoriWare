@@ -363,38 +363,41 @@ public class MicrogameController : MonoBehaviour
 	{
 		if (debugMode)
 		{
-			if (Input.GetKeyDown(KeyCode.R))
-				SceneManager.LoadScene(gameObject.scene.buildIndex);
-			else if (Input.GetKeyDown(KeyCode.F))
-			{
-				preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
-				SceneManager.LoadScene(gameObject.scene.buildIndex);
-            }
-            else if (Input.GetKeyDown(KeyCode.N))
+            if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
             {
-                string sceneName = SceneManager.GetActiveScene().name;
-                char[] sceneChars = sceneName.ToCharArray();
-                if (sceneChars[sceneChars.Length - 1] != '3')
-                {
-                    int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
-                    sceneName = sceneName.Substring(0, sceneName.Length - 1);
-                    SceneManager.LoadScene(sceneName + (stageNumber + 1).ToString());
-                }
-                else
+                if (Input.GetKeyDown(KeyCode.R))
                     SceneManager.LoadScene(gameObject.scene.buildIndex);
-            }
-            else if (Input.GetKeyDown(KeyCode.P))
-            {
-                string sceneName = SceneManager.GetActiveScene().name;
-                char[] sceneChars = sceneName.ToCharArray();
-                if (sceneChars[sceneChars.Length - 1] != '1')
+                else if (Input.GetKeyDown(KeyCode.F))
                 {
-                    int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
-                    sceneName = sceneName.Substring(0, sceneName.Length - 1);
-                    SceneManager.LoadScene(sceneName + (stageNumber - 1).ToString());
-                }
-                else
+                    preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
                     SceneManager.LoadScene(gameObject.scene.buildIndex);
+                }
+                else if (Input.GetKeyDown(KeyCode.N))
+                {
+                    string sceneName = SceneManager.GetActiveScene().name;
+                    char[] sceneChars = sceneName.ToCharArray();
+                    if (sceneChars[sceneChars.Length - 1] != '3')
+                    {
+                        int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
+                        sceneName = sceneName.Substring(0, sceneName.Length - 1);
+                        SceneManager.LoadScene(sceneName + (stageNumber + 1).ToString());
+                    }
+                    else
+                        SceneManager.LoadScene(gameObject.scene.buildIndex);
+                }
+                else if (Input.GetKeyDown(KeyCode.P))
+                {
+                    string sceneName = SceneManager.GetActiveScene().name;
+                    char[] sceneChars = sceneName.ToCharArray();
+                    if (sceneChars[sceneChars.Length - 1] != '1')
+                    {
+                        int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
+                        sceneName = sceneName.Substring(0, sceneName.Length - 1);
+                        SceneManager.LoadScene(sceneName + (stageNumber - 1).ToString());
+                    }
+                    else
+                        SceneManager.LoadScene(gameObject.scene.buildIndex);
+                }
             }
         }
 	}
