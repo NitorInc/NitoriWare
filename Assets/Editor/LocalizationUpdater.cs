@@ -342,9 +342,9 @@ public class LocalizationUpdater : ScriptableObject
         var charString = File.ReadAllText(Path.Combine(fullCharsPath, bakeData.characterTextFile + ".txt"));
 
         if (font.fontAsset.TryAddCharacters(charString, out missingCharString))
-            Debug.Log("Characters added successfully");
+            Debug.Log("Characters to " + font.idName + "added successfully");
         else
-            Debug.LogWarning("Some characters not added! Make sure the atlas is large enough and the characters are included in the base font. Missing:" + missingCharString);
+            Debug.LogWarning("Some characters not added to " + font.idName + "! Make sure the atlas is large enough and the characters are included in the base font. Missing:" + missingCharString);
 
         foreach (var glyphOverride in font.bakeData.glyphOverrides)
         {
