@@ -7,7 +7,7 @@ using UnityEditor;
 public class LocalizationUpdaterEditor : Editor
 {
     LocalizationUpdater updater;
-    bool expandFonts;
+    bool expandFonts = true;
     List<TMPFont> selectedFonts;
 
     private void OnEnable()
