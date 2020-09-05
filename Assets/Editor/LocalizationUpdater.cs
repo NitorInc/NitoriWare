@@ -352,10 +352,12 @@ public class LocalizationUpdater : ScriptableObject
                 continue;
 
             var glyph = font.fontAsset.characterLookupTable[(uint)glyphOverride.id].glyph;
-            // TODO add remaining fields
             var metrics = glyph.metrics;
             metrics.horizontalBearingX = glyphOverride.OX;
             metrics.horizontalBearingY = glyphOverride.OY;
+            metrics.horizontalAdvance = glyphOverride.ADV;
+            metrics.width *= glyphOverride.SF;
+            metrics.height *= glyphOverride.SF;
             glyph.metrics = metrics;
         }
 
