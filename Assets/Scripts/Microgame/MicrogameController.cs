@@ -385,7 +385,7 @@ public class MicrogameController : MonoBehaviour
                     else
                         SceneManager.LoadScene(gameObject.scene.buildIndex);
                 }
-                else if (Input.GetKeyDown(KeyCode.P))
+                else if (Input.GetKeyDown(KeyCode.M))
                 {
                     string sceneName = SceneManager.GetActiveScene().name;
                     char[] sceneChars = sceneName.ToCharArray();
