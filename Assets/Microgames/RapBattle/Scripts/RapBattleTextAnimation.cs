@@ -98,15 +98,14 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent.text = $"<size={initialFontSize}>" + verse + $"<size={rhymeFontSize}>" + rhyme;
     }
     
-    // Performs some extra calculations to make sure the text can fit in the allotted size when expanding
+    // Changes object scale make sure the text can fit in the allotted size when expanding
     // Needs to be run on first LateUpdate due to some complications I haven't quite figured out
     void fitToSize()
     {
         var textSize = tmProComponent.GetRenderedValues(false);
         if (textSize.x > rectTransform.sizeDelta.x)
         {
-            initialFontSize *= rectTransform.sizeDelta.x / textSize.x;
-            initialFontSize = Mathf.Floor(initialFontSize);
+            transform.localScale *= rectTransform.sizeDelta.x / textSize.x;
         }
     }
 
