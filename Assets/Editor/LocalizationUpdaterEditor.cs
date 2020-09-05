@@ -7,7 +7,7 @@ using UnityEditor;
 public class LocalizationUpdaterEditor : Editor
 {
     LocalizationUpdater updater;
-    bool expandFonts;
+    bool expandFonts = true;
     List<TMPFont> selectedFonts;
 
     private void OnEnable()
@@ -18,7 +18,8 @@ public class LocalizationUpdaterEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        GUILayout.Label("Update all languages, takes a while:");
+        GUILayout.Label("Update all languages from Google sheet, takes a while");
+        GUILayout.Label("(Needs an internet connection, obviously):");
         if (GUILayout.Button("Update Language Content"))
         {
             updater.updateLanguages();
@@ -42,11 +43,12 @@ public class LocalizationUpdaterEditor : Editor
         }
 
         GUILayout.Label("");
-        GUILayout.Label("Rebuild font atlases");
-        GUILayout.Label("based on data in TMP Fonts Data");
+        GUILayout.Label("Update font atlases");
+        GUILayout.Label("based on bake data in TMP Fonts Data");
+        GUILayout.Label("Use before builds to prevent dynamic repacking");
         GUILayout.Label("NEEDS CHARS FILES TO EXIST");
         GUILayout.Label("Check console for important notes post-update");
-        GUILayout.Label("(takes quite a while)");
+        GUILayout.Label("(may take quite a while)");
         expandFonts = EditorGUILayout.Foldout(expandFonts, "Update TMP Font Asset Atlases:");
         if (expandFonts)
         {

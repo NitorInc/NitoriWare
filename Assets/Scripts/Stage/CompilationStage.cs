@@ -32,6 +32,7 @@ public class CompilationStage : Stage
         {
             var overriddenGames = overrideCollection.Split('\n').Select(a => a.ToUpper().Trim((char)13)).ToList();
             microgamePool = microgamePool.Where(a => overriddenGames.Contains(a.microgameId.ToUpper())).ToList();
+            print(microgamePool.Count);
         }
         roundsCompleted = roundStartIndex = 0;
         

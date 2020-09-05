@@ -175,13 +175,18 @@ public class LocalizationManager : MonoBehaviour
     {
         if (blacklist == null)
             blacklist = new TMP_FontAsset[0];
-        return TMPFontsData.instance.fonts
+
+        var matchingFont = TMPFontsData.instance.fonts
             .FirstOrDefault(a =>
                 a.fontAsset != null
                 && !blacklist.Contains(a.fontAsset)
                 && languageFontMetadata.subData.ContainsKey(a.idName)
-                && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.idName].value))
-            .fontAsset;
+                && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.idName].value));
+
+        if (matchingFont == null)
+            Debug.LogError("No font found for language " + loadedLanguage.languageName);
+
+        return matchingFont.fontAsset;
     }
 
 }

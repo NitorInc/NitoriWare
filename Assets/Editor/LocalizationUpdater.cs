@@ -6,7 +6,6 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using TMPro;
-using DTLocalization.Internal;
 
 [CreateAssetMenu(menuName = "Localization/Localization Updater")]
 [ExecuteInEditMode]
@@ -30,7 +29,7 @@ public class LocalizationUpdater : ScriptableObject
     private string idNameKey;
 
     [SerializeField]
-    private string languagesPath;
+     private string languagesPath;
     [SerializeField]
     private string charsPath;
     [SerializeField]
@@ -38,8 +37,8 @@ public class LocalizationUpdater : ScriptableObject
     [SerializeField]
     private string reportFile;
 
-    [SerializeField]
-    private TMPFontPackingModes fontAtlasPackingMode;
+    //[SerializeField]
+    //private TMPFontPackingModes fontAtlasPackingMode;
 
     [SerializeField]
     [Multiline]
@@ -120,7 +119,7 @@ public class LocalizationUpdater : ScriptableObject
             }
         }
 
-        string fullLanguagesPath = Path.Combine(Application.dataPath, languagesPath);
+        string fullLanguagesPath = Path.Combine(UnityEngine.Application.dataPath, languagesPath);
         foreach (var languageData in languages)
         {
             string name = getLanguageIdName(languageData.Value);
@@ -155,7 +154,7 @@ public class LocalizationUpdater : ScriptableObject
         File.WriteAllText(Path.Combine(Application.dataPath, reportFile), reportText);
 
         Debug.Log("Language content updated");
-	}
+    }
 
     public void updateCharsFiles()
     {
@@ -295,7 +294,7 @@ public class LocalizationUpdater : ScriptableObject
                     // Check fonts AND fallbacks
                     var fallbackList = new List<TMP_FontAsset>();
                     fallbackList.Add(font.fontAsset);                           // Current language
-                    fallbackList.AddRange(font.fontAsset.fallbackFontAssets);   // language's fallbacks
+                    fallbackList.AddRange(font.fontAsset.fallbackFontAssetTable);   // language's fallbacks
                     fallbackList.AddRange(TMP_Settings.fallbackFontAssets);     // Global fallbacks
                     fallbackList = fallbackList.Distinct().ToList();
 
@@ -304,7 +303,7 @@ public class LocalizationUpdater : ScriptableObject
                         var missingChars = new List<char>();
                         // NO idea why but the hasCharacters() function seems to just be true all the time, so also check for null/any
 
-                        missingChars = currentChars.Where(a => !fontAsset.characterDictionary.ContainsKey((int)a)).ToList();
+                        missingChars = currentChars.Where(a => !fontAsset.characterLookupTable.ContainsKey((uint)a)).ToList();
 
                         if (missingChars != null && missingChars.Any())
                         {
@@ -335,23 +334,49 @@ public class LocalizationUpdater : ScriptableObject
 
     public void rebuildFontAtlas(TMPFont font)
     {
+        string missingCharString = "";
+        font.fontAsset.ClearFontAssetData();
+
         var bakeData = font.bakeData;
         var fullCharsPath = Path.Combine(Application.dataPath, charsPath);
-        var charString = File.ReadAllText(Path.Combine(fullCharsPath, bakeData.characterTextFile + ".txt"));
-        TMPFontAssetBaker.Bake(bakeData.baseFont, false, bakeData.fontSize, bakeData.padding, fontAtlasPackingMode,
-            bakeData.atlasWidth, bakeData.atlasHeight, TMPro.EditorUtilities.FaceStyles.Normal, 2, TMPro.EditorUtilities.RenderModes.DistanceField16,
-            charString, Path.Combine(fontsPath, font.fontAsset.name + ".asset"),
-            bakeData.glyphOverrides);
+        var compatibleLanguages = GetCompatibleLanguagesForFont(font);
+        var charString = new string(
+            compatibleLanguages
+                .Select(a => File.ReadAllText(Path.Combine(fullCharsPath, a + "Chars.txt")))
+                .SelectMany(a => a)
+                .Distinct()
+                //.Except(ignoreChars.ToCharArray())
+                .ToArray());
 
-        Debug.Log("Rebuilt atlas for " + font.idName);
+        font.fontAsset.TryAddCharacters(charString, out missingCharString);
+        missingCharString = new string(
+            missingCharString
+                .Except(ignoreChars.ToCharArray())
+                .ToArray());
+        if (string.IsNullOrEmpty(missingCharString))
+            Debug.Log("Characters to added to " + font.idName + " successfully");
+        else
+            Debug.LogWarning("Some characters not added to " + font.idName + "! Make sure the atlas is large enough and the characters are included in the base font. Missing:" + missingCharString);
 
-        var missingCharData = GetMissingFontCharData(forceFont: font);
-        foreach (var data in missingCharData)
+        foreach (var glyphOverride in font.bakeData.glyphOverrides)
         {
-            Debug.LogWarning($"{data.font.fontAsset.name} is still missing {data.language.getFileName()} character(s)  " +
-                $"{data.missingChars}. Try expanding the atlas size, or maybe the characters are missing from the base font.");
+            if (!font.fontAsset.characterLookupTable.ContainsKey((uint)glyphOverride.id))
+                continue;
+
+            var glyph = font.fontAsset.characterLookupTable[(uint)glyphOverride.id].glyph;
+            var metrics = glyph.metrics;
+            metrics.horizontalBearingX = glyphOverride.OX;
+            metrics.horizontalBearingY = glyphOverride.OY;
+            metrics.horizontalAdvance = glyphOverride.ADV;
+            metrics.width *= glyphOverride.SF;
+            metrics.height *= glyphOverride.SF;
+            glyph.metrics = metrics;
         }
 
+        UnityEditor.AssetDatabase.SaveAssets();
+        UnityEditor.AssetDatabase.Refresh();
+
+        Debug.Log("Updated atlas for " + font.idName);
         if (!string.IsNullOrEmpty(bakeData.notes))
             Debug.Log("Notes about " + font.idName + ":\n" + bakeData.notes);
     }
@@ -363,10 +388,25 @@ public class LocalizationUpdater : ScriptableObject
             .Distinct();
         foreach (var font in incompleteFonts)
         {
-            //rebuildFontAtlas(font);
-            Debug.Log(font.idName);
+            rebuildFontAtlas(font);
         }
         Debug.Log("All incomplete font atlases updated.");
+    }
+
+    public List<string> GetCompatibleLanguagesForFont(TMPFont font)
+    {
+        // TODO this is a bit needlessly expensive but fuck it it's an editor script
+
+        var returnList = new List<string>();
+        foreach (var language in LanguagesData.instance.languages)
+        {
+            string fullLanguagesPath = Path.Combine(UnityEngine.Application.dataPath, languagesPath);
+            var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
+            var fontData = SerializedNestedStrings.deserialize(File.ReadAllText(filePath));
+            if (LocalizationManager.parseFontCompabilityString(language, fontData["meta.font." + font.idName]))
+                returnList.Add(language.getFileName());
+        }
+        return returnList.Distinct().ToList();
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges
