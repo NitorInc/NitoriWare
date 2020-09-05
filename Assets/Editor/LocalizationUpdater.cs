@@ -339,10 +339,22 @@ public class LocalizationUpdater : ScriptableObject
 
         var bakeData = font.bakeData;
         var fullCharsPath = Path.Combine(Application.dataPath, charsPath);
-        var charString = File.ReadAllText(Path.Combine(fullCharsPath, bakeData.characterTextFile + ".txt"));
+        var compatibleLanguages = GetCompatibleLanguagesForFont(font);
+        var charString = new string(
+            compatibleLanguages
+                .Select(a => File.ReadAllText(Path.Combine(fullCharsPath, a + "Chars.txt")))
+                .SelectMany(a => a)
+                .Distinct()
+                //.Except(ignoreChars.ToCharArray())
+                .ToArray());
 
-        if (font.fontAsset.TryAddCharacters(charString, out missingCharString))
-            Debug.Log("Characters to " + font.idName + "added successfully");
+        font.fontAsset.TryAddCharacters(charString, out missingCharString);
+        missingCharString = new string(
+            missingCharString
+                .Except(ignoreChars.ToCharArray())
+                .ToArray());
+        if (string.IsNullOrEmpty(missingCharString))
+            Debug.Log("Characters to added to " + font.idName + " successfully");
         else
             Debug.LogWarning("Some characters not added to " + font.idName + "! Make sure the atlas is large enough and the characters are included in the base font. Missing:" + missingCharString);
 
@@ -376,10 +388,25 @@ public class LocalizationUpdater : ScriptableObject
             .Distinct();
         foreach (var font in incompleteFonts)
         {
-            //rebuildFontAtlas(font);
-            Debug.Log(font.idName);
+            rebuildFontAtlas(font);
         }
         Debug.Log("All incomplete font atlases updated.");
+    }
+
+    public List<string> GetCompatibleLanguagesForFont(TMPFont font)
+    {
+        // TODO this is a bit needlessly expensive but fuck it it's an editor script
+
+        var returnList = new List<string>();
+        foreach (var language in LanguagesData.instance.languages)
+        {
+            string fullLanguagesPath = Path.Combine(UnityEngine.Application.dataPath, languagesPath);
+            var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
+            var fontData = SerializedNestedStrings.deserialize(File.ReadAllText(filePath));
+            if (LocalizationManager.parseFontCompabilityString(language, fontData["meta.font." + font.idName]))
+                returnList.Add(language.getFileName());
+        }
+        return returnList.Distinct().ToList();
     }
 
     //Use the second row sheet buffer to get proper codenames for langauges

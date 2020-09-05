@@ -18,7 +18,8 @@ public class LocalizationUpdaterEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        GUILayout.Label("Update all languages, takes a while:");
+        GUILayout.Label("Update all languages from Google sheet, takes a while");
+        GUILayout.Label("(Needs an internet connection, obviously):");
         if (GUILayout.Button("Update Language Content"))
         {
             updater.updateLanguages();
