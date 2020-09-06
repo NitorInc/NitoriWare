@@ -6,8 +6,10 @@ using TMPro;
 [System.Serializable]
 public class TMPFont
 {
-    public string idName;
-    public TMP_FontAsset fontAsset;
+    const string FontAssetsPath = "FontAssets/";
+
+    [UnityEngine.Serialization.FormerlySerializedAs("idName")]
+    public string assetName;
     public BakeData bakeData;
     [System.Serializable]
     public class BakeData
@@ -29,5 +31,8 @@ public class TMPFont
         public float SF;
     }
 
+    public TMP_FontAsset LoadFontAsset() => Resources.Load<TMP_FontAsset>(FontAssetsPath + assetName);
+
+    public ResourceRequest LoadFontAssetAsync() => Resources.LoadAsync<TMP_FontAsset>(FontAssetsPath + assetName);
 
 }

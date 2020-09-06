@@ -69,7 +69,7 @@ public class LocalizationUpdaterEditor : Editor
             foreach (var font in TMPFontsData.instance.fonts)
             {
                 var wasSelected = selectedFonts.Contains(font);
-                var isSelected = GUILayout.Toggle(wasSelected, font.idName);
+                var isSelected = GUILayout.Toggle(wasSelected, font.assetName);
 
                 if (isSelected && !wasSelected)
                     selectedFonts.Add(font);

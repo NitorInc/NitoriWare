@@ -54,21 +54,22 @@ public class FontCharDebugTextGen : MonoBehaviour
             {
                 for (int i = 0; i < TMPFontsData.instance.fonts.Length; i++)
                 {
-                    var font = TMPFontsData.instance.fonts[i];
-                    SetFontDynamic(font.fontAsset.sourceFontFile, false);
-                    if (font.fontAsset.sourceFontFile == null)
+                    var fontData = TMPFontsData.instance.fonts[i];
+                    var fontAsset = fontData.LoadFontAsset();
+                    SetFontDynamic(fontAsset.sourceFontFile, false);
+                    if (fontAsset.sourceFontFile == null)
                     {
-                        Debug.LogWarning("font " + font.idName + " has no base font");
+                        Debug.LogWarning("font " + fontData.assetName + " has no base font");
                         continue;
                     }
                     var newText = Instantiate(textPrefab, transform.position + (Vector3.right * textXSeparation * i), Quaternion.identity);
                     newText.transform.position = transform.position + (Vector3.right * textXSeparation * i);
-                    newText.GetComponent<Text>().font = font.fontAsset.sourceFontFile;
+                    newText.GetComponent<Text>().font = fontAsset.sourceFontFile;
                     newText.transform.SetParent(transform);
                     newText.GetComponent<FontCharDebugText>().languageId = languageIdToTest;
-                    newText.name = font.idName;
+                    newText.name = fontData.assetName;
                     newText.GetComponent<FontCharDebugText>().Initiate();
-                    SetFontDynamic(font.fontAsset.sourceFontFile, true);
+                    SetFontDynamic(fontAsset.sourceFontFile, true);
                 }
             }
             else

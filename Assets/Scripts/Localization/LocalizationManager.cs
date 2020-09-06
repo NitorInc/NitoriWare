@@ -27,6 +27,13 @@ public class LocalizationManager : MonoBehaviour
     private bool loadedLanguageIsComplete;
     public bool isLoadedLanguageComplete() => loadedLanguageIsComplete;
 
+    public LoadedFont[] loadedFonts { get; private set; }
+    public class LoadedFont
+    {
+        public TMPFont fontData;
+        public TMP_FontAsset fontAsset;
+    }
+
 	public void Awake ()
     {
 		if (instance != null)
@@ -94,6 +101,26 @@ public class LocalizationManager : MonoBehaviour
         loadedLanguage = language;
         languageString = "";
         loadedLanguageIsComplete = getLocalizedValue("generic.complete", "N").Equals("Y", System.StringComparison.OrdinalIgnoreCase);
+        
+        // Determine new compatible font assets to load
+        var fontsToLoad = TMPFontsData.instance.fonts
+            .Where(a => isTMPFontCompatibleWithLanguage(a.assetName));
+
+        if (loadedFonts != null && loadedFonts.Any())
+        {
+            // Unload assets that are no longer compatible
+            var fontsToUnload = loadedFonts
+                .Where(a => !fontsToLoad.Contains(a.fontData));
+            foreach (var font in fontsToUnload)
+            {
+                Resources.UnloadAsset(font.fontAsset);
+            }
+        }
+
+        // Load new assets
+        loadedFonts = fontsToLoad
+            .Select(a => new LoadedFont { fontData = a, fontAsset = a.LoadFontAsset() })
+            .ToArray();
 
         if (onLanguageChanged != null)
             onLanguageChanged(language);
@@ -159,13 +186,13 @@ public class LocalizationManager : MonoBehaviour
             return value.Equals("Y");
     }
 
-    public bool isTMPFontCompatibleWithLanguage(TMP_FontAsset font)
+    public bool isTMPFontCompatibleWithLanguage(string fontAssetName)
     {
-        var languageFont = TMPFontsData.instance.fonts.FirstOrDefault(a => a.fontAsset == font);
+        var languageFont = TMPFontsData.instance.fonts.FirstOrDefault(a => a.assetName.Equals(fontAssetName));
         if (languageFont == null)
             return false;
-        if (languageFontMetadata.subData.ContainsKey(languageFont.idName))
-            return parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[languageFont.idName].value);
+        if (languageFontMetadata.subData.ContainsKey(languageFont.assetName))
+            return parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[languageFont.assetName].value);
         else
             return false;
     }
@@ -176,12 +203,12 @@ public class LocalizationManager : MonoBehaviour
         if (blacklist == null)
             blacklist = new TMP_FontAsset[0];
 
-        var matchingFont = TMPFontsData.instance.fonts
+        var matchingFont = loadedFonts
             .FirstOrDefault(a =>
                 a.fontAsset != null
                 && !blacklist.Contains(a.fontAsset)
-                && languageFontMetadata.subData.ContainsKey(a.idName)
-                && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.idName].value));
+                && languageFontMetadata.subData.ContainsKey(a.fontAsset.name)
+                && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.fontAsset.name].value));
 
         if (matchingFont == null)
             Debug.LogError("No font found for language " + loadedLanguage.languageName);
