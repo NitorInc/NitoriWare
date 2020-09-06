@@ -12,12 +12,6 @@ public class TMPFont
     [System.Serializable]
     public class BakeData
     {
-        public Font baseFont;
-        public int fontSize = 86;
-        public int padding = 9;
-        public string characterTextFile;
-        public int atlasWidth = 1024;
-        public int atlasHeight = 1024;
         public GlyphOverride[] glyphOverrides;
         [Multiline]
         public string notes;
