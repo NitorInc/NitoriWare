@@ -94,6 +94,7 @@ public class LocalizationManager : MonoBehaviour
 
         System.TimeSpan timeElapsed = System.DateTime.Now - started;
         Debug.Log("Language " + language.getFileName() + " loaded in " + timeElapsed.TotalMilliseconds + "ms");
+        started = System.DateTime.Now;
         PrefsHelper.setPreferredLanguage(language.getLanguageID());
         languageFontMetadata = localizedText.getSubData("meta.font");
 
@@ -106,21 +107,15 @@ public class LocalizationManager : MonoBehaviour
         var fontsToLoad = TMPFontsData.instance.fonts
             .Where(a => isTMPFontCompatibleWithLanguage(a.assetName));
 
-        if (loadedFonts != null && loadedFonts.Any())
-        {
-            // Unload assets that are no longer compatible
-            var fontsToUnload = loadedFonts
-                .Where(a => !fontsToLoad.Contains(a.fontData));
-            foreach (var font in fontsToUnload)
-            {
-                Resources.UnloadAsset(font.fontAsset);
-            }
-        }
-
         // Load new assets
         loadedFonts = fontsToLoad
             .Select(a => new LoadedFont { fontData = a, fontAsset = a.LoadFontAsset() })
             .ToArray();
+
+        Resources.UnloadUnusedAssets();
+
+        timeElapsed = System.DateTime.Now - started;
+        Debug.Log("Language " + language.getFileName() + " fonts loadedd in " + timeElapsed.TotalMilliseconds + "ms");
 
         if (onLanguageChanged != null)
             onLanguageChanged(language);
