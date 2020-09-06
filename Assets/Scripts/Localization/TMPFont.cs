@@ -6,18 +6,15 @@ using TMPro;
 [System.Serializable]
 public class TMPFont
 {
-    public string idName;
-    public TMP_FontAsset fontAsset;
+    const string FontAssetsPath = "FontAssets/";
+
+    [UnityEngine.Serialization.FormerlySerializedAs("idName")]
+    public string assetName;
+    public bool isGlobal;
     public BakeData bakeData;
     [System.Serializable]
     public class BakeData
     {
-        public Font baseFont;
-        public int fontSize = 86;
-        public int padding = 9;
-        public string characterTextFile;
-        public int atlasWidth = 1024;
-        public int atlasHeight = 1024;
         public GlyphOverride[] glyphOverrides;
         [Multiline]
         public string notes;
@@ -35,5 +32,8 @@ public class TMPFont
         public float SF;
     }
 
+    public TMP_FontAsset LoadFontAsset() => Resources.Load<TMP_FontAsset>(FontAssetsPath + assetName);
+
+    public ResourceRequest LoadFontAssetAsync() => Resources.LoadAsync<TMP_FontAsset>(FontAssetsPath + assetName);
 
 }
