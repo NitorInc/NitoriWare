@@ -63,6 +63,10 @@ public class MicrogameCollectionEditor : Editor
             collection.updateBuildPath();
             EditorUtility.SetDirty(collection);
         }
+        if (GUILayout.Button("Set music import settings to streaming"))
+        {
+            collection.SetMicrogameMusicToStreaming();
+        }
 
         GUILayout.Label("Indexed Microgames:");
         var names = Enum.GetNames(typeof(MicrogameTraits.Milestone));

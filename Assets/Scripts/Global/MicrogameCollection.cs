@@ -117,9 +117,31 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         EditorBuildSettings.scenes = buildScenes.ToArray();
         Debug.Log("Build path updated");
 #else
-        Debug.LogError("Microgame build updates should NOT be called outside of the editor. You shouldn't even see this message.");
+        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
 #endif
     }
+
+#if UNITY_EDITOR
+    public void SetMicrogameMusicToStreaming()
+    {
+        var allTraits = MicrogameCollection.instance.microgames.SelectMany(a => a.difficultyTraits).Distinct();
+        foreach (var traits in allTraits)
+        {
+            if (traits.musicClip == null || traits.musicClip.loadType == AudioClipLoadType.Streaming)
+                continue;
+
+            var assetPath = AssetDatabase.GetAssetPath(traits.musicClip.GetInstanceID());
+            var audio = AssetImporter.GetAtPath(assetPath) as AudioImporter;
+            var sampleSettings = audio.defaultSampleSettings;
+            sampleSettings.loadType = AudioClipLoadType.Streaming;
+            audio.defaultSampleSettings = sampleSettings;
+            audio.SaveAndReimport();
+            Debug.Log("Changed music settings for " + traits.musicClip.name);
+        }
+        AssetDatabase.Refresh();
+        Debug.Log("Microgame music import settings updated");
+    }
+#endif
 
     string[] getMicrogameSceneFilesRecursive(string folder, string microgameId, bool checkForScenesFolderInBase= true)
     {
