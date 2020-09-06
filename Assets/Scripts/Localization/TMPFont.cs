@@ -10,6 +10,7 @@ public class TMPFont
 
     [UnityEngine.Serialization.FormerlySerializedAs("idName")]
     public string assetName;
+    public bool isGlobal;
     public BakeData bakeData;
     [System.Serializable]
     public class BakeData

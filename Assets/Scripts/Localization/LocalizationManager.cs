@@ -102,23 +102,21 @@ public class LocalizationManager : MonoBehaviour
         loadedLanguage = language;
         languageString = "";
         loadedLanguageIsComplete = getLocalizedValue("generic.complete", "N").Equals("Y", System.StringComparison.OrdinalIgnoreCase);
-        
-        // Determine new compatible font assets to load
-        var fontsToLoad = TMPFontsData.instance.fonts
-            .Where(a => isTMPFontCompatibleWithLanguage(a.assetName));
 
-        // Load new assets
-        loadedFonts = fontsToLoad
+        // Load compatible global font assets
+        loadedFonts = TMPFontsData.instance.fonts
+            .Where(a => a.isGlobal && isTMPFontCompatibleWithLanguage(a.assetName))
             .Select(a => new LoadedFont { fontData = a, fontAsset = a.LoadFontAsset() })
             .ToArray();
 
-        Resources.UnloadUnusedAssets();
 
         timeElapsed = System.DateTime.Now - started;
-        Debug.Log("Language " + language.getFileName() + " fonts loadedd in " + timeElapsed.TotalMilliseconds + "ms");
+        Debug.Log("Language " + language.getFileName() + " fonts loaded in " + timeElapsed.TotalMilliseconds + "ms");
 
         if (onLanguageChanged != null)
             onLanguageChanged(language);
+
+        Resources.UnloadUnusedAssets();
     }
 
     public string getLoadedLanguageID()
