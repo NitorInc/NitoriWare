@@ -14,12 +14,15 @@ public class StageController : MonoBehaviour
 	[Range(1, MAX_SPEED)]
 	public int speed;
 	public bool godMode, muteMusic;
+    public float editorStartDelay = .2f;
 
 	public int maxStockpiledScenes;
     public ThreadPriority sceneLoadPriority;
 
 	private int microgameCount, life;
 	private bool microgameVictoryStatus, victoryDetermined;
+    private bool sceneStarted;
+    private float sceneStartTime;
 
 	public AnimationPart animationPart = AnimationPart.Intro;
 
@@ -68,50 +71,61 @@ public class StageController : MonoBehaviour
         OneUp,          //9 - Player has won the boss stage and gets an extra life | 8 beats (placeholder)
         WonStage        //10 - Player has won a character stage for the first time | 8 beats, ends stage
 	}
+    
+    void Awake()
+    {
+        instance = this;
+        sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
+        if (commandDisplay == null)
+            commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
+        if (controlDisplay == null)
+            controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
+    }
 
-	void Start()
+    void Start()
 	{
         AssetsUnloadingBusy = false;
 		beatLength = outroSource.clip.length / 4f;
 		Application.backgroundLoadingPriority = sceneLoadPriority;
 		voicePlayer.loadClips(stage.getVoiceSet());
 
-		setAnimationPart(AnimationPart.Intro);
-		resetStage(Time.time, true);
+        setAnimationPart(AnimationPart.Intro);
+
+        Time.timeScale = 0f;
         Cursor.visible = false;
-	}
+        sceneStartTime = Time.realtimeSinceStartup + (Application.isEditor ? editorStartDelay : 0f); // Editor mode has a bug when trying to load scenes async too soon and will activate them anyway
+    }
 
-	void resetStage(float startTime, bool firstTime)
-	{
-		stage.onStageStart();
+    private void Update()
+    {
+        if (!sceneStarted && Time.realtimeSinceStartup >= sceneStartTime)
+        {
+            resetStage(Time.time, true);
+            sceneStarted = true;
+        }
+    }
 
-		microgameCount = 0;
-		speed = stage.getStartSpeed();
-		Time.timeScale = getSpeedMult();
-		animationStartTime = startTime;
+    void resetStage(float startTime, bool firstTime)
+    {
+        stage.onStageStart();
 
-		microgameQueue = new Queue<MicrogameInstance>();
-		updateMicrogameQueue(maxStockpiledScenes);
+        microgameCount = 0;
+        speed = stage.getStartSpeed();
+        Time.timeScale = getSpeedMult();
+        animationStartTime = startTime;
 
-		resetLifeIndicators();
-		MicrogameNumber.instance.resetNumber();
+        microgameQueue = new Queue<MicrogameInstance>();
+        updateMicrogameQueue(maxStockpiledScenes);
 
-		introSource.pitch = getSpeedMult();
-		if (!muteMusic && firstTime)
-			AudioHelper.playScheduled(introSource, startTime - Time.time);
+        resetLifeIndicators();
+        MicrogameNumber.instance.resetNumber();
+
+        introSource.pitch = getSpeedMult();
+        if (!muteMusic && firstTime)
+            AudioHelper.playScheduled(introSource, startTime - Time.time);
         updateMicrogameTraits();
 
-		invokeIntroAnimations();
-	}
-
-	void Awake()
-	{
-		instance = this;
-        sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
-        if (commandDisplay == null)
-            commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
-        if (controlDisplay == null)
-            controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
+        invokeIntroAnimations();
     }
 
 	void updateMicrogameQueue(int maxQueueSize)
@@ -409,8 +423,14 @@ public class StageController : MonoBehaviour
 	}
 
 	void startMicrogame()
-	{
-		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
+    {
+        if (MicrogameController.instance != null)
+        {
+            Debug.LogError("Microgame scene(s) activated prematurely. Try restarting the scene or setting Editor Start Delay higher in Stage Controller");
+            Debug.Break();
+        }
+
+        getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
         stage.onMicrogameStart(microgameCount);
     }
 
