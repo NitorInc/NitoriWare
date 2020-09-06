@@ -191,15 +191,15 @@ public class LocalizationManager : MonoBehaviour
     }
     
 
-    public TMP_FontAsset getFallBackFontForCurrentLanguage(TMP_FontAsset[] blacklist = null)
+    public TMP_FontAsset getFallBackFontForCurrentLanguage(string[] blacklist = null)
     {
         if (blacklist == null)
-            blacklist = new TMP_FontAsset[0];
+            blacklist = new string[0];
 
         var matchingFont = loadedFonts
             .FirstOrDefault(a =>
                 a.fontAsset != null
-                && !blacklist.Contains(a.fontAsset)
+                && !blacklist.Contains(a.fontAsset.name)
                 && languageFontMetadata.subData.ContainsKey(a.fontAsset.name)
                 && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.fontAsset.name].value));
 

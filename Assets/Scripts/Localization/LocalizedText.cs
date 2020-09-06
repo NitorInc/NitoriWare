@@ -34,9 +34,11 @@ public class LocalizedText : MonoBehaviour
     }
     
     [SerializeField]
-    private TMP_FontAsset[] tmproFontFallbackList = { };
+    [Multiline]
+    private string tmproFontFallbackList = "";
     [SerializeField]
-    private TMP_FontAsset[] tmproFontBlacklist = { };
+    [Multiline]
+    private string tmproFontBlacklist = "";
 
     private Text textComponent;
     public Text TextComponent => textComponent;
@@ -230,13 +232,18 @@ public class LocalizedText : MonoBehaviour
         if (tmpText != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(tmpText.font.name))
             return tmpText.font;
         
-        foreach (var fallbackFont in tmproFontFallbackList)
+        foreach (var fallbackFont in tmproFontFallbackList.Split('\n'))
         {
-            if (LocalizationManager.instance.isTMPFontCompatibleWithLanguage(fallbackFont.name))
-                return fallbackFont;
+            if (LocalizationManager.instance.isTMPFontCompatibleWithLanguage(fallbackFont))
+            {
+                var fontData = LocalizationManager.instance.loadedFonts
+                    .FirstOrDefault(a => a.fontAsset.name.Equals(fallbackFont));
+                if (fontData != null)
+                    return fontData.fontAsset;
+            }
         }
 
-        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage(blacklist:tmproFontBlacklist);
+        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage(blacklist:tmproFontBlacklist.Split('\n'));
         if (fallback != null)
             return fallback;
 
