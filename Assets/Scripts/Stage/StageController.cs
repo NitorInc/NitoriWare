@@ -127,7 +127,7 @@ public class StageController : MonoBehaviour
         introSource.pitch = getSpeedMult();
         if (!muteMusic && firstTime)
             AudioHelper.playScheduled(introSource, startTime - Time.time);
-        updateMicrogameTraits();
+        //updateMicrogameTraits();
 
         invokeIntroAnimations();
     }
@@ -213,7 +213,7 @@ public class StageController : MonoBehaviour
 
         invokeAtBeat("unloadMicrogame", 2f);
 
-        invokeAtBeat("updateMicrogameTraits", -2f);
+        //invokeAtBeat("updateMicrogameTraits", -2f);
     }
 
 	void invokeInterruptions()
@@ -418,14 +418,14 @@ public class StageController : MonoBehaviour
         MicrogameNumber.instance.decreaseNumber();
     }
 
-    void updateMicrogameTraits()
-	{
-        if (microgameQueue.Count <= 0)
-            return;
+ //   void updateMicrogameTraits()
+	//{
+ //       if (microgameQueue.Count <= 0)
+ //           return;
 
-		MicrogameJob instance = getCurrentMicrogameInstance();
-		instance.session = instance.microgame.traits.onAccessInStage(instance.microgame.microgameId, instance.difficulty);
-	}
+	//	MicrogameJob instance = getCurrentMicrogameInstance();
+	//	//instance.session = instance.microgame.traits.onAccessInStage(instance.microgame.microgameId, instance.difficulty);
+	//}
 
 	public float getBeatsRemaining()
 	{
