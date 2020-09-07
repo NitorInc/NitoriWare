@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Collections;
 using System.Linq;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MicrogameController : MonoBehaviour
 {
@@ -58,7 +61,8 @@ public class MicrogameController : MonoBehaviour
     private bool debugMode;
     private CommandDisplay commandDisplay;
 
-    private MicrogameTraits traits;
+    private MicrogameCollection.Microgame microgameData;
+    private MicrogameTraits traits => microgameData.traits;
     public MicrogameSession Session { get; private set; }
     public int Difficulty => Session.Difficulty;
 
@@ -66,24 +70,37 @@ public class MicrogameController : MonoBehaviour
 	{
 		instance = this;
 
-        //Find traits
-		string microgameID = gameObject.scene.name;
-
-        if (microgameID.Equals("Template"))
-			microgameID = "_Template1";
-        microgameID = microgameID.Substring(0, microgameID.Length - 1);
-
-        //Get traits from collection if available
-        if (GameController.instance != null)
+        var sceneName = gameObject.scene.name;
+        if (sceneName.Contains("Template"))
         {
-            var collectionMicrogame = MicrogameHelper.getMicrogames(includeBosses:true).FirstOrDefault(a => a.microgameId.Equals(microgameID));
-            if (collectionMicrogame != null)
-                traits = collectionMicrogame.traits;
+            Debug.Break();
+            Debug.Log("You can't play the template scene, copy the folder and rename the scene so it contains your microgame's ID");
         }
 
-        //Get traits from project file if necessary
-        if (traits == null)
-            traits = MicrogameTraits.findMicrogameTraits(microgameID);
+        // Get collection microgame if available
+        microgameData = MicrogameHelper.getMicrogames(includeBosses:true)
+            .FirstOrDefault(a =>  a.microgameId.Equals(sceneName));
+
+        // Otherwise create collection microgame
+        if (microgameData == null)
+        {
+#if UNITY_EDITOR
+            microgameData = MicrogameCollection.instance.createMicrogameForScene(gameObject.scene.name);
+#else
+            Debug.LogError("Failed to find microgame for " + gameObject.scene.name);
+#endif
+        }
+
+        if (microgameData == null)
+        {
+            Debug.Break();
+            Debug.Log("Can't ascertain microgame ID. Make sure scene name contains Microgame ID and the folder is named correctly.");
+        }
+        else if (microgameData.traits == null)
+        {
+            Debug.Break();
+            Debug.Log("Can't find microgame traits asset. Make sure it's in the root folder of your microgame and named correctly.");
+        }
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 
@@ -107,7 +124,7 @@ public class MicrogameController : MonoBehaviour
                     difficulty = traits.GetDifficultyFromScene(gameObject.scene.name);
                 else
                     difficulty = debugSettings.SimulateDifficulty > 0 ? (int)debugSettings.SimulateDifficulty : 1;
-                Session = traits.onAccessInStage(microgameID, difficulty);
+                Session = traits.onAccessInStage(microgameData.microgameId, difficulty);
             }
 
 
@@ -197,7 +214,7 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                    debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.GetCommandAnimatorOverride(Session));
+                debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.GetCommandAnimatorOverride(Session));
 
                 Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.GetHideCursor(Session);
                 Cursor.lockState = getTraits().GetCursorLockState(Session);
