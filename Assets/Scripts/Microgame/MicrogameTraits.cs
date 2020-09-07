@@ -93,6 +93,11 @@ public class MicrogameTraits : ScriptableObject
         return new MicrogameSession(microgameId, difficulty);
 	}
 
+    public virtual void onDebugModeAccess(MicrogameController microgameController, MicrogameSession session)
+    {
+
+    }
+
 	public virtual float getDurationInBeats()
 	{
 		return duration == Duration.Long16Beats ? 16f : 8f;

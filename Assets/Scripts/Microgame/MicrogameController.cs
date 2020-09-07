@@ -126,6 +126,8 @@ public class MicrogameController : MonoBehaviour
                     difficulty = debugSettings.SimulateDifficulty > 0 ? (int)debugSettings.SimulateDifficulty : 1;
                 Session = traits.onAccessInStage(microgameData.microgameId, difficulty);
             }
+            
+            traits.onDebugModeAccess(this, Session);
 
 
             if (preserveDebugSpeed > -1)
@@ -425,7 +427,7 @@ public class MicrogameController : MonoBehaviour
                 if (Input.GetKeyDown(debugKeys.Restart))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty);
-                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    SceneManager.LoadScene(gameObject.scene.buildIndex);
                 }
                 else if (Input.GetKeyDown(debugKeys.Faster))
                 {
