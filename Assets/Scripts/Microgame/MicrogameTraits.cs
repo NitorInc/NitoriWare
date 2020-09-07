@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.Events;
+using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -54,6 +55,10 @@ public class MicrogameTraits : ScriptableObject
 	public virtual bool defaultVictory => _defaultVictory;
     
     public virtual string GetSceneName(MicrogameSession session) => session.MicrogameId + session.Difficulty.ToString();
+
+    // For debug mode purposes
+    public virtual bool SceneDeterminesDifficulty => true;
+    public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
     [SerializeField]
     private float _victoryVoiceDelay;

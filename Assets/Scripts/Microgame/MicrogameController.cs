@@ -9,6 +9,7 @@ public class MicrogameController : MonoBehaviour
 	public static MicrogameController instance;
 	private static int preserveDebugSpeed = -1;
     private static int langaugeCycleIndex = 0;
+    private static MicrogameSession forceDebugSession;
 
 	[SerializeField]
 	private DebugSettings debugSettings;
@@ -21,7 +22,17 @@ public class MicrogameController : MonoBehaviour
 		public VoicePlayer.VoiceSet voiceSet;
 		[Range(1, StageController.MAX_SPEED)]
 		public int speed;
-	}
+        [Header("For microgames where difficulty isn't dependent on scene:")]
+        public DebugDifficulty SimulateDifficulty;
+    }
+
+    public enum DebugDifficulty
+    {
+        Default,
+        Stage1,
+        Stage2,
+        Stage3
+    }
 
 
 	public UnityEvent onPause, onUnPause;
@@ -32,20 +43,20 @@ public class MicrogameController : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
 
-	private MicrogameTraits traits;
 	private bool victory, victoryDetermined;
     private bool debugMode;
     private CommandDisplay commandDisplay;
-   
-    public MicrogameSession Session { get; private set; }
 
-	void Awake()
+    private MicrogameTraits traits;
+    public MicrogameSession Session { get; private set; }
+    public int Difficulty => Session.Difficulty;
+
+    void Awake()
 	{
 		instance = this;
 
         //Find traits
 		string microgameID = gameObject.scene.name;
-        int difficulty = int.Parse(microgameID.Substring(microgameID.Length - 1, 1));
 
         if (microgameID.Equals("Template"))
 			microgameID = "_Template1";
@@ -74,7 +85,20 @@ public class MicrogameController : MonoBehaviour
             else
                 MicrogameDebugObjects.instance.Reset();
 
-            Session = traits.onAccessInStage(microgameID, difficulty);
+            if (forceDebugSession != null)
+            {
+                Session = forceDebugSession;
+            }
+            else
+            {
+                int difficulty;
+                if (traits.SceneDeterminesDifficulty)
+                    difficulty = traits.GetDifficultyFromScene(gameObject.scene.name);
+                else
+                    difficulty = debugSettings.SimulateDifficulty > 0 ? (int)debugSettings.SimulateDifficulty : 1;
+                Session = traits.onAccessInStage(microgameID, difficulty);
+            }
+
 
             if (preserveDebugSpeed > -1)
             {
@@ -88,8 +112,6 @@ public class MicrogameController : MonoBehaviour
 
             victory = traits.defaultVictory;
             victoryDetermined = false;
-
-            traits.onAccessInStage(microgameID, difficulty);
         }
 		else if (!isBeingDiscarded())
 		{
@@ -377,34 +399,19 @@ public class MicrogameController : MonoBehaviour
                     SceneManager.LoadScene(gameObject.scene.buildIndex);
                 else if (Input.GetKeyDown(KeyCode.F))
                 {
+                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty);
                     preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
-                    SceneManager.LoadScene(gameObject.scene.buildIndex);
+                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
                 else if (Input.GetKeyDown(KeyCode.N))
                 {
-                    string sceneName = SceneManager.GetActiveScene().name;
-                    char[] sceneChars = sceneName.ToCharArray();
-                    if (sceneChars[sceneChars.Length - 1] != '3')
-                    {
-                        int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
-                        sceneName = sceneName.Substring(0, sceneName.Length - 1);
-                        SceneManager.LoadScene(sceneName + (stageNumber + 1).ToString());
-                    }
-                    else
-                        SceneManager.LoadScene(gameObject.scene.buildIndex);
+                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Min(Session.Difficulty + 1, 3));
+                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
                 else if (Input.GetKeyDown(KeyCode.M))
                 {
-                    string sceneName = SceneManager.GetActiveScene().name;
-                    char[] sceneChars = sceneName.ToCharArray();
-                    if (sceneChars[sceneChars.Length - 1] != '1')
-                    {
-                        int stageNumber = int.Parse(sceneChars[sceneChars.Length - 1].ToString());
-                        sceneName = sceneName.Substring(0, sceneName.Length - 1);
-                        SceneManager.LoadScene(sceneName + (stageNumber - 1).ToString());
-                    }
-                    else
-                        SceneManager.LoadScene(gameObject.scene.buildIndex);
+                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Max(Session.Difficulty - 1, 0));
+                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
             }
         }
