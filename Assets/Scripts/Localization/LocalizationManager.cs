@@ -204,7 +204,7 @@ public class LocalizationManager : MonoBehaviour
                 && parseFontCompabilityString(loadedLanguage, languageFontMetadata.subData[a.fontAsset.name].value));
 
         if (matchingFont == null)
-            Debug.LogError("No font found for language " + loadedLanguage.languageName);
+            Debug.LogError("No font found for language " + loadedLanguage.getLanguageID());
 
         return matchingFont.fontAsset;
     }

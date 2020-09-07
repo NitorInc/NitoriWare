@@ -59,6 +59,20 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
             }
 		}
 	}
+
+    public Microgame createMicrogameForScene(string sceneName)
+    {
+        var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)
+            .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
+        foreach (var directory in microgameDirectories)
+        {
+            string microgameId = Path.GetFileName(directory);
+            if (!microgameId.StartsWith("_") && sceneName.Contains(microgameId))
+                return new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId));
+        }
+
+        return null;
+    }
     
     Sprite getSprite(string microgameId)
     {
