@@ -4,10 +4,10 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Microgame Assets/KagerouCut/Traits")]
 public class KagCutTraits : MicrogameTraits {
-    [SerializeField]
-    public KagerouCutController.Dog[] dogs;
-    [HideInInspector]
-    public KagerouCutController.Dog dog;
+    //[SerializeField]
+    //public KagerouCutController.Dog[] dogs;
+    //[HideInInspector]
+    //public KagerouCutController.Dog dog;
 
     //[HideInInspector]
     //private AudioClip _randomMusicClip;

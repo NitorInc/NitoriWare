@@ -78,7 +78,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
             outlineBack.transform.localScale = oulineBackBossScale;
         }
 
-        var credits = microgame.difficultyTraits[0].credits;
+        var credits = microgame.traits.credits;
         if (credits.Length < 3 || credits.FirstOrDefault(a => string.IsNullOrEmpty(a)) != null)
             Debug.LogWarning($"Microgame {microgame.microgameId} is missing credits field(s)!");
 	}
@@ -149,7 +149,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         {
             string creditsString = creditsTexts[i].text;
             creditsString = TextHelper.getLocalizedText(creditsKeys[i], creditsString);
-            creditsString = string.Format(creditsString, microgame.difficultyTraits[0].credits[i]);
+            creditsString = string.Format(creditsString, microgame.traits.credits[i]);
             creditsTexts[i].text = creditsString;
         }
 

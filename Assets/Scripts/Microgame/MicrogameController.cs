@@ -56,12 +56,12 @@ public class MicrogameController : MonoBehaviour
         {
             var collectionMicrogame = MicrogameHelper.getMicrogames(includeBosses:true).FirstOrDefault(a => a.microgameId.Equals(microgameID));
             if (collectionMicrogame != null)
-                traits = collectionMicrogame.difficultyTraits[difficulty - 1];
+                traits = collectionMicrogame.traits;
         }
 
         //Get traits from project file if necessary
         if (traits == null)
-            traits = MicrogameTraits.findMicrogameTraits(microgameID, difficulty);
+            traits = MicrogameTraits.findMicrogameTraits(microgameID);
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
 

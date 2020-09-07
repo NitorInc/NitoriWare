@@ -14,8 +14,8 @@ public static class MicrogameHelper
 	public static List<MicrogameCollection.Microgame> getMicrogames(MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.Unfinished, bool includeBosses = false)
 	{
 		return MicrogameCollection.instance.microgames
-            .Where(a => a.difficultyTraits[0].milestone >= restriction
-            && (includeBosses || !a.difficultyTraits[0].isBossMicrogame()))
+            .Where(a => a.traits.milestone >= restriction
+            && (includeBosses || !a.traits.isBossMicrogame()))
             .ToList();
 	}
 }

@@ -36,13 +36,13 @@ public class MicrogameCollectionEditor : Editor
         var milestoneNames = Enum.GetNames(typeof(MicrogameTraits.Milestone));
         for (int i = milestoneNames.Length - 1; i >= 0; i--)
         {
-            var milestoneMicrogames = collectionMicrogames.Where(a => (int)a.difficultyTraits[0].milestone == i);
+            var milestoneMicrogames = collectionMicrogames.Where(a => (int)a.traits.milestone == i);
             var newList = new MicrogameList();
             newList.milestoneName = milestoneNames[i];
             foreach (var milestoneMicrogame in milestoneMicrogames)
             {
                 string label = milestoneMicrogame.microgameId;
-                if (milestoneMicrogame.difficultyTraits[0].isBossMicrogame())
+                if (milestoneMicrogame.traits.isBossMicrogame())
                     label += " (BOSS)";
                 newList.labelList.Add(label);
             }

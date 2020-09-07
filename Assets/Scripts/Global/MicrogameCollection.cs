@@ -27,21 +27,21 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         public string microgameId => _microgameId;
 
         [SerializeField]
-        private MicrogameTraits[] _difficultyTraits;
-        public MicrogameTraits[] difficultyTraits => _difficultyTraits;
+        private MicrogameTraits _traits;
+        public MicrogameTraits traits => _traits;
 
         [SerializeField]
         private Sprite _menuIcon;
         public Sprite menuIcon => _menuIcon;
 
-        public Microgame(string microgameId, MicrogameTraits[] difficultyTraits, Sprite menuIcon)
+        public Microgame(string microgameId, MicrogameTraits traits, Sprite menuIcon)
         {
             _microgameId = microgameId;
-            _difficultyTraits = difficultyTraits;
+            _traits = traits;
             _menuIcon = menuIcon;
         }
 
-        public bool isBoss => difficultyTraits[0].isBossMicrogame();
+        public bool isBoss => traits.isBossMicrogame();
     }
 
 	public void updateMicrogames()
@@ -55,21 +55,10 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
 			string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_"))
             {
-                MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId);
-                _microgames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
+                _microgames.Add(new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId)));
             }
 		}
 	}
-
-    MicrogameTraits[] getDifficultyTraits(string microgameId)
-    {
-        MicrogameTraits[] traits = new MicrogameTraits[3];
-        for (int i = 0; i < 3; i++)
-        {
-            traits[i] = MicrogameTraits.findMicrogameTraits(microgameId, i + 1);
-        }
-        return traits;
-    }
     
     Sprite getSprite(string microgameId)
     {
@@ -89,7 +78,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         buildScenes = buildScenes.Where(a => !a.path.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/'))).ToList();
 
         //Re-add stage ready games
-        foreach (var microgame in microgames.Where(a => a.difficultyTraits[0].milestone >= MicrogameTraits.Milestone.StageReady))
+        foreach (var microgame in microgames.Where(a => a.traits.milestone >= MicrogameTraits.Milestone.StageReady))
         {
             // Get all stages with Microgame ID in name that are part of microgames path
             var scenePaths = AssetDatabase.FindAssets($"{microgame.microgameId} t:Scene")
@@ -113,8 +102,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     public void SetMicrogameMusicToStreaming()
     {
         var musicClips = MicrogameCollection.instance.microgames
-            .SelectMany(a => a.difficultyTraits)
-            .SelectMany(a => a.GetAllMusicClips())
+            .SelectMany(a => a.traits.GetAllMusicClips())
             .Distinct();
 
         foreach (var musicClip in musicClips)
