@@ -8,22 +8,22 @@ public class DatingSimTraits : MicrogameTraits
     public DatingSimCharacters characterRoster;
     public int overrideCharacter = -1;
 
-    private DatingSimCharacters.Character selectedCharacter;
+    public override AudioClip GetMusicClip(MicrogameSession session) => ((DatingSimSession)session).character.musicClip;
 
-    public override AudioClip musicClip => selectedCharacter.musicClip;
-
-    public override void onAccessInStage(string microgameId, int difficulty)
+    public override MicrogameSession onAccessInStage(string microgameId, int difficulty)
     {
+        DatingSimCharacters.Character selectedCharacter;
+
         if (overrideCharacter > -1)
             selectedCharacter = characterRoster.characters[overrideCharacter];
         else
             selectedCharacter = characterRoster.characters[Random.Range(0, characterRoster.characters.Count)];
         
-        base.onAccessInStage(microgameId, difficulty);
+        return new DatingSimSession(microgameId, difficulty, selectedCharacter);
     }
     
-    public DatingSimCharacters.Character getSelectedCharacter()
+    public DatingSimCharacters.Character getSelectedCharacter(DatingSimSession session)
     {
-        return selectedCharacter;
+        return session.character;
     }
 }

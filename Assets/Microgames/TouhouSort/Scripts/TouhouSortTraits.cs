@@ -6,17 +6,18 @@ using UnityEngine;
 public class TouhouSortTraits : MicrogameTraits
 {
 	public TouhouSortSorter.Category[] categories;
-	[HideInInspector]
-	public TouhouSortSorter.Category category;
 
-	public override string localizedCommand { 
-		get { return string.Format(TextHelper.getLocalizedText("microgame." + microgameId + ".command", command),
-			TextHelper.getLocalizedText("microgame.TouhouSort." + category.name, category.name)); }
-	}
+    public override string GetLocalizedCommand(MicrogameSession session)
+    {
+        var touhouSortSession = (TouhouSortSession)session;
+        return string.Format(TextHelper.getLocalizedText("microgame." + session.MicrogameId + ".command", command),
+            TextHelper.getLocalizedText("microgame.TouhouSort." + touhouSortSession.category.name, touhouSortSession.category.name));
 
-	public override void onAccessInStage(string microgameId, int difficulty)
+    }
+
+	public override MicrogameSession onAccessInStage(string microgameId, int difficulty)
 	{
-		base.onAccessInStage(microgameId, difficulty);
-		category = categories[Random.Range(0, categories.Length)];
+		var category = categories[Random.Range(0, categories.Length)];
+        return new TouhouSortSession(microgameId, difficulty, category);
 	}
 }

@@ -27,7 +27,7 @@ public class MysteryCompilationStage : CompilationStage
 	{
 		if (MicrogameController.instance != null)
 			Cursor.visible = MicrogameController.instance.getTraits().controlScheme == MicrogameTraits.ControlScheme.Mouse
-				&& !MicrogameController.instance.getTraits().hideCursor;
+				&& !MicrogameController.instance.getTraits().GetHideCursor(MicrogameController.instance.Session);
 		else
 			Cursor.visible = true;
 	}

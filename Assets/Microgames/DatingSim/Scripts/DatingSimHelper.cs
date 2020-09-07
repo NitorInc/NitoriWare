@@ -6,7 +6,7 @@ public static class DatingSimHelper
 {
     public static DatingSimCharacters.Character getSelectedCharacter()
     {
-        return ((DatingSimTraits)MicrogameController.instance.getTraits()).getSelectedCharacter();
+        return ((DatingSimTraits)MicrogameController.instance.getTraits()).getSelectedCharacter((DatingSimSession)MicrogameController.instance.Session);
     }
 
     public static bool getOptionIsRight(DatingSimCharacters.CharacterOption option)

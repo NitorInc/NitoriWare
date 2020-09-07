@@ -40,7 +40,7 @@ public class TouhouSortSorter : MonoBehaviour
     }
 
     void Start() {
-		Category category = (MicrogameController.instance.getTraits() as TouhouSortTraits).category;
+		Category category = (MicrogameController.instance.Session as TouhouSortSession).category;
 
         zoneManager.SetZoneAttributes(0, category.leftIcon, category.name, false);
         zoneManager.SetZoneAttributes(1, category.rightIcon, category.name, true);

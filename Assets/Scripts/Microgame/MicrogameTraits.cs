@@ -22,11 +22,11 @@ public class MicrogameTraits : ScriptableObject
 
     [SerializeField]
 	private bool _hideCursor;
-	public virtual bool hideCursor => _hideCursor;
+	public virtual bool GetHideCursor(MicrogameSession session) => _hideCursor;
 
     [SerializeField]
     private CursorLockMode _cursorLockState = CursorLockMode.None;
-    public virtual CursorLockMode cursorLockState => _cursorLockState;
+    public virtual CursorLockMode GetCursorLockState(MicrogameSession session) => _cursorLockState;
 
     [SerializeField]
 	private Duration _duration;
@@ -41,32 +41,34 @@ public class MicrogameTraits : ScriptableObject
     [SerializeField]
 	private string _command;
 	public virtual string command => _command;
-    public virtual string commandKey => "command";
-    public virtual string localizedCommand => TextHelper.getLocalizedText($"microgame.{microgameId}.{commandKey}", command);
+    public virtual string GetCommandKey(MicrogameSession session) => "command";
+    public virtual string GetLocalizedCommand(MicrogameSession session) =>
+        TextHelper.getLocalizedText($"microgame.{session.MicrogameId}.{GetCommandKey(session)}", command);
 
     [SerializeField]
     private AnimatorOverrideController _commandAnimatorOveride;
-    public virtual AnimatorOverrideController commandAnimatorOverride => _commandAnimatorOveride;
+    public virtual AnimatorOverrideController GetCommandAnimatorOverride(MicrogameSession session) => _commandAnimatorOveride;
 
     [SerializeField]
 	private bool _defaultVictory;
 	public virtual bool defaultVictory => _defaultVictory;
 
     [SerializeField]
+    private string[] difficultyScenes;
+    public virtual string GetSceneName(MicrogameSession session) => difficultyScenes[session.Difficulty-1];
+
+    [SerializeField]
     private float _victoryVoiceDelay;
-    private float instanceVictoryVoiceDelay;
-	public virtual float victoryVoiceDelay {get {return instanceVictoryVoiceDelay; } 
-        set { instanceVictoryVoiceDelay = value; }}
+    public virtual float GetVictoryVoiceDelay(MicrogameSession session) => _victoryVoiceDelay;
 
     [SerializeField]
     private float _failureVoiceDelay;
-    private float instanceFailureVoiceDelay;
-	public virtual float failureVoiceDelay {get {return instanceFailureVoiceDelay; } 
-        set { instanceFailureVoiceDelay = value; }}
+    public virtual float GetFailureVoiceDelay(MicrogameSession session) => _failureVoiceDelay;
 
     [SerializeField]
 	private AudioClip _musicClip;
-    public virtual AudioClip musicClip => _musicClip;
+    public virtual AudioClip GetMusicClip(MicrogameSession session) => _musicClip;
+    public virtual AudioClip[] GetAllMusicClips() => new AudioClip []{ _musicClip};
 
     [SerializeField]
 	private Milestone _milestone = Milestone.Unfinished;
@@ -83,17 +85,9 @@ public class MicrogameTraits : ScriptableObject
     private string[] _credits = { "", "", "" };
     public virtual string[] credits => _credits;
 
-    private string _microgameId;
-    public string microgameId => _microgameId;
-    private int _difficulty;
-    public int difficulty => _difficulty;
-
-	public virtual void onAccessInStage(string microgameId, int difficulty)
+	public virtual MicrogameSession onAccessInStage(string microgameId, int difficulty)
 	{
-        instanceVictoryVoiceDelay = _victoryVoiceDelay;
-        instanceFailureVoiceDelay = _failureVoiceDelay;
-		_microgameId = microgameId;
-        _difficulty = difficulty;
+        return new MicrogameSession(microgameId, difficulty);
 	}
 
 	public virtual float getDurationInBeats()

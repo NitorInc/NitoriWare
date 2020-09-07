@@ -37,6 +37,7 @@ public class MicrogameController : MonoBehaviour
     private bool debugMode;
     private CommandDisplay commandDisplay;
    
+    public MicrogameSession Session { get; private set; }
 
 	void Awake()
 	{
@@ -73,6 +74,8 @@ public class MicrogameController : MonoBehaviour
             else
                 MicrogameDebugObjects.instance.Reset();
 
+            Session = traits.onAccessInStage(microgameID, difficulty);
+
             if (preserveDebugSpeed > -1)
             {
                 Debug.Log("Debugging at speed " + preserveDebugSpeed);
@@ -93,11 +96,13 @@ public class MicrogameController : MonoBehaviour
 			//Normal Awake
 
 			StageController.instance.stageCamera.tag = "Camera";
-			//Camera.main.GetComponent<AudioListener>().enabled = false;
+            //Camera.main.GetComponent<AudioListener>().enabled = false;
 
-			StageController.instance.microgameMusicSource.clip = traits.musicClip;
+            Session = StageController.instance.CurrentMicrogameSession;
 
-			if (traits.hideCursor)
+			StageController.instance.microgameMusicSource.clip = traits.GetMusicClip(Session);
+
+			if (traits.GetHideCursor(Session))
 				Cursor.visible = false;
 
 			commandDisplay = StageController.instance.transform.root.Find("UI").Find("Command").GetComponent<CommandDisplay>();
@@ -146,10 +151,11 @@ public class MicrogameController : MonoBehaviour
                 if (debugSettings.timerTick)
                     MicrogameTimer.instance.invokeTick();
 
-                if (debugSettings.playMusic && traits.musicClip != null)
+                var musicClip = traits.GetMusicClip(Session);
+                if (debugSettings.playMusic && musicClip != null)
                 {
                     AudioSource source = debugObjects.musicSource;
-                    source.clip = traits.musicClip;
+                    source.clip = musicClip;
                     source.pitch = StageController.getSpeedMult(debugSettings.speed);
                     if (!debugSettings.simulateStartDelay)
                         source.Play();
@@ -158,10 +164,10 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                    debugObjects.commandDisplay.play(traits.localizedCommand, traits.commandAnimatorOverride);
+                    debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.GetCommandAnimatorOverride(Session));
 
-                Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.hideCursor;
-                Cursor.lockState = getTraits().cursorLockState;
+                Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.GetHideCursor(Session);
+                Cursor.lockState = getTraits().GetCursorLockState(Session);
                 //Cursor.lockState = CursorLockMode.Confined;
 
                 debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
@@ -265,7 +271,9 @@ public class MicrogameController : MonoBehaviour
 			this.victory = victory;
 			victoryDetermined = final;
 			if (final)
-				MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory ? traits.victoryVoiceDelay : traits.failureVoiceDelay);
+				MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory
+                    ? traits.GetVictoryVoiceDelay(Session)
+                    : traits.GetFailureVoiceDelay(Session));
 		}
 		else
 		{

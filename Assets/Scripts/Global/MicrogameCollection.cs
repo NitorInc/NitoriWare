@@ -122,21 +122,26 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     }
 
 #if UNITY_EDITOR
+
     public void SetMicrogameMusicToStreaming()
     {
-        var allTraits = MicrogameCollection.instance.microgames.SelectMany(a => a.difficultyTraits).Distinct();
-        foreach (var traits in allTraits)
+        var musicClips = MicrogameCollection.instance.microgames
+            .SelectMany(a => a.difficultyTraits)
+            .SelectMany(a => a.GetAllMusicClips())
+            .Distinct();
+
+        foreach (var musicClip in musicClips)
         {
-            if (traits.musicClip == null || traits.musicClip.loadType == AudioClipLoadType.Streaming)
+            if (musicClip == null || musicClip.loadType == AudioClipLoadType.Streaming)
                 continue;
 
-            var assetPath = AssetDatabase.GetAssetPath(traits.musicClip.GetInstanceID());
+            var assetPath = AssetDatabase.GetAssetPath(musicClip.GetInstanceID());
             var audio = AssetImporter.GetAtPath(assetPath) as AudioImporter;
             var sampleSettings = audio.defaultSampleSettings;
             sampleSettings.loadType = AudioClipLoadType.Streaming;
             audio.defaultSampleSettings = sampleSettings;
             audio.SaveAndReimport();
-            Debug.Log("Changed music settings for " + traits.musicClip.name);
+            Debug.Log("Changed music settings for " + musicClip.name);
         }
         AssetDatabase.Refresh();
         Debug.Log("Microgame music import settings updated");

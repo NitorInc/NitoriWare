@@ -5,6 +5,6 @@ using UnityEngine;
 public class MicrogameTraitsSeparateCommands : MicrogameTraits
 {
     public string commandKeySuffix;
-    public override string localizedCommand => TextHelper.getLocalizedText("microgame." + microgameId + ".command" + commandKeySuffix, command);
+    public override string GetLocalizedCommand(MicrogameSession session) => TextHelper.getLocalizedText("microgame." + session.MicrogameId + ".command" + commandKeySuffix, command);
 }
 
