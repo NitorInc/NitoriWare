@@ -267,9 +267,11 @@ public class LocalizationUpdater : ScriptableObject
             var fontDict = SerializedNestedStrings.deserialize(File.ReadAllText(filePath)).getSubData("meta.font").subData;
             foreach (var fontKVPair in fontDict)
             {
-                if (LocalizationManager.parseFontCompabilityString(language, fontKVPair.Value.value))
+                if (language.getLanguageID().Equals("English") || LocalizationManager.parseFontCompabilityString(language, fontKVPair.Value.value))
                 {
                     // Font is marked as compatible
+                    // All fonts should have English characters for when localizing a string fails
+
                     var font = TMPFontsData.instance.fonts.FirstOrDefault(a => a.assetName.Equals(fontKVPair.Key));
 
                     if (forceFont != null && forceFont != font)
@@ -405,7 +407,9 @@ public class LocalizationUpdater : ScriptableObject
             string fullLanguagesPath = Path.Combine(UnityEngine.Application.dataPath, languagesPath);
             var filePath = Path.Combine(fullLanguagesPath, language.getFileName());
             var fontData = SerializedNestedStrings.deserialize(File.ReadAllText(filePath));
-            if (LocalizationManager.parseFontCompabilityString(language, fontData["meta.font." + font.assetName]))
+
+            // All fonts should have English characters for when localizing a string fails
+            if (language.getLanguageID().Equals("English") || LocalizationManager.parseFontCompabilityString(language, fontData["meta.font." + font.assetName]))
                 returnList.Add(language.getFileName());
         }
         return returnList.Distinct().ToList();
