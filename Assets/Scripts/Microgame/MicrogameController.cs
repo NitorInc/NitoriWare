@@ -130,7 +130,6 @@ public class MicrogameController : MonoBehaviour
 
             if (preserveDebugSpeed > -1)
             {
-                Debug.Log("Debugging at speed " + preserveDebugSpeed);
                 debugSettings.speed = preserveDebugSpeed;
                 preserveDebugSpeed = -1;
             }
@@ -424,21 +423,27 @@ public class MicrogameController : MonoBehaviour
             if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
             {
                 if (Input.GetKeyDown(debugKeys.Restart))
-                    SceneManager.LoadScene(gameObject.scene.buildIndex);
+                {
+                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty);
+                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                }
                 else if (Input.GetKeyDown(debugKeys.Faster))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty);
                     preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
+                    Debug.Log("Debugging at speed " + preserveDebugSpeed);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
                 else if (Input.GetKeyDown(debugKeys.NextDifficulty))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Min(Session.Difficulty + 1, 3));
+                    Debug.Log("Debugging at difficulty " + forceDebugSession.Difficulty);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
                 else if (Input.GetKeyDown(debugKeys.PreviousDifficulty))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Max(Session.Difficulty - 1, 0));
+                    Debug.Log("Debugging at difficulty " + forceDebugSession.Difficulty);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
             }
