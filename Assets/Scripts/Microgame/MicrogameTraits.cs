@@ -52,10 +52,8 @@ public class MicrogameTraits : ScriptableObject
     [SerializeField]
 	private bool _defaultVictory;
 	public virtual bool defaultVictory => _defaultVictory;
-
-    [SerializeField]
-    private string[] difficultyScenes;
-    public virtual string GetSceneName(MicrogameSession session) => difficultyScenes[session.Difficulty-1];
+    
+    public virtual string GetSceneName(MicrogameSession session) => session.MicrogameId + session.Difficulty.ToString();
 
     [SerializeField]
     private float _victoryVoiceDelay;

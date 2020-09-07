@@ -42,7 +42,7 @@ public class StageController : MonoBehaviour
 	public static float beatLength;
 
     public MicrogameJob CurrentMicrogameJob => microgameQueue.Peek();
-    public MicrogameTraits CurrentMicrogameTraits => CurrentMicrogameJob.microgame.difficultyTraits[CurrentMicrogameJob.session.Difficulty];
+    public MicrogameTraits CurrentMicrogameTraits => CurrentMicrogameJob.microgame.difficultyTraits[CurrentMicrogameJob.session.Difficulty-1];
     public MicrogameSession CurrentMicrogameSession => CurrentMicrogameJob.session;
 
 	private float animationStartTime, outroPlayTime;
@@ -142,7 +142,10 @@ public class StageController : MonoBehaviour
             Stage.Microgame stageMicrogame = stage.getMicrogame(index);
             newInstance.microgame = MicrogameCollection.instance.getMicrogame(stageMicrogame.microgameId);
 			newInstance.difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
-			StartCoroutine(loadMicrogameAsync(newInstance));
+            
+            newInstance.session = newInstance.microgame.difficultyTraits[newInstance.difficulty-1].onAccessInStage(newInstance.microgame.microgameId, newInstance.difficulty);
+
+            StartCoroutine(loadMicrogameAsync(newInstance));
 			microgameQueue.Enqueue(newInstance);
 
 			index++;
@@ -150,9 +153,10 @@ public class StageController : MonoBehaviour
 	}
 
 	IEnumerator loadMicrogameAsync(MicrogameJob instance)
-	{
-		instance.asyncOperation = SceneManager.LoadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString()
-		, LoadSceneMode.Additive);
+    {
+        instance.asyncOperation = SceneManager.LoadSceneAsync(
+            instance.microgame.difficultyTraits[instance.difficulty-1].GetSceneName(instance.session),
+            LoadSceneMode.Additive);
 		instance.asyncOperation.allowSceneActivation = false;
 		instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
 
@@ -185,7 +189,8 @@ public class StageController : MonoBehaviour
 		}
 
         instance.isBeingUnloaded = true;
-        instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
+        instance.asyncOperation = SceneManager.UnloadSceneAsync(
+            instance.microgame.difficultyTraits[instance.difficulty-1].GetSceneName(instance.session));
         while (instance.asyncOperation == null)
         {
             yield return null;
@@ -419,7 +424,7 @@ public class StageController : MonoBehaviour
             return;
 
 		MicrogameJob instance = getCurrentMicrogameInstance();
-		instance.session = instance.microgame.difficultyTraits[instance.difficulty].onAccessInStage(instance.microgame.microgameId, instance.difficulty);
+		instance.session = instance.microgame.difficultyTraits[instance.difficulty-1].onAccessInStage(instance.microgame.microgameId, instance.difficulty);
 	}
 
 	public float getBeatsRemaining()

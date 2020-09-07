@@ -89,32 +89,19 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         buildScenes = buildScenes.Where(a => !a.path.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/'))).ToList();
 
         //Re-add stage ready games
-        foreach (var microgame in microgames.Where(a => a.difficultyTraits[0].milestone > MicrogameTraits.Milestone.Unfinished))
+        foreach (var microgame in microgames.Where(a => a.difficultyTraits[0].milestone >= MicrogameTraits.Milestone.StageReady))
         {
-            var microgameFolder = microgameFolders.FirstOrDefault(a => a.Contains(microgame.microgameId));
-            if (microgameFolder != null)
-            {
-                if (buildScenes.FirstOrDefault(a => a.path.Contains(microgame.microgameId)) == null)
-                {
-                    var scenePaths = getMicrogameSceneFilesRecursive(microgameFolder, microgame.microgameId);
-                    if (scenePaths != null)
-                    {
-                        foreach (var scenePath in scenePaths)
-                        {
-                            var newBuildScene = new EditorBuildSettingsScene("Assets" + scenePath.Substring(Application.dataPath.Length), true);
-                            if (!newBuildScene.guid.Empty())
-                                buildScenes.Add(newBuildScene);
-                        }
-                    }
-                    else
-                        Debug.Log($"Microgame {microgame.microgameId} scenes not found in folder!");
-                }
+            // Get all stages with Microgame ID in name that are part of microgames path
+            var scenePaths = AssetDatabase.FindAssets($"{microgame.microgameId} t:Scene")
+                .Select(a => AssetDatabase.GUIDToAssetPath(a))
+                .Where(a => a.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/')))
+                .Select(a => new EditorBuildSettingsScene(a, true));
 
-            }
-            else
-                Debug.Log($"Microgame {microgame.microgameId} folder not found!");
+            buildScenes.AddRange(scenePaths);
         }
+
         EditorBuildSettings.scenes = buildScenes.ToArray();
+
         Debug.Log("Build path updated");
 #else
         Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
