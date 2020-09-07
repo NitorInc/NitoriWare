@@ -26,6 +26,17 @@ public class MicrogameController : MonoBehaviour
         public DebugDifficulty SimulateDifficulty;
     }
 
+    [SerializeField]
+    private DebugKeys debugKeys;
+    [System.Serializable]
+    class DebugKeys
+    {
+        public KeyCode Restart = KeyCode.R;
+        public KeyCode Faster = KeyCode.F;
+        public KeyCode NextDifficulty = KeyCode.N;
+        public KeyCode PreviousDifficulty = KeyCode.M;
+    }
+
     public enum DebugDifficulty
     {
         Default,
@@ -395,20 +406,20 @@ public class MicrogameController : MonoBehaviour
 		{
             if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
             {
-                if (Input.GetKeyDown(KeyCode.R))
+                if (Input.GetKeyDown(debugKeys.Restart))
                     SceneManager.LoadScene(gameObject.scene.buildIndex);
-                else if (Input.GetKeyDown(KeyCode.F))
+                else if (Input.GetKeyDown(debugKeys.Faster))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty);
                     preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
-                else if (Input.GetKeyDown(KeyCode.N))
+                else if (Input.GetKeyDown(debugKeys.NextDifficulty))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Min(Session.Difficulty + 1, 3));
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
-                else if (Input.GetKeyDown(KeyCode.M))
+                else if (Input.GetKeyDown(debugKeys.PreviousDifficulty))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Max(Session.Difficulty - 1, 0));
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
