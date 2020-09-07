@@ -33,24 +33,18 @@ public class DatingSimTraits : MicrogameTraits
         public AudioClip MusicClip { get => music; set => music = value; }
     }
 
-    public override MicrogameSession onAccessInStage(string microgameId, int difficulty)
+    public override MicrogameSession onAccessInStage(string microgameId, int difficulty, bool isDebugMode = false)
     {
-        CharacterScene selectedCharacter;
-
-        if (overrideCharacter > -1)
-            selectedCharacter = possibleScenes[overrideCharacter];
+        if (isDebugMode)
+        {
+            var loadedScene = possibleScenes
+                .FirstOrDefault(a => a.SceneName.Equals(MicrogameController.instance.gameObject.scene.name));
+            return new DatingSimSession(microgameId, difficulty, loadedScene);
+        }
         else
-            selectedCharacter = possibleScenes[Random.Range(0, possibleScenes.Length)];
-        
-        return new DatingSimSession(microgameId, difficulty, selectedCharacter);
-    }
-
-    public override void onDebugModeAccess(MicrogameController microgameController, MicrogameSession session)
-    {
-        var loadedScene = possibleScenes
-            .FirstOrDefault(a => a.SceneName.Equals(microgameController.gameObject.scene.name));
-        
-        if (loadedScene != null)
-            (session as DatingSimSession).scene = loadedScene;
+        {
+            var selectedCategory = possibleScenes[Random.Range(0, possibleScenes.Length)];
+            return new DatingSimSession(microgameId, difficulty, selectedCategory);
+        }
     }
 }

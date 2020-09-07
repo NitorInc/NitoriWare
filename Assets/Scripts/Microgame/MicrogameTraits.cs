@@ -88,15 +88,10 @@ public class MicrogameTraits : ScriptableObject
     private string[] _credits = { "", "", "" };
     public virtual string[] credits => _credits;
 
-	public virtual MicrogameSession onAccessInStage(string microgameId, int difficulty)
+	public virtual MicrogameSession onAccessInStage(string microgameId, int difficulty, bool debugMode = false)
 	{
         return new MicrogameSession(microgameId, difficulty);
 	}
-
-    public virtual void onDebugModeAccess(MicrogameController microgameController, MicrogameSession session)
-    {
-
-    }
 
 	public virtual float getDurationInBeats()
 	{

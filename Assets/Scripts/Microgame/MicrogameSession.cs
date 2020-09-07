@@ -13,7 +13,7 @@ public class MicrogameSession
 
     static int InstanceIdCounter = 0;
 
-    public MicrogameSession(string microgameId, int difficulty)
+    public MicrogameSession(string microgameId, int difficulty, bool debugMode = false)
     {
         MicrogameId = microgameId;
         Difficulty = difficulty;
