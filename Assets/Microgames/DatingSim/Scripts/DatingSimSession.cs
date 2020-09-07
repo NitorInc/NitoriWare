@@ -1,11 +1,11 @@
 ﻿public class DatingSimSession : MicrogameSession
 {
-    public DatingSimCharacters.Character character { get; private set; }
+    public DatingSimTraits.CharacterScene scene { get; set; }
 
-    public DatingSimSession(string microgameId, int difficulty, DatingSimCharacters.Character character) : base(microgameId, difficulty)
+    public DatingSimSession(string microgameId, int difficulty, DatingSimTraits.CharacterScene scene) : base(microgameId, difficulty)
     {
         MicrogameId = microgameId;
         Difficulty = difficulty;
-        this.character = character;
+        this.scene = scene;
     }
 }

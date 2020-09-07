@@ -21,9 +21,9 @@ public class DatingSimDialogueController : MonoBehaviour
         defaultTextSpeed = textPlayer.getAdvanceSpeed();
     }
 
-    private void Start()
+    private void OnTextLocalized()
     {
-        SetDialogue(DatingSimHelper.getSelectedCharacter().getLocalizedIntroDialogue());
+        SetDialogue(textComp.text);
         OnFontLocalized();
 
         textPlayer.enabled = false;

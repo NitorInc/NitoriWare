@@ -9,7 +9,7 @@ public class DatingSimBackgroundController : MonoBehaviour {
 	void Start ()
     {
         sr = GetComponent<SpriteRenderer>();
-        sr.sprite = DatingSimHelper.getSelectedCharacter().backgroundImage;
+        //sr.sprite = DatingSimHelper.getSelectedCharacter().backgroundImage;
 	}
 
 }
