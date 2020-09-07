@@ -1,8 +1,8 @@
 ﻿public class TouhouSortSession : MicrogameSession
 {
-    public TouhouSortSorter.Category category { get; private set; }
+    public TouhouSortTraits.CategoryScene  category { get; set; }
 
-    public TouhouSortSession(string microgameId, int difficulty, TouhouSortSorter.Category category) : base(microgameId, difficulty)
+    public TouhouSortSession(string microgameId, int difficulty, TouhouSortTraits.CategoryScene category) : base(microgameId, difficulty)
     {
         MicrogameId = microgameId;
         Difficulty = difficulty;

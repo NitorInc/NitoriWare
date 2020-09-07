@@ -3,15 +3,32 @@ using UnityEngine;
 
 public class TouhouSortZoneManager : MonoBehaviour
 {
-    public TouhouSortDropZone[] zones;
+    [SerializeField]
+    private TouhouSortDropZone leftZone;
 
+    [SerializeField]
+    private TouhouSortDropZone rightZone;
+    
     public Dictionary<TouhouSortSorter.Style, int> indicatorIcons;
 
-    public void SetZoneAttributes(int index, Sprite sprite, string style, bool invert)
+    private void Start()
     {
-        TouhouSortDropZone zone = zones[index];
+        var flip = MathHelper.randomBool();
+        if (flip)
+        {
+            var holdPosition = leftZone.transform.position;
+            leftZone.transform.position = rightZone.transform.position;
+            rightZone.transform.position = holdPosition;
+            leftZone.transform.localScale = new Vector3(-1f, 1f, 1f);
+            rightZone.transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+    }
 
-        zone.SetCategory(style, invert, sprite);
+    public void SetTargets(List<TouhouSortSortable> leftTargets, List<TouhouSortSortable> rightTargets)
+    {
+        leftZone.SetTargets(leftTargets);
+        rightZone.SetTargets(rightTargets);
+        
     }
 
 }
