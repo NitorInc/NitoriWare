@@ -7,26 +7,42 @@ using UnityEngine.SceneManagement;
 public class BottomMicrogame : MonoBehaviour
 {
     [SerializeField]
+    int difficulty = 1;
+
+    MicrogameJob topJob;
+    MicrogameJob bottomJob;
+
+    public class MicrogameJob
+    {
+        public MicrogameCollection.Microgame microgame;
+        public AsyncOperation asyncOperation;
+        public MicrogameSession session;
+        public string sceneName;
+        public Scene scene;
+        public List<Camera> cameras;
+    }
+
+    [SerializeField]
+    private Mode mode;
+
+
+    [SerializeField]
     private LayerMask topGameMask;
     [SerializeField]
     private LayerMask bottomGameMask;
     [SerializeField]
-    int difficulty = 1;
+    private int bottomLayer;
 
-    MicrogameScene topScene;
-    MicrogameScene bottomScene;
-
-    public class MicrogameScene
+    private enum Mode
     {
-        public MicrogameSession session;
-        public string name;
-        public Scene scene;
-        public List<Camera> cameras;
+        Burst,
+        Stream
     }
 
     //MicrogameTimer timer;
 
     bool bottomLoaded;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,116 +52,124 @@ public class BottomMicrogame : MonoBehaviour
             SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
 
 
+        LoadTopScene();
+    }
 
-        topScene = new MicrogameScene();
-        bottomScene = new MicrogameScene();
+    void LoadTopScene()
+    {
+        if (mode == Mode.Stream)
+            Invoke("LoadBottomScene", (60f / 130f) * 4f);
 
-        var topMicrogames = MicrogameCollection.instance.microgames
-            .Where(a => a.traits.controlScheme == MicrogameTraits.ControlScheme.Mouse
+        if (topJob != null)
+            UnloadMicrogame(topJob);
+        topJob = LoadMicrogame(true);
+
+        if (mode == Mode.Burst)
+            LoadBottomScene();
+
+    }
+
+    void LoadBottomScene()
+    {
+        Invoke("LoadTopScene", (60f / 130f) * (mode == Mode.Burst ? 9 : 4f));
+
+        if (bottomJob != null)
+            UnloadMicrogame(bottomJob);
+        bottomJob = LoadMicrogame(false);
+
+    }
+
+    MicrogameJob LoadMicrogame(bool isTop)
+    {
+
+        var newJob = new MicrogameJob();
+        var controlScheme = isTop ? MicrogameTraits.ControlScheme.Mouse : MicrogameTraits.ControlScheme.Key;
+        var microgames = MicrogameCollection.instance.microgames
+            .Where(a => a.traits.controlScheme == controlScheme
                 && a.traits.duration == MicrogameTraits.Duration.Short8Beats
                 && a.traits.milestone >= MicrogameTraits.Milestone.StageReady
                 && !a.traits.isBossMicrogame())
             .ToList();
-        var bottomMicrogames = MicrogameCollection.instance.microgames
-            .Where(a => a.traits.controlScheme == MicrogameTraits.ControlScheme.Key
-                && a.traits.duration == MicrogameTraits.Duration.Short8Beats
-                && a.traits.milestone >= MicrogameTraits.Milestone.StageReady
-                && !a.traits.isBossMicrogame())
-            .ToList();
 
-        var topMicrogame = topMicrogames[Random.Range(0, topMicrogames.Count - 1)];
-        var bottomMicrogame = bottomMicrogames[Random.Range(0, bottomMicrogames.Count - 1)];
+        newJob.microgame = microgames[Random.Range(0, microgames.Count - 1)];
+        newJob.session = newJob.microgame.traits.onAccessInStage(newJob.microgame.microgameId, difficulty, true);
+        newJob.sceneName = newJob.microgame.traits.GetSceneName(newJob.session);
 
-        var topSession = topMicrogame.traits.onAccessInStage(topMicrogame.microgameId, difficulty, true);
-        var bottomSession = bottomMicrogame.traits.onAccessInStage(bottomMicrogame.microgameId, difficulty, true);
 
-        
-        topScene.name = topMicrogame.traits.GetSceneName(topSession);
-        bottomScene.name = bottomMicrogame.traits.GetSceneName(bottomSession);
-        SceneManager.LoadSceneAsync(topScene.name, LoadSceneMode.Additive).completed += TopMicrogame_completed; ;
-        SceneManager.LoadSceneAsync(bottomScene.name, LoadSceneMode.Additive).completed += BottomMicrogame_completed; ;
+        newJob.asyncOperation = SceneManager.LoadSceneAsync(newJob.sceneName, LoadSceneMode.Additive);
+        if (isTop)
+            newJob.asyncOperation.completed += TopMicrogame_completed;
+        else
+            newJob.asyncOperation.completed += BottomMicrogame_completed;
 
+        return newJob;
     }
 
     private void TopMicrogame_completed(AsyncOperation obj)
     {
-        MicrogameTimer.instance.beatsLeft = 9f;
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            var scene = SceneManager.GetSceneAt(i);
-            if (scene.name.Equals(topScene.name))
-            {
-                topScene.scene = scene;
-                break;
-            }
-        }
-
-        foreach (var baseObj in topScene.scene.GetRootGameObjects())
-        {
-            topScene.cameras = new List<Camera>();
-            var cam = baseObj.GetComponentInChildren<Camera>();
-            if (cam != null)
-            {
-                topScene.cameras.Add(cam);
-                //cam.tag = "Camera";
-                cam.GetComponent<AudioListener>().enabled = false;
-                cam.GetComponent<RestrictCameraAspectRatio>().enabled = false;
-                cam.rect = new Rect(.25f, .5f, .5f, .5f);
-                cam.cullingMask = topGameMask;
-                break;
-            }
-        }
+        topJob.asyncOperation.completed -= TopMicrogame_completed;
+        MicrogameCompleted(topJob, true);
     }
 
     private void BottomMicrogame_completed(AsyncOperation obj)
     {
-        MicrogameTimer.instance.beatsLeft = 9f;
+        bottomJob.asyncOperation.completed -= BottomMicrogame_completed;
+        MicrogameCompleted(bottomJob, false);
+    }
+
+    private void MicrogameCompleted(MicrogameJob job, bool isTop)
+    {
+        //print("Hey hey " + isTop);
+        //MicrogameTimer.instance.beatsLeft = 8f;
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             var scene = SceneManager.GetSceneAt(i);
-            if (scene.name.Equals(bottomScene.name))
+            if (scene.name.Equals(job.sceneName))
             {
-                bottomScene.scene = scene;
+                job.scene = scene;
                 break;
             }
         }
 
-        foreach (var baseObj in bottomScene.scene.GetRootGameObjects())
+        foreach (var baseObj in job.scene.GetRootGameObjects())
         {
-            bottomScene.cameras = new List<Camera>();
+            job.cameras = new List<Camera>();
             var cam = baseObj.GetComponentInChildren<Camera>();
             if (cam != null)
             {
-                bottomScene.cameras.Add(cam);
-                cam.tag = "Camera";
-                //cam.GetComponent<AudioListener>().enabled = false;
+                job.cameras.Add(cam);
+                //print("Found camera in " + job.scene.name);
+                //cam.tag = "Camera";
+                cam.GetComponent<AudioListener>().enabled = false;
                 cam.GetComponent<RestrictCameraAspectRatio>().enabled = false;
-                cam.rect = new Rect(.25f, 0, .5f, .5f);
-                cam.cullingMask = bottomGameMask;
+                cam.rect = new Rect(.25f, isTop ? .5f : 0f, .5f, .5f);
+                cam.cullingMask = isTop ? topGameMask : bottomGameMask;
                 break;
             }
         }
-
-        bottomLoaded = true;
     }
     
+    void UnloadMicrogame(MicrogameJob job)
+    {
+        if (job.scene.IsValid())
+            SceneManager.UnloadScene(job.scene);
+    }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        Cursor.visible = true;
-        if (Input.GetMouseButtonDown(2))
+        Cursor.visible = !topJob.microgame.traits.GetHideCursor(topJob.session);
+        if (bottomJob != null && bottomJob.scene.IsValid())
         {
-            SceneManager.LoadScene(gameObject.scene.buildIndex);
-        }
-        if (bottomLoaded)
-        {
-            foreach (var rootObj in bottomScene.scene.GetRootGameObjects())
+            //print("listen to meeeeee");
+            foreach (var rootObj in bottomJob.scene.GetRootGameObjects())
             {
                 SetLayerRecursive(rootObj.transform);
             }
         }
 
+        if (MicrogameDebugObjects.instance != null && MicrogameDebugObjects.instance.musicSource.volume > 0f)
+            MicrogameDebugObjects.instance.musicSource.volume = 0f; ;
     }
 
     private void SetLayerRecursive(Transform trans)
@@ -154,7 +178,10 @@ public class BottomMicrogame : MonoBehaviour
         {
             SetLayerRecursive(trans.GetChild(i));
         }
-        if (trans.gameObject.layer != 18)
-            trans.gameObject.layer = 18;
+        if (trans.gameObject.layer != bottomLayer)
+        {
+            trans.gameObject.layer = bottomLayer;
+            //print(trans.gameObject.name + " is " + trans.gameObject.layer);
+        }
     }
 }
