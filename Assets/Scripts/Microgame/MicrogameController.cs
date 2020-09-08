@@ -108,11 +108,6 @@ public class MicrogameController : MonoBehaviour
 		{
             //Debug Mode Awake (scene open by itself)
 
-            if (MicrogameDebugObjects.instance == null)
-                SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
-            else
-                MicrogameDebugObjects.instance.Reset();
-
             if (forceDebugSession != null)
             {
                 Session = forceDebugSession;
@@ -125,8 +120,19 @@ public class MicrogameController : MonoBehaviour
                 else
                     difficulty = debugSettings.SimulateDifficulty > 0 ? (int)debugSettings.SimulateDifficulty : 1;
                 Session = traits.onAccessInStage(microgameData.microgameId, difficulty, debugMode: true);
+
+                if (!traits.GetSceneName(Session).Equals(gameObject.scene.name))
+                {
+                    SceneManager.LoadScene(traits.GetSceneName(Session));
+                    return;
+                }
             }
 
+
+            if (MicrogameDebugObjects.instance == null)
+                SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
+            else
+                MicrogameDebugObjects.instance.Reset();
 
             if (preserveDebugSpeed > -1)
             {
@@ -426,6 +432,7 @@ public class MicrogameController : MonoBehaviour
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty, debugMode: true);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    return;
                 }
                 else if (Input.GetKeyDown(debugKeys.Faster))
                 {
@@ -433,18 +440,21 @@ public class MicrogameController : MonoBehaviour
                     preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
                     Debug.Log("Debugging at speed " + preserveDebugSpeed);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    return;
                 }
                 else if (Input.GetKeyDown(debugKeys.NextDifficulty))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Min(Session.Difficulty + 1, 3), debugMode: true);
                     Debug.Log("Debugging at difficulty " + forceDebugSession.Difficulty);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    return;
                 }
                 else if (Input.GetKeyDown(debugKeys.PreviousDifficulty))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Max(Session.Difficulty - 1, 1), debugMode: true);
                     Debug.Log("Debugging at difficulty " + forceDebugSession.Difficulty);
                     SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    return;
                 }
             }
         }
