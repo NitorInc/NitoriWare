@@ -7,9 +7,13 @@ using System.Linq;
 public class DatingSimTraits : MicrogameTraits
 {
     [SerializeField]
+    int overrideCharacter = -1;
+    [SerializeField]
+    private bool debugRandomCharacter;
+    
+    [SerializeField]
     private CharacterScene[] possibleScenes;
     
-    public int overrideCharacter = -1;
 
     public override AudioClip GetMusicClip(MicrogameSession session) => ((DatingSimSession)session).scene.MusicClip;
     public override AudioClip[] GetAllMusicClips() => possibleScenes.Select(a => a.MusicClip).ToArray();
@@ -35,7 +39,7 @@ public class DatingSimTraits : MicrogameTraits
 
     public override MicrogameSession onAccessInStage(string microgameId, int difficulty, bool isDebugMode = false)
     {
-        if (isDebugMode)
+        if (isDebugMode && !debugRandomCharacter)
         {
             var loadedScene = possibleScenes
                 .FirstOrDefault(a => a.SceneName.Equals(MicrogameController.instance.gameObject.scene.name));
