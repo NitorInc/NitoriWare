@@ -29,7 +29,7 @@ public class BroomRaceMarisa : MonoBehaviour {
 
     private void Start()
     {
-        transform.position = new Vector3(transform.position.x, Random.Range(-yBound, yBound), transform.position.x);
+        //transform.position = new Vector3(transform.position.x, Random.Range(-yBound, yBound), transform.position.x);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,6 +47,8 @@ public class BroomRaceMarisa : MonoBehaviour {
                 MicrogameController.instance.setVictory(true);
                 moveSpeed = 0f;
             }
+
+            speedAngleMult /= 2f;
 
             collision.enabled = false;
         }
