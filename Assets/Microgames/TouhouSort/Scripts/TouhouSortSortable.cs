@@ -27,7 +27,7 @@ public class TouhouSortSortable : MonoBehaviour
 
         if (MathHelper.randomBool())
         {
-            transform.localEulerAngles = Vector3.up * 180f;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
     }
 

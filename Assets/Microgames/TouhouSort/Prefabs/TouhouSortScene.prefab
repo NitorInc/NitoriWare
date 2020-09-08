@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5268388458945562943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4427532003941708860}
+  - component: {fileID: 7474270621733724798}
+  m_Layer: 0
+  m_Name: Grabber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4427532003941708860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5268388458945562943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2040223511095420677}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7474270621733724798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5268388458945562943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812dc0484609d7c44bdc253bef1e6714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteColliderMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  boxColliderMask:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!1 &5651582755665829863
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,6 +80,7 @@ Transform:
   - {fileID: 5700708951978041779}
   - {fileID: 5700708953236172772}
   - {fileID: 5698041990165497322}
+  - {fileID: 4427532003941708860}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -287,7 +337,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GAP: 2.2
   categoryData: {fileID: 0}
-  slotCount: 3
+  difficultySlotCounts: 030000000400000004000000
+  NonCanonDifficulty: 3
   stagingArea: {fileID: 5700708951871481826}
   zoneManager: {fileID: 5700708952050067724}
   touhouTemplate: {fileID: 114938397968280958, guid: 44ad473659bfaea4fbbbce27da625c37,

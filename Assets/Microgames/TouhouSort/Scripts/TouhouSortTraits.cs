@@ -38,17 +38,20 @@ public class TouhouSortTraits : MicrogameTraits
 
     public override MicrogameSession onAccessInStage(string microgameId, int difficulty, bool isDebugMode = false)
     {
-        var categoryPool = categories
-            .Where(a => difficulty >= a.MinDifficulty)
-            .ToArray();
         if (isDebugMode)
         {
+            var categoryPool = categories
+                .ToArray();
             var loadedCategory = categoryPool
                 .FirstOrDefault(a => a.SceneName.Equals(MicrogameController.instance.gameObject.scene.name));
+            
             return new TouhouSortSession(microgameId, difficulty, loadedCategory);
         }
         else
         {
+            var categoryPool = categories
+                .Where(a => difficulty >= a.MinDifficulty)
+                .ToArray();
             var selectedCategory = categoryPool[Random.Range(0, categoryPool.Length)];
             return new TouhouSortSession(microgameId, difficulty, selectedCategory);
         }

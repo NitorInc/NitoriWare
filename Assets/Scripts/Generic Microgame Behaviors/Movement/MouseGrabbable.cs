@@ -4,6 +4,8 @@ using System.Collections;
 
 public class MouseGrabbable : MonoBehaviour
 {
+    public bool detectGrab = true;
+    public bool detectRelease = true;
 	public bool centerOnCursor, disableOnVictory, disableOnLoss;
     public LayerMask layerMask = Physics2D.DefaultRaycastLayers;
     public UnityEvent onGrab, onRelease;
@@ -69,12 +71,12 @@ public class MouseGrabbable : MonoBehaviour
 	{
 		if (!grabbed)
 		{
-			if (Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, null, float.PositiveInfinity, layerMask))
+			if (detectGrab && Input.GetMouseButtonDown(0) && CameraHelper.isMouseOver(_collider2D, null, float.PositiveInfinity, layerMask))
 				grabbed = true;
 		}
 		else
 		{
-			if (!Input.GetMouseButton(0))
+			if (detectRelease && !Input.GetMouseButton(0))
 				grabbed = false;
 		}
 		

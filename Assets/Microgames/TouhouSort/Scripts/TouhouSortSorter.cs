@@ -155,6 +155,7 @@ public class TouhouSortSorter : MonoBehaviour
             touhou.SetStyle(style);
 
             MouseGrabbable grab = touhou.gameObject.AddComponent<MouseGrabbable>();
+            grab.detectGrab = false;
 
             UnityEvent grabEvent = new UnityEvent();
             grabEvent.AddListener(touhou.OnGrab);
