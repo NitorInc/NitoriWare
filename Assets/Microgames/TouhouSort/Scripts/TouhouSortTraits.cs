@@ -7,8 +7,11 @@ using System.Linq;
 public class TouhouSortTraits : MicrogameTraits
 {
     [SerializeField]
-    private CategoryScene[] categories;
+    private bool debugRandomScene = true;
 
+    [SerializeField]
+    private CategoryScene[] categories;
+    
 
     public override string GetLocalizedCommand(MicrogameSession session)
     {
@@ -38,7 +41,7 @@ public class TouhouSortTraits : MicrogameTraits
 
     public override MicrogameSession onAccessInStage(string microgameId, int difficulty, bool isDebugMode = false)
     {
-        if (isDebugMode)
+        if (isDebugMode && !debugRandomScene)
         {
             var categoryPool = categories
                 .ToArray();

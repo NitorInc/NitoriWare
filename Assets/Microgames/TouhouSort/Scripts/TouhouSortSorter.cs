@@ -11,7 +11,11 @@ public class TouhouSortSorter : MonoBehaviour
     // Spacing between starting sortables
     [SerializeField]
     private float GAP = 2.2f;
-
+    [SerializeField]
+    private float placementOffsetXRange;
+    [SerializeField]
+    private float placementOffsetYRange;
+    
     [SerializeField]
     private TouhouSortCategory categoryData;
 
@@ -200,6 +204,10 @@ public class TouhouSortSorter : MonoBehaviour
 			else {
 				slot.x = origin.x - (multiplier * GAP);
 			}
+
+            slot += new Vector3(Random.Range(
+                -placementOffsetXRange, placementOffsetXRange),
+                Random.Range(-placementOffsetYRange, placementOffsetYRange), 0f);
 
 			slots [i] = slot;
 		}
