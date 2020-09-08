@@ -1,29 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Microgame Assets/DatingSim/Traits")]
 public class DatingSimTraits : MicrogameTraits
 {
-    public DatingSimCharacters characterRoster;
+    [SerializeField]
+    private CharacterScene[] possibleScenes;
+    
     public int overrideCharacter = -1;
 
-    private DatingSimCharacters.Character selectedCharacter;
+    public override AudioClip GetMusicClip(MicrogameSession session) => ((DatingSimSession)session).scene.MusicClip;
+    public override AudioClip[] GetAllMusicClips() => possibleScenes.Select(a => a.MusicClip).ToArray();
 
-    public override AudioClip musicClip => selectedCharacter.musicClip;
+    public override string GetSceneName(MicrogameSession session) => ((DatingSimSession)session).scene.SceneName;
+    public override bool SceneDeterminesDifficulty => false;
 
-    public override void onAccessInStage(string microgameId, int difficulty)
+    [System.Serializable]
+    public class CharacterScene
     {
-        if (overrideCharacter > -1)
-            selectedCharacter = characterRoster.characters[overrideCharacter];
-        else
-            selectedCharacter = characterRoster.characters[Random.Range(0, characterRoster.characters.Count)];
-        
-        base.onAccessInStage(microgameId, difficulty);
+        [SerializeField]
+        private string characterId;
+        public string CharacterId { get => characterId; set => characterId = value; }
+
+        [SerializeField]
+        private string sceneName;
+        public string SceneName { get => sceneName; set => sceneName = value; }
+
+        [SerializeField]
+        private AudioClip music;
+        public AudioClip MusicClip { get => music; set => music = value; }
     }
-    
-    public DatingSimCharacters.Character getSelectedCharacter()
+
+    public override MicrogameSession onAccessInStage(string microgameId, int difficulty, bool isDebugMode = false)
     {
-        return selectedCharacter;
+        if (isDebugMode)
+        {
+            var loadedScene = possibleScenes
+                .FirstOrDefault(a => a.SceneName.Equals(MicrogameController.instance.gameObject.scene.name));
+            return new DatingSimSession(microgameId, difficulty, loadedScene);
+        }
+        else
+        {
+            var selectedCategory = possibleScenes[Random.Range(0, possibleScenes.Length)];
+            return new DatingSimSession(microgameId, difficulty, selectedCategory);
+        }
     }
 }

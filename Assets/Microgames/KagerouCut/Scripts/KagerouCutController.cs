@@ -37,17 +37,12 @@ public class KagerouCutController : MonoBehaviour {
 
     private GameObject[] furballs;
 
-    [System.Serializable]
-    public struct Dog {
-        public AudioClip bgm;
-        public Sprite sprite;
-        public Color color;
-    }
+    [SerializeField]
+    private Color hairColor;
 
     // Use this for initialization
 	void Start () {
-		Dog dog = (MicrogameController.instance.getTraits() as KagCutTraits).dog;
-        Color hairColor = dog.color;
+		//Dog dog = (MicrogameController.instance.getTraits() as KagCutTraits).dog;
         furballs = new GameObject[furballCount];
         // Set the sprites
         //AudioClip music = soundTracks[randChar];

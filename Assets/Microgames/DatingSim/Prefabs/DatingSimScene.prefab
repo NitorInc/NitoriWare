@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 33140336326432484}
   - component: {fileID: 64892976384464422}
   - component: {fileID: 23679576211065366}
-  - component: {fileID: 95924292125734116}
   - component: {fileID: 114988961516234508}
   - component: {fileID: 114588275582668620}
   m_Layer: 0
@@ -129,25 +128,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &95924292125734116
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084742775048766}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114988961516234508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,8 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4039232816409146}
   - component: {fileID: 212737047975630552}
-  - component: {fileID: 114887103712699216}
-  - component: {fileID: 114173321943340292}
+  - component: {fileID: 3711473102592374587}
   m_Layer: 0
   m_Name: Portrait
   m_TagString: Untagged
@@ -257,7 +236,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114887103712699216
+--- !u!114 &3711473102592374587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,21 +245,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1098261400516914}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4d452a260d45b34397245b4919c4577, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d7a3eb4e5070564698a9bf9a6625a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114173321943340292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098261400516914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e55ed0897e58004c8dec2fa6f59b661, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  ignoreIfNull: 1
+  normalSprite: {fileID: 0}
+  victorySprite: {fileID: 0}
+  failureSprite: {fileID: 0}
 --- !u!1 &1137879018052624
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +345,6 @@ GameObject:
   - component: {fileID: 224118419966658996}
   - component: {fileID: 23972623365362492}
   - component: {fileID: 114041707833580772}
-  - component: {fileID: 114805169769254624}
   - component: {fileID: 114744994723425934}
   m_Layer: 0
   m_Name: Character Name
@@ -534,18 +504,6 @@ MonoBehaviour:
   m_maskType: 0
   _SortingLayerID: 0
   _SortingOrder: 0
---- !u!114 &114805169769254624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153302722223346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0adf4241ac34644da5afaedb55e3cf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114744994723425934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,7 +517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 1
-  applyToTextString: 0
+  applyToTextString: 1
   applyToFont: 1
   _key: 
   parameters: []
@@ -1503,12 +1461,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0750eb8c092d6e14d889fd52d80a580b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalWinLines: 2
-  totalLoseLines: 2
+  optionsData: {fileID: 0}
+  difficultySettings:
+  - winOptionCount: 1
+    lossOptionCount: 1
+  - winOptionCount: 1
+    lossOptionCount: 2
+  - winOptionCount: 1
+    lossOptionCount: 3
   choiceMenu: {fileID: 1773702801216724}
   cursorMoveClip: {fileID: 8300000, guid: b2b07222a44fbae439fbf2b9210054d3, type: 3}
   dialogueController: {fileID: 114044402946083216}
-  boxHeightMult: 1
+  boxHeightMultPerDifficultyUp: 0.2
+  optionStartYPerDifficutlyUp: 0.4
+  boxHeightMult: 0.6
   distancePerUnit: 0.76666665
   optionLineProto: {fileID: 1605195608265248, guid: 89117ca8a7f552c4b883ed7afc9f6336,
     type: 3}
@@ -1743,7 +1709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPrefix: 1
-  applyToTextString: 0
+  applyToTextString: 1
   applyToFont: 1
   _key: 
   parameters: []

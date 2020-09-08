@@ -14,12 +14,15 @@ public class StageController : MonoBehaviour
 	[Range(1, MAX_SPEED)]
 	public int speed;
 	public bool godMode, muteMusic;
+    public float editorStartDelay = .2f;
 
 	public int maxStockpiledScenes;
     public ThreadPriority sceneLoadPriority;
 
 	private int microgameCount, life;
 	private bool microgameVictoryStatus, victoryDetermined;
+    private bool sceneStarted;
+    private float sceneStartTime;
 
 	public AnimationPart animationPart = AnimationPart.Intro;
 
@@ -38,21 +41,25 @@ public class StageController : MonoBehaviour
 
 	public static float beatLength;
 
-	private MicrogameTraits microgameTraits;
+    public MicrogameJob CurrentMicrogameJob => microgameQueue.Peek();
+    public MicrogameTraits CurrentMicrogameTraits => CurrentMicrogameJob.microgame.traits;
+    public MicrogameSession CurrentMicrogameSession => CurrentMicrogameJob.session;
+
 	private float animationStartTime, outroPlayTime;
     private Animator[] sceneAnimators;
 
-	private Queue<MicrogameInstance> microgameQueue;
-	private class MicrogameInstance
+	private Queue<MicrogameJob> microgameQueue;
+	public class MicrogameJob
 	{
 		public MicrogameCollection.Microgame microgame;
+        public MicrogameSession session;
 		public int difficulty;
 		public AsyncOperation asyncOperation;
         public Scene scene;
         public bool isBeingUnloaded;
 	}
 	private Queue<Stage.Interruption> interruptionQueue;
-    private MicrogameInstance finishedMicrogame;
+    private MicrogameJob finishedMicrogame;
 
 	public enum AnimationPart
 	{
@@ -68,50 +75,61 @@ public class StageController : MonoBehaviour
         OneUp,          //9 - Player has won the boss stage and gets an extra life | 8 beats (placeholder)
         WonStage        //10 - Player has won a character stage for the first time | 8 beats, ends stage
 	}
+    
+    void Awake()
+    {
+        instance = this;
+        sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
+        if (commandDisplay == null)
+            commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
+        if (controlDisplay == null)
+            controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
+    }
 
-	void Start()
+    void Start()
 	{
         AssetsUnloadingBusy = false;
 		beatLength = outroSource.clip.length / 4f;
 		Application.backgroundLoadingPriority = sceneLoadPriority;
 		voicePlayer.loadClips(stage.getVoiceSet());
 
-		setAnimationPart(AnimationPart.Intro);
-		resetStage(Time.time, true);
+        setAnimationPart(AnimationPart.Intro);
+
+        Time.timeScale = 0f;
         Cursor.visible = false;
-	}
+        sceneStartTime = Time.realtimeSinceStartup + (Application.isEditor ? editorStartDelay : 0f); // Editor mode has a bug when trying to load scenes async too soon and will activate them anyway
+    }
 
-	void resetStage(float startTime, bool firstTime)
-	{
-		stage.onStageStart();
+    private void Update()
+    {
+        if (!sceneStarted && Time.realtimeSinceStartup >= sceneStartTime)
+        {
+            sceneStarted = true;
+            resetStage(Time.time, true);
+        }
+    }
 
-		microgameCount = 0;
-		speed = stage.getStartSpeed();
-		Time.timeScale = getSpeedMult();
-		animationStartTime = startTime;
+    void resetStage(float startTime, bool firstTime)
+    {
+        stage.onStageStart();
 
-		microgameQueue = new Queue<MicrogameInstance>();
-		updateMicrogameQueue(maxStockpiledScenes);
+        microgameCount = 0;
+        speed = stage.getStartSpeed();
+        Time.timeScale = getSpeedMult();
+        animationStartTime = startTime;
 
-		resetLifeIndicators();
-		MicrogameNumber.instance.resetNumber();
+        microgameQueue = new Queue<MicrogameJob>();
+        updateMicrogameQueue(maxStockpiledScenes);
 
-		introSource.pitch = getSpeedMult();
-		if (!muteMusic && firstTime)
-			AudioHelper.playScheduled(introSource, startTime - Time.time);
-        updateMicrogameTraits();
+        resetLifeIndicators();
+        MicrogameNumber.instance.resetNumber();
 
-		invokeIntroAnimations();
-	}
+        introSource.pitch = getSpeedMult();
+        if (!muteMusic && firstTime)
+            AudioHelper.playScheduled(introSource, startTime - Time.time);
+        //updateMicrogameTraits();
 
-	void Awake()
-	{
-		instance = this;
-        sceneAnimators = transform.root.GetComponentsInChildren<Animator>();
-        if (commandDisplay == null)
-            commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
-        if (controlDisplay == null)
-            controlDisplay = transform.parent.Find("UI").Find("Control Display").GetComponent<ControlDisplay>();
+        invokeIntroAnimations();
     }
 
 	void updateMicrogameQueue(int maxQueueSize)
@@ -120,21 +138,25 @@ public class StageController : MonoBehaviour
 		int index = microgameCount + microgameQueue.Count;
 		while (microgameQueue.Count == 0 || (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index)))
 		{
-			MicrogameInstance newInstance = new MicrogameInstance();
+			MicrogameJob newInstance = new MicrogameJob();
             Stage.Microgame stageMicrogame = stage.getMicrogame(index);
             newInstance.microgame = MicrogameCollection.instance.getMicrogame(stageMicrogame.microgameId);
 			newInstance.difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
-			StartCoroutine(loadMicrogameAsync(newInstance));
+            
+            newInstance.session = newInstance.microgame.traits.onAccessInStage(newInstance.microgame.microgameId, newInstance.difficulty);
+
+            StartCoroutine(loadMicrogameAsync(newInstance));
 			microgameQueue.Enqueue(newInstance);
 
 			index++;
 		}
 	}
 
-	IEnumerator loadMicrogameAsync(MicrogameInstance instance)
-	{
-		instance.asyncOperation = SceneManager.LoadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString()
-		, LoadSceneMode.Additive);
+	IEnumerator loadMicrogameAsync(MicrogameJob instance)
+    {
+        instance.asyncOperation = SceneManager.LoadSceneAsync(
+            instance.microgame.traits.GetSceneName(instance.session),
+            LoadSceneMode.Additive);
 		instance.asyncOperation.allowSceneActivation = false;
 		instance.asyncOperation.priority = int.MaxValue - (microgameCount + microgameQueue.Count);	//Is this too much?
 
@@ -157,9 +179,9 @@ public class StageController : MonoBehaviour
         }
     }
 
-	IEnumerator unloadMicrogamesRecursiveAsync(Queue<MicrogameInstance> queue)
+	IEnumerator unloadMicrogamesRecursiveAsync(Queue<MicrogameJob> queue)
 	{
-        MicrogameInstance instance = queue.Dequeue();
+        MicrogameJob instance = queue.Dequeue();
 		instance.asyncOperation.allowSceneActivation = true;
 		while (!instance.asyncOperation.isDone)
 		{
@@ -167,7 +189,8 @@ public class StageController : MonoBehaviour
 		}
 
         instance.isBeingUnloaded = true;
-        instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.microgame.microgameId + instance.difficulty.ToString());
+        instance.asyncOperation = SceneManager.UnloadSceneAsync(
+            instance.microgame.traits.GetSceneName(instance.session));
         while (instance.asyncOperation == null)
         {
             yield return null;
@@ -190,7 +213,7 @@ public class StageController : MonoBehaviour
 
         invokeAtBeat("unloadMicrogame", 2f);
 
-        invokeAtBeat("updateMicrogameTraits", -2f);
+        //invokeAtBeat("updateMicrogameTraits", -2f);
     }
 
 	void invokeInterruptions()
@@ -334,7 +357,7 @@ public class StageController : MonoBehaviour
 		return getChangedSpeed(speed, interruption);
 	}
 
-	MicrogameInstance getCurrentMicrogameInstance()
+	MicrogameJob getCurrentMicrogameInstance()
 	{
 		return microgameQueue.Peek();
 	}
@@ -346,8 +369,10 @@ public class StageController : MonoBehaviour
 
 		Time.timeScale = getSpeedMult();
 
-		commandDisplay.setText(microgameTraits.localizedCommand, microgameTraits.commandAnimatorOverride);
-        controlDisplay.setControlScheme(microgameTraits.controlScheme);
+		commandDisplay.setText(
+            CurrentMicrogameTraits.GetLocalizedCommand(CurrentMicrogameSession),
+            CurrentMicrogameTraits.GetCommandAnimatorOverride(CurrentMicrogameSession));
+        controlDisplay.setControlScheme(CurrentMicrogameTraits.controlScheme);
 
 
 		if (!introSource.isPlaying && !muteMusic)
@@ -393,15 +418,14 @@ public class StageController : MonoBehaviour
         MicrogameNumber.instance.decreaseNumber();
     }
 
-    void updateMicrogameTraits()
-	{
-        if (microgameQueue.Count <= 0)
-            return;
+ //   void updateMicrogameTraits()
+	//{
+ //       if (microgameQueue.Count <= 0)
+ //           return;
 
-		MicrogameInstance instance = getCurrentMicrogameInstance();
-        microgameTraits = instance.microgame.difficultyTraits[instance.difficulty - 1];
-		microgameTraits.onAccessInStage(instance.microgame.microgameId, instance.difficulty);
-	}
+	//	MicrogameJob instance = getCurrentMicrogameInstance();
+	//	//instance.session = instance.microgame.traits.onAccessInStage(instance.microgame.microgameId, instance.difficulty);
+	//}
 
 	public float getBeatsRemaining()
 	{
@@ -409,25 +433,31 @@ public class StageController : MonoBehaviour
 	}
 
 	void startMicrogame()
-	{
-		getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
+    {
+        if (MicrogameController.instance != null)
+        {
+            Debug.LogError("Microgame scene(s) activated prematurely. Try restarting the scene or setting Editor Start Delay higher in Stage Controller");
+            Debug.Break();
+        }
+
+        getCurrentMicrogameInstance().asyncOperation.allowSceneActivation = true;
         stage.onMicrogameStart(microgameCount);
     }
 
 	public void resetVictory()
 	{
 		victoryDetermined = false;
-		setMicrogameVictory(microgameTraits.defaultVictory, false);
+		setMicrogameVictory(CurrentMicrogameTraits.defaultVictory, false);
 	}
 
 	//Called from MicrogameController on Awake()
 	public void onMicrogameAwake()
 	{
-		animationStartTime += beatLength * (12f + (float)microgameTraits.getDurationInBeats());
+		animationStartTime += beatLength * (12f + (float)CurrentMicrogameTraits.getDurationInBeats());
         microgameQueue.Peek().scene = MicrogameController.instance.gameObject.scene;
 
         stageCamera.GetComponent<AudioListener>().enabled = false;
-        Cursor.lockState = microgameTraits.cursorLockState;
+        Cursor.lockState = CurrentMicrogameTraits.GetCursorLockState(CurrentMicrogameSession);
 
         MicrogameTimer.instance.beatsLeft = StageController.instance.getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
@@ -537,7 +567,7 @@ public class StageController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		Cursor.visible = microgameTraits.controlScheme == MicrogameTraits.ControlScheme.Mouse;
+		Cursor.visible = CurrentMicrogameTraits.controlScheme == MicrogameTraits.ControlScheme.Mouse;
 	}
 
 	/// <summary>
@@ -581,17 +611,19 @@ public class StageController : MonoBehaviour
 
 		victoryDetermined = true;
 		voicePlayer.playClip(microgameVictoryStatus,
-			getMicrogameVictory() ? microgameTraits.victoryVoiceDelay : microgameTraits.failureVoiceDelay);
+			getMicrogameVictory()
+            ? CurrentMicrogameTraits.GetFailureVoiceDelay(CurrentMicrogameSession)
+            : CurrentMicrogameTraits.GetFailureVoiceDelay(CurrentMicrogameSession));
 
-		if (microgameTraits.isBossMicrogame())
+		if (CurrentMicrogameTraits.isBossMicrogame())
 		{
-			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)microgameTraits).victoryEndBeats
-				: ((MicrogameBossTraits)microgameTraits).failureEndBeats;
+			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)CurrentMicrogameTraits).victoryEndBeats
+				: ((MicrogameBossTraits)CurrentMicrogameTraits).failureEndBeats;
 			CancelInvoke();
 			animationStartTime = Time.time + ((endInBeats + 4f) * beatLength);
 			invokeOutroAnimations();
 		}
-		else if (microgameTraits.canEndEarly)
+		else if (CurrentMicrogameTraits.canEndEarly)
 		{
 			float beatOffset = MicrogameTimer.instance.beatsLeft - 2f;
 			beatOffset -= beatOffset % 4f;

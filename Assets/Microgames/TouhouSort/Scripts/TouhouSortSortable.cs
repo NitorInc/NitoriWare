@@ -11,41 +11,44 @@ public class TouhouSortSortable : MonoBehaviour
 
     // The style of this touhou instance
     [SerializeField]
-    string style;
+    TouhouSortSorter.Style style;
 
     // Tracks the current zone that the object is in
     [SerializeField]
     TouhouSortDropZone currentZone;
 
+    [SerializeField]
+    private float grabScaleMult = 1.2f;
+    
     void Start ()
     {
         Collider2D grabBox = GetComponent<Collider2D> ();
         Physics2D.IgnoreCollision(grabBox, hitBox);
-    }
 
-    public string GetStyle() => style;
-    public void SetStyle(string style) => this.style = style;
-    public TouhouSortDropZone GetCurrentZone() => currentZone;
-    public void EnterZone(TouhouSortDropZone zone) => currentZone = zone;
-
-    public void ExitZone(TouhouSortDropZone zone)
-    {
-        if (currentZone == zone)
+        if (MathHelper.randomBool())
         {
-            currentZone = null;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
     }
+
+    public TouhouSortSorter.Style GetStyle() => style;
+    public void SetStyle(TouhouSortSorter.Style style) => this.style = style;
+    public bool InWinZone { get; set; }
+
+    
 
     public void OnGrab()
     {
         MicrogameController.instance.playSFX(grabClip, AudioHelper.getAudioPan(transform.position.x),
                 pitchMult: 0.7F, volume: 0.8F);
+        transform.localScale *= grabScaleMult;
     }
 
     public void OnRelease()
     {
         MicrogameController.instance.playSFX(grabClip, AudioHelper.getAudioPan(transform.position.x),
                 pitchMult: 0.6F, volume: 0.8F);
+        transform.localScale /= grabScaleMult;
     }
 
 }

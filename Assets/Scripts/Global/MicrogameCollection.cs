@@ -27,21 +27,21 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         public string microgameId => _microgameId;
 
         [SerializeField]
-        private MicrogameTraits[] _difficultyTraits;
-        public MicrogameTraits[] difficultyTraits => _difficultyTraits;
+        private MicrogameTraits _traits;
+        public MicrogameTraits traits => _traits;
 
         [SerializeField]
         private Sprite _menuIcon;
         public Sprite menuIcon => _menuIcon;
 
-        public Microgame(string microgameId, MicrogameTraits[] difficultyTraits, Sprite menuIcon)
+        public Microgame(string microgameId, MicrogameTraits traits, Sprite menuIcon)
         {
             _microgameId = microgameId;
-            _difficultyTraits = difficultyTraits;
+            _traits = traits;
             _menuIcon = menuIcon;
         }
 
-        public bool isBoss => difficultyTraits[0].isBossMicrogame();
+        public bool isBoss => traits.isBossMicrogame();
     }
 
 	public void updateMicrogames()
@@ -55,20 +55,23 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
 			string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_"))
             {
-                MicrogameTraits[] difficultyTraits = getDifficultyTraits(microgameId);
-                _microgames.Add(new Microgame(microgameId, difficultyTraits, getSprite(microgameId)));
+                _microgames.Add(new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId)));
             }
 		}
 	}
 
-    MicrogameTraits[] getDifficultyTraits(string microgameId)
+    public Microgame createMicrogameForScene(string sceneName)
     {
-        MicrogameTraits[] traits = new MicrogameTraits[3];
-        for (int i = 0; i < 3; i++)
+        var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)
+            .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
+        foreach (var directory in microgameDirectories)
         {
-            traits[i] = MicrogameTraits.findMicrogameTraits(microgameId, i + 1);
+            string microgameId = Path.GetFileName(directory);
+            if (!microgameId.StartsWith("_") && sceneName.Contains(microgameId))
+                return new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId));
         }
-        return traits;
+
+        return null;
     }
     
     Sprite getSprite(string microgameId)
@@ -89,37 +92,50 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         buildScenes = buildScenes.Where(a => !a.path.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/'))).ToList();
 
         //Re-add stage ready games
-        foreach (var microgame in microgames.Where(a => a.difficultyTraits[0].milestone > MicrogameTraits.Milestone.Unfinished))
+        foreach (var microgame in microgames.Where(a => a.traits.milestone >= MicrogameTraits.Milestone.StageReady))
         {
-            var microgameFolder = microgameFolders.FirstOrDefault(a => a.Contains(microgame.microgameId));
-            if (microgameFolder != null)
-            {
-                if (buildScenes.FirstOrDefault(a => a.path.Contains(microgame.microgameId)) == null)
-                {
-                    var scenePaths = getMicrogameSceneFilesRecursive(microgameFolder, microgame.microgameId);
-                    if (scenePaths != null)
-                    {
-                        foreach (var scenePath in scenePaths)
-                        {
-                            var newBuildScene = new EditorBuildSettingsScene("Assets" + scenePath.Substring(Application.dataPath.Length), true);
-                            if (!newBuildScene.guid.Empty())
-                                buildScenes.Add(newBuildScene);
-                        }
-                    }
-                    else
-                        Debug.Log($"Microgame {microgame.microgameId} scenes not found in folder!");
-                }
+            // Get all stages with Microgame ID in name that are part of microgames path
+            var scenePaths = AssetDatabase.FindAssets($"{microgame.microgameId} t:Scene")
+                .Select(a => AssetDatabase.GUIDToAssetPath(a))
+                .Where(a => a.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/')))
+                .Select(a => new EditorBuildSettingsScene(a, true));
 
-            }
-            else
-                Debug.Log($"Microgame {microgame.microgameId} folder not found!");
+            buildScenes.AddRange(scenePaths);
         }
+
         EditorBuildSettings.scenes = buildScenes.ToArray();
+
         Debug.Log("Build path updated");
 #else
-        Debug.LogError("Microgame build updates should NOT be called outside of the editor. You shouldn't even see this message.");
+        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
 #endif
     }
+
+#if UNITY_EDITOR
+
+    public void SetMicrogameMusicToStreaming()
+    {
+        var musicClips = MicrogameCollection.instance.microgames
+            .SelectMany(a => a.traits.GetAllMusicClips())
+            .Distinct();
+
+        foreach (var musicClip in musicClips)
+        {
+            if (musicClip == null || musicClip.loadType == AudioClipLoadType.Streaming)
+                continue;
+
+            var assetPath = AssetDatabase.GetAssetPath(musicClip.GetInstanceID());
+            var audio = AssetImporter.GetAtPath(assetPath) as AudioImporter;
+            var sampleSettings = audio.defaultSampleSettings;
+            sampleSettings.loadType = AudioClipLoadType.Streaming;
+            audio.defaultSampleSettings = sampleSettings;
+            audio.SaveAndReimport();
+            Debug.Log("Changed music settings for " + musicClip.name);
+        }
+        AssetDatabase.Refresh();
+        Debug.Log("Microgame music import settings updated");
+    }
+#endif
 
     string[] getMicrogameSceneFilesRecursive(string folder, string microgameId, bool checkForScenesFolderInBase= true)
     {
