@@ -79,7 +79,7 @@ public class MicrogameController : MonoBehaviour
 
         // Get collection microgame if available
         microgameData = MicrogameHelper.getMicrogames(includeBosses:true)
-            .FirstOrDefault(a =>  a.microgameId.Equals(sceneName));
+            .FirstOrDefault(a =>  sceneName.Contains(a.microgameId));
 
         // Otherwise create collection microgame
         if (microgameData == null)
@@ -94,12 +94,12 @@ public class MicrogameController : MonoBehaviour
         if (microgameData == null)
         {
             Debug.Break();
-            Debug.Log("Can't ascertain microgame ID. Make sure scene name contains Microgame ID and the folder is named correctly.");
+            Debug.Log("Could not ascertain microgame ID. Make sure the scene name contains the microgame's ID and the folder is named correctly.");
         }
         else if (microgameData.traits == null)
         {
             Debug.Break();
-            Debug.Log("Can't find microgame traits asset. Make sure it's in the root folder of your microgame and named correctly.");
+            Debug.Log("Could not find microgame traits asset. Make sure it's in the root folder of your microgame and named correctly.");
         }
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
