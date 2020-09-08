@@ -10,6 +10,8 @@ public class BottomMicrogame : MonoBehaviour
     private LayerMask topGameMask;
     [SerializeField]
     private LayerMask bottomGameMask;
+    [SerializeField]
+    int difficulty = 1;
 
     MicrogameScene topScene;
     MicrogameScene bottomScene;
@@ -22,13 +24,17 @@ public class BottomMicrogame : MonoBehaviour
         public List<Camera> cameras;
     }
 
+    //MicrogameTimer timer;
+
     bool bottomLoaded;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
+        if (MicrogameTimer.instance == null)
+            SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
+
 
 
         topScene = new MicrogameScene();
@@ -50,8 +56,8 @@ public class BottomMicrogame : MonoBehaviour
         var topMicrogame = topMicrogames[Random.Range(0, topMicrogames.Count - 1)];
         var bottomMicrogame = bottomMicrogames[Random.Range(0, bottomMicrogames.Count - 1)];
 
-        var topSession = topMicrogame.traits.onAccessInStage(topMicrogame.microgameId, 1, true);
-        var bottomSession = bottomMicrogame.traits.onAccessInStage(bottomMicrogame.microgameId, 1, true);
+        var topSession = topMicrogame.traits.onAccessInStage(topMicrogame.microgameId, difficulty, true);
+        var bottomSession = bottomMicrogame.traits.onAccessInStage(bottomMicrogame.microgameId, difficulty, true);
 
         
         topScene.name = topMicrogame.traits.GetSceneName(topSession);
@@ -63,6 +69,7 @@ public class BottomMicrogame : MonoBehaviour
 
     private void TopMicrogame_completed(AsyncOperation obj)
     {
+        MicrogameTimer.instance.beatsLeft = 9f;
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             var scene = SceneManager.GetSceneAt(i);
@@ -92,6 +99,7 @@ public class BottomMicrogame : MonoBehaviour
 
     private void BottomMicrogame_completed(AsyncOperation obj)
     {
+        MicrogameTimer.instance.beatsLeft = 9f;
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             var scene = SceneManager.GetSceneAt(i);
@@ -127,7 +135,9 @@ public class BottomMicrogame : MonoBehaviour
     {
         Cursor.visible = true;
         if (Input.GetMouseButtonDown(2))
+        {
             SceneManager.LoadScene(gameObject.scene.buildIndex);
+        }
         if (bottomLoaded)
         {
             foreach (var rootObj in bottomScene.scene.GetRootGameObjects())
