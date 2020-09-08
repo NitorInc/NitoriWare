@@ -425,7 +425,7 @@ public class MicrogameController : MonoBehaviour
                 if (Input.GetKeyDown(debugKeys.Restart))
                 {
                     forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty, debugMode: true);
-                    SceneManager.LoadScene(gameObject.scene.buildIndex);
+                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
                 }
                 else if (Input.GetKeyDown(debugKeys.Faster))
                 {
