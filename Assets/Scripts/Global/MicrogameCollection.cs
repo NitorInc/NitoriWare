@@ -13,6 +13,7 @@ using UnityEditor;
 public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection>
 {
     public const string MicrogameAssetPath = "/Microgames/";
+    public static string FullMicrogameAssetPath => Path.Combine(Application.dataPath, MicrogameAssetPath.Replace("/", ""));
 
     [SerializeField]
     private List<Microgame> _microgames;
