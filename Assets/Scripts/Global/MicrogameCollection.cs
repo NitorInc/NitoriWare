@@ -58,6 +58,8 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
                 _microgames.Add(new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId)));
             }
 		}
+
+        Debug.Log("Microgame Collection updated");
 	}
 
     public Microgame createMicrogameForScene(string sceneName)

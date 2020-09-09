@@ -9,7 +9,7 @@ public class LocalizationUpdaterWindow : EditorWindow
     List<TMPFont> selectedFonts;
     Vector2 scrollPos;
     
-    [MenuItem("Window/Build Prep/Localization Updater")]
+    [MenuItem("Window/NitorInc./Release Prep/Localization Updater")]
     public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(LocalizationUpdaterWindow));
@@ -26,8 +26,12 @@ public class LocalizationUpdaterWindow : EditorWindow
         var headerStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter , fontStyle = FontStyle.Bold};
         var boldStyle = new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold };
 
+        GUILayout.Label("Check console for results.", headerStyle);
+        GUILayout.Label("");
+
         scrollPos = GUILayout.BeginScrollView(scrollPos);
-        
+
+
         GUILayout.Label("STEP 1 - Language Content", headerStyle);
         GUILayout.Label("Pulls all language values from Google sheet, takes a while.");
         GUILayout.Label("Needs an internet connection, obviously.");
