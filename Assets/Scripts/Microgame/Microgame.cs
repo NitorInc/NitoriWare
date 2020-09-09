@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEditor;
 #endif
 
-[CreateAssetMenu(menuName = "Microgame Traits/Traits")]
+[CreateAssetMenu(menuName = "Microgame/Normal")]
 public class Microgame : ScriptableObject
 {
 
@@ -54,7 +54,6 @@ public class Microgame : ScriptableObject
     private bool _defaultVictory;
     public bool defaultVictory => _defaultVictory;
     
-
     [SerializeField]
     private float _victoryVoiceDelay;
     public float VictoryVoiceDelayDefault;
@@ -83,15 +82,15 @@ public class Microgame : ScriptableObject
     private string[] _credits = { "", "", "" };
     public string[] credits => _credits;
 
-    public float getDurationInBeats() => (duration == Duration.Long16Beats) ? 16f : 8f;
+    public virtual float getDurationInBeats() => (duration == Duration.Long16Beats) ? 16f : 8f;
 
-    public bool isBossMicrogame() => GetType() == typeof(MicrogameBossTraits) || GetType().IsSubclassOf(typeof(MicrogameBossTraits));
+    public bool isBossMicrogame() => GetType() == typeof(MicrogameBoss) || GetType().IsSubclassOf(typeof(MicrogameBoss));
 
-    public virtual MicrogameSession CreateSession(StageController player, int difficulty)
-        => new MicrogameSession(this, player, difficulty, false);
+    public virtual MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+        => new MicrogameSession(this, player, difficulty, debugMode);
 
-    public virtual MicrogameSession CreateDebugSession(int difficulty)
-        => new MicrogameSession(this, null, difficulty, true);
+    public MicrogameSession CreateDebugSession(int difficulty)
+        => CreateSession(null, difficulty, true);
 
     // For debug mode purposes
     public virtual bool SceneDeterminesDifficulty => true;

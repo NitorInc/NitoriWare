@@ -14,7 +14,7 @@ public class DoomGame_Warning : MonoBehaviour {
                 return;
         }
         MicrogameController.instance.displayLocalizedCommand("danger", "Behind you!",
-            MicrogameController.instance.getTraits().CommandAnimatorOverrideDefault(MicrogameController.instance.session));
+            MicrogameController.instance.session.CommandAnimatorOverride);
 
         for (int i = 0; i < activates.Length; i++)
             activates[i].SetActive (true);

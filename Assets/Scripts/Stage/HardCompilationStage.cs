@@ -6,13 +6,13 @@ public class HardCompilationStage : CompilationStage
 {
     public int progressionScoreThreshold;
 
-	public override void onStageStart()
+	public override void onStageStart(StageController stageController)
 	{
-		base.onStageStart();
+		base.onStageStart(stageController);
 		roundsCompleted = 2;
 	}
 
-	public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
+	public override int getMicrogameDifficulty(Stage.StageMicrogame microgame, int num)
 	{
 		return 3;
 	}

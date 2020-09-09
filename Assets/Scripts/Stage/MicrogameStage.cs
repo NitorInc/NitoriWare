@@ -19,25 +19,23 @@ public class MicrogameStage : Stage
     [SerializeField]
     private bool speedUpEveryCycle = false;
 
-    public override void onStageStart()
+    public override void onStageStart(StageController stageController)
     {
-        //Update collection if microgame is forced, in case it's in the project but hasn't been added to the collection, for debugging
         if (!string.IsNullOrEmpty(forceMicrogame) && Debug.isDebugBuild)
         {
-            MicrogameCollection.instance.updateMicrogames();
             microgameId = forceMicrogame;
         }
-        base.onStageStart();
+        base.onStageStart(stageController);
     }
 
-    public override Microgame getMicrogame(int num)
+    public override StageMicrogame getMicrogame(int num)
 	{
-		Microgame microgame = new Microgame(microgameId);
+		StageMicrogame microgame = new StageMicrogame(microgameId);
 		microgame.microgameId = microgameId;
 		return microgame;
 	}
 
-	public override int getMicrogameDifficulty(Microgame microgame, int num)
+	public override int getMicrogameDifficulty(StageMicrogame microgame, int num)
 	{
 		return forceDifficulty < 1 ? ((num % 3) + 1) : forceDifficulty;
 	}

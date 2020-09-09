@@ -8,7 +8,7 @@ public static class DatingSimLocalizationHelper
     public static string getLocalizedOptionDialogue(DatingSimOptionData optionData, int optionIndex, bool isRight, bool getResponse)
     {
         var option = GetOption(optionData, optionIndex, isRight);
-        var charId = (MicrogameController.instance.session as DatingSimSession).scene.CharacterId;
+        var charId = (MicrogameController.instance.session as DatingSimSession).selectedCharacterScene.CharacterId;
         string optionKey = (isRight ? "right" : "wrong") + optionIndex.ToString();
         return TextHelper.getLocalizedMicrogameText(charId + "." + optionKey + "." + (getResponse ? "response" : "option"),
             (getResponse ? option.responseDialogue : option.optionDialogue));

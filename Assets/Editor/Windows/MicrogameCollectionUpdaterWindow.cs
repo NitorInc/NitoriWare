@@ -37,17 +37,18 @@ public class MicrogameCollectionUpdaterWindow : EditorWindow
     void setMicrogames()
     {
         microgames = new List<MicrogameList>();
-        var collectionMicrogames = MicrogameCollection.instance.microgames;
+        var collectionMicrogames = MicrogameCollection.LoadAllMicrogames();
         var milestoneNames = Enum.GetNames(typeof(Microgame.Milestone));
         for (int i = milestoneNames.Length - 1; i >= 0; i--)
         {
-            var milestoneMicrogames = collectionMicrogames.Where(a => (int)a.traits.milestone == i);
+            var milestoneMicrogames = collectionMicrogames
+                .Where(a => (int)a.milestone == i);
             var newList = new MicrogameList();
             newList.milestoneName = milestoneNames[i];
             foreach (var milestoneMicrogame in milestoneMicrogames)
             {
                 string label = milestoneMicrogame.microgameId;
-                if (milestoneMicrogame.traits.isBossMicrogame())
+                if (milestoneMicrogame.isBossMicrogame())
                     label += " (BOSS)";
                 newList.labelList.Add(label);
             }
@@ -64,35 +65,34 @@ public class MicrogameCollectionUpdaterWindow : EditorWindow
         GUILayout.Label("");
         scrollPos = GUILayout.BeginScrollView(scrollPos);
         
-        GUILayout.Label("STEP 1 - Microgame Collection", headerStyle);
-        GUILayout.Label("Updates internal data about where to find newly-added microgames.");
-        if (GUILayout.Button("Update Microgame Collection"))
-        {
-            MicrogameCollection.instance.updateMicrogames();
-            setMicrogames();
-            EditorUtility.SetDirty(MicrogameCollection.instance);
-        }
+        //GUILayout.Label("STEP 1 - Microgame Collection", headerStyle);
+        //GUILayout.Label("Updates internal data about where to find newly-added microgames.");
+        //if (GUILayout.Button("Update Microgame Collection"))
+        //{
+        //    MicrogameCollection.updateMicrogames();
+        //    setMicrogames();
+        //    EditorUtility.SetDirty(MicrogameCollection.instance);
+        //}
 
         GUILayout.Label("");
         GUILayout.Label("");
-        GUILayout.Label("STEP 2 - Build Path", headerStyle);
+        GUILayout.Label("Build Path", headerStyle);
         GUILayout.Label("Auto-adjusts the game's build settings to include any new microgames.");
         GUILayout.Label("Microgame milestone must be marked as stage-ready or higher to be included.", boldStyle);
         if (GUILayout.Button("Update Build Path"))
         {
-            MicrogameCollection.instance.updateBuildPath();
+            MicrogameCollection.updateBuildPath();
         }
 
         GUILayout.Label("");
         GUILayout.Label("");
-        GUILayout.Label("STEP 3 - Streaming Music Assets", headerStyle);
+        GUILayout.Label("Streaming Music Assets", headerStyle);
         GUILayout.Label("To preserve memory when preloading microgames, microgame music is streamed from disk.");
         GUILayout.Label("This just helps us save some time by doing that for us.");
         if (GUILayout.Button("Set Microgame Music to Streaming"))
         {
-            MicrogameCollection.instance.SetMicrogameMusicToStreaming();
+            MicrogameCollection.SetMicrogameMusicToStreaming();
         }
-
         GUILayout.Label("");
         GUILayout.Label("");
         GUILayout.Label("Indexed Microgames:");
@@ -107,6 +107,11 @@ public class MicrogameCollectionUpdaterWindow : EditorWindow
                     EditorGUILayout.LabelField("- " + microgameLabel);
                 }
             }
+        }
+
+        if (GUILayout.Button("Refresh"))
+        {
+            setMicrogames();
         }
 
         GUILayout.EndScrollView();

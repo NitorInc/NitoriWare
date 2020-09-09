@@ -13,7 +13,10 @@ public class PauseManager : MonoBehaviour
 
 	public UnityEvent onPause, onUnPause;
 
-	[SerializeField]
+    [SerializeField]
+    private StageController stageController;
+
+    [SerializeField]
 	//Enable and hold P to pause and unpause frantically
 	private bool enableVigorousTesting;
 
@@ -139,8 +142,8 @@ public class PauseManager : MonoBehaviour
         {
             source.Stop();
         }
-
-        GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftDuration);
+        
+        GameController.instance.sceneShifter.startShift(stageController.getStage().getExitScene(), quitShiftDuration);
     }
 
 	public void unPause()

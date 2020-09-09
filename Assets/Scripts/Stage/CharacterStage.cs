@@ -20,9 +20,10 @@ public class CharacterStage : Stage
 
     private int roundsCompleted, roundStartIndex;
 	private bool bossWon;
-    private Microgame selectedBossMicrogame;
+    private StageMicrogame selectedBossMicrogame;
+    private Microgame[] loadedMicrogames;
 
-	public override void onStageStart()
+	public override void onStageStart(StageController stageController)
     {
         roundsCompleted = roundStartIndex = 0;
 		if (microgamePool.shuffleMicrogames)
@@ -30,10 +31,12 @@ public class CharacterStage : Stage
 
         revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
 
-        base.onStageStart();
+        loadedMicrogames = MicrogameCollection.LoadAllMicrogames();
+
+        base.onStageStart(stageController);
     }
 
-	public override Microgame getMicrogame(int num)
+	public override StageMicrogame getMicrogame(int num)
 	{
 		int index = getIndex(num);
 		for (int i = 0; i < microgamePool.microgameBatches.Length; i++)
@@ -58,14 +61,14 @@ public class CharacterStage : Stage
             return base.getDiscordState(microgameIndex);
     }
 
-    public override int getMicrogameDifficulty(Stage.Microgame microgame, int num)
+    public override int getMicrogameDifficulty(Stage.StageMicrogame microgame, int num)
 	{
 		return Mathf.Min(microgame.baseDifficulty + roundsCompleted, 3);
 	}
 
 	public override Interruption[] getInterruptions(int num)
 	{
-		Microgame microgame = getMicrogame(num);
+		StageMicrogame microgame = getMicrogame(num);
 		int index = getIndex(num);
 
         //Boss over
@@ -78,9 +81,9 @@ public class CharacterStage : Stage
             //TODO more after-boss stuff
             if (bossWon)
             {
-                if (StageController.instance.getLife() < getMaxLife())
+                if (stageController.getLife() < getMaxLife())
                 {
-                    StageController.instance.setLife(StageController.instance.getLife() + 1);
+                    stageController.setLife(stageController.getLife() + 1);
                     return new Interruption[0].add(oneUp);
                 }
                 //TODO separate next round after oneUp when we have music
@@ -150,7 +153,7 @@ public class CharacterStage : Stage
             else if (victoryStatus)
                 winStage();
             else
-                StageController.instance.lowerScore();
+                stageController.lowerScore();
         }
         base.onMicrogameEnd(microgame, victoryStatus);
     }
@@ -189,9 +192,9 @@ public class CharacterStage : Stage
 	{
 		for (int i = 0; i < microgamePool.microgameBatches.Length; i++)
 		{
-			Microgame[] pool = microgamePool.microgameBatches[i].pool;
+			StageMicrogame[] pool = microgamePool.microgameBatches[i].pool;
 			int choice;
-			Microgame hold;
+			StageMicrogame hold;
 			for (int j = 0; j < pool.Length; j++)
 			{
 				choice = Random.Range(j, pool.Length);
@@ -205,9 +208,11 @@ public class CharacterStage : Stage
 		}
         if (revisiting && useAllBossesWhenRevisiting)
         {
-            var bossMicrogames = MicrogameCollection.instance.BossMicrogames;
+            var bossMicrogames = loadedMicrogames
+                .Where(a => a.isBossMicrogame())
+                .ToList();
             var randomBossData = bossMicrogames[Random.Range(0, bossMicrogames.Count)];
-            selectedBossMicrogame = new Microgame(randomBossData.microgameId, microgamePool.bossMicrogame.baseDifficulty);
+            selectedBossMicrogame = new StageMicrogame(randomBossData.microgameId, microgamePool.bossMicrogame.baseDifficulty);
         }
         else
             selectedBossMicrogame = microgamePool.bossMicrogame;
@@ -218,6 +223,6 @@ public class CharacterStage : Stage
 		return num - roundStartIndex;
 	}
 
-    bool isSelectedBoss(Microgame microgame) => microgame.microgameId.Equals(selectedBossMicrogame.microgameId);
+    bool isSelectedBoss(StageMicrogame microgame) => microgame.microgameId.Equals(selectedBossMicrogame.microgameId);
     bool isSelectedBossIndex(int index) => isSelectedBoss(getMicrogame(index));
 }

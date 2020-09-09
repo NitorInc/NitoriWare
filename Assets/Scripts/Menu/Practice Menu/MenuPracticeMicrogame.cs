@@ -45,7 +45,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private int initialSiblingIndex;
     private float centerArrivalTime;
     
-    private MicrogameCollection.CollectionMicrogame microgame;
+    private Microgame microgame;
 
 	void Start()
 	{
@@ -68,7 +68,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         initialLocalPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
 
-        Sprite iconSprite = microgame.menuIcon;
+        Sprite iconSprite = Resources.Load<Sprite>($"Resources/MicrogameIcons/{microgame.microgameId}.png");
         if (iconSprite != null)
             icon.sprite = iconSprite;
 
@@ -78,7 +78,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
             outlineBack.transform.localScale = oulineBackBossScale;
         }
 
-        var credits = microgame.traits.credits;
+        var credits = microgame.credits;
         if (credits.Length < 3 || credits.FirstOrDefault(a => string.IsNullOrEmpty(a)) != null)
             Debug.LogWarning($"Microgame {microgame.microgameId} is missing credits field(s)!");
 	}
@@ -149,7 +149,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         {
             string creditsString = creditsTexts[i].text;
             creditsString = TextHelper.getLocalizedText(creditsKeys[i], creditsString);
-            creditsString = string.Format(creditsString, microgame.traits.credits[i]);
+            creditsString = string.Format(creditsString, microgame.credits[i]);
             creditsTexts[i].text = creditsString;
         }
 

@@ -107,7 +107,7 @@ public class StageController : MonoBehaviour
 
     void resetStage(float startTime, bool firstTime)
     {
-        stage.onStageStart();
+        stage.onStageStart(this);
 
         microgameCount = 0;
         speed = stage.getStartSpeed();
@@ -135,7 +135,7 @@ public class StageController : MonoBehaviour
 		while (microgameQueue.Count == 0 || (microgameQueue.Count < maxQueueSize && stage.isMicrogameDetermined(index)))
 		{
 			MicrogameJob newJob = new MicrogameJob();
-            Stage.Microgame stageMicrogame = stage.getMicrogame(index);
+            Stage.StageMicrogame stageMicrogame = stage.getMicrogame(index);
             var microgame = MicrogameCollection.LoadMicrogame(stageMicrogame.microgameId);
 			var difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
 
@@ -611,8 +611,8 @@ public class StageController : MonoBehaviour
 
 		if (CurrentMicrogame.isBossMicrogame())
 		{
-			float endInBeats = microgameVictoryStatus ? ((MicrogameBossTraits)CurrentMicrogame).victoryEndBeats
-				: ((MicrogameBossTraits)CurrentMicrogame).failureEndBeats;
+			float endInBeats = microgameVictoryStatus ? ((MicrogameBoss)CurrentMicrogame).victoryEndBeats
+				: ((MicrogameBoss)CurrentMicrogame).failureEndBeats;
 			CancelInvoke();
 			animationStartTime = Time.time + ((endInBeats + 4f) * beatLength);
 			invokeOutroAnimations();

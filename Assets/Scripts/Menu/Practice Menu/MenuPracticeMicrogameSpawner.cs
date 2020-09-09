@@ -45,15 +45,22 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
 
     private List<MenuPracticeMicrogame> spawnedMicrogames;
 
-    public static List<MicrogameCollection.CollectionMicrogame> standardMicrogamePool;
-    public static List<MicrogameCollection.CollectionMicrogame> microgameBossPool;
+    public static List<Microgame> standardMicrogamePool;
+    public static List<Microgame> microgameBossPool;
 
     void Start()
     {
         // Create microgames
-        standardMicrogamePool = MicrogameHelper.getMicrogames(restriction: Microgame.Milestone.StageReady);
-        microgameBossPool = MicrogameHelper.getMicrogames(restriction: Microgame.Milestone.StageReady, includeBosses: true)
-            .Where(a => a.traits.isBossMicrogame()).ToList();
+
+        var microgamePool = MicrogameHelper.getMicrogames(restriction: Microgame.Milestone.StageReady, includeBosses: true);
+
+        standardMicrogamePool = microgamePool
+            .Where(a => !a.isBossMicrogame())
+            .ToList();
+        microgameBossPool = microgamePool
+            .Where(a => a.isBossMicrogame())
+            .ToList();
+
         int maxYIndex = 0;
         spawnedMicrogames = new List<MenuPracticeMicrogame>();
 

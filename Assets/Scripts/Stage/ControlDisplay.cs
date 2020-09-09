@@ -14,12 +14,14 @@ public class ControlDisplay : MonoBehaviour
     private Text controlText;
     [SerializeField]
     private TextMeshPro controlTmpComponent;
+    [SerializeField]
+    private StageController stageController;
 #pragma warning restore 0649
 
     public void setControlScheme(Microgame.ControlScheme controlScheme)
     {
         //TODO re-enable command warnings?
-        controlRenderer.sprite = StageController.instance.controlSchemeSprites[(int)controlScheme];
+        controlRenderer.sprite = stageController.controlSchemeSprites[(int)controlScheme];
 
         var text = TextHelper.getLocalizedTextNoWarnings("stage.control." + controlScheme.ToString().ToLower(), getDefaultControlString(controlScheme));
 
