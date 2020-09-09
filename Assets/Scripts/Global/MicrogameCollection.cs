@@ -12,7 +12,7 @@ using UnityEditor;
 public static class MicrogameCollection
 {
     public const string MicrogameAssetPath = "/Microgames/";
-    public const string MicrogameResourcesPath = "Resources/Microgames/";
+    public const string MicrogameResourcesPath = "Microgames/";
     public static string FullMicrogameAssetPath => Path.Combine(Application.dataPath, MicrogameAssetPath.Replace("/", ""));
 
 
@@ -23,7 +23,11 @@ public static class MicrogameCollection
 
     public static Microgame[] LoadAllMicrogames() => Resources.LoadAll<Microgame>(MicrogameResourcesPath);
 
-    public static Microgame LoadMicrogame(string microgameId) => Resources.Load<Microgame>(MicrogameResourcesPath + "/" + microgameId);
+    public static Microgame LoadMicrogame(string microgameId)
+    {
+        return Resources.Load<Microgame>(MicrogameResourcesPath + microgameId + ".asset");
+    }
+
 
     public static void updateBuildPath()
     {

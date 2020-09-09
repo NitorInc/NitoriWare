@@ -56,11 +56,11 @@ public class Microgame : ScriptableObject
     
     [SerializeField]
     private float _victoryVoiceDelay;
-    public float VictoryVoiceDelayDefault => VictoryVoiceDelayDefault;
+    public float VictoryVoiceDelayDefault => _victoryVoiceDelay;
 
     [SerializeField]
     private float _failureVoiceDelay;
-    public float FailureVoiceDelayDefault => FailureVoiceDelayDefault;
+    public float FailureVoiceDelayDefault => _failureVoiceDelay;
 
     [SerializeField]
     private AudioClip _musicClip;
