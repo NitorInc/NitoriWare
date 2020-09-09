@@ -155,7 +155,7 @@ public class MicrogameController : MonoBehaviour
 
             Session = StageController.instance.CurrentMicrogameSession;
 
-			StageController.instance.microgameMusicSource.clip = traits.GetMusicClip(Session);
+			StageController.instance.microgameMusicSource.clip = traits.MusicClipDefault(Session);
 
 			if (traits.GetHideCursor(Session))
 				Cursor.visible = false;
@@ -206,7 +206,7 @@ public class MicrogameController : MonoBehaviour
                 if (debugSettings.timerTick)
                     MicrogameTimer.instance.invokeTick();
 
-                var musicClip = traits.GetMusicClip(Session);
+                var musicClip = traits.MusicClipDefault(Session);
                 if (debugSettings.playMusic && musicClip != null)
                 {
                     AudioSource source = debugObjects.musicSource;
@@ -219,7 +219,7 @@ public class MicrogameController : MonoBehaviour
                 }
                 
                 if (debugSettings.displayCommand)
-                debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.GetCommandAnimatorOverride(Session));
+                debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.CommandAnimatorOverrideDefault(Session));
 
                 Cursor.visible = traits.controlScheme == Microgame.ControlScheme.Mouse && !traits.GetHideCursor(Session);
                 Cursor.lockState = getTraits().GetCursorLockState(Session);

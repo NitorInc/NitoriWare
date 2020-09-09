@@ -119,7 +119,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     public void SetMicrogameMusicToStreaming()
     {
         var musicClips = MicrogameCollection.instance.microgames
-            .SelectMany(a => a.traits.GetAllMusicClips())
+            .SelectMany(a => a.traits.GetAllPossibleMusicClips())
             .Distinct();
 
         foreach (var musicClip in musicClips)

@@ -12,9 +12,12 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Microgame Traits/Traits")]
 public class Microgame : ScriptableObject
 {
+
+    public string MicrogameId => name;
+
     [SerializeField]
-	private ControlScheme _controlScheme;
-	public virtual ControlScheme controlScheme => _controlScheme;
+    private ControlScheme _controlScheme;
+    public ControlScheme controlScheme => _controlScheme;
     public enum ControlScheme
     {
         Key,
@@ -22,60 +25,56 @@ public class Microgame : ScriptableObject
     }
 
     [SerializeField]
-	private bool _hideCursor;
-	public virtual bool GetHideCursor(MicrogameSession session) => _hideCursor;
+    private bool _hideCursor;
+    public bool hideCursorDefault => _hideCursor;
 
     [SerializeField]
     private CursorLockMode _cursorLockState = CursorLockMode.None;
-    public virtual CursorLockMode GetCursorLockState(MicrogameSession session) => _cursorLockState;
+    public CursorLockMode cursorLockStateDefault => _cursorLockState;
 
     [SerializeField]
-	private Duration _duration;
-	public virtual Duration duration => _duration;
+    private Duration _duration;
+    public Duration duration => _duration;
     public enum Duration
     {
         Short8Beats,
         Long16Beats
     }
-	public virtual bool canEndEarly => _duration == Duration.Long16Beats;
+    public bool canEndEarly => _duration == Duration.Long16Beats;
 
     [SerializeField]
-	private string _command;
-	public virtual string command => _command;
-    public virtual string GetCommandKey(MicrogameSession session) => "command";
-    public virtual string GetLocalizedCommand(MicrogameSession session) =>
-        TextHelper.getLocalizedText($"microgame.{session.MicrogameId}.{GetCommandKey(session)}", command);
+    private string _command;
+    public string commandDefault => _command;
 
     [SerializeField]
     private AnimatorOverrideController _commandAnimatorOveride;
-    public virtual AnimatorOverrideController GetCommandAnimatorOverride(MicrogameSession session) => _commandAnimatorOveride;
+    public AnimatorOverrideController CommandAnimatorOverrideDefault => _commandAnimatorOveride;
 
     [SerializeField]
-	private bool _defaultVictory;
-	public virtual bool defaultVictory => _defaultVictory;
-    
-    public virtual string GetSceneName(MicrogameSession session) => session.MicrogameId + session.Difficulty.ToString();
+    private bool _defaultVictory;
+    public bool defaultVictory => _defaultVictory;
+
+    public string GetSceneName(MicrogameSession session) => session.MicrogameId + session.Difficulty.ToString();
 
     // For debug mode purposes
     public virtual bool SceneDeterminesDifficulty => true;
-    public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
     [SerializeField]
     private float _victoryVoiceDelay;
-    public virtual float GetVictoryVoiceDelay(MicrogameSession session) => _victoryVoiceDelay;
+    public float VictoryVoiceDelayDefault;
 
     [SerializeField]
     private float _failureVoiceDelay;
-    public virtual float GetFailureVoiceDelay(MicrogameSession session) => _failureVoiceDelay;
+    public float FailureVoiceDelayDefault;
 
     [SerializeField]
-	private AudioClip _musicClip;
-    public virtual AudioClip GetMusicClip(MicrogameSession session) => _musicClip;
-    public virtual AudioClip[] GetAllMusicClips() => new AudioClip []{ _musicClip};
+    private AudioClip _musicClip;
+    public AudioClip MusicClipDefault => _musicClip;
+    public virtual AudioClip[] GetAllPossibleMusicClips() => new AudioClip[] { _musicClip };
 
     [SerializeField]
-	private Milestone _milestone = Milestone.Unfinished;
-	public virtual Milestone milestone => _milestone;
+    private Milestone _milestone = Milestone.Unfinished;
+    public Milestone milestone => _milestone;
     public enum Milestone
     {
         Unfinished,
@@ -86,50 +85,15 @@ public class Microgame : ScriptableObject
     [Header("Credits order is Art, Code, Music:")]
     [SerializeField]
     private string[] _credits = { "", "", "" };
-    public virtual string[] credits => _credits;
+    public string[] credits => _credits;
 
-	public virtual MicrogameSession onAccessInStage(string microgameId, int difficulty, bool debugMode = false)
-	{
-        return new MicrogameSession(microgameId, difficulty);
-	}
+    public float getDurationInBeats() => (duration == Duration.Long16Beats) ? 16f : 8f;
 
-	public virtual float getDurationInBeats()
-	{
-		return duration == Duration.Long16Beats ? 16f : 8f;
-	}
+    public bool isBossMicrogame() => GetType() == typeof(MicrogameBossTraits) || GetType().IsSubclassOf(typeof(MicrogameBossTraits));
 
-    public bool isBossMicrogame()
+    public MicrogameSession CreateSession(int difficulty)
     {
-        return GetType() == typeof(MicrogameBossTraits);
+
     }
 
-    public static Microgame findMicrogameTraits(string microgameId)
-    {
-#if UNITY_EDITOR
-        Microgame traits;
-
-        //Search normal games
-        traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}{microgameId}");
-        if (traits != null)
-            return traits;
-
-        //Search bosses
-        traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}_Bosses/{microgameId}");
-        if (traits != null)
-            return traits;
-
-        Debug.LogError("Can't find Traits prefab for " + microgameId);
-        return null;
-    }
-    static Microgame findMicrogameTraitsInFolder(string microgameFolder)
-    {
-        string fileName = "Traits";
-        string extension = ".asset";
-        return AssetDatabase.LoadAssetAtPath<Microgame>(Path.Combine(microgameFolder, fileName + extension));
-        }
-#else
-        Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");
-        return null;
-    }
-#endif
 }

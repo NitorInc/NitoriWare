@@ -15,7 +15,7 @@ public class MicrogameTraitsSeparateMusic : Microgame
     public override AudioClip GetMusicClip(MicrogameSession session)
         => new AudioClip[] { null, difficulty1Clip, difficulty2Clip, difficulty3Clip }[session.Difficulty];
 
-    public override AudioClip[] GetAllMusicClips()
+    public override AudioClip[] GetAllPossibleMusicClips()
         => new AudioClip[] { difficulty1Clip, difficulty2Clip, difficulty3Clip };
 }
 

@@ -16,7 +16,7 @@ public class DatingSimTraits : Microgame
     
 
     public override AudioClip GetMusicClip(MicrogameSession session) => ((DatingSimSession)session).scene.MusicClip;
-    public override AudioClip[] GetAllMusicClips() => possibleScenes.Select(a => a.MusicClip).ToArray();
+    public override AudioClip[] GetAllPossibleMusicClips() => possibleScenes.Select(a => a.MusicClip).ToArray();
 
     public override string GetSceneName(MicrogameSession session) => ((DatingSimSession)session).scene.SceneName;
     public override bool SceneDeterminesDifficulty => false;

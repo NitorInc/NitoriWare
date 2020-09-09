@@ -16,7 +16,7 @@ public class TouhouSortTraits : Microgame
     public override string GetLocalizedCommand(MicrogameSession session)
     {
         var touhouSortSession = (TouhouSortSession)session;
-        return string.Format(TextHelper.getLocalizedText("microgame." + session.MicrogameId + ".command", command),
+        return string.Format(TextHelper.getLocalizedText("microgame." + session.MicrogameId + ".command", commandDefault),
             TextHelper.getLocalizedText("microgame.TouhouSort." + touhouSortSession.category.IdName, touhouSortSession.category.IdName));
     }
 

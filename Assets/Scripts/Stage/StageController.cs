@@ -371,7 +371,7 @@ public class StageController : MonoBehaviour
 
 		commandDisplay.setText(
             CurrentMicrogameTraits.GetLocalizedCommand(CurrentMicrogameSession),
-            CurrentMicrogameTraits.GetCommandAnimatorOverride(CurrentMicrogameSession));
+            CurrentMicrogameTraits.CommandAnimatorOverrideDefault(CurrentMicrogameSession));
         controlDisplay.setControlScheme(CurrentMicrogameTraits.controlScheme);
 
 
