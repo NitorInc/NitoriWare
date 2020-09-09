@@ -60,9 +60,9 @@ public class MicrogameController : MonoBehaviour
     private bool debugMode;
     private CommandDisplay commandDisplay;
 
-    private Microgame microgame => session.microgame;
     public MicrogameSession session { get; private set; }
-
+    public Microgame microgame => session.microgame;
+    public string microgameId => microgame.microgameId;
     public int difficulty => session.Difficulty;
 
     void Awake()
@@ -84,7 +84,7 @@ public class MicrogameController : MonoBehaviour
         if (microgame == null)
         {
 #if UNITY_EDITOR
-            microgame = MicrogameCollection.instance.createMicrogameForScene(gameObject.scene.name);
+            microgame = MicrogameCollection.GetDebugModeMicrogame(gameObject.scene.name);
 #else
             Debug.LogError("Failed to find microgame for " + gameObject.scene.name);
 #endif
@@ -115,9 +115,9 @@ public class MicrogameController : MonoBehaviour
                     difficulty = debugSettings.SimulateDifficulty > 0 ? (int)debugSettings.SimulateDifficulty : 1;
                 session = microgame.CreateDebugSession(difficulty);
 
-                if (!microgame.GetSceneName(session).Equals(gameObject.scene.name))
+                if (!session.SceneName.Equals(gameObject.scene.name))
                 {
-                    SceneManager.LoadScene(microgame.GetSceneName(session));
+                    SceneManager.LoadScene(session.SceneName);
                     return;
                 }
             }
@@ -402,7 +402,7 @@ public class MicrogameController : MonoBehaviour
                 if (Input.GetKeyDown(debugKeys.Restart))
                 {
                     holdDebugSession = microgame.CreateDebugSession(difficulty);
-                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
+                    SceneManager.LoadScene(holdDebugSession.SceneName);
                     return;
                 }
                 else if (Input.GetKeyDown(debugKeys.Faster))
@@ -410,21 +410,21 @@ public class MicrogameController : MonoBehaviour
                     holdDebugSession = microgame.CreateDebugSession(difficulty);
                     preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
                     Debug.Log("Debugging at speed " + preserveDebugSpeed);
-                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
+                    SceneManager.LoadScene(holdDebugSession.SceneName);
                     return;
                 }
                 else if (Input.GetKeyDown(debugKeys.NextDifficulty))
                 {
                     holdDebugSession = microgame.CreateDebugSession(Mathf.Min(session.Difficulty + 1, 3));
                     Debug.Log("Debugging at difficulty " + holdDebugSession.Difficulty);
-                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
+                    SceneManager.LoadScene(holdDebugSession.SceneName);
                     return;
                 }
                 else if (Input.GetKeyDown(debugKeys.PreviousDifficulty))
                 {
                     holdDebugSession = microgame.CreateDebugSession(Mathf.Max(session.Difficulty - 1, 1));
                     Debug.Log("Debugging at difficulty " + holdDebugSession.Difficulty);
-                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
+                    SceneManager.LoadScene(holdDebugSession.SceneName);
                     return;
                 }
             }

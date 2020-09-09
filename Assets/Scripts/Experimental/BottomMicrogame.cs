@@ -12,9 +12,11 @@ public class BottomMicrogame : MonoBehaviour
     MicrogameJob topJob;
     MicrogameJob bottomJob;
 
+    Microgame[] microgameData;
+
     public class MicrogameJob
     {
-        public MicrogameCollection.CollectionMicrogame microgame;
+        public Microgame microgame;
         public AsyncOperation asyncOperation;
         public MicrogameSession session;
         public string sceneName;
@@ -47,6 +49,7 @@ public class BottomMicrogame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        microgameData = MicrogameCollection.LoadAllMicrogames();
 
         if (MicrogameTimer.instance == null)
             SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
@@ -84,16 +87,16 @@ public class BottomMicrogame : MonoBehaviour
 
         var newJob = new MicrogameJob();
         var controlScheme = isTop ? Microgame.ControlScheme.Mouse : Microgame.ControlScheme.Key;
-        var microgames = MicrogameCollection.instance.microgames
-            .Where(a => a.traits.controlScheme == controlScheme
-                && a.traits.duration == Microgame.Duration.Short8Beats
-                && a.traits.milestone >= Microgame.Milestone.StageReady
-                && !a.traits.isBossMicrogame())
+        var microgames = microgameData
+            .Where(a => a.controlScheme == controlScheme
+                && a.duration == Microgame.Duration.Short8Beats
+                && a.milestone >= Microgame.Milestone.StageReady
+                && !a.isBossMicrogame())
             .ToList();
 
         newJob.microgame = microgames[Random.Range(0, microgames.Count - 1)];
-        newJob.session = newJob.microgame.traits.onAccessInStage(newJob.microgame.microgameId, difficulty, true);
-        newJob.sceneName = newJob.microgame.traits.GetSceneName(newJob.session);
+        newJob.session = newJob.microgame.CreateDebugSession(difficulty);
+        newJob.sceneName = newJob.session.SceneName;
 
 
         newJob.asyncOperation = SceneManager.LoadSceneAsync(newJob.sceneName, LoadSceneMode.Additive);
@@ -158,7 +161,7 @@ public class BottomMicrogame : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Cursor.visible = !topJob.microgame.traits.GetHideCursor(topJob.session);
+        Cursor.visible = !topJob.session.HideCursor;
         if (bottomJob != null && bottomJob.scene.IsValid())
         {
             //print("listen to meeeeee");

@@ -34,7 +34,7 @@ public class TextHelper
 	/// <returns></returns>
 	public static string getLocalizedMicrogameText(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
 	{
-        var microgameId = MicrogameController.instance.session.MicrogameId;
+        var microgameId = MicrogameController.instance.microgameId;
 		return getLocalizedText("microgame." + microgameId + "." + key, defaultValue, parameters);
 	}
 

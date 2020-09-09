@@ -136,7 +136,7 @@ public class StageController : MonoBehaviour
 		{
 			MicrogameJob newJob = new MicrogameJob();
             Stage.Microgame stageMicrogame = stage.getMicrogame(index);
-            var microgame = MicrogameCollection.instance.getMicrogame(stageMicrogame.microgameId);
+            var microgame = MicrogameCollection.LoadMicrogame(stageMicrogame.microgameId);
 			var difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
 
             newJob.session = microgame.CreateSession(this, difficulty);

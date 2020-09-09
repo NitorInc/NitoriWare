@@ -53,8 +53,6 @@ public class Microgame : ScriptableObject
     [SerializeField]
     private bool _defaultVictory;
     public bool defaultVictory => _defaultVictory;
-
-    public string GetSceneName(MicrogameSession session) => session.microgame.microgameId + session.Difficulty.ToString();
     
 
     [SerializeField]
