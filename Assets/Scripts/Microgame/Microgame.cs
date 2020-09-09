@@ -13,7 +13,7 @@ using UnityEditor;
 public class Microgame : ScriptableObject
 {
 
-    public string MicrogameId => name;
+    public string microgameId => name;
 
     [SerializeField]
     private ControlScheme _controlScheme;
@@ -54,10 +54,8 @@ public class Microgame : ScriptableObject
     private bool _defaultVictory;
     public bool defaultVictory => _defaultVictory;
 
-    public string GetSceneName(MicrogameSession session) => session.MicrogameId + session.Difficulty.ToString();
-
-    // For debug mode purposes
-    public virtual bool SceneDeterminesDifficulty => true;
+    public string GetSceneName(MicrogameSession session) => session.microgame.microgameId + session.Difficulty.ToString();
+    
 
     [SerializeField]
     private float _victoryVoiceDelay;
@@ -91,9 +89,14 @@ public class Microgame : ScriptableObject
 
     public bool isBossMicrogame() => GetType() == typeof(MicrogameBossTraits) || GetType().IsSubclassOf(typeof(MicrogameBossTraits));
 
-    public MicrogameSession CreateSession(int difficulty)
-    {
+    public virtual MicrogameSession CreateSession(StageController player, int difficulty)
+        => new MicrogameSession(this, player, difficulty, false);
 
-    }
+    public virtual MicrogameSession CreateDebugSession(int difficulty)
+        => new MicrogameSession(this, null, difficulty, true);
+
+    // For debug mode purposes
+    public virtual bool SceneDeterminesDifficulty => true;
+    public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
 }

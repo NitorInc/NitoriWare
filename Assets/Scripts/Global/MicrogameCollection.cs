@@ -20,30 +20,30 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     public List<CollectionMicrogame> microgames => _microgames;
     public List<CollectionMicrogame> BossMicrogames => microgames.Where(a => a.isBoss).ToList();
 
-    [System.Serializable]
-    public class CollectionMicrogame
-    {
-        [SerializeField]
-        private string _microgameId;
-        public string microgameId => _microgameId;
+    //[System.Serializable]
+    //public class CollectionMicrogame
+    //{
+    //    [SerializeField]
+    //    private string _microgameId;
+    //    public string microgameId => _microgameId;
 
-        [SerializeField]
-        private Microgame _traits;
-        public Microgame traits => _traits;
+    //    [SerializeField]
+    //    private Microgame _traits;
+    //    public Microgame traits => _traits;
 
-        [SerializeField]
-        private Sprite _menuIcon;
-        public Sprite menuIcon => _menuIcon;
+    //    [SerializeField]
+    //    private Sprite _menuIcon;
+    //    public Sprite menuIcon => _menuIcon;
 
-        public CollectionMicrogame(string microgameId, Microgame traits, Sprite menuIcon)
-        {
-            _microgameId = microgameId;
-            _traits = traits;
-            _menuIcon = menuIcon;
-        }
+    //    public CollectionMicrogame(string microgameId, Microgame traits, Sprite menuIcon)
+    //    {
+    //        _microgameId = microgameId;
+    //        _traits = traits;
+    //        _menuIcon = menuIcon;
+    //    }
 
-        public bool isBoss => traits.isBossMicrogame();
-    }
+    //    public bool isBoss => traits.isBossMicrogame();
+    //}
 
 	public void updateMicrogames()
 	{
@@ -63,7 +63,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         Debug.Log("Microgame Collection updated");
 	}
 
-    public CollectionMicrogame createMicrogameForScene(string sceneName)
+    public Microgame createMicrogameForScene(string sceneName)
     {
         var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)
             .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
@@ -175,7 +175,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         return null;
     }
 
-    public CollectionMicrogame getMicrogame(string microgameId)
+    public Microgame getMicrogame(string microgameId)
     {
         var microgame = microgames.FirstOrDefault(a => a.microgameId.Equals(microgameId));
         if (microgame == null)

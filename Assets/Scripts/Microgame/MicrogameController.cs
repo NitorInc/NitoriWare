@@ -12,9 +12,9 @@ public class MicrogameController : MonoBehaviour
 	public static MicrogameController instance;
 	private static int preserveDebugSpeed = -1;
     private static int langaugeCycleIndex = 0;
-    private static MicrogameSession forceDebugSession;
-
-	[SerializeField]
+    private static MicrogameSession holdDebugSession;
+    
+    [SerializeField]
 	private DebugSettings debugSettings;
 	[System.Serializable]
 	struct DebugSettings
@@ -56,15 +56,14 @@ public class MicrogameController : MonoBehaviour
 
     [SerializeField]
     private AudioSource sfxSource;
-
-	private bool victory, victoryDetermined;
+    
     private bool debugMode;
     private CommandDisplay commandDisplay;
 
-    private MicrogameCollection.CollectionMicrogame microgameData;
-    private Microgame traits => microgameData.traits;
-    public MicrogameSession Session { get; private set; }
-    public int Difficulty => Session.Difficulty;
+    private Microgame microgame => session.microgame;
+    public MicrogameSession session { get; private set; }
+
+    public int difficulty => session.Difficulty;
 
     void Awake()
 	{
@@ -74,32 +73,27 @@ public class MicrogameController : MonoBehaviour
         if (sceneName.Contains("Template"))
         {
             Debug.Break();
-            Debug.Log("You can't play the template scene, copy the folder and rename the scene so it contains your microgame's ID");
+            Debug.Log("You can't play the template scene.");
         }
 
         // Get collection microgame if available
-        microgameData = MicrogameHelper.getMicrogames(includeBosses:true)
+        var microgame = MicrogameHelper.getMicrogames(includeBosses:true)
             .FirstOrDefault(a =>  sceneName.Contains(a.microgameId));
 
         // Otherwise create collection microgame
-        if (microgameData == null)
+        if (microgame == null)
         {
 #if UNITY_EDITOR
-            microgameData = MicrogameCollection.instance.createMicrogameForScene(gameObject.scene.name);
+            microgame = MicrogameCollection.instance.createMicrogameForScene(gameObject.scene.name);
 #else
             Debug.LogError("Failed to find microgame for " + gameObject.scene.name);
 #endif
         }
 
-        if (microgameData == null)
+        if (microgame == null)
         {
             Debug.Break();
-            Debug.Log("Could not ascertain microgame ID. Make sure the scene name contains the microgame's ID and the folder is named correctly.");
-        }
-        else if (microgameData.traits == null)
-        {
-            Debug.Break();
-            Debug.Log("Could not find microgame traits asset. Make sure it's in the root folder of your microgame and named correctly.");
+            Debug.Log("Could not find microgame metadata. Make sure the scene name contains the microgame's ID and the folder is named correctly, and that your Microgame's metadata is where it should be.");
         }
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
@@ -108,22 +102,22 @@ public class MicrogameController : MonoBehaviour
 		{
             //Debug Mode Awake (scene open by itself)
 
-            if (forceDebugSession != null)
+            if (holdDebugSession != null)
             {
-                Session = forceDebugSession;
+                session = holdDebugSession;
             }
             else
             {
                 int difficulty;
-                if (traits.SceneDeterminesDifficulty)
-                    difficulty = traits.GetDifficultyFromScene(gameObject.scene.name);
+                if (microgame.SceneDeterminesDifficulty)
+                    difficulty = microgame.GetDifficultyFromScene(gameObject.scene.name);
                 else
                     difficulty = debugSettings.SimulateDifficulty > 0 ? (int)debugSettings.SimulateDifficulty : 1;
-                Session = traits.onAccessInStage(microgameData.microgameId, difficulty, debugMode: true);
+                session = microgame.CreateDebugSession(difficulty);
 
-                if (!traits.GetSceneName(Session).Equals(gameObject.scene.name))
+                if (!microgame.GetSceneName(session).Equals(gameObject.scene.name))
                 {
-                    SceneManager.LoadScene(traits.GetSceneName(Session));
+                    SceneManager.LoadScene(microgame.GetSceneName(session));
                     return;
                 }
             }
@@ -142,44 +136,35 @@ public class MicrogameController : MonoBehaviour
 
             StageController.beatLength = 60f / 130f;
             Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
-
-            victory = traits.defaultVictory;
-            victoryDetermined = false;
         }
 		else if (!isBeingDiscarded())
 		{
 			//Normal Awake
 
-			StageController.instance.stageCamera.tag = "Camera";
-            //Camera.main.GetComponent<AudioListener>().enabled = false;
 
-            Session = StageController.instance.CurrentMicrogameSession;
+            session = MicrogameSession.ActiveSessions
+                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.State == MicrogameSession.SessionState.Playing);
+            session.State = MicrogameSession.SessionState.Playing;
 
-			StageController.instance.microgameMusicSource.clip = traits.MusicClipDefault(Session);
+            session.microgamePlayer.MicrogameWasLoaded(session);
 
-			if (traits.GetHideCursor(Session))
-				Cursor.visible = false;
-
-			commandDisplay = StageController.instance.transform.root.Find("UI").Find("Command").GetComponent<CommandDisplay>();
-
-			StageController.instance.resetVictory();
-			StageController.instance.onMicrogameAwake();
+            Cursor.visible = !session.HideCursor;
 		}
 
 	}
 
 	void Start()
 	{
-		if (isBeingDiscarded())
-			shutDownMicrogame();
-		else
+        if (isBeingDiscarded())
+            return;
+        else
         {
             if (debugMode)
             {
                 //Debug Start
-                MicrogameDebugObjects debugObjects  = MicrogameDebugObjects.instance;
+                MicrogameDebugObjects debugObjects = MicrogameDebugObjects.instance;
                 commandDisplay = debugObjects.commandDisplay;
-                
+
                 if (debugSettings.localizeText)
                 {
                     LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
@@ -199,14 +184,14 @@ public class MicrogameController : MonoBehaviour
                     }
                     manager.gameObject.SetActive(true);
                 }
-                
-                MicrogameTimer.instance.beatsLeft = (float)traits.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
+
+                MicrogameTimer.instance.beatsLeft = (float)microgame.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
                 if (!debugSettings.showTimer)
                     MicrogameTimer.instance.disableDisplay = true;
                 if (debugSettings.timerTick)
                     MicrogameTimer.instance.invokeTick();
 
-                var musicClip = traits.MusicClipDefault(Session);
+                var musicClip = session.MusicClip;
                 if (debugSettings.playMusic && musicClip != null)
                 {
                     AudioSource source = debugObjects.musicSource;
@@ -217,13 +202,12 @@ public class MicrogameController : MonoBehaviour
                     else
                         AudioHelper.playScheduled(source, StageController.beatLength);
                 }
-                
-                if (debugSettings.displayCommand)
-                debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.CommandAnimatorOverrideDefault(Session));
 
-                Cursor.visible = traits.controlScheme == Microgame.ControlScheme.Mouse && !traits.GetHideCursor(Session);
-                Cursor.lockState = getTraits().GetCursorLockState(Session);
-                //Cursor.lockState = CursorLockMode.Confined;
+                if (debugSettings.displayCommand)
+                    debugObjects.commandDisplay.play(session.GetLocalizedCommand(), session.CommandAnimatorOverride);
+
+                Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
+                Cursor.lockState = session.cursorLockMode;
 
                 debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
 
@@ -242,12 +226,12 @@ public class MicrogameController : MonoBehaviour
         onUnPause.Invoke();
     }
 
-	/// <summary>
-	/// Disables all root objects in microgame
-	/// </summary>
-	public void shutDownMicrogame()
-	{
-		GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
+    /// <summary>
+    /// Disables all root objects in microgame
+    /// </summary>
+    public void shutDownMicrogame()
+    {
+        GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
         foreach (var rootObject in rootObjects)
         {
             rootObject.SetActive(false);
@@ -259,16 +243,13 @@ public class MicrogameController : MonoBehaviour
                 behaviour.CancelInvoke();
             }
         }
-	}
+    }
 
-	bool isBeingDiscarded()
+    bool isBeingDiscarded()
 	{
         if (debugMode)
             return false;
-		return StageController.instance == null
-            || StageController.instance.animationPart == StageController.AnimationPart.GameOver
-            || StageController.instance.animationPart == StageController.AnimationPart.WonStage
-            || PauseManager.exitedWhilePaused;
+        return session.State == MicrogameSession.SessionState.Unloading;
 	}
 
 	/// <summary>
@@ -277,7 +258,7 @@ public class MicrogameController : MonoBehaviour
 	/// <returns></returns>
 	public Microgame getTraits()
 	{
-		return traits;
+		return microgame;
 	}
 
 	/// <summary>
@@ -316,54 +297,39 @@ public class MicrogameController : MonoBehaviour
     /// <param name="final"></param>
     public void setVictory(bool victory, bool final)
 	{
-		if (debugMode)
-		{
-			//Debug victory
-			if (victoryDetermined)
-			{
-				return;
-			}
-			this.victory = victory;
-			victoryDetermined = final;
-			if (final)
-				MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory
-                    ? traits.GetVictoryVoiceDelay(Session)
-                    : traits.GetFailureVoiceDelay(Session));
-		}
-		else
-		{
-			//StageController handles regular victory
-			StageController.instance.setMicrogameVictory(victory, final);
-		}
-	}
-	
-	/// <summary>
-	/// Returns whether the game would be won if it ends now
-	/// </summary>
-	/// <returns></returns>
-	public bool getVictory()
-	{
-		if (debugMode)
-		{
-			return victory;
-		}
-		else
-			return StageController.instance.getMicrogameVictory();
-	}
+        if (debugMode)
+        {
+            if (session.VictoryWasDetermined)
+                return;
+            
+            session.Victory = victory;
+            session.VictoryWasDetermined = final;
+            if (final)
+            {
+                if (debugMode)
+                {
+                    MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory
+                        ? session.VictoryVoiceDelay
+                        : session.FailureVoiceDelay);
+                }
 
-	/// <summary>
-	/// Returns true if the game's victory outcome will not be changed for the rest of its duration
-	/// </summary>
-	/// <returns></returns>
-	public bool getVictoryDetermined()
-	{
-		if (debugMode)
-		{
-			return victoryDetermined;
-		}
-		else
-			return StageController.instance.getVictoryDetermined();
-	}
+            }
+        }
+        else
+            session.microgamePlayer.setMicrogameVictory(session, victory, final);
+    }
+
+    /// <summary>
+    /// Returns whether the game would be won if it ends now
+    /// </summary>
+    /// <returns></returns>
+    public bool getVictory() => session.Victory;
+
+    /// <summary>
+    /// Returns true if the game's victory outcome will not be changed for the rest of its duration
+    /// </summary>
+    /// <returns></returns>
+    public bool getVictoryDetermined() => session.VictoryWasDetermined;
 
 	/// <summary>
 	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
@@ -371,12 +337,17 @@ public class MicrogameController : MonoBehaviour
 	/// <param name="command"></param>
 	public void displayCommand(string command, AnimatorOverrideController commandAnimatorOverride = null)
 	{
-		if (!commandDisplay.gameObject.activeInHierarchy)
-			commandDisplay.gameObject.SetActive(true);
+        if (debugMode)
+        {
+            if (!commandDisplay.gameObject.activeInHierarchy)
+                commandDisplay.gameObject.SetActive(true);
 
 
-        commandDisplay.play(command, commandAnimatorOverride);
-	}
+            commandDisplay.play(command, commandAnimatorOverride);
+        }
+        else
+            session.microgamePlayer.DisplayExtraCommand(session, command, commandAnimatorOverride);
+    }
 
     /// <summary>
     /// Gets the currently active command display
@@ -430,30 +401,30 @@ public class MicrogameController : MonoBehaviour
             {
                 if (Input.GetKeyDown(debugKeys.Restart))
                 {
-                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty, debugMode: true);
-                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    holdDebugSession = microgame.CreateDebugSession(difficulty);
+                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
                     return;
                 }
                 else if (Input.GetKeyDown(debugKeys.Faster))
                 {
-                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Session.Difficulty, debugMode: true);
+                    holdDebugSession = microgame.CreateDebugSession(difficulty);
                     preserveDebugSpeed = Mathf.Min(debugSettings.speed + 1, StageController.MAX_SPEED);
                     Debug.Log("Debugging at speed " + preserveDebugSpeed);
-                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
                     return;
                 }
                 else if (Input.GetKeyDown(debugKeys.NextDifficulty))
                 {
-                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Min(Session.Difficulty + 1, 3), debugMode: true);
-                    Debug.Log("Debugging at difficulty " + forceDebugSession.Difficulty);
-                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    holdDebugSession = microgame.CreateDebugSession(Mathf.Min(session.Difficulty + 1, 3));
+                    Debug.Log("Debugging at difficulty " + holdDebugSession.Difficulty);
+                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
                     return;
                 }
                 else if (Input.GetKeyDown(debugKeys.PreviousDifficulty))
                 {
-                    forceDebugSession = traits.onAccessInStage(Session.MicrogameId, Mathf.Max(Session.Difficulty - 1, 1), debugMode: true);
-                    Debug.Log("Debugging at difficulty " + forceDebugSession.Difficulty);
-                    SceneManager.LoadScene(traits.GetSceneName(forceDebugSession));
+                    holdDebugSession = microgame.CreateDebugSession(Mathf.Max(session.Difficulty - 1, 1));
+                    Debug.Log("Debugging at difficulty " + holdDebugSession.Difficulty);
+                    SceneManager.LoadScene(microgame.GetSceneName(holdDebugSession));
                     return;
                 }
             }
