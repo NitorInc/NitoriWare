@@ -92,8 +92,8 @@ public class MicrogameController : MonoBehaviour
 
         if (microgame == null)
         {
+            Debug.LogError("Could not find microgame metadata. Make sure the scene name contains the microgame's ID and the folder is named correctly, and that your Microgame's metadata is where it should be.");
             Debug.Break();
-            Debug.Log("Could not find microgame metadata. Make sure the scene name contains the microgame's ID and the folder is named correctly, and that your Microgame's metadata is where it should be.");
         }
 
         debugMode = GameController.instance == null || GameController.instance.getStartScene() == "Microgame Debug";
