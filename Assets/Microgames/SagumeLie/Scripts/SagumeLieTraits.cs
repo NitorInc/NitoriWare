@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Microgame Assets/SagumeLie/Traits")]
-public class SagumeLieTraits : MicrogameTraits
+public class SagumeLieTraits : Microgame
 {
     [SerializeField]
     private SagumeQuestion[] questionPool1;

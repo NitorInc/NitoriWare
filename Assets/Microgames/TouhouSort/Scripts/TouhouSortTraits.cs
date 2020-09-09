@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 [CreateAssetMenu(menuName = "Microgame Assets/TouhouSort/Traits")]
-public class TouhouSortTraits : MicrogameTraits
+public class TouhouSortTraits : Microgame
 {
     [SerializeField]
     private bool debugRandomScene = true;

@@ -38,7 +38,7 @@ public class MicrogameCollectionUpdaterWindow : EditorWindow
     {
         microgames = new List<MicrogameList>();
         var collectionMicrogames = MicrogameCollection.instance.microgames;
-        var milestoneNames = Enum.GetNames(typeof(MicrogameTraits.Milestone));
+        var milestoneNames = Enum.GetNames(typeof(Microgame.Milestone));
         for (int i = milestoneNames.Length - 1; i >= 0; i--)
         {
             var milestoneMicrogames = collectionMicrogames.Where(a => (int)a.traits.milestone == i);
@@ -96,7 +96,7 @@ public class MicrogameCollectionUpdaterWindow : EditorWindow
         GUILayout.Label("");
         GUILayout.Label("");
         GUILayout.Label("Indexed Microgames:");
-        var names = Enum.GetNames(typeof(MicrogameTraits.Milestone));
+        var names = Enum.GetNames(typeof(Microgame.Milestone));
         foreach (var microgameList in microgames)
         {
             microgameList.show = EditorGUILayout.Foldout(microgameList.show, microgameList.milestoneName + $" ({microgameList.labelList.Count().ToString()})");

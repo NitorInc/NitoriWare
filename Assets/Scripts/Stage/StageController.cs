@@ -42,7 +42,7 @@ public class StageController : MonoBehaviour
 	public static float beatLength;
 
     public MicrogameJob CurrentMicrogameJob => microgameQueue.Peek();
-    public MicrogameTraits CurrentMicrogameTraits => CurrentMicrogameJob.microgame.traits;
+    public Microgame CurrentMicrogameTraits => CurrentMicrogameJob.microgame.traits;
     public MicrogameSession CurrentMicrogameSession => CurrentMicrogameJob.session;
 
 	private float animationStartTime, outroPlayTime;
@@ -567,7 +567,7 @@ public class StageController : MonoBehaviour
 
 	void updateCursorVisibility()
 	{
-		Cursor.visible = CurrentMicrogameTraits.controlScheme == MicrogameTraits.ControlScheme.Mouse;
+		Cursor.visible = CurrentMicrogameTraits.controlScheme == Microgame.ControlScheme.Mouse;
 	}
 
 	/// <summary>

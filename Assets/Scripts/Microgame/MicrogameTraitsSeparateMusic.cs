@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Microgame Traits/Traits (Separate Music)")]
-public class MicrogameTraitsSeparateMusic : MicrogameTraits
+public class MicrogameTraitsSeparateMusic : Microgame
 {
     [SerializeField]
     private AudioClip difficulty1Clip;

@@ -10,7 +10,7 @@ using UnityEditor;
 #endif
 
 [CreateAssetMenu(menuName = "Microgame Traits/Traits")]
-public class MicrogameTraits : ScriptableObject
+public class Microgame : ScriptableObject
 {
     [SerializeField]
 	private ControlScheme _controlScheme;
@@ -103,10 +103,10 @@ public class MicrogameTraits : ScriptableObject
         return GetType() == typeof(MicrogameBossTraits);
     }
 
-    public static MicrogameTraits findMicrogameTraits(string microgameId)
+    public static Microgame findMicrogameTraits(string microgameId)
     {
 #if UNITY_EDITOR
-        MicrogameTraits traits;
+        Microgame traits;
 
         //Search normal games
         traits = findMicrogameTraitsInFolder($"Assets{MicrogameCollection.MicrogameAssetPath}{microgameId}");
@@ -121,11 +121,11 @@ public class MicrogameTraits : ScriptableObject
         Debug.LogError("Can't find Traits prefab for " + microgameId);
         return null;
     }
-    static MicrogameTraits findMicrogameTraitsInFolder(string microgameFolder)
+    static Microgame findMicrogameTraitsInFolder(string microgameFolder)
     {
         string fileName = "Traits";
         string extension = ".asset";
-        return AssetDatabase.LoadAssetAtPath<MicrogameTraits>(Path.Combine(microgameFolder, fileName + extension));
+        return AssetDatabase.LoadAssetAtPath<Microgame>(Path.Combine(microgameFolder, fileName + extension));
         }
 #else
         Debug.LogError("Microgame updates should NOT be called outside of the editor. You shouldn't even see this message.");

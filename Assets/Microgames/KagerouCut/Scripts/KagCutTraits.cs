@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Microgame Assets/KagerouCut/Traits")]
-public class KagCutTraits : MicrogameTraits {
+public class KagCutTraits : Microgame {
     //[SerializeField]
     //public KagerouCutController.Dog[] dogs;
     //[HideInInspector]

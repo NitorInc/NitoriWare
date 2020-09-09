@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 [CreateAssetMenu(menuName = "Microgame Assets/DatingSim/Traits")]
-public class DatingSimTraits : MicrogameTraits
+public class DatingSimTraits : Microgame
 {
     [SerializeField]
     int overrideCharacter = -1;

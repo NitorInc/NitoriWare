@@ -9,7 +9,7 @@ public class CompilationStage : Stage
 	[SerializeField]
 	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
-	private MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.StageReady;
+	private global::Microgame.Milestone restriction = global::Microgame.Milestone.StageReady;
 	[SerializeField]
 	protected Interruption nextRound;
     [SerializeField]

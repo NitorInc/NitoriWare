@@ -57,7 +57,7 @@ public class MicrogameCreator : ScriptableSingleton<MicrogameCreator>
 
         AssetDatabase.Refresh();
         EditorSceneManager.OpenScene(newScenePath);
-        Selection.activeObject = AssetDatabase.LoadAssetAtPath<MicrogameTraits>(traitsPath);
+        Selection.activeObject = AssetDatabase.LoadAssetAtPath<Microgame>(traitsPath);
 
         Debug.Log($"Microgame {microgameId} created");
 

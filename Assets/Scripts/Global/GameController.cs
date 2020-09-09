@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
         onSceneLoad.Invoke();
     }
 
-    public Sprite getControlSprite(MicrogameTraits.ControlScheme controlScheme)
+    public Sprite getControlSprite(Microgame.ControlScheme controlScheme)
     {
         return controlSprites[(int)controlScheme];
     }

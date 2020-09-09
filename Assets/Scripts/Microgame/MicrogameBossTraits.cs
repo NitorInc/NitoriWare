@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MicrogameBossTraits : MicrogameTraits
+public class MicrogameBossTraits : Microgame
 {
 
 #pragma warning disable 0649

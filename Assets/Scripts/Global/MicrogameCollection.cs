@@ -28,14 +28,14 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         public string microgameId => _microgameId;
 
         [SerializeField]
-        private MicrogameTraits _traits;
-        public MicrogameTraits traits => _traits;
+        private Microgame _traits;
+        public Microgame traits => _traits;
 
         [SerializeField]
         private Sprite _menuIcon;
         public Sprite menuIcon => _menuIcon;
 
-        public CollectionMicrogame(string microgameId, MicrogameTraits traits, Sprite menuIcon)
+        public CollectionMicrogame(string microgameId, Microgame traits, Sprite menuIcon)
         {
             _microgameId = microgameId;
             _traits = traits;
@@ -56,7 +56,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
 			string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_"))
             {
-                _microgames.Add(new CollectionMicrogame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId)));
+                _microgames.Add(new CollectionMicrogame(microgameId, Microgame.findMicrogameTraits(microgameId), getSprite(microgameId)));
             }
 		}
 
@@ -71,7 +71,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         {
             string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_") && sceneName.Contains(microgameId))
-                return new CollectionMicrogame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId));
+                return new CollectionMicrogame(microgameId, Microgame.findMicrogameTraits(microgameId), getSprite(microgameId));
         }
 
         return null;
@@ -95,7 +95,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         buildScenes = buildScenes.Where(a => !a.path.Replace('\\', '/').Contains(MicrogameAssetPath.Replace('\\', '/'))).ToList();
 
         //Re-add stage ready games
-        foreach (var microgame in microgames.Where(a => a.traits.milestone >= MicrogameTraits.Milestone.StageReady))
+        foreach (var microgame in microgames.Where(a => a.traits.milestone >= Microgame.Milestone.StageReady))
         {
             // Get all stages with Microgame ID in name that are part of microgames path
             var scenePaths = AssetDatabase.FindAssets($"{microgame.microgameId} t:Scene")

@@ -16,7 +16,7 @@ public class ControlDisplay : MonoBehaviour
     private TextMeshPro controlTmpComponent;
 #pragma warning restore 0649
 
-    public void setControlScheme(MicrogameTraits.ControlScheme controlScheme)
+    public void setControlScheme(Microgame.ControlScheme controlScheme)
     {
         //TODO re-enable command warnings?
         controlRenderer.sprite = StageController.instance.controlSchemeSprites[(int)controlScheme];
@@ -29,13 +29,13 @@ public class ControlDisplay : MonoBehaviour
             controlTmpComponent.text = text;
     }
 
-    string getDefaultControlString(MicrogameTraits.ControlScheme controlScheme)
+    string getDefaultControlString(Microgame.ControlScheme controlScheme)
     {
         switch (controlScheme)
         {
-            case (MicrogameTraits.ControlScheme.Key):
+            case (Microgame.ControlScheme.Key):
                 return "USE DA KEYZ";
-            case (MicrogameTraits.ControlScheme.Mouse):
+            case (Microgame.ControlScheme.Mouse):
                 return "USE DA MOUSE";
             default:
                 return "USE SOMETHING";

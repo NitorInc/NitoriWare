@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Microgame Traits/Traits (Separate Commands)")]
-public class MicrogameTraitsSeparateCommands : MicrogameTraits
+public class MicrogameTraitsSeparateCommands : Microgame
 {
     public string commandKeySuffix;
 

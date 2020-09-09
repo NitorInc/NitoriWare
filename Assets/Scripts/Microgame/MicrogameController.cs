@@ -62,7 +62,7 @@ public class MicrogameController : MonoBehaviour
     private CommandDisplay commandDisplay;
 
     private MicrogameCollection.CollectionMicrogame microgameData;
-    private MicrogameTraits traits => microgameData.traits;
+    private Microgame traits => microgameData.traits;
     public MicrogameSession Session { get; private set; }
     public int Difficulty => Session.Difficulty;
 
@@ -221,7 +221,7 @@ public class MicrogameController : MonoBehaviour
                 if (debugSettings.displayCommand)
                 debugObjects.commandDisplay.play(traits.GetLocalizedCommand(Session), traits.GetCommandAnimatorOverride(Session));
 
-                Cursor.visible = traits.controlScheme == MicrogameTraits.ControlScheme.Mouse && !traits.GetHideCursor(Session);
+                Cursor.visible = traits.controlScheme == Microgame.ControlScheme.Mouse && !traits.GetHideCursor(Session);
                 Cursor.lockState = getTraits().GetCursorLockState(Session);
                 //Cursor.lockState = CursorLockMode.Confined;
 
@@ -275,7 +275,7 @@ public class MicrogameController : MonoBehaviour
 	/// Returns MicrogameTraits for the microgame (from the prefab)
 	/// </summary>
 	/// <returns></returns>
-	public MicrogameTraits getTraits()
+	public Microgame getTraits()
 	{
 		return traits;
 	}

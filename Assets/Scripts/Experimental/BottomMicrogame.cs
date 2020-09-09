@@ -83,11 +83,11 @@ public class BottomMicrogame : MonoBehaviour
     {
 
         var newJob = new MicrogameJob();
-        var controlScheme = isTop ? MicrogameTraits.ControlScheme.Mouse : MicrogameTraits.ControlScheme.Key;
+        var controlScheme = isTop ? Microgame.ControlScheme.Mouse : Microgame.ControlScheme.Key;
         var microgames = MicrogameCollection.instance.microgames
             .Where(a => a.traits.controlScheme == controlScheme
-                && a.traits.duration == MicrogameTraits.Duration.Short8Beats
-                && a.traits.milestone >= MicrogameTraits.Milestone.StageReady
+                && a.traits.duration == Microgame.Duration.Short8Beats
+                && a.traits.milestone >= Microgame.Milestone.StageReady
                 && !a.traits.isBossMicrogame())
             .ToList();
 

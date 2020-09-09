@@ -51,8 +51,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     void Start()
     {
         // Create microgames
-        standardMicrogamePool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady);
-        microgameBossPool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady, includeBosses: true)
+        standardMicrogamePool = MicrogameHelper.getMicrogames(restriction: Microgame.Milestone.StageReady);
+        microgameBossPool = MicrogameHelper.getMicrogames(restriction: Microgame.Milestone.StageReady, includeBosses: true)
             .Where(a => a.traits.isBossMicrogame()).ToList();
         int maxYIndex = 0;
         spawnedMicrogames = new List<MenuPracticeMicrogame>();
