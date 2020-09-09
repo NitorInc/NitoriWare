@@ -16,12 +16,12 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
     public static string FullMicrogameAssetPath => Path.Combine(Application.dataPath, MicrogameAssetPath.Replace("/", ""));
 
     [SerializeField]
-    private List<Microgame> _microgames;
-    public List<Microgame> microgames => _microgames;
-    public List<Microgame> BossMicrogames => microgames.Where(a => a.isBoss).ToList();
+    private List<CollectionMicrogame> _microgames;
+    public List<CollectionMicrogame> microgames => _microgames;
+    public List<CollectionMicrogame> BossMicrogames => microgames.Where(a => a.isBoss).ToList();
 
     [System.Serializable]
-    public class Microgame
+    public class CollectionMicrogame
     {
         [SerializeField]
         private string _microgameId;
@@ -35,7 +35,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         private Sprite _menuIcon;
         public Sprite menuIcon => _menuIcon;
 
-        public Microgame(string microgameId, MicrogameTraits traits, Sprite menuIcon)
+        public CollectionMicrogame(string microgameId, MicrogameTraits traits, Sprite menuIcon)
         {
             _microgameId = microgameId;
             _traits = traits;
@@ -47,7 +47,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
 
 	public void updateMicrogames()
 	{
-        _microgames = new List<Microgame>();
+        _microgames = new List<CollectionMicrogame>();
 
 		var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)
             .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
@@ -56,14 +56,14 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
 			string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_"))
             {
-                _microgames.Add(new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId)));
+                _microgames.Add(new CollectionMicrogame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId)));
             }
 		}
 
         Debug.Log("Microgame Collection updated");
 	}
 
-    public Microgame createMicrogameForScene(string sceneName)
+    public CollectionMicrogame createMicrogameForScene(string sceneName)
     {
         var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)
             .Concat(Directory.GetDirectories(Application.dataPath + MicrogameAssetPath + "_Bosses/"));
@@ -71,7 +71,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         {
             string microgameId = Path.GetFileName(directory);
             if (!microgameId.StartsWith("_") && sceneName.Contains(microgameId))
-                return new Microgame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId));
+                return new CollectionMicrogame(microgameId, MicrogameTraits.findMicrogameTraits(microgameId), getSprite(microgameId));
         }
 
         return null;
@@ -175,7 +175,7 @@ public class MicrogameCollection : ScriptableObjectSingleton<MicrogameCollection
         return null;
     }
 
-    public Microgame getMicrogame(string microgameId)
+    public CollectionMicrogame getMicrogame(string microgameId)
     {
         var microgame = microgames.FirstOrDefault(a => a.microgameId.Equals(microgameId));
         if (microgame == null)

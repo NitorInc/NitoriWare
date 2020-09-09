@@ -14,7 +14,7 @@ public class BottomMicrogame : MonoBehaviour
 
     public class MicrogameJob
     {
-        public MicrogameCollection.Microgame microgame;
+        public MicrogameCollection.CollectionMicrogame microgame;
         public AsyncOperation asyncOperation;
         public MicrogameSession session;
         public string sceneName;

@@ -45,7 +45,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private int initialSiblingIndex;
     private float centerArrivalTime;
     
-    private MicrogameCollection.Microgame microgame;
+    private MicrogameCollection.CollectionMicrogame microgame;
 
 	void Start()
 	{

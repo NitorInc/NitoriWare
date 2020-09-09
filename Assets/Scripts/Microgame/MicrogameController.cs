@@ -61,7 +61,7 @@ public class MicrogameController : MonoBehaviour
     private bool debugMode;
     private CommandDisplay commandDisplay;
 
-    private MicrogameCollection.Microgame microgameData;
+    private MicrogameCollection.CollectionMicrogame microgameData;
     private MicrogameTraits traits => microgameData.traits;
     public MicrogameSession Session { get; private set; }
     public int Difficulty => Session.Difficulty;

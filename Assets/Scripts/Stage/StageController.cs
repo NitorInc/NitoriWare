@@ -51,7 +51,7 @@ public class StageController : MonoBehaviour
 	private Queue<MicrogameJob> microgameQueue;
 	public class MicrogameJob
 	{
-		public MicrogameCollection.Microgame microgame;
+		public MicrogameCollection.CollectionMicrogame microgame;
         public MicrogameSession session;
 		public int difficulty;
 		public AsyncOperation asyncOperation;

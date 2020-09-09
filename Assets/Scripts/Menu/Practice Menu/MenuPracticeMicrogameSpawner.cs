@@ -45,8 +45,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
 
     private List<MenuPracticeMicrogame> spawnedMicrogames;
 
-    public static List<MicrogameCollection.Microgame> standardMicrogamePool;
-    public static List<MicrogameCollection.Microgame> microgameBossPool;
+    public static List<MicrogameCollection.CollectionMicrogame> standardMicrogamePool;
+    public static List<MicrogameCollection.CollectionMicrogame> microgameBossPool;
 
     void Start()
     {
