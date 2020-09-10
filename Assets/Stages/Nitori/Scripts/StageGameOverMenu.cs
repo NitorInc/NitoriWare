@@ -6,7 +6,7 @@ public class StageGameOverMenu : MonoBehaviour
 {
 #pragma warning disable 0649
     [SerializeField]
-    private StageController stageController;
+    private string quitScene = "Title";
     [SerializeField]
     private GameObject menuItems;
     [SerializeField]
@@ -133,7 +133,7 @@ public class StageGameOverMenu : MonoBehaviour
             return;
 
         Invoke("disableMenuItems", .15f);
-        stageController.retry();
+        GameObject.Find("Stage Controller").GetComponent<StageController>().retry();
         state = State.FadeOut;
         fadingMusic.startFade();
     }
@@ -143,7 +143,7 @@ public class StageGameOverMenu : MonoBehaviour
         if (state != State.Menu)
             return;
 
-        GameController.instance.sceneShifter.startShift(stageController.getStage().getExitScene(), quitShiftTime);
+        GameController.instance.sceneShifter.startShift(quitScene, quitShiftTime);
         fadingMusic.startFade();
         hasQuit = true;
     }

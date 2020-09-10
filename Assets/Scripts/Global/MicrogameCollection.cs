@@ -25,7 +25,7 @@ public static class MicrogameCollection
 
     public static Microgame LoadMicrogame(string microgameId)
     {
-        return Resources.Load<Microgame>(MicrogameResourcesPath + microgameId + ".asset");
+        return Resources.Load<Microgame>(MicrogameResourcesPath + microgameId);
     }
 
 

@@ -22,7 +22,7 @@ public class MicrogameSeparateCommands : Microgame
     }
 
     class Session : MicrogameSession
-    {
+    { 
         private DifficultyCommand command;
 
         public override string GetLocalizedCommand()

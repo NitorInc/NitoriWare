@@ -142,26 +142,33 @@ public class MicrogameController : MonoBehaviour
             StageController.beatLength = 60f / 130f;
             Time.timeScale = StageController.getSpeedMult(debugSettings.speed);
         }
-		else if (!isBeingDiscarded())
-		{
-			//Normal Awake
-
+		else
+        {
+            //Normal Awake
 
             session = MicrogameSessionManager.ActiveSessions
-                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.State == Microgame.MicrogameSession.SessionState.Playing);
+                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.State == Microgame.MicrogameSession.SessionState.Loading);
+
+            if (session == null || isBeingDiscarded())
+                return;
+
+
             session.State = Microgame.MicrogameSession.SessionState.Playing;
+            
+            session.microgamePlayer.onMicrogameAwake(this, session);
 
-            session.microgamePlayer.MicrogameWasLoaded(session);
-
-            Cursor.visible = !session.HideCursor;
-		}
+            Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
+        }
 
 	}
 
 	void Start()
 	{
-        if (isBeingDiscarded())
+        if (session == null || isBeingDiscarded())
+        {
+            shutDownMicrogame();
             return;
+        }
         else
         {
             if (debugMode)
@@ -286,55 +293,45 @@ public class MicrogameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Call this to have the player win/lose a microgame. If victory status may change before the end of the microgame, add a second "false" bool parameter
-    /// </summary>
-    /// <param name="victory"></param>
-    /// <param name="final"></param>
-    public void setVictory(bool victory)
-    {
-        setVictory(victory, true);
-    }
-
-    /// <summary>
     /// Call this to have the player win/lose a microgame, set 'final' to false if the victory status might be changed again before the microgame is up
     /// </summary>
     /// <param name="victory"></param>
     /// <param name="final"></param>
-    public void setVictory(bool victory, bool final)
+    public void setVictory(bool victory, bool final = true)
 	{
+        bool finalize = final && !session.WasVictoryDetermined;
+
+        session.VictoryStatus = victory;
+        session.WasVictoryDetermined = final;
+
         if (debugMode)
         {
-            if (session.VictoryWasDetermined)
-                return;
-            
-            session.Victory = victory;
-            session.VictoryWasDetermined = final;
-            if (final)
+            if (finalize)
             {
-                if (debugMode)
-                {
-                    MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory
-                        ? session.VictoryVoiceDelay
-                        : session.FailureVoiceDelay);
-                }
+                MicrogameDebugObjects.instance.voicePlayer.playClip(victory, victory
+                    ? session.VictoryVoiceDelay
+                    : session.FailureVoiceDelay);
 
             }
         }
         else
-            session.microgamePlayer.setMicrogameVictory(session, victory, final);
+        {
+            session.microgamePlayer.setMicrogameVictory(session, victory, finalize);
+
+        }
     }
 
     /// <summary>
     /// Returns whether the game would be won if it ends now
     /// </summary>
     /// <returns></returns>
-    public bool getVictory() => session.Victory;
+    public bool getVictory() => session.VictoryStatus;
 
     /// <summary>
     /// Returns true if the game's victory outcome will not be changed for the rest of its duration
     /// </summary>
     /// <returns></returns>
-    public bool getVictoryDetermined() => session.VictoryWasDetermined;
+    public bool getVictoryDetermined() => session.WasVictoryDetermined;
 
 	/// <summary>
 	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized

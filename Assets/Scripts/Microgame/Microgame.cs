@@ -101,9 +101,9 @@ public class Microgame : ScriptableObject
 
         public int Difficulty { get; private set; }
 
-        public bool Victory { get; set; }
+        public bool VictoryStatus { get; set; }
 
-        public bool VictoryWasDetermined { get; set; } = false;
+        public bool WasVictoryDetermined { get; set; } = false;
 
         public float VictoryVoiceDelay { get; set; }
 
@@ -139,8 +139,9 @@ public class Microgame : ScriptableObject
         public MicrogameSession(Microgame microgame, StageController player, int difficulty, bool debugMode)
         {
             this.microgame = microgame;
+            this.microgamePlayer = player;
             Difficulty = difficulty;
-            Victory = microgame._defaultVictory;
+            VictoryStatus = microgame._defaultVictory;
             VictoryVoiceDelay = microgame._victoryVoiceDelay;
             FailureVoiceDelay = microgame._failureVoiceDelay;
 

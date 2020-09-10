@@ -14,9 +14,9 @@ public class ControlDisplay : MonoBehaviour
     private Text controlText;
     [SerializeField]
     private TextMeshPro controlTmpComponent;
-    [SerializeField]
-    private StageController stageController;
 #pragma warning restore 0649
+
+    public StageController stageController;
 
     public void setControlScheme(Microgame.ControlScheme controlScheme)
     {
