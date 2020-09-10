@@ -47,6 +47,8 @@ public class DatingSimMicrogame : Microgame
 
         public override string SceneName => selectedCharacterScene.SceneName;
 
+        public override AudioClip MusicClip => selectedCharacterScene.MusicClip;
+
         public DatingSimSession(Microgame microgame, StageController player, int difficulty, bool debugMode, CharacterScene[] possibleScenes)
             : base(microgame, player, difficulty, debugMode)
         {
