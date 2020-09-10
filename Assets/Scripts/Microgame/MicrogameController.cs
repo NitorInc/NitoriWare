@@ -13,7 +13,8 @@ public class MicrogameController : MonoBehaviour
 	private static int preserveDebugSpeed = -1;
     private static int langaugeCycleIndex = 0;
     private static Microgame.MicrogameSession holdDebugSession;
-    
+    private static DebugSettings holdDebugSettings;
+
     [SerializeField]
 	private DebugSettings debugSettings;
 	[System.Serializable]
@@ -105,9 +106,12 @@ public class MicrogameController : MonoBehaviour
             if (holdDebugSession != null)
             {
                 session = holdDebugSession;
+                debugSettings = holdDebugSettings;
             }
             else
             {
+                holdDebugSettings = debugSettings;
+
                 int difficulty;
                 if (microgame.SceneDeterminesDifficulty)
                     difficulty = microgame.GetDifficultyFromScene(gameObject.scene.name);
@@ -117,6 +121,7 @@ public class MicrogameController : MonoBehaviour
 
                 if (!session.SceneName.Equals(gameObject.scene.name))
                 {
+                    holdDebugSession = session;
                     SceneManager.LoadScene(session.SceneName);
                     return;
                 }
