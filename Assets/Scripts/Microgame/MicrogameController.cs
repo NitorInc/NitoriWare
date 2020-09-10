@@ -299,6 +299,9 @@ public class MicrogameController : MonoBehaviour
     /// <param name="final"></param>
     public void setVictory(bool victory, bool final = true)
 	{
+        if (session.WasVictoryDetermined)
+            return;
+
         bool finalize = final && !session.WasVictoryDetermined;
 
         session.VictoryStatus = victory;
