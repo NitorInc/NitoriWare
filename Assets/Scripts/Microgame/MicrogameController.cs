@@ -12,7 +12,7 @@ public class MicrogameController : MonoBehaviour
 	public static MicrogameController instance;
 	private static int preserveDebugSpeed = -1;
     private static int langaugeCycleIndex = 0;
-    private static MicrogameSession holdDebugSession;
+    private static Microgame.MicrogameSession holdDebugSession;
     
     [SerializeField]
 	private DebugSettings debugSettings;
@@ -60,7 +60,7 @@ public class MicrogameController : MonoBehaviour
     private bool debugMode;
     private CommandDisplay commandDisplay;
 
-    public MicrogameSession session { get; private set; }
+    public Microgame.MicrogameSession session { get; private set; }
     public Microgame microgame => session.microgame;
     public string microgameId => microgame.microgameId;
     public int difficulty => session.Difficulty;
@@ -142,9 +142,9 @@ public class MicrogameController : MonoBehaviour
 			//Normal Awake
 
 
-            session = MicrogameSession.ActiveSessions
-                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.State == MicrogameSession.SessionState.Playing);
-            session.State = MicrogameSession.SessionState.Playing;
+            session = MicrogameSessionManager.ActiveSessions
+                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.State == Microgame.MicrogameSession.SessionState.Playing);
+            session.State = Microgame.MicrogameSession.SessionState.Playing;
 
             session.microgamePlayer.MicrogameWasLoaded(session);
 
@@ -249,7 +249,7 @@ public class MicrogameController : MonoBehaviour
 	{
         if (debugMode)
             return false;
-        return session.State == MicrogameSession.SessionState.Unloading;
+        return session.State == Microgame.MicrogameSession.SessionState.Unloading;
 	}
 
 	/// <summary>

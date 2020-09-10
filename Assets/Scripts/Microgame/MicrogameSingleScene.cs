@@ -17,7 +17,7 @@ public class MicrogameSingleScene : Microgame
         }
     }
 
-    public override MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Microgame.MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new Session(this, player, difficulty, debugMode);
     }

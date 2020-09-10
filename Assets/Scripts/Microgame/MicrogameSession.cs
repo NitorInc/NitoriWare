@@ -8,84 +8,45 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class MicrogameSession : IDisposable
+public static class MicrogameSessionManager 
 {
-    static List<MicrogameSession> activeSessions;
-    public static ReadOnlyCollection<MicrogameSession> ActiveSessions =>
-        (activeSessions != null  ? activeSessions : new List<MicrogameSession>()).AsReadOnly();
-    
-    public Microgame microgame { get; private set; }
+    static List<Microgame.MicrogameSession> activeSessions;
+    public static ReadOnlyCollection<Microgame.MicrogameSession> ActiveSessions =>
+        (activeSessions != null  ? activeSessions : new List<Microgame.MicrogameSession>()).AsReadOnly();
 
-    public StageController microgamePlayer { get; private set; }
 
-    public int Difficulty { get; private set; }
-
-    public bool Victory { get; set; }
-
-    public bool VictoryWasDetermined { get; set; } = false;
-
-    public float VictoryVoiceDelay { get; set; }
-
-    public float FailureVoiceDelay { get; set; }
-
-    public SessionState State { get; set; }
-    public enum SessionState
+    public static void AddSession(Microgame.MicrogameSession session)
     {
-        Loading,
-        Playing,
-        Unloading
-    }
-
-
-    public virtual bool HideCursor => microgame.hideCursorDefault;
-
-    public virtual CursorLockMode cursorLockMode => microgame.cursorLockStateDefault;
-
-    public virtual string GetNonLocalizedCommand() => microgame.commandDefault;
-
-    public virtual string GetLocalizedCommand() =>
-        TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", GetNonLocalizedCommand());
-
-    public virtual AudioClip MusicClip => microgame.MusicClipDefault;
-
-    public virtual string SceneName => microgame.microgameId + Difficulty.ToString();
-
-    public virtual AnimatorOverrideController CommandAnimatorOverride => microgame.CommandAnimatorOverrideDefault;
-
-    /// <summary>
-    /// Not to be called except from Microgame.CreateSession and inherited classes
-    /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
-    /// </summary>
-    public  MicrogameSession(Microgame microgame, StageController player, int difficulty, bool debugMode)
-    {
-        this.microgame = microgame;
-        Difficulty = difficulty;
-        Victory = microgame.defaultVictory;
-        VictoryVoiceDelay = microgame.VictoryVoiceDelayDefault;
-        FailureVoiceDelay = microgame.FailureVoiceDelayDefault;
-
         if (activeSessions == null)
-            activeSessions = new List<MicrogameSession>();
-        activeSessions.Add(this);
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            activeSessions = new List<Microgame.MicrogameSession>();
+        }
+        activeSessions.Add(session);
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public static void RemoveSession(Microgame.MicrogameSession session)
+    {
+        if (activeSessions == null)
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            activeSessions = new List<Microgame.MicrogameSession>();
+        }
+        if (activeSessions.Contains(session))
+            activeSessions.Remove(session);
+    }
+
+    static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Prevent leaks  :)
 
         if (mode == LoadSceneMode.Single)
         {
-            State = SessionState.Unloading;
-            Dispose();
+            foreach (var session in activeSessions)
+            {
+                session.State = Microgame.MicrogameSession.SessionState.Unloading;
+            }
+            activeSessions.Clear();
         }
     }
-
-    public void Dispose()
-    {
-        activeSessions.Remove(this);
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
 }

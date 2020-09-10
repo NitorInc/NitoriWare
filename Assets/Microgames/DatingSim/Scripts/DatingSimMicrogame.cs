@@ -20,6 +20,11 @@ public class DatingSimMicrogame : Microgame
 
     public override bool SceneDeterminesDifficulty => false;
 
+    public override MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    {
+        return new DatingSimSession(this, player, difficulty, debugMode, possibleScenes);
+    }
+
     [System.Serializable]
     public class CharacterScene
     {
@@ -34,5 +39,26 @@ public class DatingSimMicrogame : Microgame
         [SerializeField]
         private AudioClip music;
         public AudioClip MusicClip { get => music; set => music = value; }
+    }
+
+    public class DatingSimSession : MicrogameSession
+    {
+        public CharacterScene selectedCharacterScene { get; private set; }
+
+        public override string SceneName => selectedCharacterScene.SceneName;
+
+        public DatingSimSession(Microgame microgame, StageController player, int difficulty, bool debugMode, CharacterScene[] possibleScenes)
+            : base(microgame, player, difficulty, debugMode)
+        {
+            if (debugMode && !(microgame as DatingSimMicrogame).DebugRandomCharacter)
+            {
+                selectedCharacterScene = possibleScenes
+                    .FirstOrDefault(a => a.SceneName.Equals(MicrogameController.instance.gameObject.scene.name));
+            }
+            else
+            {
+                selectedCharacterScene = possibleScenes[Random.Range(0, possibleScenes.Length)];
+            }
+        }
     }
 }

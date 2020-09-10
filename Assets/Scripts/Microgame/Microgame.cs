@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using UnityEngine.Events;
 using System.Linq;
+using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -25,12 +24,10 @@ public class Microgame : ScriptableObject
     }
 
     [SerializeField]
-    private bool _hideCursor;
-    public bool hideCursorDefault => _hideCursor;
+    protected bool _hideCursor;
 
     [SerializeField]
-    private CursorLockMode _cursorLockState = CursorLockMode.None;
-    public CursorLockMode cursorLockStateDefault => _cursorLockState;
+    protected CursorLockMode _cursorLockState = CursorLockMode.None;
 
     [SerializeField]
     private Duration _duration;
@@ -43,24 +40,19 @@ public class Microgame : ScriptableObject
     public bool canEndEarly => _duration == Duration.Long16Beats;
 
     [SerializeField]
-    private string _command;
-    public string commandDefault => _command;
+    protected string _command;
 
     [SerializeField]
-    private AnimatorOverrideController _commandAnimatorOveride;
-    public AnimatorOverrideController CommandAnimatorOverrideDefault => _commandAnimatorOveride;
+    protected AnimatorOverrideController _commandAnimatorOveride;
 
     [SerializeField]
-    private bool _defaultVictory;
-    public bool defaultVictory => _defaultVictory;
+    protected bool _defaultVictory;
     
     [SerializeField]
-    private float _victoryVoiceDelay;
-    public float VictoryVoiceDelayDefault => _victoryVoiceDelay;
+    protected float _victoryVoiceDelay;
 
     [SerializeField]
-    private float _failureVoiceDelay;
-    public float FailureVoiceDelayDefault => _failureVoiceDelay;
+    protected float _failureVoiceDelay;
 
     [SerializeField]
     private AudioClip _musicClip;
@@ -95,5 +87,71 @@ public class Microgame : ScriptableObject
     // For debug mode purposes
     public virtual bool SceneDeterminesDifficulty => true;
     public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
+
+
+    public class MicrogameSession : IDisposable
+    {
+        static List<MicrogameSession> activeSessions;
+        //public static ReadOnlyCollection<MicrogameSession> ActiveSessions =>
+        //    (activeSessions != null  ? activeSessions : new List<MicrogameSession>()).AsReadOnly();
+
+        public Microgame microgame { get; private set; }
+
+        public StageController microgamePlayer { get; private set; }
+
+        public int Difficulty { get; private set; }
+
+        public bool Victory { get; set; }
+
+        public bool VictoryWasDetermined { get; set; } = false;
+
+        public float VictoryVoiceDelay { get; set; }
+
+        public float FailureVoiceDelay { get; set; }
+
+        public SessionState State { get; set; }
+        public enum SessionState
+        {
+            Loading,
+            Playing,
+            Unloading
+        }
+
+
+        public virtual bool HideCursor => microgame._hideCursor;
+
+        public virtual CursorLockMode cursorLockMode => microgame._cursorLockState;
+
+        public virtual string GetNonLocalizedCommand() => microgame._command;
+
+        public virtual AnimatorOverrideController CommandAnimatorOverride => microgame._commandAnimatorOveride;
+
+        public virtual string SceneName => microgame.microgameId + Difficulty.ToString();
+
+        public virtual string GetLocalizedCommand() =>
+            TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", GetNonLocalizedCommand());
+
+        public virtual AudioClip MusicClip => microgame.MusicClipDefault;
+
+        /// <summary>
+        /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
+        /// </summary>
+        public MicrogameSession(Microgame microgame, StageController player, int difficulty, bool debugMode)
+        {
+            this.microgame = microgame;
+            Difficulty = difficulty;
+            Victory = microgame._defaultVictory;
+            VictoryVoiceDelay = microgame._victoryVoiceDelay;
+            FailureVoiceDelay = microgame._failureVoiceDelay;
+
+            MicrogameSessionManager.AddSession(this);
+        }
+
+        public void Dispose()
+        {
+            MicrogameSessionManager.RemoveSession(this);
+        }
+    }
+
 
 }
