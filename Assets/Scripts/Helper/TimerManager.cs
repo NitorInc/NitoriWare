@@ -32,7 +32,7 @@ namespace NitorInc.Utility {
 
         void Update() {
             timers.RemoveAll((x) => x.ReadyToDelete);
-            for (int i = 0; i < timers.Count; i++) {
+            for (int i = timers.Count - 1; i >= 0; i--) {
                 timers[i].Tick(Time.deltaTime);
             }
         }
