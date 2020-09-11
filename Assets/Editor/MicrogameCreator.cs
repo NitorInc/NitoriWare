@@ -45,7 +45,7 @@ public class MicrogameCreator : ScriptableSingleton<MicrogameCreator>
                 // Copy single scene and create new traits
                 newScenePath = $"Assets/Microgames/{microgameId}/Scenes/{microgameId}.unity";
                 AssetDatabase.CopyAsset(templateSceneFilePath, newScenePath);
-                AssetDatabase.CreateAsset(CreateInstance<MicrogameTraitsSingleScene>(), traitsPath);
+                AssetDatabase.CreateAsset(CreateInstance<MicrogameSingleScene>(), traitsPath);
                 break;
             default:
                 // Copy first difficulty scene and traits
@@ -57,7 +57,7 @@ public class MicrogameCreator : ScriptableSingleton<MicrogameCreator>
 
         AssetDatabase.Refresh();
         EditorSceneManager.OpenScene(newScenePath);
-        Selection.activeObject = AssetDatabase.LoadAssetAtPath<MicrogameTraits>(traitsPath);
+        Selection.activeObject = AssetDatabase.LoadAssetAtPath<Microgame>(traitsPath);
 
         Debug.Log($"Microgame {microgameId} created");
 

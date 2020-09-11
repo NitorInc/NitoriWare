@@ -42,7 +42,7 @@ public class DatingSimOptionController : MonoBehaviour
 
     void Start ()
     {
-        boxHeightMult += boxHeightMultPerDifficultyUp * (MicrogameController.instance.Difficulty - 1);
+        boxHeightMult += boxHeightMultPerDifficultyUp * (MicrogameController.instance.difficulty - 1);
 
         optionBoxHeight *= boxHeightMult;
         menuExpander.TargetYScale *= boxHeightMult;
@@ -56,7 +56,7 @@ public class DatingSimOptionController : MonoBehaviour
     {
         currentOption = 0;
         
-        var difficultySetting = difficultySettings[MicrogameController.instance.Session.Difficulty - 1];
+        var difficultySetting = difficultySettings[MicrogameController.instance.session.Difficulty - 1];
 
         var choiceIndexList = Enumerable.Range(0, optionsData.rightOptions.Length).ToList();
         choiceIndexList.Shuffle();
@@ -93,7 +93,7 @@ public class DatingSimOptionController : MonoBehaviour
         {
             var pos = startPosition.position;
             pos.y = startPosition.position.y - i * distancePerUnit;
-            pos.y += optionStartYPerDifficutlyUp * (MicrogameController.instance.Difficulty - 1);
+            pos.y += optionStartYPerDifficutlyUp * (MicrogameController.instance.difficulty - 1);
             lines[i].transform.position = pos;
         }
     }

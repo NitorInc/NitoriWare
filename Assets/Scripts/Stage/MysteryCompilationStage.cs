@@ -7,9 +7,9 @@ public class MysteryCompilationStage : CompilationStage
 	[SerializeField]
 	private Transform disable;
 
-	public override void onStageStart()
+	public override void onStageStart(StageController stageController)
 	{
-		base.onStageStart();
+		base.onStageStart(stageController);
         updateCursorVisible();
 	}
 
@@ -25,10 +25,10 @@ public class MysteryCompilationStage : CompilationStage
 
 	void updateCursorVisible()
 	{
-		if (MicrogameController.instance != null)
-			Cursor.visible = MicrogameController.instance.getTraits().controlScheme == MicrogameTraits.ControlScheme.Mouse
-				&& !MicrogameController.instance.getTraits().GetHideCursor(MicrogameController.instance.Session);
-		else
-			Cursor.visible = true;
+        if (MicrogameController.instance != null)
+            Cursor.visible = MicrogameController.instance.getTraits().controlScheme == global::Microgame.ControlScheme.Mouse
+                && !MicrogameController.instance.session.HideCursor;
+        else
+            Cursor.visible = true;
 	}
 }

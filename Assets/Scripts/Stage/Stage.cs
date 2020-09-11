@@ -14,6 +14,8 @@ public abstract class Stage : MonoBehaviour
     private string displayName;
 #pragma warning restore 0649
 
+    protected StageController stageController;
+
     [System.Serializable]
 	public class Interruption
 	{
@@ -42,12 +44,12 @@ public abstract class Stage : MonoBehaviour
 	}
 
 	[System.Serializable]
-	public class  Microgame
+	public class  StageMicrogame
 	{
 		public string microgameId;
 		public int baseDifficulty = 1;
 
-		public Microgame(string microgameId = "", int baseDifficulty = 1)
+		public StageMicrogame(string microgameId = "", int baseDifficulty = 1)
 		{
 			this.microgameId = microgameId;
 			this.baseDifficulty = baseDifficulty;
@@ -57,8 +59,9 @@ public abstract class Stage : MonoBehaviour
 	/// <summary>
 	/// Called when the stage is first started or the player attempts it again after game over, called before any other method
 	/// </summary>
-	public virtual void onStageStart()
+	public virtual void onStageStart(StageController stageController)
     {
+        this.stageController = stageController;
         updateDiscordStatus(0);
         PrefsHelper.setVisitedStage(gameObject.scene.name, true);
     }
@@ -68,7 +71,7 @@ public abstract class Stage : MonoBehaviour
     /// </summary>
     /// <param name="cycleIndex"></param>
     /// <returns></returns>
-    public abstract Microgame getMicrogame(int num);
+    public abstract StageMicrogame getMicrogame(int num);
 
 	/// <summary>
 	/// Gets microgame difficulty for this specific instance
@@ -76,7 +79,7 @@ public abstract class Stage : MonoBehaviour
 	/// <param name="microgame"></param>
 	/// <param name="num"></param>
 	/// <returns></returns>
-	public abstract int getMicrogameDifficulty(Microgame microgame, int num);
+	public abstract int getMicrogameDifficulty(StageMicrogame microgame, int num);
 
 	/// <summary>
 	/// Fetch all animation interruptions between outro and intro segments

@@ -25,7 +25,7 @@ public class TouhouSortSorter : MonoBehaviour
 
     [Header("What dificulty (and above) we allow non-canon situations")]
     public int NonCanonDifficulty = 3;
-    bool allowNonCanon => MicrogameController.instance.Difficulty >= NonCanonDifficulty;
+    bool allowNonCanon => MicrogameController.instance.difficulty >= NonCanonDifficulty;
 
     [Header("Stage elements")]
     public Transform stagingArea;
@@ -51,7 +51,7 @@ public class TouhouSortSorter : MonoBehaviour
 
 
         // Scoop up as many touhous as we can
-        touhous = LoadTouhous(category, difficultySlotCounts[MicrogameController.instance.Difficulty - 1]);
+        touhous = LoadTouhous(category, difficultySlotCounts[MicrogameController.instance.difficulty - 1]);
 
         // Hand target data to the Zone Managers
         zoneManager.SetTargets(

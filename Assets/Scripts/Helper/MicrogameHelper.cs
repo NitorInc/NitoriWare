@@ -11,11 +11,11 @@ public static class MicrogameHelper
 	/// </summary>
 	/// <param name="restriction"></param>
 	/// <returns></returns>
-	public static List<MicrogameCollection.Microgame> getMicrogames(MicrogameTraits.Milestone restriction = MicrogameTraits.Milestone.Unfinished, bool includeBosses = false)
+	public static List<Microgame> getMicrogames(Microgame.Milestone restriction = Microgame.Milestone.Unfinished, bool includeBosses = false)
 	{
-		return MicrogameCollection.instance.microgames
-            .Where(a => a.traits.milestone >= restriction
-            && (includeBosses || !a.traits.isBossMicrogame()))
+		return MicrogameCollection.LoadAllMicrogames()
+            .Where(a => a.milestone >= restriction
+            && (includeBosses || !a.isBossMicrogame()))
             .ToList();
 	}
 }
