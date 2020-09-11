@@ -8,6 +8,10 @@ using System;
 using UnityEditor;
 #endif
 
+
+/// <summary>
+/// Global data object for a microgame. Can be derived to inject custom logic
+/// </summary>
 [CreateAssetMenu(menuName = "Microgame/Normal")]
 public class Microgame : ScriptableObject
 {
@@ -78,22 +82,39 @@ public class Microgame : ScriptableObject
 
     public bool isBossMicrogame() => GetType() == typeof(MicrogameBoss) || GetType().IsSubclassOf(typeof(MicrogameBoss));
 
+    // For debug mode purposes
+    public virtual bool SceneDeterminesDifficulty => true;
+    public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
+
     public virtual MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
         => new MicrogameSession(this, player, difficulty, debugMode);
 
     public MicrogameSession CreateDebugSession(int difficulty)
         => CreateSession(null, difficulty, true);
 
-    // For debug mode purposes
-    public virtual bool SceneDeterminesDifficulty => true;
-    public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
-
+    /// <summary>
+    /// This class essentially acts as an "instance" of the microgame, with data about what's occuring.
+    /// It also contains functions that may change per-session that can be overridden in a subclass.
+    ///  Note: You'll need to override CreateSession in microgame subclass as well to access your subclass
+    /// </summary>
     public class MicrogameSession : IDisposable
     {
-        static List<MicrogameSession> activeSessions;
-        //public static ReadOnlyCollection<MicrogameSession> ActiveSessions =>
-        //    (activeSessions != null  ? activeSessions : new List<MicrogameSession>()).AsReadOnly();
+        public virtual bool HideCursor => microgame._hideCursor;
+
+        public virtual CursorLockMode cursorLockMode => microgame._cursorLockState;
+
+        public virtual string GetNonLocalizedCommand() => microgame._command;
+
+        public virtual string GetLocalizedCommand() =>
+            TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", GetNonLocalizedCommand());
+
+        public virtual AnimatorOverrideController CommandAnimatorOverride => microgame._commandAnimatorOveride;
+
+        public virtual string SceneName => microgame.microgameId + Difficulty.ToString();
+
+        public virtual AudioClip MusicClip => microgame.MusicClipDefault;
+
 
         public Microgame microgame { get; private set; }
 
@@ -116,22 +137,6 @@ public class Microgame : ScriptableObject
             Playing,
             Unloading
         }
-
-
-        public virtual bool HideCursor => microgame._hideCursor;
-
-        public virtual CursorLockMode cursorLockMode => microgame._cursorLockState;
-
-        public virtual string GetNonLocalizedCommand() => microgame._command;
-
-        public virtual AnimatorOverrideController CommandAnimatorOverride => microgame._commandAnimatorOveride;
-
-        public virtual string SceneName => microgame.microgameId + Difficulty.ToString();
-
-        public virtual string GetLocalizedCommand() =>
-            TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", GetNonLocalizedCommand());
-
-        public virtual AudioClip MusicClip => microgame.MusicClipDefault;
 
         /// <summary>
         /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
