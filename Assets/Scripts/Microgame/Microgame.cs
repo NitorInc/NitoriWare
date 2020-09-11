@@ -86,10 +86,10 @@ public class Microgame : ScriptableObject
     public virtual bool SceneDeterminesDifficulty => true;
     public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
-    public virtual MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
-        => new MicrogameSession(this, player, difficulty, debugMode);
+    public virtual Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+        => new Session(this, player, difficulty, debugMode);
 
-    public MicrogameSession CreateDebugSession(int difficulty)
+    public Session CreateDebugSession(int difficulty)
         => CreateSession(null, difficulty, true);
 
 
@@ -98,7 +98,7 @@ public class Microgame : ScriptableObject
     /// It also contains functions that may change per-session that can be overridden in a subclass.
     ///  Note: You'll need to override CreateSession in microgame subclass as well to access your subclass
     /// </summary>
-    public class MicrogameSession : IDisposable
+    public class Session : IDisposable
     {
         public virtual bool HideCursor => microgame._hideCursor;
 
@@ -141,7 +141,7 @@ public class Microgame : ScriptableObject
         /// <summary>
         /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
         /// </summary>
-        public MicrogameSession(Microgame microgame, StageController player, int difficulty, bool debugMode)
+        public Session(Microgame microgame, StageController player, int difficulty, bool debugMode)
         {
             this.microgame = microgame;
             this.microgamePlayer = player;

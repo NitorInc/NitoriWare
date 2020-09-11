@@ -40,7 +40,7 @@ public class StageController : MonoBehaviour
 
     public MicrogameJob CurrentMicrogameJob => microgameQueue.Peek();
     public Microgame CurrentMicrogame => CurrentMicrogameJob.microgame;
-    public Microgame.MicrogameSession CurrentMicrogameSession => CurrentMicrogameJob.session;
+    public Microgame.Session CurrentMicrogameSession => CurrentMicrogameJob.session;
 
 	private float animationStartTime, outroPlayTime;
     private Animator[] sceneAnimators;
@@ -48,7 +48,7 @@ public class StageController : MonoBehaviour
 	private Queue<MicrogameJob> microgameQueue;
 	public class MicrogameJob
 	{
-        public Microgame.MicrogameSession session;
+        public Microgame.Session session;
         public Microgame microgame => session.microgame;
         public int difficulty => session.Difficulty;
 		public AsyncOperation asyncOperation;
@@ -160,7 +160,7 @@ public class StageController : MonoBehaviour
         float holdSpeed = 0f;
         while (job.asyncOperation.progress < .9f)
         {
-            if (job.session.State != Microgame.MicrogameSession.SessionState.Unloading && holdSpeed == 0f && job.asyncOperation.allowSceneActivation)
+            if (job.session.State != Microgame.Session.SessionState.Unloading && holdSpeed == 0f && job.asyncOperation.allowSceneActivation)
             {
                 holdSpeed = Time.timeScale;
                 Time.timeScale = 0f;
@@ -185,7 +185,7 @@ public class StageController : MonoBehaviour
 			yield return null;
 		}
 
-        instance.session.State = Microgame.MicrogameSession.SessionState.Unloading;
+        instance.session.State = Microgame.Session.SessionState.Unloading;
         instance.asyncOperation = SceneManager.UnloadSceneAsync(instance.session.SceneName);
         while (instance.asyncOperation == null)
         {
@@ -378,7 +378,7 @@ public class StageController : MonoBehaviour
 			introSource.Play();
     }
 
-    public void DisplayExtraCommand(Microgame.MicrogameSession session, string command, AnimatorOverrideController animationOverride)
+    public void DisplayExtraCommand(Microgame.Session session, string command, AnimatorOverrideController animationOverride)
     {
         commandDisplay.play(command, animationOverride);
     }
@@ -393,7 +393,7 @@ public class StageController : MonoBehaviour
                 list.Add(microgameQueue.Dequeue());
             foreach (var job in list)
             {
-                job.session.State = Microgame.MicrogameSession.SessionState.Unloading;
+                job.session.State = Microgame.Session.SessionState.Unloading;
             }
 			StartCoroutine(unloadMicrogamesRecursiveAsync(list));
 		}
@@ -448,7 +448,7 @@ public class StageController : MonoBehaviour
     }
 
     //Called from MicrogameController on Awake()
-    public void onMicrogameAwake(MicrogameController microgameController, Microgame.MicrogameSession session)
+    public void onMicrogameAwake(MicrogameController microgameController, Microgame.Session session)
 	{
         stageCamera.tag = "Camera";
         microgameMusicSource.clip = session.MusicClip;
@@ -495,7 +495,7 @@ public class StageController : MonoBehaviour
 
     void unloadMicrogame()
     {
-        finishedMicrogame.session.State = Microgame.MicrogameSession.SessionState.Unloading;
+        finishedMicrogame.session.State = Microgame.Session.SessionState.Unloading;
         StartCoroutine(unloadMicrogameAsync(finishedMicrogame));
         MicrogameController.instance = null;
     }
@@ -573,7 +573,7 @@ public class StageController : MonoBehaviour
 	/// </summary>
 	/// <param name="victory"></param>
 	/// <param name="final"></param>
-	public void setMicrogameVictory(Microgame.MicrogameSession session, bool victory, bool triggerFinal)
+	public void setMicrogameVictory(Microgame.Session session, bool victory, bool triggerFinal)
 	{
 		if (victory && outroSource.clip != victoryClip)
 		{

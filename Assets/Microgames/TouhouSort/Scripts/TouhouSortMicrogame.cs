@@ -13,7 +13,7 @@ public class TouhouSortMicrogame : Microgame
     [SerializeField]
     private CategoryScene[] categories;
 
-    public override MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new TouhouSortSession(this, player, difficulty, debugMode, categories);
     }
@@ -38,7 +38,7 @@ public class TouhouSortMicrogame : Microgame
 
     private string defaultCommand => _command;
 
-    public class TouhouSortSession : MicrogameSession
+    public class TouhouSortSession : Session
     {
         public CategoryScene selectedCategory { get; private set; }
 

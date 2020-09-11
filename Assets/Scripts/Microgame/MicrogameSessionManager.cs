@@ -10,27 +10,27 @@ using UnityEngine.SceneManagement;
 
 public static class MicrogameSessionManager 
 {
-    static List<Microgame.MicrogameSession> activeSessions;
-    public static ReadOnlyCollection<Microgame.MicrogameSession> ActiveSessions =>
-        (activeSessions != null  ? activeSessions : new List<Microgame.MicrogameSession>()).AsReadOnly();
+    static List<Microgame.Session> activeSessions;
+    public static ReadOnlyCollection<Microgame.Session> ActiveSessions =>
+        (activeSessions != null  ? activeSessions : new List<Microgame.Session>()).AsReadOnly();
 
 
-    public static void AddSession(Microgame.MicrogameSession session)
+    public static void AddSession(Microgame.Session session)
     {
         if (activeSessions == null)
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
-            activeSessions = new List<Microgame.MicrogameSession>();
+            activeSessions = new List<Microgame.Session>();
         }
         activeSessions.Add(session);
     }
 
-    public static void RemoveSession(Microgame.MicrogameSession session)
+    public static void RemoveSession(Microgame.Session session)
     {
         if (activeSessions == null)
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
-            activeSessions = new List<Microgame.MicrogameSession>();
+            activeSessions = new List<Microgame.Session>();
         }
         if (activeSessions.Contains(session))
             activeSessions.Remove(session);
@@ -44,7 +44,7 @@ public static class MicrogameSessionManager
         {
             foreach (var session in activeSessions)
             {
-                session.State = Microgame.MicrogameSession.SessionState.Unloading;
+                session.State = Microgame.Session.SessionState.Unloading;
             }
             activeSessions.Clear();
         }

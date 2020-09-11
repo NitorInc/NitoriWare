@@ -20,7 +20,7 @@ public class DatingSimMicrogame : Microgame
 
     public override bool SceneDeterminesDifficulty => false;
 
-    public override MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new DatingSimSession(this, player, difficulty, debugMode, possibleScenes);
     }
@@ -41,7 +41,7 @@ public class DatingSimMicrogame : Microgame
         public AudioClip MusicClip { get => music; set => music = value; }
     }
 
-    public class DatingSimSession : MicrogameSession
+    public class DatingSimSession : Session
     {
         public CharacterScene selectedCharacterScene { get; private set; }
 

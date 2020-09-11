@@ -18,7 +18,7 @@ public class BottomMicrogame : MonoBehaviour
     {
         public Microgame microgame;
         public AsyncOperation asyncOperation;
-        public Microgame.MicrogameSession session;
+        public Microgame.Session session;
         public string sceneName;
         public Scene scene;
         public List<Camera> cameras;

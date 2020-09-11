@@ -7,7 +7,7 @@ public class MicrogameSingleScene : Microgame
 {
     public override bool SceneDeterminesDifficulty => false;
     
-    class Session : MicrogameSession
+    class Session : Microgame.Session
     {
         public override string SceneName => microgame.microgameId;
 
@@ -17,7 +17,7 @@ public class MicrogameSingleScene : Microgame
         }
     }
 
-    public override Microgame.MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new Session(this, player, difficulty, debugMode);
     }

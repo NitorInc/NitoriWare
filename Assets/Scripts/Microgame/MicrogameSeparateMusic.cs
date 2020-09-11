@@ -12,7 +12,7 @@ public class MicrogameSeparateMusic : Microgame
     [SerializeField]
     private AudioClip difficulty3Clip;
 
-    class Session : MicrogameSession
+    class Session : Microgame.Session
     {
         private AudioClip musicClip;
 
@@ -25,7 +25,7 @@ public class MicrogameSeparateMusic : Microgame
         }
     }
 
-    public override MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new Session(this, player, difficulty, debugMode, GetAudioClip(difficulty));
     }

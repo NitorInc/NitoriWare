@@ -21,7 +21,7 @@ public class MicrogameSeparateCommands : Microgame
         public string defaultValue;
     }
 
-    class Session : MicrogameSession
+    class Session : Microgame.Session
     { 
         private DifficultyCommand command;
 
@@ -36,7 +36,7 @@ public class MicrogameSeparateCommands : Microgame
         }
     }
     
-    public override MicrogameSession CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new Session(this, player, difficulty, debugMode, GetCommand(difficulty));
     }
