@@ -25,7 +25,7 @@ public class MicrogameSeparateMusic : Microgame
         }
     }
 
-    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(StageController player, int difficulty, bool debugMode = false)
     {
         return new Session(this, player, difficulty, debugMode, GetAudioClip(difficulty));
     }
