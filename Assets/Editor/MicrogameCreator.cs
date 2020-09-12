@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 
 [CreateAssetMenu(menuName = "Microgame Creator")]
-public class MicrogameCreator : ScriptableSingleton<MicrogameCreator>
+public class MicrogameCreator : ScriptableObject
 {
     [SerializeField]
     private string templateSceneFilePath;

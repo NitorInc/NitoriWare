@@ -458,7 +458,9 @@ public class StageController : MonoBehaviour
 		setAnimationBool("microgameVictory", victory);
 	}
 
-	public void setFinalAnswer(Microgame.Session session)
+	public void setFinalAnswer(Microgame.Session session) => setFinalAnswer();
+
+	void setFinalAnswer()
 	{
 		//Can't have this happening in the beat before the microgame actually starts
 		if (animationPart != AnimationPart.Idle && animationPart != AnimationPart.LastBeat)
@@ -467,7 +469,7 @@ public class StageController : MonoBehaviour
 			return;
 		}
 
-
+		var session = microgamePlayer.CurrentMicrogameSession;
 		var microgame = microgamePlayer.CurrentMicrogame;
         var victory = session.VictoryStatus;
         

@@ -8,6 +8,7 @@ public class LocalizationUpdaterWindow : EditorWindow
     bool expandFonts = true;
     List<TMPFont> selectedFonts;
     Vector2 scrollPos;
+    LocalizationUpdater updater;
     
     [MenuItem("Window/NitorInc./Release Prep/Localization Updater")]
     public static void ShowWindow()
@@ -19,6 +20,7 @@ public class LocalizationUpdaterWindow : EditorWindow
     {
         selectedFonts = new List<TMPFont>();
         titleContent = new GUIContent("Localization Updater");
+        updater = ((LocalizationUpdater)EditorGUIUtility.Load("Localization Updater.asset"));
     }
 
     void OnGUI()
@@ -38,7 +40,7 @@ public class LocalizationUpdaterWindow : EditorWindow
         GUILayout.Label("TO ADD OR EDIT LANGUAGES, edit Languages Data.", boldStyle);
         if (GUILayout.Button("Update Language Content"))
         {
-            LocalizationUpdater.instance.updateLanguages();
+            updater.updateLanguages();
         }
 
         GUILayout.Label("");
@@ -48,7 +50,7 @@ public class LocalizationUpdaterWindow : EditorWindow
         GUILayout.Label("Call this after Update Language Content.");
         if (GUILayout.Button("Generate Chars Files."))
         {
-            LocalizationUpdater.instance.updateCharsFiles();
+            updater.updateCharsFiles();
         }
 
         GUILayout.Label("");
@@ -60,7 +62,7 @@ public class LocalizationUpdaterWindow : EditorWindow
         GUILayout.Label("CHAR FILES MUST BE GENERATED FIRST.", boldStyle);
         if (GUILayout.Button("Check Font Chars"))
         {
-            LocalizationUpdater.instance.checkFontChars();
+            updater.checkFontChars();
         }
         GUILayout.Label("Check console for output.");
 
@@ -75,7 +77,7 @@ public class LocalizationUpdaterWindow : EditorWindow
 
         if (GUILayout.Button("Update All Fonts With Missing Chars"))
         {
-            LocalizationUpdater.instance.rebuildAllIncompleteFontAtlases();
+            updater.rebuildAllIncompleteFontAtlases();
         }
         GUILayout.Label("Check console for important notes post-update.");
 
@@ -85,7 +87,7 @@ public class LocalizationUpdaterWindow : EditorWindow
         {
             foreach (var font in selectedFonts)
             {
-                LocalizationUpdater.instance.rebuildFontAtlas(font);
+                updater.rebuildFontAtlas(font);
             }
             selectedFonts.Clear();
         }

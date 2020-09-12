@@ -9,7 +9,7 @@ using TMPro;
 
 [CreateAssetMenu(menuName = "Localization/Localization Updater")]
 [ExecuteInEditMode]
-public class LocalizationUpdater : ScriptableObjectSingleton<LocalizationUpdater>
+public class LocalizationUpdater : ScriptableObject
 {
     private const string KeyIdentifier = "key";
     private const string CharsFileSuffix = "Chars.txt";

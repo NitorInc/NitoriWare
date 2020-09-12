@@ -10,6 +10,7 @@ public class MicrogameCreatorWindow : EditorWindow
     Vector2 scrollPos;
     string microgameId = "";
     int selectedType = 0;
+    MicrogameCreator creator;
 
     [MenuItem("Window/NitorInc./Microgame Generator")]
     public static void ShowWindow()
@@ -20,6 +21,7 @@ public class MicrogameCreatorWindow : EditorWindow
     private void OnEnable()
     {
         titleContent = new GUIContent("Microgame Generator");
+        creator = ((MicrogameCreator)EditorGUIUtility.Load("Microgame Creator"));
     }
 
 
@@ -46,7 +48,7 @@ public class MicrogameCreatorWindow : EditorWindow
         GUILayout.Label("");
         if (GUILayout.Button("Create Microgame"))
         {
-            if (MicrogameCreator.instance.CreateMicrogame(microgameId, (MicrogameCreator.MicrogameType)selectedType))
+            if (creator.CreateMicrogame(microgameId, (MicrogameCreator.MicrogameType)selectedType))
                 Close();
         }
 

@@ -155,7 +155,6 @@ public class MicrogameController : MonoBehaviour
 
             session.AsyncState = Microgame.Session.SessionState.Playing;
             session.EventListener.SceneActive.Invoke(session, gameObject.scene);
-            Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
         }
 
 	}
@@ -229,7 +228,8 @@ public class MicrogameController : MonoBehaviour
         else
             session.EventListener.MicrogameStart.Invoke(session);
         SceneManager.SetActiveScene(gameObject.scene);
-	}
+        Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
+    }
 
     public void onPaused()
     {
