@@ -30,8 +30,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4890644379228476}
-  - {fileID: 1712696546090985671}
   - {fileID: 4541795284219953178}
+  - {fileID: 5614695577289350527}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56,9 +56,9 @@ MonoBehaviour:
   sceneLoadPriority: 1
   animationPart: 1
   microgameEventListener: {fileID: 8065705838142897447}
-  microgamePlayer: {fileID: 2013584216440113166}
+  microgamePlayer: {fileID: 0}
   voicePlayer: {fileID: 114201885727975310}
-  stageCamera: {fileID: 0}
+  stageCamera: {fileID: 5594403075620774789}
   lifeIndicators:
   - {fileID: 0}
   - {fileID: 0}
@@ -280,7 +280,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4401540701484050}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8065705838142897447
 MonoBehaviour:
@@ -297,7 +297,7 @@ MonoBehaviour:
   SceneActive:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2013584216440113166}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MicrogamePlayer, Assembly-CSharp
         m_MethodName: HandleSceneActive
         m_Mode: 0
@@ -321,6 +321,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  MicrogameStart:
+    m_PersistentCalls:
+      m_Calls: []
   VictoryStatusUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -354,46 +357,114 @@ MonoBehaviour:
   DisplayCommand:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &5787067628461722649
-GameObject:
+--- !u!1001 &849607703014951067
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1712696546090985671}
-  - component: {fileID: 2013584216440113166}
-  m_Layer: 8
-  m_Name: Microgame Player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1712696546090985671
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4401540701484050}
+    m_Modifications:
+    - target: {fileID: 4989506487512641756, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989506487512641756, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698085, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_Name
+      value: Microgame Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneActive.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneActive.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MicrogamePlayer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneActive.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneActive.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 78798d82e83badb4eb0434acdf8248f2, type: 3}
+--- !u!4 &5614695577289350527 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
+    type: 3}
+  m_PrefabInstance: {fileID: 849607703014951067}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5787067628461722649}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4401540701484050}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2013584216440113166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!20 &5594403075620774789 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5073628514417044254, guid: 78798d82e83badb4eb0434acdf8248f2,
+    type: 3}
+  m_PrefabInstance: {fileID: 849607703014951067}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5787067628461722649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d16246a4213acc40af8ecbfbd9ba292, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7640409766140337563}
-  - component: {fileID: 7640409766140337562}
+  - component: {fileID: 1243019262640502037}
   m_Layer: 0
   m_Name: Microgame Debug Player
   m_TagString: Untagged
@@ -28,13 +28,13 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7640409766953525828}
   - {fileID: 7640409767653719291}
   - {fileID: 7640198892174363952}
-  - {fileID: 7640409766953525828}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7640409766140337562
+--- !u!114 &1243019262640502037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,11 +46,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9acc122274ce385469cff9b4c4c27da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings:
+    playMusic: 0
+    displayCommand: 0
+    showTimer: 0
+    timerTick: 0
+    simulateStartDelay: 0
+    localizeText: 0
+    forceLocalizationLanguage: 
+    resetThroughAllLanguages: 0
+    voiceSet: 0
+    speed: 0
+    SimulateDifficulty: 0
+    debugKeys:
+      Restart: 114
+      Faster: 102
+      NextDifficulty: 110
+      PreviousDifficulty: 109
   player: {fileID: 7640409766953525835}
-  musicSource: {fileID: 7640409766112486892}
-  voicePlayer: {fileID: 7640409765742271836}
-  commandDisplay: {fileID: 7754694945489415060}
-  eventListener: {fileID: 7640409766953525834}
+  musicSource: {fileID: 445527778732405680}
+  voicePlayer: {fileID: 855898607125926581}
+  commandDisplay: {fileID: 4382583228542715283}
+  eventListener: {fileID: 6870777834321610953}
 --- !u!1001 &3182143222329456544
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,15 +75,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7640409766140337563}
     m_Modifications:
-    - target: {fileID: 4989506487512641756, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 923091866158066881, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4989506487512641756, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 923091866158066881, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329244109256580827, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329244109256580827, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958444055017909760, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958444055017909760, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070815960643134462, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118182865672864294, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_Depth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134930190309109602, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_Name
+      value: Microgame Player Camera
       objectReference: {fileID: 0}
     - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
@@ -106,7 +158,7 @@ PrefabInstance:
     - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
@@ -128,74 +180,49 @@ PrefabInstance:
       propertyPath: m_Name
       value: Microgame Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 5585494453949881073, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5585494453949881073, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+      propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1243019262640502037}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7640409766140337562}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MicrogameDebugPlayer, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SceneStarted
       objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: MicrogameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7640409766140337562}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MicrogameDebugPlayer, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: VictoryDetermined
-      objectReference: {fileID: 0}
-    - target: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
-        type: 3}
-      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -218,9 +245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d16246a4213acc40af8ecbfbd9ba292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7640409766953525834 stripped
+--- !u!114 &6870777834321610953 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5053336017116698090, guid: 78798d82e83badb4eb0434acdf8248f2,
+  m_CorrespondingSourceObject: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
     type: 3}
   m_PrefabInstance: {fileID: 3182143222329456544}
   m_PrefabAsset: {fileID: 0}
@@ -230,9 +257,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81806c1412d4bb440adf6c580ae4f60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7754694945489415060 stripped
+--- !u!114 &4382583228542715283 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5167611818456439860, guid: 78798d82e83badb4eb0434acdf8248f2,
+  m_CorrespondingSourceObject: {fileID: 1223622710668735027, guid: 78798d82e83badb4eb0434acdf8248f2,
     type: 3}
   m_PrefabInstance: {fileID: 3182143222329456544}
   m_PrefabAsset: {fileID: 0}
@@ -242,15 +269,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf13bd1173ea341b4f07297c07db89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &7640409766112486892 stripped
+--- !u!82 &445527778732405680 stripped
 AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5053336016074723916, guid: 78798d82e83badb4eb0434acdf8248f2,
+  m_CorrespondingSourceObject: {fileID: 3028647942521406480, guid: 78798d82e83badb4eb0434acdf8248f2,
     type: 3}
   m_PrefabInstance: {fileID: 3182143222329456544}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7640409765742271836 stripped
+--- !u!114 &855898607125926581 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5053336015895489276, guid: 78798d82e83badb4eb0434acdf8248f2,
+  m_CorrespondingSourceObject: {fileID: 2867101197534438677, guid: 78798d82e83badb4eb0434acdf8248f2,
     type: 3}
   m_PrefabInstance: {fileID: 3182143222329456544}
   m_PrefabAsset: {fileID: 0}
@@ -305,7 +332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4292880627724570, guid: 02f6fcc0c1ad43c4dad9e5bef4a2acd8, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 223796167972485138, guid: 02f6fcc0c1ad43c4dad9e5bef4a2acd8,
         type: 3}
@@ -442,7 +469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499212, guid: 87c500271f0d4254883151e055c319b9, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1378265762124884, guid: 87c500271f0d4254883151e055c319b9, type: 3}
       propertyPath: m_IsActive

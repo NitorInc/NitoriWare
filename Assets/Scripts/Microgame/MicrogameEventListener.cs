@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MicrogameEventListener : MonoBehaviour
 {
-    public UnityEvent<Microgame.Session, Scene> SceneActive;
+    public UnityEvent<Microgame.Session, Scene> SceneAwake;
     public UnityEvent<Microgame.Session> MicrogameStart;
     public UnityEvent<Microgame.Session> VictoryStatusUpdated;
     public UnityEvent<Microgame.Session> VictoryStatusFinalized;

@@ -60,6 +60,10 @@ public class VoicePlayer : MonoBehaviour
 
 	}
 
+	public void playClip(Microgame.Session session) =>
+		playClip(session.VictoryStatus,
+			session.VictoryStatus ? session.VictoryVoiceDelay : session.FailureVoiceDelay);
+
 	/// <summary>
 	/// Plays or schedules a voice clip
 	/// </summary>
@@ -110,4 +114,10 @@ public class VoicePlayer : MonoBehaviour
 		lastClip = clipToPlay;
 		soundQueued = false;
 	}
+
+	public void StopPlayback()
+	{
+		CancelInvoke();
+		voiceSource.Stop();
+    }
 }

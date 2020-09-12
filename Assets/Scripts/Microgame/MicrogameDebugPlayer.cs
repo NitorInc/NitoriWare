@@ -90,19 +90,35 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (Settings.localizeText)
         {
             LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
-            if (!string.IsNullOrEmpty(Settings.forceLocalizationLanguage))
-                manager.setForcedLanguage(Settings.forceLocalizationLanguage);
-            else if (Settings.resetThroughAllLanguages)
+
+            if (Settings.resetThroughAllLanguages)
             {
+                var isFirstLoad = LocalizationManager.instance == null;
                 var languages = LanguagesData.instance.languages;
-                var languageIndex = languages.ToList().IndexOf(LocalizationManager.instance.getLoadedLanguage());
-                languageIndex++;
-                if (languageIndex >= languages.Count())
-                    languageIndex = 0;
+                var currentLanguageSetting = LanguagesData.instance.FindLanguage(settings.forceLocalizationLanguage, defaultToEnglish: false);
+                var languageIndex = currentLanguageSetting != null
+                    ? languages.ToList().IndexOf(currentLanguageSetting)
+                    : -1;
+                if (languageIndex < 0 || !isFirstLoad)
+                {
+                    languageIndex++;
+                    if (languageIndex >= languages.Count())
+                        languageIndex = 0;
+                }
                 var newLanguageID = languages[languageIndex].getLanguageID();
-                manager.setLanguage(newLanguageID);
+                settings.forceLocalizationLanguage = newLanguageID;
                 print("Language cycling debugging in " + newLanguageID);
             }
+
+            if (!string.IsNullOrEmpty(Settings.forceLocalizationLanguage))
+            {
+                if (LocalizationManager.instance == null)
+                    manager.setForcedLanguage(settings.forceLocalizationLanguage);
+                else
+                    manager.setLanguage(settings.forceLocalizationLanguage);
+            }
+
+            manager.gameObject.SetActive(true);
         }
 
         MicrogameTimer.instance.CancelInvoke();
@@ -130,6 +146,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         Cursor.visible = MicrogameSession.microgame.controlScheme == Microgame.ControlScheme.Mouse && !MicrogameSession.HideCursor;
         Cursor.lockState = MicrogameSession.cursorLockMode;
 
+        voicePlayer.StopPlayback();
         voicePlayer.loadClips(Settings.voiceSet);
     }
 

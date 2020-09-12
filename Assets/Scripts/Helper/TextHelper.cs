@@ -11,7 +11,7 @@ public class TextHelper
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
 	public static string getLocalizedText(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
-	{
+    {
         string value = LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValue(key, defaultValue);
         if (parameters != null && parameters.Length > 0)
         {

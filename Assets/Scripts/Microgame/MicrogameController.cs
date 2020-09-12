@@ -101,7 +101,7 @@ public class MicrogameController : MonoBehaviour
         }
 
         session.AsyncState = Microgame.Session.SessionState.Playing;
-        session.EventListener.SceneActive.Invoke(session, gameObject.scene);
+        session.EventListener.SceneAwake.Invoke(session, gameObject.scene);
 
 	}
 
