@@ -139,6 +139,8 @@ public class MicrogamePlayer : MonoBehaviour
 
     private void SceneUnloaded(AsyncOperation asyncOperation)
     {
+        if (this == null)
+            return;
         var job = microgameJobs.FirstOrDefault(a => a.unloadOperation == asyncOperation);
         job.session.Dispose();
         microgameJobs.Remove(job);
