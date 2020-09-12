@@ -29,8 +29,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4890644379228476}
-  - {fileID: 4541795284219953178}
   - {fileID: 5614695577289350527}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -55,10 +53,10 @@ MonoBehaviour:
   maxStockpiledScenes: 2
   sceneLoadPriority: 1
   animationPart: 1
-  microgameEventListener: {fileID: 8065705838142897447}
+  microgameEventListener: {fileID: 0}
   microgamePlayer: {fileID: 0}
-  voicePlayer: {fileID: 114201885727975310}
-  stageCamera: {fileID: 5594403075620774789}
+  voicePlayer: {fileID: 0}
+  stageCamera: {fileID: 0}
   lifeIndicators:
   - {fileID: 0}
   - {fileID: 0}
@@ -89,274 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2bedef3e194cf44880b3d47b02c43e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1295364334974576
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4890644379228476}
-  - component: {fileID: 114201885727975310}
-  - component: {fileID: 82953978796657770}
-  - component: {fileID: 114474960137407182}
-  m_Layer: 8
-  m_Name: Voice
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4890644379228476
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295364334974576}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4401540701484050}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114201885727975310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295364334974576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb8fa4c1dd49cd4bb26c33a89d74c51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceSource: {fileID: 82953978796657770}
---- !u!82 &82953978796657770
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295364334974576}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
---- !u!114 &114474960137407182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295364334974576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbd63fa2eea70b847bf6f3a4077bc1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  includeChildren: 0
-  tieToTimescale: 0
-  tieToVolumeSettings: 1
-  preserveInitialPitch: 0
-  updateEachFrame: 1
-  volumeType: 3
-  volumeMult: 1
-  pitchMult: 1
---- !u!1 &3195972001271373370
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4541795284219953178}
-  - component: {fileID: 8065705838142897447}
-  m_Layer: 8
-  m_Name: Microgame Event Listener
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4541795284219953178
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3195972001271373370}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4401540701484050}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8065705838142897447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3195972001271373370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81806c1412d4bb440adf6c580ae4f60f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SceneActive:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MicrogamePlayer, Assembly-CSharp
-        m_MethodName: HandleSceneActive
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114420522327985048}
-        m_TargetAssemblyTypeName: StageController, Assembly-CSharp
-        m_MethodName: onMicrogameAwake
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  MicrogameStart:
-    m_PersistentCalls:
-      m_Calls: []
-  VictoryStatusUpdated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114420522327985048}
-        m_TargetAssemblyTypeName: StageController, Assembly-CSharp
-        m_MethodName: UpdateMicrogameVictory
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  VictoryStatusFinalized:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114420522327985048}
-        m_TargetAssemblyTypeName: StageController, Assembly-CSharp
-        m_MethodName: setFinalAnswer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DisplayCommand:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &849607703014951067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -364,6 +94,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4401540701484050}
     m_Modifications:
+    - target: {fileID: 1329244109256580827, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329244109256580827, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4989506487512641756, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -412,7 +152,7 @@ PrefabInstance:
     - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
         type: 3}
@@ -454,17 +194,116 @@ PrefabInstance:
       propertyPath: SceneActive.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: StageController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 114420522327985048}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: onMicrogameAwake
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: SceneAwake.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: StageController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 114420522327985048}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 114420522327985048}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateMicrogameVictory
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: setFinalAnswer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318384284889202537, guid: 78798d82e83badb4eb0434acdf8248f2,
+        type: 3}
+      propertyPath: VictoryStatusFinalized.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78798d82e83badb4eb0434acdf8248f2, type: 3}
 --- !u!4 &5614695577289350527 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5053336017116698084, guid: 78798d82e83badb4eb0434acdf8248f2,
-    type: 3}
-  m_PrefabInstance: {fileID: 849607703014951067}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &5594403075620774789 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5073628514417044254, guid: 78798d82e83badb4eb0434acdf8248f2,
     type: 3}
   m_PrefabInstance: {fileID: 849607703014951067}
   m_PrefabAsset: {fileID: 0}

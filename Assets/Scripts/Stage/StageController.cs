@@ -473,11 +473,7 @@ public class StageController : MonoBehaviour
 		var microgame = microgamePlayer.CurrentMicrogame;
         var victory = session.VictoryStatus;
         
-		voicePlayer.playClip(victory,
-			getMicrogameVictory()
-            ? session.VictoryVoiceDelay
-            : session.FailureVoiceDelay);
-
+		
 		if (microgame.isBossMicrogame())
 		{
 			float endInBeats = victory ? ((MicrogameBoss)microgame).victoryEndBeats
