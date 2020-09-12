@@ -45,10 +45,10 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private int initialSiblingIndex;
     private float centerArrivalTime;
     
-    private Microgame microgame;
+    public Microgame microgame { get; private set; }
 
-	void Start()
-	{
+    void Awake()
+    {
         selectedInstance = null;
 
         int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
@@ -63,7 +63,13 @@ public class MenuPracticeMicrogame : MonoBehaviour
         }
         else
             microgame = microgamePool[microgameNumber];
-        
+    }
+
+	void Start()
+    {
+        int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
+        var isBoss = microgame.isBossMicrogame();
+
         initialScale = transform.localScale;
         initialLocalPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
@@ -82,6 +88,12 @@ public class MenuPracticeMicrogame : MonoBehaviour
         if (credits.Length < 3 || credits.FirstOrDefault(a => string.IsNullOrEmpty(a)) != null)
             Debug.LogWarning($"Microgame {microgame.microgameId} is missing credits field(s)!");
 	}
+
+    public void SetSprite(Sprite sprite)
+    {
+        if (sprite != null)
+            icon.sprite = sprite;
+    }
 	
 	void LateUpdate()
     {

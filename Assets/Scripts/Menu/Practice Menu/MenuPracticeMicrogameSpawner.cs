@@ -44,6 +44,7 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     private GameMenu rootMenu;
 
     private List<MenuPracticeMicrogame> spawnedMicrogames;
+    private Sprite[] microgameIcons;
 
     public static List<Microgame> standardMicrogamePool;
     public static List<Microgame> microgameBossPool;
@@ -63,6 +64,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
 
         int maxYIndex = 0;
         spawnedMicrogames = new List<MenuPracticeMicrogame>();
+
+        microgameIcons = Resources.LoadAll<Sprite>("MicrogameIcons");
 
         var standardCount = standardMicrogamePool.Count;
         var totalCount = standardCount + microgameBossPool.Count();
@@ -116,7 +119,7 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
 
     void spawnPrefab(float x, float y, int index, bool isBoss)
     {
-        var newMicrogame = GameObject.Instantiate(microgamePrefab, parentObject);
+        var newMicrogame = Instantiate(microgamePrefab, parentObject);
         newMicrogame.GetComponent<MenuButton>().SfxSource = buttonSfxSource;
         newMicrogame.transform.SetSiblingIndex(index);
         newMicrogame.transform.localPosition = new Vector3(x, y, zLevel);
@@ -126,6 +129,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
         newMicrogame.NameText = nameText;
         newMicrogame.CreditsTexts = creditsTexts;
         newMicrogame.RootMenu = rootMenu;
+        if (newMicrogame.microgame != null)
+            newMicrogame.SetSprite(microgameIcons.FirstOrDefault(a => a.name.Contains(newMicrogame.microgame.microgameId)));
         spawnedMicrogames.Add(newMicrogame);
     }
 }
