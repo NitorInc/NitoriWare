@@ -39,12 +39,13 @@ public static class MicrogameSessionManager
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Prevent leaks  :)
+        // TODO exception in debug mode
 
         if (mode == LoadSceneMode.Single)
         {
             foreach (var session in activeSessions)
             {
-                session.State = Microgame.Session.SessionState.Unloading;
+                session.AsyncState = Microgame.Session.SessionState.Unloading;
             }
             activeSessions.Clear();
         }

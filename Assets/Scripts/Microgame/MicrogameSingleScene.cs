@@ -7,19 +7,19 @@ public class MicrogameSingleScene : Microgame
 {
     public override bool SceneDeterminesDifficulty => false;
     
-    class Session : Microgame.Session
+    new class Session : Microgame.Session
     {
         public override string SceneName => microgame.microgameId;
 
-        public Session(Microgame microgame, StageController player, int difficulty, bool debugMode)
-            : base(microgame, player, difficulty, debugMode)
+        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
+            : base(microgame, eventListener, difficulty, debugMode)
         {
         }
     }
 
-    public override Microgame.Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
     {
-        return new Session(this, player, difficulty, debugMode);
+        return new Session(this, eventListener, difficulty, debugMode);
     }
 }
 

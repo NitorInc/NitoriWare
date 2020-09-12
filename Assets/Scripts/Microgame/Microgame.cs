@@ -86,8 +86,15 @@ public class Microgame : ScriptableObject
     public virtual bool SceneDeterminesDifficulty => true;
     public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
-    public virtual Session CreateSession(StageController player, int difficulty, bool debugMode = false)
-        => new Session(this, player, difficulty, debugMode);
+    /// <summary>
+    /// Creates a new "instance" of this microgame to prepare for a play session
+    /// </summary>
+    /// <param name="eventListener"></param>
+    /// <param name="difficulty"></param>
+    /// <param name="debugMode"></param>
+    /// <returns>The session</returns>
+    public virtual Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
+        => new Session(this, eventListener, difficulty, debugMode);
 
     public Session CreateDebugSession(int difficulty)
         => CreateSession(null, difficulty, true);
@@ -118,7 +125,7 @@ public class Microgame : ScriptableObject
 
         public Microgame microgame { get; private set; }
 
-        public StageController microgamePlayer { get; private set; }
+        public MicrogameEventListener EventListener { get; private set; }
 
         public int Difficulty { get; private set; }
 
@@ -130,21 +137,24 @@ public class Microgame : ScriptableObject
 
         public float FailureVoiceDelay { get; set; }
 
-        public SessionState State { get; set; }
+        public SessionState AsyncState { get; set; }
         public enum SessionState
         {
-            Loading,
-            Playing,
-            Unloading
+            Loading,    // Microgame scene is loading but not set to activate
+            Activating, // Microgame scene is set to activate but has not awaken yet
+            Playing,    // Microgame scene is the active game scene and is performing gameplay
+            Unloading  // Microgame scene is unloading async
         }
+
+        public bool Cancelled { get; set; } // Microgame is set to destroy itself as soon as it loads in and won't be played
 
         /// <summary>
         /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
         /// </summary>
-        public Session(Microgame microgame, StageController player, int difficulty, bool debugMode)
+        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
         {
             this.microgame = microgame;
-            this.microgamePlayer = player;
+            this.EventListener = eventListener;
             Difficulty = difficulty;
             VictoryStatus = microgame._defaultVictory;
             VictoryVoiceDelay = microgame._victoryVoiceDelay;

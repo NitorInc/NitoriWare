@@ -13,9 +13,9 @@ public class TouhouSortMicrogame : Microgame
     [SerializeField]
     private CategoryScene[] categories;
 
-    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
     {
-        return new TouhouSortSession(this, player, difficulty, debugMode, categories);
+        return new TouhouSortSession(this, eventListener, difficulty, debugMode, categories);
     }
 
     [System.Serializable]
@@ -48,8 +48,8 @@ public class TouhouSortMicrogame : Microgame
 
         public override string SceneName => selectedCategory.SceneName;
 
-        public TouhouSortSession(Microgame microgame, StageController player, int difficulty, bool debugMode, CategoryScene[] categories)
-            : base(microgame, player, difficulty, debugMode)
+        public TouhouSortSession(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, CategoryScene[] categories)
+            : base(microgame, eventListener, difficulty, debugMode)
         {
             if (debugMode && !(microgame as TouhouSortMicrogame).DebugRandomScene)
             {

@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Collections;
 using System.Linq;
+using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -147,85 +148,86 @@ public class MicrogameController : MonoBehaviour
             //Normal Awake
 
             session = MicrogameSessionManager.ActiveSessions
-                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.State == Microgame.Session.SessionState.Loading);
+                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.AsyncState == Microgame.Session.SessionState.Activating);
 
-            if (session == null || isBeingDiscarded())
+            if (session == null)
                 return;
 
-
-            session.State = Microgame.Session.SessionState.Playing;
-            
-            session.microgamePlayer.onMicrogameAwake(this, session);
-
+            session.AsyncState = Microgame.Session.SessionState.Playing;
+            session.EventListener.SceneActive.Invoke(session, gameObject.scene);
             Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
         }
 
 	}
 
 	void Start()
-	{
-        if (session == null || isBeingDiscarded())
+    {
+        if (session == null
+            && MicrogameSessionManager.ActiveSessions
+                .Any(a => a.SceneName.Equals(gameObject.scene.name) && a.AsyncState == Microgame.Session.SessionState.Loading)
+            && Application.isPlaying)
         {
-            shutDownMicrogame();
+
+            Debug.LogError("Microgame scene(s) activated prematurely. This is a Unity bug. Try restarting the scene or setting Editor Start Delay higher in Stage Controller");
+            Debug.Break();
             return;
         }
-        else
+
+        if (debugMode)
         {
-            if (debugMode)
+            //Debug Start
+            MicrogameDebugObjects debugObjects = MicrogameDebugObjects.instance;
+            commandDisplay = debugObjects.commandDisplay;
+
+            if (debugSettings.localizeText)
             {
-                //Debug Start
-                MicrogameDebugObjects debugObjects = MicrogameDebugObjects.instance;
-                commandDisplay = debugObjects.commandDisplay;
-
-                if (debugSettings.localizeText)
+                LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
+                if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
+                    manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
+                else if (debugSettings.resetThroughAllLanguages)
                 {
-                    LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
-                    if (!string.IsNullOrEmpty(debugSettings.forceLocalizationLanguage))
-                        manager.setForcedLanguage(debugSettings.forceLocalizationLanguage);
-                    else if (debugSettings.resetThroughAllLanguages)
-                    {
-                        var languages = LanguagesData.instance.languages;
-                        var currentLanguageName = languages[langaugeCycleIndex++].getLanguageID();
-                        if (LocalizationManager.instance != null)
-                            manager.setLanguage(currentLanguageName);
-                        else
-                            manager.setForcedLanguage(currentLanguageName);
-                        if (langaugeCycleIndex >= languages.Count())
-                            langaugeCycleIndex = 0;
-                        print("Language cycling debugging in " + currentLanguageName);
-                    }
-                    manager.gameObject.SetActive(true);
-                }
-
-                MicrogameTimer.instance.beatsLeft = (float)microgame.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
-                if (!debugSettings.showTimer)
-                    MicrogameTimer.instance.disableDisplay = true;
-                if (debugSettings.timerTick)
-                    MicrogameTimer.instance.invokeTick();
-
-                var musicClip = session.MusicClip;
-                if (debugSettings.playMusic && musicClip != null)
-                {
-                    AudioSource source = debugObjects.musicSource;
-                    source.clip = musicClip;
-                    source.pitch = StageController.getSpeedMult(debugSettings.speed);
-                    if (!debugSettings.simulateStartDelay)
-                        source.Play();
+                    var languages = LanguagesData.instance.languages;
+                    var currentLanguageName = languages[langaugeCycleIndex++].getLanguageID();
+                    if (LocalizationManager.instance != null)
+                        manager.setLanguage(currentLanguageName);
                     else
-                        AudioHelper.playScheduled(source, StageController.beatLength);
+                        manager.setForcedLanguage(currentLanguageName);
+                    if (langaugeCycleIndex >= languages.Count())
+                        langaugeCycleIndex = 0;
+                    print("Language cycling debugging in " + currentLanguageName);
                 }
-
-                if (debugSettings.displayCommand)
-                    debugObjects.commandDisplay.play(session.GetLocalizedCommand(), session.CommandAnimatorOverride);
-
-                Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
-                Cursor.lockState = session.cursorLockMode;
-
-                debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
-
+                manager.gameObject.SetActive(true);
             }
-            SceneManager.SetActiveScene(gameObject.scene);
+
+            MicrogameTimer.instance.beatsLeft = (float)microgame.getDurationInBeats() + (debugSettings.simulateStartDelay ? 1f : 0f);
+            if (!debugSettings.showTimer)
+                MicrogameTimer.instance.disableDisplay = true;
+            if (debugSettings.timerTick)
+                MicrogameTimer.instance.invokeTick();
+
+            var musicClip = session.MusicClip;
+            if (debugSettings.playMusic && musicClip != null)
+            {
+                AudioSource source = debugObjects.musicSource;
+                source.clip = musicClip;
+                source.pitch = StageController.getSpeedMult(debugSettings.speed);
+                if (!debugSettings.simulateStartDelay)
+                    source.Play();
+                else
+                    AudioHelper.playScheduled(source, StageController.beatLength);
+            }
+
+            if (debugSettings.displayCommand)
+                debugObjects.commandDisplay.play(session.GetLocalizedCommand(), session.CommandAnimatorOverride);
+
+            Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
+            Cursor.lockState = session.cursorLockMode;
+
+            debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
+
         }
+        SceneManager.SetActiveScene(gameObject.scene);
+        session.EventListener.MicrogameStart.Invoke(session);
 	}
 
     public void onPaused()
@@ -238,30 +240,11 @@ public class MicrogameController : MonoBehaviour
         onUnPause.Invoke();
     }
 
-    /// <summary>
-    /// Disables all root objects in microgame
-    /// </summary>
-    public void shutDownMicrogame()
-    {
-        GameObject[] rootObjects = gameObject.scene.GetRootGameObjects();
-        foreach (var rootObject in rootObjects)
-        {
-            rootObject.SetActive(false);
-
-            //Is there a better way to do this?
-            var monobehaviours = rootObject.GetComponentsInChildren<MonoBehaviour>();
-            foreach (var behaviour in monobehaviours)
-            {
-                behaviour.CancelInvoke();
-            }
-        }
-    }
-
     bool isBeingDiscarded()
 	{
         if (debugMode)
             return false;
-        return session.State == Microgame.Session.SessionState.Unloading;
+        return session.AsyncState == Microgame.Session.SessionState.Unloading;
 	}
 
 	/// <summary>
@@ -319,7 +302,9 @@ public class MicrogameController : MonoBehaviour
         }
         else
         {
-            session.microgamePlayer.setMicrogameVictory(session, victory, finalize);
+            session.EventListener.VictoryStatusUpdated.Invoke(session);
+            if (final)
+                session.EventListener.VictoryStatusFinalized.Invoke(session);
 
         }
     }
@@ -351,7 +336,7 @@ public class MicrogameController : MonoBehaviour
             commandDisplay.play(command, commandAnimatorOverride);
         }
         else
-            session.microgamePlayer.DisplayExtraCommand(session, command, commandAnimatorOverride);
+            session.EventListener.DisplayCommand.Invoke(session, command, commandAnimatorOverride);
     }
 
     /// <summary>

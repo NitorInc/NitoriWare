@@ -24,6 +24,9 @@ public class CommandDisplay : MonoBehaviour
         animator.SetBool("play", true);
     }
 
+    public void play(Microgame.Session session, string command, AnimatorOverrideController animationOverride)
+        => play(command, animationOverride);
+
     public void play(AnimatorOverrideController animationOverride = null)
     {
         play(getText(), animationOverride);

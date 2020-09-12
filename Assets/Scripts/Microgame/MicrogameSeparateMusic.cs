@@ -12,22 +12,22 @@ public class MicrogameSeparateMusic : Microgame
     [SerializeField]
     private AudioClip difficulty3Clip;
 
-    class Session : Microgame.Session
+    new class Session : Microgame.Session
     {
         private AudioClip musicClip;
 
         public override AudioClip MusicClip => musicClip;
 
-        public Session(Microgame microgame, StageController player, int difficulty, bool debugMode, AudioClip musicClip)
-            : base(microgame, player, difficulty, debugMode)
+        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, AudioClip musicClip)
+            : base(microgame, eventListener, difficulty, debugMode)
         {
             this.musicClip = musicClip;
         }
     }
 
-    public override Microgame.Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
     {
-        return new Session(this, player, difficulty, debugMode, GetAudioClip(difficulty));
+        return new Session(this, eventListener, difficulty, debugMode, GetAudioClip(difficulty));
     }
 
     private AudioClip GetAudioClip(int difficulty)

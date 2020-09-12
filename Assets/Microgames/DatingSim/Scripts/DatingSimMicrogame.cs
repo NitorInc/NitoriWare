@@ -20,9 +20,9 @@ public class DatingSimMicrogame : Microgame
 
     public override bool SceneDeterminesDifficulty => false;
 
-    public override Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
     {
-        return new DatingSimSession(this, player, difficulty, debugMode, possibleScenes);
+        return new DatingSimSession(this, eventListener, difficulty, debugMode, possibleScenes);
     }
 
     [System.Serializable]
@@ -49,8 +49,8 @@ public class DatingSimMicrogame : Microgame
 
         public override AudioClip MusicClip => selectedCharacterScene.MusicClip;
 
-        public DatingSimSession(Microgame microgame, StageController player, int difficulty, bool debugMode, CharacterScene[] possibleScenes)
-            : base(microgame, player, difficulty, debugMode)
+        public DatingSimSession(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, CharacterScene[] possibleScenes)
+            : base(microgame, eventListener, difficulty, debugMode)
         {
             if (debugMode && !(microgame as DatingSimMicrogame).DebugRandomCharacter)
             {

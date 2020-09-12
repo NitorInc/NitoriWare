@@ -21,7 +21,7 @@ public class MicrogameSeparateCommands : Microgame
         public string defaultValue;
     }
 
-    class Session : Microgame.Session
+    new class Session : Microgame.Session
     { 
         private DifficultyCommand command;
 
@@ -29,16 +29,16 @@ public class MicrogameSeparateCommands : Microgame
             => TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".command" + command.commandKeySuffix,
                 command.defaultValue);
 
-        public Session(Microgame microgame, StageController player, int difficulty, bool debugMode, DifficultyCommand command)
-            : base(microgame, player, difficulty, debugMode)
+        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, DifficultyCommand command)
+            : base(microgame, eventListener, difficulty, debugMode)
         {
             this.command = command;
         }
     }
     
-    public override Microgame.Session CreateSession(StageController player, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
     {
-        return new Session(this, player, difficulty, debugMode, GetCommand(difficulty));
+        return new Session(this, eventListener, difficulty, debugMode, GetCommand(difficulty));
     }
 
     private DifficultyCommand GetCommand(int difficulty)
