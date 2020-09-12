@@ -14,7 +14,7 @@ public class MicrogameStage : Stage
     [SerializeField]
     private int forceDifficulty;
     [SerializeField]
-    [Range(1, StageController.MAX_SPEED)]
+    [Range(1, SpeedController.MAX_SPEED)]
     private int forceStartSpeed = 1;
     [SerializeField]
     private bool speedUpEveryCycle = false;

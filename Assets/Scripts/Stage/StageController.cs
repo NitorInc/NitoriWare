@@ -4,12 +4,8 @@ using System.Collections.Generic;
 
 public class StageController : MonoBehaviour
 {
-	public const int MAX_SPEED = 10;
-
 	[SerializeField]
 	private Stage stage;
-	[Range(1, MAX_SPEED)]
-	public int speed;
 	public bool godMode, muteMusic;
     public float editorStartDelay = .2f;
 
@@ -34,6 +30,7 @@ public class StageController : MonoBehaviour
 	public AudioClip victoryClip, failureClip;
 	public GameObject scene;
 	public Sprite[] controlSchemeSprites;
+	public SpeedController speedController;
 
     public CommandDisplay commandDisplay;
     public ControlDisplay controlDisplay;
@@ -99,8 +96,8 @@ public class StageController : MonoBehaviour
         stage.onStageStart(this);
 
         microgameCount = 0;
-        speed = stage.getStartSpeed();
-        Time.timeScale = getSpeedMult();
+        speedController.Speed = stage.getStartSpeed();
+		speedController.ApplyToTimeScale();
         animationStartTime = startTime;
 
         UpdatePlayerMicrogameQueue(maxStockpiledScenes);
@@ -108,7 +105,7 @@ public class StageController : MonoBehaviour
         resetLifeIndicators();
         MicrogameNumber.instance.resetNumber();
 
-        introSource.pitch = getSpeedMult();
+        introSource.pitch = speedController.GetSpeedTimeScaleMult();
         if (!muteMusic && firstTime)
             AudioHelper.playScheduled(introSource, startTime - Time.time);
         //updateMicrogameTraits();
@@ -150,7 +147,7 @@ public class StageController : MonoBehaviour
 		Stage.Interruption[] interruptions = stage.getInterruptions(microgameCount);
 		float interruptionBeats = 0f;
 
-		int endSpeed = speed;
+		int endSpeed = speedController.Speed;
 		for (int i = 0; i < interruptions.Length; i++)
 		{
 			Stage.Interruption interruption = interruptions[i];
@@ -164,7 +161,7 @@ public class StageController : MonoBehaviour
 			interruptionBeats += interruption.beatDuration;
 		}
 		animationStartTime += interruptionBeats * beatLength;
-		introSource.pitch = getSpeedMult(endSpeed);
+		introSource.pitch = speedController.GetSpeedTimeScaleMult(endSpeed);
 	}
 
 	void invokeIntroAnimations()
@@ -189,7 +186,7 @@ public class StageController : MonoBehaviour
 
 	void updateToOutro()
 	{
-		outroSource.pitch = getSpeedMult();
+		outroSource.pitch = speedController.GetSpeedTimeScaleMult();
 		if (!muteMusic)
 			outroSource.Play();
 		outroPlayTime = Time.time;
@@ -229,8 +226,8 @@ public class StageController : MonoBehaviour
 			setAnimationPart(interruption.animation);
 
 		if (!interruption.applySpeedChangeAtEnd)
-			speed = getChangedSpeed(interruption);
-		Time.timeScale = getSpeedMult();
+			speedController.Speed = getChangedSpeed(interruption);
+		Time.timeScale = speedController.GetSpeedTimeScaleMult();
 
 		if (interruptionQueue.Count != 0)
 		{
@@ -239,8 +236,8 @@ public class StageController : MonoBehaviour
 		else
 		{
 			if (interruption.applySpeedChangeAtEnd)
-				speed = getChangedSpeed(interruption);
-			introSource.pitch = getSpeedMult();
+				speedController.Speed= getChangedSpeed(interruption);
+			introSource.pitch = speedController.GetSpeedTimeScaleMult();
 			if (!muteMusic && interruption.beatDuration > 0f)
 				AudioHelper.playScheduled(introSource, (interruption.scheduledPlayTime + (interruption.beatDuration * beatLength)) - Time.time);
 		}
@@ -257,9 +254,9 @@ public class StageController : MonoBehaviour
 		interruption.audioSource.Stop();
 		interruption.audioSource.clip = interruption.audioClip;
 		if (interruption.applySpeedChangeAtEnd)
-			interruption.audioSource.pitch = getSpeedMult();
+			interruption.audioSource.pitch = speedController.GetSpeedTimeScaleMult();
 		else
-			interruption.audioSource.pitch = getSpeedMult(getChangedSpeed(interruption));
+			interruption.audioSource.pitch = speedController.GetSpeedTimeScaleMult(getChangedSpeed(interruption));
 		if (!muteMusic)
 			AudioHelper.playScheduled(interruption.audioSource, timeToPlay - Time.time);
 	}
@@ -269,11 +266,11 @@ public class StageController : MonoBehaviour
 		switch (interruption.speedChange)
 		{
 			case (Stage.Interruption.SpeedChange.SpeedUp):
-				return Mathf.Clamp(speed + 1, 1, MAX_SPEED);
+				return Mathf.Clamp(speed + 1, 1, SpeedController.MAX_SPEED);
 			case (Stage.Interruption.SpeedChange.ResetSpeed):
 				return 1;
 			case (Stage.Interruption.SpeedChange.Custom):
-				return Mathf.Clamp(stage.getCustomSpeed(microgameCount, interruption), 1, MAX_SPEED);
+				return Mathf.Clamp(stage.getCustomSpeed(microgameCount, interruption), 1, SpeedController.MAX_SPEED);
 			default:
 				return speed;
 		}
@@ -281,7 +278,7 @@ public class StageController : MonoBehaviour
 
 	int getChangedSpeed(Stage.Interruption interruption)
 	{
-		return getChangedSpeed(speed, interruption);
+		return getChangedSpeed(speedController.Speed, interruption);
 	}
 
 	void updateToIntro()
@@ -289,7 +286,7 @@ public class StageController : MonoBehaviour
 
 		setAnimationPart(AnimationPart.Intro);
 
-		Time.timeScale = getSpeedMult();
+		Time.timeScale = speedController.GetSpeedTimeScaleMult();
         
 		commandDisplay.setText(
             microgamePlayer.CurrentMicrogameSession.GetLocalizedCommand(),
@@ -305,7 +302,7 @@ public class StageController : MonoBehaviour
 	{
 		microgamePlayer.CancelRemainingMicrogames();
 		setAnimationPart(AnimationPart.GameOver);
-		speed = 1;
+		speedController.Speed = 1;
 		Time.timeScale = 1f;
 		CancelInvoke();
 		introSource.Stop();
@@ -326,7 +323,7 @@ public class StageController : MonoBehaviour
 
 	void playMicrogameMusic()
 	{
-		microgameMusicSource.pitch = getSpeedMult();
+		microgameMusicSource.pitch = speedController.GetSpeedTimeScaleMult();
 		if (!muteMusic && microgameMusicSource.clip != null)
 			microgameMusicSource.Play();
 	}
@@ -536,17 +533,6 @@ public class StageController : MonoBehaviour
 	void invokeAtTime(string function, float time)
 	{
 		Invoke(function, time - Time.time);
-	}
-
-
-	public float getSpeedMult()
-	{
-		return getSpeedMult(speed);
-	}
-
-	public static float getSpeedMult(int speed)
-	{
-		return 1f + ((float)(speed - 1) * .125f);
 	}
 
     public Stage getStage()

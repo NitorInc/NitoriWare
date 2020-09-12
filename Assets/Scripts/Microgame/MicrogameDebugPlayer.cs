@@ -22,6 +22,9 @@ public class MicrogameDebugPlayer : MonoBehaviour
     private CommandDisplay commandDisplay;
     [SerializeField]
     private MicrogameEventListener eventListener;
+    [SerializeField]
+    private SpeedController speedController;
+
     public MicrogameEventListener EventListener => eventListener;
 
     [System.Serializable]
@@ -31,7 +34,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         public string forceLocalizationLanguage;
         public bool resetThroughAllLanguages;
         public VoicePlayer.VoiceSet voiceSet;
-        [Range(1, StageController.MAX_SPEED)]
+        [Range(1, SpeedController.MAX_SPEED)]
         public int speed;
         [Header("For microgames where difficulty isn't dependent on scene:")]
         public DebugDifficulty SimulateDifficulty;
@@ -85,7 +88,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
     public void SceneStarted()
     {
-        settings.speed = playSpeed;
+        settings.speed = speedController.Speed = playSpeed;
 
         if (Settings.localizeText)
         {
@@ -133,7 +136,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (Settings.playMusic && musicClip != null)
         {
             musicSource.clip = musicClip;
-            musicSource.pitch = StageController.getSpeedMult(playSpeed);
+            musicSource.pitch = speedController.GetSpeedTimeScaleMult(playSpeed);
             if (!Settings.simulateStartDelay)
                 musicSource.Play();
             else
@@ -152,7 +155,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
     void UpdateSpeed()
     {
-        Time.timeScale = StageController.getSpeedMult(playSpeed);
+        Time.timeScale = speedController.GetSpeedTimeScaleMult(playSpeed);
     }
 
     public void LoadNewMicrogame(Microgame.Session session)
@@ -178,7 +181,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             else if (Input.GetKeyDown(Settings.debugKeys.Faster))
             {
                 var newSession = MicrogameSession.microgame.CreateSession(eventListener, MicrogameSession.Difficulty);
-                playSpeed = Mathf.Min(playSpeed + 1, StageController.MAX_SPEED);
+                playSpeed = Mathf.Min(playSpeed + 1, SpeedController.MAX_SPEED);
                 Debug.Log("Debugging at speed " + playSpeed);
                 LoadNewMicrogame(newSession);
                 return;
@@ -187,6 +190,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             {
                 var newSession = MicrogameSession.microgame.CreateSession(eventListener,
                     Mathf.Min(MicrogameSession.Difficulty + 1, 3));
+                playSpeed = 1;
                 Debug.Log("Debugging at difficulty " + newSession.Difficulty);
                 LoadNewMicrogame(newSession);
                 return;
