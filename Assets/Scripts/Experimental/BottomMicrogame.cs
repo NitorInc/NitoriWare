@@ -95,7 +95,7 @@ public class BottomMicrogame : MonoBehaviour
             .ToList();
 
         newJob.microgame = microgames[Random.Range(0, microgames.Count - 1)];
-        newJob.session = newJob.microgame.CreateDebugSession(difficulty);
+        newJob.session = newJob.microgame.CreateDebugSession(null, difficulty);
         newJob.sceneName = newJob.session.SceneName;
 
 
@@ -171,8 +171,8 @@ public class BottomMicrogame : MonoBehaviour
             }
         }
 
-        if (MicrogameDebugObjects.instance != null && MicrogameDebugObjects.instance.musicSource.volume > 0f)
-            MicrogameDebugObjects.instance.musicSource.volume = 0f; ;
+        //if (MicrogameDebugObjects.instance != null && MicrogameDebugObjects.instance.musicSource.volume > 0f)
+        //    MicrogameDebugObjects.instance.musicSource.volume = 0f; ;
     }
 
     private void SetLayerRecursive(Transform trans)

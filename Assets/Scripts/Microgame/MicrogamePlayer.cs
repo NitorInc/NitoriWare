@@ -29,7 +29,6 @@ public class MicrogamePlayer : MonoBehaviour
         public AsyncOperation unloadOperation;
 
         public Microgame microgame => session.microgame;
-        public int difficulty => session.Difficulty;
         public Scene scene;
     }
 
@@ -158,5 +157,25 @@ public class MicrogamePlayer : MonoBehaviour
         }
         resourceUnloadingBusy = false;
 
+    }
+
+    // Below is for debug mode purposes
+
+    public void AddLoadedMicrogame(Microgame.Session session, Scene scene)
+    {
+        var job = new MicrogameJob();
+        job.session = session;
+        job.scene = scene;
+        microgameJobs.Add(job);
+    }
+
+    public void LoadMicrogameImmediately(Microgame.Session session)
+    {
+        microgameJobs = new List<MicrogameJob>();
+        var job = new MicrogameJob();
+        job.session = session;
+        job.session.AsyncState = Microgame.Session.SessionState.Activating;
+        microgameJobs.Add(job);
+        SceneManager.LoadScene(session.SceneName);
     }
 }

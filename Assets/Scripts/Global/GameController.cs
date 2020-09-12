@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
         }
 
         startScene = gameObject.scene.name;
+        transform.parent = null;
         DontDestroyOnLoad(transform.gameObject);
 		instance = this;
 

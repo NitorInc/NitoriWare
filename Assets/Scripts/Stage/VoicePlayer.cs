@@ -57,6 +57,7 @@ public class VoicePlayer : MonoBehaviour
 				lossClips.Add(newClip);
 			i++;
 		}
+
 	}
 
 	/// <summary>

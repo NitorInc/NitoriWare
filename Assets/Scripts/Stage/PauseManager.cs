@@ -62,8 +62,7 @@ public class PauseManager : MonoBehaviour
 		paused = false;
         menuCanvas.worldCamera = Camera.main;
         sfxSource.ignoreListenerPause = true;
-        if (transform.root != transform)
-            Debug.LogWarning("Pause Controller should be put in hierarchy root!");
+        transform.parent = null;
     }
 	
 	void Update ()

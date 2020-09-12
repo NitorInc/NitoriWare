@@ -39,9 +39,8 @@ public static class MicrogameSessionManager
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Prevent leaks  :)
-        // TODO exception in debug mode
 
-        if (mode == LoadSceneMode.Single)
+        if (mode == LoadSceneMode.Single && !MicrogameDebugPlayer.DebugModeActive)
         {
             foreach (var session in activeSessions)
             {

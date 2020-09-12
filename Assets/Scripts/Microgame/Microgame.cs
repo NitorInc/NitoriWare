@@ -96,8 +96,8 @@ public class Microgame : ScriptableObject
     public virtual Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
         => new Session(this, eventListener, difficulty, debugMode);
 
-    public Session CreateDebugSession(int difficulty)
-        => CreateSession(null, difficulty, true);
+    public Session CreateDebugSession(MicrogameEventListener eventListener, int difficulty)
+        => CreateSession(eventListener, difficulty, true);
 
 
     /// <summary>
