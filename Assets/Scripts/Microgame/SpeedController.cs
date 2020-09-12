@@ -8,7 +8,7 @@ public class SpeedController : MonoBehaviour
 
     [Range(1, MAX_SPEED)]
     [SerializeField]
-    private int speed;
+    private int speed = 1;
     public int Speed
     {
         get { return speed; }
