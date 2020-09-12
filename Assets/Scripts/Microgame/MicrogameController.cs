@@ -226,8 +226,9 @@ public class MicrogameController : MonoBehaviour
             debugObjects.voicePlayer.loadClips(debugSettings.voiceSet);
 
         }
+        else
+            session.EventListener.MicrogameStart.Invoke(session);
         SceneManager.SetActiveScene(gameObject.scene);
-        session.EventListener.MicrogameStart.Invoke(session);
 	}
 
     public void onPaused()
