@@ -68,7 +68,7 @@ public class MenuPracticeMicrogame : MonoBehaviour
         initialLocalPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
 
-        Sprite iconSprite = Resources.Load<Sprite>($"Resources/MicrogameIcons/{microgame.microgameId}.png");
+        Sprite iconSprite = Resources.Load<Sprite>($"MicrogameIcons/{microgame.microgameId}Icon");
         if (iconSprite != null)
             icon.sprite = iconSprite;
 
