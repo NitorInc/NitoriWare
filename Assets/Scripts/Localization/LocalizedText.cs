@@ -229,8 +229,8 @@ public class LocalizedText : MonoBehaviour
 
     public TMP_FontAsset getTMProFontForLanguage(Language language)
     {
-        if (tmpText != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(tmpText.font.name))
-            return tmpText.font;
+        if (initialFontData.tmpFontAsset != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(initialFontData.tmpFontAsset.name))
+            return initialFontData.tmpFontAsset;
         
         foreach (var fallbackFont in tmproFontFallbackList.Split('\n'))
         {
