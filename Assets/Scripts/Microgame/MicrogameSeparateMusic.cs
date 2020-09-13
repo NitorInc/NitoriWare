@@ -16,7 +16,7 @@ public class MicrogameSeparateMusic : Microgame
     {
         private AudioClip musicClip;
 
-        public override AudioClip MusicClip => musicClip;
+        public override AudioClip GetMusicClip() => musicClip;
 
         public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, AudioClip musicClip)
             : base(microgame, eventListener, difficulty, debugMode)

@@ -62,7 +62,7 @@ public class MicrogamePlayer : MonoBehaviour
         newJob.session = session;
         session.AsyncState = Microgame.Session.SessionState.Loading;
         newJob.loadOperation = SceneManager.LoadSceneAsync(
-            newJob.session.SceneName,
+            newJob.session.GetSceneName(),
             LoadSceneMode.Additive);
         newJob.loadOperation.allowSceneActivation = false;
         microgameJobs.Add(newJob);
@@ -178,6 +178,6 @@ public class MicrogamePlayer : MonoBehaviour
         job.session = session;
         job.session.AsyncState = Microgame.Session.SessionState.Activating;
         microgameJobs.Add(job);
-        SceneManager.LoadScene(session.SceneName);
+        SceneManager.LoadScene(session.GetSceneName());
     }
 }

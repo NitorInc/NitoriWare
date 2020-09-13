@@ -34,7 +34,7 @@ public class TouhouSortMicrogame : Microgame
         public int MinDifficulty => minDifficulty;
     }
     
-    public override bool SceneDeterminesDifficulty => false;
+    public override bool SceneDeterminesDifficulty() => false;
 
     private string defaultCommand => _command;
 
@@ -46,7 +46,7 @@ public class TouhouSortMicrogame : Microgame
             => string.Format(TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", (microgame as TouhouSortMicrogame).defaultCommand),
                 TextHelper.getLocalizedText($"microgame.TouhouSort.{selectedCategory.IdName}", selectedCategory.IdName));
 
-        public override string SceneName => selectedCategory.SceneName;
+        public override string GetSceneName() => selectedCategory.SceneName;
 
         public TouhouSortSession(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, CategoryScene[] categories)
             : base(microgame, eventListener, difficulty, debugMode)

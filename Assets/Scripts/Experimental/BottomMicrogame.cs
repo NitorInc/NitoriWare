@@ -96,7 +96,7 @@ public class BottomMicrogame : MonoBehaviour
 
         newJob.microgame = microgames[Random.Range(0, microgames.Count - 1)];
         newJob.session = newJob.microgame.CreateDebugSession(null, difficulty);
-        newJob.sceneName = newJob.session.SceneName;
+        newJob.sceneName = newJob.session.GetSceneName();
 
 
         newJob.asyncOperation = SceneManager.LoadSceneAsync(newJob.sceneName, LoadSceneMode.Additive);
@@ -161,7 +161,7 @@ public class BottomMicrogame : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Cursor.visible = !topJob.session.HideCursor;
+        Cursor.visible = !topJob.session.GetHideCursor();
         if (bottomJob != null && bottomJob.scene.IsValid())
         {
             //print("listen to meeeeee");

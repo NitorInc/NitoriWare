@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Microgame/Single Scene")]
 public class MicrogameSingleScene : Microgame
 {
-    public override bool SceneDeterminesDifficulty => false;
+    public override bool SceneDeterminesDifficulty() => false;
     
     new class Session : Microgame.Session
     {
-        public override string SceneName => microgame.microgameId;
+        public override string GetSceneName() => microgame.microgameId;
 
         public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
             : base(microgame, eventListener, difficulty, debugMode)

@@ -18,7 +18,7 @@ public class DatingSimMicrogame : Microgame
     
     public override AudioClip[] GetAllPossibleMusicClips() => possibleScenes.Select(a => a.MusicClip).ToArray();
 
-    public override bool SceneDeterminesDifficulty => false;
+    public override bool SceneDeterminesDifficulty() => false;
 
     public override Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
     {
@@ -45,9 +45,9 @@ public class DatingSimMicrogame : Microgame
     {
         public CharacterScene selectedCharacterScene { get; private set; }
 
-        public override string SceneName => selectedCharacterScene.SceneName;
+        public override string GetSceneName() => selectedCharacterScene.SceneName;
 
-        public override AudioClip MusicClip => selectedCharacterScene.MusicClip;
+        public override AudioClip GetMusicClip() => selectedCharacterScene.MusicClip;
 
         public DatingSimSession(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, CharacterScene[] possibleScenes)
             : base(microgame, eventListener, difficulty, debugMode)

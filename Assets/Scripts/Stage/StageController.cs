@@ -285,7 +285,7 @@ public class StageController : MonoBehaviour
 
 		commandDisplay.setText(
 			microgamePlayer.CurrentMicrogameSession.GetLocalizedCommand(),
-			microgamePlayer.CurrentMicrogameSession.CommandAnimatorOverride);
+			microgamePlayer.CurrentMicrogameSession.GetCommandAnimatorOverride());
 		controlDisplay.setControlScheme(microgamePlayer.CurrentMicrogame.controlScheme);
 
 		setAnimationPart(AnimationPart.Intro);
@@ -351,12 +351,12 @@ public class StageController : MonoBehaviour
 			return;
 
         stageCamera.tag = "Camera";
-        microgameMusicSource.clip = session.MusicClip;
+        microgameMusicSource.clip = session.GetMusicClip();
 
         animationStartTime += beatLength * (12f + (float)session.microgame.getDurationInBeats());
 
         stageCamera.GetComponent<AudioListener>().enabled = false;
-        Cursor.lockState = session.cursorLockMode;
+        Cursor.lockState = session.GetCursorLockMode();
 
         MicrogameTimer.instance.beatsLeft = getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);

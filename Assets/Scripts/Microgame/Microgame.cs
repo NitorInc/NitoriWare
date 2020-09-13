@@ -59,8 +59,8 @@ public class Microgame : ScriptableObject
     protected float _failureVoiceDelay;
 
     [SerializeField]
-    private AudioClip _musicClip;
-    public AudioClip MusicClipDefault => _musicClip;
+    protected AudioClip _musicClip;
+
     public virtual AudioClip[] GetAllPossibleMusicClips() => new AudioClip[] { _musicClip };
 
     [SerializeField]
@@ -83,7 +83,7 @@ public class Microgame : ScriptableObject
     public bool isBossMicrogame() => GetType() == typeof(MicrogameBoss) || GetType().IsSubclassOf(typeof(MicrogameBoss));
 
     // For debug mode purposes
-    public virtual bool SceneDeterminesDifficulty => true;
+    public virtual bool SceneDeterminesDifficulty() => true;
     public virtual int GetDifficultyFromScene(string sceneName) => int.Parse(sceneName.Last().ToString());
 
     /// <summary>
@@ -107,20 +107,19 @@ public class Microgame : ScriptableObject
     /// </summary>
     public class Session : IDisposable
     {
-        public virtual bool HideCursor => microgame._hideCursor;
+        public virtual string GetSceneName() => microgame.microgameId + Difficulty.ToString();
 
-        public virtual CursorLockMode cursorLockMode => microgame._cursorLockState;
-
+        public virtual AudioClip GetMusicClip() => microgame._musicClip;
         public virtual string GetNonLocalizedCommand() => microgame._command;
 
         public virtual string GetLocalizedCommand() =>
             TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", GetNonLocalizedCommand());
 
-        public virtual AnimatorOverrideController CommandAnimatorOverride => microgame._commandAnimatorOveride;
+        public virtual AnimatorOverrideController GetCommandAnimatorOverride() => microgame._commandAnimatorOveride;
 
-        public virtual string SceneName => microgame.microgameId + Difficulty.ToString();
+        public virtual bool GetHideCursor() => microgame._hideCursor;
 
-        public virtual AudioClip MusicClip => microgame.MusicClipDefault;
+        public virtual CursorLockMode GetCursorLockMode() => microgame._cursorLockState;
 
 
         public Microgame microgame { get; private set; }

@@ -71,7 +71,7 @@ public class MicrogameController : MonoBehaviour
             Instantiate(debugPlayerPrefab, transform.position, Quaternion.identity);
 
             int difficulty;
-            if (microgame.SceneDeterminesDifficulty)
+            if (microgame.SceneDeterminesDifficulty())
                 difficulty = microgame.GetDifficultyFromScene(gameObject.scene.name);
             else
                 difficulty = Mathf.Max((int)debugSettings.SimulateDifficulty, 1);
@@ -79,7 +79,7 @@ public class MicrogameController : MonoBehaviour
 
             MicrogameDebugPlayer.instance.Initialize(session, debugSettings);
 
-            if (!sceneName.Equals(session.SceneName))
+            if (!sceneName.Equals(session.GetSceneName()))
             {
                 MicrogameDebugPlayer.instance.LoadNewMicrogame(session);
                 return;
@@ -88,7 +88,7 @@ public class MicrogameController : MonoBehaviour
         else
         {
             session = MicrogameSessionManager.ActiveSessions
-                .FirstOrDefault(a => a.SceneName.Equals(gameObject.scene.name) && a.AsyncState == Microgame.Session.SessionState.Activating);
+                .FirstOrDefault(a => a.GetSceneName().Equals(gameObject.scene.name) && a.AsyncState == Microgame.Session.SessionState.Activating);
 
             if (session == null)    // If null the session was likely cancelled
                 return;
@@ -109,7 +109,7 @@ public class MicrogameController : MonoBehaviour
     {
         if (session == null
             && MicrogameSessionManager.ActiveSessions
-                .Any(a => a.SceneName.Equals(gameObject.scene.name) && a.AsyncState == Microgame.Session.SessionState.Loading)
+                .Any(a => a.GetSceneName().Equals(gameObject.scene.name) && a.AsyncState == Microgame.Session.SessionState.Loading)
             && !MicrogameDebugPlayer.DebugModeActive
             && Application.isPlaying)
         {
@@ -121,7 +121,7 @@ public class MicrogameController : MonoBehaviour
 
         session.EventListener.MicrogameStart.Invoke(session);
         SceneManager.SetActiveScene(gameObject.scene);
-        Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.HideCursor;
+        Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.GetHideCursor();
     }
 
     public void onPaused()

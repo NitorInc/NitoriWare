@@ -131,7 +131,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (Settings.timerTick)
             MicrogameTimer.instance.invokeTick();
 
-        var musicClip = MicrogameSession.MusicClip;
+        var musicClip = MicrogameSession.GetMusicClip();
         if (Settings.playMusic && musicClip != null)
         {
             musicSource.clip = musicClip;
@@ -143,10 +143,10 @@ public class MicrogameDebugPlayer : MonoBehaviour
         }
 
         if (Settings.displayCommand)
-            commandDisplay.play(MicrogameSession.GetLocalizedCommand(), MicrogameSession.CommandAnimatorOverride);
+            commandDisplay.play(MicrogameSession.GetLocalizedCommand(), MicrogameSession.GetCommandAnimatorOverride());
 
-        Cursor.visible = MicrogameSession.microgame.controlScheme == Microgame.ControlScheme.Mouse && !MicrogameSession.HideCursor;
-        Cursor.lockState = MicrogameSession.cursorLockMode;
+        Cursor.visible = MicrogameSession.microgame.controlScheme == Microgame.ControlScheme.Mouse && !MicrogameSession.GetHideCursor();
+        Cursor.lockState = MicrogameSession.GetCursorLockMode();
 
         voicePlayer.StopPlayback();
         voicePlayer.loadClips(Settings.voiceSet);
