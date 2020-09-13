@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using TMPro;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class ShakingText : MonoBehaviour
