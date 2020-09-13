@@ -41,6 +41,7 @@ public class ShakingText : MonoBehaviour
         {
             charAnim.position = Vector2.zero;
         }
+        tmproComponenent.ForceMeshUpdate();
     }
     
 
