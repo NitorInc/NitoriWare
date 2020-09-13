@@ -6,7 +6,7 @@ public class StageController : MonoBehaviour
 {
 	[SerializeField]
 	private Stage stage;
-	public bool godMode, muteMusic;
+	public bool godMode, ignoreStageMusic;
     public float editorStartDelay = .2f;
 
 	public int maxStockpiledScenes;
@@ -106,7 +106,7 @@ public class StageController : MonoBehaviour
         MicrogameNumber.instance.resetNumber();
 
         introSource.pitch = speedController.GetSpeedTimeScaleMult();
-        if (!muteMusic && firstTime)
+        if (!ignoreStageMusic && firstTime)
             AudioHelper.playScheduled(introSource, startTime - Time.time);
         //updateMicrogameTraits();
 
@@ -186,7 +186,7 @@ public class StageController : MonoBehaviour
 	void updateToOutro()
 	{
 		outroSource.pitch = speedController.GetSpeedTimeScaleMult();
-		if (!muteMusic)
+		if (!ignoreStageMusic)
 			outroSource.Play();
 		outroPlayTime = Time.time;
 
@@ -207,7 +207,7 @@ public class StageController : MonoBehaviour
 			invokeInterruptions();
 			interruptionTime = animationStartTime - interruptionTime;
 			invokeIntroAnimations();
-			if (interruptionTime == 0f && !muteMusic)
+			if (interruptionTime == 0f && !ignoreStageMusic)
 				AudioHelper.playScheduled(introSource, beatLength * 4f);
 		}
 		else
@@ -237,7 +237,7 @@ public class StageController : MonoBehaviour
 			if (interruption.applySpeedChangeAtEnd)
 				speedController.Speed= getChangedSpeed(interruption);
 			introSource.pitch = speedController.GetSpeedTimeScaleMult();
-			if (!muteMusic && interruption.beatDuration > 0f)
+			if (!ignoreStageMusic && interruption.beatDuration > 0f)
 				AudioHelper.playScheduled(introSource, (interruption.scheduledPlayTime + (interruption.beatDuration * beatLength)) - Time.time);
 		}
 	}
@@ -256,7 +256,7 @@ public class StageController : MonoBehaviour
 			interruption.audioSource.pitch = speedController.GetSpeedTimeScaleMult();
 		else
 			interruption.audioSource.pitch = speedController.GetSpeedTimeScaleMult(getChangedSpeed(interruption));
-		if (!muteMusic)
+		if (!ignoreStageMusic)
 			AudioHelper.playScheduled(interruption.audioSource, timeToPlay - Time.time);
 	}
 
@@ -294,7 +294,7 @@ public class StageController : MonoBehaviour
         
 
 
-		if (!introSource.isPlaying && !muteMusic)
+		if (!introSource.isPlaying && !ignoreStageMusic)
 			introSource.Play();
     }
 
@@ -324,7 +324,7 @@ public class StageController : MonoBehaviour
 	void playMicrogameMusic()
 	{
 		microgameMusicSource.pitch = speedController.GetSpeedTimeScaleMult();
-		if (!muteMusic && microgameMusicSource.clip != null)
+		if (microgameMusicSource.clip != null)
 			microgameMusicSource.Play();
 	}
 
