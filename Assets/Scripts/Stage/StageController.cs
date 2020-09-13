@@ -181,7 +181,6 @@ public class StageController : MonoBehaviour
 	void updateToLastBeat()
 	{
 		setAnimationPart(AnimationPart.LastBeat);
-		MicrogameController.instance.displayCommand("");
 	}
 
 	void updateToOutro()
@@ -227,7 +226,7 @@ public class StageController : MonoBehaviour
 
 		if (!interruption.applySpeedChangeAtEnd)
 			speedController.Speed = getChangedSpeed(interruption);
-		Time.timeScale = speedController.GetSpeedTimeScaleMult();
+		speedController.ApplyToTimeScale();
 
 		if (interruptionQueue.Count != 0)
 		{
@@ -284,14 +283,15 @@ public class StageController : MonoBehaviour
 	void updateToIntro()
 	{
 
+		commandDisplay.setText(
+			microgamePlayer.CurrentMicrogameSession.GetLocalizedCommand(),
+			microgamePlayer.CurrentMicrogameSession.CommandAnimatorOverride);
+		controlDisplay.setControlScheme(microgamePlayer.CurrentMicrogame.controlScheme);
+
 		setAnimationPart(AnimationPart.Intro);
 
-		Time.timeScale = speedController.GetSpeedTimeScaleMult();
+		speedController.ApplyToTimeScale();
         
-		commandDisplay.setText(
-            microgamePlayer.CurrentMicrogameSession.GetLocalizedCommand(),
-			microgamePlayer.CurrentMicrogameSession.CommandAnimatorOverride);
-        controlDisplay.setControlScheme(microgamePlayer.CurrentMicrogame.controlScheme);
 
 
 		if (!introSource.isPlaying && !muteMusic)
@@ -303,7 +303,7 @@ public class StageController : MonoBehaviour
 		microgamePlayer.CancelRemainingMicrogames();
 		setAnimationPart(AnimationPart.GameOver);
 		speedController.Speed = 1;
-		Time.timeScale = 1f;
+		speedController.ApplyToTimeScale();
 		CancelInvoke();
 		introSource.Stop();
 		gameOverMenu.gameObject.SetActive(true);

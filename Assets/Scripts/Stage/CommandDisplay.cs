@@ -22,7 +22,7 @@ public class CommandDisplay : MonoBehaviour
     public void play(string command, AnimatorOverrideController animationOverride = null)
     {
         setText(command, animationOverride);
-        animator.SetBool("play", true);
+        animator.SetTrigger("play");
     }
 
     public void play(Microgame.Session session, string command, AnimatorOverrideController animationOverride)

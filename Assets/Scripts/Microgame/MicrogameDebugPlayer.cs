@@ -172,14 +172,14 @@ public class MicrogameDebugPlayer : MonoBehaviour
         {
             if (Input.GetKeyDown(Settings.debugKeys.Restart))
             {
-                var newSession = MicrogameSession.microgame.CreateSession(eventListener, MicrogameSession.Difficulty);
+                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener, MicrogameSession.Difficulty);
                 speedController.Speed = 1;
                 LoadNewMicrogame(newSession);
                 return;
             }
             else if (Input.GetKeyDown(Settings.debugKeys.Faster))
             {
-                var newSession = MicrogameSession.microgame.CreateSession(eventListener, MicrogameSession.Difficulty);
+                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener, MicrogameSession.Difficulty);
                 speedController.Speed = Mathf.Min(speedController.Speed + 1, SpeedController.MAX_SPEED);
                 Debug.Log("Debugging at speed " + speedController.Speed);
                 LoadNewMicrogame(newSession);
@@ -187,7 +187,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             }
             else if (Input.GetKeyDown(Settings.debugKeys.NextDifficulty))
             {
-                var newSession = MicrogameSession.microgame.CreateSession(eventListener,
+                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener,
                     Mathf.Min(MicrogameSession.Difficulty + 1, 3));
                 speedController.Speed = 1;
                 Debug.Log("Debugging at difficulty " + newSession.Difficulty);
@@ -196,7 +196,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             }
             else if (Input.GetKeyDown(Settings.debugKeys.PreviousDifficulty))
             {
-                var newSession = MicrogameSession.microgame.CreateSession(eventListener,
+                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener,
                     Mathf.Max(MicrogameSession.Difficulty - 1, 1));
                 speedController.Speed = 1;
                 Debug.Log("Debugging at difficulty " + newSession.Difficulty);
