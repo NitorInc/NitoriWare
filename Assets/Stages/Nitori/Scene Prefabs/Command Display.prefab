@@ -94,6 +94,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3437295503125092277}
+        m_TargetAssemblyTypeName: ChangeOrderInLayer, Assembly-CSharp
+        m_MethodName: SetLayer
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: CommandRest
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3437295503125092277}
+        m_TargetAssemblyTypeName: ChangeOrderInLayer, Assembly-CSharp
+        m_MethodName: SetLayer
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Command
+          m_BoolArgument: 0
+        m_CallState: 2
   particleSystems: []
   audioSources: []
 --- !u!1 &1422189731730380878
@@ -109,6 +137,7 @@ GameObject:
   - component: {fileID: 3708293724927254009}
   - component: {fileID: 7541071072035275942}
   - component: {fileID: 4646385183126196229}
+  - component: {fileID: 3437295503125092277}
   m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
@@ -173,7 +202,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 965401433
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 100
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3708293724927254009
@@ -303,3 +332,19 @@ MonoBehaviour:
   shakeSpeed: 0.7
   targetTiltMax: 60
   resetAnimDataOnTextChanged: 1
+--- !u!114 &3437295503125092277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422189731730380878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a64a4d99d88484ba7ca0a40398c997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 1498205454511089171}
+  orderInLayer: 100
+  sortingLayer: Command
+  disableOnPlay: 1
