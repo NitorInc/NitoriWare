@@ -15,21 +15,33 @@ public class ShakingText : MonoBehaviour
     private float shakeYRange = .1f;
     [SerializeField]
     private float shakeSpeed = 3f;
+    [SerializeField]
+    private float targetTiltMax = 60f;
+    [SerializeField]
+    private bool resetAnimDataOnTextChanged = true;
 
-    private TextMeshPro tmproComponenent;
+    private TextMeshPro tmproComponent;
+    private string previousText;
 
     private List<CharAnimData> charAnimData;
     public class CharAnimData
     {
         public Vector3 position;
         public Vector3 goal;
+        public float Tilt;
     }
 
     void Awake()
     {
-        tmproComponenent = GetComponent<TextMeshPro>();
+        tmproComponent = GetComponent<TextMeshPro>();
+        ResetAnimData();
+        previousText = tmproComponent.text;
+    }
+
+    void ResetAnimData()
+    {
         charAnimData = new List<CharAnimData>();
-        for (int i = 0; i < tmproComponenent.text.Length; i++)
+        for (int i = 0; i < tmproComponent.text.Length; i++)
         {
             AddNewAnimData();
         }
@@ -41,15 +53,15 @@ public class ShakingText : MonoBehaviour
         {
             charAnim.position = Vector2.zero;
         }
-        tmproComponenent.ForceMeshUpdate();
+        tmproComponent.ForceMeshUpdate();
     }
-    
 
     void AddNewAnimData()
     {
         var charAnim = new CharAnimData();
         ResetGoal(charAnim);
         charAnim.position = charAnim.goal;
+        charAnim.Tilt = Random.Range(-targetTiltMax, targetTiltMax);
         charAnimData.Add(charAnim);
     }
 
@@ -58,6 +70,9 @@ public class ShakingText : MonoBehaviour
         charAnim.goal = new Vector2(
             Random.Range(-shakeXRange, shakeXRange),
             Random.Range(-shakeYRange, shakeYRange));
+        charAnim.goal = MathHelper.getVector2FromAngle(
+            MathHelper.getAngle(charAnim.goal) + charAnim.Tilt,
+            charAnim.goal.magnitude);
     }
 
     public void UpdateChar(CharAnimData charAnim)
@@ -74,14 +89,20 @@ public class ShakingText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while (tmproComponenent.text.Length > charAnimData.Count)
-            AddNewAnimData();
-
-        tmproComponenent.ForceMeshUpdate();
-        var vertices = tmproComponenent.mesh.vertices;
-        for (int i = 0; i < tmproComponenent.text.Length; i++)
+        if (resetAnimDataOnTextChanged && !tmproComponent.text.Equals(previousText))
+            ResetAnimData();
+        else
         {
-            var charInfo = tmproComponenent.textInfo.characterInfo[i];
+            while (tmproComponent.text.Length > charAnimData.Count)
+                AddNewAnimData();
+        }
+        previousText = tmproComponent.text;
+
+        tmproComponent.ForceMeshUpdate();
+        var vertices = tmproComponent.mesh.vertices;
+        for (int i = 0; i < tmproComponent.text.Length; i++)
+        {
+            var charInfo = tmproComponent.textInfo.characterInfo[i];
             if (!charInfo.isVisible)
                 continue;
 
@@ -96,10 +117,10 @@ public class ShakingText : MonoBehaviour
                 vertices[j] = matrix.MultiplyPoint3x4(vertices[j]);
             }
 
-            tmproComponenent.textInfo.characterInfo[i] = charInfo;
-            tmproComponenent.UpdateVertexData();
+            tmproComponent.textInfo.characterInfo[i] = charInfo;
+            tmproComponent.UpdateVertexData();
 
         }
-        tmproComponenent.mesh.vertices = vertices;
+        tmproComponent.mesh.vertices = vertices;
     }
 }
