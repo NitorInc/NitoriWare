@@ -51,7 +51,7 @@ public class SpaceshipRocket : MonoBehaviour
 		liftoffParticles.Play();
 		shipAnimator.SetInteger("state", (int)state);
 		sceneAnimator.SetInteger("state", (int)state);
-		_audioSource.pitch = Time.timeScale;
+		_audioSource.pitch = 1f;
 		_audioSource.PlayOneShot(liftoffClip);
 
 		leftBody.bodyType = rightBody.bodyType = RigidbodyType2D.Kinematic;
@@ -86,7 +86,7 @@ public class SpaceshipRocket : MonoBehaviour
 
 		sceneAnimator.SetInteger("state", (int)state);
 
-		_audioSource.pitch = Time.timeScale * .75f;
+		_audioSource.pitch = .75f;
 		_audioSource.PlayOneShot(explosionClip);
 	}
 }

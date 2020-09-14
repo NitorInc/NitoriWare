@@ -36,7 +36,7 @@ public class FanBlowFanSounds : MonoBehaviour
             var volume = Mathf.InverseLerp(ZeroVolumeSpeed, OneVolumeSpeed, speed);
             if (volume > 0f)
                 sfxSource.PlayOneShot(audioClip, volume);
-            sfxSource.pitch = Time.timeScale * MathHelper.randomRangeFromVector(pitchRange);
+            sfxSource.pitch = MathHelper.randomRangeFromVector(pitchRange);
         }
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x, .7f);
         lastPosition = transform.localPosition;

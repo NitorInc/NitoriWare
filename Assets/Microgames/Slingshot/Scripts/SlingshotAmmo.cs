@@ -121,8 +121,8 @@ public class SlingshotAmmo : MonoBehaviour
 
 
 						updateAudioPan();
-						audio.pitch -= .5f * Time.timeScale;
-						audio.volume = (getStretchPitch() / Time.timeScale) - .75f;
+						audio.pitch -= .5f;
+						audio.volume = (getStretchPitch()) - .75f;
 						audio.PlayOneShot(launchClip);
 
 						head.GetComponent<Vibrate>().vibrateOn = false;
@@ -151,7 +151,7 @@ public class SlingshotAmmo : MonoBehaviour
 						audio.Stop();
 
 						updateAudioPan();
-						audio.pitch = Time.timeScale;
+						audio.pitch = 1f;
 						audio.PlayOneShot(breakClip);
 					}
 				}
@@ -205,7 +205,7 @@ public class SlingshotAmmo : MonoBehaviour
 
 		diff = Mathf.Min(.5f, diff);
 
-		return (1f + diff) * Time.timeScale;
+		return (1f + diff);
 	}
 
 	void tiltSlingShot()
@@ -235,7 +235,7 @@ public class SlingshotAmmo : MonoBehaviour
 			rigidThing.gravityScale = 0f;
 
 			updateAudioPan();
-			audio.pitch = Time.timeScale;
+			audio.pitch = 1f;
 			audio.PlayOneShot(hitClip);
 
 			CameraShake.instance.setScreenShake(hitShake);

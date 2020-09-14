@@ -35,7 +35,7 @@ public class ChenBikePlayerFail : MonoBehaviour
             else
             {
                 chenAnimator.Play("ChenRIP");
-                honkSource.pitch = Time.timeScale;
+                honkSource.pitch = 1f;
                 MicrogameController.instance.setVictory(false, true);
                 chenspeed.speed = 1;
                 Destroy(disablecounter);

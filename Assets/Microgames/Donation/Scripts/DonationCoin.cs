@@ -129,7 +129,7 @@ public class DonationCoin : MonoBehaviour
 
 	void playBounceSound(float volume)
 	{
-		bounceSource.pitch = Time.timeScale * .85f;
+		bounceSource.pitch = .85f;
 
 		volume = Mathf.Min(1f, volume);
 		volume /= 2f;
@@ -161,7 +161,7 @@ public class DonationCoin : MonoBehaviour
 		{
 			outOfPlay = true;
 			grabSource.clip = grabClips[Random.Range(0, grabClips.Length)];
-			grabSource.pitch = Time.timeScale;
+			grabSource.pitch = 1f;
 			grabSource.panStereo = getStereoPan();
 			grabSource.Play();
 			DonationReimu reimu = other.GetComponent<DonationReimu>();

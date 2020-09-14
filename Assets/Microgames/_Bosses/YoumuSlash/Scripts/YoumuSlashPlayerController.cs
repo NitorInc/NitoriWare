@@ -100,7 +100,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
     int nextMissableBeat = 0;
     float finalGameplayBeat;
     bool gameplayComplete = false;
-    float timeScale = 0f;
     bool burstTense = false;
     int lastSlashFrame = 0;
 
@@ -118,7 +117,6 @@ public class YoumuSlashPlayerController : MonoBehaviour
         YoumuSlashTargetSpawner.OnTargetLaunch += onTargetLaunched;
         nextTarget = getFirstActiveTarget();
         finalGameplayBeat = timingData.BeatMap.TargetBeats.Last().HitBeat;
-        timeScale = Time.timeScale;
     }
 
     void onTargetLaunched(YoumuSlashBeatMap.TargetBeat target)
@@ -562,8 +560,7 @@ public class YoumuSlashPlayerController : MonoBehaviour
     {
         sfxSource.panStereo = voicePan *
             (direction == YoumuSlashBeatMap.TargetBeat.Direction.Right ? 1f : -1f);
-        sfxSource.pitch = (varyPitch ? MathHelper.randomRangeFromVector(voicePitchRange) : 1f)
-            * timeScale;
+        sfxSource.pitch = (varyPitch ? MathHelper.randomRangeFromVector(voicePitchRange) : 1f);
         sfxSource.PlayOneShot(clip);
     }
 

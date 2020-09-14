@@ -50,7 +50,7 @@ public class PotionPot : MonoBehaviour
 	}
 	void Start()
 	{
-		//sfxSource.pitch = Time.timeScale;
+
 	}
 
 	void Update()
@@ -66,7 +66,6 @@ public class PotionPot : MonoBehaviour
 		}
 		else if (!_bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)
 		{
-			//bubbleSource.pitch = Time.timeScale;
 			_bubbleSource.Play();
 		}
 	}

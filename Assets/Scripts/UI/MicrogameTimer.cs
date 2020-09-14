@@ -46,7 +46,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	private void playTick()
 	{
-		tick.pitch = Time.timeScale;
+		tick.pitch = 1f;
 		tick.Play();
 	}
 
