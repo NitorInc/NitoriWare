@@ -12,7 +12,7 @@ public class MicrogameSeparateMusic : Microgame
     [SerializeField]
     private AudioClip difficulty3Clip;
 
-    new class Session : Microgame.Session
+    new public class Session : Microgame.Session
     {
         private AudioClip musicClip;
 

@@ -86,7 +86,6 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
     public void SceneStarted()
     {
-        print(speedController.Speed);
         settings.speed = speedController.Speed;
 
         if (Settings.localizeText)

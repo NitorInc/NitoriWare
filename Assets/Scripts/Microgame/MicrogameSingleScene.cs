@@ -7,7 +7,7 @@ public class MicrogameSingleScene : Microgame
 {
     public override bool SceneDeterminesDifficulty() => false;
     
-    new class Session : Microgame.Session
+    new public class Session : Microgame.Session
     {
         public override string GetSceneName() => microgame.microgameId;
 

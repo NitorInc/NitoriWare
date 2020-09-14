@@ -21,7 +21,7 @@ public class MicrogameSeparateCommands : Microgame
         public string defaultValue;
     }
 
-    new class Session : Microgame.Session
+    new public class Session : Microgame.Session
     { 
         private DifficultyCommand command;
 

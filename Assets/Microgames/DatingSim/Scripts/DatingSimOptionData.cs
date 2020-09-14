@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Microgame Assets/DatingSim/Option Data")]
 public class DatingSimOptionData : ScriptableObject
 {
+    public string charId;
     public Option[] rightOptions;
     public Option[] wrongOptions;
 
