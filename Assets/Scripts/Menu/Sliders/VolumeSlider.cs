@@ -46,6 +46,7 @@ public class VolumeSlider : MonoBehaviour
     void updateValue()
     {
         PrefsHelper.setVolume(type, slider.value);
+        AudioManager.instance.SetVolume(type, slider.value);
         if (onChangeSource != null)
         {
             onChangeSource.Stop();
