@@ -5,6 +5,10 @@ using UnityEngine;
 //Automatically adjusts pitch od all audiosources in gameobject, and its children if specified
 public class AudioAutoAdjust : MonoBehaviour
 {
+
+    [Header("DON'T USE THIS SCRIPT ANYMORE!! Simply set your AudioSource's output to the appropriate channel instead (use Microgame Mixer if this is part of a microgame).")]
+
+
     [SerializeField]
 	private bool includeChildren, tieToTimescale = true, tieToVolumeSettings = true;
     [SerializeField]
@@ -36,12 +40,29 @@ public class AudioAutoAdjust : MonoBehaviour
     private float[] initialPitches;
     private float instanceTimeScale, instanceVolumeSetting;
 
-    float Volume => PrefsHelper.getVolume(volumeType) * volumeMult;
-    float Pitch => Time.timeScale * pitchMult;
+    float Volume => volumeMult;
+    float Pitch => pitchMult;
 
     void Awake()
 	{
-		sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
+        sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
+        foreach (var source in sources)
+        {
+            switch(volumeType)
+            {
+                case (PrefsHelper.VolumeType.SFX):
+                    source.outputAudioMixerGroup = AudioManager.instance.MicrogameSFXGroup;
+                    break;
+                case (PrefsHelper.VolumeType.Music):
+                    source.outputAudioMixerGroup = AudioManager.instance.MicrogameMusicGroup;
+                    break;
+                default:
+                    Debug.LogWarning("AudioAutoAdjust configured incorrectly.");
+                    break;
+            }
+        }
+
+        sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
         if (tieToVolumeSettings)
         {
             initialVolumes = new float[sources.Length];
@@ -61,8 +82,6 @@ public class AudioAutoAdjust : MonoBehaviour
             updatePitch();
         }
     }
-
-    //private void Start() => Update();
 
     void Update()
 	{

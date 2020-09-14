@@ -153,7 +153,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
     void UpdateSpeed()
     {
-        Time.timeScale = speedController.GetSpeedTimeScaleMult();
+        speedController.ApplySpeed();
     }
 
     public void LoadNewMicrogame(Microgame.Session session)

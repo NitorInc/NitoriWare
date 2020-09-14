@@ -167,7 +167,7 @@ public class GhostFoodYuyuko : MonoBehaviour
         distanceToCenter = ((Vector2)transform.position).magnitude;
 
 		audioSource.PlayOneShot(victoryClip);
-		audioSource.pitch = Time.timeScale;
+		audioSource.pitch = 1f;
 
         motorSpeedMult /= 5f;
 	}
@@ -201,7 +201,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 					//Debug.Log(animator.GetTime());
 					chewsLeft--;
 					audioSource.PlayOneShot(chewClip);
-					audioSource.pitch = Time.timeScale * Random.Range(.9f, 1f);
+					audioSource.pitch = Random.Range(.9f, 1f);
                     spitParticles();
                     if (chewsLeft == 0)
 					{
@@ -331,7 +331,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 			animator.Play("Chew", -1, 1f);
             Invoke("sweat", sweatStartTime);
             audioSource.PlayOneShot(chompClip);
-            audioSource.pitch = Time.timeScale * Random.Range(.95f, 1.05f);
+            audioSource.pitch = Random.Range(.95f, 1.05f);
 
             animator.Rebind();
             animator.Play("Chew", -1, 0f);

@@ -97,7 +97,7 @@ public class StageController : MonoBehaviour
 
         microgameCount = 0;
         speedController.Speed = stage.getStartSpeed();
-		speedController.ApplyToTimeScale();
+		speedController.ApplySpeed();
         animationStartTime = startTime;
 
         UpdatePlayerMicrogameQueue(maxStockpiledScenes);
@@ -226,7 +226,7 @@ public class StageController : MonoBehaviour
 
 		if (!interruption.applySpeedChangeAtEnd)
 			speedController.Speed = getChangedSpeed(interruption);
-		speedController.ApplyToTimeScale();
+		speedController.ApplySpeed();
 
 		if (interruptionQueue.Count != 0)
 		{
@@ -290,7 +290,7 @@ public class StageController : MonoBehaviour
 
 		setAnimationPart(AnimationPart.Intro);
 
-		speedController.ApplyToTimeScale();
+		speedController.ApplySpeed();
         
 
 
@@ -303,7 +303,7 @@ public class StageController : MonoBehaviour
 		microgamePlayer.CancelRemainingMicrogames();
 		setAnimationPart(AnimationPart.GameOver);
 		speedController.Speed = 1;
-		speedController.ApplyToTimeScale();
+		speedController.ApplySpeed();
 		CancelInvoke();
 		introSource.Stop();
 		gameOverMenu.gameObject.SetActive(true);
@@ -323,7 +323,6 @@ public class StageController : MonoBehaviour
 
 	void playMicrogameMusic()
 	{
-		microgameMusicSource.pitch = speedController.GetSpeedTimeScaleMult();
 		if (microgameMusicSource.clip != null)
 			microgameMusicSource.Play();
 	}

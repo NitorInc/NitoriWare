@@ -110,7 +110,7 @@ public class YuugiBalancePlate : MonoBehaviour
             audio.loop = true;
             if(!audio.isPlaying)
                 audio.Play();
-            audio.pitch = (1 + abs) * Time.timeScale;
+            audio.pitch = (1 + abs);
             audio.panStereo = AudioHelper.getAudioPan(transform.position.x);
         }
         audio.loop = false;

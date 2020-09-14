@@ -76,7 +76,7 @@ public class PaperThiefNitori : MonoBehaviour
 		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
         startParent = transform.parent;
-        sfxSource.pitch = Time.timeScale;
+        sfxSource.pitch = 1f;
         lastStepSoundPlayedAt = Time.time;
 
         if (MicrogameController.instance.isDebugMode())
@@ -205,7 +205,7 @@ public class PaperThiefNitori : MonoBehaviour
 		shotCooldownTimer = shotCooldown;
 
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 2f;
-        sfxSource.pitch = Time.timeScale;
+        sfxSource.pitch = 1f;
         sfxSource.PlayOneShot(gunFireClip);
 	}
 

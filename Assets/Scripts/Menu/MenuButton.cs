@@ -46,9 +46,7 @@ public class MenuButton : MonoBehaviour
 
     public void onClick()
     {
-        float volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
-        if (volume > 0f)
-            sfxSource.PlayOneShot(pressClip, volume);
+        sfxSource.PlayOneShot(pressClip);
     }
 
     void OnDestroy()

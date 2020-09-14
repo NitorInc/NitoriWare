@@ -40,10 +40,7 @@ public class FadingMusic : MonoBehaviour
 	
 	void updateFade()
 	{
-        if (PrefsHelper.getVolume(type) <= 0f)
-            return;
-
-        float prefsMult = PrefsHelper.getVolume(type);
+        float prefsMult = 1f;
         float diff = fadeSpeed * Time.deltaTime * prefsMult;
         if (fadeInFirst)
         {

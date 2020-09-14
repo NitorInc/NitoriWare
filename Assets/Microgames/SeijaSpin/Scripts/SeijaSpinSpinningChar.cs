@@ -171,14 +171,14 @@ public class SeijaSpinSpinningChar : MonoBehaviour
 
     public void PlayCrash()
     {
-        _audioSource.pitch = Time.timeScale;
+        _audioSource.pitch = 1f;
         _audioSource.panStereo = crashSoundPan;
         _audioSource.PlayOneShot(crashClip);
     }
 
     public void PlayFling()
     {
-        _audioSource.pitch = Time.timeScale;
+        _audioSource.pitch = 1f;
         _audioSource.PlayOneShot(flingClip);
     }
 
@@ -187,7 +187,7 @@ public class SeijaSpinSpinningChar : MonoBehaviour
         rotationSpinTimer += spinDelta;
         if (rotationSpinTimer >= rotationPerSound)
         {
-            _audioSource.pitch = Time.timeScale;
+            _audioSource.pitch = 1f;
             _audioSource.PlayOneShot(rotateClip);
             rotationSpinTimer -= rotationPerSound;
         }

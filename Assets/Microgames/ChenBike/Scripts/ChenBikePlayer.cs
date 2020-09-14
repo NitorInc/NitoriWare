@@ -35,8 +35,6 @@ public class ChenBikePlayer : MonoBehaviour
         {
             chenAnimator.Play("ChenHonk");
             honkParticle.Play(true);
-            //FEEDBACK: Use Time.timescale for pitch in audioSources, so the pitch is increased when the game is faster
-            honkSource.pitch = Time.timeScale;
             honkSource.PlayOneShot(BikeHorn, 1F);
             if (ammo == 3)
                 Destroy(count3);
