@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SpeedController : MonoBehaviour
 {
     public const int MAX_SPEED = 10;
+
+    [SerializeField]
+    private AudioMixer gameplayMixer;
 
     [Range(1, MAX_SPEED)]
     [SerializeField]
@@ -19,9 +23,10 @@ public class SpeedController : MonoBehaviour
     private float timeScalePerSpeedUp = .125f;
 
 
-    public void ApplyToTimeScale()
+    public void ApplySpeed()
     {
         Time.timeScale = GetSpeedTimeScaleMult();
+        gameplayMixer.SetFloat("MasterPitch", Time.timeScale);
     }
 
     public float GetSpeedTimeScaleMult()
@@ -33,4 +38,10 @@ public class SpeedController : MonoBehaviour
 	{
 		return 1f + ((float)(speed - 1) * timeScalePerSpeedUp);
 	}
+
+    private void OnDestroy()
+    {
+        speed = 1;
+        ApplySpeed();
+    }
 }

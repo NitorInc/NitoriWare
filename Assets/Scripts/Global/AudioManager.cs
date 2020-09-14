@@ -12,8 +12,19 @@ public class AudioManager : MonoBehaviour
     private AudioMixer masterMixer;
     public AudioMixer MasterMixer => masterMixer;
     [SerializeField]
+    private AudioMixer gameplayMixer;
+    public AudioMixer GameplayMixer => gameplayMixer;
+    [SerializeField]
     private AudioMixer microgameMixer;
     public AudioMixer MicrogameMixer => microgameMixer;
+
+    // Needed until we clean up legacy uses of AudioAutoAdjust
+    [SerializeField]
+    private AudioMixerGroup microgameSFXGroup;
+    public AudioMixerGroup MicrogameSFXGroup => microgameSFXGroup;
+    [SerializeField]
+    private AudioMixerGroup microgameMusicGroup;
+    public AudioMixerGroup MicrogameMusicGroup => microgameMusicGroup;
 
     private void Awake()
     {
@@ -34,14 +45,18 @@ public class AudioManager : MonoBehaviour
                 break;
             case (PrefsHelper.VolumeType.Music):
                 masterMixer.SetFloat("MusicVolume", dbLevel);
+                gameplayMixer.SetFloat("MusicVolume", dbLevel);
                 microgameMixer.SetFloat("MusicVolume", dbLevel);
                 break;
             case (PrefsHelper.VolumeType.SFX):
-                masterMixer.SetFloat("MusicVolume", dbLevel);
-                microgameMixer.SetFloat("MusicVolume", dbLevel);
+                masterMixer.SetFloat("SFXVolume", dbLevel);
+                gameplayMixer.SetFloat("SFXVolume", dbLevel);
+                microgameMixer.SetFloat("SFXVolume", dbLevel);
                 break;
             case (PrefsHelper.VolumeType.Voice):
                 masterMixer.SetFloat("VoiceVolume", dbLevel);
+                gameplayMixer.SetFloat("VoiceVolume", dbLevel);
+                microgameMixer.SetFloat("VoiceVolume", dbLevel);
                 break;
         }
     }
