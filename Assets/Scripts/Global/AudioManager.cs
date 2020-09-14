@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
         instance = this;
         foreach (PrefsHelper.VolumeType volumeType in Enum.GetValues(typeof(PrefsHelper.VolumeType)))
         {
-            SetVolume(volumeType, PrefsHelper.getVolumeRaw(volumeType));
+            SetVolume(volumeType, PrefsHelper.GetVolumeSetting(volumeType));
         }
     }
 

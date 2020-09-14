@@ -14,6 +14,6 @@ public class NueAbductAnimationVolumeHotfix : MonoBehaviour
 	
 	void LateUpdate ()
     {
-        audioSource.volume = volumeMult * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+        audioSource.volume = volumeMult;
 	}
 }

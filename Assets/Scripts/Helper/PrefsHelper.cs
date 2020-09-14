@@ -94,24 +94,11 @@ public static class PrefsHelper
     }
 
     /// <summary>
-    /// Returns volume of given type, scaled by Master if applicable. Use for most cases.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public static float getVolume(VolumeType type)
-    {
-        if (type == VolumeType.Master)
-            return storedPrefs.volumes[0];
-        else
-            return storedPrefs.volumes[(int)type] * storedPrefs.volumes[0];
-    }
-
-    /// <summary>
     /// Returns raw value of volume for given type, unscaled by Master
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public static float getVolumeRaw(VolumeType type)
+    public static float GetVolumeSetting(VolumeType type)
     {
         return storedPrefs.volumes[(int)type];
     }

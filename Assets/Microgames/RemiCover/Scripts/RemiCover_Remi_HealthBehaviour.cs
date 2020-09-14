@@ -74,8 +74,6 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
             burningSFX.volume = 0;
         else
             burningSFX.volume = (1 - HP) * 1.5f;
-
-        burningSFX.volume *= PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
     }
 
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
