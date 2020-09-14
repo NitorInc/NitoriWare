@@ -240,7 +240,7 @@ public class MicrogameController : MonoBehaviour
     {
         sfxSource.pitch = pitch;
         sfxSource.panStereo = panStereo;
-        sfxSource.PlayOneShot(clip, volume * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX));
+        sfxSource.PlayOneShot(clip, volume);
     }
 
     /// <summary>
@@ -252,6 +252,6 @@ public class MicrogameController : MonoBehaviour
     /// <param name="volume"></param>
     public void playSFX(AudioClip clip, float panStereo = 0f, float pitchMult = 1f, float volume = 1f)
     {
-        playSFXUnscaled(clip, panStereo, pitchMult * Time.timeScale, volume);
+        playSFXUnscaled(clip, panStereo, pitchMult, volume);
     }
 }

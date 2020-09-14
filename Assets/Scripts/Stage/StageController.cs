@@ -323,7 +323,6 @@ public class StageController : MonoBehaviour
 
 	void playMicrogameMusic()
 	{
-		microgameMusicSource.pitch = speedController.GetSpeedTimeScaleMult();
 		if (microgameMusicSource.clip != null)
 			microgameMusicSource.Play();
 	}
