@@ -17,7 +17,7 @@ namespace StageFSM
         {
             base.OnStateEnterOfficial();
             var asset = assetToolbox.GetAssetGroupForState(stateName).GetAsset<PlayableAsset>();
-            toolbox.GetTool<PlayableDirector>().GetComponent<DirectorPlaybackController>().AssetToSwap = asset;
+            toolbox.GetTool<DirectorPlaybackController>().AssetToSwap = asset;
         }
     }
 }

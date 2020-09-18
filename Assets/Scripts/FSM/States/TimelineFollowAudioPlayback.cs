@@ -11,13 +11,13 @@ namespace StageFSM
     {
         double dspStartTime;
         AudioSource audioSource;
-        PlayableDirector director;
+        DirectorPlaybackController controller;
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
             var playbackController = toolbox.GetTool<AudioPlaybackController>();
-            director = toolbox.GetTool<PlayableDirector>();
+            controller = toolbox.GetTool<DirectorPlaybackController>();
             audioSource = playbackController.CurrentSource;
             dspStartTime = playbackController.LastScheduledAudioStartTime;
         }
@@ -30,7 +30,7 @@ namespace StageFSM
                 var dspAudioTime = (AudioSettings.dspTime - dspStartTime) * Time.timeScale;
                 if (dspAudioTime < 0d)
                     dspAudioTime = 0d;
-                director.time = dspAudioTime;
+                controller.time = dspAudioTime;
             }
         }
     }

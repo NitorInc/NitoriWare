@@ -9,19 +9,19 @@ namespace StageFSM
 {
     public class TimelineFollowGameTime : StageStateMachineBehaviour
     {
-        PlayableDirector director;
+        DirectorPlaybackController controller;
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
             var playbackController = toolbox.GetTool<AudioPlaybackController>();
-            director = toolbox.GetTool<PlayableDirector>();
+            controller = toolbox.GetTool<DirectorPlaybackController>();
         }
 
         public override void OnStateUpdateOfficial()
         {
             base.OnStateUpdateOfficial();
-            director.time += Time.deltaTime;
+            controller.time += Time.deltaTime;
         }
     }
 }
