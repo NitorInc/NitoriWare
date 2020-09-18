@@ -37,12 +37,12 @@ public class MicrogamePlayer : MonoBehaviour
         microgameJobs.FirstOrDefault(a => a.session.AsyncState != Microgame.Session.SessionState.Unloading && !a.session.Cancelled);
 
     public Microgame CurrentMicrogame =>
-        microgameJobs.Any()
+        CurrentJob != null
         ? CurrentJob.microgame
         : null;
 
     public Microgame.Session CurrentMicrogameSession =>
-        microgameJobs.Any()
+        CurrentJob != null
         ? CurrentJob.session
         : null;
 
@@ -60,7 +60,8 @@ public class MicrogamePlayer : MonoBehaviour
     public void EnqueueSession(Microgame.Session session)
     {
         var newJob = new MicrogameJob();
-        session.EventListener = microgameEventListener;
+        if (session.EventListener == null)
+            session.EventListener = microgameEventListener;
         newJob.session = session;
         session.AsyncState = Microgame.Session.SessionState.Loading;
         newJob.loadOperation = SceneManager.LoadSceneAsync(
@@ -68,6 +69,9 @@ public class MicrogamePlayer : MonoBehaviour
             LoadSceneMode.Additive);
         newJob.loadOperation.allowSceneActivation = false;
         microgameJobs.Add(newJob);
+        session.EventListener.MicrogameQueued.Invoke(session);
+        if (microgameJobs.Count == 1)
+            session.EventListener.MicrogameInFrontOfQueue.Invoke(session);
     }
 
     public bool IsReadyToActivateScene()
@@ -110,6 +114,9 @@ public class MicrogamePlayer : MonoBehaviour
         job.unloadOperation = operation;
         SceneManager.SetActiveScene(gameObject.scene);
         job.session.AsyncState = Microgame.Session.SessionState.Unloading;
+        job.session.EventListener.MicrogameEnd.Invoke(job.session);
+        if (CurrentMicrogameSession != null)
+            CurrentMicrogameSession.EventListener.MicrogameInFrontOfQueue.Invoke(CurrentMicrogameSession);
     }
 
     public void CancelRemainingMicrogames()
@@ -182,5 +189,7 @@ public class MicrogamePlayer : MonoBehaviour
         job.session.AsyncState = Microgame.Session.SessionState.Activating;
         microgameJobs.Add(job);
         SceneManager.LoadScene(session.GetSceneName());
+        session.EventListener.MicrogameQueued.Invoke(session);
+        session.EventListener.MicrogameInFrontOfQueue.Invoke(session);
     }
 }
