@@ -75,7 +75,7 @@ public class MicrogameController : MonoBehaviour
                 difficulty = microgame.GetDifficultyFromScene(gameObject.scene.name);
             else
                 difficulty = Mathf.Max((int)debugSettings.SimulateDifficulty, 1);
-            session = microgame.CreateDebugSession(MicrogameDebugPlayer.instance.EventListener, difficulty);
+            session = microgame.CreateDebugSession(difficulty);
 
             MicrogameDebugPlayer.instance.Initialize(session, debugSettings);
 

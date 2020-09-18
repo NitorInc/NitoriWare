@@ -9,9 +9,9 @@ public class TouhouSortMicrogame : MicrogameRandomScene
     [SerializeField]
     private CategoryScene[] categories;
 
-    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(int difficulty, bool debugMode = false)
     {
-        return new Session(this, eventListener, difficulty, debugMode);
+        return new Session(this, difficulty, debugMode);
     }
 
     [System.Serializable]
@@ -38,8 +38,8 @@ public class TouhouSortMicrogame : MicrogameRandomScene
                 TextHelper.getLocalizedText($"microgame.TouhouSort.{selectedCategory.IdName}", selectedCategory.IdName));
         }
 
-        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
-            : base(microgame, eventListener, difficulty, debugMode)
+        public Session(Microgame microgame, int difficulty, bool debugMode)
+            : base(microgame, difficulty, debugMode)
         {
             selectedCategory = (microgame as TouhouSortMicrogame).categories
                 .FirstOrDefault(a => a.SceneName.Equals(chosenScene.SceneName));

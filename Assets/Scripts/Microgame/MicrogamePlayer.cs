@@ -11,9 +11,10 @@ using UnityEngine.SceneManagement;
 
 public class MicrogamePlayer : MonoBehaviour
 {
-
     const ThreadPriority sceneLoadPriority = ThreadPriority.BelowNormal;
 
+    [SerializeField]
+    private MicrogameEventListener microgameEventListener;
     
     public enum Mode
     {
@@ -59,6 +60,7 @@ public class MicrogamePlayer : MonoBehaviour
     public void EnqueueSession(Microgame.Session session)
     {
         var newJob = new MicrogameJob();
+        session.EventListener = microgameEventListener;
         newJob.session = session;
         session.AsyncState = Microgame.Session.SessionState.Loading;
         newJob.loadOperation = SceneManager.LoadSceneAsync(
@@ -173,6 +175,7 @@ public class MicrogamePlayer : MonoBehaviour
 
     public void LoadMicrogameImmediately(Microgame.Session session)
     {
+        session.EventListener = microgameEventListener;
         microgameJobs = new List<MicrogameJob>();
         var job = new MicrogameJob();
         job.session = session;

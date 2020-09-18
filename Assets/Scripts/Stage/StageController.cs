@@ -123,7 +123,7 @@ public class StageController : MonoBehaviour
 			var stageMicrogame = stage.getMicrogame(index);
             var microgame = MicrogameCollection.LoadMicrogame(stageMicrogame.microgameId);
             var difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
-            var newSession = microgame.CreateSession(microgameEventListener, difficulty);
+            var newSession = microgame.CreateSession(difficulty);
 			microgamePlayer.EnqueueSession(newSession);
 
 			queueCount++;

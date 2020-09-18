@@ -93,11 +93,11 @@ public class Microgame : ScriptableObject
     /// <param name="difficulty"></param>
     /// <param name="debugMode"></param>
     /// <returns>The session</returns>
-    public virtual Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
-        => new Session(this, eventListener, difficulty, debugMode);
+    public virtual Session CreateSession(int difficulty, bool debugMode = false)
+        => new Session(this, difficulty, debugMode);
 
-    public Session CreateDebugSession(MicrogameEventListener eventListener, int difficulty)
-        => CreateSession(eventListener, difficulty, true);
+    public Session CreateDebugSession(int difficulty)
+        => CreateSession(difficulty, true);
 
 
     /// <summary>
@@ -124,7 +124,7 @@ public class Microgame : ScriptableObject
 
         public Microgame microgame { get; private set; }
 
-        public MicrogameEventListener EventListener { get; private set; }
+        public MicrogameEventListener EventListener { get; set; }
 
         public int Difficulty { get; private set; }
 
@@ -150,10 +150,9 @@ public class Microgame : ScriptableObject
         /// <summary>
         /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
         /// </summary>
-        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
+        public Session(Microgame microgame, int difficulty, bool debugMode)
         {
             this.microgame = microgame;
-            this.EventListener = eventListener;
             Difficulty = difficulty;
             VictoryStatus = microgame._defaultVictory;
             VictoryVoiceDelay = microgame._victoryVoiceDelay;

@@ -11,15 +11,15 @@ public class MicrogameSingleScene : Microgame
     {
         public override string GetSceneName() => microgame.microgameId;
 
-        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
-            : base(microgame, eventListener, difficulty, debugMode)
+        public Session(Microgame microgame, int difficulty, bool debugMode)
+            : base(microgame, difficulty, debugMode)
         {
         }
     }
 
-    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(int difficulty, bool debugMode = false)
     {
-        return new Session(this, eventListener, difficulty, debugMode);
+        return new Session(this, difficulty, debugMode);
     }
 }
 

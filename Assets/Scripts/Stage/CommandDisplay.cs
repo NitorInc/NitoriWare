@@ -28,7 +28,13 @@ public class CommandDisplay : MonoBehaviour
     public void play(Microgame.Session session, string command, AnimatorOverrideController animationOverride)
         => play(command, animationOverride);
 
-    public void play(AnimatorOverrideController animationOverride = null)
+    public void play ()
+    {
+        AnimatorOverrideController controller = null;
+        play(controller);
+    }
+
+    public void play(AnimatorOverrideController animationOverride)
     {
         play(getText(), animationOverride);
     }

@@ -46,10 +46,10 @@ public class MicrogameRandomScene : Microgame
             .ToArray();
     }
 
-    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(int difficulty, bool debugMode = false)
     {
 
-        return new Session(this, eventListener, difficulty, debugMode);
+        return new Session(this, difficulty, debugMode);
     }
 
     new public class Session : Microgame.Session
@@ -63,8 +63,8 @@ public class MicrogameRandomScene : Microgame
             return chosenScene.MusicClip != null ? chosenScene.MusicClip : base.GetMusicClip();
         }
 
-        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
-            : base(microgame, eventListener, difficulty, debugMode)
+        public Session(Microgame microgame, int difficulty, bool debugMode)
+            : base(microgame, difficulty, debugMode)
         {
             var scenePool = (microgame as MicrogameRandomScene).scenePool;
             if (!scenePool.Any())
