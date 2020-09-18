@@ -22,6 +22,11 @@ public class SpeedController : MonoBehaviour
     [SerializeField]
     private float timeScalePerSpeedUp = .125f;
 
+    private void Awake()
+    {
+        ApplySpeed();
+    }
+
 
     public void ApplySpeed()
     {
