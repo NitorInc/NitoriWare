@@ -15,6 +15,7 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Microgame/Normal")]
 public class Microgame : ScriptableObject
 {
+    public const double BeatLength = 60d / 130d;
 
     public string microgameId => name;
 

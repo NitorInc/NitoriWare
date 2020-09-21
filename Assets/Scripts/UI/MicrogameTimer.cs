@@ -49,7 +49,7 @@ public class MicrogameTimer : MonoBehaviour
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			Invoke("playTick", (beatsLeft - (i + 2)) * StageController.beatLength);
+			Invoke("playTick", (beatsLeft - (i + 2)) * (float)Microgame.BeatLength);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	void Update()
 	{
-		beatsLeft -= Time.deltaTime / StageController.beatLength;
+		beatsLeft -= Time.deltaTime / (float)Microgame.BeatLength;
 	}
 
 	void LateUpdate()

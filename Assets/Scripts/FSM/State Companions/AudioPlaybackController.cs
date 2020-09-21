@@ -43,7 +43,7 @@ namespace StageFSM
 
         public void ShiftAudioPlaybackTimeInBeats(double beats)
         {
-            double delay = beats * (double)StageController.beatLength / Time.timeScale;
+            double delay = beats * (double)Microgame.BeatLength / Time.timeScale;
             LastScheduledAudioStartTime += delay;
         }
 

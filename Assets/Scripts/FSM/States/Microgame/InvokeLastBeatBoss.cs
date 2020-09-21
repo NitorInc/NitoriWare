@@ -20,7 +20,7 @@ namespace StageFSM
             // Invoke end of boss game
             var bossGame = session.microgame as MicrogameBoss;
             var endBeats = session.VictoryStatus ? bossGame.victoryEndBeats : bossGame.failureEndBeats;
-            eventListener.StartCoroutine(StartLastBeatIn((endBeats - 1f) * StageController.beatLength));
+            eventListener.StartCoroutine(StartLastBeatIn((endBeats - 1f) * (float)Microgame.BeatLength));
         }
     }
 }

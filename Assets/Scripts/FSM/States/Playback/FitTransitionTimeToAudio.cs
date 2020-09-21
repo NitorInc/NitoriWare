@@ -25,7 +25,7 @@ namespace StageFSM
             if (Animator.IsInTransition(LayerIndex))
             {
                 var transitionInfo = Animator.GetAnimatorTransitionInfo(LayerIndex);
-                var realtimeTransitionDuration = (double)transitionInfo.duration * StageController.beatLength / Time.timeScale;
+                var realtimeTransitionDuration = (double)transitionInfo.duration * Microgame.BeatLength / Time.timeScale;
                 var dspTimeToNextState = dspStartTime + realtimeTransitionDuration - AudioSettings.dspTime;
                 if (dspTimeToNextState <= 0f)
                     Animator.speed = 1000f;
@@ -40,7 +40,7 @@ namespace StageFSM
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             base.OnStateExit(animator, stateInfo, layerIndex);
-            Animator.speed = 1f / StageController.beatLength;
+            Animator.speed = 1f / (float)Microgame.BeatLength;
         }
     }
 }

@@ -33,9 +33,7 @@ namespace StageFSM
         private void Awake()
         {
             // TODO remove
-            StageController.beatLength = 60f / 130f;
-            StageController.beatLength = 0.46f;
-            GetComponent<Animator>().speed = 1f / StageController.beatLength;
+            GetComponent<Animator>().speed = 1f / (float)Microgame.BeatLength;
         }
 
         float time;

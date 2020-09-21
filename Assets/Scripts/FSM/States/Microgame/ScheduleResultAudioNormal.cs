@@ -30,7 +30,7 @@ namespace StageFSM
             resultAudioPlayer.SetClip(false, assetToolbox.GetAssetGroupForState(LossAudioState, Animator).GetAsset<AudioClip>(), Time.timeScale);
 
             var session = microgamePlayer.CurrentMicrogameSession;
-            var dspDuration = (double)session.microgame.getDurationInBeats() * StageController.beatLength / (double)Time.timeScale;
+            var dspDuration = (double)session.microgame.getDurationInBeats() * Microgame.BeatLength / (double)Time.timeScale;
             resultAudioPlayer.SchedulePlayback(dspDuration);
             UpdateVictory(session);
         }

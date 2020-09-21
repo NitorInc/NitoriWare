@@ -37,7 +37,7 @@ public class DrinkContestScript : MonoBehaviour
         //Init Anim to First frame
         ObjectCara1.GetComponent<SpriteRenderer>().sprite = Cara1Anim1;
         ObjectCara2.GetComponent<SpriteRenderer>().sprite = Cara2Anim1;
-        TotalTime = 8 * StageController.beatLength;
+        TotalTime = 8 * (float)Microgame.BeatLength;
         i = 0;
         Time0 = Time.time;
     }

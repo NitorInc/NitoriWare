@@ -14,6 +14,7 @@ namespace StageFSM
 
         protected override void OnStateEnterOfficial()
         {
+            Debug.Log(boolName);
             base.OnStateEnterOfficial();
             var session = toolbox.GetTool<MicrogamePlayer>().CurrentMicrogameSession;
             Animator.SetBool(boolName, session.microgame.isBossMicrogame());

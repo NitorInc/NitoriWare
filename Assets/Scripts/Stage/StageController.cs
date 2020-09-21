@@ -37,7 +37,7 @@ public class StageController : MonoBehaviour
 
     public StageGameOverMenu gameOverMenu;
 
-	public static float beatLength;
+	public float beatLength;
 
 	private float animationStartTime, outroPlayTime;
     private Animator[] sceneAnimators;

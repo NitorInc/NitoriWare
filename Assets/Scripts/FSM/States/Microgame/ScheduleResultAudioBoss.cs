@@ -41,7 +41,7 @@ namespace StageFSM
             resultAudioPlayer.UpdateClipVolumes(session.VictoryStatus);
             var bossGame = session.microgame as MicrogameBoss;
             var endBeats = session.VictoryStatus ? bossGame.victoryEndBeats : bossGame.failureEndBeats;
-            resultAudioPlayer.SchedulePlayback(endBeats * StageController.beatLength / Time.timeScale);
+            resultAudioPlayer.SchedulePlayback(endBeats * Microgame.BeatLength / Time.timeScale);
         }
     }
 }

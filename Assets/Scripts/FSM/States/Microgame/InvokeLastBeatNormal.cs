@@ -23,7 +23,7 @@ namespace StageFSM
 
             microgameStartTime = Time.time;
             var beatsToLastBeat = session.microgame.getDurationInBeats() - 1;
-            eventListener.StartCoroutine(StartLastBeatIn(beatsToLastBeat * StageController.beatLength));
+            eventListener.StartCoroutine(StartLastBeatIn(beatsToLastBeat * (float)Microgame.BeatLength));
         }
 
         protected override void OnMicrogameVictoryFinalized()
@@ -31,7 +31,7 @@ namespace StageFSM
             if (enableEndEarly && session.microgame.canEndEarly)
             {
                 // End early if applicable
-                var microgameBeatsLeft = ((invokedTime + 1f) - Time.time) / StageController.beatLength;
+                var microgameBeatsLeft = ((invokedTime + 1f) - Time.time) / Microgame.BeatLength;
                 var beatOffset = microgameBeatsLeft - endEarlyBeatThreshold;
                 beatOffset -= beatOffset % 4f;
                 if (beatOffset > 0f)
@@ -39,14 +39,14 @@ namespace StageFSM
                     // Microgame has over 4 + endEarlyBeatThreshold beats remaining, end early
                     var beatsToLastBeat = session.microgame.getDurationInBeats() - beatOffset - 1f;
                     var timeIntoMicrogame = Time.time - microgameStartTime;
-                    var invokeIn = microgameStartTime + (beatsToLastBeat * StageController.beatLength) - Time.time;
+                    var invokeIn = microgameStartTime + (beatsToLastBeat * Microgame.BeatLength) - Time.time;
                     MicrogameTimer.instance.CancelInvoke();
-                    eventListener.StartCoroutine(StartLastBeatIn(invokeIn));
+                    eventListener.StartCoroutine(StartLastBeatIn((float)invokeIn));
 
                     if (rescheduleResultAudio)
                     {
                         var player = toolbox.GetTool<MicrogameResultAudioPlayer>();
-                        player.ShiftPlaybackTime((double)-beatOffset * StageController.beatLength / Time.timeScale);
+                        player.ShiftPlaybackTime((double)-beatOffset * Microgame.BeatLength / Time.timeScale);
                     }
                 }
             }

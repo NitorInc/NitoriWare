@@ -63,7 +63,6 @@ public class MicrogameDebugPlayer : MonoBehaviour
     void Awake()
     {
         instance = this;
-        StageController.beatLength = 60f / 130f;
     }
 
     public void Initialize(Microgame.Session microgameSession, DebugSettings settings)
@@ -139,7 +138,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             if (!Settings.simulateStartDelay)
                 musicSource.Play();
             else
-                AudioHelper.playScheduled(musicSource, StageController.beatLength);
+                AudioHelper.playScheduled(musicSource, (float)Microgame.BeatLength);
         }
 
         if (Settings.displayCommand)
