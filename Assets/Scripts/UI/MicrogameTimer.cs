@@ -20,6 +20,7 @@ public class MicrogameTimer : MonoBehaviour
 	public Sprite[] countdownNumbers;
 
 	private Vector3 hold;
+	private Microgame.Session session;
 
 	void Awake()
 	{
@@ -35,6 +36,14 @@ public class MicrogameTimer : MonoBehaviour
 		gear = transform.Find("Gear").GetComponent<SpriteRenderer>();
 		countdown = transform.Find("Countdown").GetComponent<SpriteRenderer>();
 	}
+
+	public void StartPlayback(Microgame.Session session)
+    {
+		this.session = session;
+		beatsLeft = session.microgame.getDurationInBeats() + 1f;
+		if (beatsLeft < float.PositiveInfinity)
+			invokeTick();
+    }
 
 	public void invokeTick()
 	{

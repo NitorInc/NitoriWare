@@ -7,10 +7,9 @@ using UnityEngine.Playables;
 
 namespace StageFSM
 {
-    public class TimelineFollowAudioPlayback : StageStateMachineBehaviour
+    public class TimelineFollowAudioTime : StageStateMachineBehaviour
     {
         double dspStartTime;
-        AudioSource audioSource;
         DirectorPlaybackController controller;
 
         protected override void OnStateEnterOfficial()
@@ -18,7 +17,6 @@ namespace StageFSM
             base.OnStateEnterOfficial();
             var playbackController = toolbox.GetTool<AudioPlaybackController>();
             controller = toolbox.GetTool<DirectorPlaybackController>();
-            audioSource = playbackController.CurrentSource;
             dspStartTime = playbackController.LastScheduledAudioStartTime;
         }
 

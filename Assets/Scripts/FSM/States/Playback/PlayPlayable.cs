@@ -16,7 +16,7 @@ namespace StageFSM
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
-            var asset = assetToolbox.GetAssetGroupForState(stateName).GetAsset<PlayableAsset>();
+            var asset = assetToolbox.GetAssetGroupForState(stateName, Animator).GetAsset<PlayableAsset>();
             toolbox.GetTool<DirectorPlaybackController>().AssetToSwap = asset;
         }
     }

@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.Video;
 
 namespace StageFSM
 {
     public class StageStateMachineBehaviour : StateMachineBehaviour
     {
-        protected FSMToolbox toolbox;
-        protected FSMStateAssets assetToolbox;
+        protected FSMComponentToolbox toolbox;
+        protected FSMAssetToolbox assetToolbox;
         public Animator Animator { get; private set; }
         public AnimatorStateInfo StateInfo { get; private set; }
         public int LayerIndex { get; private set; }
@@ -30,14 +31,20 @@ namespace StageFSM
             Early
         }
 
+        private bool initialized;
+
+        public virtual void OnStateInit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            AssignToolboxAndAssets(animator, stateInfo, layerIndex);
+            initialized = true;
+        }
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Animator = animator;
-            StateInfo = stateInfo;
-            LayerIndex = layerIndex;
             inStateRaw = true;
 
-            AssignToolboxAndAssets(animator);
+            if (!initialized)
+                OnStateInit(animator, stateInfo, layerIndex);
 
             base.OnStateEnter(animator, stateInfo, layerIndex);
 
@@ -56,13 +63,17 @@ namespace StageFSM
         }
 
         // This function is separated in case a subclass needs to access these before calling base.OnStateEnter
-        protected void AssignToolboxAndAssets(Animator animator)
+        protected void AssignToolboxAndAssets(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (toolbox == null)
             {
-                toolbox = animator.GetComponent<FSMToolbox>();
+                toolbox = animator.GetComponent<FSMComponentToolbox>();
                 if (toolbox != null)
-                    assetToolbox = toolbox.GetTool<FSMStateAssets>();
+                    assetToolbox = toolbox.GetTool<FSMAssetToolbox>();
+
+                Animator = animator;
+                StateInfo = stateInfo;
+                LayerIndex = layerIndex;
             }
             
         }
@@ -118,7 +129,6 @@ namespace StageFSM
     public static class Utilities
     {
         public static T GetBehaviour<T>(this Animator animator, AnimatorStateInfo stateInfo) where T : StageStateMachineBehaviour
-
         {
             return animator.GetBehaviours<T>().ToList()
                 .FirstOrDefault(behaviour => behaviour.StateInfo.fullPathHash == stateInfo.fullPathHash);

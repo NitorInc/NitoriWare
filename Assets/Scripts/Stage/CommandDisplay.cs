@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class CommandDisplay : MonoBehaviour
 {
-    
+    [SerializeField]
+    private MicrogamePlayer microgamePlayer;
     [SerializeField]
     private TextMeshPro textComponent;
     [SerializeField]
@@ -25,7 +26,7 @@ public class CommandDisplay : MonoBehaviour
         animator.SetTrigger("play");
     }
 
-    public void play(Microgame.Session session, string command, AnimatorOverrideController animationOverride)
+    public void play(Microgame.Session   session, string command, AnimatorOverrideController animationOverride)
         => play(command, animationOverride);
 
     public void play ()
@@ -37,6 +38,12 @@ public class CommandDisplay : MonoBehaviour
     public void play(AnimatorOverrideController animationOverride)
     {
         play(getText(), animationOverride);
+    }
+
+    public void PlayCurrentMicrogameCommand()
+    {
+        var currentSession = microgamePlayer.CurrentMicrogameSession;
+        play(currentSession.GetLocalizedCommand(), currentSession.GetCommandAnimatorOverride());
     }
 
     public string getText()

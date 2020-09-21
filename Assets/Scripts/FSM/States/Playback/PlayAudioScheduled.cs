@@ -20,8 +20,8 @@ namespace StageFSM
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            AssignToolboxAndAssets(animator);
-            audioClip = assetToolbox.GetAssetGroupForState(stateName).GetAsset<AudioClip>();
+            AssignToolboxAndAssets(animator, stateInfo, layerIndex);
+            audioClip = assetToolbox.GetAssetGroupForState(stateName, Animator).GetAsset<AudioClip>();
             if (playbackController == null)
                 playbackController = toolbox.GetTool<AudioPlaybackController>();
 

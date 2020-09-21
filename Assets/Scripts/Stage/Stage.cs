@@ -67,7 +67,7 @@ public abstract class Stage : MonoBehaviour
     }
 
     /// <summary>
-    /// Get the nth microgame (based on total microgmaes encountered so far, starts at 0)
+    /// Get the nth microgame (based on total microgames encountered so far, starts at 0)
     /// </summary>
     /// <param name="cycleIndex"></param>
     /// <returns></returns>

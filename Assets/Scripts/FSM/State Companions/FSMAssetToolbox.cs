@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 
 namespace StageFSM
 {
-    public class FSMStateAssets : MonoBehaviour
+    public class FSMAssetToolbox : MonoBehaviour
     {
         [SerializeField]
         private StateAssetGroup[] stateAssets;
@@ -22,6 +22,12 @@ namespace StageFSM
             private Object[] objects;
             public Object[] Objects => objects;
 
+            public StateAssetGroup(string stateName, Object[] objects)
+            {
+                this.stateName = stateName;
+                this.objects = objects;
+            }
+
             public T GetAsset<T>() where T : Object
             {
                 return objects
@@ -36,7 +42,7 @@ namespace StageFSM
             }
         }
 
-        public StateAssetGroup GetAssetGroupForState(string stateName)
+        public virtual StateAssetGroup GetAssetGroupForState(string stateName, Animator stageFSM)
         {
             return stateAssets
                 .FirstOrDefault(a => a.StateName.Equals(stateName));

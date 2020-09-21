@@ -25,7 +25,15 @@ namespace StageFSM
         {
             // Offset 2+ music sources so one is being used to schedule play while another is being played
             musicSourceIndex++;
-            return musicSources[musicSourceIndex % musicSources.Length];
+            var source = musicSources[musicSourceIndex % musicSources.Length];
+            if (source.isPlaying)
+                source.Stop();
+            return source;
+        }
+
+        public void SetAudioTime(double time)
+        {
+            LastScheduledAudioStartTime = time;
         }
 
         public void SetTimeToCurrentAudioEnd()
@@ -49,6 +57,14 @@ namespace StageFSM
             source.clip = clip;
             source.pitch = pitch;
             source.PlayScheduled(LastScheduledAudioStartTime);
+        }
+
+        public void PlayClip(AudioSource source, AudioClip clip, float pitch)
+        {
+            source.clip = clip;
+            source.pitch = pitch;
+            source.Play();
+            ResetAudioPlaybackTime();
         }
     }
 }

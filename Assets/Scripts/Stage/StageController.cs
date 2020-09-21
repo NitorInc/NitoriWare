@@ -354,7 +354,6 @@ public class StageController : MonoBehaviour
 
         animationStartTime += beatLength * (12f + (float)session.microgame.getDurationInBeats());
 
-        stageCamera.GetComponent<AudioListener>().enabled = false;
         Cursor.lockState = session.GetCursorLockMode();
 
         MicrogameTimer.instance.beatsLeft = getBeatsRemaining();

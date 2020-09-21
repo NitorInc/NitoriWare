@@ -119,9 +119,10 @@ public class MicrogameController : MonoBehaviour
             return;
         }
 
-        session.EventListener.MicrogameStart.Invoke(session);
         SceneManager.SetActiveScene(gameObject.scene);
         Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.GetHideCursor();
+        Cursor.lockState = microgame.controlScheme == Microgame.ControlScheme.Mouse ? session.GetCursorLockMode() : GameController.DefaultCursorMode;
+        session.EventListener.MicrogameStart.Invoke(session);
     }
 
     public void onPaused()

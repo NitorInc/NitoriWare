@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class MicrogameEventListener : MonoBehaviour
 {
-    public UnityEvent<Microgame.Session> MicrogameQueued;
-    public UnityEvent<Microgame.Session> MicrogameInFrontOfQueue;
     public UnityEvent<Microgame.Session, Scene> SceneAwake;
     public UnityEvent<Microgame.Session> MicrogameStart;
     public UnityEvent<Microgame.Session> MicrogameEnd;

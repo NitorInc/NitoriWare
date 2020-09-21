@@ -9,7 +9,6 @@ namespace StageFSM
     public class FitTransitionTimeToAudio : StageStateMachineBehaviour
     {
         double dspStartTime;
-
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();

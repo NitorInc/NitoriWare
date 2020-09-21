@@ -19,6 +19,13 @@ namespace StageFSM
             director = GetComponent<PlayableDirector>();
         }
 
+        public void ResetPlayback()
+        {
+            director.time = 0d;
+            director.playableAsset = null;
+            time = 0d;
+        }
+
         private void LateUpdate()
         {
             if (AssetToSwap != null)
@@ -27,15 +34,19 @@ namespace StageFSM
                 {
                     time -= director.playableAsset.duration;
                     ManualSetWithNotifications(director, director.playableAsset.duration + 1d);
-                    director.Stop();
                 }
+                else
+                    time = 0d;
+                director.Stop();
                 director.playableAsset = AssetToSwap;
                 director.Play();
                 AssetToSwap = null;
             }
 
-            ManualSetWithNotifications(director, time > 0d ? time : 0d);
+            if (director.playableAsset != null)
+                ManualSetWithNotifications(director, time > 0d ? time : 0d);
         }
+
         public static void ManualSetWithNotifications(PlayableDirector director, double time)
         {
             if (director == null || !director.playableGraph.IsValid() || director.timeUpdateMode != DirectorUpdateMode.Manual)

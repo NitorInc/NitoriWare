@@ -10,7 +10,7 @@ using UnityEngine.Playables;
 
 namespace StageFSM
 {
-    public class FSMToolbox : MonoBehaviour
+    public class FSMComponentToolbox : MonoBehaviour
     {
         [SerializeField]
         private Component[] tools;
@@ -38,13 +38,20 @@ namespace StageFSM
             GetComponent<Animator>().speed = 1f / StageController.beatLength;
         }
 
+        float time;
+
         private void Update()
         {
             // TODO remove
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 GetComponent<Animator>().SetTrigger("Advance");
+                time = 0f;
             }
+            //Debug.Log(Time.timeScale);
+            //Debug.Log(GetComponent<Animator>().speed);
+            time += Time.deltaTime;
+            //Debug.Log(time);
 
         }
         
