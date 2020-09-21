@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Stage/Microgame Stage")]
 public class MicrogameStage : Stage
 {
 	public static string microgameId;
@@ -30,8 +31,7 @@ public class MicrogameStage : Stage
 
     public override StageMicrogame getMicrogame(int num)
 	{
-		StageMicrogame microgame = new StageMicrogame(microgameId);
-		microgame.microgameId = microgameId;
+		StageMicrogame microgame = new StageMicrogame(MicrogameCollection.LoadMicrogame(microgameId));
 		return microgame;
 	}
 
@@ -50,11 +50,11 @@ public class MicrogameStage : Stage
         return TextHelper.getLocalizedText("microgame." + microgameId + ".igname", microgameId);
     }
 
-    public override Interruption[] getInterruptions(int num)
-	{
-		if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
-			return new Interruption[0];
+ //   public override Interruption[] getInterruptions(int num)
+	//{
+	//	if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
+	//		return new Interruption[0];
 
-		return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
-	}
+	//	return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
+	//}
 }

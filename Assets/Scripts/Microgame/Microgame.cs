@@ -73,6 +73,10 @@ public class Microgame : ScriptableObject
         Finished
     }
 
+    [SerializeField]
+    private CharacterStage characterStage;
+    public CharacterStage CharacterStage => characterStage;
+
     [Header("Credits order is Art, Code, Music:")]
     [SerializeField]
     private string[] _credits = { "", "", "" };

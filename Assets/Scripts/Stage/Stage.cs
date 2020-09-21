@@ -1,69 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public abstract class Stage : MonoBehaviour
+public abstract class Stage : ScriptableObject
 {
     private const string DiscordStateFormat = "{0} Games";
     private const string DiscordStateFormatSingular = "{0} Game";
 
-#pragma warning disable 0649
     [SerializeField]
 	private VoicePlayer.VoiceSet voiceSet;
     [SerializeField]
     private string displayName;
-#pragma warning restore 0649
 
     protected StageController stageController;
 
-    [System.Serializable]
-	public class Interruption
-	{
-		public StageController.AnimationPart animation;
-		public float beatDuration;
-		public AudioSource audioSource;
-		public AudioClip audioClip;
-		public SpeedChange speedChange;
-		public bool applySpeedChangeAtEnd;
-
-		public enum SpeedChange
-		{
-			None,
-			SpeedUp,
-			ResetSpeed,
-			Custom
-		}
-
-		[HideInInspector]
-		public float scheduledPlayTime;
-
-		public Interruption(SpeedChange speedChange = SpeedChange.None)
-		{
-			this.speedChange = speedChange;
-		}
-	}
-
 	[System.Serializable]
-	public class  StageMicrogame
+	public class StageMicrogame
 	{
-		public string microgameId;
-		public int baseDifficulty = 1;
+        public Microgame microgame;
+        public int baseDifficulty;
 
-		public StageMicrogame(string microgameId = "", int baseDifficulty = 1)
+
+        public StageMicrogame(Microgame microgame, int baseDifficulty = 1)
 		{
-			this.microgameId = microgameId;
+            this.microgame = microgame;
 			this.baseDifficulty = baseDifficulty;
 		}
-	}
+    }
+    public enum SpeedChange
+    {
+        None,
+        SpeedUp,
+        ResetSpeed,
+        Custom
+    }
 
-	/// <summary>
-	/// Called when the stage is first started or the player attempts it again after game over, called before any other method
-	/// </summary>
-	public virtual void onStageStart(StageController stageController)
+
+    /// <summary>
+    /// Called when the stage is first started or the player attempts it again after game over, called before any other method
+    /// </summary>
+    public virtual void onStageStart(StageController stageController)
     {
         this.stageController = stageController;
         updateDiscordStatus(0);
-        PrefsHelper.setVisitedStage(gameObject.scene.name, true);
+        PrefsHelper.setVisitedStage(name, true);
     }
 
     /// <summary>
@@ -80,14 +61,6 @@ public abstract class Stage : MonoBehaviour
 	/// <param name="num"></param>
 	/// <returns></returns>
 	public abstract int getMicrogameDifficulty(StageMicrogame microgame, int num);
-
-	/// <summary>
-	/// Fetch all animation interruptions between outro and intro segments
-	/// </summary>
-	/// <returns></returns>
-	public abstract Interruption[] getInterruptions(int num);
-	/// <param name="cycleIndex"></param>
-
 
 	/// <summary>
 	/// Returns true if we know for sure what microgame will play at the specific index
@@ -124,7 +97,7 @@ public abstract class Stage : MonoBehaviour
     /// <param name="microgameIndex"></param>
     public virtual string getDiscordDetails()
     {
-        return TextHelper.getLocalizedText("menu.gamemode." + gameObject.scene.name.ToLower(), displayName);
+        return TextHelper.getLocalizedText("menu.gamemode." + name, displayName);
     }
     
     void updateDiscordDetails()
@@ -176,7 +149,7 @@ public abstract class Stage : MonoBehaviour
 	/// </summary>
 	/// <param name="interruption"></param>
 	/// <returns></returns>
-	public virtual int getCustomSpeed(int microgame, Interruption interruption)
+	public virtual int getCustomSpeed(int microgame)
 	{
 		return 1;
 	}
@@ -213,20 +186,4 @@ public abstract class Stage : MonoBehaviour
         return displayName;
     }
 
-}
-
-
-public static class StageHelper
-{
-	public static Stage.Interruption[] add(this Stage.Interruption[] interruptions, Stage.Interruption interruption)
-	{
-		Stage.Interruption[] newInterruptions = new Stage.Interruption[interruptions.Length + 1];
-		for (int i = 0; i < interruptions.Length; i++)
-		{
-			newInterruptions[i] = interruptions[i];
-		}
-
-		newInterruptions[interruptions.Length] = interruption;
-		return newInterruptions;
-	}
 }

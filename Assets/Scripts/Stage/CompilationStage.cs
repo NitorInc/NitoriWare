@@ -4,19 +4,20 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+
+[CreateAssetMenu(menuName = "Stage/Compilation Stage")]
 public class CompilationStage : Stage
 {
 	[SerializeField]
 	protected int microgamesPerRound = 20, microgamesPerSpeedChange = 4;
 	[SerializeField]
 	private global::Microgame.Milestone restriction = global::Microgame.Milestone.StageReady;
-	[SerializeField]
-	protected Interruption nextRound;
     [SerializeField]
     private int seed;
     [Multiline]
     [SerializeField]
     private string overrideCollection;
+
 
     //[SerializeField]	//Debug
     private List<StageMicrogame> microgamePool;
@@ -26,15 +27,15 @@ public class CompilationStage : Stage
 	public override void onStageStart(StageController stageController)
 	{
 		microgamePool = (from microgame in MicrogameHelper.getMicrogames(restriction)
-                        select new StageMicrogame(microgame.microgameId))
+                        select new StageMicrogame(microgame))
                         .ToList();
         if (!string.IsNullOrEmpty(overrideCollection))
         {
             var overriddenGames = overrideCollection.Split('\n').Select(a => a.ToUpper().Trim((char)13)).ToList();
-            microgamePool = microgamePool.Where(a => overriddenGames.Contains(a.microgameId.ToUpper())).ToList();
+            microgamePool = microgamePool.Where(a => overriddenGames.Contains(a.microgame.microgameId.ToUpper())).ToList();
             microgamePool = overriddenGames
                 .Select(a => microgamePool
-                .FirstOrDefault(aa => aa.microgameId.Equals(a, StringComparison.OrdinalIgnoreCase)))
+                .FirstOrDefault(aa => aa.microgame.microgameId.Equals(a, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }
         roundsCompleted = roundStartIndex = 0;
@@ -94,20 +95,10 @@ public class CompilationStage : Stage
 		}
 	}
 
-	public override Interruption[] getInterruptions(int num)
-	{
-		num -= roundStartIndex;
-		if (num % microgamesPerRound == 0)
-			return new Interruption[0].add(nextRound);
-		if (microgamesPerSpeedChange > 0 && num % microgamesPerSpeedChange == 0)
-			return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
-		return new Interruption[0];
-	}
-
-	public override int getCustomSpeed(int microgame, Interruption interruption)
-	{
-		return 1 + getRoundSpeedOffset();
-	}
+	//public override int getCustomSpeed(int microgame, Interruption interruption)
+	//{
+	//	return 1 + getRoundSpeedOffset();
+	//}
 
 	int getRoundSpeedOffset()
 	{

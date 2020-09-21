@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Stage/Mystery Compilation Stage")]
 public class MysteryCompilationStage : CompilationStage
 {
 	[SerializeField]

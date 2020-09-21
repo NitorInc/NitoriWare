@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[CreateAssetMenu(menuName = "Stage/Hard Compilation Stage")]
 public class HardCompilationStage : CompilationStage
 {
     public int progressionScoreThreshold;
@@ -24,7 +26,7 @@ public class HardCompilationStage : CompilationStage
 
     public override string getExitScene()
     {
-        if (PrefsHelper.getProgress() < PrefsHelper.GameProgress.AllCompilationComplete && PrefsHelper.getHighScore(gameObject.scene.name) >= progressionScoreThreshold)
+        if (PrefsHelper.getProgress() < PrefsHelper.GameProgress.AllCompilationComplete && PrefsHelper.getHighScore(name) >= progressionScoreThreshold)
         {
             PrefsHelper.setProgress(PrefsHelper.GameProgress.AllCompilationComplete);
             GameMenu.subMenu = GameMenu.SubMenu.Credits;
