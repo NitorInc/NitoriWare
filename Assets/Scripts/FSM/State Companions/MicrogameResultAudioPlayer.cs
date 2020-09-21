@@ -44,14 +44,25 @@ namespace StageFSM
 
         public void ShiftPlaybackTime(double amount)
         {
-            ShiftPlaybackTime(true, amount);
-            ShiftPlaybackTime(false, amount);
+            ShiftPlaybackTimeInternal(amount);
+            ApplyPlaybackTime(true);
+            ApplyPlaybackTime(false);
         }
 
         public void ShiftPlaybackTime(bool victoryStatus, double amount)
         {
-            var source = GetResultSource(victoryStatus);
+            ShiftPlaybackTimeInternal(amount);
+            ApplyPlaybackTime(victoryStatus);
+        }
+
+        void ShiftPlaybackTimeInternal(double amount)
+        {
             scheduledStartTime += amount;
+        }
+
+        void ApplyPlaybackTime(bool victoryStatus)
+        {
+            var source = GetResultSource(victoryStatus);
             source.SetScheduledStartTime(scheduledStartTime);
             audioPlaybackController.SetAudioTime(scheduledStartTime);
         }
