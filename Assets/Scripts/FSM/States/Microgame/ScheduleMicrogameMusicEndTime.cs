@@ -22,7 +22,6 @@ namespace StageFSM
                 var totalTime = totalBeats * Microgame.BeatLength;
                 var currentTime = (double)musicSource.timeSamples / musicSource.clip.frequency;
                 var timeRemaining = (totalTime - currentTime) / speedController.GetSpeedTimeScaleMult();
-                Debug.Log(timeRemaining);
                 musicSource.SetScheduledEndTime(AudioSettings.dspTime + timeRemaining);
             }
         }
