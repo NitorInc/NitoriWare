@@ -125,7 +125,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (!Settings.showTimer)
             MicrogameTimer.instance.disableDisplay = true;
         if (Settings.timerTick)
-            MicrogameTimer.instance.invokeTick();
+            MicrogameTimer.instance.StartPlayback(MicrogameSession);
 
         var musicClip = MicrogameSession.GetMusicClip();
         if (Settings.playMusic && musicClip != null)

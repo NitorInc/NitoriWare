@@ -358,7 +358,7 @@ public class StageController : MonoBehaviour
 
         MicrogameTimer.instance.beatsLeft = getBeatsRemaining();
 		MicrogameTimer.instance.gameObject.SetActive(true);
-		MicrogameTimer.instance.invokeTick();
+		//MicrogameTimer.instance.invokeTick();
 		invokeOutroAnimations();
 	}
 

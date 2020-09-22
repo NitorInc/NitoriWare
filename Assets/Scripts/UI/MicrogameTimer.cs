@@ -25,32 +25,28 @@ public class MicrogameTimer : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-
-		chain = new Transform[8];
-		Transform hold = transform.Find("Chain");
-		for (int i = 0; i < chain.Length; i++)
-		{
-			chain[i] = hold.Find("Chain " + i.ToString());
-		}
-		key = hold.Find("Key");
-		gear = transform.Find("Gear").GetComponent<SpriteRenderer>();
-		countdown = transform.Find("Countdown").GetComponent<SpriteRenderer>();
 	}
 
 	public void StartPlayback(Microgame.Session session)
     {
 		this.session = session;
 		beatsLeft = session.microgame.getDurationInBeats() + 1f;
-		if (beatsLeft < float.PositiveInfinity)
-			invokeTick();
+		StartCoroutine(PlayTicks(session));
     }
 
-	public void invokeTick()
+
+	IEnumerator PlayTicks(Microgame.Session session)
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			Invoke("playTick", (beatsLeft - (i + 2)) * (float)Microgame.BeatLength);
+		if (beatsLeft < float.PositiveInfinity)
+        {
+			yield return new WaitForSeconds((session.microgame.getDurationInBeats() - 3f) * (float)Microgame.BeatLength);
+			playTick();
+			yield return new WaitForSeconds((float)Microgame.BeatLength);
+			playTick();
+			yield return new WaitForSeconds((float)Microgame.BeatLength);
+			playTick();
 		}
+
 	}
 
 	private void playTick()
