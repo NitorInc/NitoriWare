@@ -148,7 +148,7 @@ public class StageController : MonoBehaviour
 	//	float interruptionBeats = 0f;
 
 	//	int endSpeed = speedController.Speed;
-	//	for (int i = 0; i < interruptions.Length; i++)
+	//	for (int i = ; i < interruptions.Length; i++)
 	//	{
 	//		Stage.Interruption interruption = interruptions[i];
 	//		interruptionQueue.Enqueue(interruption);

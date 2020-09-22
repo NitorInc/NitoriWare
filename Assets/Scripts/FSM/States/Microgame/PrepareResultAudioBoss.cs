@@ -7,25 +7,28 @@ using UnityEngine;
 
 namespace StageFSM
 {
-    public class ScheduleResultAudioBoss : StageStateMachineBehaviour
+    public class PrepareResultAudioBoss : StageStateMachineBehaviour
     {
         [SerializeField]
         private string VictoryAudioState;
         [SerializeField]
         private string LossAudioState;
 
-        private bool subscribedToEvent;
+        MicrogamePlayer microgamePlayer;
         MicrogameResultAudioPlayer resultAudioPlayer;
+
+        public override void OnStateInit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            base.OnStateInit(animator, stateInfo, layerIndex);
+            resultAudioPlayer = toolbox.GetTool<MicrogameResultAudioPlayer>();
+            microgamePlayer = toolbox.GetTool<MicrogamePlayer>();
+            microgamePlayer.MicrogameEventListener.VictoryStatusFinalized.AddListener(VictoryFinalized);
+        }
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
             var microgamePlayer = toolbox.GetTool<MicrogamePlayer>();
-            if (!subscribedToEvent)
-            {
-                resultAudioPlayer = toolbox.GetTool<MicrogameResultAudioPlayer>();
-                microgamePlayer.MicrogameEventListener.VictoryStatusFinalized.AddListener(VictoryFinalized);
-            }
 
             var session = microgamePlayer.CurrentMicrogameSession;
             if (session.WasVictoryDetermined)
@@ -37,11 +40,9 @@ namespace StageFSM
             if (!inStateOfficial)
                 return;
 
-            resultAudioPlayer.SetClip(session.VictoryStatus, assetToolbox.GetAssetGroupForState(VictoryAudioState, Animator).GetAsset<AudioClip>(), Time.timeScale);
+            resultAudioPlayer.SetClip(session.VictoryStatus, assetToolbox.GetAssetGroupForState(VictoryAudioState, Animator).GetAsset<AudioClip>(), toolbox.GetTool<SpeedController>().GetSpeedTimeScaleMult());
             resultAudioPlayer.UpdateClipVolumes(session.VictoryStatus);
-            var bossGame = session.microgame as MicrogameBoss;
-            var endBeats = session.VictoryStatus ? bossGame.victoryEndBeats : bossGame.failureEndBeats;
-            resultAudioPlayer.SchedulePlayback(endBeats * Microgame.BeatLength / Time.timeScale);
+            resultAudioPlayer.SchedulePlayback(10000000d);
         }
     }
 }

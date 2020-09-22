@@ -12,8 +12,6 @@ namespace StageFSM
         private bool enableEndEarly = true;
         [SerializeField]
         private float endEarlyBeatThreshold = 2f;
-        [SerializeField]
-        private bool rescheduleResultAudio = true;
 
         private float scheduledEndTime;
 
@@ -36,15 +34,9 @@ namespace StageFSM
                 if (beatOffset > 0f)
                 {
                     // Microgame has over 4 + endEarlyBeatThreshold beats remaining, end early
-                    session.IsEndingEarly = true;
+                    session.EndEarlyBeats = beatOffset;
                     scheduledEndTime -= beatOffset * (float)Microgame.BeatLength;
                     eventListener.StartCoroutine(StartLastBeatIn(scheduledEndTime - (float)Microgame.BeatLength - Time.time));
-
-                    if (rescheduleResultAudio)
-                    {
-                        var player = toolbox.GetTool<MicrogameResultAudioPlayer>();
-                        player.ShiftPlaybackTime((double)-beatOffset * Microgame.BeatLength / Time.timeScale);
-                    }
                 }
             }
         }

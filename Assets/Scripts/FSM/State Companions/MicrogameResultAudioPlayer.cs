@@ -42,22 +42,22 @@ namespace StageFSM
             audioPlaybackController.SetAudioTime(scheduledStartTime);
         }
 
-        public void ShiftPlaybackTime(double amount)
+        public void SetPlaybackTime(double time)
         {
-            ShiftPlaybackTimeInternal(amount);
+            SetPlaybackTimeInternal(time);
             ApplyPlaybackTime(true);
             ApplyPlaybackTime(false);
         }
 
-        public void ShiftPlaybackTime(bool victoryStatus, double amount)
+        public void SetPlaybackTime(bool victoryStatus, double time)
         {
-            ShiftPlaybackTimeInternal(amount);
+            SetPlaybackTimeInternal(time);
             ApplyPlaybackTime(victoryStatus);
         }
 
-        void ShiftPlaybackTimeInternal(double amount)
+        void SetPlaybackTimeInternal(double amount)
         {
-            scheduledStartTime += amount;
+            scheduledStartTime = amount;
         }
 
         void ApplyPlaybackTime(bool victoryStatus)

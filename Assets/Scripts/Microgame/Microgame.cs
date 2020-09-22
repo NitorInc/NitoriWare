@@ -137,7 +137,9 @@ public class Microgame : ScriptableObject
         public float FailureVoiceDelay { get; set; }
         public float GetVoiceDelay() => VictoryStatus ? VictoryVoiceDelay : FailureVoiceDelay;
         public float StartTime { get; set; }
-        public bool IsEndingEarly { get; set; }
+        public double EndEarlyBeats { get; set; } // If >0, microgame is scheduled to end early by this many beats
+        public double EndEarlyTime => EndEarlyBeats * BeatLength;
+        public bool IsEndingEarly => EndEarlyBeats > 0d;
         public float EndTime => StartTime + (float)microgame.getDurationInSeconds();
         public float TimeRemaining => EndTime - Time.time;
         public float BeatsRemaining => TimeRemaining / (float)BeatLength;
