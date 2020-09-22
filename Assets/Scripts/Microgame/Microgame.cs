@@ -141,6 +141,8 @@ public class Microgame : ScriptableObject
 
         public float FailureVoiceDelay { get; set; }
 
+        public float GetVoiceDelay() => VictoryStatus ? VictoryVoiceDelay : FailureVoiceDelay;
+
         public SessionState AsyncState { get; set; }
         public enum SessionState
         {

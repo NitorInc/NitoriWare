@@ -76,13 +76,10 @@ public class MicrogameDebugPlayer : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void VictoryDetermined(Microgame.Session session)
-    {
-        voicePlayer.playClip(session.VictoryStatus,
-            session.VictoryStatus
-                ? session.VictoryVoiceDelay
-                : session.FailureVoiceDelay);
-    }
+    //public void VictoryDetermined(Microgame.Session session)
+    //{
+    //    voicePlayer.playClip(session);
+    //}
 
     public void SceneStarted()
     {

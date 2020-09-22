@@ -365,10 +365,10 @@ public class StageController : MonoBehaviour
 	void endMicrogame()
 	{
 
-		if (!getVictoryDetermined())
-			voicePlayer.playClip(microgamePlayer.CurrentMicrogameSession.VictoryStatus, 0f);
-		else
-			voicePlayer.forcePlay();
+		//if (!getVictoryDetermined())
+		//	voicePlayer.playClip(microgamePlayer.CurrentMicrogameSession.VictoryStatus, 0f);
+		//else
+		//	voicePlayer.ForcePlay();
 
 		stageCamera.tag = "MainCamera";
 		CameraController.instance = Camera.main.GetComponent<CameraController>();
