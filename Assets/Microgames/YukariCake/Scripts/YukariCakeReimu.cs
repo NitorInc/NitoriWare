@@ -28,9 +28,10 @@ public class YukariCakeReimu : MonoBehaviour {
 	void Update () {
         if(isActive)
         {
-            if (MicrogameTimer.instance.beatsLeft <= 0 || ChangeSequence.Count == 0)
+            var beatsLeft = MicrogameController.instance.session.BeatsRemaining;
+            if (beatsLeft <= 0 || ChangeSequence.Count == 0)
                 Stop();
-            else if (MicrogameTimer.instance.beatsLeft <= ChangeSequence.Peek())
+            else if (beatsLeft <= ChangeSequence.Peek())
             {
                 ChangeState();
                 ChangeSequence.Dequeue();

@@ -122,6 +122,7 @@ public class MicrogameController : MonoBehaviour
         SceneManager.SetActiveScene(gameObject.scene);
         Cursor.visible = microgame.controlScheme == Microgame.ControlScheme.Mouse && !session.GetHideCursor();
         Cursor.lockState = microgame.controlScheme == Microgame.ControlScheme.Mouse ? session.GetCursorLockMode() : GameController.DefaultCursorMode;
+        session.StartTime = Time.time;
         session.EventListener.MicrogameStart.Invoke(session);
     }
 

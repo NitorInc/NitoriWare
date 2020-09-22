@@ -15,15 +15,14 @@ namespace StageFSM
         [SerializeField]
         private bool rescheduleResultAudio = true;
 
-        private float microgameStartTime;
+        private float scheduledEndTime;
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
 
-            microgameStartTime = Time.time;
-            var beatsToLastBeat = session.microgame.getDurationInBeats() - 1;
-            eventListener.StartCoroutine(StartLastBeatIn(beatsToLastBeat * (float)Microgame.BeatLength));
+            scheduledEndTime = session.EndTime;
+            eventListener.StartCoroutine(StartLastBeatIn(scheduledEndTime - (float)Microgame.BeatLength - Time.time));
         }
 
         protected override void OnMicrogameVictoryFinalized()
@@ -31,17 +30,15 @@ namespace StageFSM
             if (enableEndEarly && session.microgame.canEndEarly)
             {
                 // End early if applicable
-                var microgameBeatsLeft = ((invokedTime + 1f) - Time.time) / Microgame.BeatLength;
+                var microgameBeatsLeft = session.BeatsRemaining;
                 var beatOffset = microgameBeatsLeft - endEarlyBeatThreshold;
                 beatOffset -= beatOffset % 4f;
                 if (beatOffset > 0f)
                 {
                     // Microgame has over 4 + endEarlyBeatThreshold beats remaining, end early
-                    var beatsToLastBeat = session.microgame.getDurationInBeats() - beatOffset - 1f;
-                    var timeIntoMicrogame = Time.time - microgameStartTime;
-                    var invokeIn = microgameStartTime + (beatsToLastBeat * Microgame.BeatLength) - Time.time;
-                    MicrogameTimer.instance.CancelInvoke();
-                    eventListener.StartCoroutine(StartLastBeatIn((float)invokeIn));
+                    session.IsEndingEarly = true;
+                    scheduledEndTime -= beatOffset * (float)Microgame.BeatLength;
+                    eventListener.StartCoroutine(StartLastBeatIn(scheduledEndTime - (float)Microgame.BeatLength - Time.time));
 
                     if (rescheduleResultAudio)
                     {

@@ -114,7 +114,7 @@ public class EikiJudge_SoulController : MonoBehaviour
         // Check if soul should be late
         if (soulIsLate)
         {
-            if (MicrogameTimer.instance.beatsLeft <= 3 || soulListPosition == 0)
+            if (MicrogameController.instance.session.BeatsRemaining <= 3f || soulListPosition == 0)
             {
                 soulIsLate = false;
             }

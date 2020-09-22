@@ -51,7 +51,7 @@ public class RockBandNote : MonoBehaviour
 
 	void updatePosition()
 	{
-		transform.localPosition = new Vector3(distancePerBeat * (MicrogameTimer.instance.beatsLeft - targetBeat),
+		transform.localPosition = new Vector3(distancePerBeat * (MicrogameController.instance.session.BeatsRemaining - targetBeat),
 			transform.localPosition.y, transform.localPosition.z);
 	}
 

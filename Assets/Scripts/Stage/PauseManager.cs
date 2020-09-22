@@ -113,8 +113,8 @@ public class PauseManager : MonoBehaviour
 
             var rootObjects = MicrogameController.instance.gameObject.scene.GetRootGameObjects();
 		}
-        if (MicrogameTimer.instance != null)
-		    MicrogameTimer.instance.gameObject.SetActive(false);
+      //  if (MicrogameTimer.instance != null)
+		    //MicrogameTimer.instance.gameObject.SetActive(false);
 
 		pauseData.cursorVisible = Cursor.visible;
 		Cursor.visible = true;
@@ -150,7 +150,6 @@ public class PauseManager : MonoBehaviour
         if (disablePause)
             return;
 
-        paused = false;
 
         foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
@@ -164,8 +163,8 @@ public class PauseManager : MonoBehaviour
 		{
             MicrogameController.instance.onUnPaused();
         }
-        if (MicrogameTimer.instance != null)
-            MicrogameTimer.instance.gameObject.SetActive(true);
+        //if (MicrogameTimer.instance != null)
+        //    MicrogameTimer.instance.gameObject.SetActive(true);
         
         Time.timeScale = pauseData.timeScale;
         AudioListener.pause = false;
@@ -174,5 +173,7 @@ public class PauseManager : MonoBehaviour
         menu.gameObject.SetActive(false);
 
         onUnPause.Invoke();
+
+        paused = false;
     }
 }

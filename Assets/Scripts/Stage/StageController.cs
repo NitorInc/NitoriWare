@@ -352,12 +352,12 @@ public class StageController : MonoBehaviour
         stageCamera.tag = "Camera";
         microgameMusicSource.clip = session.GetMusicClip();
 
-        animationStartTime += beatLength * (12f + (float)session.microgame.getDurationInBeats());
+        //animationStartTime += beatLength * (12f + (float)session.microgame.getDurationInBeats());
 
         Cursor.lockState = session.GetCursorLockMode();
 
-        MicrogameTimer.instance.beatsLeft = getBeatsRemaining();
-		MicrogameTimer.instance.gameObject.SetActive(true);
+  //      MicrogameTimer.instance.beatsLeft = getBeatsRemaining();
+		//MicrogameTimer.instance.gameObject.SetActive(true);
 		//MicrogameTimer.instance.invokeTick();
 		invokeOutroAnimations();
 	}
@@ -378,8 +378,8 @@ public class StageController : MonoBehaviour
         Cursor.lockState = GameController.DefaultCursorMode;
         stageCamera.GetComponent<AudioListener>().enabled = true;
 
-        MicrogameTimer.instance.beatsLeft = 0f;
-		MicrogameTimer.instance.gameObject.SetActive(false);
+  //      MicrogameTimer.instance.beatsLeft = 0f;
+		//MicrogameTimer.instance.gameObject.SetActive(false);
 
 
         stage.onMicrogameEnd(microgameCount, microgamePlayer.CurrentMicrogameSession.VictoryStatus);
@@ -479,15 +479,15 @@ public class StageController : MonoBehaviour
 		}
 		else if (microgame.canEndEarly)
 		{
-			float beatOffset = MicrogameTimer.instance.beatsLeft - 2f;
-			beatOffset -= beatOffset % 4f;
-			if (beatOffset > 0f)
-			{
-				if (beatOffset > 8f)
-					beatOffset = 8f;
+			//float beatOffset = MicrogameTimer.instance.beatsLeft - 2f;
+			//beatOffset -= beatOffset % 4f;
+			//if (beatOffset > 0f)
+			//{
+			//	if (beatOffset > 8f)
+			//		beatOffset = 8f;
 
-				endMicrogameEarly(beatOffset);
-			}
+			//	endMicrogameEarly(beatOffset);
+			//}
 		}
 	}
 
@@ -518,7 +518,7 @@ public class StageController : MonoBehaviour
 	public void endMicrogameEarly(float beatsEarly)
 	{
 		CancelInvoke();
-		MicrogameTimer.instance.CancelInvoke();
+		//MicrogameTimer.instance.CancelInvoke();
 		animationStartTime -= beatLength * beatsEarly;
 		invokeOutroAnimations();
 	}

@@ -24,6 +24,8 @@ public class MicrogameDebugPlayer : MonoBehaviour
     private MicrogameEventListener eventListener;
     [SerializeField]
     private SpeedController speedController;
+    [SerializeField]
+    private MicrogameTimer microgameTimer;
 
     public MicrogameEventListener EventListener => eventListener;
 
@@ -60,9 +62,12 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
     public Microgame.Session MicrogameSession { get; private set; }
 
+    private float timerVolume;
+
     void Awake()
     {
         instance = this;
+        timerVolume = microgameTimer.GetComponent<AudioSource>().volume;
     }
 
     public void Initialize(Microgame.Session microgameSession, DebugSettings settings)
@@ -119,13 +124,8 @@ public class MicrogameDebugPlayer : MonoBehaviour
             manager.gameObject.SetActive(true);
         }
 
-        MicrogameTimer.instance.CancelInvoke();
-        MicrogameTimer.instance.beatsLeft = (float)MicrogameSession.microgame.getDurationInBeats()
-            + (Settings.simulateStartDelay ? 1f : 0f);
-        if (!Settings.showTimer)
-            MicrogameTimer.instance.disableDisplay = true;
-        if (Settings.timerTick)
-            MicrogameTimer.instance.StartPlayback(MicrogameSession);
+        microgameTimer.disableDisplay = !Settings.showTimer;
+        microgameTimer.GetComponent<AudioSource>().volume = settings.timerTick ? timerVolume : 0f;
 
         var musicClip = MicrogameSession.GetMusicClip();
         if (Settings.playMusic && musicClip != null)

@@ -33,7 +33,7 @@ public class CloudPunchUnzan : MonoBehaviour
         //if (Time.time > lastPunchTime + punchMoveCooldownTime)
         //    updateMovement(false);
         if (Time.time > lastPunchTime + punchRePunchCooldownTime && Input.GetKeyDown(KeyCode.Space)
-            && MicrogameTimer.instance.beatsLeft <= maxBeatsLeftBeforeInput)
+            && MicrogameController.instance.session.BeatsRemaining <= maxBeatsLeftBeforeInput)
             punch();
         if (MicrogameController.instance.getVictory())
         {

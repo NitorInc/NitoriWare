@@ -93,7 +93,7 @@ public class RockBandContoller : MonoBehaviour
 	
 	void Update ()
 	{
-		if ((state == State.Default || state == State.Hit) && MicrogameTimer.instance.beatsLeft < 7f)
+		if ((state == State.Default || state == State.Hit) && MicrogameController.instance.session.BeatsRemaining < 7f)
 			checkForInput();
         updateAnimators();
     }
@@ -134,7 +134,7 @@ public class RockBandContoller : MonoBehaviour
     {
         foreach (Animator animator in animators)
         {
-            animator.SetFloat("beatFraction", 1f - (MicrogameTimer.instance.beatsLeft % 1f));
+            animator.SetFloat("beatFraction", 1f - (MicrogameController.instance.session.BeatsRemaining % 1f));
         }
     }
 

@@ -10,7 +10,7 @@ public class MicrogameBoss : Microgame
 	private float _victoryEndBeats, _failureEndBeats;
 #pragma warning disable 0649
 
-    public override float getDurationInBeats()
+    public override double getDurationInBeats()
 	{
 		return float.PositiveInfinity;
 	}

@@ -83,7 +83,8 @@ public class Microgame : ScriptableObject
     private string[] _credits = { "", "", "" };
     public string[] credits => _credits;
 
-    public virtual float getDurationInBeats() => (duration == Duration.Long16Beats) ? 16f : 8f;
+    public virtual double getDurationInBeats() => (duration == Duration.Long16Beats) ? 17d : 9d;
+    public virtual double getDurationInSeconds() => getDurationInBeats() * (float)BeatLength;
 
     public bool isBossMicrogame() => GetType() == typeof(MicrogameBoss) || GetType().IsSubclassOf(typeof(MicrogameBoss));
 
@@ -126,22 +127,20 @@ public class Microgame : ScriptableObject
 
         public virtual CursorLockMode GetCursorLockMode() => microgame._cursorLockState;
 
-
         public Microgame microgame { get; private set; }
-
         public MicrogameEventListener EventListener { get; set; }
 
         public int Difficulty { get; private set; }
-
         public bool VictoryStatus { get; set; }
-
         public bool WasVictoryDetermined { get; set; } = false;
-
         public float VictoryVoiceDelay { get; set; }
-
         public float FailureVoiceDelay { get; set; }
-
         public float GetVoiceDelay() => VictoryStatus ? VictoryVoiceDelay : FailureVoiceDelay;
+        public float StartTime { get; set; }
+        public bool IsEndingEarly { get; set; }
+        public float EndTime => StartTime + (float)microgame.getDurationInSeconds();
+        public float TimeRemaining => EndTime - Time.time;
+        public float BeatsRemaining => TimeRemaining / (float)BeatLength;
 
         public SessionState AsyncState { get; set; }
         public enum SessionState
@@ -149,7 +148,7 @@ public class Microgame : ScriptableObject
             Loading,    // Microgame scene is loading but not set to activate
             Activating, // Microgame scene is set to activate but has not awaken yet
             Playing,    // Microgame scene is the active game scene and is performing gameplay
-            Unloading  // Microgame scene is unloading async
+            Unloading   // Microgame scene is unloading async
         }
 
         public bool Cancelled { get; set; } // Microgame is set to destroy itself as soon as it loads in and won't be played

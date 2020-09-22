@@ -51,8 +51,8 @@ public class BottomMicrogame : MonoBehaviour
     {
         microgameData = MicrogameCollection.LoadAllMicrogames();
 
-        if (MicrogameTimer.instance == null)
-            SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
+        //if (MicrogameTimer.instance == null)
+        //    SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
 
 
         LoadTopScene();

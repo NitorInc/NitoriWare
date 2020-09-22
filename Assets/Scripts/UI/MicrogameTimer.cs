@@ -3,13 +3,7 @@ using System.Collections;
 
 public class MicrogameTimer : MonoBehaviour
 {
-
-	public static MicrogameTimer instance;
-
 	public float countdownScale;
-
-	public float beatsLeft;
-
 	public bool disableDisplay;
 
 	public AudioSource tick;
@@ -22,29 +16,26 @@ public class MicrogameTimer : MonoBehaviour
 	private Vector3 hold;
 	private Microgame.Session session;
 
-	void Awake()
-	{
-		instance = this;
-	}
-
 	public void StartPlayback(Microgame.Session session)
     {
 		this.session = session;
-		beatsLeft = session.microgame.getDurationInBeats() + 1f;
 		StartCoroutine(PlayTicks(session));
     }
 
 
 	IEnumerator PlayTicks(Microgame.Session session)
 	{
-		if (beatsLeft < float.PositiveInfinity)
+		if (session.BeatsRemaining < float.PositiveInfinity)
         {
-			yield return new WaitForSeconds((session.microgame.getDurationInBeats() - 3f) * (float)Microgame.BeatLength);
-			playTick();
-			yield return new WaitForSeconds((float)Microgame.BeatLength);
-			playTick();
-			yield return new WaitForSeconds((float)Microgame.BeatLength);
-			playTick();
+			yield return new WaitForSeconds((float)(session.BeatsRemaining - 4d) * (float)Microgame.BeatLength);
+			if (!session.IsEndingEarly)
+			{
+				playTick();
+				yield return new WaitForSeconds((float)Microgame.BeatLength);
+				playTick();
+				yield return new WaitForSeconds((float)Microgame.BeatLength);
+				playTick();
+			}
 		}
 
 	}
@@ -55,16 +46,11 @@ public class MicrogameTimer : MonoBehaviour
 		tick.Play();
 	}
 
-	void Update()
-	{
-		beatsLeft -= Time.deltaTime / (float)Microgame.BeatLength;
-	}
-
 	void LateUpdate()
 	{
-		if (!disableDisplay && beatsLeft < 9f && beatsLeft > 0.0f)
+		if (session != null && !disableDisplay && session.BeatsRemaining < 9f && session.BeatsRemaining > 0.0f)
 		{
-
+			var beatsLeft = session.BeatsRemaining;
 			int beat = (int)Mathf.Floor(beatsLeft);
 
 			gear.enabled = countdown.enabled = true;
@@ -124,7 +110,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	private float getCountdownScale()
 	{
-		float t = 1 - (beatsLeft % 1);
+		float t = 1 - (session.BeatsRemaining % 1);
 
 
 		float delay = .25f, growDuration = .25f;
