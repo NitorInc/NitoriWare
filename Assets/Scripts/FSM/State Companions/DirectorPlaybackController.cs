@@ -10,13 +10,16 @@ namespace StageFSM
     public class DirectorPlaybackController : MonoBehaviour
     {
         public double time { get; set; }
+        public PlayableAsset AssetToSwap { get; set; }
 
         private PlayableDirector director;
-        public PlayableAsset AssetToSwap;
+        private bool FinishedPlayingAsset;
+        private List<INotification> markersPlayedOnPlayable;
 
         private void Awake()
         {
             director = GetComponent<PlayableDirector>();
+            markersPlayedOnPlayable = new List<INotification>();
         }
 
         public void ResetPlayback()
@@ -41,15 +44,19 @@ namespace StageFSM
                 director.playableAsset = AssetToSwap;
                 director.Play();
                 AssetToSwap = null;
+                FinishedPlayingAsset = false;
+                markersPlayedOnPlayable.Clear();
             }
 
-            if (director.playableAsset != null)
+            if (director.playableAsset != null && !FinishedPlayingAsset)
             {
                 ManualSetWithNotifications(director, time > 0d ? time : 0d);
+                if (time >= director.playableAsset.duration)
+                    FinishedPlayingAsset = true;
             }
         }
 
-        public static void ManualSetWithNotifications(PlayableDirector director, double time)
+        void ManualSetWithNotifications(PlayableDirector director, double time)
         {
             if (director == null || !director.playableGraph.IsValid() || director.timeUpdateMode != DirectorUpdateMode.Manual)
                 return;
@@ -69,9 +76,13 @@ namespace StageFSM
                     if (!(m is INotification))
                         continue;
 
-                    bool fire = (m.time >= oldTime && m.time < time) || (m.time > time && m.time <= oldTime);
+                    bool fire = ((m.time >= oldTime && m.time < time) || (m.time > time && m.time <= oldTime))
+                        && !markersPlayedOnPlayable.Contains(m as INotification);
                     if (fire)
+                    {
                         output.PushNotification(playable, m as INotification);
+                        markersPlayedOnPlayable.Add(m as INotification);
+                    }
                 }
             }
             director.Evaluate();
