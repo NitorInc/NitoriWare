@@ -18,6 +18,8 @@ namespace StageFSM
             var playbackController = toolbox.GetTool<AudioPlaybackController>();
             controller = toolbox.GetTool<DirectorPlaybackController>();
             dspStartTime = playbackController.LastScheduledAudioStartTime;
+
+            OnStateUpdateOfficial();
         }
 
         public override void OnStateUpdateOfficial()

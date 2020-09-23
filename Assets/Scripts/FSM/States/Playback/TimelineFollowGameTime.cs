@@ -16,6 +16,8 @@ namespace StageFSM
             base.OnStateEnterOfficial();
             var playbackController = toolbox.GetTool<AudioPlaybackController>();
             controller = toolbox.GetTool<DirectorPlaybackController>();
+
+            OnStateUpdateOfficial();
         }
 
         public override void OnStateUpdateOfficial()

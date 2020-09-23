@@ -44,7 +44,9 @@ namespace StageFSM
             }
 
             if (director.playableAsset != null)
+            {
                 ManualSetWithNotifications(director, time > 0d ? time : 0d);
+            }
         }
 
         public static void ManualSetWithNotifications(PlayableDirector director, double time)
