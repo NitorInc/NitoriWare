@@ -47,27 +47,27 @@ public class MicrogameController : MonoBehaviour
 	{
 		instance = this;
 
-        var sceneName = gameObject.scene.name;
-        if (sceneName.Contains("Template"))
-        {
-            Debug.Break();
-            Debug.Log("You can't play the template scene.");
-        }
-
-        // Get collection microgame if available
-        var microgame = MicrogameHelper.getMicrogames(includeBosses:true)
-            .FirstOrDefault(a =>  sceneName.Contains(a.microgameId));
-
-        if (microgame == null)
-        {
-            Debug.LogError("Could not find microgame metadata. Make sure the scene name contains the microgame's ID and the folder is named correctly, and that your Microgame's metadata is where it should be.");
-            Debug.Break();
-        }
-
         debugMode = GameController.instance == null || MicrogameDebugPlayer.DebugModeActive;
 
         if (debugMode && MicrogameDebugPlayer.instance == null)
         {
+            var sceneName = gameObject.scene.name;
+            if (sceneName.Contains("Template"))
+            {
+                Debug.Break();
+                Debug.Log("You can't play the template scene.");
+            }
+
+            // Get collection microgame if available
+            var microgame = MicrogameHelper.getMicrogames(includeBosses: true)
+                .FirstOrDefault(a => sceneName.Contains(a.microgameId));
+
+            if (microgame == null)
+            {
+                Debug.LogError("Could not find microgame metadata. Make sure the scene name contains the microgame's ID and the folder is named correctly, and that your Microgame's metadata is where it should be.");
+                Debug.Break();
+            }
+
             Instantiate(debugPlayerPrefab, transform.position, Quaternion.identity);
 
             int difficulty;

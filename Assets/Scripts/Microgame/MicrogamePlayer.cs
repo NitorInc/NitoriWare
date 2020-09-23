@@ -11,6 +11,8 @@ using UnityEngine.SceneManagement;
 
 public class MicrogamePlayer : MonoBehaviour
 {
+    public static MicrogamePlayer instance;
+
     const ThreadPriority sceneLoadPriority = ThreadPriority.BelowNormal;
 
     [SerializeField]
@@ -66,6 +68,7 @@ public class MicrogamePlayer : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         microgameJobs = new List<MicrogameJob>();
         Application.backgroundLoadingPriority = sceneLoadPriority;
     }

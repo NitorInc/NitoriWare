@@ -82,7 +82,7 @@ public class CharacterStage : Stage
         }
 
         // Add games that aren't stored internally but belong to this character stage
-        var allMicrogames = MicrogameCollection.LoadAllMicrogames()
+        var allMicrogames = loadedMicrogames
             .Where(a => MicrogameQualifiesForStage(a) && !a.isBossMicrogame());
         var flattenedPool = batches
             .SelectMany(a => a.pool)
@@ -107,6 +107,10 @@ public class CharacterStage : Stage
 
     public override void onStageStart(StageController stageController)
     {
+        loadedMicrogames = MicrogameCollection.LoadAllMicrogames()
+            .Where(a => MicrogameQualifiesForStage(a) || a.isBossMicrogame())
+            .ToArray();
+
         roundsCompleted = roundStartIndex = 0;
         microgameBatches = GetFullMicrogamePool();
         if (shuffleMicrogames)
@@ -116,7 +120,6 @@ public class CharacterStage : Stage
 
         revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
 
-        loadedMicrogames = MicrogameCollection.LoadAllMicrogames();
 
         base.onStageStart(stageController);
     }
