@@ -450,6 +450,22 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-8007872600140754801
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f40368a4bccc34e9604604a44d32c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IntegerName: Score
+  value: -1
+  setMode: 0
+  SetInTransition: 0
 --- !u!114 &-7824887230112264121
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -904,6 +920,7 @@ AnimatorState:
   - {fileID: -8608056865751880193}
   - {fileID: 4347557828849378185}
   - {fileID: 1529165370302477079}
+  - {fileID: -3583189285162434932}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1010,6 +1027,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CallbackTriggerName: FirstGameLoaded
+--- !u!114 &-4711818530184714773
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f40368a4bccc34e9604604a44d32c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IntegerName: 
+  value: 0
+  setMode: 0
+  SetInTransition: 0
 --- !u!1102 &-4675148061180441297
 AnimatorState:
   serializedVersion: 5
@@ -1342,6 +1375,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d858518a26171e4886ffaa4c09f0ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3583189285162434932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f40368a4bccc34e9604604a44d32c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IntegerName: Score
+  value: 1
+  setMode: 0
+  SetInTransition: 0
 --- !u!1102 &-3575148691433452529
 AnimatorState:
   serializedVersion: 5
@@ -1577,6 +1626,7 @@ AnimatorState:
   - {fileID: -4029787487966820207}
   m_StateMachineBehaviours:
   - {fileID: -3059394960626564030}
+  - {fileID: -8007872600140754801}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2074,73 +2124,79 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Advance
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: MicrogameIndex
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: -1
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: FirstGameLoaded
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: MicrogameVictory
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: LastBeat
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: BossLoaded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: RevisitingStage
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Life
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 1
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: BossWarning
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: SpeedUpWarning
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: LevelUpWarning
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: Score
+    m_Type: 3
+    m_DefaultFloat: 0
+    m_DefaultInt: 1
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

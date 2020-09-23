@@ -66,7 +66,7 @@ public class StageController : MonoBehaviour
             commandDisplay = transform.parent.Find("UI").Find("Command").GetComponent<CommandDisplay>();
         if (controlDisplay == null)
             controlDisplay = GameObject.FindObjectOfType<ControlDisplay>();
-        controlDisplay.stageController = this;
+        //controlDisplay.stageController = this;
     }
 
     void Start()
