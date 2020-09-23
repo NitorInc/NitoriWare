@@ -111,6 +111,8 @@ public class CharacterStage : Stage
         microgameBatches = GetFullMicrogamePool();
         if (shuffleMicrogames)
             shuffleBatches();
+        else
+            selectedBossMicrogame = bossMicrogame;
 
         revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
 
