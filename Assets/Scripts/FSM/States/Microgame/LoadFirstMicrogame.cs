@@ -16,7 +16,6 @@ namespace StageFSM
             base.OnStateEnterOfficial();
             microgamePlayer = toolbox.GetTool<MicrogamePlayer>();
             var control = toolbox.GetTool<StageControl>();
-            control.Stage.onStageStart(null);
             control.CreateAndEnqueueMicrogameSession(0);
             control.StartCoroutine(WaitForMicrogameLoad());
         }

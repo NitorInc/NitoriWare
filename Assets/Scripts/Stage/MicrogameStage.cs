@@ -20,24 +20,20 @@ public class MicrogameStage : Stage
     [SerializeField]
     private bool speedUpEveryCycle = false;
 
-    public override void onStageStart(StageController stageController)
+
+    public override void InitStage(int seed = 0)
     {
+        base.InitStage(seed);
         if (!string.IsNullOrEmpty(forceMicrogame) && Debug.isDebugBuild)
         {
             microgameId = forceMicrogame;
         }
-        base.onStageStart(stageController);
     }
 
     public override StageMicrogame getMicrogame(int num)
 	{
 		StageMicrogame microgame = new StageMicrogame(MicrogameCollection.LoadMicrogame(microgameId));
 		return microgame;
-	}
-
-	public override int getMicrogameDifficulty(StageMicrogame microgame, int num)
-	{
-		return forceDifficulty < 1 ? ((num % 3) + 1) : forceDifficulty;
 	}
 
     public override int getStartSpeed()

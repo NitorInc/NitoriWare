@@ -40,7 +40,7 @@ public class StageControl : MonoBehaviour
     {
         var stageMicrogame = stage.getMicrogame(index);
         var microgame = stageMicrogame.microgame;
-        var difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
+        var difficulty = stageMicrogame.difficulty;
         var session = microgame.CreateSession(difficulty);
         microgamePlayer.EnqueueSession(session);
     }

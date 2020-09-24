@@ -28,8 +28,6 @@ public class ControlDisplay : MonoBehaviour
         //TODO re-enable command warnings?
         controlRenderer.sprite = controlSchemeSprites[(int)controlScheme];
 
-        Debug.Log("hi?");
-
         var text = TextHelper.getLocalizedTextNoWarnings("stage.control." + controlScheme.ToString().ToLower(), getDefaultControlString(controlScheme));
 
         if (controlText != null)

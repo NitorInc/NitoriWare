@@ -93,7 +93,7 @@ public class StageController : MonoBehaviour
 
     void resetStage(float startTime, bool firstTime)
     {
-        stage.onStageStart(this);
+        //stage.onStageStart(this);
 
         microgameCount = 0;
         speedController.Speed = stage.getStartSpeed();
@@ -122,7 +122,7 @@ public class StageController : MonoBehaviour
 		{
 			var stageMicrogame = stage.getMicrogame(index);
 			var microgame = stageMicrogame.microgame;
-            var difficulty = stage.getMicrogameDifficulty(stageMicrogame, index);
+            var difficulty = stageMicrogame.difficulty;
             var newSession = microgame.CreateSession(difficulty);
 			microgamePlayer.EnqueueSession(newSession);
 
@@ -382,7 +382,7 @@ public class StageController : MonoBehaviour
 		//MicrogameTimer.instance.gameObject.SetActive(false);
 
 
-        stage.onMicrogameEnd(microgameCount, microgamePlayer.CurrentMicrogameSession.VictoryStatus);
+        //stage.onMicrogameEnd(microgameCount, microgamePlayer.CurrentMicrogameSession.VictoryStatus);
 
 		microgamePlayer.StopMicrogame();
 

@@ -20,7 +20,7 @@ public class CharacterStageEditor : Editor
 
     void PullBatches()
     {
-        microgameBatches = characterStage.GetFullMicrogamePool();
+        microgameBatches = characterStage.GetFullMicrogamePool().batches;
     }
 
     void WriteBatches()
@@ -71,17 +71,17 @@ public class CharacterStageEditor : Editor
                     WriteBatches();
                 }
                 GUILayout.Label(microgame.microgame.microgameId, GUILayout.Width(100));
-                var difficulty = microgame.baseDifficulty;
+                var difficulty = microgame.difficulty;
                 GUILayout.Label(difficulty.ToString(), GUILayout.Width(15));
 
                 if (GUILayout.Button(new GUIContent("-"), GUILayout.Width(19)) && difficulty > 1)
                 {
-                    microgame.baseDifficulty--;
+                    microgame.difficulty--;
                     WriteBatches();
                 }
                 if (GUILayout.Button(new GUIContent("+"), GUILayout.Width(19)) && difficulty < 3)
                 {
-                    microgame.baseDifficulty++;
+                    microgame.difficulty++;
                     WriteBatches();
                 }
                 GUILayout.EndHorizontal();
@@ -112,7 +112,7 @@ public class CharacterStageEditor : Editor
                 text += $"Batch {i + 1}: Pick {batch.pick}\n";
                 foreach (var microgame in batch.pool)
                 {
-                    text += $"    {microgame.microgame.microgameId} {microgame.baseDifficulty}\n";
+                    text += $"    {microgame.microgame.microgameId} {microgame.difficulty}\n";
                 }
             }
             text = text.Trim();

@@ -50,9 +50,12 @@ namespace StageFSM
 
             if (director.playableAsset != null && !FinishedPlayingAsset)
             {
-                ManualSetWithNotifications(director, time > 0d ? time : 0d);
                 if (time >= director.playableAsset.duration)
+                {
+                    time = director.playableAsset.duration;
                     FinishedPlayingAsset = true;
+                }
+                ManualSetWithNotifications(director, time > 0d ? time : 0d);
             }
         }
 

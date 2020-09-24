@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,21 +16,22 @@ public abstract class Stage : ScriptableObject
     [SerializeField]
     private string displayName;
 
-    protected StageController stageController;
+    private int seed;
 
 	[System.Serializable]
 	public class StageMicrogame
 	{
         public Microgame microgame;
-        public int baseDifficulty;
+        public int difficulty;
 
 
-        public StageMicrogame(Microgame microgame, int baseDifficulty = 1)
+        public StageMicrogame(Microgame microgame, int difficulty = 1)
 		{
             this.microgame = microgame;
-			this.baseDifficulty = baseDifficulty;
+			this.difficulty = difficulty;
 		}
     }
+
     public enum SpeedChange
     {
         None,
@@ -38,13 +42,58 @@ public abstract class Stage : ScriptableObject
 
 
     /// <summary>
-    /// Called when the stage is first started or the player attempts it again after game over, called before any other method
+    /// Called when the stage is first started, called before any other method
     /// </summary>
-    public virtual void onStageStart(StageController stageController)
+    public virtual void InitScene()
     {
-        this.stageController = stageController;
-        updateDiscordStatus(0);
         PrefsHelper.setVisitedStage(name, true);
+    }
+
+    /// <summary>
+    /// Called when the stage is first started or the player attempts it again after game over, called after InitScene
+    /// </summary>
+    public virtual void InitStage(int seed)
+    {
+        if (seed == 0)
+            seed = new System.Random().Next();
+        updateDiscordStatus(0);
+    }
+
+    protected System.Random GetRandomForRound(int round) => new System.Random(GetSeedForRound(round));
+
+    protected int GetSeedForRound(int round)
+    {
+        var returnSeed = seed;
+        var rand = new System.Random(seed);
+        for (int i = 0; i < round; i++)
+        {
+            returnSeed = rand.Next();
+        }
+        return returnSeed;
+    }
+
+    protected T GetShuffledMicrogame<T>(T[] microgames, int index, System.Random random)
+    {
+        if (microgames.Length < 2)
+            return microgames.FirstOrDefault();
+
+        var indexArray = Enumerable.Range(0, microgames.Length).ToArray();
+        for (int i = 0; i <= index; i++)
+        {
+            var range = indexArray.Length - i;
+            var pick = i + (random.Next() % range);
+            if (i == index)
+                return microgames[indexArray[pick]];
+            else if (pick != i)
+            {
+                var hold = indexArray[pick];
+                indexArray[pick] = indexArray[i];
+                indexArray[i] = hold;
+            }
+        }
+
+        UnityEngine.Debug.LogError("Shuffle out of range");
+        return microgames.FirstOrDefault();
     }
 
     /// <summary>
@@ -53,14 +102,6 @@ public abstract class Stage : ScriptableObject
     /// <param name="cycleIndex"></param>
     /// <returns></returns>
     public abstract StageMicrogame getMicrogame(int num);
-
-	/// <summary>
-	/// Gets microgame difficulty for this specific instance
-	/// </summary>
-	/// <param name="microgame"></param>
-	/// <param name="num"></param>
-	/// <returns></returns>
-	public abstract int getMicrogameDifficulty(StageMicrogame microgame, int num);
 
 	/// <summary>
 	/// Returns true if we know for sure what microgame will play at the specific index
@@ -79,16 +120,6 @@ public abstract class Stage : ScriptableObject
     public virtual void onMicrogameStart(int microgame)
     {
         updateDiscordState(microgame);
-    }
-
-	/// <summary>
-	/// Called when a microgame has finished and passes results
-	/// </summary>
-	/// <param name="microgame"></param>
-	/// <param name="victory"></param>
-	public virtual void onMicrogameEnd(int microgame, bool victory)
-	{
-
     }
 
     /// <summary>
@@ -142,25 +173,25 @@ public abstract class Stage : ScriptableObject
     public virtual int getMaxLife()
 	{
 		return 4;
-	}
+    }
 
-	/// <summary>
-	/// Calculates custom speed when Custom is selected for Interruption speed change
-	/// </summary>
-	/// <param name="interruption"></param>
-	/// <returns></returns>
-	public virtual int getCustomSpeed(int microgame)
-	{
-		return 1;
-	}
+    /// <summary>
+    /// Get microgame speed at beginning of this round
+    /// </summary>
+    /// <param name="interruption"></param>
+    /// <returns></returns>
+    public virtual int getRoundSpeed(int microgame)
+    {
+        return 1;
+    }
 
-	/// <summary>
-	/// Returns the speed setting to start the stage at
-	/// </summary>
-	/// <returns></returns>
-	public virtual int getStartSpeed()
+    /// <summary>
+    /// Get microgame speed at beginning of this stage
+    /// </summary>
+    /// <returns></returns>
+    public virtual int getStartSpeed()
 	{
-		return 1;
+		return getRoundSpeed(0);
 	}
 
     /// <summary>

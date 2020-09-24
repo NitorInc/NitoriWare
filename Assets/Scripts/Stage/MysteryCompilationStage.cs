@@ -8,11 +8,13 @@ public class MysteryCompilationStage : CompilationStage
 	[SerializeField]
 	private Transform disable;
 
-	public override void onStageStart(StageController stageController)
-	{
-		base.onStageStart(stageController);
+    public override void InitStage(int seed = 0)
+    {
+        base.InitStage(seed);
         updateCursorVisible();
 	}
+
+	// TODO this used to be a gameobject so, fix this
 
 	void Update()
 	{

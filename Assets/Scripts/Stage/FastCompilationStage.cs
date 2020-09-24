@@ -13,13 +13,13 @@ public class FastCompilationStage : CompilationStage
 		return startSpeed;
 	}
 
-	//public override int getCustomSpeed(int microgame, Interruption interruption)
-	//{
-	//	return startSpeed + getRoundSpeedOffset();
-	//}
+    //public override int getCustomSpeed(int microgame, Interruption interruption)
+    //{
+    //	return startSpeed + getRoundSpeedOffset();
+    //}
 
-	int getRoundSpeedOffset()
-	{
+    public override int getRoundSpeed(int microgame)
+    {
 		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}
 }

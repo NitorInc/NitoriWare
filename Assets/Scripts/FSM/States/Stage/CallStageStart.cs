@@ -21,7 +21,8 @@ namespace StageFSM
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
-            stage.onStageStart(null);
+            stage.InitScene();
+            stage.InitStage(0);
         }
     }
 }
