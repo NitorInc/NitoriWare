@@ -16,7 +16,7 @@ public abstract class Stage : ScriptableObject
     [SerializeField]
     private string displayName;
 
-    private int seed;
+    protected int seed;
 
 	[System.Serializable]
 	public class StageMicrogame
@@ -56,44 +56,8 @@ public abstract class Stage : ScriptableObject
     {
         if (seed == 0)
             seed = new System.Random().Next();
+        this.seed = seed;
         updateDiscordStatus(0);
-    }
-
-    protected System.Random GetRandomForRound(int round) => new System.Random(GetSeedForRound(round));
-
-    protected int GetSeedForRound(int round)
-    {
-        var returnSeed = seed;
-        var rand = new System.Random(seed);
-        for (int i = 0; i < round; i++)
-        {
-            returnSeed = rand.Next();
-        }
-        return returnSeed;
-    }
-
-    protected T GetShuffledMicrogame<T>(T[] microgames, int index, System.Random random)
-    {
-        if (microgames.Length < 2)
-            return microgames.FirstOrDefault();
-
-        var indexArray = Enumerable.Range(0, microgames.Length).ToArray();
-        for (int i = 0; i <= index; i++)
-        {
-            var range = indexArray.Length - i;
-            var pick = i + (random.Next() % range);
-            if (i == index)
-                return microgames[indexArray[pick]];
-            else if (pick != i)
-            {
-                var hold = indexArray[pick];
-                indexArray[pick] = indexArray[i];
-                indexArray[i] = hold;
-            }
-        }
-
-        UnityEngine.Debug.LogError("Shuffle out of range");
-        return microgames.FirstOrDefault();
     }
 
     /// <summary>
@@ -215,6 +179,50 @@ public abstract class Stage : ScriptableObject
     public string getDefaultDisplayName()
     {
         return displayName;
+    }
+
+    public virtual Dictionary<string, bool> GetStateMachineFlags(int microgame, bool victoryResult, int currentLife)
+    {
+        var dict = new Dictionary<string, bool>();
+        dict["GameOver"] = currentLife <= 0;
+        return dict;
+    }
+    
+    protected System.Random GetRandomForRound(int round) => new System.Random(GetSeedForRound(round));
+
+    protected int GetSeedForRound(int round)
+    {
+        var returnSeed = seed;
+        var rand = new System.Random(seed);
+        for (int i = 0; i < round; i++)
+        {
+            returnSeed = rand.Next();
+        }
+        return returnSeed;
+    }
+
+    protected T GetShuffledMicrogame<T>(T[] microgames, int index, System.Random random)
+    {
+        if (microgames.Length < 2)
+            return microgames.FirstOrDefault();
+
+        var indexArray = Enumerable.Range(0, microgames.Length).ToArray();
+        for (int i = 0; i <= index; i++)
+        {
+            var range = indexArray.Length - i;
+            var pick = i + (random.Next() % range);
+            if (i == index)
+                return microgames[indexArray[pick]];
+            else if (pick != i)
+            {
+                var hold = indexArray[pick];
+                indexArray[pick] = indexArray[i];
+                indexArray[i] = hold;
+            }
+        }
+
+        UnityEngine.Debug.LogError("Shuffle out of range");
+        return microgames.FirstOrDefault();
     }
 
 }

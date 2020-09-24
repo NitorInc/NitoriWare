@@ -25,7 +25,9 @@ public class CharacterStage : Stage
 #if UNITY_EDITOR
     public void SetInternalBatches(List<MicrogameBatch> batches) => microgameBatchesInternal = batches;
 #endif
+
     private MicrogamePool microgamePool;
+    private bool revisiting;
 
 
     [System.Serializable]
@@ -45,7 +47,6 @@ public class CharacterStage : Stage
         public void Sort() => pool = pool.OrderBy(a => a.microgame.microgameId).ToList();
     }
 
-    public bool Revisiting => PrefsHelper.getProgress() > 0;   // TODO temporary setup until new story stages are added
 
     private bool MicrogameQualifiesForStage(Microgame microgame)
     {
@@ -60,7 +61,7 @@ public class CharacterStage : Stage
         var pool = new MicrogamePool();
 
         // Load microgames
-        var useAllBosses = useAllBossesWhenRevisiting && Application.isPlaying && Revisiting;
+        var useAllBosses = useAllBossesWhenRevisiting && revisiting;
         var loadedMicrogames = MicrogameCollection.LoadAllMicrogames()
             .Where(a => MicrogameQualifiesForStage(a) || (useAllBosses && a.isBossMicrogame()))
             .ToArray();
@@ -124,12 +125,13 @@ public class CharacterStage : Stage
     public override void InitScene()
     {
         base.InitScene();
+        revisiting = PrefsHelper.getProgress() > 0;   // TODO temporary setup until new story stages are added
         microgamePool = GetFullMicrogamePool();
     }
 
 	public override StageMicrogame getMicrogame(int num)
 	{
-		var index = GetIndexInRound(num);
+        var index = GetIndexInRound(num);
         var difficulty = Mathf.Min((GetRound(num) + 1), 3);
         var rand = GetRandomForRound(GetRound(num));
 
@@ -154,12 +156,25 @@ public class CharacterStage : Stage
         }
         var bossMicrogame = GetShuffledMicrogame(microgamePool.bossGames, 0, rand);
         return new StageMicrogame(bossMicrogame, difficulty);
-	}
+    }
+
+    public override Dictionary<string, bool> GetStateMachineFlags(int microgame, bool lastVictoryResult, int currentLife)
+    {
+        var dict = base.GetStateMachineFlags(microgame, lastVictoryResult, currentLife);
+        var round = GetRound(microgame);
+        var roundIndex = GetIndexInRound(microgame);
+        dict["SpeedUpWarning"] = speedUpTimes.Contains(roundIndex);
+        dict["BossWarning"] = IsBossIndex(microgame) && !IsBossIndex(microgame - 1);
+        dict["LevelUpWarning"] = roundIndex == 0 && round > 0 && revisiting;
+        dict["OneUp"] = dict["LevelUpWarning"] && currentLife < getMaxLife();
+        dict["StageVictory"] = !revisiting && lastVictoryResult && IsBossIndex(microgame - 1);
+        return dict;
+    }
 
     public override string getDiscordState(int microgameIndex)
     {
         if (!skipBossMicrogame
-            && IsBossGameIndex(microgameIndex))
+            && IsBossIndex(microgameIndex))
             return TextHelper.getLocalizedText("discord.boss", "Boss Stage");
         else
             return base.getDiscordState(microgameIndex);
@@ -167,22 +182,26 @@ public class CharacterStage : Stage
 
     int GetRoundMicrogameCount()
     {
-        return microgamePool.batches.Sum(a => a.pool.Count) + (skipBossMicrogame ? 0 : 1);
+        return microgamePool.batches.Sum(a => a.pick) + (skipBossMicrogame ? 0 : 1);
     }
 
     int GetRound(int index)
     {
+        if (!revisiting)
+            return 0;
         var roundSize = GetRoundMicrogameCount();
         return (index - (index % roundSize)) / roundSize;
     }
 
 	int GetIndexInRound(int index)
-	{
-		return index - (GetRound(index) * GetRoundMicrogameCount());
+    {
+        if (!revisiting)
+            return index;
+        return index - (GetRound(index) * GetRoundMicrogameCount());
 	}
 
-    bool IsBossGameIndex(int index)
+    bool IsBossIndex(int index)
     {
-        return !skipBossMicrogame && GetIndexInRound(index) == GetRoundMicrogameCount() - 1;
+        return !skipBossMicrogame && GetIndexInRound(index) >= GetRoundMicrogameCount() - 1;
     }
 }
