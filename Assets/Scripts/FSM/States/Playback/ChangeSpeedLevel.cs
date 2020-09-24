@@ -7,48 +7,58 @@ namespace StageFSM
     public class ChangeSpeedLevel : StageStateMachineBehaviour
     {
         [SerializeField]
-        private Stage.SpeedChange speedChange;
-        public Stage.SpeedChange SpeedChange => speedChange;
+        private SpeedChange speedChange;
         [SerializeField]
-        private bool applySpeedChangeAtEnd;
-        public bool ApplySpeedChangeAtEnd => applySpeedChangeAtEnd;
+        private bool changeInTransition;
+        [SerializeField]
+        private string microgameIndexParam = "MicrogameIndex";
+
+        public enum SpeedChange
+        {
+            None,
+            SpeedUp,
+            ResetToRoundStart,
+            ResetToStageStart,
+            ResetToOne
+        }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             base.OnStateEnter(animator, stateInfo, layerIndex);
+            if (changeInTransition)
+                ChangeSpeed();
         }
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
-            if (!applySpeedChangeAtEnd && speedChange != Stage.SpeedChange.None)
-                ApplySpeedChange();
+            if (!changeInTransition)
+                ChangeSpeed();
         }
 
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            base.OnStateExit(animator, StateInfo, layerIndex);
-            if (applySpeedChangeAtEnd && speedChange != Stage.SpeedChange.None)
-                ApplySpeedChange();
-        }
-
-        void ApplySpeedChange()
+        void ChangeSpeed()
         {
             var speedController = toolbox.GetTool<SpeedController>();
             speedController.Speed = getChangedSpeed(speedController.Speed, speedChange);
-            speedController.ApplySpeed();
         }
 
-        public static int getChangedSpeed(int speed, Stage.SpeedChange speedChange)
+        public int getChangedSpeed(int speed, SpeedChange speedChange)
         {
+            Stage stage;
             switch (speedChange)
             {
-                case (Stage.SpeedChange.SpeedUp):
-                    return Mathf.Clamp(speed + 1, 1, SpeedController.MAX_SPEED);
-                case (Stage.SpeedChange.ResetSpeed):
+                case (SpeedChange.SpeedUp):
+                    return Mathf.Clamp(speed + 1, 1, SpeedController.MaxSpeed);
+                case (SpeedChange.ResetToOne):
                     return 1;
-                //case (Stage.Interruption.SpeedChange.Custom):
-                //    return Mathf.Clamp(stage.getCustomSpeed(microgameCount, interruption), 1, SpeedController.MAX_SPEED);
+                case (SpeedChange.ResetToRoundStart):
+                    stage = toolbox.GetTool<StageControl>().Stage;
+                    var microgameIndex = Animator.GetInteger(microgameIndexParam);
+                    var round = stage.GetRound(microgameIndex);
+                    return stage.getRoundSpeed(round);
+                case (SpeedChange.ResetToStageStart):
+                    stage = toolbox.GetTool<StageControl>().Stage;
+                    return stage.getStartSpeed();
                 default:
                     return speed;
             }

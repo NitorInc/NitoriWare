@@ -32,14 +32,6 @@ public abstract class Stage : ScriptableObject
 		}
     }
 
-    public enum SpeedChange
-    {
-        None,
-        SpeedUp,
-        ResetSpeed,
-        Custom
-    }
-
 
     /// <summary>
     /// Called when the stage is first started, called before any other method
@@ -187,6 +179,10 @@ public abstract class Stage : ScriptableObject
         dict["GameOver"] = currentLife <= 0;
         return dict;
     }
+
+    public abstract int GetRound(int microgameIndex);
+
+    public virtual int GetRoundSpeed(int round) => Mathf.Clamp(round - 1, 1, SpeedController.MaxSpeed);
     
     protected System.Random GetRandomForRound(int round) => new System.Random(GetSeedForRound(round));
 

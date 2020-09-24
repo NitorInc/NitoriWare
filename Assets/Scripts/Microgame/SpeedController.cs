@@ -5,12 +5,12 @@ using UnityEngine.Audio;
 
 public class SpeedController : MonoBehaviour
 {
-    public const int MAX_SPEED = 10;
+    public const int MaxSpeed = 10;
 
     [SerializeField]
     private AudioMixer gameplayMixer;
 
-    [Range(1, MAX_SPEED)]
+    [Range(1, MaxSpeed)]
     [SerializeField]
     private int speed = 1;
     public int Speed

@@ -74,7 +74,9 @@ namespace StageFSM
                 if (track == null)
                     continue;
 
-                foreach (var m in track.GetMarkers().OfType<Marker>())
+                var markers = track.GetMarkers().OfType<Marker>()
+                    .OrderBy(a => a.time);
+                foreach (var m in markers)
                 {
                     if (!(m is INotification))
                         continue;

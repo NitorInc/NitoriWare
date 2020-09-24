@@ -163,9 +163,12 @@ public class CharacterStage : Stage
         var dict = base.GetStateMachineFlags(microgame, lastVictoryResult, currentLife);
         var round = GetRound(microgame);
         var roundIndex = GetIndexInRound(microgame);
-        dict["SpeedUpWarning"] = speedUpTimes.Contains(roundIndex);
+        dict["SpeedUp"] = speedUpTimes.Contains(roundIndex);
+        dict["SpeedUpWarning"] = dict["SpeedUp"];
         dict["BossWarning"] = IsBossIndex(microgame) && !IsBossIndex(microgame - 1);
-        dict["LevelUpWarning"] = roundIndex == 0 && round > 0 && revisiting;
+        dict["LowerScore"] = !revisiting && IsBossIndex(microgame - 1) && !lastVictoryResult;
+        dict["LevelUp"] = roundIndex == 0 && round > 0 && revisiting;
+        dict["LevelUpWarning"] = dict["LevelUp"];
         dict["OneUp"] = dict["LevelUpWarning"] && currentLife < getMaxLife();
         dict["StageVictory"] = !revisiting && lastVictoryResult && IsBossIndex(microgame - 1);
         return dict;
@@ -185,12 +188,12 @@ public class CharacterStage : Stage
         return microgamePool.batches.Sum(a => a.pick) + (skipBossMicrogame ? 0 : 1);
     }
 
-    int GetRound(int index)
+    public override int GetRound(int microgame)
     {
         if (!revisiting)
             return 0;
         var roundSize = GetRoundMicrogameCount();
-        return (index - (index % roundSize)) / roundSize;
+        return (microgame - (microgame % roundSize)) / roundSize;
     }
 
 	int GetIndexInRound(int index)

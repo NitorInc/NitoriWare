@@ -51,8 +51,9 @@ public class ReimuControlPieceController : MonoBehaviour
 
     public void StartPieces()
     {
-        if (!isActiveAndEnabled)
-            return;
+        //if (!isActiveAndEnabled)
+        //    return;
+
         var sprite = GetComponent<SpriteRenderer>().sprite;
         pieces.Shuffle();
         float currentAppearTime = 0f;

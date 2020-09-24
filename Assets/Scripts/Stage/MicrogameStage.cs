@@ -15,7 +15,7 @@ public class MicrogameStage : Stage
     [SerializeField]
     private int forceDifficulty;
     [SerializeField]
-    [Range(1, SpeedController.MAX_SPEED)]
+    [Range(1, SpeedController.MaxSpeed)]
     private int forceStartSpeed = 1;
     [SerializeField]
     private bool speedUpEveryCycle = false;
@@ -46,11 +46,13 @@ public class MicrogameStage : Stage
         return TextHelper.getLocalizedText("microgame." + microgameId + ".igname", microgameId);
     }
 
- //   public override Interruption[] getInterruptions(int num)
-	//{
-	//	if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
-	//		return new Interruption[0];
+    public override int GetRound(int microgameIndex) => 0;
 
-	//	return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
-	//}
+    //   public override Interruption[] getInterruptions(int num)
+    //{
+    //	if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
+    //		return new Interruption[0];
+
+    //	return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
+    //}
 }

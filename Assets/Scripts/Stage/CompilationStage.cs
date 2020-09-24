@@ -89,4 +89,9 @@ public class CompilationStage : Stage
 	{
 		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}
+
+	public override int GetRound(int microgameIndex)
+	{
+		return (microgameIndex - (microgameIndex % microgamesPerRound)) / microgamesPerRound;
+	}
 }

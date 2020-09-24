@@ -13,10 +13,18 @@ namespace StageFSM
 
         [SerializeField]
         string stateName;
+        [SerializeField]
+        private PitchMode pitchMode;
 
         private AudioPlaybackController playbackController;
         private AudioSource audioSource;
         private AudioClip audioClip;
+
+        private enum PitchMode
+        {
+            MatchSpeedLevel,
+            MatchTimeScale
+        }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -31,20 +39,12 @@ namespace StageFSM
             {
                 playbackController.ShiftAudioPlaybackTimeInBeats((double)animator.GetAnimatorTransitionInfo(layerIndex).duration);
 
-                // Determine audio pitch in next state by factoring in speed changes at the end of last transition or the beginning of this one
                 var speedController = toolbox.GetTool<SpeedController>();
                 var speed = speedController.Speed;
-                var currentSpeedChange = Utilities.GetBehaviour<ChangeSpeedLevel>(animator,
-                    animator.GetNextAnimatorStateInfo(layerIndex));
-                var previousSpeedChange = Utilities.GetBehaviour<ChangeSpeedLevel>(animator,
-                    animator.GetCurrentAnimatorStateInfo(layerIndex));
-
-                if (previousSpeedChange != null && previousSpeedChange.ApplySpeedChangeAtEnd)
-                    speed = ChangeSpeedLevel.getChangedSpeed(speed, previousSpeedChange.SpeedChange);
-                if (currentSpeedChange != null && !currentSpeedChange.ApplySpeedChangeAtEnd)
-                    speed = ChangeSpeedLevel.getChangedSpeed(speed, currentSpeedChange.SpeedChange);
-
-                playbackController.ScheduleClip(audioSource, audioClip, speedController.GetSpeedTimeScaleMult(speed));
+                var pitch = pitchMode == PitchMode.MatchSpeedLevel
+                ? speedController.GetSpeedTimeScaleMult(speed)
+                : Time.timeScale;
+                playbackController.ScheduleClip(audioSource, audioClip, pitch);
             }
         }
 

@@ -36,7 +36,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         public string forceLocalizationLanguage;
         public bool resetThroughAllLanguages;
         public VoicePlayer.VoiceSet voiceSet;
-        [Range(1, SpeedController.MAX_SPEED)]
+        [Range(1, SpeedController.MaxSpeed)]
         public int speed = 1;
         [Header("For microgames where difficulty isn't dependent on scene:")]
         public DebugDifficulty SimulateDifficulty;
@@ -176,7 +176,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             else if (Input.GetKeyDown(Settings.debugKeys.Faster))
             {
                 var newSession = MicrogameSession.microgame.CreateDebugSession(MicrogameSession.Difficulty);
-                speedController.Speed = Mathf.Min(speedController.Speed + 1, SpeedController.MAX_SPEED);
+                speedController.Speed = Mathf.Min(speedController.Speed + 1, SpeedController.MaxSpeed);
                 Debug.Log("Debugging at speed " + speedController.Speed);
                 LoadNewMicrogame(newSession);
                 return;

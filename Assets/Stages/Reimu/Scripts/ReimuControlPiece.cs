@@ -39,6 +39,7 @@ public class ReimuControlPiece : MonoBehaviour
         c.a = 0f;
         spriteRenderer.color = c;
         fadingIn = false;
+        CancelInvoke();
         Invoke("StartAppearing", time);
     }
 
