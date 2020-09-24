@@ -7,6 +7,8 @@ namespace StageFSM
 {
     public class StartMicrogame : StageStateMachineBehaviour
     {
+        [SerializeField]
+        private bool pauseAudioListenerUntilReady = false;
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
@@ -20,12 +22,14 @@ namespace StageFSM
             {
                 var holdTimeScale = Time.timeScale;
                 Time.timeScale = 0f;
-                AudioListener.pause = true;
+                if (pauseAudioListenerUntilReady)
+                    AudioListener.pause = true;
                 while (!microgamePlayer.IsReadyToActivateScene())
                 {
                     yield return null;
                 }
-                AudioListener.pause = false;
+                if (pauseAudioListenerUntilReady)
+                    AudioListener.pause = false;
                 Time.timeScale = holdTimeScale;
             }
             microgamePlayer.ActivateScene();
