@@ -13,13 +13,9 @@ public class CharacterStageEditor : Editor
     CharacterStage characterStage => target as CharacterStage;
     List<CharacterStage.MicrogameBatch> microgameBatches;
 
-    Editor editor;
-
     void OnEnable()
     {
         PullBatches();
-        var microgame = microgameBatches[0].pool[0].microgame;
-        editor = CreateEditor(microgame);
     }
 
     void PullBatches()
@@ -122,7 +118,6 @@ public class CharacterStageEditor : Editor
             text = text.Trim();
             GUIUtility.systemCopyBuffer = text;   
         }
-        editor.DrawDefaultInspector();
 
     }
 }
