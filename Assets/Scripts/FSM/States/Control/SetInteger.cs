@@ -29,7 +29,7 @@ namespace StageFSM
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             base.OnStateEnter(animator, stateInfo, layerIndex);
-            if (SetInTransition || enterCondition == EnterCondition.Normal)
+            if (SetInTransition && enterCondition == EnterCondition.Early)
             {
                 AssignToolboxAndAssets(animator, stateInfo, layerIndex);
                 Apply();
@@ -38,7 +38,7 @@ namespace StageFSM
 
         protected override void OnStateEnterOfficial()
         {
-            if (!SetInTransition && enterCondition == EnterCondition.Early)
+            if (!SetInTransition || enterCondition == EnterCondition.Normal)
                 Apply();
             base.OnStateEnterOfficial();
         }

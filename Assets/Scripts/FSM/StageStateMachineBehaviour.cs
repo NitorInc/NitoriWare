@@ -41,6 +41,9 @@ namespace StageFSM
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (inStateRaw) // Calling Animator.Update manually can make this state happen twice, so this prevents that somewhat
+                return;
+
             inStateRaw = true;
 
             if (!initialized)
