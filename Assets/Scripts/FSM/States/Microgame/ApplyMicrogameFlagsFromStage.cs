@@ -22,7 +22,7 @@ namespace StageFSM
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
-            var stage = toolbox.GetTool<StageControl>().Stage;
+            var stage = assetToolbox.GetStage();
             var flags = stage.GetStateMachineFlags(
                 Animator.GetInteger(microgameIndexParam),
                 Animator.GetBool(microgameVictoryParam),

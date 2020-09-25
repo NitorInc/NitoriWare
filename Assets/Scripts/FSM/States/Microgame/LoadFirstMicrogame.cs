@@ -14,10 +14,13 @@ namespace StageFSM
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
+
+
+            var session = assetToolbox.GetStage().getMicrogame(0).CreateSession();
             microgamePlayer = toolbox.GetTool<MicrogamePlayer>();
-            var control = toolbox.GetTool<StageControl>();
-            control.CreateAndEnqueueMicrogameSession(0);
-            control.StartCoroutine(WaitForMicrogameLoad());
+            microgamePlayer.EnqueueSession(session);
+
+            toolbox.StartCoroutine(WaitForMicrogameLoad());
         }
 
         IEnumerator WaitForMicrogameLoad()

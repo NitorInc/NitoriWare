@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 72283995}
   - component: {fileID: 72283996}
   m_Layer: 0
-  m_Name: Playback Assets
+  m_Name: Stage Assets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateAssets:
+  - stateName: Global
+    objects:
+    - {fileID: 11400000, guid: 4ea07c171f1cc724194b7123dd82e2e4, type: 2}
   - stateName: Victory
     objects:
     - {fileID: 8300000, guid: 3ca887f051d366d4799e8029e1031a33, type: 3}
@@ -1325,7 +1328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tools:
-  - {fileID: 2030387713}
+  - {fileID: 0}
   - {fileID: 1886930826}
   - {fileID: 72283996}
   - {fileID: 148556760}
@@ -2506,7 +2509,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2030387714}
-  - component: {fileID: 2030387713}
   m_Layer: 0
   m_Name: Stage Control
   m_TagString: Untagged
@@ -2514,21 +2516,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2030387713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030387712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c544ca262fe43e4994cb4323b82a398, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stage: {fileID: 11400000, guid: 4ea07c171f1cc724194b7123dd82e2e4, type: 2}
-  maxPreloadedQueue: 3
-  microgamePlayer: {fileID: 1886930826}
 --- !u!4 &2030387714
 Transform:
   m_ObjectHideFlags: 0

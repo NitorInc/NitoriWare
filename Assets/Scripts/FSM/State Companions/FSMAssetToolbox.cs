@@ -42,10 +42,12 @@ namespace StageFSM
             }
         }
 
-        public virtual StateAssetGroup GetAssetGroupForState(string stateName, Animator stageFSM)
+        public virtual StateAssetGroup GetAssetGroupForState(string stateName)
         {
             return stateAssets
                 .FirstOrDefault(a => a.StateName.Equals(stateName));
         }
+
+        public virtual Stage GetStage() => GetAssetGroupForState("Global").GetAsset<Stage>();
     }
 }

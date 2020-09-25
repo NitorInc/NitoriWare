@@ -52,12 +52,12 @@ namespace StageFSM
                 case (SpeedChange.ResetToOne):
                     return 1;
                 case (SpeedChange.ResetToRoundStart):
-                    stage = toolbox.GetTool<StageControl>().Stage;
+                    stage = assetToolbox.GetStage();
                     var microgameIndex = Animator.GetInteger(microgameIndexParam);
                     var round = stage.GetRound(microgameIndex);
                     return stage.GetRoundSpeed(round);
                 case (SpeedChange.ResetToStageStart):
-                    stage = toolbox.GetTool<StageControl>().Stage;
+                    stage = assetToolbox.GetStage();
                     return stage.getStartSpeed();
                 default:
                     return speed;

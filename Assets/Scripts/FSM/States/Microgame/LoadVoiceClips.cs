@@ -12,7 +12,7 @@ namespace StageFSM
         {
             base.OnStateEnterOfficial();
             var voicePlayer = toolbox.GetTool<VoicePlayer>();
-            var stage = toolbox.GetTool<StageControl>().Stage;
+            var stage = assetToolbox.GetStage();
             voicePlayer.loadClips(stage.getVoiceSet());
         }
     }

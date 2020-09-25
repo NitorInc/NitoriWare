@@ -41,7 +41,7 @@ namespace StageFSM
                 return;
 
             var audioState = session.VictoryStatus ? VictoryAudioState : LossAudioState;
-            resultAudioPlayer.SetClip(session.VictoryStatus, assetToolbox.GetAssetGroupForState(audioState, Animator).GetAsset<AudioClip>(), toolbox.GetTool<SpeedController>().GetSpeedTimeScaleMult());
+            resultAudioPlayer.SetClip(session.VictoryStatus, assetToolbox.GetAssetGroupForState(audioState).GetAsset<AudioClip>(), toolbox.GetTool<SpeedController>().GetSpeedTimeScaleMult());
             resultAudioPlayer.UpdateClipVolumes(session.VictoryStatus);
             resultAudioPlayer.SchedulePlayback(10000000d);
         }

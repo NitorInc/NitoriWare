@@ -30,6 +30,11 @@ public abstract class Stage : ScriptableObject
             this.microgame = microgame;
 			this.difficulty = difficulty;
 		}
+
+        public Microgame.Session CreateSession()
+        {
+            return microgame.CreateSession(difficulty);
+        }
     }
 
 

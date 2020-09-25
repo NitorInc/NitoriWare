@@ -28,8 +28,8 @@ namespace StageFSM
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
-            resultAudioPlayer.SetClip(true, assetToolbox.GetAssetGroupForState(VictoryAudioState, Animator).GetAsset<AudioClip>(), Time.timeScale);
-            resultAudioPlayer.SetClip(false, assetToolbox.GetAssetGroupForState(LossAudioState, Animator).GetAsset<AudioClip>(), Time.timeScale);
+            resultAudioPlayer.SetClip(true, assetToolbox.GetAssetGroupForState(VictoryAudioState).GetAsset<AudioClip>(), Time.timeScale);
+            resultAudioPlayer.SetClip(false, assetToolbox.GetAssetGroupForState(LossAudioState).GetAsset<AudioClip>(), Time.timeScale);
 
             resultAudioPlayer.SchedulePlayback(1000000d);
             UpdateVictory(microgamePlayer.CurrentMicrogameSession);

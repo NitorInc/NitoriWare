@@ -15,7 +15,7 @@ namespace StageFSM
         public override void OnStateInit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             base.OnStateInit(animator, stateInfo, layerIndex);
-            stage = toolbox.GetTool<StageControl>().Stage;
+            stage = assetToolbox.GetStage();
         }
 
         protected override void OnStateEnterOfficial()
