@@ -11,10 +11,24 @@ using UnityEngine.SceneManagement;
 
 public class MicrogamePlayer : MonoBehaviour
 {
+    public static MicrogamePlayer instance;
 
-    const ThreadPriority sceneLoadPriority = ThreadPriority.BelowNormal;
+    [SerializeField]
+    private LoadMode microgameLoadMode;
+    enum LoadMode
+    {
+        Asynchronous,
+        Synchronous
+    }
+    [SerializeField]
+    private bool UnloadResourcesOnGameUnload = true;
 
-    
+    [SerializeField]
+    private MicrogameEventListener microgameEventListener;
+    public MicrogameEventListener MicrogameEventListener => microgameEventListener;
+
+    public delegate void MicrogameSessionSignal(Microgame.Session session);
+
     public enum Mode
     {
         Asynchronous,
@@ -36,42 +50,52 @@ public class MicrogamePlayer : MonoBehaviour
         microgameJobs.FirstOrDefault(a => a.session.AsyncState != Microgame.Session.SessionState.Unloading && !a.session.Cancelled);
 
     public Microgame CurrentMicrogame =>
-        microgameJobs.Any()
+        CurrentJob != null
         ? CurrentJob.microgame
         : null;
 
     public Microgame.Session CurrentMicrogameSession =>
-        microgameJobs.Any()
+        CurrentJob != null
         ? CurrentJob.session
         : null;
 
     public int QueuedMicrogameCount() =>
         microgameJobs
-            .Where(a => a.session.AsyncState == Microgame.Session.SessionState.Loading)
+            .Where(a => a.session.AsyncState == Microgame.Session.SessionState.Loading && !a.session.Cancelled)
             .Count();
 
     private void Awake()
     {
+        instance = this;
         microgameJobs = new List<MicrogameJob>();
-        Application.backgroundLoadingPriority = sceneLoadPriority;
     }
 
     public void EnqueueSession(Microgame.Session session)
     {
         var newJob = new MicrogameJob();
+        if (session.EventListener == null)
+            session.EventListener = microgameEventListener;
         newJob.session = session;
         session.AsyncState = Microgame.Session.SessionState.Loading;
-        newJob.loadOperation = SceneManager.LoadSceneAsync(
-            newJob.session.GetSceneName(),
-            LoadSceneMode.Additive);
-        newJob.loadOperation.allowSceneActivation = false;
+        if (microgameLoadMode == LoadMode.Asynchronous)
+        {
+            newJob.loadOperation = SceneManager.LoadSceneAsync(
+                newJob.session.GetSceneName(),
+                LoadSceneMode.Additive);
+            newJob.loadOperation.allowSceneActivation = false;
+        }
         microgameJobs.Add(newJob);
     }
 
     public bool IsReadyToActivateScene()
     {
-        if (CurrentJob == null || CurrentJob.loadOperation == null)
+        if (CurrentMicrogameSession == null)
             return false;
+        if (microgameLoadMode == LoadMode.Synchronous)
+            return true;
+        if (CurrentJob.loadOperation == null)
+            return false;
+
         return CurrentJob.loadOperation.progress >= .9f;
     }
 
@@ -79,7 +103,10 @@ public class MicrogamePlayer : MonoBehaviour
     void ActivateScene(MicrogameJob job)
     {
         CurrentJob.session.AsyncState = Microgame.Session.SessionState.Activating;
-        CurrentJob.loadOperation.allowSceneActivation = true;
+        if (microgameLoadMode == LoadMode.Asynchronous)
+            CurrentJob.loadOperation.allowSceneActivation = true;
+        else
+            SceneManager.LoadScene(CurrentJob.session.GetSceneName(), LoadSceneMode.Additive);
     }
 
     public void HandleSceneActive(Microgame.Session session, Scene scene)
@@ -99,7 +126,7 @@ public class MicrogamePlayer : MonoBehaviour
     IEnumerator StopMicrogame(MicrogameJob job)
     {
         ShutDownMicrogameScene(job.scene);
-        while (job.loadOperation.progress < 1f)
+        while (microgameLoadMode == LoadMode.Asynchronous && job.loadOperation.progress < 1f)
         {
             yield return null;
         }
@@ -108,6 +135,7 @@ public class MicrogamePlayer : MonoBehaviour
         job.unloadOperation = operation;
         SceneManager.SetActiveScene(gameObject.scene);
         job.session.AsyncState = Microgame.Session.SessionState.Unloading;
+        job.session.EventListener.MicrogameEnd.Invoke(job.session);
     }
 
     public void CancelRemainingMicrogames()
@@ -116,7 +144,8 @@ public class MicrogamePlayer : MonoBehaviour
         {
             job.session.Cancelled = true;
             job.session.AsyncState = Microgame.Session.SessionState.Activating;
-            job.loadOperation.allowSceneActivation = true;
+            if (microgameLoadMode == LoadMode.Asynchronous)
+                job.loadOperation.allowSceneActivation = true;
         }
     }
 
@@ -134,6 +163,7 @@ public class MicrogamePlayer : MonoBehaviour
         foreach (var rootObject in rootObjects)
         {
             rootObject.SetActive(false);
+            Destroy(rootObject);
         }
     }
 
@@ -144,7 +174,7 @@ public class MicrogamePlayer : MonoBehaviour
         var job = microgameJobs.FirstOrDefault(a => a.unloadOperation == asyncOperation);
         job.session.Dispose();
         microgameJobs.Remove(job);
-        if (!resourceUnloadingBusy)
+        if (UnloadResourcesOnGameUnload && !resourceUnloadingBusy)
             StartCoroutine(ClearResources());
     }
 
@@ -173,6 +203,7 @@ public class MicrogamePlayer : MonoBehaviour
 
     public void LoadMicrogameImmediately(Microgame.Session session)
     {
+        session.EventListener = microgameEventListener;
         microgameJobs = new List<MicrogameJob>();
         var job = new MicrogameJob();
         job.session = session;

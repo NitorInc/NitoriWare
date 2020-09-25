@@ -31,8 +31,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-
-        if (MicrogameTimer.instance.beatsLeft <= burnBeatBounds.x && MicrogameTimer.instance.beatsLeft >= burnBeatBounds.y
+        var beatsLeft = MicrogameController.instance.session.BeatsRemaining;
+        if (beatsLeft <= burnBeatBounds.x && beatsLeft >= burnBeatBounds.y
             && !MicrogameController.instance.getVictoryDetermined() && !inmunity){
             updateHP();
             if (HP <= 0)
@@ -80,7 +80,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     private void updateHP()
     {
         int collidersOutside = getCollidersOutside();
-		if (MicrogameTimer.instance.beatsLeft < .5f)
+		if (MicrogameController.instance.session.BeatsRemaining < .5f)
 			return;
 		if (collidersOutside == 0)
 			HP = Mathf.Min(HP + (burnSpeed * Time.deltaTime * .65f), 1f);

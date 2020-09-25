@@ -18,16 +18,16 @@ public class MicrogameSeparateMusic : Microgame
 
         public override AudioClip GetMusicClip() => musicClip;
 
-        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode, AudioClip musicClip)
-            : base(microgame, eventListener, difficulty, debugMode)
+        public Session(Microgame microgame, int difficulty, bool debugMode, AudioClip musicClip)
+            : base(microgame, difficulty, debugMode)
         {
             this.musicClip = musicClip;
         }
     }
 
-    public override Microgame.Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
+    public override Microgame.Session CreateSession(int difficulty, bool debugMode = false)
     {
-        return new Session(this, eventListener, difficulty, debugMode, GetAudioClip(difficulty));
+        return new Session(this, difficulty, debugMode, GetAudioClip(difficulty));
     }
 
     private AudioClip GetAudioClip(int difficulty)

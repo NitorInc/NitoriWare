@@ -44,24 +44,7 @@ public class AudioAutoAdjust : MonoBehaviour
     float Pitch => pitchMult;
 
     void Awake()
-	{
-        sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
-        foreach (var source in sources)
-        {
-            switch(volumeType)
-            {
-                case (PrefsHelper.VolumeType.SFX):
-                    source.outputAudioMixerGroup = AudioManager.instance.MicrogameSFXGroup;
-                    break;
-                case (PrefsHelper.VolumeType.Music):
-                    source.outputAudioMixerGroup = AudioManager.instance.MicrogameMusicGroup;
-                    break;
-                default:
-                    Debug.LogWarning("AudioAutoAdjust configured incorrectly.");
-                    break;
-            }
-        }
-
+    {
         sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
         if (tieToVolumeSettings)
         {

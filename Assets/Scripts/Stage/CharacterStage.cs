@@ -2,227 +2,209 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Rendering;
+using UnityEngine.Serialization;
+using StageFSM;
 
+[CreateAssetMenu(menuName = "Stage/Character Stage")]
 public class CharacterStage : Stage
 {
-	public static bool revisiting;
+    private const bool useAllBossesWhenRevisiting = true;
 
-#pragma warning disable 0649
     [SerializeField]
-	private CharacterMicrogamePool microgamePool;
-	[SerializeField]
-	private Interruption speedUp, bossIntro, nextRound, oneUp, wonStage;
+    private bool shuffleMicrogames = true;
+    [FormerlySerializedAs("microgameBatches")]
     [SerializeField]
-    private float victorySceneShiftTime = 5f;
+    [HideInInspector]
+    private List<MicrogameBatch> microgameBatchesInternal;
     [SerializeField]
-    private bool useAllBossesWhenRevisiting = true;
-#pragma warning restore 0649
+    private int[] speedUpTimes;
+    [SerializeField]
+    private bool skipBossMicrogame;
 
-    private int roundsCompleted, roundStartIndex;
-	private bool bossWon;
-    private StageMicrogame selectedBossMicrogame;
-    private Microgame[] loadedMicrogames;
+#if UNITY_EDITOR
+    public void SetInternalBatches(List<MicrogameBatch> batches) => microgameBatchesInternal = batches;
+#endif
 
-	public override void onStageStart(StageController stageController)
+    private MicrogamePool microgamePool;
+    private bool revisiting;
+
+
+    [System.Serializable]
+    public class MicrogamePool
     {
-        roundsCompleted = roundStartIndex = 0;
-		if (microgamePool.shuffleMicrogames)
-			shuffleBatches();
+        public List<MicrogameBatch> batches;
+        public Microgame[] bossGames;
+    }
 
-        revisiting = PrefsHelper.getProgress() > 0; //TODO replace when we have multiple stage progression
 
-        loadedMicrogames = MicrogameCollection.LoadAllMicrogames();
+    [System.Serializable]
+    public class MicrogameBatch
+    {
+        public int pick;
+        public List<StageMicrogame> pool;
 
-        base.onStageStart(stageController);
+        public void Sort() => pool = pool.OrderBy(a => a.microgame.microgameId).ToList();
+    }
+
+
+    private bool MicrogameQualifiesForStage(Microgame microgame)
+    {
+        return microgame.CharacterStage == this && microgame.milestone >= Microgame.Milestone.StageReady;
+    }
+
+	public MicrogamePool GetFullMicrogamePool()
+    {
+        // Some modifications to preserve the integrity of the 1:1 character-stage relationship and to help editor functions
+
+        var batches = new List<MicrogameBatch>();
+        var pool = new MicrogamePool();
+
+        // Load microgames
+        var useAllBosses = useAllBossesWhenRevisiting && revisiting;
+        var loadedMicrogames = MicrogameCollection.LoadAllMicrogames()
+            .Where(a => MicrogameQualifiesForStage(a) || (useAllBosses && a.isBossMicrogame()))
+            .ToArray();
+        pool.bossGames = loadedMicrogames
+            .Where(a => a.isBossMicrogame())
+            .ToArray();
+
+        // Filter batches
+        if (microgameBatchesInternal == null || !microgameBatchesInternal.Any())
+        {
+            // There needs to be at least one batch
+            var newBatch = new MicrogameBatch();
+            newBatch.pool = new List<StageMicrogame>();
+            batches.Add(newBatch);
+        }
+        else
+        {
+            // Filter out games in internal collection that are not from this character
+            foreach (var internalBatch in microgameBatchesInternal)
+            {
+                var newBatch = new MicrogameBatch();
+                newBatch.pick = internalBatch.pick;
+                newBatch.pool = internalBatch.pool
+                    .Where(a => MicrogameQualifiesForStage(a.microgame) && !a.microgame.isBossMicrogame())
+                    .ToList();
+                batches.Add(newBatch);
+            }
+        }
+
+        // Ensure each difficulty is in correct range
+        foreach (var microgame in batches.SelectMany(a => a.pool))
+        {
+            microgame.difficulty = Mathf.Clamp(microgame.difficulty, 1, 3);
+        }
+
+        // Add games that aren't stored internally but belong to this character stage
+        var normalMicrogames = loadedMicrogames
+            .Where(a => MicrogameQualifiesForStage(a) && !a.isBossMicrogame());
+        var flattenedPool = batches
+            .SelectMany(a => a.pool)
+            .Select(a => a.microgame);
+        var missingGames = normalMicrogames.Where(a => !flattenedPool.Contains(a));
+        foreach (var missingGame in missingGames)
+        {
+            batches[0].pool.Add(new StageMicrogame(missingGame));
+        }
+
+        // Also make sure we aren't picking an invalid number from any batch
+        foreach (var batch in batches)
+        {
+            batch.pick = Mathf.Clamp(batch.pick, 0, batch.pool.Count);
+        }
+
+        // Sort games
+        batches.ForEach(a => a.Sort());
+
+        pool.batches = batches;
+        return pool;
+    }
+
+    public override void InitScene()
+    {
+        base.InitScene();
+        revisiting = PrefsHelper.getProgress() > 0;   // TODO temporary setup until new story stages are added
+        microgamePool = GetFullMicrogamePool();
     }
 
 	public override StageMicrogame getMicrogame(int num)
 	{
-		int index = getIndex(num);
-		for (int i = 0; i < microgamePool.microgameBatches.Length; i++)
+        var index = GetIndexInRound(num);
+        var difficulty = Mathf.Min((GetRound(num) + 1), 3);
+        var rand = GetRandomForRound(GetRound(num));
+
+		for (int i = 0; i < microgamePool.batches.Count; i++)
 		{
-			CharacterMicrogamePool.MicrogameBatch batch = microgamePool.microgameBatches[i];
-			for (int j = 0; j < batch.pick; j++)
-			{
-				if (index == 0)
-					return batch.pool[j];
-				index--;
-			}
-		}
-		return selectedBossMicrogame;
-	}
+			var batch = microgamePool.batches[i];
+            if (index >= batch.pick)
+            {
+                index -= batch.pick;
+                rand.Next();
+                continue;
+            }
+
+            StageMicrogame stageMicrogame;
+            if (shuffleMicrogames)
+                stageMicrogame = GetShuffledMicrogame(batch.pool.ToArray(), index, rand);
+            else
+                stageMicrogame = batch.pool[index];
+
+            difficulty = Mathf.Min(difficulty + stageMicrogame.difficulty - 1, 3);
+            return new StageMicrogame(stageMicrogame.microgame, difficulty);
+        }
+        var bossMicrogame = GetShuffledMicrogame(microgamePool.bossGames, 0, rand);
+        return new StageMicrogame(bossMicrogame, difficulty);
+    }
+
+    public override Dictionary<string, bool> GetStateMachineFlags(int microgame, bool lastVictoryResult, int currentLife)
+    {
+        var dict = base.GetStateMachineFlags(microgame, lastVictoryResult, currentLife);
+        var round = GetRound(microgame);
+        var roundIndex = GetIndexInRound(microgame);
+        dict["SpeedUp"] = speedUpTimes.Contains(roundIndex);
+        dict["SpeedUpWarning"] = dict["SpeedUp"];
+        dict["BossWarning"] = IsBossIndex(microgame) && !IsBossIndex(microgame - 1);
+        dict["LowerScore"] = !revisiting && IsBossIndex(microgame - 1) && !lastVictoryResult;
+        dict["LevelUp"] = roundIndex == 0 && round > 0 && revisiting;
+        dict["LevelUpWarning"] = dict["LevelUp"];
+        dict["OneUp"] = dict["LevelUp"] && revisiting && lastVictoryResult && currentLife < getMaxLife();
+        dict["StageVictory"] = !revisiting && lastVictoryResult && IsBossIndex(microgame - 1);
+        return dict;
+    }
 
     public override string getDiscordState(int microgameIndex)
     {
-        if (!microgamePool.skipBossMicrogame
-            && isSelectedBossIndex(microgameIndex))
+        if (!skipBossMicrogame
+            && IsBossIndex(microgameIndex))
             return TextHelper.getLocalizedText("discord.boss", "Boss Stage");
         else
             return base.getDiscordState(microgameIndex);
     }
 
-    public override int getMicrogameDifficulty(Stage.StageMicrogame microgame, int num)
-	{
-		return Mathf.Min(microgame.baseDifficulty + roundsCompleted, 3);
-	}
-
-	public override Interruption[] getInterruptions(int num)
-	{
-		StageMicrogame microgame = getMicrogame(num);
-		int index = getIndex(num);
-
-        //Boss over
-        if (!revisiting && bossWon)
-        {
-            return new Interruption[0].add(wonStage);
-        }
-        else if (roundsCompleted > 0 && num == roundStartIndex)
-		{
-            //TODO more after-boss stuff
-            if (bossWon)
-            {
-                if (stageController.getLife() < getMaxLife())
-                {
-                    stageController.setLife(stageController.getLife() + 1);
-                    return new Interruption[0].add(oneUp);
-                }
-                //TODO separate next round after oneUp when we have music
-            }
-			return new Interruption[0].add(nextRound);
-        }
-
-        //Boss Intro
-        if (isSelectedBoss(microgame))
-        {
-            if (isSelectedBossIndex(num - 1))  //Not first boss attempt
-                return new Interruption[0];
-            else
-                return new Interruption[0].add(bossIntro);
-        }
-
-        //Speed up check
-        for (int i = 0; i < microgamePool.speedUpTimes.Length; i++)
-        {
-            if (microgamePool.speedUpTimes[i] == index)
-                return new Interruption[0].add(speedUp);
-        }
-
-        return new Interruption[0];
-	}
-
-	public override int getCustomSpeed(int microgame, Interruption interruption)
-	{
-		if (interruption.animation == StageController.AnimationPart.BossStage
-            || interruption.animation == StageController.AnimationPart.NextRound
-            || interruption.animation == StageController.AnimationPart.OneUp)
-			return 1 + getRoundSpeedOffset();
-
-        Debug.Log("no not here");
-		return 1;
-	}
-
-	public override bool isMicrogameDetermined(int num)
+    int GetRoundMicrogameCount()
     {
-        int index = getIndex(num);
-        var totalMicrogameCount = microgamePool.microgameBatches.Sum(a => a.pick);
-        
-        if (microgamePool.skipBossMicrogame)
-            return index < totalMicrogameCount;
-        else
-            return index <= totalMicrogameCount;
+        return microgamePool.batches.Sum(a => a.pick) + (skipBossMicrogame ? 0 : 1);
     }
 
-	public override void onMicrogameEnd(int microgame, bool victoryStatus)
+    public override int GetRound(int microgame)
     {
-        if (microgamePool.skipBossMicrogame)
-		{
-			if (isSelectedBossIndex(microgame + 1))
-			{
-				startNextRound(microgame + 1);
-			}
-			return;
-		}
-
-		if (isSelectedBossIndex(microgame))
-        {
-            bossWon = victoryStatus;
-            if (revisiting)
-            {
-                startNextRound(microgame + 1);
-            }
-            else if (victoryStatus)
-                winStage();
-            else
-                stageController.lowerScore();
-        }
-        base.onMicrogameEnd(microgame, victoryStatus);
+        if (!revisiting)
+            return 0;
+        var roundSize = GetRoundMicrogameCount();
+        return (microgame - (microgame % roundSize)) / roundSize;
     }
 
-	void winStage()
+	int GetIndexInRound(int index)
     {
-        PrefsHelper.setProgress(PrefsHelper.GameProgress.StoryComplete);
-        GameController.instance.sceneShifter.startShift("NitoriSplash", victorySceneShiftTime); //TODO replace when we're past the demo
-        PrefsHelper.setHighScore(gameObject.scene.name, getRoundMicrogameCount());
+        if (!revisiting)
+            return index;
+        return index - (GetRound(index) * GetRoundMicrogameCount());
 	}
 
-    int getRoundMicrogameCount()
+    bool IsBossIndex(int index)
     {
-        int batch = 0;
-        foreach (var item in microgamePool.microgameBatches)
-        {
-            batch += item.pick;
-        }
-        return batch + 1;
+        return !skipBossMicrogame && GetIndexInRound(index) >= GetRoundMicrogameCount() - 1;
     }
-
-	void startNextRound(int startIndex)
-	{
-		roundsCompleted++;
-		roundStartIndex = startIndex;
-		if (microgamePool.shuffleMicrogames)
-			shuffleBatches();
-	}
-	
-	int getRoundSpeedOffset()
-	{
-		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
-	}
-
-	void shuffleBatches()
-	{
-		for (int i = 0; i < microgamePool.microgameBatches.Length; i++)
-		{
-			StageMicrogame[] pool = microgamePool.microgameBatches[i].pool;
-			int choice;
-			StageMicrogame hold;
-			for (int j = 0; j < pool.Length; j++)
-			{
-				choice = Random.Range(j, pool.Length);
-				if (choice != j)
-				{
-					hold = pool[j];
-					pool[j] = pool[choice];
-					pool[choice] = hold;
-				}
-			}
-		}
-        if (revisiting && useAllBossesWhenRevisiting)
-        {
-            var bossMicrogames = loadedMicrogames
-                .Where(a => a.isBossMicrogame())
-                .ToList();
-            var randomBossData = bossMicrogames[Random.Range(0, bossMicrogames.Count)];
-            selectedBossMicrogame = new StageMicrogame(randomBossData.microgameId, microgamePool.bossMicrogame.baseDifficulty);
-        }
-        else
-            selectedBossMicrogame = microgamePool.bossMicrogame;
-	}
-
-	int getIndex(int num)
-	{
-		return num - roundStartIndex;
-	}
-
-    bool isSelectedBoss(StageMicrogame microgame) => microgame.microgameId.Equals(selectedBossMicrogame.microgameId);
-    bool isSelectedBossIndex(int index) => isSelectedBoss(getMicrogame(index));
 }

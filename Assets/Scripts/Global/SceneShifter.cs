@@ -26,8 +26,17 @@ public class SceneShifter : MonoBehaviour
     private float sceneLoadedGameTime, sceneLoadedRealTime;
 
     private AsyncOperation operation;
-	
-	void Update()
+
+    private bool holdFadeIn;
+    public bool HoldFadeIn
+    {
+        get { return holdFadeIn; }
+        set { holdFadeIn = value; if (holdFadeIn) { setBlockerAlpha(1f); } }
+    }
+
+    public bool IsShifting { get; private set; }
+
+    void Update()
 	{
         if (leavingScene)
         {
@@ -60,6 +69,11 @@ public class SceneShifter : MonoBehaviour
                 sceneLoadedRealTime = Time.realtimeSinceStartup;
                 operation = null;
             }
+            if (holdFadeIn)
+            {
+                sceneLoadedRealTime = Time.realtimeSinceStartup;
+                return;
+            }
 
 
             float timeSinceLoaded = getCurrentTime() - getSceneLoadedTime();
@@ -69,6 +83,7 @@ public class SceneShifter : MonoBehaviour
             {
                 PauseManager.disablePause = false;
                 gameObject.SetActive(false);
+                IsShifting = false;
             }
         }
 	}
@@ -78,6 +93,7 @@ public class SceneShifter : MonoBehaviour
         if (operation != null)
             return;
 
+        IsShifting = true;
         PauseManager.disablePause = true;
         gameObject.SetActive(true);
         this.shiftDuration = shiftDuration;

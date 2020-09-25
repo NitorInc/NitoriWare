@@ -56,7 +56,9 @@ public class PotionPot : MonoBehaviour
 	void Update()
     {
         float volumeScale = 1f;
-        if (state != State.Default && volumeScale > 0f)
+		var beatsLeft = MicrogameController.instance.session.BeatsRemaining;
+
+		if (state != State.Default && volumeScale > 0f)
 		{
             if (_bubbleSource.volume / volumeScale > 0f)
 			{
@@ -64,7 +66,7 @@ public class PotionPot : MonoBehaviour
 				_bubbleSource.volume = Mathf.Max(_bubbleSource.volume, 0f);
 			}
 		}
-		else if (!_bubbleSource.isPlaying && MicrogameTimer.instance.beatsLeft <= 16f && MicrogameTimer.instance.beatsLeft >= 8f)
+		else if (!_bubbleSource.isPlaying && beatsLeft <= 16f && beatsLeft >= 8f)
 		{
 			_bubbleSource.Play();
 		}

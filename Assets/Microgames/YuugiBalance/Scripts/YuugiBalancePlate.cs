@@ -55,7 +55,7 @@ public class YuugiBalancePlate : MonoBehaviour
             return;
         }
 
-        if(MicrogameTimer.instance.beatsLeft <= beats_left_to_win)
+        if(MicrogameController.instance.session.BeatsRemaining <= beats_left_to_win)
         {
             Succeed();
             return;

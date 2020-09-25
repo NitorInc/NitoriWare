@@ -61,7 +61,7 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent.maxVisibleCharacters = 0;
 
         //enabled = false;
-        //Invoke("enable", startBeat * StageController.beatLength);
+        //Invoke("enable", startBeat * Microgame.BeatLength);
         enable();
     }
 

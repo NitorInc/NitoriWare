@@ -24,17 +24,19 @@ public class MicrogameDebugPlayer : MonoBehaviour
     private MicrogameEventListener eventListener;
     [SerializeField]
     private SpeedController speedController;
+    [SerializeField]
+    private MicrogameTimer microgameTimer;
 
     public MicrogameEventListener EventListener => eventListener;
 
     [System.Serializable]
     public class DebugSettings
     {
-        public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
+        public bool playMusic, displayCommand, showTimer, timerTick, localizeText;
         public string forceLocalizationLanguage;
         public bool resetThroughAllLanguages;
         public VoicePlayer.VoiceSet voiceSet;
-        [Range(1, SpeedController.MAX_SPEED)]
+        [Range(1, SpeedController.MaxSpeed)]
         public int speed = 1;
         [Header("For microgames where difficulty isn't dependent on scene:")]
         public DebugDifficulty SimulateDifficulty;
@@ -60,15 +62,18 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
     public Microgame.Session MicrogameSession { get; private set; }
 
+    private float timerVolume;
+
     void Awake()
     {
         instance = this;
-        StageController.beatLength = 60f / 130f;
+        timerVolume = microgameTimer.GetComponent<AudioSource>().volume;
     }
 
     public void Initialize(Microgame.Session microgameSession, DebugSettings settings)
     {
         MicrogameSession = microgameSession;
+        microgameSession.EventListener = EventListener;
         this.settings = settings;
         player.AddLoadedMicrogame(microgameSession, gameObject.scene);
         UpdateSpeed();
@@ -76,13 +81,10 @@ public class MicrogameDebugPlayer : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void VictoryDetermined(Microgame.Session session)
-    {
-        voicePlayer.playClip(session.VictoryStatus,
-            session.VictoryStatus
-                ? session.VictoryVoiceDelay
-                : session.FailureVoiceDelay);
-    }
+    //public void VictoryDetermined(Microgame.Session session)
+    //{
+    //    voicePlayer.playClip(session);
+    //}
 
     public void SceneStarted()
     {
@@ -90,7 +92,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
         if (Settings.localizeText)
         {
-            LocalizationManager manager = GameController.instance.transform.Find("Localization").GetComponent<LocalizationManager>();
+            LocalizationManager manager = GameController.instance.transform.Find("Localization Manager").GetComponent<LocalizationManager>();
 
             if (Settings.resetThroughAllLanguages)
             {
@@ -122,23 +124,15 @@ public class MicrogameDebugPlayer : MonoBehaviour
             manager.gameObject.SetActive(true);
         }
 
-        MicrogameTimer.instance.CancelInvoke();
-        MicrogameTimer.instance.beatsLeft = (float)MicrogameSession.microgame.getDurationInBeats()
-            + (Settings.simulateStartDelay ? 1f : 0f);
-        if (!Settings.showTimer)
-            MicrogameTimer.instance.disableDisplay = true;
-        if (Settings.timerTick)
-            MicrogameTimer.instance.invokeTick();
+        microgameTimer.disableDisplay = !Settings.showTimer;
+        microgameTimer.GetComponent<AudioSource>().volume = settings.timerTick ? timerVolume : 0f;
 
         var musicClip = MicrogameSession.GetMusicClip();
         if (Settings.playMusic && musicClip != null)
         {
             musicSource.clip = musicClip;
             musicSource.pitch = speedController.GetSpeedTimeScaleMult();
-            if (!Settings.simulateStartDelay)
-                musicSource.Play();
-            else
-                AudioHelper.playScheduled(musicSource, StageController.beatLength);
+            AudioHelper.playScheduled(musicSource, (float)Microgame.BeatLength);
         }
 
         if (Settings.displayCommand)
@@ -162,6 +156,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (session != MicrogameSession)
             MicrogameSession.Dispose();
         MicrogameSession = session;
+        microgameTimer.StopAllCoroutines();
         player.LoadMicrogameImmediately(session);
     }
 
@@ -171,23 +166,22 @@ public class MicrogameDebugPlayer : MonoBehaviour
         {
             if (Input.GetKeyDown(Settings.debugKeys.Restart))
             {
-                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener, MicrogameSession.Difficulty);
+                var newSession = MicrogameSession.microgame.CreateDebugSession(MicrogameSession.Difficulty);
                 speedController.Speed = 1;
                 LoadNewMicrogame(newSession);
                 return;
             }
             else if (Input.GetKeyDown(Settings.debugKeys.Faster))
             {
-                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener, MicrogameSession.Difficulty);
-                speedController.Speed = Mathf.Min(speedController.Speed + 1, SpeedController.MAX_SPEED);
+                var newSession = MicrogameSession.microgame.CreateDebugSession(MicrogameSession.Difficulty);
+                speedController.Speed = Mathf.Min(speedController.Speed + 1, SpeedController.MaxSpeed);
                 Debug.Log("Debugging at speed " + speedController.Speed);
                 LoadNewMicrogame(newSession);
                 return;
             }
             else if (Input.GetKeyDown(Settings.debugKeys.NextDifficulty))
             {
-                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener,
-                    Mathf.Min(MicrogameSession.Difficulty + 1, 3));
+                var newSession = MicrogameSession.microgame.CreateDebugSession(Mathf.Min(MicrogameSession.Difficulty + 1, 3));
                 speedController.Speed = 1;
                 Debug.Log("Debugging at difficulty " + newSession.Difficulty);
                 LoadNewMicrogame(newSession);
@@ -195,8 +189,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
             }
             else if (Input.GetKeyDown(Settings.debugKeys.PreviousDifficulty))
             {
-                var newSession = MicrogameSession.microgame.CreateDebugSession(eventListener,
-                    Mathf.Max(MicrogameSession.Difficulty - 1, 1));
+                var newSession = MicrogameSession.microgame.CreateDebugSession(Mathf.Max(MicrogameSession.Difficulty - 1, 1));
                 speedController.Speed = 1;
                 Debug.Log("Debugging at difficulty " + newSession.Difficulty);
                 LoadNewMicrogame(newSession);

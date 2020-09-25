@@ -1,93 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public abstract class Stage : MonoBehaviour
+public abstract class Stage : ScriptableObject
 {
     private const string DiscordStateFormat = "{0} Games";
     private const string DiscordStateFormatSingular = "{0} Game";
 
-#pragma warning disable 0649
     [SerializeField]
 	private VoicePlayer.VoiceSet voiceSet;
     [SerializeField]
     private string displayName;
-#pragma warning restore 0649
 
-    protected StageController stageController;
-
-    [System.Serializable]
-	public class Interruption
-	{
-		public StageController.AnimationPart animation;
-		public float beatDuration;
-		public AudioSource audioSource;
-		public AudioClip audioClip;
-		public SpeedChange speedChange;
-		public bool applySpeedChangeAtEnd;
-
-		public enum SpeedChange
-		{
-			None,
-			SpeedUp,
-			ResetSpeed,
-			Custom
-		}
-
-		[HideInInspector]
-		public float scheduledPlayTime;
-
-		public Interruption(SpeedChange speedChange = SpeedChange.None)
-		{
-			this.speedChange = speedChange;
-		}
-	}
+    protected int seed;
 
 	[System.Serializable]
-	public class  StageMicrogame
+	public class StageMicrogame
 	{
-		public string microgameId;
-		public int baseDifficulty = 1;
+        public Microgame microgame;
+        public int difficulty;
 
-		public StageMicrogame(string microgameId = "", int baseDifficulty = 1)
+
+        public StageMicrogame(Microgame microgame, int difficulty = 1)
 		{
-			this.microgameId = microgameId;
-			this.baseDifficulty = baseDifficulty;
+            this.microgame = microgame;
+			this.difficulty = difficulty;
 		}
-	}
 
-	/// <summary>
-	/// Called when the stage is first started or the player attempts it again after game over, called before any other method
-	/// </summary>
-	public virtual void onStageStart(StageController stageController)
+        public Microgame.Session CreateSession()
+        {
+            return microgame.CreateSession(difficulty);
+        }
+    }
+
+
+    /// <summary>
+    /// Called when the stage is first started, called before any other method
+    /// </summary>
+    public virtual void InitScene()
     {
-        this.stageController = stageController;
-        updateDiscordStatus(0);
-        PrefsHelper.setVisitedStage(gameObject.scene.name, true);
+        PrefsHelper.setVisitedStage(name, true);
     }
 
     /// <summary>
-    /// Get the nth microgame (based on total microgmaes encountered so far, starts at 0)
+    /// Called when the stage is first started or the player attempts it again after game over, called after InitScene
+    /// </summary>
+    public virtual void InitStage(int seed)
+    {
+        if (seed == 0)
+            seed = new System.Random().Next();
+        this.seed = seed;
+        updateDiscordStatus(0);
+    }
+
+    /// <summary>
+    /// Get the nth microgame (based on total microgames encountered so far, starts at 0)
     /// </summary>
     /// <param name="cycleIndex"></param>
     /// <returns></returns>
     public abstract StageMicrogame getMicrogame(int num);
-
-	/// <summary>
-	/// Gets microgame difficulty for this specific instance
-	/// </summary>
-	/// <param name="microgame"></param>
-	/// <param name="num"></param>
-	/// <returns></returns>
-	public abstract int getMicrogameDifficulty(StageMicrogame microgame, int num);
-
-	/// <summary>
-	/// Fetch all animation interruptions between outro and intro segments
-	/// </summary>
-	/// <returns></returns>
-	public abstract Interruption[] getInterruptions(int num);
-	/// <param name="cycleIndex"></param>
-
 
 	/// <summary>
 	/// Returns true if we know for sure what microgame will play at the specific index
@@ -108,23 +83,13 @@ public abstract class Stage : MonoBehaviour
         updateDiscordState(microgame);
     }
 
-	/// <summary>
-	/// Called when a microgame has finished and passes results
-	/// </summary>
-	/// <param name="microgame"></param>
-	/// <param name="victory"></param>
-	public virtual void onMicrogameEnd(int microgame, bool victory)
-	{
-
-    }
-
     /// <summary>
     /// For display in Discord's rich presence (first line), called from onMicrogameEnd under normal circumstances
     /// </summary>
     /// <param name="microgameIndex"></param>
     public virtual string getDiscordDetails()
     {
-        return TextHelper.getLocalizedText("menu.gamemode." + gameObject.scene.name.ToLower(), displayName);
+        return TextHelper.getLocalizedText("menu.gamemode." + name, displayName);
     }
     
     void updateDiscordDetails()
@@ -169,26 +134,20 @@ public abstract class Stage : MonoBehaviour
     public virtual int getMaxLife()
 	{
 		return 4;
-	}
+    }
 
-	/// <summary>
-	/// Calculates custom speed when Custom is selected for Interruption speed change
-	/// </summary>
-	/// <param name="interruption"></param>
-	/// <returns></returns>
-	public virtual int getCustomSpeed(int microgame, Interruption interruption)
-	{
-		return 1;
-	}
+    /// <summary>
+    /// Get microgame speed at beginning of this round
+    /// </summary>
+    /// <param name="interruption"></param>
+    /// <returns></returns>
+    public virtual int GetRoundSpeed(int round) => Mathf.Clamp(round - 1, 1, SpeedController.MaxSpeed);
 
-	/// <summary>
-	/// Returns the speed setting to start the stage at
-	/// </summary>
-	/// <returns></returns>
-	public virtual int getStartSpeed()
-	{
-		return 1;
-	}
+    /// <summary>
+    /// Get microgame speed at beginning of this stage
+    /// </summary>
+    /// <returns></returns>
+    public virtual int getStartSpeed() => GetRoundSpeed(0);
 
     /// <summary>
     /// Returns voice set used for this stage
@@ -213,20 +172,50 @@ public abstract class Stage : MonoBehaviour
         return displayName;
     }
 
-}
+    public virtual Dictionary<string, bool> GetStateMachineFlags(int microgame, bool victoryResult, int currentLife)
+    {
+        var dict = new Dictionary<string, bool>();
+        dict["GameOver"] = currentLife <= 0;
+        return dict;
+    }
 
+    public abstract int GetRound(int microgameIndex);
+    
+    protected System.Random GetRandomForRound(int round) => new System.Random(GetSeedForRound(round));
 
-public static class StageHelper
-{
-	public static Stage.Interruption[] add(this Stage.Interruption[] interruptions, Stage.Interruption interruption)
-	{
-		Stage.Interruption[] newInterruptions = new Stage.Interruption[interruptions.Length + 1];
-		for (int i = 0; i < interruptions.Length; i++)
-		{
-			newInterruptions[i] = interruptions[i];
-		}
+    protected int GetSeedForRound(int round)
+    {
+        var returnSeed = seed;
+        var rand = new System.Random(seed);
+        for (int i = 0; i < round; i++)
+        {
+            returnSeed = rand.Next();
+        }
+        return returnSeed;
+    }
 
-		newInterruptions[interruptions.Length] = interruption;
-		return newInterruptions;
-	}
+    protected T GetShuffledMicrogame<T>(T[] microgames, int index, System.Random random)
+    {
+        if (microgames.Length < 2)
+            return microgames.FirstOrDefault();
+
+        var indexArray = Enumerable.Range(0, microgames.Length).ToArray();
+        for (int i = 0; i <= index; i++)
+        {
+            var range = indexArray.Length - i;
+            var pick = i + (random.Next() % range);
+            if (i == index)
+                return microgames[indexArray[pick]];
+            else if (pick != i)
+            {
+                var hold = indexArray[pick];
+                indexArray[pick] = indexArray[i];
+                indexArray[i] = hold;
+            }
+        }
+
+        UnityEngine.Debug.LogError("Shuffle out of range");
+        return microgames.FirstOrDefault();
+    }
+
 }

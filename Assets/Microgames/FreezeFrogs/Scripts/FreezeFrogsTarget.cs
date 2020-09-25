@@ -64,7 +64,7 @@ public class FreezeFrogsTarget : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (progress < 1f && other.name == "Breath" && MicrogameTimer.instance.beatsLeft >= .5f)
+		if (progress < 1f && other.name == "Breath" && MicrogameController.instance.session.BeatsRemaining >= .5f)
 		{
 			progress += progressFromBreath;
 			if (progress >= 1f)

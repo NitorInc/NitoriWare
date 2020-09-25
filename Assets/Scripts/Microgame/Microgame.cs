@@ -15,6 +15,7 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Microgame/Normal")]
 public class Microgame : ScriptableObject
 {
+    public const double BeatLength = 60d / 130d;
 
     public string microgameId => name;
 
@@ -73,12 +74,17 @@ public class Microgame : ScriptableObject
         Finished
     }
 
+    [SerializeField]
+    private CharacterStage characterStage;
+    public CharacterStage CharacterStage => characterStage;
+
     [Header("Credits order is Art, Code, Music:")]
     [SerializeField]
     private string[] _credits = { "", "", "" };
     public string[] credits => _credits;
 
-    public virtual float getDurationInBeats() => (duration == Duration.Long16Beats) ? 16f : 8f;
+    public virtual double getDurationInBeats() => (duration == Duration.Long16Beats) ? 17d : 9d;
+    public virtual double getDurationInSeconds() => getDurationInBeats() * (float)BeatLength;
 
     public bool isBossMicrogame() => GetType() == typeof(MicrogameBoss) || GetType().IsSubclassOf(typeof(MicrogameBoss));
 
@@ -93,11 +99,11 @@ public class Microgame : ScriptableObject
     /// <param name="difficulty"></param>
     /// <param name="debugMode"></param>
     /// <returns>The session</returns>
-    public virtual Session CreateSession(MicrogameEventListener eventListener, int difficulty, bool debugMode = false)
-        => new Session(this, eventListener, difficulty, debugMode);
+    public virtual Session CreateSession(int difficulty, bool debugMode = false)
+        => new Session(this, difficulty, debugMode);
 
-    public Session CreateDebugSession(MicrogameEventListener eventListener, int difficulty)
-        => CreateSession(eventListener, difficulty, true);
+    public Session CreateDebugSession(int difficulty)
+        => CreateSession(difficulty, true);
 
 
     /// <summary>
@@ -121,20 +127,22 @@ public class Microgame : ScriptableObject
 
         public virtual CursorLockMode GetCursorLockMode() => microgame._cursorLockState;
 
-
         public Microgame microgame { get; private set; }
-
-        public MicrogameEventListener EventListener { get; private set; }
+        public MicrogameEventListener EventListener { get; set; }
 
         public int Difficulty { get; private set; }
-
         public bool VictoryStatus { get; set; }
-
         public bool WasVictoryDetermined { get; set; } = false;
-
         public float VictoryVoiceDelay { get; set; }
-
         public float FailureVoiceDelay { get; set; }
+        public float GetVoiceDelay() => VictoryStatus ? VictoryVoiceDelay : FailureVoiceDelay;
+        public float StartTime { get; set; }
+        public double EndEarlyBeats { get; set; } // If >0, microgame is scheduled to end early by this many beats
+        public double EndEarlyTime => EndEarlyBeats * BeatLength;
+        public bool IsEndingEarly => EndEarlyBeats > 0d;
+        public float EndTime => StartTime + (float)microgame.getDurationInSeconds();
+        public float TimeRemaining => EndTime - Time.time;
+        public float BeatsRemaining => TimeRemaining / (float)BeatLength;
 
         public SessionState AsyncState { get; set; }
         public enum SessionState
@@ -142,7 +150,7 @@ public class Microgame : ScriptableObject
             Loading,    // Microgame scene is loading but not set to activate
             Activating, // Microgame scene is set to activate but has not awaken yet
             Playing,    // Microgame scene is the active game scene and is performing gameplay
-            Unloading  // Microgame scene is unloading async
+            Unloading   // Microgame scene is unloading async
         }
 
         public bool Cancelled { get; set; } // Microgame is set to destroy itself as soon as it loads in and won't be played
@@ -150,10 +158,9 @@ public class Microgame : ScriptableObject
         /// <summary>
         /// If you inherit this class to randomize certain start attributes, randomize them in the constructor
         /// </summary>
-        public Session(Microgame microgame, MicrogameEventListener eventListener, int difficulty, bool debugMode)
+        public Session(Microgame microgame, int difficulty, bool debugMode)
         {
             this.microgame = microgame;
-            this.EventListener = eventListener;
             Difficulty = difficulty;
             VictoryStatus = microgame._defaultVictory;
             VictoryVoiceDelay = microgame._victoryVoiceDelay;

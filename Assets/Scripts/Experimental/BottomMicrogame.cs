@@ -51,8 +51,8 @@ public class BottomMicrogame : MonoBehaviour
     {
         microgameData = MicrogameCollection.LoadAllMicrogames();
 
-        if (MicrogameTimer.instance == null)
-            SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
+        //if (MicrogameTimer.instance == null)
+        //    SceneManager.LoadScene("Microgame Debug", LoadSceneMode.Additive);
 
 
         LoadTopScene();
@@ -95,7 +95,7 @@ public class BottomMicrogame : MonoBehaviour
             .ToList();
 
         newJob.microgame = microgames[Random.Range(0, microgames.Count - 1)];
-        newJob.session = newJob.microgame.CreateDebugSession(null, difficulty);
+        newJob.session = newJob.microgame.CreateDebugSession(difficulty);
         newJob.sceneName = newJob.session.GetSceneName();
 
 

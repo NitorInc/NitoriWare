@@ -9,19 +9,24 @@ public class ControlDisplay : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
+    private MicrogamePlayer microgamePlayer;
+    [SerializeField]
     private SpriteRenderer controlRenderer;
+    [SerializeField]
+    private Sprite[] controlSchemeSprites;
     [SerializeField]
     private Text controlText;
     [SerializeField]
     private TextMeshPro controlTmpComponent;
 #pragma warning restore 0649
 
-    public StageController stageController;
+    public void SetControlSchemeToCurrent()
+        => setControlScheme(microgamePlayer.CurrentMicrogame.controlScheme);
 
     public void setControlScheme(Microgame.ControlScheme controlScheme)
     {
         //TODO re-enable command warnings?
-        controlRenderer.sprite = stageController.controlSchemeSprites[(int)controlScheme];
+        controlRenderer.sprite = controlSchemeSprites[(int)controlScheme];
 
         var text = TextHelper.getLocalizedTextNoWarnings("stage.control." + controlScheme.ToString().ToLower(), getDefaultControlString(controlScheme));
 

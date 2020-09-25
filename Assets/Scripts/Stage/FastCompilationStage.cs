@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Stage/Fast Compilation Stage")]
 public class FastCompilationStage : CompilationStage
 {
 	[SerializeField]
@@ -12,13 +13,13 @@ public class FastCompilationStage : CompilationStage
 		return startSpeed;
 	}
 
-	public override int getCustomSpeed(int microgame, Interruption interruption)
-	{
-		return startSpeed + getRoundSpeedOffset();
-	}
+    //public override int getCustomSpeed(int microgame, Interruption interruption)
+    //{
+    //	return startSpeed + getRoundSpeedOffset();
+    //}
 
-	int getRoundSpeedOffset()
-	{
+    public override int GetRoundSpeed(int microgame)
+    {
 		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}
 }
