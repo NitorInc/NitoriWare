@@ -20,7 +20,7 @@ namespace StageFSM
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (!animator.IsInTransition(layerIndex))
-                Animator.GetComponent<AudioPlaybackController>().ResetAudioPlaybackTime();
+                toolbox.GetTool<AudioPlaybackController>().ResetAudioPlaybackTime();
             base.OnStateUpdate(animator, StateInfo, LayerIndex);
         }
     }
