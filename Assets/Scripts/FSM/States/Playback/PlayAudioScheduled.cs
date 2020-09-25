@@ -35,26 +35,31 @@ namespace StageFSM
 
             audioSource = playbackController.GetNextAudioSource();
             base.OnStateEnter(animator, stateInfo, layerIndex);
-            if (enterCondition == EnterCondition.Early && audioClip != null)
+            if (enterCondition == EnterCondition.Early)
             {
                 playbackController.ShiftAudioPlaybackTimeInBeats((double)animator.GetAnimatorTransitionInfo(layerIndex).duration);
 
-                var speedController = toolbox.GetTool<SpeedController>();
-                var speed = speedController.Speed;
-                var pitch = pitchMode == PitchMode.MatchSpeedLevel
-                ? speedController.GetSpeedTimeScaleMult(speed)
-                : Time.timeScale;
-                playbackController.ScheduleClip(audioSource, audioClip, pitch);
+                if (audioClip != null)
+                {
+                    var speedController = toolbox.GetTool<SpeedController>();
+                    var speed = speedController.Speed;
+                    var pitch = pitchMode == PitchMode.MatchSpeedLevel
+                    ? speedController.GetSpeedTimeScaleMult(speed)
+                    : Time.timeScale;
+                    playbackController.ScheduleClip(audioSource, audioClip, pitch);
+
+                }
             }
         }
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
-            if (audioClip != null && enterCondition == EnterCondition.Normal)
+            if (enterCondition == EnterCondition.Normal)
             {
                 playbackController.ResetAudioPlaybackTime();
-                playbackController.ScheduleClip(audioSource, audioClip, toolbox.GetTool<SpeedController>().GetSpeedTimeScaleMult());
+                if (audioClip != null)
+                    playbackController.ScheduleClip(audioSource, audioClip, toolbox.GetTool<SpeedController>().GetSpeedTimeScaleMult());
             }
         }
     }
