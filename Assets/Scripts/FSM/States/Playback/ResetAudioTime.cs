@@ -13,7 +13,7 @@ namespace StageFSM
     {
         protected override void OnStateEnterOfficial()
         {
-            Animator.GetComponent<AudioPlaybackController>().ResetAudioPlaybackTime();
+            toolbox.GetTool<AudioPlaybackController>().ResetAudioPlaybackTime();
             base.OnStateEnterOfficial();
         }
 
