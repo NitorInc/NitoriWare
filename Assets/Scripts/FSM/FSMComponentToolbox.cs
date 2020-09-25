@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 namespace StageFSM
 {
@@ -28,30 +29,5 @@ namespace StageFSM
                 .Where(a => a.GetType() == typeof(T) || a.GetType().IsSubclassOf(typeof(T)))
                 .ToArray() as T[];
         }
-
-
-        private void Awake()
-        {
-            // TODO remove
-            GetComponent<Animator>().speed = 1f / (float)Microgame.BeatLength;
-        }
-
-        float time;
-
-        private void Update()
-        {
-            // TODO remove
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                GetComponent<Animator>().SetTrigger("Advance");
-                time = 0f;
-            }
-            //Debug.Log(Time.timeScale);
-            //Debug.Log(GetComponent<Animator>().speed);
-            time += Time.deltaTime;
-            //Debug.Log(time);
-
-        }
-        
     }
 }
