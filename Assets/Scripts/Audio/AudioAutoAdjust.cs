@@ -43,50 +43,28 @@ public class AudioAutoAdjust : MonoBehaviour
     float Volume => volumeMult;
     float Pitch => pitchMult;
 
-    private void Awake()
+    void Awake()
     {
-        enabled = false;
+        sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
+        if (tieToVolumeSettings)
+        {
+            initialVolumes = new float[sources.Length];
+            for (int i = 0; i < sources.Length; i++)
+            {
+                initialVolumes[i] = sources[i].volume;
+            }
+            updateVolume();
+        }
+        if (tieToTimescale)
+        {
+            initialPitches = new float[sources.Length];
+            for (int i = 0; i < sources.Length; i++)
+            {
+                initialPitches[i] = sources[i].pitch;
+            }
+            updatePitch();
+        }
     }
-
-    //   void Awake()
-    //{
-    //       sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
-    //       foreach (var source in sources)
-    //       {
-    //           switch(volumeType)
-    //           {
-    //               case (PrefsHelper.VolumeType.SFX):
-    //                   source.outputAudioMixerGroup = AudioManager.instance.MicrogameSFXGroup;
-    //                   break;
-    //               case (PrefsHelper.VolumeType.Music):
-    //                   source.outputAudioMixerGroup = AudioManager.instance.MicrogameMusicGroup;
-    //                   break;
-    //               default:
-    //                   Debug.LogWarning("AudioAutoAdjust configured incorrectly.");
-    //                   break;
-    //           }
-    //       }
-
-    //       sources = includeChildren ? GetComponentsInChildren<AudioSource>() : GetComponents<AudioSource>();
-    //       if (tieToVolumeSettings)
-    //       {
-    //           initialVolumes = new float[sources.Length];
-    //           for (int i = 0; i < sources.Length; i++)
-    //           {
-    //               initialVolumes[i] = sources[i].volume;
-    //           }
-    //           updateVolume();
-    //       }
-    //       if (tieToTimescale)
-    //       {
-    //           initialPitches = new float[sources.Length];
-    //           for (int i = 0; i < sources.Length; i++)
-    //           {
-    //               initialPitches[i] = sources[i].pitch;
-    //           }
-    //           updatePitch();
-    //       }
-    //   }
 
     void Update()
 	{

@@ -136,19 +136,13 @@ public abstract class Stage : ScriptableObject
     /// </summary>
     /// <param name="interruption"></param>
     /// <returns></returns>
-    public virtual int getRoundSpeed(int microgame)
-    {
-        return 1;
-    }
+    public virtual int GetRoundSpeed(int round) => Mathf.Clamp(round - 1, 1, SpeedController.MaxSpeed);
 
     /// <summary>
     /// Get microgame speed at beginning of this stage
     /// </summary>
     /// <returns></returns>
-    public virtual int getStartSpeed()
-	{
-		return getRoundSpeed(0);
-	}
+    public virtual int getStartSpeed() => GetRoundSpeed(0);
 
     /// <summary>
     /// Returns voice set used for this stage
@@ -181,8 +175,6 @@ public abstract class Stage : ScriptableObject
     }
 
     public abstract int GetRound(int microgameIndex);
-
-    public virtual int GetRoundSpeed(int round) => Mathf.Clamp(round - 1, 1, SpeedController.MaxSpeed);
     
     protected System.Random GetRandomForRound(int round) => new System.Random(GetSeedForRound(round));
 

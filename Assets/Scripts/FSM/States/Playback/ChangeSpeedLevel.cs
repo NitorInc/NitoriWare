@@ -55,7 +55,7 @@ namespace StageFSM
                     stage = toolbox.GetTool<StageControl>().Stage;
                     var microgameIndex = Animator.GetInteger(microgameIndexParam);
                     var round = stage.GetRound(microgameIndex);
-                    return stage.getRoundSpeed(round);
+                    return stage.GetRoundSpeed(round);
                 case (SpeedChange.ResetToStageStart):
                     stage = toolbox.GetTool<StageControl>().Stage;
                     return stage.getStartSpeed();

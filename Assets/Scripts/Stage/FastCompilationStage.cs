@@ -18,7 +18,7 @@ public class FastCompilationStage : CompilationStage
     //	return startSpeed + getRoundSpeedOffset();
     //}
 
-    public override int getRoundSpeed(int microgame)
+    public override int GetRoundSpeed(int microgame)
     {
 		return (roundsCompleted < 3) ? 0 : roundsCompleted - 2;
 	}

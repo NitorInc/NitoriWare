@@ -165,6 +165,7 @@ public class MicrogamePlayer : MonoBehaviour
         GameObject[] rootObjects = scene.GetRootGameObjects();
         foreach (var rootObject in rootObjects)
         {
+            rootObject.SetActive(false);
             Destroy(rootObject);
         }
     }

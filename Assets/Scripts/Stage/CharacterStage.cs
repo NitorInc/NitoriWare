@@ -169,7 +169,7 @@ public class CharacterStage : Stage
         dict["LowerScore"] = !revisiting && IsBossIndex(microgame - 1) && !lastVictoryResult;
         dict["LevelUp"] = roundIndex == 0 && round > 0 && revisiting;
         dict["LevelUpWarning"] = dict["LevelUp"];
-        dict["OneUp"] = dict["LevelUpWarning"] && currentLife < getMaxLife();
+        dict["OneUp"] = dict["LevelUp"] && revisiting && lastVictoryResult && currentLife < getMaxLife();
         dict["StageVictory"] = !revisiting && lastVictoryResult && IsBossIndex(microgame - 1);
         return dict;
     }
