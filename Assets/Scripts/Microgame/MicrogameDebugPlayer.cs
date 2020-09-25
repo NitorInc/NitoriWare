@@ -32,7 +32,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
     [System.Serializable]
     public class DebugSettings
     {
-        public bool playMusic, displayCommand, showTimer, timerTick, simulateStartDelay, localizeText;
+        public bool playMusic, displayCommand, showTimer, timerTick, localizeText;
         public string forceLocalizationLanguage;
         public bool resetThroughAllLanguages;
         public VoicePlayer.VoiceSet voiceSet;
@@ -132,10 +132,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         {
             musicSource.clip = musicClip;
             musicSource.pitch = speedController.GetSpeedTimeScaleMult();
-            if (!Settings.simulateStartDelay)
-                musicSource.Play();
-            else
-                AudioHelper.playScheduled(musicSource, (float)Microgame.BeatLength);
+            AudioHelper.playScheduled(musicSource, (float)Microgame.BeatLength);
         }
 
         if (Settings.displayCommand)
@@ -159,6 +156,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (session != MicrogameSession)
             MicrogameSession.Dispose();
         MicrogameSession = session;
+        microgameTimer.StopAllCoroutines();
         player.LoadMicrogameImmediately(session);
     }
 
