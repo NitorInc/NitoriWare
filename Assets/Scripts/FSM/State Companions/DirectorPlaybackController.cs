@@ -13,7 +13,6 @@ namespace StageFSM
         public PlayableAsset AssetToSwap { get; set; }
 
         private PlayableDirector director;
-        private bool FinishedPlayingAsset;
         private List<INotification> markersPlayedOnPlayable;
 
         private void Awake()
@@ -36,7 +35,7 @@ namespace StageFSM
                 if (director.playableAsset != null)
                 {
                     time -= director.playableAsset.duration;
-                    ManualSetWithNotifications(director, director.playableAsset.duration + 1d);
+                    ManualSetWithNotifications(director, director.playableAsset.duration);
                 }
                 else
                     time = 0d;
@@ -44,19 +43,12 @@ namespace StageFSM
                 director.playableAsset = AssetToSwap;
                 director.Play();
                 AssetToSwap = null;
-                FinishedPlayingAsset = false;
                 markersPlayedOnPlayable.Clear();
             }
 
-            if (director.playableAsset != null && !FinishedPlayingAsset)
-            {
-                if (time >= director.playableAsset.duration)
-                {
-                    time = director.playableAsset.duration;
-                    FinishedPlayingAsset = true;
-                }
+            if (director.playableAsset != null)
                 ManualSetWithNotifications(director, time > 0d ? time : 0d);
-            }
+            director.time = time;
         }
 
         void ManualSetWithNotifications(PlayableDirector director, double time)
