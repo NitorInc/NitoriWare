@@ -13,8 +13,6 @@ public class MicrogamePlayer : MonoBehaviour
 {
     public static MicrogamePlayer instance;
 
-    const ThreadPriority sceneLoadPriority = ThreadPriority.BelowNormal;
-
     [SerializeField]
     private LoadMode microgameLoadMode;
     enum LoadMode
@@ -70,7 +68,6 @@ public class MicrogamePlayer : MonoBehaviour
     {
         instance = this;
         microgameJobs = new List<MicrogameJob>();
-        Application.backgroundLoadingPriority = sceneLoadPriority;
     }
 
     public void EnqueueSession(Microgame.Session session)
