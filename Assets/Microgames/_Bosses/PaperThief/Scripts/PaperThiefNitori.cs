@@ -168,7 +168,7 @@ public class PaperThiefNitori : MonoBehaviour
 
             if (shotCooldownTimer > 0f)
                 shotCooldownTimer -= Time.deltaTime;
-            if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
+            if (shotCooldownTimer <= 0f /*&& Input.GetMouseButton(0)*/)
             {
                 float realAngle = ((Vector2)(gunCursor.position - shotMarker.position)).getAngle();
                 if (Mathf.Abs(realAngle - gunAngle) <= 10f)
