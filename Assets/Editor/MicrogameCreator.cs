@@ -11,13 +11,12 @@ public class MicrogameCreator : ScriptableObject
 {
     [SerializeField]
     private string templateSceneFilePath;
-    [SerializeField]
-    private string templateTraitsPath;
 
     public enum MicrogameType
     {
         OneScenePerDifficulty,
-        SingleScene
+        SingleScene,
+        RandomScene
     }
 
     public bool CreateMicrogame(string microgameId, MicrogameType type)
@@ -37,29 +36,29 @@ public class MicrogameCreator : ScriptableObject
         AssetDatabase.CreateFolder("Assets/Microgames", microgameId);
         AssetDatabase.CreateFolder($"Assets/Microgames/{microgameId}", "Scenes");
 
-        var traitsPath = $"Assets/Microgames/{microgameId}/Traits.asset";
-        string newScenePath;
+        // Copy scene and create new traits
+        var newScenePath = $"Assets/Microgames/{microgameId}/Scenes/{microgameId}1.unity";
+        var traitsPath = $"Assets/Resources/Microgames/{microgameId}.asset";
         switch (type)
         {
             case (MicrogameType.SingleScene):
-                // Copy single scene and create new traits
                 newScenePath = $"Assets/Microgames/{microgameId}/Scenes/{microgameId}.unity";
-                AssetDatabase.CopyAsset(templateSceneFilePath, newScenePath);
                 AssetDatabase.CreateAsset(CreateInstance<MicrogameSingleScene>(), traitsPath);
                 break;
+            case (MicrogameType.RandomScene):
+                AssetDatabase.CreateAsset(CreateInstance<MicrogameRandomScene>(), traitsPath);
+                break;
             default:
-                // Copy first difficulty scene and traits
-                newScenePath = $"Assets/Microgames/{microgameId}/Scenes/{microgameId}1.unity";
-                AssetDatabase.CopyAsset(templateSceneFilePath, newScenePath);
-                AssetDatabase.CopyAsset(templateTraitsPath, traitsPath);
+                AssetDatabase.CreateAsset(CreateInstance<Microgame>(), traitsPath);
                 break;
         }
+        AssetDatabase.CopyAsset(templateSceneFilePath, newScenePath);
 
         AssetDatabase.Refresh();
         EditorSceneManager.OpenScene(newScenePath);
         Selection.activeObject = AssetDatabase.LoadAssetAtPath<Microgame>(traitsPath);
 
-        Debug.Log($"Microgame {microgameId} created");
+        Debug.Log($"Microgame {microgameId} created!");
 
         return true;
     }

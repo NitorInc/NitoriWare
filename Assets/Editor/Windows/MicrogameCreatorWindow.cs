@@ -21,7 +21,7 @@ public class MicrogameCreatorWindow : EditorWindow
     private void OnEnable()
     {
         titleContent = new GUIContent("Microgame Generator");
-        creator = ((MicrogameCreator)EditorGUIUtility.Load("Microgame Creator"));
+        creator = ((MicrogameCreator)EditorGUIUtility.Load("Microgame Creator.asset"));
     }
 
 
@@ -46,7 +46,7 @@ public class MicrogameCreatorWindow : EditorWindow
         GUILayout.Label("This can be changed later.");
 
         GUILayout.Label("");
-        if (GUILayout.Button("Create Microgame"))
+        if (GUILayout.Button("Oh! Create!"))
         {
             if (creator.CreateMicrogame(microgameId, (MicrogameCreator.MicrogameType)selectedType))
                 Close();
