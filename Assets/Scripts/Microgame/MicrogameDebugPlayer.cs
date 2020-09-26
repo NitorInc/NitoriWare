@@ -131,7 +131,6 @@ public class MicrogameDebugPlayer : MonoBehaviour
         if (Settings.playMusic && musicClip != null)
         {
             musicSource.clip = musicClip;
-            musicSource.pitch = speedController.GetSpeedTimeScaleMult();
             AudioHelper.playScheduled(musicSource, (float)Microgame.BeatLength);
         }
 
