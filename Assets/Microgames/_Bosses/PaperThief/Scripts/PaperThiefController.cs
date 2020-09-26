@@ -15,6 +15,8 @@ public class PaperThiefController : MonoBehaviour
     private Scene scene;
 #pragma warning restore 0649
 
+    private AnimationEventHelper eventHelper;
+
     public enum Scene
     {
         Idle,
@@ -28,6 +30,7 @@ public class PaperThiefController : MonoBehaviour
     void Awake()
     {
         instance = this;
+        eventHelper = GetComponent<AnimationEventHelper>();
     }
 
     void Update()
@@ -40,6 +43,20 @@ public class PaperThiefController : MonoBehaviour
     {
         this.scene = scene;
         sceneAnimator.SetInteger("QueuedAnimation", (int)scene);
+
+        // Hotfix for some users possibly not encountering animation events at start of animation
+        switch(scene)
+        {
+            case (Scene.CucumberSteal):
+                eventHelper.triggerEvent(0);
+                setMarisaFacingRight(1);
+                queueMarisaAnimation(PaperThiefMarisa.QueueAnimation.Zoom);
+                eventHelper.fadeAudio(0);
+                break;
+            case (Scene.BeginChase):
+                eventHelper.playAudio(1);
+                break;
+        }
     }
     
     public void queueNitoriAnimation(PaperThiefNitori.QueueAnimation animation)
