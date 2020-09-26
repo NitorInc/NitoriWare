@@ -62,7 +62,7 @@ public class PaperThiefShot : MonoBehaviour
 
 	public void kill()
 	{
-		_rigidBody.velocity = PaperThiefNitori.instance.getRigidBody().velocity;
+		//_rigidBody.velocity = PaperThiefNitori.instance.getRigidBody().velocity;
 		explosionParticles.Emit(explosionSmokeCount);
 		GetComponent<Collider2D>().enabled = false;
         var trailEmission = trailParticles.emission;
