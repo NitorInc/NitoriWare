@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -90,17 +91,14 @@ public class PauseManager : MonoBehaviour
 
 		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
 		pauseData.disabledScripts = new List<MonoBehaviour>();
-		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach(MonoBehaviour script in scripts)
 		{
-			if (script.enabled && script.transform.root != transform &&
-                !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
+			if (script.enabled
+                && script.transform.root != transform
+                && !scriptWhitelist.Any(a => a.GetType() == script.GetType())
+                && !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
 				pauseData.disabledScripts.Add(script);
 		}
-        foreach (MonoBehaviour script in whitelistedScripts)
-        {
-            pauseData.disabledScripts.Remove(script);
-        }
         foreach (MonoBehaviour script in pauseData.disabledScripts)
         {
             script.enabled = false;
