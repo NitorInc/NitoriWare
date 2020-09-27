@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class FanBlowFanMovement : MonoBehaviour
 {
@@ -29,9 +30,9 @@ public class FanBlowFanMovement : MonoBehaviour
     private float maxX = 5;
 
     private Vector2 lastPosition;
-    private float currentSpeed;
-    public float CurrentSpeed => currentSpeed;
-    private Vector3 currentVelocity;
+
+    public Vector2 CurrentVelocity { get; private set; }
+    public float CurrentSpeed => CurrentVelocity.magnitude;
 
     private bool wasPaused;
     public bool WasPaused
@@ -74,8 +75,7 @@ public class FanBlowFanMovement : MonoBehaviour
         var positionDiff = (cursorPosition - lastPosition);
         if (positionDiff.magnitude > maxMoveSpeed * Time.deltaTime)
             positionDiff = positionDiff.resize(maxMoveSpeed * Time.deltaTime);
-        currentVelocity = positionDiff / Time.deltaTime;
-        currentSpeed = positionDiff.magnitude / Time.deltaTime;
+        CurrentVelocity = positionDiff / Time.deltaTime;
         transform.position = transform.position + (Vector3)positionDiff;
 
         if (cursorPosition != lastPosition)

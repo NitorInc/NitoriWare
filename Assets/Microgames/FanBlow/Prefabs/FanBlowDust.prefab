@@ -54,6 +54,7 @@ MonoBehaviour:
   damagePerSpeed: 0.2
   minDamageFanSpeed: 80
   damageDistanceDropOffRate: 0.10695187
+  blowAwayFanSpeedMult: 0.04
   fan: {fileID: 0}
 --- !u!1 &1905255238671160
 GameObject:
@@ -961,7 +962,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 360
+      value: 0
       mode: 0
       spread: 0
       speed:
@@ -4992,7 +4993,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: df6537ebf32163d4381bfe89cec80c4b, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -25,12 +25,22 @@ public class FanBlowDust : MonoBehaviour
     [SerializeField]
     private float damageDistanceDropOffRate = .5f;
     public float DamageDistanceDropOffRate{ get { return damageDistanceDropOffRate; } set { damageDistanceDropOffRate = value; } }
+    [SerializeField]
+    private float blowAwayFanSpeedMult;
 
     [SerializeField]
     private FanBlowFanMovement fan;
     public FanBlowFanMovement Fan { get { return fan; } set { fan = value; } }
     float baseScale;
     float health;
+    Vector3 blowVelocity;
+
+    private State state;
+    public enum State
+    {
+        Float,
+        BlowAway
+    }
     
 	void Start ()
     {
@@ -42,22 +52,31 @@ public class FanBlowDust : MonoBehaviour
 	
 	void Update ()
     {
-        var distanceFromFan = ((Vector2)(fan.transform.position - transform.position)).magnitude;
-        if (distanceFromFan <= collisionRegisterThreshold)
+        switch (state)
         {
-            if (fan.CurrentSpeed >= minDamageFanSpeed)
-            {
-                var damageMult = 1f - (damageDistanceDropOffRate * distanceFromFan);
-                if (damageMult < 0f)
-                    return;
+            case (State.Float):
+                var distanceFromFan = ((Vector2)(fan.transform.position - transform.position)).magnitude;
+                if (distanceFromFan <= collisionRegisterThreshold)
+                {
+                    if (fan.CurrentSpeed >= minDamageFanSpeed)
+                    {
+                        var damageMult = 1f - (damageDistanceDropOffRate * distanceFromFan);
+                        if (damageMult < 0f)
+                            return;
 
-                health -= fan.CurrentSpeed * Time.deltaTime * damagePerSpeed * damageMult;
-                if (health <= 0f)
-                    kill();
-                else
-                    updateScale();
-            }
+                        health -= fan.CurrentSpeed * Time.deltaTime * damagePerSpeed * damageMult;
+                        if (health <= 0f)
+                            kill();
+                        else
+                            updateScale();
+                    }
+                }
+                break;
+            case (State.BlowAway):
+                transform.position += blowVelocity * Time.deltaTime;
+                break;
         }
+
     }
 
     void updateScale()
@@ -71,9 +90,12 @@ public class FanBlowDust : MonoBehaviour
 
     void kill()
     {
-        enabled = false;
         transform.parent = null;
+        var fromFan = (Vector2)(transform.position - fan.transform.position);
+        deathParticles.transform.localEulerAngles = Vector3.forward * fromFan.getAngle();
+        blowVelocity = fan.CurrentVelocity * blowAwayFanSpeedMult;
         deathParticles.Play();
         dustRenderer.enabled = false;
+        state = State.BlowAway;
     }
 }
