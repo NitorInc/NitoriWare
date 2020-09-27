@@ -28,6 +28,7 @@ public class RapBattleTextAnimation : MonoBehaviour
 
     private string parsedText;
     private float progress;
+    private float verseStartTime;
     private float highlightReachedTime;
     private int highlightChar;
     private float initialFontSize;
@@ -116,6 +117,7 @@ public class RapBattleTextAnimation : MonoBehaviour
         enabled = true;
         if (!string.IsNullOrEmpty(rhyme))
             Invoke("showRhyme", rhymeAppearTime);
+        verseStartTime = Time.time;
     }
 
     void showRhyme()
@@ -168,7 +170,10 @@ public class RapBattleTextAnimation : MonoBehaviour
             {
                 if (i < highlightChar)  //Stop adjusting size at highlight char
                 {
-                    float positionOnGrowCurve = (progress - 1) - i;
+                    //float positionOnGrowCurve = (progress - 1) - i;
+                    var charAppearedAt = verseStartTime + ((float)i / advancingText.getAdvanceSpeed());
+                    var timeIntoChar = Time.time - charAppearedAt;
+                    float positionOnGrowCurve = timeIntoChar;
                     if (positionOnGrowCurve < growCurveDuration)
                     {
                         //Character i is visible
