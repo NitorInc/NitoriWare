@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4464368353567760}
   - component: {fileID: 114108078441271202}
-  - component: {fileID: 58403845004274506}
   m_Layer: 15
   m_Name: FanBlowDust
   m_TagString: Untagged
@@ -49,29 +48,13 @@ MonoBehaviour:
   vibrate: {fileID: 0}
   deathParticles: {fileID: 198406433228026196}
   dustRenderer: {fileID: 212547259603252374}
-  collideyBoi: {fileID: 58403845004274506}
+  collisionRegisterThreshold: 16.83
   scaleHealthBounds: {x: 0.8, y: 1}
   baseScaleRandomRange: {x: 0.75, y: 1.5}
   damagePerSpeed: 0.2
   minDamageFanSpeed: 80
   damageDistanceDropOffRate: 0.10695187
   fan: {fileID: 0}
---- !u!58 &58403845004274506
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160488854818846}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 4
 --- !u!1 &1905255238671160
 GameObject:
   m_ObjectHideFlags: 0

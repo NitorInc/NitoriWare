@@ -10,9 +10,9 @@ public class FanBlowDust : MonoBehaviour
     private ParticleSystem deathParticles;
     [SerializeField]
     private SpriteRenderer dustRenderer;
-    [SerializeField]
-    private Collider2D collideyBoi;
 
+    [SerializeField]
+    private float collisionRegisterThreshold;
     [SerializeField]
     private Vector2 scaleHealthBounds;
     [SerializeField]
@@ -42,22 +42,12 @@ public class FanBlowDust : MonoBehaviour
 	
 	void Update ()
     {
-
-	}
-
-    void updateScale()
-    {
-        //dustRenderer.transform.localScale = Vector3.one * baseScale * Mathf.Lerp(scaleHealthBounds.x, scaleHealthBounds.y, health);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag.Equals(fan.tag))
+        var distanceFromFan = ((Vector2)(fan.transform.position - transform.position)).magnitude;
+        if (distanceFromFan <= collisionRegisterThreshold)
         {
             if (fan.CurrentSpeed >= minDamageFanSpeed)
             {
-                var distance = ((Vector2)(fan.transform.position - transform.position)).magnitude;
-                var damageMult = 1f - (damageDistanceDropOffRate * distance);
+                var damageMult = 1f - (damageDistanceDropOffRate * distanceFromFan);
                 if (damageMult < 0f)
                     return;
 
@@ -70,9 +60,17 @@ public class FanBlowDust : MonoBehaviour
         }
     }
 
+    void updateScale()
+    {
+        //dustRenderer.transform.localScale = Vector3.one * baseScale * Mathf.Lerp(scaleHealthBounds.x, scaleHealthBounds.y, health);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+    }
+
     void kill()
     {
-        collideyBoi.enabled = false;
         enabled = false;
         transform.parent = null;
         deathParticles.Play();
