@@ -5,7 +5,7 @@ using UnityEngine;
 public class FanBlowDustSpawner : MonoBehaviour
 {
     [SerializeField]
-    private ObjectPool dustPool;
+    private Transform dustParent;
     [SerializeField]
     private Vector2 spawnXRandomRange;
     [SerializeField]
@@ -23,32 +23,26 @@ public class FanBlowDustSpawner : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < dustParent.childCount; i++)
         {
-            createDust(new Vector3(MathHelper.randomRangeFromVector(spawnXRandomRange),
+            var dustObject = dustParent.GetChild(i).GetComponent<FanBlowDust>();
+            var position = new Vector3(MathHelper.randomRangeFromVector(spawnXRandomRange),
                 MathHelper.randomRangeFromVector(spawnYRandomRange),
-                transform.position.z - (.003f * i)));
+                transform.position.z - (.003f * i));
+            dustObject.transform.position = position;
+            var dustComponent = dustObject.GetComponent<FanBlowDust>();
+            dustComponent.Fan = fan;
+            dustComponent.DamagePerSpeed *= levelDustDamageMult;
+            dustComponent.DamageDistanceDropOffRate *= levelDustDistanceDropoffMult;
         }
 	}
 
     private void Update()
     {
-        if (transform.childCount <= 0)
+        if (dustParent.childCount <= 0)
         {
             enabled = false;
             MicrogameController.instance.setVictory(true);
         }
-    }
-
-    FanBlowDust createDust(Vector3 position)
-    {
-        var dustObject = dustPool.getObjectFromPool();
-        dustObject.transform.position = position;
-        dustObject.transform.parent = transform;
-        var dustComponent = dustObject.GetComponent<FanBlowDust>();
-        dustComponent.Fan = fan;
-        dustComponent.DamagePerSpeed *= levelDustDamageMult;
-        dustComponent.DamageDistanceDropOffRate *= levelDustDistanceDropoffMult;
-        return dustComponent;
     }
 }
