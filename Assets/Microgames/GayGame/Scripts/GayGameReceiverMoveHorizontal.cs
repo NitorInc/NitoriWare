@@ -12,10 +12,13 @@ public class GayGameReceiverMoveHorizontal : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    private int direction;
+
 	// Use this for initialization
 	void Start ()
     {
         SetXPosition(Random.Range(-xBound, xBound));
+        direction = MathHelper.randomBool() ? 1 : -1;
 	}
 	
 	void Update ()
@@ -26,9 +29,17 @@ public class GayGameReceiverMoveHorizontal : MonoBehaviour
             return;
         }
 
-        var newXpos = GetXPosition() + (speed * Time.deltaTime);
-        if (newXpos >= xBound)
-            newXpos -= xBound * 2f;
+        var newXpos = GetXPosition() + (speed * Time.deltaTime * direction);
+        if (direction > 0 && newXpos >= xBound)
+        {
+            newXpos = xBound;
+            direction *= -1;
+        }
+        else if (direction < 0 && newXpos <= -xBound)
+        {
+            newXpos = -xBound;
+            direction *= -1;
+        }
         SetXPosition(newXpos);
     }
 
