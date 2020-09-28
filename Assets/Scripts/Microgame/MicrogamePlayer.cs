@@ -13,6 +13,8 @@ public class MicrogamePlayer : MonoBehaviour
 {
     public static MicrogamePlayer instance;
 
+    private static int jobPriorityIndex = int.MaxValue;
+
     [SerializeField]
     private LoadMode microgameLoadMode;
     enum LoadMode
@@ -82,6 +84,8 @@ public class MicrogamePlayer : MonoBehaviour
             newJob.loadOperation = SceneManager.LoadSceneAsync(
                 newJob.session.GetSceneName(),
                 LoadSceneMode.Additive);
+            newJob.loadOperation.priority = jobPriorityIndex;
+            jobPriorityIndex--;
             newJob.loadOperation.allowSceneActivation = false;
         }
         microgameJobs.Add(newJob);
