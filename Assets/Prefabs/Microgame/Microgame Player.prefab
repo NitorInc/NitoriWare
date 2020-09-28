@@ -190,6 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d16246a4213acc40af8ecbfbd9ba292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  microgameLoadMode: 0
+  UnloadResourcesOnGameUnload: 1
   microgameEventListener: {fileID: 8318384284889202537}
 --- !u!114 &8318384284889202537
 MonoBehaviour:
@@ -271,7 +273,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1223622710668735027}
         m_TargetAssemblyTypeName: CommandDisplay, Assembly-CSharp
-        m_MethodName: play
+        m_MethodName: PlayCommand
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -566,6 +568,11 @@ PrefabInstance:
       propertyPath: microgamePlayer
       value: 
       objectReference: {fileID: 5053336017116698091}
+    - target: {fileID: 2856440918749116820, guid: 72f59b23787b60c4b86f03438cf204e1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72f59b23787b60c4b86f03438cf204e1, type: 3}
 --- !u!4 &1343047405056597056 stripped

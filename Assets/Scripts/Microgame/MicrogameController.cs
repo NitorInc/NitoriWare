@@ -208,9 +208,9 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with the specified message. Only use this if the text will not need to be localized
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayCommand(string command, AnimatorOverrideController commandAnimatorOverride = null)
+	public void displayCommand(string command, MicrogameCommandSettings commandSettingsOverride = null)
 	{
-        session.EventListener.DisplayCommand.Invoke(session, command, commandAnimatorOverride);
+        session.EventListener.DisplayCommand.Invoke(session, command, commandSettingsOverride);
     }
 
     /// <summary>
@@ -226,9 +226,9 @@ public class MicrogameController : MonoBehaviour
 	/// Re-displays the command text with a localized message. Key is automatically prefixed with "microgame.[ID]."
 	/// </summary>
 	/// <param name="command"></param>
-	public void displayLocalizedCommand(string key, string defaultString, AnimatorOverrideController commandAnimatorOverride = null)
+	public void displayLocalizedCommand(string key, string defaultString, MicrogameCommandSettings commandSettingsOverride = null)
 	{
-		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString), commandAnimatorOverride);
+		displayCommand(TextHelper.getLocalizedMicrogameText(key, defaultString), commandSettingsOverride);
 	}
 
     /// <summary>

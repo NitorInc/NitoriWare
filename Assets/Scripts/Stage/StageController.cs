@@ -283,10 +283,10 @@ public class StageController : MonoBehaviour
 	void updateToIntro()
 	{
 
-		commandDisplay.setText(
-			microgamePlayer.CurrentMicrogameSession.GetLocalizedCommand(),
-			microgamePlayer.CurrentMicrogameSession.GetCommandAnimatorOverride());
-		controlDisplay.setControlScheme(microgamePlayer.CurrentMicrogame.controlScheme);
+		//commandDisplay.setText(
+		//	microgamePlayer.CurrentMicrogameSession.GetLocalizedCommand(),
+		//	microgamePlayer.CurrentMicrogameSession.GetCommandAnimatorOverride());
+		//controlDisplay.setControlScheme(microgamePlayer.CurrentMicrogame.controlScheme);
 
 		setAnimationPart(AnimationPart.Intro);
 

@@ -135,7 +135,7 @@ public class MicrogameDebugPlayer : MonoBehaviour
         }
 
         if (Settings.displayCommand)
-            commandDisplay.play(MicrogameSession.GetLocalizedCommand(), MicrogameSession.GetCommandAnimatorOverride());
+            commandDisplay.PlayCommand(MicrogameSession, MicrogameSession.GetLocalizedCommand(), MicrogameSession.GetCommandSettings());
 
         Cursor.visible = MicrogameSession.microgame.controlScheme == Microgame.ControlScheme.Mouse && !MicrogameSession.GetHideCursor();
         Cursor.lockState = MicrogameSession.GetCursorLockMode();

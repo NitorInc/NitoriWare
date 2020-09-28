@@ -48,6 +48,8 @@ public class ShakingText : MonoBehaviour
 
     public void ResetCharOffsets()
     {
+        if (tmproComponent == null)
+            return;
         foreach (var charAnim in charAnimData)
         {
             charAnim.position = Vector2.zero;
@@ -66,6 +68,8 @@ public class ShakingText : MonoBehaviour
 
     public void ResetGoal(CharAnimData charAnim)
     {
+        if (tmproComponent == null)
+            return;
         charAnim.goal = new Vector2(
             Random.Range(-shakeXRange, shakeXRange),
             Random.Range(-shakeYRange, shakeYRange));
@@ -76,6 +80,8 @@ public class ShakingText : MonoBehaviour
 
     public void UpdateChar(CharAnimData charAnim)
     {
+        if (tmproComponent == null)
+            return;
         charAnim.position = Vector2.MoveTowards(charAnim.position, charAnim.goal, shakeSpeed * Time.deltaTime);
         if (MathHelper.Approximately((charAnim.position - charAnim.goal).magnitude, 0f, .001f))
             ResetGoal(charAnim);

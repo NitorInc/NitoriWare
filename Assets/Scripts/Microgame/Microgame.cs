@@ -51,6 +51,9 @@ public class Microgame : ScriptableObject
     protected AnimatorOverrideController _commandAnimatorOveride;
 
     [SerializeField]
+    protected float _commandRestY = -4f;
+
+    [SerializeField]
     protected bool _defaultVictory;
     
     [SerializeField]
@@ -122,6 +125,11 @@ public class Microgame : ScriptableObject
             TextHelper.getLocalizedText($"microgame.{microgame.microgameId}.command", GetNonLocalizedCommand());
 
         public virtual AnimatorOverrideController GetCommandAnimatorOverride() => microgame._commandAnimatorOveride;
+
+        public virtual MicrogameCommandSettings GetCommandSettings() =>
+            new MicrogameCommandSettings() { AnimatorOverride = microgame._commandAnimatorOveride, restYPosition = microgame._commandRestY};
+
+        public virtual float GetCommandRestY() => microgame._commandRestY;
 
         public virtual bool GetHideCursor() => microgame._hideCursor;
 

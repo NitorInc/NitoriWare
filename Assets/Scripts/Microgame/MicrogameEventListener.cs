@@ -11,5 +11,5 @@ public class MicrogameEventListener : MonoBehaviour
     public UnityEvent<Microgame.Session> MicrogameEnd;
     public UnityEvent<Microgame.Session> VictoryStatusUpdated;
     public UnityEvent<Microgame.Session> VictoryStatusFinalized;
-    public UnityEvent<Microgame.Session, string, AnimatorOverrideController> DisplayCommand;
+    public UnityEvent<Microgame.Session, string, MicrogameCommandSettings> DisplayCommand;
 }
