@@ -12,12 +12,16 @@ namespace StageFSM
     {
         [SerializeField]
         string stateName;
+        [SerializeField]
+        private bool continuePlaybackAfterEnd = true;
 
         protected override void OnStateEnterOfficial()
         {
             base.OnStateEnterOfficial();
             var asset = assetToolbox.GetAssetGroupForState(stateName).GetAsset<PlayableAsset>();
-            toolbox.GetTool<DirectorPlaybackController>().AssetToSwap = asset;
+            var playbackController = toolbox.GetTool<DirectorPlaybackController>();
+            playbackController.AssetToSwap = asset;
+            playbackController.ContinuePlayableAfterEnd = continuePlaybackAfterEnd;
         }
     }
 }
