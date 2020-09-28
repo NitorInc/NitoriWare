@@ -12,6 +12,8 @@ public class CommandDisplay : MonoBehaviour
     private TextMeshPro textComponent;
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private CommandDisplayLerpY yPositionLerpComponent;
     
     private RuntimeAnimatorController initialAnimatorController;
 
@@ -20,30 +22,19 @@ public class CommandDisplay : MonoBehaviour
         initialAnimatorController = animator.runtimeAnimatorController;
     }
 
-    public void play(string command, AnimatorOverrideController animationOverride = null)
+    public void PlayCommand(Microgame.Session session, string text, MicrogameCommandSettings commandSettings)
     {
-        setText(command, animationOverride);
+        textComponent.text = text;
+        animator.runtimeAnimatorController = commandSettings.AnimatorOverride == null
+            ? initialAnimatorController : commandSettings.AnimatorOverride;
+        if (yPositionLerpComponent != null)
+            yPositionLerpComponent.RestYPosition = commandSettings.restYPosition;
         animator.SetTrigger("play");
     }
-
-    public void play(Microgame.Session   session, string command, AnimatorOverrideController animationOverride)
-        => play(command, animationOverride);
-
-    public void play ()
-    {
-        AnimatorOverrideController controller = null;
-        play(controller);
-    }
-
-    public void play(AnimatorOverrideController animationOverride)
-    {
-        play(getText(), animationOverride);
-    }
-
     public void PlayCurrentMicrogameCommand()
     {
         var currentSession = microgamePlayer.CurrentMicrogameSession;
-        play(currentSession.GetLocalizedCommand(), currentSession.GetCommandAnimatorOverride());
+        PlayCommand(currentSession, currentSession.GetLocalizedCommand(), currentSession.GetCommandSettings());
     }
 
     public string getText()
@@ -51,9 +42,4 @@ public class CommandDisplay : MonoBehaviour
         return textComponent.text;
     }
 
-    public void setText(string text, AnimatorOverrideController animationOverride = null)
-    {
-        textComponent.text = text;
-        animator.runtimeAnimatorController = animationOverride == null ? initialAnimatorController : animationOverride;
-    }
 }
