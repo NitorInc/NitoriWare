@@ -68,7 +68,7 @@ public class MicrogameController : MonoBehaviour
                 Debug.Break();
             }
 
-            Instantiate(debugPlayerPrefab, transform.position, Quaternion.identity);
+            Instantiate(debugPlayerPrefab, Vector3.zero, Quaternion.identity);
 
             int difficulty;
             if (microgame.SceneDeterminesDifficulty())
