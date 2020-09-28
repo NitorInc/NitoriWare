@@ -56,7 +56,6 @@ public class AudioManager : MonoBehaviour
             case (PrefsHelper.VolumeType.Voice):
                 masterMixer.SetFloat("VoiceVolume", dbLevel);
                 gameplayMixer.SetFloat("VoiceVolume", dbLevel);
-                microgameMixer.SetFloat("VoiceVolume", dbLevel);
                 break;
         }
     }
