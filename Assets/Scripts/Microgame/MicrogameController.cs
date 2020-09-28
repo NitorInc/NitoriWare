@@ -209,7 +209,9 @@ public class MicrogameController : MonoBehaviour
 	/// </summary>
 	/// <param name="command"></param>
 	public void displayCommand(string command, MicrogameCommandSettings commandSettingsOverride = null)
-	{
+    {
+        if (commandSettingsOverride == null)
+            commandSettingsOverride = session.GetCommandSettings();
         session.EventListener.DisplayCommand.Invoke(session, command, commandSettingsOverride);
     }
 
