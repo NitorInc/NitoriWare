@@ -114,7 +114,7 @@ public class MicrogameController : MonoBehaviour
             && Application.isPlaying)
         {
 
-            Debug.LogError("Microgame scene(s) activated prematurely. This is a Unity bug. Try restarting the scene or setting Editor Start Delay higher in Stage Controller");
+            Debug.LogError("Microgame scene(s) activated prematurely. This is a Unity bug. Try restarting the scene.");
             Debug.Break();
             return;
         }
