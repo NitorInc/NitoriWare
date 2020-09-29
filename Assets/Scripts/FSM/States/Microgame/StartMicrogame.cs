@@ -24,12 +24,15 @@ namespace StageFSM
                 Time.timeScale = 0f;
                 if (pauseAudioListenerUntilReady)
                     AudioListener.pause = true;
+                var holdPriority = Application.backgroundLoadingPriority;
                 while (!microgamePlayer.IsReadyToActivateScene())
                 {
+                    Application.backgroundLoadingPriority = ThreadPriority.High;
                     yield return null;
                 }
                 if (pauseAudioListenerUntilReady)
                     AudioListener.pause = false;
+                Application.backgroundLoadingPriority = holdPriority;
                 Time.timeScale = holdTimeScale;
             }
             microgamePlayer.ActivateScene();
