@@ -103,8 +103,9 @@ public class ShakingText : MonoBehaviour
         }
         previousText = tmproComponent.text;
 
+        var textInfo = tmproComponent.textInfo;
+
         tmproComponent.ForceMeshUpdate();
-        var vertices = tmproComponent.mesh.vertices;
         for (int i = 0; i < tmproComponent.text.Length; i++)
         {
             var charInfo = tmproComponent.textInfo.characterInfo[i];
@@ -113,6 +114,8 @@ public class ShakingText : MonoBehaviour
 
             var charAnim = charAnimData[i];
             var vertexIndex = charInfo.vertexIndex;
+            var materialIndex = charInfo.materialReferenceIndex;
+            var vertices = textInfo.meshInfo[materialIndex].vertices;
 
             UpdateChar(charAnim);
             var matrix = Matrix4x4.TRS(charAnim.position, Quaternion.identity, Vector3.one);
@@ -122,10 +125,10 @@ public class ShakingText : MonoBehaviour
                 vertices[j] = matrix.MultiplyPoint3x4(vertices[j]);
             }
 
-            tmproComponent.textInfo.characterInfo[i] = charInfo;
+
             tmproComponent.UpdateVertexData();
 
         }
-        tmproComponent.mesh.vertices = vertices;
+        //tmproComponent.mesh.vertices = vertices;
     }
 }
