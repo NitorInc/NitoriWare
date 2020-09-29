@@ -21,6 +21,15 @@ public class CharacterStage : Stage
     private int[] speedUpTimes;
     [SerializeField]
     private bool skipBossMicrogame;
+    [SerializeField]
+    private ForceRevisit forceRevisit = ForceRevisit.Default;
+
+    private enum ForceRevisit
+    {
+        Default,
+        ForceTrue,
+        ForceFalse
+    }
 
 #if UNITY_EDITOR
     public void SetInternalBatches(List<MicrogameBatch> batches) => microgameBatchesInternal = batches;
@@ -125,7 +134,10 @@ public class CharacterStage : Stage
     public override void InitScene()
     {
         base.InitScene();
-        revisiting = PrefsHelper.getProgress() > 0;   // TODO temporary setup until new story stages are added
+        if (forceRevisit != ForceRevisit.Default)
+            revisiting = forceRevisit == ForceRevisit.ForceTrue;
+        else
+            revisiting = PrefsHelper.getProgress() > 0;   // TODO temporary setup until new story stages are added
         microgamePool = GetFullMicrogamePool();
     }
 
