@@ -35,11 +35,13 @@ public class MenuButton : MonoBehaviour
 
     public bool forceDisable { get; set; }
     private int clickBuffer;   //Waits one frame to enable button to prevent carry-over clicks from last scene
+    private CanvasGroup parentGroup;
 
 	void Start()
     {
         bufferClick();
         button.onClick.AddListener(() => onClick());
+        parentGroup = GetComponentInParent<CanvasGroup>();
         if (SFXIgnoreListenerPause)
             sfxSource.ignoreListenerPause = true;
     }
@@ -71,8 +73,11 @@ public class MenuButton : MonoBehaviour
     }
 	
 	void LateUpdate()
-	{
-        if (clickBuffer > 0)
+    {
+        if (!parentGroup.interactable)
+            return;
+
+            if (clickBuffer > 0)
         {
             clickBuffer--;
             if (clickBuffer == 0)
@@ -94,7 +99,7 @@ public class MenuButton : MonoBehaviour
         }
     }
 
-    bool shouldButtonBeEnabled() => !forceDisable && !GameMenu.shifting;
+    bool shouldButtonBeEnabled() => !forceDisable && !GameMenu .shifting;
 
     void setButtonEnabled(bool enabled)
     {
