@@ -136,6 +136,8 @@ public class PauseManager : MonoBehaviour
         {
             source.Stop();
         }
+
+        pauseAnimator.SetTrigger("Quit");
         
         GameController.instance.sceneShifter.startShift(quitScene, quitShiftDuration);
     }

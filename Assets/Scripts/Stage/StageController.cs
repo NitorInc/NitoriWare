@@ -307,7 +307,7 @@ public class StageController : MonoBehaviour
 		CancelInvoke();
 		introSource.Stop();
 		gameOverMenu.gameObject.SetActive(true);
-        gameOverMenu.initialize(MicrogameNumber.instance.getNumber());
+        gameOverMenu.Trigger(MicrogameNumber.instance.getNumber());
         Cursor.visible = true;
 	}
 

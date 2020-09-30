@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class StageDebugKeys : MonoBehaviour
 {
+    [SerializeField]
+    private KeyCode restartKey = KeyCode.R;
+    [SerializeField]
+    private KeyCode winMicrogameKey = KeyCode.S;
+    [SerializeField]
+    private KeyCode completeStageKey = KeyCode.P;
+
     void Start()
     {
         
@@ -12,11 +19,11 @@ public class StageDebugKeys : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(restartKey))
             SceneManager.LoadScene(gameObject.scene.buildIndex);
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(completeStageKey))
             PrefsHelper.setProgress(PrefsHelper.GameProgress.StoryComplete);
-        if (Input.GetKeyDown(KeyCode.S) && MicrogameController.instance != null)
+        if (Input.GetKeyDown(winMicrogameKey) && MicrogameController.instance != null)
             MicrogameController.instance.setVictory(true);
     }
 }

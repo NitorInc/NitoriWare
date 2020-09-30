@@ -58,7 +58,7 @@ public class MenuButton : MonoBehaviour
 
     private void OnEnable()
     {
-        bufferClick();
+          bufferClick();
     }
 
     void bufferClick()
@@ -74,8 +74,6 @@ public class MenuButton : MonoBehaviour
 	
 	void LateUpdate()
     {
-        if (!parentGroup.interactable)
-            return;
 
             if (clickBuffer > 0)
         {
@@ -84,6 +82,9 @@ public class MenuButton : MonoBehaviour
                 button.interactable = true;
             return;
         }
+
+        if (!button.IsInteractable())
+            return;
 
         bool shouldEnable = shouldButtonBeEnabled();
         if (button.interactable != shouldEnable)
