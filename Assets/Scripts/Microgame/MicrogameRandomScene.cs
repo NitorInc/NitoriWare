@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,11 @@ public class MicrogameRandomScene : Microgame
         [SerializeField]
         private int maxDifficulty = 3;
         public int MaxDifficulty => maxDifficulty;
+        [SerializeField]
+        [Range(0, 1)]
+        private float probabilityWeight = 1f;
+        public float ProbabilityWeight => probabilityWeight;
+
         [Header("Music clip is optional and will default to base audio clip if not set")]
         [SerializeField]
         private AudioClip musicClip;
@@ -86,7 +92,26 @@ public class MicrogameRandomScene : Microgame
             if (debugMode && (microgame as MicrogameRandomScene).dontRandomizeInDebugMode)
                 chosenScene = choices.FirstOrDefault(a => a.SceneName.Equals(MicrogameController.instance.gameObject.scene.name));
             else
-                chosenScene = choices[Random.Range(0, choices.Length)];
+            {
+                // Choose random scene
+                chosenScene = choices.FirstOrDefault();
+                var pSum = choices.Sum(a => a.ProbabilityWeight);
+                if (pSum <= 0f)
+                    chosenScene = choices[Random.Range(0, choices.Length)];
+                else
+                {
+                    var selectedP = Random.Range(0f, pSum);
+                    foreach (var choice in choices)
+                    {
+                        selectedP -= choice.ProbabilityWeight;
+                        if (selectedP <= 0f)
+                        {
+                            chosenScene = choice;
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
