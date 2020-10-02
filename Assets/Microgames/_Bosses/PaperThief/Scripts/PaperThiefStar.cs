@@ -140,7 +140,7 @@ public class PaperThiefStar : MonoBehaviour
 		}
 
 		transform.localPosition += (Vector3)velocity * Time.deltaTime;
-		transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.eulerAngles.z + rotateSpeed);
+		transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.eulerAngles.z + (rotateSpeed * Time.deltaTime));
 	}
 
 	void updateSeeking()
