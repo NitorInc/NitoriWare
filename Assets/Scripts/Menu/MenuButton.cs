@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class MenuButton : MonoBehaviour
@@ -63,7 +64,7 @@ public class MenuButton : MonoBehaviour
 
     void bufferClick()
     {
-        button.interactable = false;
+        //button.interactable = false;
         clickBuffer = 2;
     }
 
@@ -75,20 +76,19 @@ public class MenuButton : MonoBehaviour
 	void LateUpdate()
     {
 
-            if (clickBuffer > 0)
+        if (clickBuffer > 0)
         {
             clickBuffer--;
             if (clickBuffer == 0)
+            {
                 button.interactable = true;
+            }
             return;
         }
 
         if (!button.IsInteractable())
             return;
 
-        bool shouldEnable = shouldButtonBeEnabled();
-        if (button.interactable != shouldEnable)
-            setButtonEnabled(shouldEnable);
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
@@ -100,17 +100,7 @@ public class MenuButton : MonoBehaviour
         }
     }
 
-    bool shouldButtonBeEnabled() => !forceDisable && !GameMenu .shifting;
-
-    void setButtonEnabled(bool enabled)
-    {
-        button.interactable = enabled;
-        if (enabled && isMouseOver())
-        {
-            buttonAnimator.ResetTrigger("Normal");
-            buttonAnimator.SetTrigger("Highlighted");
-        }
-    }
+    bool shouldButtonBeEnabled() => !forceDisable && !GameMenu.shifting;
 
     public bool isMouseOver()
     {
