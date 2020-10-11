@@ -24,7 +24,7 @@ public class VolumeSlider : MonoBehaviour
 
 	void Start()
 	{
-        slider.value = PrefsHelper.getVolumeRaw(type);
+        slider.value = PrefsHelper.GetVolumeSetting(type);
         queueChange = false;
 	}
 
@@ -46,11 +46,12 @@ public class VolumeSlider : MonoBehaviour
     void updateValue()
     {
         PrefsHelper.setVolume(type, slider.value);
+        AudioManager.instance.SetVolume(type, slider.value);
         if (onChangeSource != null)
         {
             onChangeSource.Stop();
             if (queueChange)
-                onChangeSource.PlayOneShot(onChangeClip, PrefsHelper.getVolume(type));
+                onChangeSource.PlayOneShot(onChangeClip);
         }
         queueChange = false;
     }

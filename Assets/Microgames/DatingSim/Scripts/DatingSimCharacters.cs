@@ -12,6 +12,9 @@ public class DatingSimCharacters : ScriptableObject
     public class Character
     {
         public string idName;
+        public string sceneName;
+        public AudioClip music;
+
         public string fullName;
         [Multiline]
         public string introDialogue;

@@ -138,8 +138,7 @@ public class OkuuFireHandle : MonoBehaviour
             soundLinger = maxSoundLinger;
 
             // Volume/pitch control
-            crankSound.volume = (soundLinger / maxSoundLinger) * speed * 3
-                * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+            crankSound.volume = (soundLinger / maxSoundLinger) * speed * 3;
             crankSound.pitch = speed + 0.8F;
 
             // Play

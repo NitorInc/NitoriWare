@@ -11,7 +11,21 @@ public class ChangeOrderInLayer : MonoBehaviour
     [SerializeField]
     private string sortingLayer = "Default";
     [SerializeField]
+    private SortingLayer sortingLayerAbsolute;
+    [SerializeField]
     private bool disableOnPlay = true;
+
+    public void SetLayer(string layer)
+    {
+        sortingLayer = layer;
+        Update();
+    }
+
+    public void SetOrderInLayer(int order)
+    {
+        orderInLayer = order;
+        Update();
+    }
 
     private void Awake()
     {

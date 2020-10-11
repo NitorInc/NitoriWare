@@ -15,7 +15,7 @@ namespace NitorInc.ClownTorch {
         ClownTorchTorchManager manager;
         // Use this for initialization
         void Start() {
-            manager = FindObjectOfType<ClownTorchTorchManager>();
+            manager = ClownTorchTorchManager.instance;
             var tag = GetComponent<ClownTorchTag>().type;
             switch (tag) {
                 case ClownTorchTag.Type.ClownTorch:

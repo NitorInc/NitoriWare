@@ -7,7 +7,7 @@ public class PracticeStageButtons : MonoBehaviour
 
 #pragma warning disable 0649
     [SerializeField]
-    private MicrogameTraits.Milestone restriction;
+    private Microgame.Milestone restriction;
     [SerializeField]
     private GameObject buttonPrefab;
     [SerializeField]

@@ -27,13 +27,16 @@ public class RockBandNote : MonoBehaviour
 		key = possibleKeys[keyIndex];
 		transform.rotation = Quaternion.Euler(0f, 0f, 90f * keyIndex);
 
-		updatePosition();
+        updatePosition();
 	}
 	
 	void Update()
 	{
 		if (state != State.Played)
-			updatePosition();
+        {
+            if (!MicrogameController.instance.getVictoryDetermined() || MicrogameController.instance.getVictory())
+                updatePosition();
+        }
 		else
 			transform.moveTowards(beatAnimator.transform.position, 15f);
 	}
@@ -48,7 +51,7 @@ public class RockBandNote : MonoBehaviour
 
 	void updatePosition()
 	{
-		transform.localPosition = new Vector3(distancePerBeat * (MicrogameTimer.instance.beatsLeft - targetBeat),
+		transform.localPosition = new Vector3(distancePerBeat * (MicrogameController.instance.session.BeatsRemaining - targetBeat),
 			transform.localPosition.y, transform.localPosition.z);
 	}
 

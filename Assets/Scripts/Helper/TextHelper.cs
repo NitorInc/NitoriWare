@@ -11,7 +11,7 @@ public class TextHelper
 	/// <param name="key"></param>
 	/// <param name="defaultValue"></param>
 	public static string getLocalizedText(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
-	{
+    {
         string value = LocalizationManager.instance == null ? defaultValue : LocalizationManager.instance.getLocalizedValue(key, defaultValue);
         if (parameters != null && parameters.Length > 0)
         {
@@ -34,8 +34,8 @@ public class TextHelper
 	/// <returns></returns>
 	public static string getLocalizedMicrogameText(string key, string defaultValue, LocalizedText.Parameter[] parameters = null)
 	{
-		Scene scene = MicrogameController.instance.gameObject.scene;
-		return getLocalizedText("microgame." + scene.name.Substring(0, scene.name.Length - 1) + "." + key, defaultValue, parameters);
+        var microgameId = MicrogameController.instance.microgameId;
+		return getLocalizedText("microgame." + microgameId + "." + key, defaultValue, parameters);
 	}
 
 	/// <summary>

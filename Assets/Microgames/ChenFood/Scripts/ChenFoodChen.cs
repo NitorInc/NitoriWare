@@ -20,15 +20,18 @@ public class ChenFoodChen : MonoBehaviour
 	private Vector2 attackGoal;
 	private float attackAngle;
 	private float attackSpeed, attackStartSpeed;
+    public float approachXStart, approachXGoal, approachSpeed, approachStartTime, approachDuration;
 
 	public AudioSource leapSource;
 	public AudioClip[] leapClips;
 	public AudioClip purrClip;
+    public int approachSign;
 
 	private Vector2 vibrateGoal;
 
 	public enum State
 	{
+        Approach,
 		Wait,
 		Leap,
 		Slow,
@@ -54,18 +57,16 @@ public class ChenFoodChen : MonoBehaviour
 
 		fish.spriteSwitchIn = fish.spriteSwitchDistance;
 
-		do
-		{
-			transform.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-3.5f, 3.5f));
-		}
-		while (((Vector2)transform.position - (Vector2)fish.transform.position).magnitude < 4f);
-		transform.localRotation = Quaternion.identity;
+        //do
+        //{
+        transform.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-3.5f, 3.5f));
+        //}
+        //while (((Vector2)transform.position - (Vector2)fish.transform.position).magnitude < 4f);
+        transform.localRotation = Quaternion.identity;
 
-
-
-
+        
 		head.transform.localPosition = Vector3.zero;
-		state = State.Wait;
+		state = State.Approach;
 		attackIn = attackTime;
 		head.vibrateOn = true;
 		body.vibrateOn = true;
@@ -74,16 +75,40 @@ public class ChenFoodChen : MonoBehaviour
 
 		Cursor.visible = false;
 
-		leapSource.Stop();
+        approachSign = MathHelper.randomBool() ? -1 : 1;
+        transform.position = new Vector3(approachSign * approachXStart, transform.position.y, transform.position.z);
+
+        if (fish.transform.position.x < transform.position.x)
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        else
+            transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+
+        leapSource.Stop();
 	}
 
 
 	void Update()
 	{
+        
 
+        if (state == State.Approach)
+        {
+            if (approachStartTime > 0f)
+            {
+                approachStartTime -= Time.deltaTime;
+            }
+            else if (approachDuration > 0f)
+            {
+                var goalPosition = new Vector3(approachSign * approachXGoal, transform.position.y, transform.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, goalPosition,
+                    approachSpeed * Time.deltaTime * (goalPosition - transform.position).magnitude);
 
-
-		if (state == State.Wait)
+                approachDuration -= Time.deltaTime;
+                if (approachDuration <= 0f)
+                    state = State.Wait;
+            }
+        }
+		else if (state == State.Wait)
 		{
 			if (attackIn < .2f)
 			{

@@ -11,8 +11,12 @@ public class MilkPourGrowingCup : MilkPourCup {
 	// The amount of space that the cup and fill lines grow per second, once it starts growing.
 	[SerializeField]
 	private float cupGrowthPerSecond;
-	
-	public override void Fill(float deltaTime)
+    [SerializeField]
+    private Transform charTransform;
+    [SerializeField]
+    private float charUpSpeed = 1f;
+
+    public override void Fill(float deltaTime)
 	{
 		base.Fill(deltaTime);
 		
@@ -25,6 +29,7 @@ public class MilkPourGrowingCup : MilkPourCup {
 			GlassHeight += growth;
 			LowerFillLineHeight += growth;
 			UpperFillLineHeight += growth;
+            charTransform.position += Vector3.up * (growth * charUpSpeed / cupGrowthPerSecond);
 		}
 	}
 }

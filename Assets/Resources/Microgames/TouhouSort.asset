@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a53217bbdab6a04786c50a296fff1ae, type: 3}
+  m_Name: TouhouSort
+  m_EditorClassIdentifier: 
+  _controlScheme: 1
+  _hideCursor: 0
+  _cursorLockState: 0
+  _duration: 1
+  _command: Sort by {0}!
+  _commandAnimatorOveride: {fileID: 0}
+  _defaultVictory: 0
+  _victoryVoiceDelay: 0
+  _failureVoiceDelay: 0
+  _musicClip: {fileID: 8300000, guid: 2dd3516661d7b6c4e8408f78443d24a4, type: 3}
+  _milestone: 2
+  characterStage: {fileID: 11400000, guid: 4ea07c171f1cc724194b7123dd82e2e4, type: 2}
+  _credits:
+  - rnarchhare
+  - Barley
+  - ascriptmaster
+  dontRandomizeInDebugMode: 0
+  scenePool:
+  - sceneName: TouhouSortHat
+    minDifficulty: 1
+    maxDifficulty: 3
+    musicClip: {fileID: 0}
+  - sceneName: TouhouSortWing
+    minDifficulty: 1
+    maxDifficulty: 3
+    musicClip: {fileID: 0}
+  - sceneName: TouhouSortEar
+    minDifficulty: 2
+    maxDifficulty: 3
+    musicClip: {fileID: 0}
+  categories:
+  - idName: hat
+    sceneName: TouhouSortHat
+  - idName: wing
+    sceneName: TouhouSortWing
+  - idName: ear
+    sceneName: TouhouSortEar

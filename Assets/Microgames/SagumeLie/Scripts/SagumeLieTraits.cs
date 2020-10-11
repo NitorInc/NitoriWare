@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Microgame Assets/SagumeLie/Traits")]
-public class SagumeLieTraits : MicrogameTraits
+public class SagumeLieTraits : Microgame
 {
     [SerializeField]
     private SagumeQuestion[] questionPool1;
@@ -54,9 +54,9 @@ public class SagumeLieTraits : MicrogameTraits
 
     public SagumeQuestion[] getQuestionPool()
     {
-        if (difficulty == 1) return questionPool1;
-        if (difficulty == 2) return questionPool2;
-        if (difficulty == 3) return questionPool3;
+        //if (difficulty == 1) return questionPool1;
+        //if (difficulty == 2) return questionPool2;
+        //if (difficulty == 3) return questionPool3;
         return questionPool1;
     }
 }

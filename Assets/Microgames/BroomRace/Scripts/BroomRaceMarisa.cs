@@ -10,6 +10,8 @@ public class BroomRaceMarisa : MonoBehaviour {
     float moveAcc = 10f;
     [SerializeField]
     private float speedAngleMult = 2f;
+    [SerializeField]
+    private float speedSquashMult = .01f;
 	[SerializeField]
 	float yBound;
     [SerializeField]
@@ -22,14 +24,19 @@ public class BroomRaceMarisa : MonoBehaviour {
     private BroomRaceRing[] ringComponents;
     [SerializeField]
     private float ringFailXDistance;
+    [SerializeField]
+    private float ringMovementCooldownTime = .3f;
 
     private int ringsHit = 0;
     private float currentSpeed = 0f;
     bool hasFailed;
+    private float canMoveAfter = 0f;
+    Vector3 initialScale;
 
     private void Start()
     {
-        transform.position = new Vector3(transform.position.x, Random.Range(-yBound, yBound), transform.position.x);
+        //transform.position = new Vector3(transform.position.x, Random.Range(-yBound, yBound), transform.position.x);
+        initialScale = transform.localScale;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,6 +54,11 @@ public class BroomRaceMarisa : MonoBehaviour {
                 MicrogameController.instance.setVictory(true);
                 moveSpeed = 0f;
             }
+
+            speedAngleMult /= 2f;
+            speedSquashMult /= 2f;
+
+            canMoveAfter = Time.time + ringMovementCooldownTime;
 
             collision.enabled = false;
         }
@@ -69,10 +81,13 @@ public class BroomRaceMarisa : MonoBehaviour {
         var goalSpeedFactor = moveSpeed * Mathf.Min(bgSpeedComponent.SpeedMult, 1f);
         var goalSpeed = 0f;
 
-        if (Input.GetKey(KeyCode.UpArrow))
-            goalSpeed += goalSpeedFactor;
-        if (Input.GetKey(KeyCode.DownArrow))
-            goalSpeed -= goalSpeedFactor;
+        if (Time.time >= canMoveAfter)
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+                goalSpeed += goalSpeedFactor;
+            if (Input.GetKey(KeyCode.DownArrow))
+                goalSpeed -= goalSpeedFactor;
+        }
 
         currentSpeed = Mathf.MoveTowards(currentSpeed, goalSpeed, moveAcc * Time.deltaTime);
         if (currentSpeed != 0f)
@@ -84,6 +99,13 @@ public class BroomRaceMarisa : MonoBehaviour {
                 transform.position = new Vector3(transform.position.x, -yBound, transform.position.z);
         }
         transform.localEulerAngles = Vector3.forward * speedAngleMult * currentSpeed;
+
+        var squashFactor = 1f + (currentSpeed * speedSquashMult);
+        var newScale = initialScale;
+        newScale.x = 1f / squashFactor;
+        newScale.y = squashFactor;
+        transform.localScale = newScale;
+
 
         if (ringsHit < ringsRequired
             && !hasFailed

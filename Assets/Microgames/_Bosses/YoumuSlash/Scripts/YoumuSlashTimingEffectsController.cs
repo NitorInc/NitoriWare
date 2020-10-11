@@ -52,7 +52,7 @@ public class YoumuSlashTimingEffectsController : MonoBehaviour
             Time.timeScale = timeScaleMult * initialTimeScale;
 
         if (failed)
-            musicSource.pitch = Time.timeScale * pitchMult;
+            musicSource.pitch = pitchMult;
 
         musicSource.volume = started ? (volumeMult * initialVolume) : 0f;
     }

@@ -7,7 +7,7 @@ public class PlayAudioOnMicrogameStart : MonoBehaviour
 
 	void Start()
 	{
-        AudioHelper.playScheduled(GetComponent<AudioSource>(), StageController.beatLength);
+        AudioHelper.playScheduled(GetComponent<AudioSource>(), (float)Microgame.BeatLength);
 	}
 	
 	void play()

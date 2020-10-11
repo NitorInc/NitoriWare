@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class FanBlowFanMovement : MonoBehaviour
 {
@@ -23,10 +24,15 @@ public class FanBlowFanMovement : MonoBehaviour
     private float tiltSpeedMult = 1f;
     [SerializeField]
     private float tiltAboutFaceSpedMult = 2f;
+    [SerializeField]
+    private float maxY = 5 * 4f / 3f;
+    [SerializeField]
+    private float maxX = 5;
 
     private Vector2 lastPosition;
-    private float currentSpeed;
-    public float CurrentSpeed => currentSpeed;
+
+    public Vector2 CurrentVelocity { get; private set; }
+    public float CurrentSpeed => CurrentVelocity.magnitude;
 
     private bool wasPaused;
     public bool WasPaused
@@ -37,7 +43,7 @@ public class FanBlowFanMovement : MonoBehaviour
 
     void Start ()
     {
-        transform.position = CameraHelper.getCursorPosition(transform.position.z);
+        transform.position = GetRayCastPosition();
         lastPosition = transform.position;
         cursorTransform.position = transform.position;
 	}
@@ -50,9 +56,15 @@ public class FanBlowFanMovement : MonoBehaviour
 
     void updatePosition()
     {
+        if (MicrogameController.instance.getVictoryDetermined())
+        {
+            //transform.position += currentVelocity * Time.deltaTime;
+            return;
+        }
+
         if (wasPaused && !MicrogameController.instance.getVictoryDetermined())
         {
-            cursorTransform.position = CameraHelper.getCursorPosition();
+            cursorTransform.position = GetRayCastPosition();
             transform.position = new Vector3(cursorTransform.position.x, cursorTransform.position.y, transform.position.z);
             lastPosition = transform.position;
             wasPaused = false;
@@ -63,9 +75,9 @@ public class FanBlowFanMovement : MonoBehaviour
         var positionDiff = (cursorPosition - lastPosition);
         if (positionDiff.magnitude > maxMoveSpeed * Time.deltaTime)
             positionDiff = positionDiff.resize(maxMoveSpeed * Time.deltaTime);
-        currentSpeed = positionDiff.magnitude / Time.deltaTime;
+        CurrentVelocity = positionDiff / Time.deltaTime;
         transform.position = transform.position + (Vector3)positionDiff;
-        
+
         if (cursorPosition != lastPosition)
         {
 
@@ -102,5 +114,27 @@ public class FanBlowFanMovement : MonoBehaviour
 
             lastPosition = (Vector2)transform.position;
         }
+    }
+
+    private void LateUpdate()
+    {
+        //if (Input.mousePosition.x <= 0 || Input.mousePosition.y <= 0 || Input.mousePosition.x >= Screen.width - 1 || Input.mousePosition.y >= Screen.height - 1) return;
+            cursorTransform.position = GetRayCastPosition();
+    }
+
+    Vector3 GetRayCastPosition()
+    {
+        var pos = Input.mousePosition;
+        var buffer = ((float)Screen.width - ((float)Screen.height * 4f / 3f)) / 2f;
+        //print(Screen.width);
+        //print(Screen.height);
+        pos = new Vector3(Mathf.Clamp(pos.x, buffer, Screen.width - buffer), Mathf.Clamp(pos.y, 0f, Screen.height - 1));
+        //print(pos.x);
+        //print((Screen.height * 4f / 3f) - 2f);
+        var ray = MainCameraSingleton.instance.ScreenPointToRay(pos);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo))
+            return hitInfo.point;
+        return Vector3.zero;
     }
 }

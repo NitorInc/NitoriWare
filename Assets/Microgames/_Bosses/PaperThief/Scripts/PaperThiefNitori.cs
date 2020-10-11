@@ -36,6 +36,8 @@ public class PaperThiefNitori : MonoBehaviour
     private AudioSource deathSound, deathMusic, sfxSource;
     [SerializeField]
     private AudioClip stepClip, jumpClip, gunFireClip, gunEquipClip, deathClip;
+    [SerializeField]
+    private float stepClipVolume = 1f;
 #pragma warning restore 0649
 
     private Rigidbody2D _rigidBody2D;
@@ -74,7 +76,7 @@ public class PaperThiefNitori : MonoBehaviour
 		dead = false;
 		_rigidBody2D = GetComponent<Rigidbody2D>();
         startParent = transform.parent;
-        sfxSource.pitch = Time.timeScale;
+        sfxSource.pitch = 1f;
         lastStepSoundPlayedAt = Time.time;
 
         if (MicrogameController.instance.isDebugMode())
@@ -144,7 +146,7 @@ public class PaperThiefNitori : MonoBehaviour
 			default:
 				break;
 		}
-        if (state == State.Gun && state != State.Gun)
+        if (this.state == State.Gun && state != State.Gun)
         {
             Instantiate(gunDiscardPrefab, gunTransform.position, Quaternion.Euler(0f, 0f, updateGunTilt()));
             gunTransform.gameObject.SetActive(false);
@@ -166,7 +168,7 @@ public class PaperThiefNitori : MonoBehaviour
 
             if (shotCooldownTimer > 0f)
                 shotCooldownTimer -= Time.deltaTime;
-            if (shotCooldownTimer <= 0f && Input.GetMouseButton(0))
+            if (shotCooldownTimer <= 0f /*&& Input.GetMouseButton(0)*/)
             {
                 float realAngle = ((Vector2)(gunCursor.position - shotMarker.position)).getAngle();
                 if (Mathf.Abs(realAngle - gunAngle) <= 10f)
@@ -203,7 +205,7 @@ public class PaperThiefNitori : MonoBehaviour
 		shotCooldownTimer = shotCooldown;
 
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 2f;
-        sfxSource.pitch = Time.timeScale;
+        sfxSource.pitch = 1f;
         sfxSource.PlayOneShot(gunFireClip);
 	}
 
@@ -254,7 +256,7 @@ public class PaperThiefNitori : MonoBehaviour
                 if (hasControl && Time.time >= lastStepSoundPlayedAt + .2f)
                 {
                     sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-                    sfxSource.PlayOneShot(stepClip);
+                    sfxSource.PlayOneShot(stepClip, stepClipVolume);
                     lastStepSoundPlayedAt = Time.time;
                 }
             }
@@ -353,7 +355,7 @@ public class PaperThiefNitori : MonoBehaviour
         if (canStep())
         {
             sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-            sfxSource.PlayOneShot(stepClip);
+            sfxSource.PlayOneShot(stepClip, stepClipVolume);
             lastStepSoundPlayedAt = Time.time;
         }
     }

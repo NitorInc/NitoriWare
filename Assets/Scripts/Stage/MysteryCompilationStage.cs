@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Stage/Mystery Compilation Stage")]
 public class MysteryCompilationStage : CompilationStage
 {
 	[SerializeField]
 	private Transform disable;
 
-	public override void onStageStart()
-	{
-		base.onStageStart();
+    public override void InitStage(int seed = 0)
+    {
+        base.InitStage(seed);
         updateCursorVisible();
 	}
+
+	// TODO this used to be a gameobject so, fix this
 
 	void Update()
 	{
@@ -25,10 +28,10 @@ public class MysteryCompilationStage : CompilationStage
 
 	void updateCursorVisible()
 	{
-		if (MicrogameController.instance != null)
-			Cursor.visible = MicrogameController.instance.getTraits().controlScheme == MicrogameTraits.ControlScheme.Mouse
-				&& !MicrogameController.instance.getTraits().hideCursor;
-		else
-			Cursor.visible = true;
+        if (MicrogameController.instance != null)
+            Cursor.visible = MicrogameController.instance.getTraits().controlScheme == global::Microgame.ControlScheme.Mouse
+                && !MicrogameController.instance.session.GetHideCursor();
+        else
+            Cursor.visible = true;
 	}
 }

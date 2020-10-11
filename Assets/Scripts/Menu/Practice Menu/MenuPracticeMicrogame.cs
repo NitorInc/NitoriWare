@@ -45,10 +45,10 @@ public class MenuPracticeMicrogame : MonoBehaviour
     private int initialSiblingIndex;
     private float centerArrivalTime;
     
-    private MicrogameCollection.Microgame microgame;
+    public Microgame microgame { get; private set; }
 
-	void Start()
-	{
+    void Awake()
+    {
         selectedInstance = null;
 
         int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
@@ -63,12 +63,18 @@ public class MenuPracticeMicrogame : MonoBehaviour
         }
         else
             microgame = microgamePool[microgameNumber];
-        
+    }
+
+	void Start()
+    {
+        int microgameNumber = int.Parse(name.Split('(')[1].Split(')')[0]);
+        var isBoss = microgame.isBossMicrogame();
+
         initialScale = transform.localScale;
         initialLocalPosition = transform.localPosition;
         initialSiblingIndex = transform.GetSiblingIndex();
 
-        Sprite iconSprite = microgame.menuIcon;
+        Sprite iconSprite = Resources.Load<Sprite>($"MicrogameIcons/{microgame.microgameId}Icon");
         if (iconSprite != null)
             icon.sprite = iconSprite;
 
@@ -78,10 +84,16 @@ public class MenuPracticeMicrogame : MonoBehaviour
             outlineBack.transform.localScale = oulineBackBossScale;
         }
 
-        var credits = microgame.difficultyTraits[0].credits;
+        var credits = microgame.credits;
         if (credits.Length < 3 || credits.FirstOrDefault(a => string.IsNullOrEmpty(a)) != null)
             Debug.LogWarning($"Microgame {microgame.microgameId} is missing credits field(s)!");
 	}
+
+    public void SetSprite(Sprite sprite)
+    {
+        if (sprite != null)
+            icon.sprite = sprite;
+    }
 	
 	void LateUpdate()
     {
@@ -144,14 +156,27 @@ public class MenuPracticeMicrogame : MonoBehaviour
         MicrogameStage.microgameId = microgame.microgameId;
         centerArrivalTime = Time.time + timeToCenter;
 
-        nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", microgame.microgameId);
+        nameText.text = TextHelper.getLocalizedText("microgame." + microgame.microgameId + ".igname", SpaceOutMicrogameId(microgame.microgameId));
         for (int i = 0; i < creditsTexts.Length; i++)
         {
             string creditsString = creditsTexts[i].text;
             creditsString = TextHelper.getLocalizedText(creditsKeys[i], creditsString);
-            creditsString = string.Format(creditsString, microgame.difficultyTraits[0].credits[i]);
+            creditsString = string.Format(creditsString, microgame.credits[i]);
             creditsTexts[i].text = creditsString;
         }
 
+    }
+
+    public string SpaceOutMicrogameId(string microgameId)
+    {
+        var chars = microgameId.ToCharArray();
+        var name = "";
+        foreach (var ch in chars)
+        {
+            if (ch >= 'A' && ch <= 'Z')
+                name += " ";
+            name += ch;
+        }
+        return name;
     }
 }

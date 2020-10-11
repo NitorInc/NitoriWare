@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Linq;
 
 public class TouhouSortSorter : MonoBehaviour
 {
@@ -8,10 +9,23 @@ public class TouhouSortSorter : MonoBehaviour
     // Handles objects and win/loss
     
     // Spacing between starting sortables
-    static float GAP = 2.2f;
+    [SerializeField]
+    private float GAP = 2.2f;
+    [SerializeField]
+    private float placementOffsetXRange;
+    [SerializeField]
+    private float placementOffsetYRange;
     
-    [Header("Max number of sortable touhous")]
-    public int slotCount;
+    [SerializeField]
+    private TouhouSortCategory categoryData;
+
+    [Header("Max number of sortable touhous per difficulty")]
+    public int[] difficultySlotCounts = { 3, 4, 4 };
+    int slotCount;
+
+    [Header("What dificulty (and above) we allow non-canon situations")]
+    public int NonCanonDifficulty = 3;
+    bool allowNonCanon => MicrogameController.instance.difficulty >= NonCanonDifficulty;
 
     [Header("Stage elements")]
     public Transform stagingArea;
@@ -25,56 +39,64 @@ public class TouhouSortSorter : MonoBehaviour
     TouhouSortSortable[] touhous;
     Vector3[] slots;
     
-    [System.Serializable]
-    public struct Category
-    {
-        public string name;
-        public Sprite leftIcon, rightIcon;
-        public Sprite[] leftPool, rightPool;
-    }
-    
     public struct Style
     {
         public string name;
         public Sprite sprite;
+        public bool isRightSide;
     }
 
     void Start() {
-		Category category = (MicrogameController.instance.getTraits() as TouhouSortTraits).category;
+        var category = categoryData;
 
-        zoneManager.SetZoneAttributes(0, category.leftIcon, category.name, false);
-        zoneManager.SetZoneAttributes(1, category.rightIcon, category.name, true);
 
         // Scoop up as many touhous as we can
-        touhous = LoadTouhous (category, slotCount);
-        
+        touhous = LoadTouhous(category, difficultySlotCounts[MicrogameController.instance.difficulty - 1]);
+
+        // Hand target data to the Zone Managers
+        zoneManager.SetTargets(
+            leftTargets: touhous
+                .Where(a => !a.GetStyle().isRightSide)
+                .ToList(),
+            rightTargets: touhous
+                .Where(a => a.GetStyle().isRightSide)
+                .ToList());
+
         slotCount = touhous.Length;
 
-		// Fill starting slots with touhous
-		CreateSlots ();
-		FillSlots ();
+        // Fill starting slots with touhous
+        CreateSlots();
+        FillSlots();
 
-		// Check the sort at the start, just in case
-		CheckSort ();
-	}
+        // Check the sort at the start, just in case
+        CheckSort();
+    }
 
-    TouhouSortSortable[] LoadTouhous(Category category, int amount)
+    TouhouSortSortable[] LoadTouhous(TouhouSortCategory categoryData, int amount)
     {
         List<Style> leftStyles = new List<Style>();
         List<Style> rightStyles = new List<Style>();
 
-        foreach (Sprite sprite in category.leftPool)
+        var pool = new List<Sprite>(categoryData.LeftPool);
+        if (allowNonCanon)
+            pool.AddRange(categoryData.LeftPoolNonCanon);
+        foreach (Sprite sprite in pool)
         {
             Style style = new Style();
-            style.name = category.name;
+            style.name = categoryData.IdName;
             style.sprite = sprite;
+            style.isRightSide = false;
 
             leftStyles.Add(style);
         }
-        foreach (Sprite sprite in category.rightPool)
+        pool = new List<Sprite>(categoryData.RightPool);
+        if (allowNonCanon)
+            pool.AddRange(categoryData.RightPoolNonCanon);
+        foreach (Sprite sprite in pool)
         {
             Style style = new Style();
             style.sprite = sprite;
+            style.isRightSide = true;
 
             rightStyles.Add(style);
         }
@@ -82,18 +104,35 @@ public class TouhouSortSorter : MonoBehaviour
         MouseGrabbableGroup grabGroup = stagingArea.GetComponent<MouseGrabbableGroup>();
         TouhouSortSortable[] randomTouhous = new TouhouSortSortable[amount];
 
+        int lastPickedSide = 0; // 0 for left, 1 for right
         for (int i = 0; i < amount; i++)
         {
             Style style;
             if (leftStyles.Count == 0)
             {
                 style = rightStyles[Random.Range(0, rightStyles.Count)];
+                lastPickedSide = 0;
                 rightStyles.Remove(style);
             }
             else if (rightStyles.Count == 0)
             {
                 style = leftStyles[Random.Range(0, leftStyles.Count)];
+                lastPickedSide = 1;
                 leftStyles.Remove(style);
+            }
+            else if (i == 1)    // Ensure one of each type
+            {
+                if (lastPickedSide == 1)
+                {
+                    style = leftStyles[Random.Range(0, leftStyles.Count)];
+                    leftStyles.Remove(style);
+                }
+                else
+                {
+                    style = rightStyles[Random.Range(0, leftStyles.Count)];
+                    rightStyles.Remove(style);
+                }
+                lastPickedSide = 1 - lastPickedSide;
             }
             else
             {
@@ -101,11 +140,13 @@ public class TouhouSortSorter : MonoBehaviour
                 if (coin == 0)
                 {
                     style = leftStyles[Random.Range(0, leftStyles.Count)];
+                    lastPickedSide = 0;
                     leftStyles.Remove(style);
                 }
                 else
                 {
                     style = rightStyles[Random.Range(0, rightStyles.Count)];
+                    lastPickedSide = 1;
                     rightStyles.Remove(style);
                 }
             }
@@ -115,9 +156,10 @@ public class TouhouSortSorter : MonoBehaviour
             touhou.GetComponent<SpriteRenderer>().sprite = style.sprite;
             touhou.gameObject.AddComponent<PolygonCollider2D>();
 
-            touhou.SetStyle(style.name);
+            touhou.SetStyle(style);
 
             MouseGrabbable grab = touhou.gameObject.AddComponent<MouseGrabbable>();
+            grab.detectGrab = false;
 
             UnityEvent grabEvent = new UnityEvent();
             grabEvent.AddListener(touhou.OnGrab);
@@ -135,6 +177,7 @@ public class TouhouSortSorter : MonoBehaviour
             grabGroup.addGrabbable(grab, true);
             randomTouhous[i] = touhou;
         }
+        randomTouhous.Shuffle();
 
         return randomTouhous;
     }
@@ -162,6 +205,10 @@ public class TouhouSortSorter : MonoBehaviour
 				slot.x = origin.x - (multiplier * GAP);
 			}
 
+            slot += new Vector3(Random.Range(
+                -placementOffsetXRange, placementOffsetXRange),
+                Random.Range(-placementOffsetYRange, placementOffsetYRange), 0f);
+
 			slots [i] = slot;
 		}
 	}
@@ -177,32 +224,13 @@ public class TouhouSortSorter : MonoBehaviour
 
 	public void CheckSort()
     {
-		// Check the current state of the sort
-		// End the game if everything is sorted
-		bool allSorted = true;
-
-		foreach (TouhouSortSortable sortable in touhous)
-        {
-			bool thisSorted = false;
-
-			// Get the touhou's current zone, if any
-			TouhouSortDropZone currentZone = sortable.GetCurrentZone();
-			
-			if (currentZone)
-            {
-				thisSorted = currentZone.Belongs (sortable);
-			}
-
-			if (thisSorted != true)
-            {
-				allSorted = false;
-				break;
-			}
-		}
+        // Check the current state of the sort
+        // End the game if everything is sorted
+        bool allSorted =
+            !touhous.Any(a => !a.InWinZone);
 
 		if (allSorted)
         {
-            
             confettiParticles.gameObject.SetActive(true);
             confettiParticles.Play();
             MicrogameController.instance.playSFX(victoryClip, 0f, 1f, .75f);

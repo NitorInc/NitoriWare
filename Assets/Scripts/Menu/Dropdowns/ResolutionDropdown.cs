@@ -15,7 +15,7 @@ public class ResolutionDropdown : MonoBehaviour
 
 	void Start()
 	{
-        List<Resolution> resolutions = new List<Resolution>(Screen.resolutions);
+        List<Resolution> resolutions = new List<Resolution>(Screen.resolutions.Where(a => (float)a.width / (float)a.height >= 3.9f / 3f));
         addCurrentResolutionIfNeeded(resolutions);
         IEnumerable<string> resolutionStrings = (from resolution
                                           in resolutions.OrderBy(a => a.width).ThenBy(a => a.height)

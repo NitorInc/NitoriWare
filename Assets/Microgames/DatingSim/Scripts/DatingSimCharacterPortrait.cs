@@ -9,13 +9,13 @@ public class DatingSimCharacterPortrait : MonoBehaviour {
 	void Start ()
     {
         sr = GetComponent<SpriteRenderer>();
-        sr.sprite = DatingSimHelper.getSelectedCharacter().defaultPortait;
+        //sr.sprite = DatingSimHelper.getSelectedCharacter().defaultPortait;
     }
 
     void onResult(bool victory)
     {
-        var character = DatingSimHelper.getSelectedCharacter();
-        sr.sprite = victory ? character.winPortrait : character.lossPortrait;
+        //var character = DatingSimHelper.getSelectedCharacter();
+        //sr.sprite = victory ? character.winPortrait : character.lossPortrait;
     }
 
 }

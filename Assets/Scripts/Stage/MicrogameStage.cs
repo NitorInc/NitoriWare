@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Stage/Microgame Stage")]
 public class MicrogameStage : Stage
 {
 	public static string microgameId;
@@ -14,32 +15,25 @@ public class MicrogameStage : Stage
     [SerializeField]
     private int forceDifficulty;
     [SerializeField]
-    [Range(1, StageController.MAX_SPEED)]
+    [Range(1, SpeedController.MaxSpeed)]
     private int forceStartSpeed = 1;
     [SerializeField]
     private bool speedUpEveryCycle = false;
 
-    public override void onStageStart()
+
+    public override void InitStage(int seed = 0)
     {
-        //Update collection if microgame is forced, in case it's in the project but hasn't been added to the collection, for debugging
-        if (!string.IsNullOrEmpty(forceMicrogame))
+        base.InitStage(seed);
+        if (!string.IsNullOrEmpty(forceMicrogame) && Debug.isDebugBuild)
         {
-            MicrogameCollection.instance.updateMicrogames();
             microgameId = forceMicrogame;
         }
-        base.onStageStart();
     }
 
-    public override Microgame getMicrogame(int num)
+    public override StageMicrogame getMicrogame(int num)
 	{
-		Microgame microgame = new Microgame(microgameId);
-		microgame.microgameId = microgameId;
+		StageMicrogame microgame = new StageMicrogame(MicrogameCollection.LoadMicrogame(microgameId));
 		return microgame;
-	}
-
-	public override int getMicrogameDifficulty(Microgame microgame, int num)
-	{
-		return forceDifficulty < 1 ? ((num % 3) + 1) : forceDifficulty;
 	}
 
     public override int getStartSpeed()
@@ -52,11 +46,13 @@ public class MicrogameStage : Stage
         return TextHelper.getLocalizedText("microgame." + microgameId + ".igname", microgameId);
     }
 
-    public override Interruption[] getInterruptions(int num)
-	{
-		if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
-			return new Interruption[0];
+    public override int GetRound(int microgameIndex) => 0;
 
-		return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
-	}
+    //   public override Interruption[] getInterruptions(int num)
+    //{
+    //	if ((!speedUpEveryCycle) && (num == 0 || num % 3 > 0))
+    //		return new Interruption[0];
+
+    //	return new Interruption[0].add(new Interruption(Interruption.SpeedChange.SpeedUp));
+    //}
 }

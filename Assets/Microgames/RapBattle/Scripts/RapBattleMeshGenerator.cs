@@ -13,22 +13,12 @@ public class RapBattleMeshGenerator : MonoBehaviour
     private Color color;
 
     private float refreshTimer;
-    
-	void Start ()
+
+    void Start()
     {
         refresh();
         refreshTimer = refreshTime;
-    }
-	
-	void Update ()
-    {
-
-        refreshTimer -= Time.deltaTime;
-        if (refreshTimer < 0f)
-        {
-            refresh();
-            refreshTimer += refreshTime;
-        }
+        InvokeRepeating("refresh", refreshTime - (Time.time % refreshTime), refreshTime);
     }
 
     void refresh()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,10 @@ public class PauseManager : MonoBehaviour
 
 	public UnityEvent onPause, onUnPause;
 
-	[SerializeField]
+    [SerializeField]
+    private string quitScene = "Title";
+
+    [SerializeField]
 	//Enable and hold P to pause and unpause frantically
 	private bool enableVigorousTesting;
 
@@ -23,19 +27,16 @@ public class PauseManager : MonoBehaviour
 	//Whitelisted items won't be affected by pause
 	public MonoBehaviour[] scriptWhitelist;
 
-	[SerializeField]
-	private Transform menu;
-    [SerializeField]
-    private Canvas menuCanvas;
     [SerializeField]
     private AudioSource sfxSource;
     [SerializeField]
     private AudioClip pauseClip;
 
-	private bool paused;
-    public bool Paused => paused;
+    public bool Paused { get; private set; }
 
-	PauseData pauseData;
+    private Animator pauseAnimator;
+
+    PauseData pauseData;
 	//Varopis data stored on pause that gets reapplied on unpause
 	private struct PauseData
 	{
@@ -51,16 +52,15 @@ public class PauseManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        pauseAnimator = GetComponent<Animator>();
     }
 
     void Start ()
 	{
         transform.position = Vector3.zero;
-		paused = false;
-        menuCanvas.worldCamera = Camera.main;
+		Paused = false;
         sfxSource.ignoreListenerPause = true;
-        if (transform.root != transform)
-            Debug.LogWarning("Pause Controller should be put in hierarchy root!");
+        transform.parent = null;
     }
 	
 	void Update ()
@@ -69,7 +69,7 @@ public class PauseManager : MonoBehaviour
 			pauseTimer -= Time.fixedDeltaTime;
 		if (Input.GetKeyDown(KeyCode.Escape) || pauseTimer < 0f)
 		{
-			if (!paused)
+			if (!Paused)
 				pause();
       }
 	}
@@ -79,7 +79,7 @@ public class PauseManager : MonoBehaviour
         if (disablePause)
             return;
 
-        paused = true;
+        Paused = true;
 
         sfxSource.PlayOneShot(pauseClip);
 		pauseData.timeScale = Time.timeScale;
@@ -88,17 +88,14 @@ public class PauseManager : MonoBehaviour
 
 		MonoBehaviour[] scripts = FindObjectsOfType(typeof(MonoBehaviour)) as MonoBehaviour[];
 		pauseData.disabledScripts = new List<MonoBehaviour>();
-		List<MonoBehaviour> whitelistedScripts = new List<MonoBehaviour>(scriptWhitelist);
 		foreach(MonoBehaviour script in scripts)
 		{
-			if (script.enabled && script.transform.root != transform &&
-                !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
+			if (script.enabled
+                && script.transform.root != transform
+                && !scriptWhitelist.Any(a => a.GetType() == script.GetType())
+                && !(script.gameObject.layer == gameObject.layer && script.name.ToLower().Contains("text")))
 				pauseData.disabledScripts.Add(script);
 		}
-        foreach (MonoBehaviour script in whitelistedScripts)
-        {
-            pauseData.disabledScripts.Remove(script);
-        }
         foreach (MonoBehaviour script in pauseData.disabledScripts)
         {
             script.enabled = false;
@@ -111,15 +108,15 @@ public class PauseManager : MonoBehaviour
 
             var rootObjects = MicrogameController.instance.gameObject.scene.GetRootGameObjects();
 		}
-        if (MicrogameTimer.instance != null)
-		    MicrogameTimer.instance.gameObject.SetActive(false);
+      //  if (MicrogameTimer.instance != null)
+		    //MicrogameTimer.instance.gameObject.SetActive(false);
 
 		pauseData.cursorVisible = Cursor.visible;
 		Cursor.visible = true;
         pauseData.cursorLockState = Cursor.lockState;
         Cursor.lockState = GameController.DefaultCursorMode;
 
-		menu.gameObject.SetActive(true);
+        pauseAnimator.SetBool("Paused", true);
 	}
 
     /// <summary>
@@ -140,7 +137,9 @@ public class PauseManager : MonoBehaviour
             source.Stop();
         }
 
-        GameController.instance.sceneShifter.startShift(StageController.instance.getStage().getExitScene(), quitShiftDuration);
+        pauseAnimator.SetTrigger("Quit");
+        
+        GameController.instance.sceneShifter.startShift(quitScene, quitShiftDuration);
     }
 
 	public void unPause()
@@ -148,7 +147,7 @@ public class PauseManager : MonoBehaviour
         if (disablePause)
             return;
 
-        paused = false;
+
 
         foreach (MonoBehaviour script in pauseData.disabledScripts)
 		{
@@ -162,15 +161,17 @@ public class PauseManager : MonoBehaviour
 		{
             MicrogameController.instance.onUnPaused();
         }
-        if (MicrogameTimer.instance != null)
-            MicrogameTimer.instance.gameObject.SetActive(true);
+        //if (MicrogameTimer.instance != null)
+        //    MicrogameTimer.instance.gameObject.SetActive(true);
         
         Time.timeScale = pauseData.timeScale;
         AudioListener.pause = false;
         Cursor.visible = pauseData.cursorVisible;
         Cursor.lockState = pauseData.cursorLockState;
-        menu.gameObject.SetActive(false);
+        pauseAnimator.SetBool("Paused", false);
 
         onUnPause.Invoke();
+
+        Paused = false;
     }
 }

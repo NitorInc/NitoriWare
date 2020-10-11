@@ -36,6 +36,29 @@ public class AudioHelper
     public static float getAudioPan(float xPosition, float extreme = 1f)
 	{
         return getAudioPan(xPosition, MainCameraSingleton.instance, extreme);
-	}
+    }
+
+    /// <summary>
+    /// Converts a decibal shift value to a volume level between 1 and 0
+    /// </summary>
+    /// <param name="db"></param>
+    /// <returns></returns>
+    public static float DecibalsToVolumeLevel(float db)
+    {
+        if (db <= -80f)
+            return 0;
+        return Mathf.Pow(10f, db / 20f);
+    }
+
+    /// <summary>
+    /// Converts a volume level between 1 and 0 to a decibal shift value
+    /// </summary>
+    /// <param name="db"></param>
+    /// <returns></returns>
+    public static float VolumeLevelToDecibals(float volume)
+    {
+        volume = Mathf.Max(volume, 0.0001f);
+        return 20f * Mathf.Log10(volume);
+    }
 
 }

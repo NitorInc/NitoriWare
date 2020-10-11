@@ -21,18 +21,18 @@ public class GayGameSenderGrabLetter : MonoBehaviour
     void Start ()
     {
         if (grabAtStart)
-            grab();
+            grab(null);
 	}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag.Equals("MicrogameTag1"))
         {
-            grab();
+            grab(other);
         }
     }
 
-    void grab()
+    void grab(Collider2D other)
     {
         grabbed = true;
         foreach (var obj in enableOnGrab)
@@ -43,6 +43,14 @@ public class GayGameSenderGrabLetter : MonoBehaviour
         {
             obj.SetActive(false);
         }
+        
+        var otherGrabbable = other != null ? other.GetComponent<MouseGrabbable>() : null;
+        if (otherGrabbable != null)
+        {
+            //otherGrabbable.grabbed = false;
+            letterHitBoxGrabbable.grabbed = true;
+        }
+
         letterHitBoxGrabbable.enabled = true;
         if (!grabAtStart)
             MicrogameController.instance.playSFX(grabClip, panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x));

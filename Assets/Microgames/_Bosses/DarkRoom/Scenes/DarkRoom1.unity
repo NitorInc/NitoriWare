@@ -504,7 +504,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ed53b66b19eb18445b671997c63c1447, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 853fa6f768aac844486dbd5bc94cf57e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1107,6 +1107,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!212 &625695040 stripped
+SpriteRenderer:
+  m_PrefabParentObject: {fileID: 212291442185770344, guid: 7c6604a26622bd746934a21d7b84d97e,
+    type: 2}
+  m_PrefabInternal: {fileID: 680096408}
 --- !u!1001 &680096408
 Prefab:
   m_ObjectHideFlags: 0
@@ -1114,6 +1119,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 182556216}
     m_Modifications:
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicEyeRenderers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4608362754491428, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 60.28782
@@ -1262,6 +1272,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicRedEyes
+      value: 
+      objectReference: {fileID: 264871703}
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicEyeRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 625695040}
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicEyeRenderers.Array.data[1]
+      value: 
+      objectReference: {fileID: 264871703}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
   m_IsPrefabParent: 0
@@ -1319,7 +1344,8 @@ AudioSource:
   m_GameObject: {fileID: 747418116}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7662511771762846653, guid: fcc50b2af273b34448603eae0f22533b,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 570b626b531c9a34396f888cde37acb9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.108
@@ -1417,7 +1443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeChildren: 0
   tieToTimescale: 1
-  tieToVolumeSettings: 0
+  tieToVolumeSettings: 1
   preserveInitialPitch: 0
   updateEachFrame: 1
   volumeType: 2
@@ -1561,7 +1587,8 @@ AudioSource:
   m_GameObject: {fileID: 1000795471}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7662511771762846653, guid: fcc50b2af273b34448603eae0f22533b,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: f285f05dd73eab94b840fa70591f203b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.966
@@ -1659,7 +1686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeChildren: 0
   tieToTimescale: 1
-  tieToVolumeSettings: 0
+  tieToVolumeSettings: 1
   preserveInitialPitch: 0
   updateEachFrame: 1
   volumeType: 2
@@ -2470,6 +2497,10 @@ Prefab:
     - target: {fileID: 4192525616573160, guid: 97893c6b93e69a6489a653017bdb1094, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852361374600304, guid: 97893c6b93e69a6489a653017bdb1094, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97893c6b93e69a6489a653017bdb1094, type: 2}

@@ -10,9 +10,9 @@ public class KagCutCharacter : MonoBehaviour {
 	void Start ()
     {
         
-		KagerouCutController.Dog dog = (MicrogameController.instance.getTraits() as KagCutTraits).dog;
-        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-        sprite.sprite = dog.sprite;
+		//KagerouCutController.Dog dog = (MicrogameController.instance.getTraits() as KagCutTraits).dog;
+        //SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        //sprite.sprite = dog.sprite;
         //vibrate = GetComponent<Vibrate>();
 	}
 	

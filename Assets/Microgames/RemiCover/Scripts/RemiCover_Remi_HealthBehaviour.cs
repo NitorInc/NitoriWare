@@ -23,7 +23,7 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     void Start() {
         smokeInstance = (ParticleSystem)Instantiate(smokeParticles, transform.position, smokeParticles.transform.rotation);
         sprite = transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>(true);
-        burningSFX.pitch = Time.timeScale;
+        burningSFX.pitch = 1f;
         colliders = GetComponents<BoxCollider2D>();
     }
 
@@ -31,8 +31,8 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-
-        if (MicrogameTimer.instance.beatsLeft <= burnBeatBounds.x && MicrogameTimer.instance.beatsLeft >= burnBeatBounds.y
+        var beatsLeft = MicrogameController.instance.session.BeatsRemaining;
+        if (beatsLeft <= burnBeatBounds.x && beatsLeft >= burnBeatBounds.y
             && !MicrogameController.instance.getVictoryDetermined() && !inmunity){
             updateHP();
             if (HP <= 0)
@@ -74,15 +74,13 @@ public class RemiCover_Remi_HealthBehaviour : MonoBehaviour {
             burningSFX.volume = 0;
         else
             burningSFX.volume = (1 - HP) * 1.5f;
-
-        burningSFX.volume *= PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
     }
 
     // Decrease HP value if some colliders are outside of Umbrella's Shadow
     private void updateHP()
     {
         int collidersOutside = getCollidersOutside();
-		if (MicrogameTimer.instance.beatsLeft < .5f)
+		if (MicrogameController.instance.session.BeatsRemaining < .5f)
 			return;
 		if (collidersOutside == 0)
 			HP = Mathf.Min(HP + (burnSpeed * Time.deltaTime * .65f), 1f);

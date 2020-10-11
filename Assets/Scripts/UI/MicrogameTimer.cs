@@ -3,13 +3,7 @@ using System.Collections;
 
 public class MicrogameTimer : MonoBehaviour
 {
-
-	public static MicrogameTimer instance;
-
 	public float countdownScale;
-
-	public float beatsLeft;
-
 	public bool disableDisplay;
 
 	public AudioSource tick;
@@ -20,46 +14,43 @@ public class MicrogameTimer : MonoBehaviour
 	public Sprite[] countdownNumbers;
 
 	private Vector3 hold;
+	private Microgame.Session session;
 
-	void Awake()
+	public void StartPlayback(Microgame.Session session)
+    {
+		this.session = session;
+		StartCoroutine(PlayTicks(session));
+    }
+
+
+	IEnumerator PlayTicks(Microgame.Session session)
 	{
-		instance = this;
-
-		chain = new Transform[8];
-		Transform hold = transform.Find("Chain");
-		for (int i = 0; i < chain.Length; i++)
-		{
-			chain[i] = hold.Find("Chain " + i.ToString());
+		if (session.BeatsRemaining < float.PositiveInfinity)
+        {
+			yield return new WaitForSeconds((float)(session.BeatsRemaining - 4d) * (float)Microgame.BeatLength);
+			if (!session.IsEndingEarly)
+			{
+				playTick();
+				yield return new WaitForSeconds((float)Microgame.BeatLength);
+				playTick();
+				yield return new WaitForSeconds((float)Microgame.BeatLength);
+				playTick();
+			}
 		}
-		key = hold.Find("Key");
-		gear = transform.Find("Gear").GetComponent<SpriteRenderer>();
-		countdown = transform.Find("Countdown").GetComponent<SpriteRenderer>();
-	}
 
-	public void invokeTick()
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			Invoke("playTick", (beatsLeft - (i + 2)) * StageController.beatLength);
-		}
 	}
 
 	private void playTick()
 	{
-		tick.pitch = Time.timeScale;
+		tick.pitch = 1f;
 		tick.Play();
-	}
-
-	void Update()
-	{
-		beatsLeft -= Time.deltaTime / StageController.beatLength;
 	}
 
 	void LateUpdate()
 	{
-		if (!disableDisplay && beatsLeft < 9f && beatsLeft > 0.0f)
+		if (session != null && !disableDisplay && session.BeatsRemaining < 9f && session.BeatsRemaining > 0.0f)
 		{
-
+			var beatsLeft = session.BeatsRemaining;
 			int beat = (int)Mathf.Floor(beatsLeft);
 
 			gear.enabled = countdown.enabled = true;
@@ -119,7 +110,7 @@ public class MicrogameTimer : MonoBehaviour
 
 	private float getCountdownScale()
 	{
-		float t = 1 - (beatsLeft % 1);
+		float t = 1 - (session.BeatsRemaining % 1);
 
 
 		float delay = .25f, growDuration = .25f;

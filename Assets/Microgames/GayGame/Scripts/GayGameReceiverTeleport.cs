@@ -38,5 +38,8 @@ public class GayGameReceiverTeleport : MonoBehaviour {
         while (tries > 0 &&
         (Mathf.Abs(handTransform.position.x - playerTransform.position.x) < minDistanceFromSender
         || (Mathf.Abs(handTransform.position.x - lastPos) < minDistanceFromSender)));
+
+        if (tries <= 0)
+            print("AAA thats too many tries");
     }
 }
