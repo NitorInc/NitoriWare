@@ -73,6 +73,7 @@ public class DaiDefenderBulletMove : MonoBehaviour {
                 trajectory.magnitude);
             speed *= deflectSpeedMult;
             transform.eulerAngles += Vector3.forward * addAngle;
+            
         }
         else
             gameObject.SetActive(false);
