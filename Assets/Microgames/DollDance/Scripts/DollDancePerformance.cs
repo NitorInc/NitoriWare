@@ -62,13 +62,13 @@ public class DollDancePerformance : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         controller = FindObjectOfType<DollDanceController>();
 
-        cueStartDelay *= StageController.beatLength;
-        cuePointDelay *= StageController.beatLength;
-        cueSettleDelay *= StageController.beatLength;
-        dollInputStartDelay *= StageController.beatLength;
-        dollResultVictoryDelay *= StageController.beatLength;
-        dollResultFailDelay *= StageController.beatLength;
-        aliceUnshadeDelay *= StageController.beatLength;
+        cueStartDelay *= (float)Microgame.BeatLength;
+        cuePointDelay *= (float)Microgame.BeatLength;
+        cueSettleDelay *= (float)Microgame.BeatLength;
+        dollInputStartDelay *= (float)Microgame.BeatLength;
+        dollResultVictoryDelay *= (float)Microgame.BeatLength;
+        dollResultFailDelay *= (float)Microgame.BeatLength;
+        aliceUnshadeDelay *= (float)Microgame.BeatLength;
     }
 
     void Start()

@@ -96,7 +96,7 @@ public class IcePath_Waka : MonoBehaviour {
 
             leapAlarm = leapTime;
 
-            if (splashInstance == this && MicrogameTimer.instance.beatsLeft <= 15f)
+            if (splashInstance == this && MicrogameController.instance.session.BeatsRemaining <= 15f)
             {
                 MicrogameController.instance.playSFX(splashClip,
                     volume: .35f);

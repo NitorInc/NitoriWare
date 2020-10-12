@@ -24,17 +24,22 @@ public class CloudPunchUnzan : MonoBehaviour
 
 	void Start ()
     {
-        initialX = transform.position.x;
-        updateMovement(true);
+        //initialX = transform.position.x;
+        //updateMovement(true);
     }
 	
 	void LateUpdate()
     {
-        if (Time.time > lastPunchTime + punchMoveCooldownTime)
-            updateMovement(false);
-        if (Time.time > lastPunchTime + punchRePunchCooldownTime && Input.GetMouseButtonDown(0)
-            && MicrogameTimer.instance.beatsLeft <= maxBeatsLeftBeforeInput)
+        //if (Time.time > lastPunchTime + punchMoveCooldownTime)
+        //    updateMovement(false);
+        if (Time.time > lastPunchTime + punchRePunchCooldownTime && Input.GetKeyDown(KeyCode.Space)
+            && MicrogameController.instance.session.BeatsRemaining <= maxBeatsLeftBeforeInput)
             punch();
+        if (MicrogameController.instance.getVictory())
+        {
+            rigAnimator.SetTrigger("Victory");
+            enabled = false;
+        }
 	}
 
     void updateMovement(bool snap)
@@ -54,12 +59,12 @@ public class CloudPunchUnzan : MonoBehaviour
         CloudPunchPiece.awaitingPunch = true;
         lastPunchTime = Time.time;
         CameraShake.instance.setScreenShake(punchScreenshake);
-        Invoke("checkLoss", punchLossCheckTimer);
+        //Invoke("checkLoss", punchLossCheckTimer);
     }
 
     void checkLoss()
     {
-        if (!MicrogameController.instance.getVictoryDetermined())
-            MicrogameController.instance.setVictory(false);
+        //if (!MicrogameController.instance.getVictoryDetermined())
+        //    MicrogameController.instance.setVictory(false);
     }
 }

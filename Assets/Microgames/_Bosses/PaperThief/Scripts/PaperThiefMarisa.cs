@@ -194,7 +194,7 @@ public class PaperThiefMarisa : MonoBehaviour
         else
         {
             sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
-            sfxSource.pitch = Time.timeScale * Random.Range(.9f, 1.1f);
+            sfxSource.pitch = Random.Range(.9f, 1.1f);
 
             explodeCoolTimer -= Time.deltaTime;
             if (explodeCoolTimer < 0f)
@@ -267,7 +267,7 @@ public class PaperThiefMarisa : MonoBehaviour
         }
         newStarComponent.makeAppearSound = false;
 
-        sfxSource.pitch = Time.timeScale;
+        sfxSource.pitch = 1f;
         sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
         sfxSource.PlayOneShot(starSpawnClip);
     }
@@ -300,7 +300,7 @@ public class PaperThiefMarisa : MonoBehaviour
             queueAnimation(QueueAnimation.Hurt);
             flashingRed = true;
             health--;
-            sfxSource.pitch = Time.timeScale;
+            sfxSource.pitch = 1f;
             sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x) / 1.5f;
             sfxSource.PlayOneShot(hitClip);
             if (!_sineWave.enabled)

@@ -34,9 +34,11 @@ public class LocalizedText : MonoBehaviour
     }
     
     [SerializeField]
-    private TMP_FontAsset[] tmproFontFallbackList = { };
+    [Multiline]
+    private string tmproFontFallbackList = "";
     [SerializeField]
-    private TMP_FontAsset[] tmproFontBlacklist = { };
+    [Multiline]
+    private string tmproFontBlacklist = "";
 
     private Text textComponent;
     public Text TextComponent => textComponent;
@@ -227,16 +229,21 @@ public class LocalizedText : MonoBehaviour
 
     public TMP_FontAsset getTMProFontForLanguage(Language language)
     {
-        if (tmpText != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(tmpText.font))
-            return tmpText.font;
+        if (initialFontData.tmpFontAsset != null && LocalizationManager.instance.isTMPFontCompatibleWithLanguage(initialFontData.tmpFontAsset.name))
+            return initialFontData.tmpFontAsset;
         
-        foreach (var fallbackFont in tmproFontFallbackList)
+        foreach (var fallbackFont in tmproFontFallbackList.Split('\n'))
         {
             if (LocalizationManager.instance.isTMPFontCompatibleWithLanguage(fallbackFont))
-                return fallbackFont;
+            {
+                var fontData = LocalizationManager.instance.loadedFonts
+                    .FirstOrDefault(a => a.fontAsset.name.Equals(fallbackFont));
+                if (fontData != null)
+                    return fontData.fontAsset;
+            }
         }
 
-        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage(blacklist:tmproFontBlacklist);
+        var fallback = LocalizationManager.instance.getFallBackFontForCurrentLanguage(blacklist:tmproFontBlacklist.Split('\n'));
         if (fallback != null)
             return fallback;
 

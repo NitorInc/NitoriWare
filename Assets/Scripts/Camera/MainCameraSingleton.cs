@@ -45,6 +45,7 @@ public class MainCameraSingleton : MonoBehaviour
 	}
     private void OnDestroy()
     {
-        cameraInstances.Remove(camera);
+        if (cameraInstances != null && cameraInstances.Contains(camera))
+            cameraInstances.Remove(camera);
     }
 }

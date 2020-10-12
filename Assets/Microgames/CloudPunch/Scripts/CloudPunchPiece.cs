@@ -14,6 +14,8 @@ public class CloudPunchPiece : MonoBehaviour
     private bool isHead;
     [SerializeField]
     private float fallSpeed = 50f;
+    [SerializeField]
+    private float victorySoundDelay = .25f;
 
     public static bool awaitingPunch;
 
@@ -31,8 +33,7 @@ public class CloudPunchPiece : MonoBehaviour
     {
         if (enabled
             && collision.tag.Equals("MicrogameTag1")
-            && awaitingPunch
-            && !isHead)
+            && awaitingPunch)
         {
             // Ensure we're the closest piece vertically to the fist hitbox
             for (int i = 0; i < transform.parent.childCount; i++)
@@ -55,6 +56,11 @@ public class CloudPunchPiece : MonoBehaviour
                 var otherPiece = transform.parent.GetChild(i).GetComponent<CloudPunchPiece>();
                 if (!otherPiece.isHead)
                     otherPiece.rigAnimator.SetTrigger("Swap");
+            }
+            if (isHead)
+            {
+                MicrogameController.instance.setVictory(true);
+                AudioHelper.playScheduled(GetComponent<AudioSource>(), victorySoundDelay);
             }
 
             rigAnimator.SetTrigger("Knock");

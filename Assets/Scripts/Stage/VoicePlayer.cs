@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using UnityEditor;
 using UnityEngine;
 
 public class VoicePlayer : MonoBehaviour
@@ -8,8 +11,19 @@ public class VoicePlayer : MonoBehaviour
 	private AudioSource voiceSource;
 
 	private List<AudioClip> victoryClips, lossClips;
-	private bool soundQueued, victory;
 	private AudioClip lastClip;
+	private List<VoiceSession> activeSessions;
+
+	class VoiceSession
+    {
+        public Microgame.Session MicrogameSession { get; private set; }
+        public bool ClipPlayed { get; set; }
+		public VoiceSession(Microgame.Session microgameSession)
+		{
+			MicrogameSession = microgameSession;
+			ClipPlayed = false;
+		}
+	}
 
 	public enum VoiceSet
 	{
@@ -17,11 +31,10 @@ public class VoicePlayer : MonoBehaviour
 		Nitori
 	}
 
-
-	void Start()
-	{
-		soundQueued = false;
-	}
+    private void Awake()
+    {
+		activeSessions = new List<VoiceSession>();
+    }
 
 	/// <summary>
 	/// Loads clips and initiates character
@@ -57,40 +70,48 @@ public class VoicePlayer : MonoBehaviour
 				lossClips.Add(newClip);
 			i++;
 		}
+
 	}
 
-	/// <summary>
-	/// Plays or schedules a voice clip
-	/// </summary>
-	/// <param name="victory"></param>
-	/// <param name="delayTime"></param>
-	public void playClip(bool victory, float delayTime)
+	public void PlayClip(Microgame.Session session)
 	{
-		soundQueued = false;
-		this.victory = victory;
+		var voiceSession = new VoiceSession(session);
+		activeSessions.Add(voiceSession);
+		StartCoroutine(PlayWithDelay(voiceSession));
 
-		if (delayTime == 0f)
-			playClipAudio();
-		else
-		{
-			soundQueued = true;
-			Invoke("playClipAudio", delayTime);
-		}
 	}
+
+	IEnumerator PlayWithDelay(VoiceSession voiceSession)
+    {
+		yield return new WaitForSeconds(voiceSession.MicrogameSession.GetVoiceDelay());
+		if (!voiceSession.ClipPlayed)
+        {
+			voiceSession.ClipPlayed = true;
+			playClipAudio(voiceSession.MicrogameSession.VictoryStatus);
+        }
+    }
 
 	/// <summary>
 	/// Force play if play is scheduled, used when microgame ends
 	/// </summary>
-	public void forcePlay()
+	public void ForcePlay(Microgame.Session session)
 	{
-		if (soundQueued)
+		// Check if audio is already scheduled to play or has played
+		var voiceSession = activeSessions.FirstOrDefault(a => a.MicrogameSession == session);
+		if (voiceSession != null)
 		{
-			CancelInvoke();
-			playClipAudio();
+			if (!voiceSession.ClipPlayed)
+            {
+				voiceSession.ClipPlayed = true;
+				playClipAudio(session.VictoryStatus);
+            }
+			activeSessions.Remove(voiceSession);
 		}
+		else
+			playClipAudio(session.VictoryStatus);
 	}
 
-	void playClipAudio()
+	void playClipAudio(bool victory)
 	{
 		if ((victory && victoryClips.Count == 0) || (!victory && lossClips.Count == 0))
 			return;
@@ -107,6 +128,11 @@ public class VoicePlayer : MonoBehaviour
 
 		voiceSource.PlayOneShot(clipToPlay);
 		lastClip = clipToPlay;
-		soundQueued = false;
 	}
+
+	public void StopPlayback()
+	{
+		CancelInvoke();
+		voiceSource.Stop();
+    }
 }

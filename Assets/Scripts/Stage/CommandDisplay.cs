@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CommandDisplay : MonoBehaviour
 {
-    
     [SerializeField]
-    private Text textComponent;
+    private MicrogamePlayer microgamePlayer;
+    [SerializeField]
+    private TextMeshPro textComponent;
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private CommandDisplayLerpY yPositionLerpComponent;
     
     private RuntimeAnimatorController initialAnimatorController;
 
@@ -18,15 +22,19 @@ public class CommandDisplay : MonoBehaviour
         initialAnimatorController = animator.runtimeAnimatorController;
     }
 
-    public void play(string command, AnimatorOverrideController animationOverride = null)
+    public void PlayCommand(Microgame.Session session, string text, MicrogameCommandSettings commandSettings)
     {
-        setText(command, animationOverride);
-        animator.SetBool("play", true);
+        textComponent.text = text;
+        animator.runtimeAnimatorController = commandSettings.AnimatorOverride == null
+            ? initialAnimatorController : commandSettings.AnimatorOverride;
+        if (yPositionLerpComponent != null)
+            yPositionLerpComponent.RestYPosition = commandSettings.restYPosition;
+        animator.SetTrigger("play");
     }
-
-    public void play(AnimatorOverrideController animationOverride = null)
+    public void PlayCurrentMicrogameCommand()
     {
-        play(getText(), animationOverride);
+        var currentSession = microgamePlayer.CurrentMicrogameSession;
+        PlayCommand(currentSession, currentSession.GetLocalizedCommand(), currentSession.GetCommandSettings());
     }
 
     public string getText()
@@ -34,9 +42,4 @@ public class CommandDisplay : MonoBehaviour
         return textComponent.text;
     }
 
-    public void setText(string text, AnimatorOverrideController animationOverride = null)
-    {
-        textComponent.text = text;
-        animator.runtimeAnimatorController = animationOverride == null ? initialAnimatorController : animationOverride;
-    }
 }

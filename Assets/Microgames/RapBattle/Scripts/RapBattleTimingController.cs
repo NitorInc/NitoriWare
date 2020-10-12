@@ -70,8 +70,8 @@ public class RapBattleTimingController : MonoBehaviour
 
     void scheduleRap(float beats)
     {
-        Invoke("newRap", beats * StageController.beatLength);
-        Invoke("advanceTextBox", (beats * StageController.beatLength) - textBoxAppearPreTime);
+        Invoke("newRap", beats * (float)Microgame.BeatLength);
+        Invoke("advanceTextBox", (beats * (float)Microgame.BeatLength) - textBoxAppearPreTime);
     }
 
     void advanceTextBox()
@@ -98,7 +98,7 @@ public class RapBattleTimingController : MonoBehaviour
         if (lineIndex < rap.Lines.Length)
             scheduleRap(beatsPerRap);
         else
-            Invoke("end", finalRapBeats * StageController.beatLength);
+            Invoke("end", finalRapBeats * (float)Microgame.BeatLength);
     }
 
     void end()

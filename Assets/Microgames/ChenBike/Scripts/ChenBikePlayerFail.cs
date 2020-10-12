@@ -35,7 +35,7 @@ public class ChenBikePlayerFail : MonoBehaviour
             else
             {
                 chenAnimator.Play("ChenRIP");
-                honkSource.pitch = Time.timeScale;
+                honkSource.pitch = 1f;
                 MicrogameController.instance.setVictory(false, true);
                 chenspeed.speed = 1;
                 Destroy(disablecounter);
@@ -48,9 +48,7 @@ public class ChenBikePlayerFail : MonoBehaviour
                 }
                 if (audiocheck == true)
                 {
-                    float volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
-                    if (volume > 0f)
-                        honkSource.PlayOneShot(FailSound, volume);
+                    honkSource.PlayOneShot(FailSound);
                     audiocheck = false;
                 }
             }

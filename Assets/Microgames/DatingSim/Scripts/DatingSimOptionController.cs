@@ -1,17 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DatingSimOptionController : MonoBehaviour
 {
-    public int totalWinLines;
-    public int totalLoseLines;
+    [SerializeField]
+    private DatingSimOptionData optionsData;
+
+    public DifficultySetting[] difficultySettings;
+    [System.Serializable]
+    public class DifficultySetting
+    {
+        public int winOptionCount;
+        public int lossOptionCount;
+    }
+    
 
     public GameObject choiceMenu;
     public AudioClip cursorMoveClip;
     public DatingSimDialogueController dialogueController;
 
     public delegate void OnSelection();
+
+    [Header("Difficulty aesthetic changes")]
+    public float boxHeightMultPerDifficultyUp = .2f;
+    public float optionStartYPerDifficutlyUp = 0.3279009f;
 
     [Header("Edit this variable to adjust box height")]
     public float boxHeightMult = 1f;
@@ -26,35 +40,36 @@ public class DatingSimOptionController : MonoBehaviour
 
     bool enableUserControl = true;
 
-    private void Awake()
+    void Start ()
     {
+        boxHeightMult += boxHeightMultPerDifficultyUp * (MicrogameController.instance.difficulty - 1);
+
         optionBoxHeight *= boxHeightMult;
         menuExpander.TargetYScale *= boxHeightMult;
         menuExpander.ScaleSpeed *= boxHeightMult;
         materialAnimation.setMaterialYScaleMult(boxHeightMult);
-    }
 
-    void Start ()
-    {
         enableUserControl = false;
     }
 
     public void ShowOptions()
     {
         currentOption = 0;
+        
+        var difficultySetting = difficultySettings[MicrogameController.instance.session.Difficulty - 1];
 
-        var optionPool = new List<DatingSimCharacters.CharacterOption>(DatingSimHelper.getSelectedCharacter().rightOptions);
-        optionPool.Shuffle();
-        for (int i = 0; i < totalWinLines; i++)
+        var choiceIndexList = Enumerable.Range(0, optionsData.rightOptions.Length).ToList();
+        choiceIndexList.Shuffle();
+        for (int i = 0; i < difficultySetting.winOptionCount; i++)
         {
-            lines.Add(createLine(optionPool[i]));
+            lines.Add(createLine(choiceIndexList[i], true));
         }
 
-        optionPool = new List<DatingSimCharacters.CharacterOption>(DatingSimHelper.getSelectedCharacter().wrongOptions);
-        optionPool.Shuffle();
-        for (int i = 0; i < totalLoseLines; i++)
+        choiceIndexList = Enumerable.Range(0, optionsData.wrongOptions.Length).ToList();
+        choiceIndexList.Shuffle();
+        for (int i = 0; i < difficultySetting.lossOptionCount; i++)
         {
-            lines.Add(createLine(optionPool[i]));
+            lines.Add(createLine(choiceIndexList[i], false));
         }
 
         lines.Shuffle();
@@ -63,11 +78,11 @@ public class DatingSimOptionController : MonoBehaviour
         enableUserControl = true;
     }
 
-    DatingSimOptionLine createLine(DatingSimCharacters.CharacterOption option)
+    DatingSimOptionLine createLine(int optionIndex, bool isRight)
     {
         var newLine = (Instantiate(optionLineProto) as GameObject).GetComponent<DatingSimOptionLine>();
         newLine.transform.parent = choiceMenu.transform;
-        newLine.initialize(option);
+        newLine.initialize(optionsData, optionIndex, isRight);
 
         return newLine;
     }
@@ -78,6 +93,7 @@ public class DatingSimOptionController : MonoBehaviour
         {
             var pos = startPosition.position;
             pos.y = startPosition.position.y - i * distancePerUnit;
+            pos.y += optionStartYPerDifficutlyUp * (MicrogameController.instance.difficulty - 1);
             lines[i].transform.position = pos;
         }
     }
@@ -110,7 +126,7 @@ public class DatingSimOptionController : MonoBehaviour
 
                 enableUserControl = false;
 
-                MicrogameController.instance.setVictory(lines[currentOption].isRight());
+                MicrogameController.instance.setVictory(lines[currentOption].IsRight());
                 dialogueController.resetDialogueSpeed();
                 dialogueController.SetDialogue(lines[currentOption].getLocalizedResponse());
             }

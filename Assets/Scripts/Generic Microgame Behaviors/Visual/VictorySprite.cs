@@ -3,6 +3,9 @@ using System.Collections;
 
 public class VictorySprite : MonoBehaviour
 {
+    [SerializeField]
+    private bool ignoreIfNull = false;
+
 	public Sprite normalSprite, victorySprite, failureSprite;
 
 	private SpriteRenderer _spriteRenderer;
@@ -27,7 +30,7 @@ public class VictorySprite : MonoBehaviour
 
 	void setSprite(Sprite sprite)
 	{
-		if (_spriteRenderer != null)
+		if (_spriteRenderer != null && !(ignoreIfNull && sprite == null))
 		{
 			_spriteRenderer.sprite = sprite;
 		}

@@ -25,14 +25,16 @@ public class GayGameSenderMovement : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 initialScale;
+    bool grabbed;
+    public bool Grabbed => grabbed;
 
-	void Start ()
+    void Start ()
     {
         startPosition = transform.position;
         initialScale = transform.localScale;
 	}
 	
-	void LateUpdate ()
+	public void LateUpdate ()
     {
         if (transform.position.y > maxY)
             transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
@@ -44,6 +46,7 @@ public class GayGameSenderMovement : MonoBehaviour
 
     public void setGrab(bool grabbed)
     {
+        this.grabbed = grabbed;
         MicrogameController.instance.playSFX(grabbed ? grabClip : releaseClip,
             panStereo: AudioHelper.getAudioPan(CameraHelper.getCursorPosition().x),
             pitchMult: grabbed ? grabPitch : releasePitch);

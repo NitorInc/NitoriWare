@@ -44,18 +44,28 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
     private GameMenu rootMenu;
 
     private List<MenuPracticeMicrogame> spawnedMicrogames;
+    private Sprite[] microgameIcons;
 
-    public static List<MicrogameCollection.Microgame> standardMicrogamePool;
-    public static List<MicrogameCollection.Microgame> microgameBossPool;
+    public static List<Microgame> standardMicrogamePool;
+    public static List<Microgame> microgameBossPool;
 
     void Start()
     {
         // Create microgames
-        standardMicrogamePool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady);
-        microgameBossPool = MicrogameHelper.getMicrogames(restriction: MicrogameTraits.Milestone.StageReady, includeBosses: true)
-            .Where(a => a.difficultyTraits[0].isBossMicrogame()).ToList();
+
+        var microgamePool = MicrogameHelper.getMicrogames(restriction: Microgame.Milestone.StageReady, includeBosses: true);
+
+        standardMicrogamePool = microgamePool
+            .Where(a => !a.isBossMicrogame())
+            .ToList();
+        microgameBossPool = microgamePool
+            .Where(a => a.isBossMicrogame())
+            .ToList();
+
         int maxYIndex = 0;
         spawnedMicrogames = new List<MenuPracticeMicrogame>();
+
+        microgameIcons = Resources.LoadAll<Sprite>("MicrogameIcons");
 
         var standardCount = standardMicrogamePool.Count;
         var totalCount = standardCount + microgameBossPool.Count();
@@ -109,7 +119,7 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
 
     void spawnPrefab(float x, float y, int index, bool isBoss)
     {
-        var newMicrogame = GameObject.Instantiate(microgamePrefab, parentObject);
+        var newMicrogame = Instantiate(microgamePrefab, parentObject);
         newMicrogame.GetComponent<MenuButton>().SfxSource = buttonSfxSource;
         newMicrogame.transform.SetSiblingIndex(index);
         newMicrogame.transform.localPosition = new Vector3(x, y, zLevel);
@@ -119,6 +129,8 @@ public class MenuPracticeMicrogameSpawner : MonoBehaviour
         newMicrogame.NameText = nameText;
         newMicrogame.CreditsTexts = creditsTexts;
         newMicrogame.RootMenu = rootMenu;
+        if (newMicrogame.microgame != null)
+            newMicrogame.SetSprite(microgameIcons.FirstOrDefault(a => a.name.Contains(newMicrogame.microgame.microgameId)));
         spawnedMicrogames.Add(newMicrogame);
     }
 }

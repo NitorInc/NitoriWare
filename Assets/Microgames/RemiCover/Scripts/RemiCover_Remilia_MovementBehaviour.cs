@@ -52,9 +52,9 @@ public class RemiCover_Remilia_MovementBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!MicrogameController.instance.getVictoryDetermined() && MicrogameTimer.instance.beatsLeft >= .5f)
+        if (!MicrogameController.instance.getVictoryDetermined() && MicrogameController.instance.session.BeatsRemaining >= .5f)
             moveCharacter();
-        else if (MicrogameTimer.instance.beatsLeft < .5f) { 
+        else if (MicrogameController.instance.session.BeatsRemaining < .5f) { 
             Debug.Log(animator.GetInteger("MovementAnimation"));
             if (animator.GetInteger("MovementAnimation") != 4) // If not Teleport
                 animator.SetInteger("MovementAnimation", (int)movements.STAND);

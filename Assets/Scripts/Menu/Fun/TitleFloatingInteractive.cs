@@ -87,7 +87,7 @@ public class TitleFloatingInteractive : MonoBehaviour
                 float volume = Mathf.Pow(Mathf.Lerp(.5f, 1f,
                     ((speed - bounceVolumeSpeedBounds.x) / (bounceVolumeSpeedBounds.y - bounceVolumeSpeedBounds.x))),
                     1f);
-                if (volume > .5f && PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX) > 0f && !float.IsNaN(volume))
+                if (volume > .5f && !float.IsNaN(volume))
                 {
                     sfxSource.pitch = 1f;
                     sfxSource.PlayOneShot(bounceClip, volume);

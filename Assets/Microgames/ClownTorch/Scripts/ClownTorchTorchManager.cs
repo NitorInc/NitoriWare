@@ -5,6 +5,8 @@ using UnityEngine;
 namespace NitorInc.ClownTorch {
     public class ClownTorchTorchManager : MonoBehaviour {
 
+        public static ClownTorchTorchManager instance;
+
         [SerializeField]
         private float clownTorchRequiredTime = 0.5f;
         public float ClownTorchRequiredTime => clownTorchRequiredTime;
@@ -13,23 +15,30 @@ namespace NitorInc.ClownTorch {
         private float playerTorchRequiredTime = 0.5f;
         public float PlayerTorchRequiredTime => playerTorchRequiredTime;
 
+        [SerializeField]
+        ClownTorchTorchObject torch;
+
         public AudioClip[] igniteClips;
 
         public GameObject victorySequence;
         public float sequenceStartingDelay = 0.25f;
         public GameObject[] objsToDisableOnVictory;
 
-        ClownTorchTorchObject torch;
 
         bool hasWon = false;
 
+        private void Awake()
+        {
+            instance = this;
+        }
+
         void Start() {
-            var torches = FindObjectsOfType<ClownTorchTorchObject>();
-            for (int i = 0; i < torches.Length; i++) {
-                if (torches[i].GetComponent<ClownTorchTag>().type == ClownTorchTag.Type.ClownTorch) {
-                    torch = torches[i];
-                }
-            }
+            //var torches = FindObjectsOfType<ClownTorchTorchObject>();
+            //for (int i = 0; i < torches.Length; i++) {
+            //    if (torches[i].GetComponent<ClownTorchTag>().type == ClownTorchTag.Type.ClownTorch) {
+            //        torch = torches[i];
+            //    }
+            //}
         }
 
         void Update() {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class MenuButton : MonoBehaviour
@@ -35,20 +36,20 @@ public class MenuButton : MonoBehaviour
 
     public bool forceDisable { get; set; }
     private int clickBuffer;   //Waits one frame to enable button to prevent carry-over clicks from last scene
+    private CanvasGroup parentGroup;
 
 	void Start()
     {
         bufferClick();
         button.onClick.AddListener(() => onClick());
+        parentGroup = GetComponentInParent<CanvasGroup>();
         if (SFXIgnoreListenerPause)
             sfxSource.ignoreListenerPause = true;
     }
 
     public void onClick()
     {
-        float volume = PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
-        if (volume > 0f)
-            sfxSource.PlayOneShot(pressClip, volume);
+        sfxSource.PlayOneShot(pressClip);
     }
 
     void OnDestroy()
@@ -58,12 +59,12 @@ public class MenuButton : MonoBehaviour
 
     private void OnEnable()
     {
-        bufferClick();
+          bufferClick();
     }
 
     void bufferClick()
     {
-        button.interactable = false;
+        //button.interactable = false;
         clickBuffer = 2;
     }
 
@@ -73,18 +74,21 @@ public class MenuButton : MonoBehaviour
     }
 	
 	void LateUpdate()
-	{
+    {
+
         if (clickBuffer > 0)
         {
             clickBuffer--;
             if (clickBuffer == 0)
+            {
                 button.interactable = true;
+            }
             return;
         }
 
-        bool shouldEnable = shouldButtonBeEnabled();
-        if (button.interactable != shouldEnable)
-            setButtonEnabled(shouldEnable);
+        if (!button.IsInteractable())
+            return;
+
 
         buttonAnimator.SetBool("MouseHeld", Input.GetMouseButton(0));
         buttonAnimator.SetBool("MouseDown", playPressAnimation && Input.GetMouseButtonDown(0));
@@ -97,16 +101,6 @@ public class MenuButton : MonoBehaviour
     }
 
     bool shouldButtonBeEnabled() => !forceDisable && !GameMenu.shifting;
-
-    void setButtonEnabled(bool enabled)
-    {
-        button.interactable = enabled;
-        if (enabled && isMouseOver())
-        {
-            buttonAnimator.ResetTrigger("Normal");
-            buttonAnimator.SetTrigger("Highlighted");
-        }
-    }
 
     public bool isMouseOver()
     {

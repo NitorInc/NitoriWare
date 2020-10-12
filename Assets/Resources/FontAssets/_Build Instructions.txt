@@ -1,0 +1,64 @@
+THIS FILE IS LEGACY NOW don't mind it really
+.
+.
+.
+
+Any new TMP Font Assets should go in Assets/FontAssets and be added to the Metadata subsheet in localization, as well as the Languages Data asset
+
+Font settings for quick ref:
+
+Global:
+Size 86
+padding 9
+select "Character set" and use NonAsianChars.txt as Character File in non-asian fonts,
+use individual asian char files for others.
+
+Gagalin:
+Use Gagalin-clean-spaced
+Non-Asian
+2048x1024
+Padding 10
+SPACING OFFSET -10 (post-build, important)
+
+KFhimaji:
+Japanese
+2048x2048
+
+KFhimajiLatin:
+From same font as KFhimaji
+Non-Asian
+2048x1024
+
+LiberationSans:
+Non-Asian
+1024x2048
+
+Mitr:
+Non-Asian (which includes Thai, which is only compatible with this font)
+2048x1024
+
+RobinWriting: (used for ComicBubble)
+Non-Asian
+Is missing symbols and that's fine
+2048x2048
+
+SourceHansSerifK:
+Korean
+2048x2048
+
+TakeOffSimp:
+Comes from simplified TakeOff chinese font
+Chinese
+4096x2048
+
+TakeOffTrad:
+Comes from traditional TakeOff chinese font
+Chinese
+4096x2048
+
+Fat: (Used for RapBattle)
+Non-Asian
+AFTER REBUILDING, go to Glyph Info and for character 39 (') change the following values:
+	OX: -7.2
+	OY: 80
+	ADV: 48

@@ -25,7 +25,13 @@ public class GhostFoodYuyuko : MonoBehaviour
 	private Vector3 lastMousePosition;
 
 	public float initialScale, victoryScale, victoryMoveSpeedMult;
+	public float headTiltSpeedMult;
+	public float headTiltSpeed;
+	public float headTiltMax;
+	public float foodSaturation = .75f;
+
 	private float distanceToCenter;
+	private float headTilt;
 
 	[SerializeField]
 	private SpriteRenderer faceRenderer;
@@ -78,7 +84,7 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 			SpriteRenderer foodSprite = foods[i].GetComponent<SpriteRenderer>();
 			foodSprite.sprite = foodSpritePool[Random.Range(0, foodSpritePool.Length)];
-			foodSprite.color = new HSBColor(Random.Range(foodHueRange.x, foodHueRange.y), 2f, 2f).ToColor();
+			foodSprite.color = new HSBColor(Random.Range(foodHueRange.x, foodHueRange.y), foodSaturation, 1f).ToColor();
 			foodSprite.sortingOrder += i + 1;
 
 		}
@@ -144,9 +150,10 @@ public class GhostFoodYuyuko : MonoBehaviour
 			burpParticles.Play();
 			audioSource.PlayOneShot(burpClip);
 
-			animator.Play("Idle");
-            sweatAnimator.SetInteger("state", 0);
-            animator.enabled = false;
+			animator.SetTrigger("Idle");
+			animator.SetBool("Food", false);
+			sweatAnimator.SetInteger("state", 0);
+            //animator.enabled = false;
 			state = State.Hungry;
 			face.transform.parent.localScale = Vector3.one;
 		}
@@ -167,7 +174,7 @@ public class GhostFoodYuyuko : MonoBehaviour
         distanceToCenter = ((Vector2)transform.position).magnitude;
 
 		audioSource.PlayOneShot(victoryClip);
-		audioSource.pitch = Time.timeScale;
+		audioSource.pitch = 1f;
 
         motorSpeedMult /= 5f;
 	}
@@ -194,14 +201,13 @@ public class GhostFoodYuyuko : MonoBehaviour
 				{
                     CancelInvoke();
                     sweatAnimator.SetInteger("state", 0);
-                    //Debug.Log(animator.GetTime());
-                    //animator.SetTime(0f);
-                    animator.Rebind();
-					animator.Play("Chew", -1, 0f);
+					//Debug.Log(animator.GetTime());
+					//animator.SetTime(0f);
+					animator.SetTrigger("Chew");
 					//Debug.Log(animator.GetTime());
 					chewsLeft--;
 					audioSource.PlayOneShot(chewClip);
-					audioSource.pitch = Time.timeScale * Random.Range(.9f, 1f);
+					audioSource.pitch = Random.Range(.9f, 1f);
                     spitParticles();
                     if (chewsLeft == 0)
 					{
@@ -266,19 +272,27 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void updateBodyRotation()
 	{
-		float speed = (transform.position.x - lastMousePosition.x) / Time.deltaTime;
+		var velocity = (transform.position - lastMousePosition) / Time.deltaTime;
 		//	, angle = body.localRotation.eulerAngles.z;
 		//if (angle > 180f)
 		//	angle -= 360f;
 		//angle *= -1f;
 
-		float zRotation = body.transform.eulerAngles.z + (-1f * speed * motorSpeedMult * Time.deltaTime);
+		float zRotation = body.transform.eulerAngles.z + (-1f * velocity.x * motorSpeedMult * Time.deltaTime);
 		if (zRotation > 180f)
 			zRotation -= 360f;
 		zRotation = Mathf.Clamp(zRotation, joint.limits.min, joint.limits.max);
 		if (zRotation < 0f)
 			zRotation += 360f;
-		body.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+        body.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+
+
+		// Update head tilt
+		var tiltGoal = velocity.y * headTiltSpeedMult;
+		tiltGoal = Mathf.Clamp(tiltGoal, -headTiltMax, headTiltMax);
+		headTilt = Mathf.MoveTowards(headTilt, tiltGoal, headTiltSpeed * Time.deltaTime);
+		face.localEulerAngles = (!isFacingRight() ? Vector3.back : Vector3.forward) * headTilt;
+
 	}
 
 	bool isFacingRight()
@@ -319,22 +333,20 @@ public class GhostFoodYuyuko : MonoBehaviour
 
 	void collide(Collider2D other)
 	{
-		if ((state == State.Hungry || canEatMultipleFoods) && other.name == "Food")
+		if ((state == State.Hungry || canEatMultipleFoods) && other.name.Equals("Food"))
 		{
 			state = State.Chewing;
-			animator.enabled = true;
 			particlesModule.startColor = other.GetComponent<SpriteRenderer>().color;
 			other.gameObject.SetActive(false);
 			particles.Play();
 			chewsLeft += chewsNeeded;
 			CancelInvoke();
-			animator.Play("Chew", -1, 1f);
             Invoke("sweat", sweatStartTime);
             audioSource.PlayOneShot(chompClip);
-            audioSource.pitch = Time.timeScale * Random.Range(.95f, 1.05f);
+            audioSource.pitch = Random.Range(.95f, 1.05f);
 
-            animator.Rebind();
-            animator.Play("Chew", -1, 0f);
+			animator.SetTrigger("Eat");
+			animator.SetBool("Food", true);
         }
 	}
 

@@ -55,7 +55,7 @@ public class YuugiBalancePlate : MonoBehaviour
             return;
         }
 
-        if(MicrogameTimer.instance.beatsLeft <= beats_left_to_win)
+        if(MicrogameController.instance.session.BeatsRemaining <= beats_left_to_win)
         {
             Succeed();
             return;
@@ -110,7 +110,7 @@ public class YuugiBalancePlate : MonoBehaviour
             audio.loop = true;
             if(!audio.isPlaying)
                 audio.Play();
-            audio.pitch = (1 + abs) * Time.timeScale;
+            audio.pitch = (1 + abs);
             audio.panStereo = AudioHelper.getAudioPan(transform.position.x);
         }
         audio.loop = false;

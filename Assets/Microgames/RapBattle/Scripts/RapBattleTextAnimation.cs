@@ -28,6 +28,7 @@ public class RapBattleTextAnimation : MonoBehaviour
 
     private string parsedText;
     private float progress;
+    private float verseStartTime;
     private float highlightReachedTime;
     private int highlightChar;
     private float initialFontSize;
@@ -61,7 +62,7 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent.maxVisibleCharacters = 0;
 
         //enabled = false;
-        //Invoke("enable", startBeat * StageController.beatLength);
+        //Invoke("enable", startBeat * Microgame.BeatLength);
         enable();
     }
 
@@ -98,15 +99,14 @@ public class RapBattleTextAnimation : MonoBehaviour
         tmProComponent.text = $"<size={initialFontSize}>" + verse + $"<size={rhymeFontSize}>" + rhyme;
     }
     
-    // Performs some extra calculations to make sure the text can fit in the allotted size when expanding
+    // Changes object scale make sure the text can fit in the allotted size when expanding
     // Needs to be run on first LateUpdate due to some complications I haven't quite figured out
     void fitToSize()
     {
         var textSize = tmProComponent.GetRenderedValues(false);
         if (textSize.x > rectTransform.sizeDelta.x)
         {
-            initialFontSize *= rectTransform.sizeDelta.x / textSize.x;
-            initialFontSize = Mathf.Floor(initialFontSize);
+            transform.localScale *= rectTransform.sizeDelta.x / textSize.x;
         }
     }
 
@@ -117,6 +117,7 @@ public class RapBattleTextAnimation : MonoBehaviour
         enabled = true;
         if (!string.IsNullOrEmpty(rhyme))
             Invoke("showRhyme", rhymeAppearTime);
+        verseStartTime = Time.time;
     }
 
     void showRhyme()
@@ -169,7 +170,10 @@ public class RapBattleTextAnimation : MonoBehaviour
             {
                 if (i < highlightChar)  //Stop adjusting size at highlight char
                 {
-                    float positionOnGrowCurve = (progress - 1) - i;
+                    //float positionOnGrowCurve = (progress - 1) - i;
+                    var charAppearedAt = verseStartTime + ((float)i / advancingText.getAdvanceSpeed());
+                    var timeIntoChar = Time.time - charAppearedAt;
+                    float positionOnGrowCurve = timeIntoChar;
                     if (positionOnGrowCurve < growCurveDuration)
                     {
                         //Character i is visible

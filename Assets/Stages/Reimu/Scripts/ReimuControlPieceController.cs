@@ -27,7 +27,7 @@ public class ReimuControlPieceController : MonoBehaviour
                 var piece = Instantiate(controlPiece, transform);
                 var sortingOffset = pieces.Count * 10;
                 pieces.Add(piece);
-                piece.GetMask().transform.position += new Vector3(i * separation, j * separation);
+                piece.GetMask().transform.localPosition += new Vector3(i * separation, j * separation);
                 piece.GetMask().frontSortingOrder += sortingOffset;
                 piece.GetMask().backSortingOrder += sortingOffset;
                 piece.GetSpriteRenderer().sortingOrder += sortingOffset;
@@ -51,8 +51,9 @@ public class ReimuControlPieceController : MonoBehaviour
 
     public void StartPieces()
     {
-        if (!isActiveAndEnabled)
-            return;
+        //if (!isActiveAndEnabled)
+        //    return;
+
         var sprite = GetComponent<SpriteRenderer>().sprite;
         pieces.Shuffle();
         float currentAppearTime = 0f;

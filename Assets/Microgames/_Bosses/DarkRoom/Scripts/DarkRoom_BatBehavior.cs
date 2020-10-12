@@ -101,10 +101,11 @@ public class DarkRoom_BatBehavior : MonoBehaviour {
         }
 
         sfxSource.panStereo = sfxSource.panStereo = AudioHelper.getAudioPan(transform.position.x);
-        scaredSource.volume = retreatCooldownTimer * volumeMult;
-        if (scaredSource.volume > 0f && !scaredSource.isPlaying)
+        var newVolume = retreatCooldownTimer * volumeMult;
+        scaredSource.GetComponent<AudioAutoAdjust>().VolumeMult = newVolume;
+        if (newVolume > 0f && !scaredSource.isPlaying)
             scaredSource.Play();
-        else if (scaredSource.volume <= 0f && scaredSource.isPlaying)
+        else if (newVolume <= 0f && scaredSource.isPlaying)
             scaredSource.Stop();
 
         // Handle flying

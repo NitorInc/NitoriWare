@@ -11,26 +11,56 @@ public class ChangeOrderInLayer : MonoBehaviour
     [SerializeField]
     private string sortingLayer = "Default";
     [SerializeField]
+    private SortingLayer sortingLayerAbsolute;
+    [SerializeField]
     private bool disableOnPlay = true;
+    [SerializeField]
+    private bool applyToChildren;
+
+    public void SetLayer(string layer)
+    {
+        sortingLayer = layer;
+        Update();
+    }
+
+    public void SetOrderInLayer(int order)
+    {
+        orderInLayer = order;
+        Update();
+    }
 
     private void Awake()
     {
+        if (_renderer == null)
+            _renderer = GetComponent<Renderer>();
         if (disableOnPlay && Application.isPlaying)
             enabled = false;
     }
 
     void Start()
 	{
-        if (_renderer == null)
-            _renderer = GetComponent<Renderer>();
-		_renderer.sortingOrder = orderInLayer;
+        if (enabled)
+            Update();
 	}
 	
 	void Update ()
-	{
-        if (orderInLayer != _renderer.sortingOrder)
-            _renderer.sortingOrder = orderInLayer;
+    {
+        if (applyToChildren)
+        {
+            foreach (var renderer in GetComponentsInChildren<Renderer>() )
+            {
+                UpdateRenderer(renderer);
+            }
+        }
+        else
+            UpdateRenderer(_renderer);
+    }
+    
+    void UpdateRenderer(Renderer renderer)
+    {
+        if (orderInLayer != renderer.sortingOrder)
+            renderer.sortingOrder = orderInLayer;
         if (!string.IsNullOrEmpty(sortingLayer))
-            _renderer.sortingLayerName = sortingLayer;
-	}
+            renderer.sortingLayerName = sortingLayer;
+    }
 }

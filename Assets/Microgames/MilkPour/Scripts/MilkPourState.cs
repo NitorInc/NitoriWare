@@ -73,7 +73,7 @@ public class MilkPourState : MonoBehaviour
 				break;
 		}
 
-        pourSource.volume = animationSpeedMult.PourSpeedMult * PrefsHelper.getVolume(PrefsHelper.VolumeType.SFX);
+        pourSource.volume = animationSpeedMult.PourSpeedMult;
 	}
 
 	void OnFill ()

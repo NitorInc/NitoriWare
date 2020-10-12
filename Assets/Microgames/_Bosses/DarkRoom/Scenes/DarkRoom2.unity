@@ -1543,7 +1543,8 @@ AudioSource:
   m_GameObject: {fileID: 747418116}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7662511771762846653, guid: fcc50b2af273b34448603eae0f22533b,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 570b626b531c9a34396f888cde37acb9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.036
@@ -1641,7 +1642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeChildren: 0
   tieToTimescale: 1
-  tieToVolumeSettings: 0
+  tieToVolumeSettings: 1
   preserveInitialPitch: 0
   updateEachFrame: 1
   volumeType: 2
@@ -2092,7 +2093,8 @@ AudioSource:
   m_GameObject: {fileID: 1000795471}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7662511771762846653, guid: fcc50b2af273b34448603eae0f22533b,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: f285f05dd73eab94b840fa70591f203b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.483
@@ -2190,7 +2192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeChildren: 0
   tieToTimescale: 1
-  tieToVolumeSettings: 0
+  tieToVolumeSettings: 1
   preserveInitialPitch: 0
   updateEachFrame: 1
   volumeType: 2
@@ -2553,6 +2555,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1551668655}
     m_Modifications:
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicEyeRenderers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4608362754491428, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 34.88473
@@ -2701,6 +2708,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicEyeRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1299188309}
+    - target: {fileID: 114766447412955972, guid: 7c6604a26622bd746934a21d7b84d97e,
+        type: 2}
+      propertyPath: reverseLogicEyeRenderers.Array.data[1]
+      value: 
+      objectReference: {fileID: 230781769}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c6604a26622bd746934a21d7b84d97e, type: 2}
   m_IsPrefabParent: 0
@@ -2712,6 +2729,11 @@ Transform:
 --- !u!4 &1299188308 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4067916178815394, guid: 7c6604a26622bd746934a21d7b84d97e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1299188306}
+--- !u!212 &1299188309 stripped
+SpriteRenderer:
+  m_PrefabParentObject: {fileID: 212291442185770344, guid: 7c6604a26622bd746934a21d7b84d97e,
     type: 2}
   m_PrefabInternal: {fileID: 1299188306}
 --- !u!1 &1329116789
