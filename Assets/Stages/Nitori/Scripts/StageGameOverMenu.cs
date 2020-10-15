@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
 
 public class StageGameOverMenu : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class StageGameOverMenu : MonoBehaviour
     private bool gameOverActive;
 
     private Animator menuAnimator;
+    [HideInInspector]
+    public UnityEvent onRetry;
 
     private void Awake()
     {
@@ -71,6 +74,7 @@ public class StageGameOverMenu : MonoBehaviour
         // TODO callback to stage FSM
         menuAnimator.SetBool("Active", false);
         Invoke("EndRetryTransition", retryTransitionDuration);
+        onRetry.Invoke();
     }
 
     void EndRetryTransition()
