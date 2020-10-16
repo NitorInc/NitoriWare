@@ -32,7 +32,14 @@ public class BoatSteerBoat : MonoBehaviour
 
     private bool crashed = false;
 
-	public float animationFactor {
+	private Rigidbody rb;
+
+    private void Awake()
+    {
+		rb = GetComponent<Rigidbody>();
+    }
+
+    public float animationFactor {
 		get {
 			return lateralSpeed / (speed * maxLateralSpeedFactor);
 		}
@@ -68,11 +75,6 @@ public class BoatSteerBoat : MonoBehaviour
 			}
 		} 
 
-		transform.localPosition += new Vector3 (
-			lateralSpeed * Time.deltaTime,
-			0,
-			speed * Time.deltaTime
-		);
 
 		backgroundCamera.transform.localPosition = new Vector3(animationFactor/10f, 0, 0);
 
@@ -81,13 +83,26 @@ public class BoatSteerBoat : MonoBehaviour
 		mainCamera.transform.localRotation = Quaternion.Euler(0, 0, cameraTilt);
 	}
 
-	private void crash() {
+    private void FixedUpdate()
+	{
+		var moveSpeed = new Vector3(
+			lateralSpeed,
+			0,
+			speed
+		);
+		print(moveSpeed);
+		rb.velocity = moveSpeed;
+	}
+
+    private void crash() {
 		if (crashed == true) {
 			return;
 		}
 		crashed = true;
 
         rigAnimator.SetTrigger("Crash");
+		rb.velocity = Vector3.zero;
+		enabled = false;
         
 		// TODO: Create sinking rig
 	}
