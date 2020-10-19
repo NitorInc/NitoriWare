@@ -43,7 +43,7 @@ public class DarkRoom_RenkoBehavior : MonoBehaviour {
 
     void command()
     {
-        MicrogameController.instance.displayCommand("Protect!");
+        MicrogameController.instance.displayLocalizedCommand("commandb", "Protect!");
     }
 
 	void Update () {
