@@ -15,8 +15,6 @@ public class MicrogameDebugPlayer : MonoBehaviour
     [SerializeField]
     private MicrogamePlayer player;
     [SerializeField]
-    private AudioSource musicSource;
-    [SerializeField]
     private VoicePlayer voicePlayer;
     [SerializeField]
     private CommandDisplay commandDisplay;
@@ -126,13 +124,6 @@ public class MicrogameDebugPlayer : MonoBehaviour
 
         microgameTimer.disableDisplay = !Settings.showTimer;
         microgameTimer.GetComponent<AudioSource>().volume = settings.timerTick ? timerVolume : 0f;
-
-        var musicClip = MicrogameSession.GetMusicClip();
-        if (Settings.playMusic && musicClip != null)
-        {
-            musicSource.clip = musicClip;
-            AudioHelper.playScheduled(musicSource, (float)Microgame.BeatLength);
-        }
 
         if (Settings.displayCommand)
             commandDisplay.PlayCommand(MicrogameSession, MicrogameSession.GetLocalizedCommand(), MicrogameSession.GetCommandSettings());

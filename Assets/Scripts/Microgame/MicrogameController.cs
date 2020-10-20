@@ -14,6 +14,7 @@ public class MicrogameController : MonoBehaviour
 
     [SerializeField]
 	private MicrogameDebugPlayer.DebugSettings debugSettings;
+    public MicrogameDebugPlayer.DebugSettings DebugSettings => debugSettings;
 
     public enum DebugDifficulty
     {
