@@ -10,7 +10,10 @@ public class AudioAutoAdjust : MonoBehaviour
 
 
     [SerializeField]
-	private bool includeChildren, tieToTimescale = true, tieToVolumeSettings = true;
+    private bool includeChildren;
+    [SerializeField]
+    private bool tieToTimescale = true, tieToVolumeSettings = true;
+
     [SerializeField]
     private bool preserveInitialPitch;
     [SerializeField]
