@@ -162,6 +162,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
         float symbolx = operationSymbol.transform.position.x - symbolOffset;
         float symboly = operationSymbol.transform.position.y;
         operationSymbol.transform.position = new Vector3(symbolx, symboly, 0);
+        operationSymbol.GetComponent<Vibrate>().resetOffset();
     }
 
     void generateAnswers()
@@ -204,7 +205,7 @@ public class KeineMath_Chalkboard : MonoBehaviour {
             answerOffset = answerOffsets[Random.Range(0, answerOffsets.Count)];
             answerOffsets.Remove(answerOffset);
             answerValue = correctAnswer + answerOffset;
-            float newx = answer.transform.position.x + (3.7f * i) + 1f; //Values in here determine answer positioning
+            float newx = answer.transform.position.x + (3.85f * i) + 1f; //Values in here determine answer positioning
             float newy = answer.transform.position.y;
             Vector3 newposition = new Vector3(newx, newy, 0);
             GameObject newanswer = Object.Instantiate(answer, newposition, Quaternion.identity);

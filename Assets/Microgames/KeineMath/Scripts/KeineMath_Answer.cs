@@ -68,6 +68,7 @@ public class KeineMath_Answer : MonoBehaviour {
             GameObject newObject = Object.Instantiate(answerTerm, newposition, Quaternion.identity);
             //newObject.GetComponent<SpriteRenderer>().color = answerColor;
         }
+        answerTerm.transform.localScale /= transform.localScale.x;
     }
 
     private void OnMouseDown()
