@@ -350,7 +350,7 @@ public class StageController : MonoBehaviour
 			return;
 
         stageCamera.tag = "Camera";
-        microgameMusicSource.clip = session.GetMusicClip();
+        //microgameMusicSource.clip = session.GetMusicClip();
 
         //animationStartTime += beatLength * (12f + (float)session.microgame.getDurationInBeats());
 

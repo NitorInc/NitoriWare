@@ -86,15 +86,6 @@ public class MicrogameCollectionUpdaterWindow : EditorWindow
 
         GUILayout.Label("");
         GUILayout.Label("");
-        GUILayout.Label("Streaming Music Assets", headerStyle);
-        GUILayout.Label("To preserve memory when preloading microgames, microgame music is streamed from disk.");
-        GUILayout.Label("This just helps us save some time by doing that for us.");
-        if (GUILayout.Button("Set Microgame Music to Streaming"))
-        {
-            MicrogameCollection.SetMicrogameMusicToStreaming();
-        }
-        GUILayout.Label("");
-        GUILayout.Label("");
         GUILayout.Label("Indexed Microgames:");
         var names = Enum.GetNames(typeof(Microgame.Milestone));
         foreach (var microgameList in microgames)

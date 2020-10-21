@@ -32,25 +32,9 @@ public class MicrogameRandomScene : Microgame
         [Range(0, 1)]
         private float probabilityWeight = 1f;
         public float ProbabilityWeight => probabilityWeight;
-
-        [Header("Music clip is optional and will default to base audio clip if not set")]
-        [SerializeField]
-        private AudioClip musicClip;
-        public AudioClip MusicClip => musicClip;
     }
 
     public override bool SceneDeterminesDifficulty() => false;
-
-    public override AudioClip[] GetAllPossibleMusicClips()
-    {
-        var list = scenePool
-            .Select(a => a.MusicClip)
-            .ToList();
-        list.Add(_musicClip);
-        return list
-            .Where(a => a != null)
-            .ToArray();
-    }
 
     public override Microgame.Session CreateSession(int difficulty, bool debugMode = false)
     {
@@ -63,11 +47,6 @@ public class MicrogameRandomScene : Microgame
         protected MicrogameScene chosenScene;
 
         public override string GetSceneName() => chosenScene.SceneName;
-
-        public override AudioClip GetMusicClip()
-        {
-            return chosenScene.MusicClip != null ? chosenScene.MusicClip : base.GetMusicClip();
-        }
 
         public Session(Microgame microgame, int difficulty, bool debugMode)
             : base(microgame, difficulty, debugMode)

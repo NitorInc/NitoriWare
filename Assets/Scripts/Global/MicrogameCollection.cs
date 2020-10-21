@@ -63,32 +63,6 @@ public static class MicrogameCollection
 #endif
     }
 
-#if UNITY_EDITOR
-
-    public static void SetMicrogameMusicToStreaming()
-    {
-        var musicClips = LoadAllMicrogames()
-            .SelectMany(a => a.GetAllPossibleMusicClips())
-            .Distinct();
-
-        foreach (var musicClip in musicClips)
-        {
-            if (musicClip == null || musicClip.loadType == AudioClipLoadType.Streaming)
-                continue;
-
-            var assetPath = AssetDatabase.GetAssetPath(musicClip.GetInstanceID());
-            var audio = AssetImporter.GetAtPath(assetPath) as AudioImporter;
-            var sampleSettings = audio.defaultSampleSettings;
-            sampleSettings.loadType = AudioClipLoadType.Streaming;
-            audio.defaultSampleSettings = sampleSettings;
-            audio.SaveAndReimport();
-            Debug.Log("Changed music settings for " + musicClip.name);
-        }
-        AssetDatabase.Refresh();
-        Debug.Log("Microgame music import settings updated");
-    }
-#endif
-
     public static Microgame GetDebugModeMicrogame(string sceneName)
     {
         var microgameDirectories = Directory.GetDirectories(Application.dataPath + MicrogameAssetPath)

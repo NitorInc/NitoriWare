@@ -63,11 +63,6 @@ public class Microgame : ScriptableObject
     protected float _failureVoiceDelay;
 
     [SerializeField]
-    protected AudioClip _musicClip;
-
-    public virtual AudioClip[] GetAllPossibleMusicClips() => new AudioClip[] { _musicClip };
-
-    [SerializeField]
     private Milestone _milestone = Milestone.Unfinished;
     public Milestone milestone => _milestone;
     public enum Milestone
@@ -118,7 +113,6 @@ public class Microgame : ScriptableObject
     {
         public virtual string GetSceneName() => microgame.microgameId + Difficulty.ToString();
 
-        public virtual AudioClip GetMusicClip() => microgame._musicClip;
         public virtual string GetNonLocalizedCommand() => microgame._command;
 
         public virtual string GetLocalizedCommand() =>
